@@ -320,12 +320,13 @@ def get_new_cache(signature):
         res_destination_airline = util.send_request(url=url + 'content', data=data, headers=headers, method='POST', timeout=60)
         try:
             if res_destination_airline['result']['error_code'] == 0:
-                pass
+                res_destination_airline = res_destination_airline['result']['response']
             else:
-                _logger.info("ERROR GET CACHE FROM DESTINATION TRAIN AUTOCOMPLETE" + res_destination_airline['result']['error_msg'] + '\n' + traceback.format_exc())
+                res_destination_airline = False
+                _logger.info("ERROR GET CACHE FROM DESTINATION TRAIN AUTOCOMPLETE " + json.dumps(res_destination_airline) + '\n' + traceback.format_exc())
         except Exception as e:
-            _logger.info("ERROR GET CACHE FROM HOTEL SEARCH AUTOCOMPLETE" + json.dumps(res_destination_airline) + '\n' + str(e) + '\n' + traceback.format_exc())
-            pass
+            res_destination_airline = False
+            _logger.info("ERROR GET CACHE FROM HOTEL SEARCH AUTOCOMPLETE " + json.dumps(res_destination_airline) + '\n' + str(e) + '\n' + traceback.format_exc())
         data = {'provider_type': 'train'}
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -348,9 +349,9 @@ def get_new_cache(signature):
                         })
                 write_cache_with_folder(destination_train, "train_cache_data")
             else:
-                _logger.info("ERROR GET CACHE FROM TRAIN SEARCH AUTOCOMPLETE" + res_destination_train['result']['error_msg'] + '\n' + traceback.format_exc())
+                _logger.info("ERROR GET CACHE FROM TRAIN SEARCH AUTOCOMPLETE " + json.dumps(res_destination_train)  + '\n' + traceback.format_exc())
         except Exception as e:
-            _logger.info("ERROR GET CACHE FROM TRAIN SEARCH AUTOCOMPLETE" + json.dumps(res_destination_train) + '\n' + str(e) + '\n' + traceback.format_exc())
+            _logger.info("ERROR GET CACHE FROM TRAIN SEARCH AUTOCOMPLETE " + json.dumps(res_destination_train) + '\n' + str(e) + '\n' + traceback.format_exc())
             pass
 
         data = {}
@@ -364,11 +365,13 @@ def get_new_cache(signature):
         res_country_airline = util.send_request(url=url + 'content', data=data, headers=headers, method='POST', timeout=60)
         try:
             if res_country_airline['result']['error_code'] == 0:
-                pass
+                res_country_airline = res_country_airline['result']['response']
             else:
-                _logger.info("ERROR GET CACHE FROM COUNTRY AIRLINE AUTOCOMPLETE" + res_country_airline['result']['error_msg'] + '\n' + traceback.format_exc())
+                res_country_airline = False
+                _logger.info("ERROR GET CACHE FROM COUNTRY AIRLINE AUTOCOMPLETE " + json.dumps(res_country_airline) + '\n' + traceback.format_exc())
         except Exception as e:
-            _logger.info("ERROR GET CACHE FROM COUNTRY AIRLINE AUTOCOMPLETE" + json.dumps(res_country_airline) + '\n' + str(e) + '\n' + traceback.format_exc())
+            res_country_airline = False
+            _logger.info("ERROR GET CACHE FROM COUNTRY AIRLINE AUTOCOMPLETE " + json.dumps(res_country_airline) + '\n' + str(e) + '\n' + traceback.format_exc())
             pass
         # hotel
         headers = {
@@ -388,8 +391,7 @@ def get_new_cache(signature):
             if res_cache_hotel['result']['error_code'] == 0:
                 write_cache_with_folder(json.loads(res_cache_hotel['result']['response']), "hotel_cache_data")
         except Exception as e:
-            _logger.info("ERROR GET CACHE FROM HOTEL SEARCH AUTOCOMPLETE" + json.dumps(res_cache_hotel) + '\n' + str(
-                    e) + '\n' + traceback.format_exc())
+            _logger.info("ERROR GET CACHE FROM HOTEL SEARCH AUTOCOMPLETE " + json.dumps(res_cache_hotel) + '\n' + str(e) + '\n' + traceback.format_exc())
             pass
 
         # visa odoo12
@@ -406,11 +408,13 @@ def get_new_cache(signature):
         res_config_visa = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST', timeout=60)
         try:
             if res_config_visa['result']['error_code'] == 0:
-                pass
+                res_config_visa = res_config_visa['result']['response']
             else:
-                _logger.info("ERROR GET CACHE FROM VISA AUTOCOMPLETE" + res_config_visa['result']['error_msg'] + '\n' + traceback.format_exc())
+                res_config_visa = False
+                _logger.info("ERROR GET CACHE FROM VISA AUTOCOMPLETE " + json.dumps(res_config_visa) + '\n' + traceback.format_exc())
         except Exception as e:
-            _logger.info("ERROR GET CACHE FROM VISA AUTOCOMPLETE" + json.dumps(res_config_visa) + '\n' + str(e) + '\n' + traceback.format_exc())
+            res_config_visa = False
+            _logger.info("ERROR GET CACHE FROM VISA AUTOCOMPLETE " + json.dumps(res_config_visa) + '\n' + str(e) + '\n' + traceback.format_exc())
             pass
         #
 
@@ -429,16 +433,15 @@ def get_new_cache(signature):
                                             timeout=60)
         try:
             if res_config_passport['result']['error_code'] == 0:
-                pass
+                res_config_passport = res_config_passport['result']['response']
             else:
+                res_config_passport = False
                 _logger.info(
-                    "ERROR GET CACHE FROM PASSPORT AUTOCOMPLETE" + res_config_passport['result'][
-                        'error_msg'] + '\n' + traceback.format_exc())
+                    "ERROR GET CACHE FROM PASSPORT AUTOCOMPLETE " + json.dumps(res_config_passport) + '\n' + traceback.format_exc())
         except Exception as e:
+            res_config_passport = False
             _logger.info(
-                "ERROR GET CACHE FROM VISA AUTOCOMPLETE" + json.dumps(res_config_passport) + '\n' + str(
-                    e) + '\n' + traceback.format_exc())
-            pass
+                "ERROR GET CACHE FROM VISA AUTOCOMPLETE " + json.dumps(res_config_passport) + '\n' + str(e) + '\n' + traceback.format_exc())
         #
 
         # issuedoffline
@@ -456,12 +459,13 @@ def get_new_cache(signature):
                                                       method='POST', timeout=60)
         try:
             if res_config_issued_offline['result']['error_code'] == 0:
-                pass
+                res_config_issued_offline = res_config_issued_offline['result']['response']
             else:
-                _logger.info("ERROR GET CACHE FROM ISSUED OFFLINE AUTOCOMPLETE" + res_config_issued_offline['result']['error_msg'] + '\n' + traceback.format_exc())
+                _logger.info("ERROR GET CACHE FROM ISSUED OFFLINE AUTOCOMPLETE " + json.dumps(res_config_issued_offline) + '\n' + traceback.format_exc())
+                res_config_issued_offline = False
         except Exception as e:
-            _logger.info("ERROR GET CACHE FROM ISSUED OFFLINE AUTOCOMPLETE" + json.dumps(res_config_issued_offline) + '\n' + str(e) + '\n' + traceback.format_exc())
-            pass
+            res_config_issued_offline = False
+            _logger.info("ERROR GET CACHE FROM ISSUED OFFLINE AUTOCOMPLETE " + json.dumps(res_config_issued_offline) + '\n' + str(e) + '\n' + traceback.format_exc())
         # return res
 
         # train
@@ -485,6 +489,16 @@ def get_new_cache(signature):
         }
         res_config_activity = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST', timeout=120)
 
+        try:
+            if res_config_activity['result']['error_code'] == 0:
+                res_config_activity = res_config_activity['result']['response']
+            else:
+                _logger.info("ERROR GET CACHE FROM ACTIVITY " + json.dumps(res_config_activity) + '\n' + traceback.format_exc())
+                res_config_activity = False
+        except Exception as e:
+            res_config_activity = False
+            _logger.info("ERROR GET CACHE FROM ACTIVITY " + json.dumps(res_config_activity) + '\n' + str(e) + '\n' + traceback.format_exc())
+
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -503,9 +517,8 @@ def get_new_cache(signature):
                 write_cache_with_folder(res_cache_activity['result']['response'], "activity_cache_data")
         except Exception as e:
             _logger.info(
-                "ERROR GET CACHE FROM ACTIVITY SEARCH AUTOCOMPLETE" + json.dumps(res_cache_activity) + '\n' + str(
+                "ERROR GET CACHE FROM ACTIVITY SEARCH AUTOCOMPLETE " + json.dumps(res_cache_activity) + '\n' + str(
                     e) + '\n' + traceback.format_exc())
-            pass
 
         # tour
         data = {}
@@ -517,6 +530,16 @@ def get_new_cache(signature):
         }
         res_config_tour = util.send_request(url=url + 'booking/tour', data=data, headers=headers,
                                                 method='POST', timeout=120)
+
+        try:
+            if res_config_tour['result']['error_code'] == 0:
+                res_config_tour = res_config_tour['result']['response']
+            else:
+                _logger.info("ERROR GET CACHE FROM TOUR " + json.dumps(res_config_tour) + '\n' + traceback.format_exc())
+                res_config_tour = False
+        except Exception as e:
+            res_config_tour = False
+            _logger.info("ERROR GET CACHE FROM TOUR " + json.dumps(res_config_tour) + '\n' + str(e) + '\n' + traceback.format_exc())
 
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -536,7 +559,7 @@ def get_new_cache(signature):
                 write_cache_with_folder(res_cache_tour['result']['response'], "tour_cache_data")
         except Exception as e:
             _logger.info(
-                "ERROR GET CACHE FROM TOUR SEARCH AUTOCOMPLETE" + json.dumps(res_cache_tour) + '\n' + str(
+                "ERROR GET CACHE FROM TOUR SEARCH AUTOCOMPLETE " + json.dumps(res_cache_tour) + '\n' + str(
                     e) + '\n' + traceback.format_exc())
             pass
 
@@ -552,6 +575,16 @@ def get_new_cache(signature):
 
         res_cache_ppob = util.send_request(url=url + 'booking/ppob', data=data, headers=headers, method='POST',
                                            timeout=120)
+
+        try:
+            if res_cache_ppob['result']['error_code'] == 0:
+                res_cache_ppob = res_cache_ppob['result']['response']
+            else:
+                _logger.info("ERROR GET CACHE FROM TOUR " + json.dumps(res_cache_ppob) + '\n' + traceback.format_exc())
+                res_cache_ppob = False
+        except Exception as e:
+            res_cache_ppob = False
+            _logger.info("ERROR GET CACHE FROM TOUR " + json.dumps(res_cache_ppob) + '\n' + str(e) + '\n' + traceback.format_exc())
 
         #banner
         headers = {
@@ -606,48 +639,20 @@ def get_new_cache(signature):
                 _logger.error(
                     'ERROR promotion banner file \n' + str(e) + '\n' + traceback.format_exc())
 
-        # check sebelum masukkan ke cache
-        try:
-            if res_country_airline['result']['error_code'] != 0:
-                _logger.info(
-                    "ERROR GET CACHE FROM AIRLINE COUNTRY GATEWAY" + json.dumps(res_country_airline))
-
-            if res_destination_airline['result']['error_code'] != 0:
-                _logger.info(
-                    "ERROR GET CACHE FROM AIRLINE DESTINATION GATEWAY" + json.dumps(res_country_airline))
-            if res_config_visa['result']['error_code'] != 0:
-                _logger.info(
-                    "ERROR GET CACHE FROM VISA CONFIG GATEWAY" + json.dumps(res_config_visa))
-            if res_config_issued_offline['result']['error_code'] != 0:
-                _logger.info(
-                    "ERROR GET CACHE FROM ISSUED OFFLINE CONFIG GATEWAY" + json.dumps(res_config_issued_offline))
-            if res_config_activity['result']['error_code'] != 0:
-                _logger.info(
-                    "ERROR GET CACHE FROM ACTIVITY CONFIG GATEWAY" + json.dumps(res_config_activity))
-            if res_config_tour['result']['error_code'] != 0:
-                _logger.info(
-                    "ERROR GET CACHE FROM TOUR CONFIG GATEWAY" + json.dumps(res_config_tour))
-            if res_cache_ppob['result']['error_code'] != 0:
-                _logger.info(
-                    "ERROR GET CACHE FROM PPOB CONFIG GATEWAY" + json.dumps(res_cache_ppob))
-        except Exception as e:
-            _logger.info(
-                "ERROR LOG CACHE \n" + str(e) + '\n' + traceback.format_exc())
         res = {
             'result': {
                 'response': {
-                    'visa': res_config_visa.get('result') and res_config_visa['result']['response'] or False,
-                    'passport': res_config_passport.get('result') and res_config_passport['result']['response'] or False,
-                    'issued_offline': res_config_issued_offline.get('result') and res_config_issued_offline['result']['response'] or False,  # belum di install
+                    'visa': res_config_visa,
+                    'passport': res_config_passport,
+                    'issued_offline': res_config_issued_offline,  # belum di install
                     # 'train': res_origin_train['result']['response'],
-                    'activity': res_config_activity.get('result') and res_config_activity['result']['response'] or False,
-                    'tour': res_config_tour.get('result') and res_config_tour['result']['response'] or False,
+                    'activity': res_config_activity,
+                    'tour': res_config_tour,
                     'airline': {
-                        'country': res_country_airline.get('result') and res_country_airline['result']['response'] or False,
-                        'destination': res_destination_airline.get('result') and res_destination_airline['result']['response'] or False
+                        'country': res_country_airline,
+                        'destination': res_destination_airline
                     },
-                    'ppob': res_cache_ppob.get('result') and res_cache_ppob['result']['response'] or False
-
+                    'ppob': res_cache_ppob
                 }
             }
 

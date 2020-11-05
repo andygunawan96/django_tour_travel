@@ -398,7 +398,6 @@ def get_transactions(request):
         res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
         if int(request.POST['offset']) == 0:
             set_session(request, 'get_transactions_session', res)
-            _logger.info(json.dumps(request.session['get_transactions_session']))
             request.session.modified = True
         time_check.set_new_time_out('transaction')
         time_check.set_first_time('transaction')
@@ -439,7 +438,6 @@ def get_transactions(request):
                 res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
                 if int(request.POST['offset']) == 300:
                     set_session(request, 'get_transactions_session', res)
-                    _logger.info(json.dumps(request.session['get_transactions_session']))
                 time_check.set_new_time_out('transaction')
                 time_check.set_first_time('transaction')
             except Exception as e:
