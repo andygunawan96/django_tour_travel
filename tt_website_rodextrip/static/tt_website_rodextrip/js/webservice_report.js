@@ -356,16 +356,16 @@ function get_report_overall(){
 
             // after document ready then show the input field and all
             $(document).ready(function(){
-
-                $('#provider').append(provider_datalist);
-                $('#agent_type').append(agent_type_datalist);
-                $('#agent').append(agent_datalist);
-                $('#agent').selectize({
-                      sortField: 'text'
-                  });
-                  if(result.raw_data.result.response.dependencies.is_ho == 1){
-                    $('#agent_selector').show();
-                  }
+                console.log('lala');
+//                $('#provider').append(provider_datalist);
+//                $('#agent_type').append(agent_type_datalist);
+//                $('#agent').append(agent_datalist);
+//                $('#agent').selectize({
+//                      sortField: 'text'
+//                  });
+//                  if(result.raw_data.result.response.dependencies.is_ho == 1){
+//                    $('#agent_selector').show();
+//                  }
             });
             }catch(err){console.log(err);}
         },
