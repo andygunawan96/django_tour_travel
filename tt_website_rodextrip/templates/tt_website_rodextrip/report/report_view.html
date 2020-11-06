@@ -163,6 +163,9 @@
     //get_peripherals("top_up_rupiah", "get_top_up_rupiah");
     //get_peripherals("average_rupiah", "get_average_rupiah");
     get_report_overall();
+    $( document ).ready(function() {
+        $('.js-example-basic-single').niceSelect('destroy');
+    });
 </script>
 {% include 'tt_website_rodextrip/footer.html' %}
 {% endblock %}
