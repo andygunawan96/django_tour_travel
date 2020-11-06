@@ -354,7 +354,7 @@ function get_report_overall(){
 
              //after document ready then show the input field and all
             $(document).ready(function(){
-                console.log('lala');
+
                 $('#provider').append(provider_datalist);
                 $('#agent_type').append(agent_type_datalist);
                 $('#agent').append(agent_datalist);
@@ -364,6 +364,7 @@ function get_report_overall(){
                   if(result.raw_data.result.response.dependencies.is_ho == 1){
                     $('#agent_selector').show();
                   }
+                $('select').niceSelect('destroy');
             });
         },
         error: function(result){
