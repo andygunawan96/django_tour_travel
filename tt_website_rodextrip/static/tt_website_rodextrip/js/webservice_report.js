@@ -352,7 +352,7 @@ function get_report_overall(){
 //            console.log(agent_type_datalist);
 //            console.log(provider_datalist);
 
-             after document ready then show the input field and all
+             //after document ready then show the input field and all
             $(document).ready(function(){
                 console.log('lala');
                 $('#provider').append(provider_datalist);
