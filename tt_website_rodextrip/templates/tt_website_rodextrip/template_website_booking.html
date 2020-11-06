@@ -371,7 +371,6 @@ Licence URI: http://www.os-templates.com/template-terms
 
         .primary-btn-white{
             border: 1px solid {{color}};
-            box-shadow: 0px 1px #bababa;
         }
 
         .primary-btn-white:hover{
@@ -380,7 +379,6 @@ Licence URI: http://www.os-templates.com/template-terms
 
         .primary-btn-white{
             border: 1px solid {{color}};
-            box-shadow: 0px 1px #bababa;
         }
 
         .primary-btn-white:hover{
@@ -392,7 +390,6 @@ Licence URI: http://www.os-templates.com/template-terms
             line-height: 35px;
             padding-left: 15px;
             padding-right: 15px;
-            box-shadow: 0px 1px #bababa;
             border: none;
             border-radius: 3px;
             color: {{text_color}};
@@ -414,7 +411,6 @@ Licence URI: http://www.os-templates.com/template-terms
             padding-left: 30px;
             padding-right: 30px;
             border: none;
-            box-shadow: 0px 1px #bababa;
             color: {{text_color}};
             display: inline-block;
             font-size: 14px;
@@ -449,7 +445,6 @@ Licence URI: http://www.os-templates.com/template-terms
             padding-left: 20px;
             padding-right: 20px;
             border: none;
-            box-shadow: 0px 1px #bababa;
             border-radius: 3px;
             color: black;
             display: inline-block;
@@ -470,7 +465,6 @@ Licence URI: http://www.os-templates.com/template-terms
             background-color: {{color}};
             text-align: center;
             white-space: nowrap;
-            box-shadow: 0px 1px #bababa;
             user-select: none;
             border: 1px solid transparent;
             cursor: pointer;
@@ -499,7 +493,6 @@ Licence URI: http://www.os-templates.com/template-terms
             background: {{color}};
             color: rgb(255, 255, 255);
             cursor: pointer;
-            box-shadow: 0px 1px #bababa;
             display: block;
         }
         .select2-container--default .select2-results__option--highlighted[aria-selected] {
@@ -519,7 +512,6 @@ Licence URI: http://www.os-templates.com/template-terms
             padding-left: 15px;
             padding-right: 15px;
             margin-right: 5px;
-            box-shadow: 0px 1px #bababa;
             border: none;
             color: #fff;
             display: inline-block;
@@ -585,7 +577,6 @@ Licence URI: http://www.os-templates.com/template-terms
             padding-left: 20px;
             padding-right: 20px;
             border: none;
-            box-shadow: 0px 1px #bababa;
             border-radius: 3px;
             color: {{text_color}};
             display: inline-block;
@@ -686,13 +677,11 @@ Licence URI: http://www.os-templates.com/template-terms
             color: #fff;
             background-color: {{color}};
             border-color: {{color}};
-            box-shadow: 0px 1px #bababa;
         }
         .btn-primary:hover{
             background-color: {{color}};
             border-color: {{color}};
             opacity:0.8;
-            box-shadow: 0px 1px #bababa;
         }
         .sticky-tour-active {
             background: {{color}};
@@ -805,11 +794,9 @@ Licence URI: http://www.os-templates.com/template-terms
             background: white;
             border: 2px solid {{color}};
             color: black;
-            box-shadow: 0px 1px #bababa;
         }
         .primary-btn-standard {
             background: #f7f7f7;
-            box-shadow: 0px 1px #bababa;
             line-height: 42px;
             padding-left: 30px;
             padding-right: 30px;
@@ -858,7 +845,6 @@ Licence URI: http://www.os-templates.com/template-terms
         .primary-btn-custom-un {
             background: #fff;
             opacity: 0.9;
-            box-shadow: 0px 1px #bababa;
             line-height: 35px;
             padding-left: 20px;
             padding-right: 20px;
@@ -919,7 +905,6 @@ Licence URI: http://www.os-templates.com/template-terms
 
         .primary-btn-all-sticky{
             background: {{color}};
-            box-shadow: 0px 1px #bababa;
         }
 
         .primary-btn-all-sticky:hover{
@@ -946,7 +931,6 @@ Licence URI: http://www.os-templates.com/template-terms
 
         .tags_btn{
             color: {{color}};
-            box-shadow: 0px 1px #bababa;
         }
 
         .tags_btn:hover{
@@ -957,7 +941,6 @@ Licence URI: http://www.os-templates.com/template-terms
 
         .tags_btn_rsv{
             color: {{text_color}};
-            box-shadow: 0px 1px #bababa;
             background:{{color}};
         }
 
@@ -1472,6 +1455,9 @@ Licence URI: http://www.os-templates.com/template-terms
         }
     };
     window.addEventListener('storage', onLocalStorageEvent, false);
+    $( document ).ready(function() {
+      $('.js-example-basic-single').select2();
+    });
 </script>
 <body>
 {% include 'tt_website_rodextrip/b2c_signup.html' %}
