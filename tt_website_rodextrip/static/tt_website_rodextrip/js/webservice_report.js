@@ -367,6 +367,7 @@ function get_report_overall(){
                 $('#provider').niceSelect('destroy');
                 $('#agent_type').niceSelect('destroy');
                 $('#agent').niceSelect('destroy');
+                $('#group_by').niceSelect('destroy');
             });
         },
         error: function(result){
