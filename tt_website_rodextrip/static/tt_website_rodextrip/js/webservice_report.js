@@ -362,7 +362,7 @@ function get_report_overall(){
                       sortField: 'text'
                   });
                   if(result.raw_data.result.response.dependencies.is_ho == 1){
-                    document.getElementById('agent_selector').style.display = 'block';
+                    //document.getElementById('agent_selector').style.display = 'block';
                     //$('#agent_selector').show();
                   }
                 $('#provider').niceSelect('destroy');
