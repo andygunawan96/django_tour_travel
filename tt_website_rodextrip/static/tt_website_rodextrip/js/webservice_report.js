@@ -362,7 +362,8 @@ function get_report_overall(){
                       sortField: 'text'
                   });
                   if(result.raw_data.result.response.dependencies.is_ho == 1){
-                    $('#agent_selector').show();
+                    document.getElementById('agent_selector').style.display = 'block';
+                    //$('#agent_selector').show();
                   }
                 $('#provider').niceSelect('destroy');
                 $('#agent_type').niceSelect('destroy');
