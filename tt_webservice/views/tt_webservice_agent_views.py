@@ -664,7 +664,7 @@ def get_new_cache(signature):
             popular_airline = file
             popular = []
             average = []
-            for country in res_destination_airline['result']['response']:
+            for country in res_destination_airline:
                 for destination in country['destinations']:
                     try:
                         if popular_airline.get(destination['code']) == True:
