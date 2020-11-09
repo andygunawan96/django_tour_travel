@@ -164,7 +164,9 @@
     //get_peripherals("average_rupiah", "get_average_rupiah");
     $( document ).ready(function() {
         get_report_overall();
-        $('select').niceSelect('destroy');
+        $('#provider').niceSelect('destroy');
+        $('#agent_type').niceSelect('destroy');
+        $('#agent').niceSelect('destroy');
     });
 </script>
 {% include 'tt_website_rodextrip/footer.html' %}
