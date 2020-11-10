@@ -46,6 +46,7 @@ def get_report(request):
         "end_date": end_date,
         "start_date": start_date,
         'report_type': request.POST['provider_type'],
+        'provider': request.POST['provider'],
         'agent_seq_id': '',
         'agent_type_seq_id': '',
     }
@@ -72,6 +73,7 @@ def update_report(request):
         "start_date": request.POST['start_date'],
         "end_date": request.POST['until_date'],
         'report_type': request.POST['provider_type'],
+        'provider': request.POST['provider'],
         'agent_seq_id': request.POST['agent'],
         'agent_type_seq_id': request.POST['agent_type'],
     }

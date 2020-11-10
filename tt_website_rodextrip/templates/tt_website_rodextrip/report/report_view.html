@@ -58,39 +58,61 @@
 </div>
 
 <div class="container mt-3 mb-3">
-<div class="card">
-    <div class="card-body">
-        <h3 style="padding-left: 1rem; padding-top:1rem">Report Selector</h3>
-        <form class="p-3 update_chart" id="report_form" action="/webservice/report">
-            {% csrf_token %}
-            <input type="hidden" value="get_report" name="action">
-            <select name="provider_type" id="provider" class="form-control mb-3">
-                <option value="overall" selected>All</option>
-            </select>
-            <label>Start Date</label>
-            <input type="date" name="start_date" id="get_report_startdate">
-            <label>Until</label>
-            <input type="date" name="until_date" id="get_report_enddate">
-<!--            <label>Group by</label>-->
-            <select name="group_by" id="group_by" style="display: inline" hidden>
-                <option value="date" selected>Date</option>
-                <option value="month">Month</option>
-            </select>
-            <div id="agent_selector" style="display:none">
-                <label>Agent Type</label>
-                <select name="agent_type" id="agent_type" placeholder="Select Agent" class="form-control">
-                    <option value="" selected>Select</option>
+    <!-- card for form -->
+    <div class="card">
+        <div class="card-body">
+
+            <!-- pretty much "advance search" for form -->
+            <h3 style="padding-left: 1rem; padding-top:1rem">Report Selector</h3>
+
+            <!-- start of form -->
+            <form class="p-3 update_chart" id="report_form" action="/webservice/report">
+                {% csrf_token %}
+                <input type="hidden" value="get_report" name="action">
+                <!--  select option for provider type -->
+                <label>Provider Type</label>
+                <select name="provider_type" id="provider_type" class="form-control mb-3">
+                    <option value="overall" selected>All</option>
                 </select>
-                <label>Agent</label>
-                <select name="agent" id="agent" placeholder="Select Agent" class="form-control">
-                    <option value="" selected>Select</option>
+                <!-- select option for provider -->
+                <label>Provider</label>
+                <select name="provider" id="provider" class="form-control mb-3">
+                    <option value="" selected>-- All Select --</option>
                 </select>
-            </div>
-<!--            <input name="agent" list="agent" id="agent">-->
-            <button type="submit" id="update_chart_button" style="margin-left:1rem">update</button>
-        </form>
+                <!-- Start date of requested report -->
+                <label>Start Date</label>
+                <input type="date" name="start_date" id="get_report_startdate">
+                <!-- end date of requested report -->
+                <label>Until</label>
+                <input type="date" name="until_date" id="get_report_enddate">
+
+                <!-- group by label, but not being use again (no effect) since moved to handler -->
+                <!-- <label>Group by</label> -->
+                <select name="group_by" id="group_by" style="display: inline" hidden>
+                    <option value="date" selected>Date</option>
+                    <option value="month">Month</option>
+                </select>
+
+                <!-- if agent is HO then there will be an option to select agent type and or agent -->
+                <div class="form-group" id="agent_selector" style="display:none">
+                    <label>Agent Type</label>
+                    <select name="agent_type" id="agent_type" placeholder="Select Agent" class="form-control">
+                        <option value="" selected>Select</option>
+                    </select>
+                    <label>Agent</label>
+                    <select name="agent" id="agent" placeholder="Select Agent" class="form-control">
+                        <option value="" selected>Select</option>
+                    </select>
+                </div>
+
+    <!--            <input name="agent" list="agent" id="agent">-->
+                <!-- submit button -->
+                <button type="submit" id="update_chart_button" style="margin-left:1rem">update</button>
+            </form>
+            <!-- end of form -->
+        </div>
     </div>
-</div>
+    <!-- end of card for form -->
 </div>
 
 <div class="container mb-3">

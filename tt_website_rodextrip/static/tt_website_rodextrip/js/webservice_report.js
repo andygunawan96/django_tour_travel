@@ -51,7 +51,7 @@ function get_report_overall(){
     var reportChart = $('#first_chart_report');
     var secondReportChart = $('#second_chart_report');
     var thirdReportChart = $('#third_chart_report');
-    //getToken();
+    getToken();
     $.ajax({
         type: 'POST',
         url: '/webservice/report',
@@ -60,12 +60,14 @@ function get_report_overall(){
         },
         data: {
             'signature': signature,
-            'provider_type': "overall",
+            'provider_type': "overall_airline",
+            'provider': '',
             'type': "overall"
         },
         success: function(result){
             console.log("This one sparks joy");
             console.log(result);
+
             $("#get_report_startdate").val(result.start_date);
 //            console.log(data.date.end);
             $("#get_report_enddate").val(result.end_date);
@@ -322,17 +324,17 @@ function get_report_overall(){
             // handler of dynamic session
             /////////////////////////////////
 
-            //provider data
-            var provider_datalist = ``;
+            //provider type data
+            var provider_type_datalist = ``;
             result.raw_data.result.response.dependencies.provider_type.forEach(function(item, index){
-                provider_datalist += `<option value="overall_`+ item +`">`+ item +`</option>`
+                provider_type_datalist += `<option value="overall_`+ item +`">`+ item +`</option>`
             });
 
-            //sub provider data
-//            var sub_provider_datalist = ``;
-//            result.raw_data.result.response.dependencies.sub_provider.forEach(function(item){
-//                sub_provider_datalist += `<option value="`+ item['code'] +`">`+ item['name'] +`</option>`
-//            }
+            //provider data
+            var provider_datalist = ``;
+            result.raw_data.result.response.dependencies.provider.forEach(function(item){
+                provider_datalist += `<option value="`+ item['code'] +`">`+ item['name'] +`</option>`
+            });
 
             // agent type
             var agent_type_datalist = ``;
@@ -342,7 +344,6 @@ function get_report_overall(){
 
             // proceed with agent data
             var agent_datalist = ``;
-            console.log(result.raw_data.result.response.dependencies);
             result.raw_data.result.response.dependencies.agent_list.forEach(function(item){
                 agent_datalist += `<option value="`+ item['seq_id'] +`">`+ item['name'] +`</option>`;
             });
@@ -351,22 +352,38 @@ function get_report_overall(){
 //            console.log(agent_datalist);
 //            console.log(agent_type_datalist);
 //            console.log(provider_datalist);
+//            console.log(agent_datalist);
 
-             //after document ready then show the input field and all
+            // after document ready then show the input field and all
             $(document).ready(function(){
-                $('#provider').niceSelect('destroy');
-                $('#agent_type').niceSelect('destroy');
-                $('#agent').niceSelect('destroy');
-                $('#group_by').niceSelect('destroy');
+
+                // populating provider type
+                $('#provider_type').append(provider_type_datalist);
+
+                // populating provider selector
                 $('#provider').append(provider_datalist);
+                // change agent selector to text and dropdown (user can type the name of provider)
+                $('#provider').selectize({
+                      sortField: 'text'
+                  });
+
+                // populating agent type selector
+                // agent list will be empty list if agent is not HO
                 $('#agent_type').append(agent_type_datalist);
+
+                // populating agent selector
+                // agent list will be empty list if agent is not HO
                 $('#agent').append(agent_datalist);
+                // change agent selector to text and dropdown (user can type the name of the agent)
                 $('#agent').selectize({
                       sortField: 'text'
                   });
-                  if(result.raw_data.result.response.dependencies.is_ho == 1){
+
+                // if agent is HO then shows the agent type and agent selector
+                // if not then hide
+                if(result.raw_data.result.response.dependencies.is_ho == 1){
                     $('#agent_selector').show();
-                  }
+                }
             });
         },
         error: function(result){
@@ -611,6 +628,41 @@ function overview_overall(data){
 
     // return content
     return content
+}
+
+function overview_airline(data){
+    // declare return
+    var contents = ``;
+
+    // first table
+    content += `
+        <table class="table">
+            <thead>
+                <tr>
+                    <td>Direction</td>
+                    <td>Departure</td>
+                    <td>Destination</td>
+                    <td>Counter</td>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+    // first table data
+    for (i in data['direction_summary']){
+        content += `
+            <tr>
+                <td>`+ i['direction'] +`</td>
+                <td>`+ i['departure'] +`</td>
+                <td>`+ i['destination'] +`</td>
+                <td>`+ i['counter'] +`</td>
+            </tr>
+        `;
+    }
+    // close first table
+    content += `
+            </tbody>
+        </table>
+    `;
 }
 
 // handler for overview data
