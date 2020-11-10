@@ -357,6 +357,7 @@ function get_report_overall(){
             // after document ready then show the input field and all
             $(document).ready(function(){
                 //destroy niceselect
+                $('#provider_type').niceSelect('destroy');
                 $('#provider').niceSelect('destroy');
                 $('#agent_type').niceSelect('destroy');
                 $('#agent').niceSelect('destroy');

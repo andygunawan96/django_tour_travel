@@ -1902,11 +1902,11 @@ function print_seat_map(val){
                                 for(n in pax[m].seat_pick){
                                     if(seat_map_pick-1 == n && pax[m].seat_pick[n].wagon == seat_map_response[i][j].cabin_name && pax[m].seat_pick[n].seat == seat_map_response[i][j].seat_rows[k].row_number && pax[m].seat_pick[n].column == seat_map_response[i][j].seat_rows[k].seats[l].column){
                                         if(pax_click-1 == m){
-                                            text+=`<input class="button-seat-map" type="button" style="width:`+percent+`%;background-color:`+color+`; color:`+text_color+`; margin:5px;" onclick="alert('Already booked');" value="`+seat_map_response[i][j].seat_rows[k].row_number+seat_map_response[i][j].seat_rows[k].seats[l].column+`"/>`;
+                                            text+=`<button class="button-seat-map" type="button" style="width:`+percent+`%;background-color:`+color+`; color:`+text_color+`;margin:5px;" onclick="alert('Already booked');" data-toggle="tooltip" data-placement="top" title="`+parseInt(parseInt(m)+1)+` `+pax[m].name+`">`+seat_map_response[i][j].seat_rows[k].row_number+seat_map_response[i][j].seat_rows[k].seats[l].column+`</button>`;
                                             check = 1;
                                             break;
                                         }else{
-                                            text+=`<input class="button-seat-map" type="button" style="width:`+percent+`%;background-color:#ff8971; color:`+text_color+`; margin:5px;" onclick="alert('Already booked');" value="`+seat_map_response[i][j].seat_rows[k].row_number+seat_map_response[i][j].seat_rows[k].seats[l].column+`"/>`;
+                                            text+=`<button class="button-seat-map" type="button" style="width:`+percent+`%;background-color:#ff8971; color:`+text_color+`;margin:5px;" onclick="alert('Already booked');" data-toggle="tooltip" data-placement="top" title="`+parseInt(parseInt(m)+1)+` `+pax[m].name+`">`+seat_map_response[i][j].seat_rows[k].row_number+seat_map_response[i][j].seat_rows[k].seats[l].column+`</button>`;
                                             check = 1;
                                             break;
                                         }
@@ -1916,11 +1916,11 @@ function print_seat_map(val){
                             }
                             if(check == 0){
                                 if(seat_map_response[i][j].seat_rows[k].seats[l].availability == -1){
-                                  text+=`<input type="button" style="width:`+percent+`%;background-color:transparent;border:transparent; margin:5px;" value="`+seat_map_response[i][j].seat_rows[k].row_number+seat_map_response[i][j].seat_rows[k].seats[l].column+`" disabled/>`;
+                                  text+=`<button type="button" style="width:`+percent+`%;background-color:transparent;border:transparent; margin:5px;" disabled>`+seat_map_response[i][j].seat_rows[k].row_number+seat_map_response[i][j].seat_rows[k].seats[l].column+`</button>`;
                                 }else if(seat_map_response[i][j].seat_rows[k].seats[l].availability == 1){
-                                  text+=`<input class="button-seat-map" type="button" style="width:`+percent+`%;background-color:#CACACA; margin:5px;" onclick="change_seat('`+seat_map_response[i][j].cabin_name+`','`+seat_map_response[i][j].seat_rows[k].row_number+`', '`+seat_map_response[i][j].seat_rows[k].seats[l].column+`',`+seat_map_response[i][j].seat_rows[k].seats[l].seat_code+`)" value="`+seat_map_response[i][j].seat_rows[k].row_number+seat_map_response[i][j].seat_rows[k].seats[l].column+`"/>`;
+                                  text+=`<button class="button-seat-map" type="button" style="width:`+percent+`%;background-color:#CACACA; margin:5px;" onclick="change_seat('`+seat_map_response[i][j].cabin_name+`','`+seat_map_response[i][j].seat_rows[k].row_number+`', '`+seat_map_response[i][j].seat_rows[k].seats[l].column+`',`+seat_map_response[i][j].seat_rows[k].seats[l].seat_code+`)">`+seat_map_response[i][j].seat_rows[k].row_number+seat_map_response[i][j].seat_rows[k].seats[l].column+`</button>`;
                                 }else if(seat_map_response[i][j].seat_rows[k].seats[l].availability == 0){
-                                  text+=`<input class="button-seat-map" type="button" style="width:`+percent+`%;background-color:#656565; color:`+text_color+`; margin:5px;" onclick="alert('Already booked');" value="`+seat_map_response[i][j].seat_rows[k].row_number+seat_map_response[i][j].seat_rows[k].seats[l].column+`"/>`;
+                                  text+=`<button class="button-seat-map" type="button" style="width:`+percent+`%;background-color:#656565; color:`+text_color+`; margin:5px;" onclick="alert('Already booked');">`+seat_map_response[i][j].seat_rows[k].row_number+seat_map_response[i][j].seat_rows[k].seats[l].column+`</button>`;
                                 }
                             }
 
