@@ -356,7 +356,11 @@ function get_report_overall(){
 
             // after document ready then show the input field and all
             $(document).ready(function(){
-
+                //destroy niceselect
+                $('#provider').niceSelect('destroy');
+                $('#agent_type').niceSelect('destroy');
+                $('#agent').niceSelect('destroy');
+                $('#group_by').niceSelect('destroy');
                 // populating provider type
                 $('#provider_type').append(provider_type_datalist);
 

@@ -43,21 +43,24 @@ def report_main(request):
 
 def report_view(request):
     if 'user_account' in request.session._session:
-        try:
-            values = get_data_template(request)
-            javascript_version = get_javascript_version()
-            cache_version = get_cache_version()
-            response = get_cache_data(cache_version)
-            values.update({
-                'static_path': path_util.get_static_path(MODEL_NAME),
-                'javascript_version': javascript_version,
-                'static_path_url_server': get_url_static_path(),
-                'signature': request.session['signature'],
-                'username': request.session['user_account']
-            })
-        except Exception as e:
-            _logger.error(str(e) + '\n' + traceback.format_exc())
-            raise Exception('Make response code 500!')
-        return render(request, MODEL_NAME + '/report/report_view.html', values)
+        if 'report' in request.session['user_account']['co_agent_frontend_security']:
+            try:
+                values = get_data_template(request)
+                javascript_version = get_javascript_version()
+                cache_version = get_cache_version()
+                response = get_cache_data(cache_version)
+                values.update({
+                    'static_path': path_util.get_static_path(MODEL_NAME),
+                    'javascript_version': javascript_version,
+                    'static_path_url_server': get_url_static_path(),
+                    'signature': request.session['signature'],
+                    'username': request.session['user_account']
+                })
+            except Exception as e:
+                _logger.error(str(e) + '\n' + traceback.format_exc())
+                raise Exception('Make response code 500!')
+            return render(request, MODEL_NAME + '/report/report_view.html', values)
+        else:
+            return goto_dashboard(request)
     else:
         return no_session_logout(request)
