@@ -44,7 +44,6 @@ function get_peripherals(card_id, header){
     })
 }
 
-
 // as a note maybe in the future get report overall, get report book issued, and get report chanel can be in 1 function
 function get_report_overall(){
     console.log("GET REPORT");
@@ -673,7 +672,73 @@ function overview_airline(data){
     // declare return
     var content = ``;
 
-    // first table
+    // counter sector and direction summary
+    // will split the table into col-6
+    content += `
+        <div class="row">
+            <div class="col-md-6">
+                <h4>Sector Summary</h4>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <td>Sector</td>
+                            <td># of trans.</td>
+                            <td>Revenue</td>
+                            <td>Passengers</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+    `;
+    // populate sector table
+    for(i in data['sector_summary']){
+        content += `
+            <tr>
+                <td>`+ data['sector_summary'][i]['sector'] +`</td>
+                <td>`+ data['sector_summary'][i]['counter'] +`</td>
+                <td>IDR `+ number_format(data['sector_summary'][i]['valuation']) +`</td>
+                <td>`+ data['sector_summary'][i]['passenger_count'] +`</td>
+            </tr>
+        `;
+    }
+
+    // closing of sector table, and adding dependencies code, and start of direction table
+    content += `
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <h4>Direction Summary</h4>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <td>Direction</td>
+                            <td># of trans.</td>
+                            <td>Revenue</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+    `;
+    // populate direction table
+    for(i in data['direction_summary']){
+        content += `
+            <tr>
+                <td>`+ data['direction_summary'][i]['direction'] +`</td>
+                <td>`+ data['direction_summary'][i]['counter'] +`</td>
+                <td>IDR `+ number_format(data['direction_summary'][i]['valuation']) +`</td>
+            </tr>
+        `;
+    }
+
+    // closing of direction table
+    content += `
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    `;
+
+
+    // Domestic table
     content += `
     <h3>Top Domestic Route</h3>
         <table class="table">
@@ -687,7 +752,7 @@ function overview_airline(data){
             </thead>
             <tbody>
     `;
-    // first table data
+    // Domestic table data
     for (i in data['domestic']){
         content += `
             <tr>
@@ -704,7 +769,7 @@ function overview_airline(data){
         </table>
     `;
 
-    // open next table
+    // International table
     content += `
         <h3>Top International Route</h3>
         <table class="table">
@@ -718,7 +783,7 @@ function overview_airline(data){
             </thead>
             <tbody>
     `;
-    // first table data
+    // International table data
     for (i in data['international']){
         content += `
             <tr>
@@ -729,7 +794,7 @@ function overview_airline(data){
             </tr>
         `;
     }
-    // close first table
+    // close International table
     content += `
             </tbody>
         </table>
@@ -822,6 +887,71 @@ function overview_ppob(data){
 // will also  be use to name the section(s)
 function overview_train(data){
     var content = ``;
+
+    // counter sector and direction summary
+    // will split the table into col-6
+    content += `
+        <div class="row">
+            <div class="col-md-6">
+                <h4>Sector Summary</h4>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <td>Sector</td>
+                            <td># of trans.</td>
+                            <td>Revenue</td>
+                            <td>Passengers</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+    `;
+    // populate sector table
+    for(i in data['sector_summary']){
+        content += `
+            <tr>
+                <td>`+ data['sector_summary'][i]['sector'] +`</td>
+                <td>`+ data['sector_summary'][i]['counter'] +`</td>
+                <td>IDR `+ number_format(data['sector_summary'][i]['valuation']) +`</td>
+                <td>`+ data['sector_summary'][i]['passenger_count'] +`</td>
+            </tr>
+        `;
+    }
+
+    // closing of sector table, and adding dependencies code, and start of direction table
+    content += `
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <h4>Direction Summary</h4>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <td>Direction</td>
+                            <td># of trans.</td>
+                            <td>Revenue</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+    `;
+    // populate direction table
+    for(i in data['direction_summary']){
+        content += `
+            <tr>
+                <td>`+ data['direction_summary'][i]['direction'] +`</td>
+                <td>`+ data['direction_summary'][i]['counter'] +`</td>
+                <td>IDR `+ number_format(data['direction_summary'][i]['valuation']) +`</td>
+            </tr>
+        `;
+    }
+
+    // closing of direction table
+    content += `
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    `;
 
     // first table
     content += `
@@ -916,6 +1046,33 @@ function overview_visa(data){
 function overview_offline(data){
     var content = ``;
 
+    // beginning of table
+    content += `
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Provider</th>
+                    <th>Counter</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+
+    for(i in data){
+        content += `
+            <tr>
+                <td>`+ data[i]['category'] +` - `+ data[i]['provider_type'] +`</td>
+                <td>`+ data[i]['counter'] +`</td>
+                <td>`+ data[i]['amount'] +`</td>
+            </tr>
+        `;
+    }
+    // end of table
+    content += `
+            </tbody>
+        </table>
+    `;
     return content;
 }
 
