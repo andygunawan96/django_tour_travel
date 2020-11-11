@@ -60,7 +60,7 @@ function get_report_overall(){
         },
         data: {
             'signature': signature,
-            'provider_type': "overall_airline",
+            'provider_type': "overall",
             'provider': '',
             'type': "overall"
         },
@@ -128,7 +128,10 @@ function get_report_overall(){
 								drawOnChartArea: false
 							},
                             ticks: {
-                                beginAtZero: true
+                                beginAtZero: true,
+                                callback: function(value, index, values) {
+                                    return 'IDR ' + number_format(value);
+                                }
                             },
                             stack: true,
                             scaleLabel: {
@@ -309,8 +312,8 @@ function get_report_overall(){
             third_chart_object = new Chart(third_ctx, third_config);
 
             // peripherals
-            $('#total_rupiah').html(result.raw_data.result.response.total_rupiah);
-            $('#average_rupiah').html(result.raw_data.result.response.average_rupiah);
+            $('#total_rupiah').html(number_format(result.raw_data.result.response.total_rupiah, 2));
+            $('#average_rupiah').html(number_format(result.raw_data.result.response.average_rupiah, 2));
 
             // overview section
             contents = overview_overall(result.raw_data.result.response.first_overview);
@@ -438,6 +441,9 @@ $('#report_form').submit(function(evt){
     var postdata = $(this).serialize();
     postdata += "&type=custom&signature=" + signature;
 
+    // get provider type
+    var provider_type = $('#provider_type').val();
+
     // post data
     $.ajax({
         url: "/webservice/report",
@@ -530,11 +536,33 @@ $('#report_form').submit(function(evt){
             third_chart_object.update();
 
             // peripherals
-            $('#total_rupiah').html(result.raw_data.result.response.total_rupiah);
-            $('#average_rupiah').html(result.raw_data.result.response.average_rupiah);
+            $('#total_rupiah').html(number_format(result.raw_data.result.response.total_rupiah, 2));
+            $('#average_rupiah').html(number_format(result.raw_data.result.response.average_rupiah, 2));
 
-            // overview section
-            contents = overview_overall(result.raw_data.result.response.first_overview);
+            // "First" overview section
+            if (provider_type == 'overall'){
+                contents = overview_overall(result.raw_data.result.response.first_overview);
+            } else if (provider_type == 'overall_airline'){
+                contents = overview_airline(result.raw_data.result.response.first_overview);
+            } else if (provider_type == 'overall_activity'){
+                contents = overview_activity(result.raw_data.result.response.first_overview);
+            } else if (provider_type == 'overall_event'){
+                contents = overview_event(result.raw_data.result.response.first_overview);
+            } else if (provider_type == 'overall_hotel'){
+                contents = overview_hotel(result.raw_data.result.response.first_overview);
+            } else if (provider_type == 'overall_train'){
+                contents = overview_train(result.raw_data.result.response.first_overview);
+            } else if (provider_type == 'overall_tour'){
+                contents = overview_tour(result.raw_data.result.response.first_overview);
+            } else if (provider_type == 'overall_ppob'){
+                contents = overview_ppob(result.raw_data.result.response.first_overview);
+            } else if (provider_type == 'overall_visa'){
+                contents = overview_visa(result.raw_data.result.response.first_overview);
+            } else if (provider_type == 'overall_offline'){
+                contents = overview_offline(result.raw_data.result.response.first_overview);
+            } else {
+                contents = ``;
+            }
             $('#first_overview_content').html(contents);
 
             // second overview secction
@@ -605,14 +633,14 @@ function overview_overall(data){
 
     // first section of overview
     content += `
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Provider</th>
-                            <th># of issued</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Provider</th>
+                    <th># of issued</th>
+                </tr>
+            </thead>
+            <tbody>
     `;
 
     // iterate every data
@@ -635,12 +663,20 @@ function overview_overall(data){
     return content
 }
 
+// handler for overview data for airline
+// input is object that has been trim to the exact object needed to print
+// in overall case means
+// return.raw_data.result.response.first_overview
+// why first, this will be the default page (hence first section)
+// will also  be use to name the section(s)
 function overview_airline(data){
+//    console.log(data);
     // declare return
-    var contents = ``;
+    var content = ``;
 
     // first table
     content += `
+    <h3>Top Domestic Route</h3>
         <table class="table">
             <thead>
                 <tr>
@@ -653,13 +689,13 @@ function overview_airline(data){
             <tbody>
     `;
     // first table data
-    for (i in data['direction_summary']){
+    for (i in data['domestic']){
         content += `
             <tr>
-                <td>`+ i['direction'] +`</td>
-                <td>`+ i['departure'] +`</td>
-                <td>`+ i['destination'] +`</td>
-                <td>`+ i['counter'] +`</td>
+                <td>`+ data['domestic'][i]['direction'] +`</td>
+                <td>`+ data['domestic'][i]['departure'] +`</td>
+                <td>`+ data['domestic'][i]['destination'] +`</td>
+                <td>`+ data['domestic'][i]['counter'] +`</td>
             </tr>
         `;
     }
@@ -668,6 +704,220 @@ function overview_airline(data){
             </tbody>
         </table>
     `;
+
+    // open next table
+    content += `
+        <h3>Top International Route</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <td>Direction</td>
+                    <td>Departure</td>
+                    <td>Destination</td>
+                    <td># of transactions</td>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+    // first table data
+    for (i in data['international']){
+        content += `
+            <tr>
+                <td>`+ data['international'][i]['direction'] +`</td>
+                <td>`+ data['international'][i]['departure'] +`</td>
+                <td>`+ data['international'][i]['destination'] +`</td>
+                <td>`+ data['international'][i]['counter'] +`</td>
+            </tr>
+        `;
+    }
+    // close first table
+    content += `
+            </tbody>
+        </table>
+    `;
+
+    return content
+}
+
+// handler for overview data for activity
+// input is object that has been trim to the exact object needed to print
+// in overall case means
+// return.raw_data.result.response.first_overview
+// why first, this will be the default page (hence first section)
+// will also  be use to name the section(s)
+function overview_activity(data){
+    var content = ``;
+
+    // first table
+    content += `
+        <table class="table">
+            <thead>
+                <tr>
+                    <td>Destination</td>
+                    <td># of Transaction</td>
+                    <td># of Passengers</td>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+    // loop the data
+    for(i in data){
+        content += `
+            <tr>
+                <td>`+ data[i]['product'] +`</td>
+                <td>`+ data[i]['counter'] +`</td>
+                <td>`+ data[i]['passenger'] +`</td>
+            </tr>
+        `;
+    }
+    // close of table
+    content += `
+            </tbody>
+        </table>
+    `;
+
+    return content;
+}
+
+// handler for overview data for event
+// input is object that has been trim to the exact object needed to print
+// in overall case means
+// return.raw_data.result.response.first_overview
+// why first, this will be the default page (hence first section)
+// will also  be use to name the section(s)
+function overview_event(data){
+    var content = ``;
+
+    return content;
+}
+
+// handler for overview data for hotel
+// input is object that has been trim to the exact object needed to print
+// in overall case means
+// return.raw_data.result.response.first_overview
+// why first, this will be the default page (hence first section)
+// will also  be use to name the section(s)
+function overview_hotel(data){
+    var content = ``;
+
+    return content;
+}
+
+// handler for overview data for ppob
+// input is object that has been trim to the exact object needed to print
+// in overall case means
+// return.raw_data.result.response.first_overview
+// why first, this will be the default page (hence first section)
+// will also  be use to name the section(s)
+function overview_ppob(data){
+    var content = ``;
+
+    return content;
+}
+
+// handler for overview data for train
+// input is object that has been trim to the exact object needed to print
+// in overall case means
+// return.raw_data.result.response.first_overview
+// why first, this will be the default page (hence first section)
+// will also  be use to name the section(s)
+function overview_train(data){
+    var content = ``;
+
+    // first table
+    content += `
+    <h3>Top Domestic Route</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <td>Departure</td>
+                    <td>Destination</td>
+                    <td># of transactions</td>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+
+    // first table data
+    for (i in data['domestic']){
+        content += `
+            <tr>
+                <td>`+ data['domestic'][i]['departure'] +`</td>
+                <td>`+ data['domestic'][i]['destination'] +`</td>
+                <td>`+ data['domestic'][i]['counter'] +`</td>
+            </tr>
+        `;
+    }
+    // close first table
+    content += `
+            </tbody>
+        </table>
+    `;
+
+    return content;
+}
+
+// handler for overview data for tour
+// input is object that has been trim to the exact object needed to print
+// in overall case means
+// return.raw_data.result.response.first_overview
+// why first, this will be the default page (hence first section)
+// will also  be use to name the section(s)
+function overview_tour(data){
+    var content = ``;
+
+    return content;
+}
+
+// handler for overview data for visa
+// input is object that has been trim to the exact object needed to print
+// in overall case means
+// return.raw_data.result.response.first_overview
+// why first, this will be the default page (hence first section)
+// will also  be use to name the section(s)
+function overview_visa(data){
+    var content = ``;
+    // table
+    content += `
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Country</th>
+                    <th># of transaction</th>
+                    <th># of passenger</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+    // content
+    for(i in data){
+        content += `
+            <tr>
+                <td>`+ data[i]['product'] +`</td>
+                <td>`+ data[i]['counter'] +`</td>
+                <td>`+ data[i]['passenger'] +`</td>
+            </tr>
+        `;
+    }
+
+    // close table
+    content += `
+            </tbody>
+        </table>
+    `;
+    return content;
+}
+
+// handler for overview data for offline
+// input is object that has been trim to the exact object needed to print
+// in overall case means
+// return.raw_data.result.response.first_overview
+// why first, this will be the default page (hence first section)
+// will also  be use to name the section(s)
+function overview_offline(data){
+    var content = ``;
+
+    return content;
 }
 
 // handler for overview data
