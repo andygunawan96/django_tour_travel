@@ -490,11 +490,11 @@ $('#report_form').submit(function(evt){
             secondConfig.data = {
                 labels: result.raw_data.result.response.second_graph.label,
                 datasets: [{
-                    labels: 'Booked',
+                    label: 'Booked',
                     borderColor: 'red',
                     data: result.raw_data.result.response.second_graph.data
                 }, {
-                    labels: 'Issued',
+                    label: 'Issued',
                     backgroundColor: 'blue',
                     borderColor: 'blue',
                     data: result.raw_data.result.response.second_graph.data2
@@ -717,7 +717,6 @@ function overview_airline(data){
         <table class="table">
             <thead>
                 <tr>
-                    <td>Direction</td>
                     <td>Departure</td>
                     <td>Destination</td>
                     <td>Counter</td>
@@ -729,7 +728,6 @@ function overview_airline(data){
     for (i in data['domestic']){
         content += `
             <tr>
-                <td>`+ data['domestic'][i]['direction'] +`</td>
                 <td>`+ data['domestic'][i]['departure'] +`</td>
                 <td>`+ data['domestic'][i]['destination'] +`</td>
                 <td>`+ data['domestic'][i]['counter'] +`</td>
@@ -748,7 +746,6 @@ function overview_airline(data){
         <table class="table">
             <thead>
                 <tr>
-                    <td>Direction</td>
                     <td>Departure</td>
                     <td>Destination</td>
                     <td># of transactions</td>
@@ -760,7 +757,6 @@ function overview_airline(data){
     for (i in data['international']){
         content += `
             <tr>
-                <td>`+ data['international'][i]['direction'] +`</td>
                 <td>`+ data['international'][i]['departure'] +`</td>
                 <td>`+ data['international'][i]['destination'] +`</td>
                 <td>`+ data['international'][i]['counter'] +`</td>
