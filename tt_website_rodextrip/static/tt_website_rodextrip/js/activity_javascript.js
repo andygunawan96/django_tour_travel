@@ -276,11 +276,11 @@ function activity_table_detail(){
    var grand_total = 0;
    var grand_commission = 0;
    text = '';
-   name = response.name.replace(/&#39;/g,"'");
+   name = activity_data.name.replace(/&#39;/g,"'");
    name = name.replace(/&amp;/g, '&');
    $test = '';
-   $test += response.name+'\n';
-   if(response.name != document.getElementById('product_type_title').innerHTML)
+   $test += activity_data.name+'\n';
+   if(activity_data.name != document.getElementById('product_type_title').innerHTML)
        $test += document.getElementById('product_type_title').innerHTML + '\n';
 
    var visit_date_txt = document.getElementById('activity_date').value;
@@ -485,9 +485,12 @@ function activity_table_detail2(pagetype){
    grand_total = 0;
    var grand_commission = 0;
    text = '';
-   name = response.name.replace(/&#39;/g,"'");
-   name = name.replace(/&amp;/g, '&');
-   $test = response.name+'\n';
+   $test = '';
+   if (document.getElementById('product_title'))
+   {
+       $test += document.getElementById('product_title').innerHTML+
+           '\n';
+   }
    if (document.getElementById('product_type_title'))
    {
        $test += document.getElementById('product_type_title').innerHTML+
@@ -519,6 +522,7 @@ function activity_table_detail2(pagetype){
 
    try{
        skus = price.prices;
+       console.log(skus);
        for (sku in skus)
        {
             low_sku_id = sku.toLowerCase();
@@ -535,16 +539,18 @@ function activity_table_detail2(pagetype){
                    $test += passenger[low_sku_id].toString() + ' ' + skus[sku].sku_title + ' Price @IDR ' + getrupiah(skus[sku][passenger[low_sku_id]].sale_price)+'\n';
                    grand_total += parseInt(passenger[low_sku_id]) * skus[sku][passenger[low_sku_id]].sale_price;
                    grand_commission += parseInt(passenger[low_sku_id]) * skus[sku][passenger[low_sku_id]].commission_price;
-                   price_discount = {"currency": ''};
-                   for(i in skus[sku][passenger[low_sku_id]].service_charges){
-                        if(price_discount.hasOwnProperty(skus[sku][passenger[low_sku_id]].service_charges[i].charge_type) == true)
-                            price_discount[skus[sku][passenger[low_sku_id]].service_charges[i].charge_type] += skus[sku][passenger[low_sku_id]].service_charges[i].total;
-                        else
-                            price_discount[skus[sku][passenger[low_sku_id]].service_charges[i].charge_type] = skus[sku][passenger[low_sku_id]].service_charges[i].total;
-                        if(price_discount['currency'] == '')
-                            price_discount['currency'] = skus[sku][passenger[low_sku_id]].service_charges[i].currency;
+                   if(pagetype == 'review'){
+                       price_discount = {"currency": ''};
+                       for(i in skus[sku][passenger[low_sku_id]].service_charges){
+                            if(price_discount.hasOwnProperty(skus[sku][passenger[low_sku_id]].service_charges[i].charge_type) == true)
+                                price_discount[skus[sku][passenger[low_sku_id]].service_charges[i].charge_type] += skus[sku][passenger[low_sku_id]].service_charges[i].total;
+                            else
+                                price_discount[skus[sku][passenger[low_sku_id]].service_charges[i].charge_type] = skus[sku][passenger[low_sku_id]].service_charges[i].total;
+                            if(price_discount['currency'] == '')
+                                price_discount['currency'] = skus[sku][passenger[low_sku_id]].service_charges[i].currency;
+                       }
+                       total_price_provider.push({"price":price_discount,"provider":activity_data.provider_code});
                    }
-                   total_price_provider.push({"price":price_discount,"provider":response.provider});
                }
                else
                {
@@ -553,16 +559,18 @@ function activity_table_detail2(pagetype){
                    $test += passenger[low_sku_id].toString() + ' ' + skus[sku].sku_title + ' Price @IDR ' + getrupiah(skus[sku]['1'].sale_price)+'\n';
                    grand_total += parseInt(passenger[low_sku_id]) * skus[sku]['1'].sale_price;
                    grand_commission += parseInt(passenger[low_sku_id]) * skus[sku]['1'].commission_price;
-                   price_discount = {"currency": ''};
-                   for(i in skus[sku]['1'].service_charges){
-                        if(price_discount.hasOwnProperty(skus[sku]['1'].service_charges[i].charge_type) == true)
-                            price_discount[skus[sku]['1'].service_charges[i].charge_type] += skus[sku][passenger[low_sku_id]].service_charges[i].total;
-                        else
-                            price_discount[skus[sku]['1'].service_charges[i].charge_type] = skus[sku][passenger[low_sku_id]].service_charges[i].total;
-                        if(price_discount['currency'] == '')
-                            price_discount['currency'] = skus[sku][passenger[low_sku_id]].service_charges[i].currency;
+                   if(pagetype == 'review'){
+                       price_discount = {"currency": ''};
+                       for(i in skus[sku]['1'].service_charges){
+                            if(price_discount.hasOwnProperty(skus[sku]['1'].service_charges[i].charge_type) == true)
+                                price_discount[skus[sku]['1'].service_charges[i].charge_type] += skus[sku][passenger[low_sku_id]].service_charges[i].total;
+                            else
+                                price_discount[skus[sku]['1'].service_charges[i].charge_type] = skus[sku][passenger[low_sku_id]].service_charges[i].total;
+                            if(price_discount['currency'] == '')
+                                price_discount['currency'] = skus[sku][passenger[low_sku_id]].service_charges[i].currency;
+                       }
+                       total_price_provider.push({"price":price_discount,"provider":activity_data.provider_code});
                    }
-                   total_price_provider.push({"price":price_discount,"provider":response.provider});
                }
                text+= `</span></div></div>`;
            }
@@ -571,10 +579,10 @@ function activity_table_detail2(pagetype){
        {
            text+= `<div class="row">
                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                <span style="font-size:13px; font-weight:500;">`+passenger['infant']+`x Infant @IDR 0</span>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;">
-                                <span style="font-size:13px; font-weight:500;">IDR `;
+                            <span style="font-size:13px; font-weight:500;">`+passenger['infant']+`x Infant @IDR 0</span>
+                       </div>
+                       <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;">
+                            <span style="font-size:13px; font-weight:500;">IDR `;
 
            text+= getrupiah(0);
            $test += passenger['infant'].toString() + ' Infant Price @IDR ' + getrupiah(0)+'\n';
@@ -582,7 +590,6 @@ function activity_table_detail2(pagetype){
        }
 
    }catch(err){
-
    }
 
    if(additional_price != 0)

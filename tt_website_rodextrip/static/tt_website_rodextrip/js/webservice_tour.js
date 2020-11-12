@@ -883,7 +883,6 @@ function tour_get_details(tour_code){
                         }
                     }
                 });
-               include_flight = 0;
                if (include_flight == 1)
                {
                    document.getElementById('flight_details').innerHTML += flight_details_text;

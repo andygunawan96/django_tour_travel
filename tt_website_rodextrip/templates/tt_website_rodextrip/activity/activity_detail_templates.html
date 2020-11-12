@@ -16,51 +16,14 @@
     locations = [];
     images = [];
     images_first = "";
-    {% for i in response.locations %}
-        locations.push({
-            'country_name': '{{i.country_name}}',
-            'city_name': '{{i.city_name}}',
-            'state_name': '{{i.state_name}}'
-        })
-    {% endfor %}
+
     signature = '{{signature}}';
     parsed_country = {{parsed_country}};
     parsed_city = {{parsed_city}};
     parsed_type = {{parsed_type}};
     parsed_category = {{parsed_category}};
     parsed_sub_category = {{parsed_sub_category}};
-    {% for i in response.images %}
-        {% if forloop.first %}
-            images_first = `{{i.url}}{{i.path}}`;
-        {% endif %}
-        images.push({
-            'url': '{{i.url}}',
-            'path': '{{i.path}}',
-        })
-    {% endfor %}
-
-    highlights = `{{response.highlights}}`;
-
-    response = {
-        'locations':locations,
-        'images': images,
-        'additionalInfo': `{{response.additionalInfo}}`,
-        'uuid': '{{response.uuid}}',
-        'highlights': highlights.replace('&#39;', "'"),
-        'safety': `{{response.safety}}`,
-        'longitude': {{response.longitude}},
-        'latitude': {{response.latitude}},
-        'provider_id': '{{response.provider_id}}',
-        'description': `{{response.description}}`,
-        'warnings': `{{response.warnings}}`,
-        'priceExcludes': `{{response.priceExcludes}}`,
-        'minPax': {{response.minPax}},
-        'maxPax': {{response.maxPax}},
-        'businessHoursFrom': `{{response.businessHoursFrom}}`,
-        'businessHoursTo': `{{response.businessHoursTo}}`,
-        'name': '{{response.name}}',
-        'itinerary': `{{response.itinerary}}`,
-    };
+    activity_uuid = '{{activity_uuid}}';
     time_limit = {{time_limit}};
     session_time_limit();
 </script>
@@ -83,7 +46,7 @@
 {% include 'tt_website_rodextrip/header.html' %}
 {% include 'tt_website_rodextrip/logout.html' %}
 {% include 'tt_website_rodextrip/plugin_passenger.html' %}
-<title id="title_search">{{name}} {% trans 'Activity' %} - {{response.name}}</title>
+<title id="title_search">{{name}} {% trans 'Activity' %} {% trans 'Detail' %} - </title>
 <div id="overlay-search-box" onclick="off_overlay()" style="z-index:90;"></div>
 
 {% if username.co_user_login != 'agent_b2c' %}
@@ -765,432 +728,33 @@
                     <div class="row" id="div-description-activity" style="padding:0px 15px;">
                         <div class="col-lg-12">
                             <div class="row">
-                                <input type="hidden" id="activity_uuid" name="activity_uuid" value="{{response.uuid}}"/>
+                                <input type="hidden" id="activity_uuid" name="activity_uuid" value=""/>
                                 <div class="col-lg-12" style="background:white; border:1px solid #cdcdcd; padding:15px;">
                                     <div class="row">
                                         <div class="col-lg-12">
-                                            <span style="font-size:18px; font-weight:700;">{{response.name}}</span>
-                                            <span style="font-size:14px;">
-                                <i class="fas fa-star" style="color:#FFC44D;"></i>
-                                {{response.reviewAverageScore}} ({{response.reviewCount}})
-                            </span>
+                                            <span id="main_activity_name" style="font-size:18px; font-weight:700;"></span>
+                                            <span id="activity_avg_score" style="font-size:14px;">
+                                                <i class="fas fa-star" style="color:#FFC44D;"></i>
+
+                                            </span>
                                             <br/>
-                                            <span style="font-size:13px;">
-                                <i class="fas fa-map-marker-alt" style="color:{{color}};"></i>
-                                {% for i in response.locations %}
-                                {{i.city_name}}, {{i.country_name}};
-                                {% endfor %}
-                            </span>
+                                            <span id="activity_locations" style="font-size:13px;">
+                                                <i class="fas fa-map-marker-alt" style="color:{{color}};"></i>
+
+                                            </span>
                                             <hr/>
                                         </div>
                                         <div class="col-lg-12">
                                             <div id="activity_carousel">
-                                                <div class="owl-carousel-activity-img owl-theme">
-                                                    {% for i in response.videos %}
-                                                    {% if i.url != "" %}
-                                                    <div class="item" style="background: rgba(0,0,0,0.9);">
-                                                        <video controls id="video_activity" height="350px" width="100%">
-                                                            <source src="{{i.url}}" type="video/mp4">
-                                                            Your browser does not support the video tag.
-                                                        </video>
-                                                    </div>
-                                                    {% endif %}
-                                                    {% endfor %}
 
-
-                                                    {% for i in response.images %}
-                                                    <div class="item" style="background: rgba(0,0,0,0.9);">
-                                                        <img class="img-fluid" src="{{i.url}}{{i.path}}" alt="Activity" style="display: block; width:100%; height:350px; object-fit: contain;">
-                                                    </div>
-                                                    {% endfor %}
-                                                </div>
-
-                                                <div class="owl-carousel-activity owl-theme" style="padding-top:15px;">
-                                                    {% for i in response.videos %}
-                                                    {% if i.url != "" %}
-                                                    <div class="item" style="text-align:center;">
-                                                        <div class="dark-img" style="cursor:pointer;">
-                                                            <img class="img-fluid owl-current-click" alt="Activity" id="video_activity2" style="max-width:100%; height:75px;">
-                                                            <span class="text-block-img" id="icon_video_activity" style="cursor:pointer; color:{{text_color}}; font-size:12px; text-align:center;"></span>
-                                                        </div>
-                                                    </div>
-                                                    {% endif %}
-                                                    {% endfor %}
-
-
-                                                    {% for i in response.images %}
-                                                    <div class="item" style="text-align:center; cursor:pointer;">
-                                                        <img class="img-fluid owl-current-click" alt="Activity" src="{{i.url}}{{i.path}}" style="max-width:100%; height:75px;">
-                                                    </div>
-                                                    {% endfor %}
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="row mt-3">
-                                <div class="col-lg-12" style="background-color:white; border:1px solid #cdcdcd; padding:0;">
-                                    {%if template == 1%}
-                                    <ul class="nav nav-tabs-activity" style="text-align:center; margin-bottom:15px;">
-                                        <li class="li-activity" style="display: inline-block !important; width: 135px; text-align: center; margin: 0px -2px 0px 0px !important;">
-                                            <a class="tab-menu-activity active" data-toggle="tab" href="#detail"><i class="fa fa-info-circle" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Details</span></a>
-                                        </li>
-                                        <li class="li-activity" style="display: inline-block !important; width: 135px; text-align: center; margin: 0px -2px 0px 0px !important;">
-                                            <a class="tab-menu-activity" data-toggle="tab" href="#rules"><i class="fa fa-exclamation-circle" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Rules</span></a>
-                                        </li>
-                                        <li class="li-activity" style="display: inline-block !important; width: 135px; text-align: center; margin: 0px -2px 0px 0px !important;">
-                                            <a class="tab-menu-activity" data-toggle="tab" href="#vouchers"><i class="fa fa-ticket-alt" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Vouchers</span></a>
-                                        </li>
-                                        {% if response.itinerary != ''%}
-                                        <li class="li-activity" style="display: inline-block !important; width: 135px; text-align: center; margin: 0px -2px 0px 0px !important;">
-                                            <a class="tab-menu-activity" data-toggle="tab" href="#price_itinerary"><i class="fa fa-list-ul" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Price Itinerary</span></a>
-                                        </li>
-                                        {% endif %}
-                                    </ul>
-                                    <div class="row tab-content">
-                                        <div id="detail" class="col-lg-12 tab-pane fade in active show">
-                                            {% if response.description != '' %}
-                                            <h4 style="padding:0 15px; margin-bottom:10px;">Description</h4>
-                                            <p style="padding:0 15px;text-align:justify">{{response.description | safe}}</p>
-                                            {% endif %}
-                                            {% if response.highlights != '' %}
-                                            <h4 style="padding:0 15px; margin-bottom:10px;">Highlights</h4>
-                                            <p style="padding:0 15px;text-align:justify">{{response.highlights | safe}}</p>
-                                            {% endif %}
-                                            {% if response.additionalInfo != '' %}
-                                            <h4 style="padding:0 15px; margin-bottom:10px;">Additional Info</h4>
-                                            <p style="padding:0 15px;text-align:justify">{{response.additionalInfo | safe}}</p>
-                                            {% endif %}
-                                            {% if response.priceIncludes != '' %}
-                                            <h4 style="padding:0 15px; margin-bottom:10px;">Price Includes</h4>
-                                            <p style="padding:0 15px;text-align:justify">{{response.priceIncludes}}</p>
-                                            {% endif %}
-                                            {% if response.priceExcludes != '' %}
-                                            <h4 style="padding:0 15px; margin-bottom:10px;">Price Excludes</h4>
-                                            <p style="padding:0 15px;text-align:justify">{{response.priceExcludes}}</p>
-                                            {% endif %}
-                                        </div>
-                                        <div id="rules" class="col-lg-12 tab-pane fade">
-                                            {% if response.warnings != '' %}
-                                            <h4 style="padding:0 15px; margin-bottom:10px;">Warnings</h4>
-                                            <p style="padding:0 15px;text-align:justify">{{response.warnings | safe}}</p>
-                                            {% endif %}
-                                            {% if response.safety != '' %}
-                                            <h4 style="padding:0 15px; margin-bottom:10px;">Safety</h4>
-                                            <p style="padding:0 15px;text-align:justify">{{response.safety | safe}}</p>
-                                            {% endif %}
-                                        </div>
-                                        <div id="vouchers" class="col-lg-12 tab-pane fade">
-                                            {% if response.voucher_validity != '' %}
-                                            <h4 style="padding:0 15px; margin-bottom:10px;">Validity</h4>
-                                            <p style="padding:0 15px;text-align:justify">{{response.voucher_validity}}</p>
-                                            {% endif %}
-                                            {% if response.voucherUse != '' %}
-                                            <h4 style="padding:0 15px; margin-bottom:10px;">Voucher Use</h4>
-                                            <p style="padding:0 15px;text-align:justify">{{response.voucherUse}}</p>
-                                            {% endif %}
-                                            {% if response.voucherRedemptionAddress != '' %}
-                                            <h4 style="padding:0 15px; margin-bottom:10px;">Voucher Address</h4>
-                                            <p style="padding:0 15px; text-align:justify;">{{response.voucherRedemptionAddress}}</p>
-                                            {% endif %}
-                                            {% if response.voucherRequiresPrinting != '' %}
-                                            <h4 style="padding:0 15px; margin-bottom:10px;">Voucher Print</h4>
-                                            <p style="padding:0 15px;text-align:justify">{{response.voucherRequiresPrinting}}</p>
-                                            {% endif %}
-                                        </div>
-                                        <div id="price_itinerary" class="col-lg-12 tab-pane fade">
-                                            {% if response.itinerary != '' %}
-                                            <h4 style="padding:0 15px; margin-bottom:10px;">Itinerary</h4>
-                                            <p style="padding:0 15px; text-align:justify">{{response.itinerary}}</p>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                    {% elif template == 2%}
-                                    <div class="style-scrollbar" style="overflow:auto; white-space:nowrap; background: white;">
-                                        <ul class="tabs" style="background:white;">
-                                            <li class="tab-link current" data-tab="detail"><label><i class="fa fa-info-circle" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Details</span></label></li>
-                                            <li class="tab-link" data-tab="rules"><label><i class="fa fa-exclamation-circle" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Rules</span></label></li>
-                                            <li class="tab-link" data-tab="vouchers"><label><i class="fa fa-ticket-alt" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Vouchers</span></label></li>
-                                            {% if response.itinerary != ''%}
-                                            <li class="tab-link" data-tab="price_itinerary"><label><i class="fa fa-list-ul" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Price Itinerary</span></label></li>
-                                            {% endif %}
-                                        </ul>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <div id="detail" class="tab-content current" style="border-top:2px solid #cdcdcd;">
-                                                {% if response.description != '' %}
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Description</h4>
-                                                <p style="padding:0 15px;text-align:justify">{{response.description | safe}}</p>
-                                                {% endif %}
-                                                {% if response.highlights != '' %}
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Highlights</h4>
-                                                <p style="padding:0 15px;text-align:justify">{{response.highlights | safe}}</p>
-                                                {% endif %}
-                                                {% if response.additionalInfo != '' %}
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Additional Info</h4>
-                                                <p style="padding:0 15px;text-align:justify">{{response.additionalInfo | safe}}</p>
-                                                {% endif %}
-                                                {% if response.priceIncludes != '' %}
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Price Includes</h4>
-                                                <p style="padding:0 15px;text-align:justify">{{response.priceIncludes}}</p>
-                                                {% endif %}
-                                                {% if response.priceExcludes != '' %}
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Price Excludes</h4>
-                                                <p style="padding:0 15px;text-align:justify">{{response.priceExcludes}}</p>
-                                                {% endif %}
-                                            </div>
-                                            <div id="rules" class="tab-content" style="border-top:2px solid #cdcdcd;">
-                                                {% if response.warnings != '' %}
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Warnings</h4>
-                                                <p style="padding:0 15px;text-align:justify">{{response.warnings | safe}}</p>
-                                                {% endif %}
-                                                {% if response.safety != '' %}
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Safety</h4>
-                                                <p style="padding:0 15px;text-align:justify">{{response.safety | safe}}</p>
-                                                {% endif %}
-                                            </div>
-                                            <div id="vouchers" class="tab-content" style="border-top:2px solid #cdcdcd;">
-                                                {% if response.voucher_validity != '' %}
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Validity</h4>
-                                                <p style="padding:0 15px;text-align:justify">{{response.voucher_validity}}</p>
-                                                {% endif %}
-                                                {% if response.voucherUse != '' %}
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Voucher Use</h4>
-                                                <p style="padding:0 15px;text-align:justify">{{response.voucherUse}}</p>
-                                                {% endif %}
-                                                {% if response.voucherRedemptionAddress != '' %}
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Voucher Address</h4>
-                                                <p style="padding:0 15px; text-align:justify;">{{response.voucherRedemptionAddress}}</p>
-                                                {% endif %}
-                                                {% if response.voucherRequiresPrinting != '' %}
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Voucher Print</h4>
-                                                <p style="padding:0 15px;text-align:justify">{{response.voucherRequiresPrinting}}</p>
-                                                {% endif %}
-                                            </div>
-                                            <div id="price_itinerary" class="tab-content" style="border-top:2px solid #cdcdcd;">
-                                                {% if response.itinerary != '' %}
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Itinerary</h4>
-                                                <p style="padding:0 15px; text-align:justify">{{response.itinerary}}</p>
-                                                {% endif %}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {% elif template == 3%}
-                                    <div class="style-scrollbar" style="overflow:auto; white-space:nowrap; background: white;">
-                                        <ul class="create_tabs" style="background:white;">
-                                            <li class="create_tab-link current" data-tab="detail"><label><i class="fa fa-info-circle" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Details</span></label></li>
-                                            <li class="create_tab-link" data-tab="rules"><label><i class="fa fa-exclamation-circle" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Rules</span></label></li>
-                                            <li class="create_tab-link" data-tab="vouchers"><label><i class="fa fa-ticket-alt" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Vouchers</span></label></li>
-                                            {% if response.itinerary != ''%}
-                                            <li class="create_tab-link" data-tab="price_itinerary"><label><i class="fa fa-list-ul" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Price Itinerary</span></label></li>
-                                            {% endif %}
-                                        </ul>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <div id="detail" class="create_tab-content current" style="border-top:2px solid #cdcdcd;">
-                                                {% if response.description != '' %}
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Description</h4>
-                                                <p style="padding:0 15px;text-align:justify">{{response.description | safe}}</p>
-                                                {% endif %}
-                                                {% if response.highlights != '' %}
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Highlights</h4>
-                                                <p style="padding:0 15px;text-align:justify">{{response.highlights | safe}}</p>
-                                                {% endif %}
-                                                {% if response.additionalInfo != '' %}
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Additional Info</h4>
-                                                <p style="padding:0 15px;text-align:justify">{{response.additionalInfo | safe}}</p>
-                                                {% endif %}
-                                                {% if response.priceIncludes != '' %}
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Price Includes</h4>
-                                                <p style="padding:0 15px;text-align:justify">{{response.priceIncludes}}</p>
-                                                {% endif %}
-                                                {% if response.priceExcludes != '' %}
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Price Excludes</h4>
-                                                <p style="padding:0 15px;text-align:justify">{{response.priceExcludes}}</p>
-                                                {% endif %}
-                                            </div>
-                                            <div id="rules" class="create_tab-content" style="border-top:2px solid #cdcdcd;">
-                                                {% if response.warnings != '' %}
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Warnings</h4>
-                                                <p style="padding:0 15px;text-align:justify">{{response.warnings | safe}}</p>
-                                                {% endif %}
-                                                {% if response.safety != '' %}
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Safety</h4>
-                                                <p style="padding:0 15px;text-align:justify">{{response.safety | safe}}</p>
-                                                {% endif %}
-                                            </div>
-                                            <div id="vouchers" class="create_tab-content" style="border-top:2px solid #cdcdcd;">
-                                                {% if response.voucher_validity != '' %}
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Validity</h4>
-                                                <p style="padding:0 15px;text-align:justify">{{response.voucher_validity}}</p>
-                                                {% endif %}
-                                                {% if response.voucherUse != '' %}
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Voucher Use</h4>
-                                                <p style="padding:0 15px;text-align:justify">{{response.voucherUse}}</p>
-                                                {% endif %}
-                                                {% if response.voucherRedemptionAddress != '' %}
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Voucher Address</h4>
-                                                <p style="padding:0 15px; text-align:justify;">{{response.voucherRedemptionAddress}}</p>
-                                                {% endif %}
-                                                {% if response.voucherRequiresPrinting != '' %}
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Voucher Print</h4>
-                                                <p style="padding:0 15px;text-align:justify">{{response.voucherRequiresPrinting}}</p>
-                                                {% endif %}
-                                            </div>
-                                            <div id="price_itinerary" class="create_tab-content" style="border-top:2px solid #cdcdcd;">
-                                                {% if response.itinerary != '' %}
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Itinerary</h4>
-                                                <p style="padding:0 15px; text-align:justify">{{response.itinerary}}</p>
-                                                {% endif %}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {% elif template == 4%}
-                                    <div class="style-scrollbar" style="overflow:auto; white-space:nowrap; background: white;">
-                                        <ul class="create_tabs" style="background:white;">
-                                            <li class="create_tab-link current" data-tab="detail"><label><i class="fa fa-info-circle" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Details</span></label></li>
-                                            <li class="create_tab-link" data-tab="rules"><label><i class="fa fa-exclamation-circle" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Rules</span></label></li>
-                                            <li class="create_tab-link" data-tab="vouchers"><label><i class="fa fa-ticket-alt" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Vouchers</span></label></li>
-                                            {% if response.itinerary != ''%}
-                                            <li class="create_tab-link" data-tab="price_itinerary"><label><i class="fa fa-list-ul" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Price Itinerary</span></label></li>
-                                            {% endif %}
-                                        </ul>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <div id="detail" class="create_tab-content current" style="border-top:2px solid #cdcdcd;">
-                                                {% if response.description != '' %}
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Description</h4>
-                                                <p style="padding:0 15px;text-align:justify">{{response.description | safe}}</p>
-                                                {% endif %}
-                                                {% if response.highlights != '' %}
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Highlights</h4>
-                                                <p style="padding:0 15px;text-align:justify">{{response.highlights | safe}}</p>
-                                                {% endif %}
-                                                {% if response.additionalInfo != '' %}
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Additional Info</h4>
-                                                <p style="padding:0 15px;text-align:justify">{{response.additionalInfo | safe}}</p>
-                                                {% endif %}
-                                                {% if response.priceIncludes != '' %}
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Price Includes</h4>
-                                                <p style="padding:0 15px;text-align:justify">{{response.priceIncludes}}</p>
-                                                {% endif %}
-                                                {% if response.priceExcludes != '' %}
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Price Excludes</h4>
-                                                <p style="padding:0 15px;text-align:justify">{{response.priceExcludes}}</p>
-                                                {% endif %}
-                                            </div>
-                                            <div id="rules" class="create_tab-content" style="border-top:2px solid #cdcdcd;">
-                                                {% if response.warnings != '' %}
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Warnings</h4>
-                                                <p style="padding:0 15px;text-align:justify">{{response.warnings | safe}}</p>
-                                                {% endif %}
-                                                {% if response.safety != '' %}
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Safety</h4>
-                                                <p style="padding:0 15px;text-align:justify">{{response.safety | safe}}</p>
-                                                {% endif %}
-                                            </div>
-                                            <div id="vouchers" class="create_tab-content" style="border-top:2px solid #cdcdcd;">
-                                                {% if response.voucher_validity != '' %}
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Validity</h4>
-                                                <p style="padding:0 15px;text-align:justify">{{response.voucher_validity}}</p>
-                                                {% endif %}
-                                                {% if response.voucherUse != '' %}
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Voucher Use</h4>
-                                                <p style="padding:0 15px;text-align:justify">{{response.voucherUse}}</p>
-                                                {% endif %}
-                                                {% if response.voucherRedemptionAddress != '' %}
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Voucher Address</h4>
-                                                <p style="padding:0 15px; text-align:justify;">{{response.voucherRedemptionAddress}}</p>
-                                                {% endif %}
-                                                {% if response.voucherRequiresPrinting != '' %}
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Voucher Print</h4>
-                                                <p style="padding:0 15px;text-align:justify">{{response.voucherRequiresPrinting}}</p>
-                                                {% endif %}
-                                            </div>
-                                            <div id="price_itinerary" class="create_tab-content" style="border-top:2px solid #cdcdcd;">
-                                                {% if response.itinerary != '' %}
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Itinerary</h4>
-                                                <p style="padding:0 15px; text-align:justify">{{response.itinerary}}</p>
-                                                {% endif %}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {% elif template == 5%}
-                                    <div class="style-scrollbar" style="overflow:auto; white-space:nowrap; background: white;">
-                                        <ul class="create_tabs" style="background:white;">
-                                            <li class="create_tab-link current" data-tab="detail"><label><i class="fa fa-info-circle" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Details</span></label></li>
-                                            <li class="create_tab-link" data-tab="rules"><label><i class="fa fa-exclamation-circle" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Rules</span></label></li>
-                                            <li class="create_tab-link" data-tab="vouchers"><label><i class="fa fa-ticket-alt" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Vouchers</span></label></li>
-                                            {% if response.itinerary != ''%}
-                                            <li class="create_tab-link" data-tab="price_itinerary"><label><i class="fa fa-list-ul" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Price Itinerary</span></label></li>
-                                            {% endif %}
-                                        </ul>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <div id="detail" class="create_tab-content current" style="border-top:2px solid #cdcdcd;">
-                                                {% if response.description != '' %}
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Description</h4>
-                                                <p style="padding:0 15px;text-align:justify">{{response.description | safe}}</p>
-                                                {% endif %}
-                                                {% if response.highlights != '' %}
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Highlights</h4>
-                                                <p style="padding:0 15px;text-align:justify">{{response.highlights | safe}}</p>
-                                                {% endif %}
-                                                {% if response.additionalInfo != '' %}
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Additional Info</h4>
-                                                <p style="padding:0 15px;text-align:justify">{{response.additionalInfo | safe}}</p>
-                                                {% endif %}
-                                                {% if response.priceIncludes != '' %}
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Price Includes</h4>
-                                                <p style="padding:0 15px;text-align:justify">{{response.priceIncludes}}</p>
-                                                {% endif %}
-                                                {% if response.priceExcludes != '' %}
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Price Excludes</h4>
-                                                <p style="padding:0 15px;text-align:justify">{{response.priceExcludes}}</p>
-                                                {% endif %}
-                                            </div>
-                                            <div id="rules" class="create_tab-content" style="border-top:2px solid #cdcdcd;">
-                                                {% if response.warnings != '' %}
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Warnings</h4>
-                                                <p style="padding:0 15px;text-align:justify">{{response.warnings | safe}}</p>
-                                                {% endif %}
-                                                {% if response.safety != '' %}
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Safety</h4>
-                                                <p style="padding:0 15px;text-align:justify">{{response.safety | safe}}</p>
-                                                {% endif %}
-                                            </div>
-                                            <div id="vouchers" class="create_tab-content" style="border-top:2px solid #cdcdcd;">
-                                                {% if response.voucher_validity != '' %}
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Validity</h4>
-                                                <p style="padding:0 15px;text-align:justify">{{response.voucher_validity}}</p>
-                                                {% endif %}
-                                                {% if response.voucherUse != '' %}
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Voucher Use</h4>
-                                                <p style="padding:0 15px;text-align:justify">{{response.voucherUse}}</p>
-                                                {% endif %}
-                                                {% if response.voucherRedemptionAddress != '' %}
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Voucher Address</h4>
-                                                <p style="padding:0 15px; text-align:justify;">{{response.voucherRedemptionAddress}}</p>
-                                                {% endif %}
-                                                {% if response.voucherRequiresPrinting != '' %}
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Voucher Print</h4>
-                                                <p style="padding:0 15px;text-align:justify">{{response.voucherRequiresPrinting}}</p>
-                                                {% endif %}
-                                            </div>
-                                            <div id="price_itinerary" class="create_tab-content" style="border-top:2px solid #cdcdcd;">
-                                                {% if response.itinerary != '' %}
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Itinerary</h4>
-                                                <p style="padding:0 15px; text-align:justify">{{response.itinerary}}</p>
-                                                {% endif %}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {%endif%}
+                                <div id="activity_desc_bar" class="col-lg-12" style="background-color:white; border:1px solid #cdcdcd; padding:0;">
+
                                 </div>
                             </div>
                         </div>
@@ -1286,7 +850,7 @@
                                     <div style="background-color:white; padding:15px; border:1px solid #cdcdcd;" id="activity_detail">
                                         <h4> Price Detail </h4>
                                         <hr/>
-                                        <span id="product_title" style="font-weight: bold;">{{response.name}}</span>
+                                        <span id="product_title" style="font-weight: bold;"></span>
                                         <br/><span id="product_type_title" style="font-size:13px; font-weight:500;"></span>
                                         <br/><span id="product_visit_date" style="font-size:13px; font-weight:500;"></span>
                                         <br/><br/>
@@ -1386,7 +950,7 @@
                                     <div style="background-color:white; padding:15px; border:1px solid #cdcdcd;" id="activity_detail">
                                         <h4> Price Detail </h4>
                                         <hr/>
-                                        <span id="product_title" style="font-weight: bold;">{{response.name}}</span>
+                                        <span id="product_title" style="font-weight: bold;"></span>
                                         <br/><span id="product_type_title" style="font-size:13px; font-weight:500;"></span>
                                         <br/><span id="product_visit_date" style="font-size:13px; font-weight:500;"></span>
                                         <br/><br/>
@@ -1484,7 +1048,7 @@
                                     <div style="background-color:white; padding:15px; border:1px solid #cdcdcd;" id="activity_detail">
                                         <h4> Price Detail </h4>
                                         <hr/>
-                                        <span id="product_title" style="font-weight: bold;">{{response.name}}</span>
+                                        <span id="product_title" style="font-weight: bold;"></span>
                                         <br/><span id="product_type_title" style="font-size:13px; font-weight:500;"></span>
                                         <br/><span id="product_visit_date" style="font-size:13px; font-weight:500;"></span>
                                         <br/><br/>
@@ -1582,7 +1146,7 @@
                                     <div style="background-color:white; padding:15px; border:1px solid #cdcdcd;" id="activity_detail">
                                         <h4> Price Detail </h4>
                                         <hr/>
-                                        <span id="product_title" style="font-weight: bold;">{{response.name}}</span>
+                                        <span id="product_title" style="font-weight: bold;"></span>
                                         <br/><span id="product_type_title" style="font-size:13px; font-weight:500;"></span>
                                         <br/><span id="product_visit_date" style="font-size:13px; font-weight:500;"></span>
                                         <br/><br/>
@@ -1678,7 +1242,7 @@
                                     <div style="background-color:white; padding:15px; border:1px solid #cdcdcd;" id="activity_detail">
                                         <h4> Price Detail </h4>
                                         <hr/>
-                                        <span id="product_title" style="font-weight: bold;">{{response.name}}</span>
+                                        <span id="product_title" style="font-weight: bold;"></span>
                                         <br/><span id="product_type_title" style="font-size:13px; font-weight:500;"></span>
                                         <br/><span id="product_visit_date" style="font-size:13px; font-weight:500;"></span>
                                         <br/><br/>
@@ -1715,7 +1279,6 @@
     $( document ).ready(function() {
         breadcrumb_create("activity", 3, 0);
         $('.js-example-basic-single').select2();
-        get_activity_config('search');
 
         try{
             document.getElementById("balance_search").innerHTML = document.getElementById("balance").innerHTML;
@@ -1760,7 +1323,16 @@
                 $("#activity_query").trigger("blur");
             }
         });
-        activity_get_detail(`{{response.uuid}}`);
+        if (signature != '')
+        {
+            get_activity_config('search');
+            activity_get_detail(activity_uuid);
+        }
+        else
+        {
+            activity_login(activity_uuid, 'get_details');
+        }
+
         $("#video_activity").attr("poster", images_first);
         $("#video_activity2").attr("src", images_first);
 
