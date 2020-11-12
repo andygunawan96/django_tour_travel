@@ -44,6 +44,9 @@
             padding-top:10px;
         }
     }
+    .tab {
+        display:inline;
+    }
 </style>
 <title>{{name}} - {% trans 'Activity' %}</title>
 
@@ -146,19 +149,27 @@
 </div>
 
 <div class="container">
+<ul>
+    <Li class="tab mr-3 btn btn-primary" id="first">Issued Report</Li>
+    <li class="tab mr-3 btn btn-primary" id="second">Book Issued</li>
+    <li class="tab btn btn-primary" id="third">Channel Rank</li>
+</ul>
+</div>
+
+<div class="container">
     <h2>Overall Report</h2>
     <hr>
-    <div class="chart_container">
+    <div class="chart_container first_container">
         <div id="first_graph">
             <canvas id="first_chart_report"></canvas>
         </div>
     </div>
-    <div class="chart_container">
+    <div class="chart_container second_container" style="display:none">
         <div id="second_graph">
             <canvas id="second_chart_report"></canvas>
         </div>
     </div>
-    <div class="chart_container">
+    <div class="chart_container third_container" style="display:none">
         <div id="third_graph">
             <canvas id="third_chart_report"></canvas>
         </div>
@@ -168,13 +179,13 @@
 <div class="container">
     <h2>Overview</h2>
     <hr>
-    <div id="first_overview_content">
+    <div class="first_container" id="first_overview_content">
 
     </div>
-    <div id="second_overview_content">
+    <div class="second_container" id="second_overview_content" style="display:none">
 
     </div>
-    <div id="third_overview_content">
+    <div class="third_container" id="third_overview_content" style="display:none">
 
     </div>
 </div>
@@ -188,7 +199,25 @@
     //get_peripherals("average_rupiah", "get_average_rupiah");
     $( document ).ready(function() {
         get_report_overall();
+
+        $('#first').on('click', function(){
+            $('.first_container').show();
+            $('.second_container').hide();
+            $('.third_container').hide();
+        });
+        $('#second').on('click', function(){
+            $('.first_container').hide();
+            $('.second_container').show();
+            $('.third_container').hide();
+        });
+        $('#third').on('click', function(){
+            $('.first_container').hide();
+            $('.second_container').hide();
+            $('.third_container').show();
+        });
     });
+
+
 </script>
 {% include 'tt_website_rodextrip/footer.html' %}
 {% endblock %}
