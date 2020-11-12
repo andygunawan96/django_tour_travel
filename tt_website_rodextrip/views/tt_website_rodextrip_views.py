@@ -526,10 +526,13 @@ def admin(request):
                     text += request.POST['tawk_chat'] + '\n'
                     text += request.POST['tawk_code'] + '\n'
                     text += "#" + request.POST['text_pick'] + '\n'
+                    opacity = 'FF'
+                    if request.POST.get('bg_tab_pick_checkbox'):
+                        opacity = 'B3'
                     if request.POST['bg_tab_pick'] == '':
                         text += 'none'
                     else:
-                        text += "#" + request.POST['bg_tab_pick'] + 'B3'
+                        text += "#" + request.POST['bg_tab_pick'] + opacity
                     text += '\n'
                     try:
                         if request.POST.get('empty_logo_icon'):
@@ -577,7 +580,11 @@ def admin(request):
                     text += request.POST['website_mode'] + '\n'
                     text += request.POST['espay_script'] + '\n'
                     text += request.POST['google_analytics'] + '\n'
-                    text += '<br>'.join(''.join(request.POST['contact_us'].split('\r')).split('\n'))
+                    text += '<br>'.join(''.join(request.POST['contact_us'].split('\r')).split('\n')) + '\n'
+                    opacity = 'FF'
+                    if request.POST.get('tab_login_background_checkbox'):
+                        opacity = 'B3'
+                    text += "#" + request.POST['tab_login_background'] + opacity + '\n'
 
                     write_cache_with_folder(text, "data_cache_template")
                     temp = text.split('\n')
@@ -610,6 +617,10 @@ def admin(request):
                 values.update({
                     'static_path': path_util.get_static_path(MODEL_NAME),
                     'bg_tab_color': copy.deepcopy(values['tab_color'])[:7],
+                    'bg_login_background_color': copy.deepcopy(values['login_background_color'])[:7],
+                    'checkbox_tab_color': copy.deepcopy(values['tab_color'])[7:],
+                    'checkbox_login_background_color': copy.deepcopy(values['login_background_color'])[7:],
+
                     # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
                     'username': request.session['user_account'],
                     'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
@@ -918,6 +929,7 @@ def get_data_template(request, type='home', provider_type = []):
     bg_search = ''
     bg_regis = ''
     google_analytics = ''
+    login_background_color = '#333333'
     try:
         if type != 'login':
             if request.session.get('keep_me_signin') == True:
@@ -925,11 +937,14 @@ def get_data_template(request, type='home', provider_type = []):
                 request.session.modified = True
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
-        airline_country = response['result']['response']['airline']['country']
         phone_code = []
-        for i in airline_country:
-            if i['phone_code'] not in phone_code:
-                phone_code.append(i['phone_code'])
+        try:
+            airline_country = response['result']['response']['airline']['country']
+            for i in airline_country:
+                if i['phone_code'] not in phone_code:
+                    phone_code.append(i['phone_code'])
+        except:
+            _logger.error('no cache')
         phone_code = sorted(phone_code)
         if len(provider_type) != 0:
             provider_type = provider_type
@@ -1037,6 +1052,19 @@ def get_data_template(request, type='home', provider_type = []):
                         contact_us = '\n'.join(line.split('<br>')[:-1])
                     else:
                         contact_us = '\n'.join(line.split('<br>'))
+                elif idx == 20:
+                    if line != '':
+                        if line.split('\n')[0] == 'none':
+                            if type != 'login':
+                                login_background_color = 'transparent'
+                            else:
+                                tab_color = 'transparent'
+                        else:
+                            if type != 'login':
+                                login_background_color = line.split('\n')[0]
+                            else:
+                                tab_color = line.split('\n')[0]
+
             if color == '':
                 color = '#f15a22'
             if len(background.split('\n')) > 1:
@@ -1070,7 +1098,8 @@ def get_data_template(request, type='home', provider_type = []):
         'bg_login': bg_login,
         'bg_search': bg_search,
         'bg_regis': bg_regis,
-        'google_analytics': google_analytics
+        'google_analytics': google_analytics,
+        'login_background_color': login_background_color
 
     }
 

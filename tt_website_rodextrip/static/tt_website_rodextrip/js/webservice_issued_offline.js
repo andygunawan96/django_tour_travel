@@ -1798,7 +1798,7 @@ function validate(data){
                 Swal.fire({
                   type: 'error',
                   title: 'Oops!',
-                  html: '<span style="color: #ff9900;">Error airline booking </span>' + msg.result.error_msg,
+                  html: '<span style="color: #ff9900;">Error validate offline </span>' + msg.result.error_msg,
                 })
                 $('#show_loading_booking_airline').hide();
                 $('.loader-rodextrip').fadeOut();
@@ -1871,7 +1871,7 @@ function update_service_charge(){
                 Swal.fire({
                   type: 'error',
                   title: 'Oops!',
-                  html: '<span style="color: red;">Error airline service charge </span>' + errorThrown,
+                  html: '<span style="color: red;">Error offline service charge </span>' + errorThrown,
                 })
                 $('.loader-rodextrip').fadeOut();
             }

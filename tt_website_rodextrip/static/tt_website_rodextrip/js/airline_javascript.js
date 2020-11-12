@@ -240,7 +240,7 @@ function airline_check_search_values(){
 }
 
 function add_multi_city(type){
-    if(counter_airline_search != 5){
+    if(counter_airline_search != 3){
         counter_airline_search++;
         if(counter_airline_search == 1){
             quantity_adult_flight = parseInt(document.getElementById('adult_flight').value);
