@@ -675,19 +675,20 @@ function overview_airline(data){
     // counter sector and direction summary
     // will split the table into col-6
     content += `
-        <div class="row">
-            <div class="col-md-6">
-                <h4>Sector Summary</h4>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <td>Sector</td>
-                            <td># of trans.</td>
-                            <td>Revenue</td>
-                            <td>Passengers</td>
-                        </tr>
-                    </thead>
-                    <tbody>
+        <h4>Sector Summary</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <td>Sector</td>
+                    <td># of trans.</td>
+                    <td>One way</td>
+                    <td>Return</td>
+                    <td>Multi City</td>
+                    <td>Revenue</td>
+                    <td>Passengers</td>
+                </tr>
+            </thead>
+            <tbody>
     `;
     // populate sector table
     for(i in data['sector_summary']){
@@ -695,46 +696,18 @@ function overview_airline(data){
             <tr>
                 <td>`+ data['sector_summary'][i]['sector'] +`</td>
                 <td>`+ data['sector_summary'][i]['counter'] +`</td>
+                <td>`+ data['sector_summary'][i]['one_way'] +`</td>
+                <td>`+ data['sector_summary'][i]['return'] +`</td>
+                <td>`+ data['sector_summary'][i]['multi_city'] +`</td>
                 <td>IDR `+ number_format(data['sector_summary'][i]['valuation']) +`</td>
                 <td>`+ data['sector_summary'][i]['passenger_count'] +`</td>
             </tr>
         `;
     }
 
-    // closing of sector table, and adding dependencies code, and start of direction table
     content += `
-                    </tbody>
-                </table>
-            </div>
-            <div class="col-md-6">
-                <h4>Direction Summary</h4>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <td>Direction</td>
-                            <td># of trans.</td>
-                            <td>Revenue</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-    `;
-    // populate direction table
-    for(i in data['direction_summary']){
-        content += `
-            <tr>
-                <td>`+ data['direction_summary'][i]['direction'] +`</td>
-                <td>`+ data['direction_summary'][i]['counter'] +`</td>
-                <td>IDR `+ number_format(data['direction_summary'][i]['valuation']) +`</td>
-            </tr>
-        `;
-    }
-
-    // closing of direction table
-    content += `
-                    </tbody>
-                </table>
-            </div>
-        </div>
+            </tbody>
+        </table>
     `;
 
 
@@ -891,19 +864,20 @@ function overview_train(data){
     // counter sector and direction summary
     // will split the table into col-6
     content += `
-        <div class="row">
-            <div class="col-md-6">
-                <h4>Sector Summary</h4>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <td>Sector</td>
-                            <td># of trans.</td>
-                            <td>Revenue</td>
-                            <td>Passengers</td>
-                        </tr>
-                    </thead>
-                    <tbody>
+        <h4>Sector Summary</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <td>Sector</td>
+                    <td># of trans.</td>
+                    <td>One way</td>
+                    <td>Return</td>
+                    <td>Multi City</td>
+                    <td>Revenue</td>
+                    <td>Passengers</td>
+                </tr>
+            </thead>
+            <tbody>
     `;
     // populate sector table
     for(i in data['sector_summary']){
@@ -911,46 +885,18 @@ function overview_train(data){
             <tr>
                 <td>`+ data['sector_summary'][i]['sector'] +`</td>
                 <td>`+ data['sector_summary'][i]['counter'] +`</td>
+                <td>`+ data['sector_summary'][i]['one_way'] +`</td>
+                <td>`+ data['sector_summary'][i]['return'] +`</td>
+                <td>`+ data['sector_summary'][i]['multi_city'] +`</td>
                 <td>IDR `+ number_format(data['sector_summary'][i]['valuation']) +`</td>
                 <td>`+ data['sector_summary'][i]['passenger_count'] +`</td>
             </tr>
         `;
     }
 
-    // closing of sector table, and adding dependencies code, and start of direction table
     content += `
-                    </tbody>
-                </table>
-            </div>
-            <div class="col-md-6">
-                <h4>Direction Summary</h4>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <td>Direction</td>
-                            <td># of trans.</td>
-                            <td>Revenue</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-    `;
-    // populate direction table
-    for(i in data['direction_summary']){
-        content += `
-            <tr>
-                <td>`+ data['direction_summary'][i]['direction'] +`</td>
-                <td>`+ data['direction_summary'][i]['counter'] +`</td>
-                <td>IDR `+ number_format(data['direction_summary'][i]['valuation']) +`</td>
-            </tr>
-        `;
-    }
-
-    // closing of direction table
-    content += `
-                    </tbody>
-                </table>
-            </div>
-        </div>
+            </tbody>
+        </table>
     `;
 
     // first table
