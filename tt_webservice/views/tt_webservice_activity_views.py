@@ -213,9 +213,7 @@ def search(request):
 
 def get_details(request):
     data = {
-        'uuid': request.POST['uuid'],
-        "provider": request.session['activity_pick']['provider'],
-        "fare_code": request.session['activity_pick']['provider_fare_code'],
+        'activity_uuid': request.POST['activity_uuid'],
     }
     headers = {
         "Accept": "application/json,text/html,application/xml",
@@ -226,19 +224,18 @@ def get_details(request):
 
     res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
     try:
-        if res['error_code'] == 0:
-            res['response'] = json.loads(res['response'])
-            for response in res['response']['result']:
-                for option in response['options']['perBooking']:
+        if res['result']['error_code'] == 0:
+            for line in res['result']['response']['activity_lines']:
+                for option in line['options']['perBooking']:
                     option.update({
                         'price_pick': 0
                     })
-                for option in response['options']['perPax']:
+                for option in line['options']['perPax']:
                     option.update({
                         'price_pick': 0
                     })
-            set_session(request, 'activity_detail', res['response'])
-            _logger.info(json.dumps(request.session['activity_detail']))
+            set_session(request, 'activity_pick', res['result']['response'])
+            _logger.info(json.dumps(request.session['activity_pick']))
             request.session.modified = True
     except:
         print('activity error')
@@ -252,8 +249,7 @@ def get_pricing(request):
         'product_type_uuid': request.POST['product_type_uuid'],
         'date_start': to_date_now(datetime.strptime(startingDate, '%d %b %Y').strftime('%Y-%m-%d %H:%M:%S'))[:10],
         'date_end': to_date_now((datetime.strptime(startingDate, '%d %b %Y')+timedelta(days=pricing_days)).strftime('%Y-%m-%d %H:%M:%S'))[:10],
-        "provider": request.POST['provider'],
-        "fare_code": request.POST['fare_code'],
+        "provider": request.POST['provider']
     }
     headers = {
         "Accept": "application/json,text/html,application/xml",
@@ -272,8 +268,7 @@ def sell_activity(request):
     data = {
         "promotion_codes_booking": [],
         "search_request": request.session['activity_review_booking']['search_request'],
-        "provider": request.session['activity_pick']['provider'],
-        "fare_code": request.session['activity_pick']['provider_fare_code'],
+        "provider": request.session['activity_pick']['provider_code']
     }
     headers = {
         "Accept": "application/json,text/html,application/xml",
@@ -589,11 +584,12 @@ def get_booking(request):
 
     res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST', timeout=300)
     try:
-        temp_visit_date = res['result']['response']['visit_date']
-        new_visit_date = datetime.strptime(temp_visit_date, '%Y-%m-%d').strftime('%d %b %Y')
-        res['result']['response'].update({
-            'visit_date': new_visit_date
-        })
+        for rec in res['result']['response']['provider_booking']:
+            for rec2 in rec['activity_details']:
+                if rec2.get('visit_date'):
+                    rec2.update({
+                        'visit_date': datetime.strptime(rec2['visit_date'], '%Y-%m-%d').strftime('%d %b %Y')
+                    })
         set_session(request, 'activity_get_booking_response', res)
         _logger.info(json.dumps(request.session['activity_get_booking_response']))
         request.session.modified = True

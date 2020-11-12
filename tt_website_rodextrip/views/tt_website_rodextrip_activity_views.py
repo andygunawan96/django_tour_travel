@@ -153,7 +153,7 @@ def search(request):
         return no_session_logout(request)
 
 
-def detail(request):
+def detail(request, activity_uuid):
     if 'user_account' in request.session._session:
         try:
             javascript_version = get_javascript_version()
@@ -170,24 +170,33 @@ def detail(request):
 
             try:
                 set_session(request, 'time_limit', int(request.POST['time_limit_input']))
-                set_session(request, 'activity_pick_seq', int(request.POST['sequence']))
-                set_session(request, 'activity_pick', json.loads(request.POST['activity_pick']))
             except:
-                set_session(request, 'time_limit', request.session['time_limit'])
-                set_session(request, 'activity_pick_seq', request.session['activity_pick_seq'])
-                set_session(request, 'activity_pick', request.session['activity_pick'])
+                if request.session.get('time_limit'):
+                    set_session(request, 'time_limit', request.session['time_limit'])
+                else:
+                    set_session(request, 'time_limit', 1200)
 
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
+            if not request.session.get('activity_search_request'):
+                set_session(request, 'activity_search_request', {
+                    'query': '',
+                    'country': 0,
+                    'city': 0,
+                    'type': 0,
+                    'category': 0,
+                    'sub_category': 0,
+                })
+
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
-                'response': request.session['activity_search'][request.session['activity_pick_seq']],
-                # 'response': request.session['activity_pick'],
+                # 'response': request.session['activity_search'][request.session['activity_pick_seq']],
                 'username': request.session['user_account'],
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
                 'phone_code': phone_code,
+                'activity_uuid': activity_uuid,
                 'query': request.session['activity_search_request']['query'],
                 'parsed_country': request.session['activity_search_request']['country'],
                 'parsed_city': request.session['activity_search_request']['city'],
@@ -195,9 +204,9 @@ def detail(request):
                 'parsed_category': request.session['activity_search_request']['category'],
                 'parsed_sub_category': request.session['activity_search_request']['sub_category'],
                 'javascript_version': javascript_version,
-                'signature': request.session['activity_signature'],
+                'signature': request.session.get('activity_signature') and request.session['activity_signature'] or '',
+                'time_limit': request.session.get('time_limit') and request.session['time_limit'] or 1200,
                 'static_path_url_server': get_url_static_path(),
-                'time_limit': request.session['time_limit'],
             })
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
@@ -247,7 +256,7 @@ def passenger(request):
                 })
             except:
                 set_session(request, 'time_limit', request.session['time_limit'])
-                set_session(request, 'time_limit', request.session['activity_request'])
+                set_session(request, 'activity_request', request.session['activity_request'])
 
             try:
                 pax_count = {}
