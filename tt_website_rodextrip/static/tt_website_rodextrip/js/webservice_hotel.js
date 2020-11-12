@@ -79,7 +79,7 @@ function get_auto_complete(term,suggest){
                 }
            },timeout: 60000
         });
-    }, 150);
+    }, 1000);
 }
 
 function hotel_signin(data){

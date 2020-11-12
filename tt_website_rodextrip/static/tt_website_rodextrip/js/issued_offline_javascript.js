@@ -450,7 +450,6 @@ function delete_table_of_passenger(){
 }
 
 function add_table_of_line(type){
-
     text= '';
     var node = document.createElement("div");
     if(type == 'airline' || type == 'train'){
@@ -518,13 +517,13 @@ function add_table_of_line(type){
                 <div class="col-lg-4 col-md-4">
                     <span><i class="fas fa-calendar-alt"></i> Departure Date</span><br/>
                     <div class="input-container-search-ticket">
-                        <input type="text" id='departure`+counter_line+`' class="form-control departure_date" name='departure`+counter_line+`' placeholder="datetime"/>
+                        <input type="text" id='departure`+counter_line+`' class="form-control departure_date" name='departure`+counter_line+`' placeholder="datetime" onchange="date_issued_offline_onchange(`+counter_line+`, 'departure');"/>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4">
                     <span><i class="fas fa-calendar-alt"></i> Arrival Date</span><br/>
                     <div class="input-container-search-ticket">
-                        <input type="text" id='arrival`+counter_line+`' class="form-control arrival_date" name='arrival`+counter_line+`' placeholder="datetime"/>
+                        <input type="text" id='arrival`+counter_line+`' class="form-control arrival_date" name='arrival`+counter_line+`' placeholder="datetime" onchange="date_issued_offline_onchange(`+counter_line+`, 'arrival');"/>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3">
@@ -685,13 +684,13 @@ function add_table_of_line(type){
                 <div class="col-lg-4 col-xs-4">
                     <span><i class="fas fa-calendar-alt"></i> Check-in Date</span><br/>
                     <div class="input-container-search-ticket">
-                        <input type="text" id='hotel_check_in`+counter_line+`' class="form-control check-in-date" name='hotel_check_in`+counter_line+`' placeholder="Check in"/>
+                        <input type="text" id='hotel_check_in`+counter_line+`' class="form-control check-in-date" name='hotel_check_in`+counter_line+`' placeholder="Check in" onclick="date_issued_offline_onchange(`+counter_line+`, 'checkin');"/>
                     </div>
                 </div>
                 <div class="col-lg-4 col-xs-4">
                     <span><i class="fas fa-calendar-alt"></i> Check-out Date</span><br/>
                     <div class="input-container-search-ticket">
-                        <input type="text" id='hotel_check_out`+counter_line+`' class="form-control check-out-date" name='hotel_check_out`+counter_line+`' placeholder="Check out"/>
+                        <input type="text" id='hotel_check_out`+counter_line+`' class="form-control check-out-date" name='hotel_check_out`+counter_line+`' placeholder="Check out" onclick="date_issued_offline_onchange(`+counter_line+`, 'checkout');" />
                     </div>
                 </div>
                 <div class="col-lg-4 col-xs-4">
@@ -829,6 +828,54 @@ function add_table_of_line(type){
 
 
     counter_line++;
+}
+
+function date_issued_offline_onchange(val, type){
+    min_date = '';
+    if(type == 'departure'){
+        min_date = $("#departure"+(val)).val();
+        console.log(min_date);
+        if(min_date > $("#arrival"+(val).toString()).val()){
+            $('input[name="arrival'+val+'"]').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              startDate: min_date,
+              minDate: min_date,
+              maxDate: moment().subtract(-1, 'years'),
+              showDropdowns: true,
+              timePicker: true,
+              timePicker24Hour: true,
+              timePickerSeconds: true,
+              opens: 'center',
+              locale: {
+                  format: 'DD MMM YYYY hh:mm:ss A',
+              }
+            });
+            $('input[name="arrival'+val+'"]').val('');
+        }
+    }else if(type == 'checkin'){
+        min_date = $("#hotel_check_in"+(val)).val();
+        console.log(min_date);
+        if(min_date > $("#hotel_check_out"+(val).toString()).val()){
+            $('input[name="hotel_check_out'+val+'"]').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              startDate: min_date,
+              minDate: min_date,
+              maxDate: moment().subtract(-1, 'years'),
+              showDropdowns: true,
+              timePicker: true,
+              timePicker24Hour: true,
+              timePickerSeconds: true,
+              opens: 'center',
+              locale: {
+                  format: 'DD MMM YYYY hh:mm:ss A',
+              }
+            });
+            $('input[name="hotel_check_out'+val+'"]').val('');
+        }
+
+    }
 }
 
 function delete_table_of_line(){

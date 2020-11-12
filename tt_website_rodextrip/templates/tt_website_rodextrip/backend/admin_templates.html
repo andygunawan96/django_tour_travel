@@ -103,7 +103,13 @@
                                             <div class="form-select">
                                                 <input class="jscolor nice-select-default" value="{{bg_tab_color}}" name="bg_tab_pick" id="bg_tab_pick">
                                             </div>
-                                            <button type="button" title="No Fill" class="primary-delete-date" onclick="no_fill();"><i class="fas fa-tint-slash" style="color:{{color}};"></i></button>
+                                            <button type="button" title="No Fill" class="primary-delete-date" onclick="no_fill('tab_bg');"><i class="fas fa-tint-slash" style="color:{{color}};"></i></button>
+                                            <label class="check_box_custom" style="margin-top:auto;margin-bottom:auto;">
+                                                <span class="span-search-ticket" style="color:{{text_color}};">Opacity</span>
+                                                <input type="checkbox" id="bg_tab_pick_checkbox" name="bg_tab_pick_checkbox" {%if checkbox_tab_color == 'B3'%} checked="checked" {% endif %} />
+                                                <span class="check_box_span_custom"></span>
+                                            </label>
+
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -116,6 +122,20 @@
                                         <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Text Color' %}</h6>
                                         <div class="form-select">
                                             <input class="jscolor nice-select-default" value="{{text_color}}" name="text_pick">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Tab Login Background Color' %}</h6>
+                                        <div class="input-container-search-ticket">
+                                            <div class="form-select">
+                                                <input class="jscolor nice-select-default" value="{{bg_login_background_color}}" name="tab_login_background">
+                                            </div>
+                                            <button type="button" title="No Fill" class="primary-delete-date" onclick="no_fill('tab_login');"><i class="fas fa-tint-slash" style="color:{{color}};"></i></button>
+                                            <label class="check_box_custom" style="margin-top:auto;margin-bottom:auto;">
+                                                <span class="span-search-ticket" style="color:{{text_color}};">Opacity</span>
+                                                <input type="checkbox" id="tab_login_background_checkbox" name="tab_login_background_checkbox" {%if checkbox_login_background_color == 'B3'%} checked="checked" {% endif %} />
+                                                <span class="check_box_span_custom"></span>
+                                            </label>
                                         </div>
                                     </div>
                                     <div class="col-lg-12"><hr/></div>
@@ -1015,10 +1035,17 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Tab Background Color' %}</h6>
-                                    <div class="input-container-search-ticket form-select">
-                                        <input class="jscolor nice-select-default form-control" value="{{bg_tab_color}}" name="bg_tab_pick" id="bg_tab_pick">
-                                        <input type="hidden" class="form-control" name="rgba_tab_pick" id="rgba_tab_pick">
-                                        <button type="button" class="primary-delete-date" onclick="no_fill();"><i class="fas fa-tint-slash" style="color:{{color}};"></i></button>
+                                    <div class="input-container-search-ticket">
+                                        <div class="form-select">
+                                            <input class="jscolor nice-select-default" value="{{bg_tab_color}}" name="bg_tab_pick" id="bg_tab_pick">
+                                        </div>
+                                        <button type="button" title="No Fill" class="primary-delete-date" onclick="no_fill('tab_bg');"><i class="fas fa-tint-slash" style="color:{{color}};"></i></button>
+                                        <label class="check_box_custom" style="margin-top:auto;margin-bottom:auto;">
+                                            <span class="span-search-ticket" style="color:{{text_color}};">Opacity</span>
+                                            <input type="checkbox" id="bg_tab_pick_checkbox" name="bg_tab_pick_checkbox" {%if checkbox_tab_color == 'B3'%} checked="checked" {% endif %} />
+                                            <span class="check_box_span_custom"></span>
+                                        </label>
+
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -1031,6 +1058,20 @@
                                     <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Text Color' %}</h6>
                                     <div class="form-select">
                                         <input class="jscolor form-control" value="{{text_color}}" name="text_pick">
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Tab Login Background Color' %}</h6>
+                                    <div class="input-container-search-ticket">
+                                        <div class="form-select">
+                                            <input class="jscolor nice-select-default" value="{{bg_login_background_color}}" name="tab_login_background">
+                                        </div>
+                                        <button type="button" title="No Fill" class="primary-delete-date" onclick="no_fill('tab_login');"><i class="fas fa-tint-slash" style="color:{{color}};"></i></button>
+                                        <label class="check_box_custom" style="margin-top:auto;margin-bottom:auto;">
+                                            <span class="span-search-ticket" style="color:{{text_color}};">Opacity</span>
+                                            <input type="checkbox" id="tab_login_background_checkbox" name="tab_login_background_checkbox" {%if checkbox_login_background_color == 'B3'%} checked="checked" {% endif %} />
+                                            <span class="check_box_span_custom"></span>
+                                        </label>
                                     </div>
                                 </div>
                                 <div class="col-lg-12"><hr/></div>
@@ -1932,10 +1973,17 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Tab Background Color' %}</h6>
-                                    <div class="input-container-search-ticket form-group">
-                                        <input class="jscolor nice-select-default form-control" value="{{bg_tab_color}}" name="bg_tab_pick" id="bg_tab_pick">
-                                        <input type="hidden" class="form-control" name="rgba_tab_pick" id="rgba_tab_pick">
-                                        <button type="button" class="primary-delete-date" onclick="no_fill();"><i class="fas fa-tint-slash" style="color:{{color}};"></i></button>
+                                    <div class="input-container-search-ticket">
+                                        <div class="form-select">
+                                            <input class="jscolor nice-select-default" value="{{bg_tab_color}}" name="bg_tab_pick" id="bg_tab_pick">
+                                        </div>
+                                        <button type="button" title="No Fill" class="primary-delete-date" onclick="no_fill('tab_bg');"><i class="fas fa-tint-slash" style="color:{{color}};"></i></button>
+                                        <label class="check_box_custom" style="margin-top:auto;margin-bottom:auto;">
+                                            <span class="span-search-ticket" style="color:{{text_color}};">Opacity</span>
+                                            <input type="checkbox" id="bg_tab_pick_checkbox" name="bg_tab_pick_checkbox" {%if checkbox_tab_color == 'B3'%} checked="checked" {% endif %} />
+                                            <span class="check_box_span_custom"></span>
+                                        </label>
+
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -1948,6 +1996,20 @@
                                     <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Text Color' %}</h6>
                                     <div class="form-group">
                                         <input class="jscolor nice-select-default form-control" value="{{text_color}}" name="text_pick">
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Tab Login Background Color' %}</h6>
+                                    <div class="input-container-search-ticket">
+                                        <div class="form-select">
+                                            <input class="jscolor nice-select-default" value="{{bg_login_background_color}}" name="tab_login_background">
+                                        </div>
+                                        <button type="button" title="No Fill" class="primary-delete-date" onclick="no_fill('tab_login');"><i class="fas fa-tint-slash" style="color:{{color}};"></i></button>
+                                        <label class="check_box_custom" style="margin-top:auto;margin-bottom:auto;">
+                                            <span class="span-search-ticket" style="color:{{text_color}};">Opacity</span>
+                                            <input type="checkbox" id="tab_login_background_checkbox" name="tab_login_background_checkbox" {%if checkbox_login_background_color == 'B3'%} checked="checked" {% endif %} />
+                                            <span class="check_box_span_custom"></span>
+                                        </label>
                                     </div>
                                 </div>
                                 <div class="col-lg-12"><hr/></div>
@@ -2861,10 +2923,17 @@
                             </div>
                             <div class="col-lg-6">
                                 <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Tab Background Color' %}</h6>
-                                <div class="input-container-search-ticket form-select">
-                                    <input class="jscolor nice-select-default form-control" value="{{bg_tab_color}}" name="bg_tab_pick" id="bg_tab_pick">
-                                    <input type="hidden" class="form-control" name="rgba_tab_pick" id="rgba_tab_pick">
-                                    <button type="button" class="primary-delete-date" onclick="no_fill();"><i class="fas fa-tint-slash" style="color:{{color}};"></i></button>
+                                <div class="input-container-search-ticket">
+                                    <div class="form-select">
+                                        <input class="jscolor nice-select-default" value="{{bg_tab_color}}" name="bg_tab_pick" id="bg_tab_pick">
+                                    </div>
+                                    <button type="button" title="No Fill" class="primary-delete-date" onclick="no_fill('tab_bg');"><i class="fas fa-tint-slash" style="color:{{color}};"></i></button>
+                                    <label class="check_box_custom" style="margin-top:auto;margin-bottom:auto;">
+                                        <span class="span-search-ticket" style="color:{{text_color}};">Opacity</span>
+                                        <input type="checkbox" id="bg_tab_pick_checkbox" name="bg_tab_pick_checkbox" {%if checkbox_tab_color == 'B3'%} checked="checked" {% endif %} />
+                                        <span class="check_box_span_custom"></span>
+                                    </label>
+
                                 </div>
                             </div>
                             <div class="col-lg-6">
@@ -2877,6 +2946,20 @@
                                 <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Text Color' %}</h6>
                                 <div class="form-select">
                                     <input class="jscolor nice-select-default form-control" value="{{text_color}}" name="text_pick">
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Tab Login Background Color' %}</h6>
+                                <div class="input-container-search-ticket">
+                                    <div class="form-select">
+                                        <input class="jscolor nice-select-default" value="{{bg_login_background_color}}" name="tab_login_background">
+                                    </div>
+                                    <button type="button" title="No Fill" class="primary-delete-date" onclick="no_fill('tab_login');"><i class="fas fa-tint-slash" style="color:{{color}};"></i></button>
+                                    <label class="check_box_custom" style="margin-top:auto;margin-bottom:auto;">
+                                        <span class="span-search-ticket" style="color:{{text_color}};">Opacity</span>
+                                        <input type="checkbox" id="tab_login_background_checkbox" name="tab_login_background_checkbox" {%if checkbox_login_background_color == 'B3'%} checked="checked" {% endif %} />
+                                        <span class="check_box_span_custom"></span>
+                                    </label>
                                 </div>
                             </div>
                             <div class="col-lg-12"><hr/></div>
@@ -3792,10 +3875,17 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Tab Background Color' %}</h6>
-                                    <div class="input-container-search-ticket form-select">
-                                        <input class="jscolor nice-select-default form-control" value="{{bg_tab_color}}" name="bg_tab_pick" id="bg_tab_pick">
-                                        <input type="hidden" class="form-control" name="rgba_tab_pick" id="rgba_tab_pick">
-                                        <button type="button" class="primary-delete-date" onclick="no_fill();"><i class="fas fa-tint-slash" style="color:{{color}};"></i></button>
+                                    <div class="input-container-search-ticket">
+                                        <div class="form-select">
+                                            <input class="jscolor nice-select-default" value="{{bg_tab_color}}" name="bg_tab_pick" id="bg_tab_pick">
+                                        </div>
+                                        <button type="button" title="No Fill" class="primary-delete-date" onclick="no_fill('tab_bg');"><i class="fas fa-tint-slash" style="color:{{color}};"></i></button>
+                                        <label class="check_box_custom" style="margin-top:auto;margin-bottom:auto;">
+                                            <span class="span-search-ticket" style="color:{{text_color}};">Opacity</span>
+                                            <input type="checkbox" id="bg_tab_pick_checkbox" name="bg_tab_pick_checkbox" {%if checkbox_tab_color == 'B3'%} checked="checked" {% endif %} />
+                                            <span class="check_box_span_custom"></span>
+                                        </label>
+
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -3808,6 +3898,20 @@
                                     <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Text Color' %}</h6>
                                     <div class="form-select">
                                         <input class="jscolor nice-select-default form-control" value="{{text_color}}" name="text_pick">
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Tab Login Background Color' %}</h6>
+                                    <div class="input-container-search-ticket">
+                                        <div class="form-select">
+                                            <input class="jscolor nice-select-default" value="{{bg_login_background_color}}" name="tab_login_background">
+                                        </div>
+                                        <button type="button" title="No Fill" class="primary-delete-date" onclick="no_fill('tab_login');"><i class="fas fa-tint-slash" style="color:{{color}};"></i></button>
+                                        <label class="check_box_custom" style="margin-top:auto;margin-bottom:auto;">
+                                            <span class="span-search-ticket" style="color:{{text_color}};">Opacity</span>
+                                            <input type="checkbox" id="tab_login_background_checkbox" name="tab_login_background_checkbox" {%if checkbox_login_background_color == 'B3'%} checked="checked" {% endif %} />
+                                            <span class="check_box_span_custom"></span>
+                                        </label>
                                     </div>
                                 </div>
                                 <div class="col-lg-12"><hr/></div>
@@ -4709,9 +4813,14 @@
     {% if "create_page" in username.co_agent_frontend_security %}
     get_dynamic_page('admin');
     {% endif %}
-    function no_fill(){
-        document.getElementById('bg_tab_pick').value = '';
-        document.getElementById('bg_tab_pick').style.backgroundColor = 'transparent';
+    function no_fill(type){
+        if(type == 'tab_bg'){
+            document.getElementById('bg_tab_pick').value = '';
+            document.getElementById('bg_tab_pick').style.backgroundColor = 'transparent';
+        }else if(type == 'tab_login'){
+            document.getElementById('tab_login_background').value = '';
+            document.getElementById('tab_login_background').style.backgroundColor = 'transparent';
+        }
     }
     $( document ).ready(function() {
         if(`{{bg_tab_color}}` == 'transpa')
