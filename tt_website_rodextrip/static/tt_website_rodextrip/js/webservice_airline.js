@@ -3846,7 +3846,7 @@ function airline_get_booking(data){
                        }
                        if(check_cancel){
                             document.getElementById('cancel').hidden = false;
-                            document.getElementById('cancel').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="cancel_btn_location();" value="Refund Booking">`;
+                            document.getElementById('cancel').innerHTML = `<input class="primary-btn-white" style="width:100%;" type="button" onclick="cancel_btn_location();" value="Refund Booking">`;
                        }
                    }catch(err){
                     console.log(err);
@@ -4290,7 +4290,7 @@ function airline_get_booking(data){
                             <th style="width:30%;">Name</th>
                             <th style="width:20%;">Birth Date</th>
                             <th style="width:25%;">Ticket Number</th>
-                            <th style="width:20%;">SSR</th>
+                            <th style="width:20%;">Seat & SSR</th>
                         </tr>`;
                         for(pax in msg.result.response.passengers){
                             ticket = '';
@@ -6166,7 +6166,7 @@ function airline_reissued(){
                 document.getElementById('airline_detail').innerHTML = '';
                 document.getElementById('ssr_request_after_sales').hidden = true;
 
-                document.getElementById('reissued').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="show_loading();please_wait_transaction();airline_get_booking('`+airline_get_detail.result.response.order_number+`')" value="Cancel Reissued">`;
+                document.getElementById('reissued').innerHTML = `<input class="primary-btn-white" style="width:100%;" type="button" onclick="show_loading();please_wait_transaction();airline_get_booking('`+airline_get_detail.result.response.order_number+`')" value="Cancel Reissued">`;
                 flight_select = 0;
                 datareissue2(msg.result.response.reschedule_availability_provider);
            }else{

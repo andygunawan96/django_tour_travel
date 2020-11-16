@@ -510,16 +510,28 @@ function search_ppob(){
                     //open modal
                     document.getElementById('bills_response').innerHTML = `
                         <div class="col-lg-3 col-md-4 col-sm-6 col-xs-6">
-                            <div style="padding-bottom:15px;"><span style="font-size:13px;font-weight:500;">Number:</span></div>
-                            <div style="padding-bottom:15px;"><span style="font-size:13px;font-weight:500;">Name:</span></div>
-                            <div style="padding-bottom:15px;"><span style="font-size:13px;font-weight:500;">Total:</span></div>
+                            <div style="padding-bottom:15px;"><span style="font-size:15px;font-weight:500;">Number:</span></div>
                         </div>
                         <div class="col-lg-9 col-md-8 col-sm-6 col-xs-6">
-                            <div style="padding-bottom:15px;">`+msg.result.response.provider_booking[0].customer_number+`</div>
-                            <div style="padding-bottom:15px;">`+msg.result.response.provider_booking[0].customer_name+`</div>
-                            <div style="padding-bottom:15px;">`+currency+` `+getrupiah(total_price)+`</div>
+                            <div style="padding-bottom:15px;"><span style="font-size:15px;">`+msg.result.response.provider_booking[0].customer_number+`</span></div>
+                        </div>`;
+
+                    if(product_code != 800){
+                        document.getElementById('bills_response').innerHTML += `
+                        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-6">
+                            <div style="padding-bottom:15px;"><span style="font-size:15px;font-weight:500;">Name:</span></div>
                         </div>
-                    `;
+                        <div class="col-lg-9 col-md-8 col-sm-6 col-xs-6">
+                            <div style="padding-bottom:15px;"><span style="font-size:15px;">`+msg.result.response.provider_booking[0].customer_name+`</span></div>
+                        </div>`;
+                    }
+                    document.getElementById('bills_response').innerHTML += `
+                        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-6">
+                            <div style="padding-bottom:15px;"><span style="font-size:15px;font-weight:500;">Total:</span></div>
+                        </div>
+                        <div class="col-lg-9 col-md-8 col-sm-6 col-xs-6">
+                            <div style="padding-bottom:15px;"><span style="font-size:15px;">`+currency+` `+getrupiah(total_price)+`</span></div>
+                        </div>`;
                     $('#myModalBills').modal('show');
                 }else{
                     Swal.fire({

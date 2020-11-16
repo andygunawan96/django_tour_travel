@@ -944,9 +944,9 @@
                                 <div class="col-lg-12">
                                     <input type="hidden" value="{{response.images|length}}" id="length-img"/>
                                     {% if response.images|length > 0 %}
-                                    <div class="owl-carousel-hotel-img owl-theme">
+                                    <div class="owl-carousel-hotel-img owl-theme" style="border:1px solid #cdcdcd;">
                                         {% for i in response.images %}
-                                        <div class="item" style="cursor:pointer; float:none;">
+                                        <div class="item" style="cursor:pointer; float:none; height:360px; display: flex; justify-content: center; align-items: center;">
                                             <center>
                                                 <img class="img-fluid" src="{{i.url}}" alt="Hotel" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg';" data-toggle="modal" data-target="#openImage" onclick="go_to_owl_carousel({{forloop.counter}}, {{response.images|length}});">
                                             </center>
@@ -955,8 +955,8 @@
                                     </div>
                                     <h6 style="color:black; text-align:right; padding-top:10px;" id="total_image_hotel">1 of {{response.images|length}}</h6>
                                     {% else %}
-                                    <div class="owl-carousel-hotel-img owl-theme">
-                                        <div class="item" style="float:none; display:inline-block; border:1px solid #cdcdcd;">
+                                    <div class="owl-carousel-hotel-img owl-theme" style="border:1px solid #cdcdcd;">
+                                        <div class="item" style="float:none; display:inline-block; height:360px;">
                                             <center>
                                                 <img class="img-fluid" alt="No Image Hotel" src="{{static_path}}/images/no pic/no_image_hotel.jpeg">
                                             </center>
@@ -984,7 +984,7 @@
                                 {% endif %}
                                 {% endfor %}
                                 {% else %}
-                                <div class="col-lg-3">
+                                <div class="col-lg-12">
                                     <img class="img-fluid" alt="No Image Hotel" src="{{static_path}}/images/no pic/no_image_hotel.jpeg" style="max-width:100%; height:75px; border:1px solid #cdcdcd;">
                                 </div>
                                 {% endif %}
@@ -1190,7 +1190,7 @@
                         </div>
 
                         <div class="col-lg-5">
-                            <div class="row" style="padding:0px 15px 15px 15px;">
+                            <div class="row" style="padding:0px 15px 15px 15px;" id="price_detail_div">
                                 <div class="col-lg-12" style="background:white; border:1px solid #cdcdcd; padding-bottom: 15px;">
                                     <h4 style="padding-top:15px;"> Price Detail</h4>
                                     <hr/>
@@ -1204,6 +1204,9 @@
                                     <span id="date_hotel">Date: {{check_in}} - {{check_out}}</span>
                                     <hr/>
                                     <div style="padding-top:10px;" id="hotel_detail_table">
+
+                                    </div>
+                                    <div id="div_name_room">
 
                                     </div>
                                     <div id="hotel_detail_button">
@@ -1253,6 +1256,33 @@
         </form>
     </div>
 </section>
+
+<div class="modal fade" id="myModalDetailRoom" role="dialog" style="padding-left:15px;">
+    <div class="modal-dialog" style="max-width:1000px;">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header" style="background:white;">
+                <ul class="create_tabs" id="tabs_detail">
+                    <li class="create_tab-link current" data-tab="detail_room-tab_edit"><label>{% trans 'Room Detail' %}</label></li>
+                    <li class="create_tab-link " data-tab="price_room-tab_edit"><label>{% trans 'Price Detail' %}</label></li>
+                </ul>
+                <button type="button" class="close" style="font-size:13px;" data-dismiss="modal">Close &times;</button>
+            </div>
+            <div class="modal-body" style="overflow:auto; max-height:600px;">
+                <div class="row" id="content_detail_room">
+                    <div class="col-lg-12">
+                        <div id="detail_room-tab_edit" class="create_tab-content current" style="padding:0px;">
+
+                        </div>
+                        <div id="price_room-tab_edit" class="create_tab-content" style="padding:0px;">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% include 'tt_website_rodextrip/footer.html' %}
 
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
