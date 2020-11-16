@@ -217,13 +217,28 @@ function sort(response, check_filter){
 
         document.getElementById("event_ticket_objs").innerHTML = '';
         text='';
+        console.log(response);
         if(response.length != 0){
             for(i in response){
+                available_prop = 0;
+
                 var obj_end_date = Date.now()
                 if (response[i].end_date) {
                     obj_end_date = Date.parse(response[i].end_date);
                 }
-                if (Date.parse(response[i].start_date) > Date.now() || obj_end_date < Date.now()){
+                if (Date.parse(response[i].start_date) > Date.now()){
+                    if (response[i].option.length > 0){
+                        available_prop = 1;
+                    }
+                } else if (Date.parse(response[i].start_date) < Date.now() && Date.now() < obj_end_date){
+                    for (opt_idx in response[i].option){
+                        if (response[i].option[opt_idx].ticket_sale_start_day > Date.now() && response[i].option[opt_idx].ticket_sale_end_day > Date.now()){
+                            available_prop = 1;
+                        }
+                    }
+                }
+
+                if (available_prop == 1){
                     text = '<div class="sorting-box-b single-recent-blog-post" style="padding:unset;"><form id="event'+i+'" action="/event/detail" method="POST"><div class="row"><div class="col-lg-12">';
                     if(response[i].images.length != 0){
                         text+=`<div class="img-event-search" style="background-size:contain; background-repeat: no-repeat; cursor:pointer; background-image: url('`+response[i].images[0].url+`');" onclick="goto_detail('event',`+i+`)"></div>`;

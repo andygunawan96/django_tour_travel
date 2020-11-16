@@ -1520,7 +1520,7 @@ function hotel_room_pick_button(){
 
 function show_commission_hotel(){
     var sc = document.getElementById("show_commission_hotel");
-    var scs = document.getElementById("show_commission_button_hotel");
+    var scs = document.getElementById("show_commission_button");
     if (sc.style.display === "none"){
         sc.style.display = "block";
         scs.value = "Hide Commission";
@@ -2261,7 +2261,7 @@ function copy_data(){
         get_checked_copy_result();
     }catch(err){console.log(err)}
     console.log($text);
-    console.log('lalala');
+//    console.log('lalala');
 
     const el = document.createElement('textarea');
     el.value = $text;
