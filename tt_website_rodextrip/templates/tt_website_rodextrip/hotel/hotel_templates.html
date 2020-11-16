@@ -2572,7 +2572,7 @@
                 hotel_checkout = cache.hotel.checkout
             }catch(err){
                 hotel_checkin = now;
-                hotel_checkout = moment().subtract(-2, 'days');
+                hotel_checkout = moment().subtract(-1, 'days');
             }
 
             $('input[name="hotel_checkin_checkout"]').daterangepicker({
