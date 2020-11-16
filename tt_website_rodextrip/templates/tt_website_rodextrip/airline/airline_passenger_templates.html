@@ -126,6 +126,9 @@
             </div>
         </div>
     </div>
+    {% if username.co_user_login == 'agent_b2c' %}
+    {% include 'tt_website_rodextrip/header_signin_signup.html' %}
+    {% endif %}
 </header>
 <section class="destinations-area" style="padding-top:15px; padding-bottom:40px;">
     <div class="container">
@@ -511,45 +514,49 @@
                                                 <input type="hidden" class="form-control" name="adult_years_old{{forloop.counter}}" id="adult_years_old{{forloop.counter}}">
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
-                                            {% if is_lionair == True and is_international == True %}
-                                            <label style="color:red">*</label>
-                                            {% endif %}
-                                            <label>{% trans 'Passport Number' %}</label>
-                                            <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" name="adult_passport_number{{forloop.counter}}" id="adult_passport_number{{forloop.counter}}" placeholder="{% trans 'Passport Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
-                                            {% if is_lionair == True and is_international == True %}
-                                            <label style="color:red">*</label>
-                                            {% endif %}
-                                            <label>{% trans 'Passport Expired Date' %}</label>
-                                            <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control date-picker-passport" style="background:white;" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Passport Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" autocomplete="off" readonly>
-                                                <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
-                                            {% if is_lionair == True and is_international == True %}
-                                            <label style="color:red">*</label>
-                                            {% endif %}
-                                            <label>{% trans 'Country of Issued' %}</label>
-                                            <div class="input-container-search-ticket">
-                                                <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="adult_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('adult_country_of_issued{{forloop.counter}}')" class="nice-select-default">
-                                                        <option value="">{% trans 'Country of Issued' %}</option>
-                                                        {% for country in countries %}
-                                                        <option value="{{country.name}}">{{country.name}}</option>
-                                                        {% endfor %}
-                                                    </select>
+                                        <div class="col-lg-12" style="{% if is_international != True %} display:none; {% else %} display:block {% endif %}">
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    {% if is_lionair == True and is_international == True %}
+                                                    <label style="color:red">*</label>
+                                                    {% endif %}
+                                                    <label>{% trans 'Passport Number' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control" name="adult_passport_number{{forloop.counter}}" id="adult_passport_number{{forloop.counter}}" placeholder="{% trans 'Passport Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                    </div>
                                                 </div>
-                                                <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                <input type="hidden" name="adult_country_of_issued{{forloop.counter}}" id="adult_country_of_issued{{forloop.counter}}" />
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    {% if is_lionair == True and is_international == True %}
+                                                    <label style="color:red">*</label>
+                                                    {% endif %}
+                                                    <label>{% trans 'Passport Expired Date' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Passport Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" autocomplete="off" readonly>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    {% if is_lionair == True and is_international == True %}
+                                                    <label style="color:red">*</label>
+                                                    {% endif %}
+                                                    <label>{% trans 'Country of Issued' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select">
+                                                            <select class="form-control js-example-basic-single" name="adult_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('adult_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                                <option value="">{% trans 'Country of Issued' %}</option>
+                                                                {% for country in countries %}
+                                                                <option value="{{country.name}}">{{country.name}}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                        <input type="hidden" name="adult_country_of_issued{{forloop.counter}}" id="adult_country_of_issued{{forloop.counter}}" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6"></div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
-                                        </div>
+
                                         {% for ff in ff_request %}
                                         <div class="col-lg-6 col-md-6 col-sm-6" id="adult_ff_program_{{counter}}_{{forloop.counter}}">
                                             <label style="color:white">*</label>
@@ -573,6 +580,7 @@
                                             </div>
                                         </div>
                                         {% endfor %}
+
                                         <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden1_{{forloop.counter}}" hidden>
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Contact Email Address' %}</label>
@@ -766,48 +774,54 @@
                                                 <input type="hidden" class="form-control" name="child_years_old{{forloop.counter}}" id="child_years_old{{forloop.counter}}">
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
-                                            {% if is_lionair == True and is_international == True %}
-                                            <label style="color:red">*</label>
-                                            {% endif %}
-                                            <label>{% trans 'Passport Number' %}</label>
-                                            <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" name="child_passport_number{{forloop.counter}}" id="child_passport_number{{forloop.counter}}" placeholder="{% trans 'Passport Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            {% if is_lionair == True and is_international == True %}
-                                            <label style="color:red">*</label>
-                                            {% endif %}
-                                            <label>{% trans 'Passport Expired Date' %}</label>
-                                            <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control date-picker-passport" style="background:white;" name="child_passport_expired_date{{forloop.counter}}" id="child_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Passport Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
-                                                <button type="button" class="primary-delete-date" onclick="delete_expired_date('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            {% if is_lionair == True and is_international == True %}
-                                            <label style="color:red">*</label>
-                                            {% endif %}
-                                            <label>{% trans 'Country of Issued' %}</label>
-                                            <div class="input-container-search-ticket">
-                                                <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="child_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="child_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('child_country_of_issued{{forloop.counter}}')" class="nice-select-default">
-                                                        <option value="">{% trans 'Country of Issued' %}</option>
-                                                        {% for country in countries %}
-                                                        <option value="{{country.name}}">{{country.name}}</option>
-                                                        {% endfor %}
-                                                    </select>
+
+                                        <div class="col-lg-12" style="{% if is_international != True %} display:none; {% else %} display:block {% endif %}">
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    {% if is_lionair == True and is_international == True %}
+                                                    <label style="color:red">*</label>
+                                                    {% endif %}
+                                                    <label>{% trans 'Passport Number' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control" name="child_passport_number{{forloop.counter}}" id="child_passport_number{{forloop.counter}}" placeholder="{% trans 'Passport Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                    </div>
                                                 </div>
-                                                <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                <input type="hidden" name="child_country_of_issued{{forloop.counter}}" id="child_country_of_issued{{forloop.counter}}" />
+                                                <div class="col-lg-6">
+                                                    {% if is_lionair == True and is_international == True %}
+                                                    <label style="color:red">*</label>
+                                                    {% endif %}
+                                                    <label>{% trans 'Passport Expired Date' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="child_passport_expired_date{{forloop.counter}}" id="child_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Passport Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_expired_date('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    {% if is_lionair == True and is_international == True %}
+                                                    <label style="color:red">*</label>
+                                                    {% endif %}
+                                                    <label>{% trans 'Country of Issued' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select">
+                                                            <select class="form-control js-example-basic-single" name="child_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="child_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('child_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                                <option value="">{% trans 'Country of Issued' %}</option>
+                                                                {% for country in countries %}
+                                                                <option value="{{country.name}}">{{country.name}}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                        <input type="hidden" name="child_country_of_issued{{forloop.counter}}" id="child_country_of_issued{{forloop.counter}}" />
+                                                    </div>
+                                                </div>
+                                                {% if is_lionair == True and is_international == True %}
+                                                <span><span style="color:red">* </span>{% trans 'Passport is required for lion air, wings air, or batik air' %}</span>
+                                                {%endif%}
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                </div>
                                             </div>
                                         </div>
-                                        {% if is_lionair == True and is_international == True %}
-                                        <span><span style="color:red">* </span>{% trans 'Passport is required for lion air, wings air, or batik air' %}</span>
-                                        {%endif%}
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
-                                        </div>
+
                                         {% for ff in ff_request %}
                                         <div class="col-lg-6 col-md-6 col-sm-6" id="child_ff_program_{{counter}}_{{forloop.counter}}">
                                             <label style="color:white">*</label>
@@ -831,9 +845,6 @@
                                             </div>
                                         </div>
                                         {% endfor %}
-                                        {% if is_lionair == True and is_international == True %}
-                                        <span><span style="color:red">* </span>{% trans 'Passport is required for lion air, wings air, or batik air' %}</span>
-                                        {%endif%}
                                     </div>
                                 </div>
                             </div>
@@ -991,46 +1002,50 @@
                                                 <input type="text" class="form-control date-picker-birth" name="infant_birth_date{{forloop.counter}}" id="infant_birth_date{{forloop.counter}}" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
-                                            {% if is_lionair == True and is_international == True %}
-                                            <label style="color:red">*</label>
-                                            {% endif %}
-                                            <label>{% trans 'Passport Number' %}</label>
-                                            <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" name="infant_passport_number{{forloop.counter}}" id="infant_passport_number{{forloop.counter}}" placeholder="{% trans 'Passport Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            {% if is_lionair == True and is_international == True %}
-                                            <label style="color:red">*</label>
-                                            {% endif %}
-                                            <label>{% trans 'Passport Expired Date' %}</label>
-                                            <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control date-picker-passport" style="background:white;" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Passport Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
-                                                <button type="button" class="primary-delete-date" onclick="delete_expired_date('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            {% if is_lionair == True and is_international == True %}
-                                            <label style="color:red">*</label>
-                                            {% endif %}
-                                            <label>{% trans 'Country of Issued' %}</label>
-                                            <div class="input-container-search-ticket">
-                                                <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="infant_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="infant_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('infant_country_of_issued{{forloop.counter}}')" class="nice-select-default">
-                                                        <option value="">{% trans 'Country of Issued' %}</option>
-                                                        {% for country in countries %}
-                                                        <option value="{{country.name}}">{{country.name}}</option>
-                                                        {% endfor %}
-                                                    </select>
+                                        <div class="col-lg-12" style="{% if is_international != True %} display:none; {% else %} display:block {% endif %}">
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    {% if is_lionair == True and is_international == True %}
+                                                    <label style="color:red">*</label>
+                                                    {% endif %}
+                                                    <label>{% trans 'Passport Number' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control" name="infant_passport_number{{forloop.counter}}" id="infant_passport_number{{forloop.counter}}" placeholder="{% trans 'Passport Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                    </div>
                                                 </div>
-                                                <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                <input type="hidden" name="infant_country_of_issued{{forloop.counter}}" id="infant_country_of_issued{{forloop.counter}}" />
+                                                <div class="col-lg-6">
+                                                    {% if is_lionair == True and is_international == True %}
+                                                    <label style="color:red">*</label>
+                                                    {% endif %}
+                                                    <label>{% trans 'Passport Expired Date' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Passport Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_expired_date('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    {% if is_lionair == True and is_international == True %}
+                                                    <label style="color:red">*</label>
+                                                    {% endif %}
+                                                    <label>{% trans 'Country of Issued' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select">
+                                                            <select class="form-control js-example-basic-single" name="infant_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="infant_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('infant_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                                <option value="">{% trans 'Country of Issued' %}</option>
+                                                                {% for country in countries %}
+                                                                <option value="{{country.name}}">{{country.name}}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                        <input type="hidden" name="infant_country_of_issued{{forloop.counter}}" id="infant_country_of_issued{{forloop.counter}}" />
+                                                    </div>
+                                                </div>
+                                                {% if is_lionair == True and is_international == True %}
+                                                <span><span style="color:red">* </span>{% trans 'Passport is required for lion air, wings air, or batik air' %}</span>
+                                                {%endif%}
                                             </div>
                                         </div>
-                                        {% if is_lionair == True and is_international == True %}
-                                        <span><span style="color:red">* </span>{% trans 'Passport is required for lion air, wings air, or batik air' %}</span>
-                                        {%endif%}
                                     </div>
                                 </div>
                             </div>
@@ -1140,6 +1155,9 @@
             </div>
         </div>
     </div>
+    {% if username.co_user_login == 'agent_b2c' %}
+    {% include 'tt_website_rodextrip/header_signin_signup.html' %}
+    {% endif %}
 </header>
 <section style="padding:15px 0px 15px 0px; background:#f7f7f7; border-bottom:2px solid #cdcdcd;">
     <div class="container">
@@ -1486,34 +1504,39 @@
                                                         <input type="hidden" class="form-control" name="adult_years_old{{forloop.counter}}" id="adult_years_old{{forloop.counter}}">
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    <label>{% trans 'Passport Number' %}</label>
-                                                    <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" name="adult_passport_number{{forloop.counter}}" id="adult_passport_number{{forloop.counter}}" placeholder="{% trans 'Passport Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+
+                                                <div class="col-lg-12" style="{% if is_international != True %} display:none; {% else %} display:block {% endif %}">
+                                                    <div class="row">
+                                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                                            <label>{% trans 'Passport Number' %}</label>
+                                                            <div class="input-container-search-ticket">
+                                                                <input type="text" class="form-control" name="adult_passport_number{{forloop.counter}}" id="adult_passport_number{{forloop.counter}}" placeholder="{% trans 'Passport Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                                            <label>{% trans 'Passport Expired Date' %}</label>
+                                                            <div class="input-container-search-ticket">
+                                                                <input type="text" style="background:white;" class="form-control date-picker-passport" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Passport Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" autocomplete="off" readonly>
+                                                                <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                                            <label>{% trans 'Country of Issued' %}</label>
+                                                            <div class="input-container-search-ticket">
+                                                                <select class="form-control js-example-basic-single" name="adult_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('adult_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                                    <option value="">{% trans 'Country of Issued' %}</option>
+                                                                    {% for country in countries %}
+                                                                    <option value="{{country.code}}">{{country.name}}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                                <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                                <input type="hidden" name="adult_country_of_issued{{forloop.counter}}" id="adult_country_of_issued{{forloop.counter}}" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-6 col-sm-6"></div>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    <label>{% trans 'Passport Expired Date' %}</label>
-                                                    <div class="input-container-search-ticket">
-                                                        <input type="text" style="background:white;" class="form-control date-picker-passport" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Passport Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" autocomplete="off" readonly>
-                                                        <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    <label>{% trans 'Country of Issued' %}</label>
-                                                    <div class="input-container-search-ticket">
-                                                        <select class="form-control js-example-basic-single" name="adult_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('adult_country_of_issued{{forloop.counter}}')" class="nice-select-default">
-                                                            <option value="">{% trans 'Country of Issued' %}</option>
-                                                            {% for country in countries %}
-                                                            <option value="{{country.code}}">{{country.name}}</option>
-                                                            {% endfor %}
-                                                        </select>
-                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                        <input type="hidden" name="adult_country_of_issued{{forloop.counter}}" id="adult_country_of_issued{{forloop.counter}}" />
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6">
-                                                </div>
+
                                                 {% for ff in ff_request %}
                                                 <div class="col-lg-6 col-md-6 col-sm-6" id="adult_ff_program_{{counter}}_{{forloop.counter}}">
                                                     <label style="color:white">*</label>
@@ -1537,6 +1560,7 @@
                                                     </div>
                                                 </div>
                                                 {% endfor %}
+
                                                 <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden1_{{forloop.counter}}" hidden>
                                                     <label style="color:red">*</label>
                                                     <label>{% trans 'Contact Email Address' %}</label>
@@ -1690,34 +1714,39 @@
                                                         <input type="hidden" class="form-control" name="child_years_old{{forloop.counter}}" id="child_years_old{{forloop.counter}}">
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6">
-                                                    <label>{% trans 'Passport Number' %}</label>
-                                                    <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" name="child_passport_number{{forloop.counter}}" id="child_passport_number{{forloop.counter}}" placeholder="{% trans 'Passport Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+
+                                                <div class="col-lg-12" style="{% if is_international != True %} display:none; {% else %} display:block {% endif %}">
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
+                                                            <label>{% trans 'Passport Number' %}</label>
+                                                            <div class="input-container-search-ticket">
+                                                                <input type="text" class="form-control" name="child_passport_number{{forloop.counter}}" id="child_passport_number{{forloop.counter}}" placeholder="{% trans 'Passport Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <label>{% trans 'Passport Expired Date' %}</label>
+                                                            <div class="input-container-search-ticket">
+                                                                <input type="text" style="background:white;" class="form-control date-picker-passport" name="child_passport_expired_date{{forloop.counter}}" id="child_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Passport Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                                <button type="button" class="primary-delete-date" onclick="delete_expired_date('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <label>{% trans 'Country of Issued' %}</label>
+                                                            <div class="input-container-search-ticket">
+                                                                <select class="form-control js-example-basic-single" name="child_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="child_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('child_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                                    <option value="">{% trans 'Country of Issued' %}</option>
+                                                                    {% for country in countries %}
+                                                                    <option value="{{country.code}}">{{country.name}}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                                <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                                <input type="hidden" name="child_country_of_issued{{forloop.counter}}" id="child_country_of_issued{{forloop.counter}}" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6"></div>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6">
-                                                    <label>{% trans 'Passport Expired Date' %}</label>
-                                                    <div class="input-container-search-ticket">
-                                                        <input type="text" style="background:white;" class="form-control date-picker-passport" name="child_passport_expired_date{{forloop.counter}}" id="child_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Passport Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
-                                                        <button type="button" class="primary-delete-date" onclick="delete_expired_date('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <label>{% trans 'Country of Issued' %}</label>
-                                                    <div class="input-container-search-ticket">
-                                                        <select class="form-control js-example-basic-single" name="child_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="child_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('child_country_of_issued{{forloop.counter}}')" class="nice-select-default">
-                                                            <option value="">{% trans 'Country of Issued' %}</option>
-                                                            {% for country in countries %}
-                                                            <option value="{{country.code}}">{{country.name}}</option>
-                                                            {% endfor %}
-                                                        </select>
-                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                        <input type="hidden" name="child_country_of_issued{{forloop.counter}}" id="child_country_of_issued{{forloop.counter}}" />
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6">
-                                                </div>
+
                                                 {% for ff in ff_request %}
                                                 <div class="col-lg-6 col-md-6 col-sm-6" id="child_ff_program_{{counter}}_{{forloop.counter}}">
                                                     <label style="color:white">*</label>
@@ -1741,9 +1770,6 @@
                                                     </div>
                                                 </div>
                                                 {% endfor %}
-                                                {% if is_lionair == True and is_international == True %}
-                                                <span><span style="color:red">* </span>{% trans 'Passport is required for lion air, wings air, or batik air' %}</span>
-                                                {%endif%}
                                             </div>
                                         </div>
                                     </div>
@@ -1868,30 +1894,36 @@
                                                         <input type="text" style="background:white;" class="form-control date-picker-birth" name="infant_birth_date{{forloop.counter}}" id="infant_birth_date{{forloop.counter}}" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6">
-                                                    <label>{% trans 'Passport Number' %}</label>
-                                                    <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" name="infant_passport_number{{forloop.counter}}" id="infant_passport_number{{forloop.counter}}" placeholder="{% trans 'Passport Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <label>{% trans 'Passport Expired Date' %}</label>
-                                                    <div class="input-container-search-ticket">
-                                                        <input type="text" style="background:white;" class="form-control date-picker-passport" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Passport Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
-                                                        <button type="button" class="primary-delete-date" onclick="delete_expired_date('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <label>{% trans 'Country of Issued' %}</label>
-                                                    <div class="input-container-search-ticket">
-                                                        <select class="form-control js-example-basic-single" name="infant_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="infant_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('infant_country_of_issued{{forloop.counter}}')" class="nice-select-default">
-                                                            <option value="">{% trans 'Country of Issued' %}</option>
-                                                            {% for country in countries %}
-                                                            <option value="{{country.code}}">{{country.name}}</option>
-                                                            {% endfor %}
-                                                        </select>
-                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                        <input type="hidden" name="infant_country_of_issued{{forloop.counter}}" id="infant_country_of_issued{{forloop.counter}}" />
+
+                                                <div class="col-lg-12" style="{% if is_international != True %} display:none; {% else %} display:block {% endif %}">
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
+                                                            <label>{% trans 'Passport Number' %}</label>
+                                                            <div class="input-container-search-ticket">
+                                                                <input type="text" class="form-control" name="infant_passport_number{{forloop.counter}}" id="infant_passport_number{{forloop.counter}}" placeholder="{% trans 'Passport Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <label>{% trans 'Passport Expired Date' %}</label>
+                                                            <div class="input-container-search-ticket">
+                                                                <input type="text" style="background:white;" class="form-control date-picker-passport" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Passport Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                                <button type="button" class="primary-delete-date" onclick="delete_expired_date('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <label>{% trans 'Country of Issued' %}</label>
+                                                            <div class="input-container-search-ticket">
+                                                                <select class="form-control js-example-basic-single" name="infant_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="infant_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('infant_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                                    <option value="">{% trans 'Country of Issued' %}</option>
+                                                                    {% for country in countries %}
+                                                                    <option value="{{country.code}}">{{country.name}}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                                <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                                <input type="hidden" name="infant_country_of_issued{{forloop.counter}}" id="infant_country_of_issued{{forloop.counter}}" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6"></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1986,6 +2018,13 @@
                 <span style="font-size:14px; font-weight:600;">{% trans 'Elapsed Time' %} <span class="count_time" id="elapse_time"> </span></span>
             </div>
             {% include 'tt_website_rodextrip/balance_credit.html' %}
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                {% if username.co_user_login == 'agent_b2c' %}
+                {% include 'tt_website_rodextrip/header_signin_signup.html' %}
+                {% endif %}
+            </div>
         </div>
     </div>
 </header>
@@ -2376,45 +2415,50 @@
                                                 <input type="hidden" class="form-control" name="adult_years_old{{forloop.counter}}" id="adult_years_old{{forloop.counter}}">
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
-                                            {% if is_lionair == True and is_international == True %}
-                                            <label style="color:red">*</label>
-                                            {% endif %}
-                                            <label>{% trans 'Passport Number' %}</label>
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" name="adult_passport_number{{forloop.counter}}" id="adult_passport_number{{forloop.counter}}" placeholder="{% trans 'Passport Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
-                                            {% if is_lionair == True and is_international == True %}
-                                            <label style="color:red">*</label>
-                                            {% endif %}
-                                            <label>{% trans 'Passport Expired Date' %}</label>
-                                            <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control date-picker-passport" style="background:white;" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Passport Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" autocomplete="off" readonly>
-                                                <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
-                                            {% if is_lionair == True and is_international == True %}
-                                            <label style="color:red">*</label>
-                                            {% endif %}
-                                            <label>{% trans 'Country of Issued' %}</label>
-                                            <div class="input-container-search-ticket">
-                                                <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="adult_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('adult_country_of_issued{{forloop.counter}}')" class="nice-select-default">
-                                                        <option value="">{% trans 'Country of Issued' %}</option>
-                                                        {% for country in countries %}
-                                                        <option value="{{country.name}}">{{country.name}}</option>
-                                                        {% endfor %}
-                                                    </select>
+
+                                        <div class="col-lg-12" style="{% if is_international != True %} display:none; {% else %} display:block {% endif %}">
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    {% if is_lionair == True and is_international == True %}
+                                                    <label style="color:red">*</label>
+                                                    {% endif %}
+                                                    <label>{% trans 'Passport Number' %}</label>
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control" name="adult_passport_number{{forloop.counter}}" id="adult_passport_number{{forloop.counter}}" placeholder="{% trans 'Passport Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                    </div>
                                                 </div>
-                                                <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                <input type="hidden" name="adult_country_of_issued{{forloop.counter}}" id="adult_country_of_issued{{forloop.counter}}" />
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    {% if is_lionair == True and is_international == True %}
+                                                    <label style="color:red">*</label>
+                                                    {% endif %}
+                                                    <label>{% trans 'Passport Expired Date' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Passport Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" autocomplete="off" readonly>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    {% if is_lionair == True and is_international == True %}
+                                                    <label style="color:red">*</label>
+                                                    {% endif %}
+                                                    <label>{% trans 'Country of Issued' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select">
+                                                            <select class="form-control js-example-basic-single" name="adult_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('adult_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                                <option value="">{% trans 'Country of Issued' %}</option>
+                                                                {% for country in countries %}
+                                                                <option value="{{country.name}}">{{country.name}}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                        <input type="hidden" name="adult_country_of_issued{{forloop.counter}}" id="adult_country_of_issued{{forloop.counter}}" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6"></div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
-                                        </div>
+
                                         {% for ff in ff_request %}
                                         <div class="col-lg-6 col-md-6 col-sm-6" id="adult_ff_program_{{counter}}_{{forloop.counter}}">
                                             <label style="color:white">*</label>
@@ -2438,6 +2482,7 @@
                                             </div>
                                         </div>
                                         {% endfor %}
+
                                         <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden1_{{forloop.counter}}" hidden>
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Contact Email Address' %}</label>
@@ -2631,45 +2676,52 @@
                                                 <input type="hidden" class="form-control" name="child_years_old{{forloop.counter}}" id="child_years_old{{forloop.counter}}">
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
-                                            {% if is_lionair == True and is_international == True %}
-                                            <label style="color:red">*</label>
-                                            {% endif %}
-                                            <label>{% trans 'Passport Number' %}</label>
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" name="child_passport_number{{forloop.counter}}" id="child_passport_number{{forloop.counter}}" placeholder="{% trans 'Passport Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            {% if is_lionair == True and is_international == True %}
-                                            <label style="color:red">*</label>
-                                            {% endif %}
-                                            <label>{% trans 'Passport Expired Date' %}</label>
-                                            <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control date-picker-passport" style="background:white;" name="child_passport_expired_date{{forloop.counter}}" id="child_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Passport Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
-                                                <button type="button" class="primary-delete-date" onclick="delete_expired_date('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            {% if is_lionair == True and is_international == True %}
-                                            <label style="color:red">*</label>
-                                            {% endif %}
-                                            <label>{% trans 'Country of Issued' %}</label>
-                                            <div class="input-container-search-ticket">
-                                                <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="child_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="child_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('child_country_of_issued{{forloop.counter}}')" class="nice-select-default">
-                                                        <option value="">{% trans 'Country of Issued' %}</option>
-                                                        {% for country in countries %}
-                                                        <option value="{{country.name}}">{{country.name}}</option>
-                                                        {% endfor %}
-                                                    </select>
+
+                                        <div class="col-lg-12" style="{% if is_international != True %} display:none; {% else %} display:block {% endif %}">
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    {% if is_lionair == True and is_international == True %}
+                                                    <label style="color:red">*</label>
+                                                    {% endif %}
+                                                    <label>{% trans 'Passport Number' %}</label>
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control" name="child_passport_number{{forloop.counter}}" id="child_passport_number{{forloop.counter}}" placeholder="{% trans 'Passport Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                    </div>
                                                 </div>
-                                                <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                <input type="hidden" name="child_country_of_issued{{forloop.counter}}" id="child_country_of_issued{{forloop.counter}}" />
+                                                <div class="col-lg-6">
+                                                    {% if is_lionair == True and is_international == True %}
+                                                    <label style="color:red">*</label>
+                                                    {% endif %}
+                                                    <label>{% trans 'Passport Expired Date' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="child_passport_expired_date{{forloop.counter}}" id="child_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Passport Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_expired_date('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    {% if is_lionair == True and is_international == True %}
+                                                    <label style="color:red">*</label>
+                                                    {% endif %}
+                                                    <label>{% trans 'Country of Issued' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select">
+                                                            <select class="form-control js-example-basic-single" name="child_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="child_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('child_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                                <option value="">{% trans 'Country of Issued' %}</option>
+                                                                {% for country in countries %}
+                                                                <option value="{{country.name}}">{{country.name}}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                        <input type="hidden" name="child_country_of_issued{{forloop.counter}}" id="child_country_of_issued{{forloop.counter}}" />
+                                                    </div>
+                                                </div>
+                                                {% if is_lionair == True and is_international == True %}
+                                                <span><span style="color:red">* </span>{% trans 'Passport is required for lion air, wings air, or batik air' %}</span>
+                                                {%endif%}
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
-                                        </div>
+
                                         {% for ff in ff_request %}
                                         <div class="col-lg-6 col-md-6 col-sm-6" id="child_ff_program_{{counter}}_{{forloop.counter}}">
                                             <label style="color:white">*</label>
@@ -2693,9 +2745,7 @@
                                             </div>
                                         </div>
                                         {% endfor %}
-                                        {% if is_lionair == True and is_international == True %}
-                                        <span><span style="color:red">* </span>{% trans 'Passport is required for lion air, wings air, or batik air' %}</span>
-                                        {%endif%}
+
                                     </div>
                                 </div>
                             </div>
@@ -2854,46 +2904,51 @@
                                                 <input type="text" style="background:white;" class="form-control date-picker-birth" name="infant_birth_date{{forloop.counter}}" id="infant_birth_date{{forloop.counter}}" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
-                                            {% if is_lionair == True and is_international == True %}
-                                            <label style="color:red">*</label>
-                                            {% endif %}
-                                            <label>{% trans 'Passport Number' %}</label>
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" name="infant_passport_number{{forloop.counter}}" id="infant_passport_number{{forloop.counter}}" placeholder="{% trans 'Passport Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            {% if is_lionair == True and is_international == True %}
-                                            <label style="color:red">*</label>
-                                            {% endif %}
-                                            <label>{% trans 'Passport Expired Date' %}</label>
-                                            <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control date-picker-passport" style="background:white;" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Passport Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
-                                                <button type="button" class="primary-delete-date" onclick="delete_expired_date('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            {% if is_lionair == True and is_international == True %}
-                                            <label style="color:red">*</label>
-                                            {% endif %}
-                                            <label>{% trans 'Country of Issued' %}</label>
-                                            <div class="input-container-search-ticket">
-                                                <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="infant_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="infant_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('infant_country_of_issued{{forloop.counter}}')" class="nice-select-default">
-                                                        <option value="">{% trans 'Country of Issued' %}</option>
-                                                        {% for country in countries %}
-                                                        <option value="{{country.name}}">{{country.name}}</option>
-                                                        {% endfor %}
-                                                    </select>
+
+                                        <div class="col-lg-12" style="{% if is_international != True %} display:none; {% else %} display:block {% endif %}">
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    {% if is_lionair == True and is_international == True %}
+                                                    <label style="color:red">*</label>
+                                                    {% endif %}
+                                                    <label>{% trans 'Passport Number' %}</label>
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control" name="infant_passport_number{{forloop.counter}}" id="infant_passport_number{{forloop.counter}}" placeholder="{% trans 'Passport Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                    </div>
                                                 </div>
-                                                <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                <input type="hidden" name="infant_country_of_issued{{forloop.counter}}" id="infant_country_of_issued{{forloop.counter}}" />
+                                                <div class="col-lg-6">
+                                                    {% if is_lionair == True and is_international == True %}
+                                                    <label style="color:red">*</label>
+                                                    {% endif %}
+                                                    <label>{% trans 'Passport Expired Date' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Passport Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_expired_date('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    {% if is_lionair == True and is_international == True %}
+                                                    <label style="color:red">*</label>
+                                                    {% endif %}
+                                                    <label>{% trans 'Country of Issued' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select">
+                                                            <select class="form-control js-example-basic-single" name="infant_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="infant_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('infant_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                                <option value="">{% trans 'Country of Issued' %}</option>
+                                                                {% for country in countries %}
+                                                                <option value="{{country.name}}">{{country.name}}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                        <input type="hidden" name="infant_country_of_issued{{forloop.counter}}" id="infant_country_of_issued{{forloop.counter}}" />
+                                                    </div>
+                                                </div>
+                                                {% if is_lionair == True and is_international == True %}
+                                                <span><span style="color:red">* </span>{% trans 'Passport is required for lion air, wings air, or batik air' %}</span>
+                                                {%endif%}
                                             </div>
                                         </div>
-                                        {% if is_lionair == True and is_international == True %}
-                                        <span><span style="color:red">* </span>{% trans 'Passport is required for lion air, wings air, or batik air' %}</span>
-                                        {%endif%}
                                     </div>
                                 </div>
                             </div>
@@ -3006,6 +3061,9 @@
             </div>
         </div>
     </div>
+    {% if username.co_user_login == 'agent_b2c' %}
+    {% include 'tt_website_rodextrip/header_signin_signup.html' %}
+    {% endif %}
 </header>
 <section class="destinations-area" style="padding-top:15px; padding-bottom:40px; background:#f7f7f7;">
     <div class="container">
@@ -3389,45 +3447,49 @@
                                             <input type="hidden" class="form-control" name="adult_years_old{{forloop.counter}}" id="adult_years_old{{forloop.counter}}">
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6">
-                                        {% if is_lionair == True and is_international == True %}
-                                        <label style="color:red">*</label>
-                                        {% endif %}
-                                        <label>{% trans 'Passport Number' %}</label>
-                                        <div class="input-container-search-ticket">
-                                            <input type="text" class="form-control" name="adult_passport_number{{forloop.counter}}" id="adult_passport_number{{forloop.counter}}" placeholder="{% trans 'Passport Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6">
-                                        {% if is_lionair == True and is_international == True %}
-                                        <label style="color:red">*</label>
-                                        {% endif %}
-                                        <label>{% trans 'Passport Expired Date' %}</label>
-                                        <div class="input-container-search-ticket">
-                                            <input type="text" class="form-control date-picker-passport" style="background:white;" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Passport Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" autocomplete="off" readonly>
-                                            <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6">
-                                        {% if is_lionair == True and is_international == True %}
-                                        <label style="color:red">*</label>
-                                        {% endif %}
-                                        <label>{% trans 'Country of Issued' %}</label>
-                                        <div class="input-container-search-ticket">
-                                            <div class="form-select">
-                                                <select class="form-control js-example-basic-single" name="adult_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('adult_country_of_issued{{forloop.counter}}')" class="nice-select-default">
-                                                    <option value="">{% trans 'Country of Issued' %}</option>
-                                                    {% for country in countries %}
-                                                    <option value="{{country.name}}">{{country.name}}</option>
-                                                    {% endfor %}
-                                                </select>
+
+                                    <div class="col-lg-12" style="{% if is_international != True %} display:none; {% else %} display:block {% endif %}">
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                {% if is_lionair == True and is_international == True %}
+                                                <label style="color:red">*</label>
+                                                {% endif %}
+                                                <label>{% trans 'Passport Number' %}</label>
+                                                <div class="input-container-search-ticket">
+                                                    <input type="text" class="form-control" name="adult_passport_number{{forloop.counter}}" id="adult_passport_number{{forloop.counter}}" placeholder="{% trans 'Passport Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                </div>
                                             </div>
-                                            <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                            <input type="hidden" name="adult_country_of_issued{{forloop.counter}}" id="adult_country_of_issued{{forloop.counter}}" />
+                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                {% if is_lionair == True and is_international == True %}
+                                                <label style="color:red">*</label>
+                                                {% endif %}
+                                                <label>{% trans 'Passport Expired Date' %}</label>
+                                                <div class="input-container-search-ticket">
+                                                    <input type="text" class="form-control date-picker-passport" style="background:white;" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Passport Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" autocomplete="off" readonly>
+                                                    <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                {% if is_lionair == True and is_international == True %}
+                                                <label style="color:red">*</label>
+                                                {% endif %}
+                                                <label>{% trans 'Country of Issued' %}</label>
+                                                <div class="input-container-search-ticket">
+                                                    <div class="form-select">
+                                                        <select class="form-control js-example-basic-single" name="adult_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('adult_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                            <option value="">{% trans 'Country of Issued' %}</option>
+                                                            {% for country in countries %}
+                                                            <option value="{{country.name}}">{{country.name}}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                    <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                    <input type="hidden" name="adult_country_of_issued{{forloop.counter}}" id="adult_country_of_issued{{forloop.counter}}" />
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6">
-                                    </div>
+
                                     {% for ff in ff_request %}
                                     <div class="col-lg-6 col-md-6 col-sm-6" id="adult_ff_program_{{counter}}_{{forloop.counter}}">
                                         <label style="color:white">*</label>
@@ -3451,6 +3513,7 @@
                                         </div>
                                     </div>
                                     {% endfor %}
+
                                     <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden1_{{forloop.counter}}" hidden>
                                         <label style="color:red">*</label>
                                         <label>{% trans 'Contact Email Address' %}</label>
@@ -3642,71 +3705,76 @@
                                             <input type="hidden" class="form-control" name="child_years_old{{forloop.counter}}" id="child_years_old{{forloop.counter}}">
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
-                                        {% if is_lionair == True and is_international == True %}
-                                        <label style="color:red">*</label>
-                                        {% endif %}
-                                        <label>{% trans 'Passport Number' %}</label>
-                                        <div class="input-container-search-ticket">
-                                            <input type="text" class="form-control" name="child_passport_number{{forloop.counter}}" id="child_passport_number{{forloop.counter}}" placeholder="{% trans 'Passport Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+
+                                    <div class="col-lg-12" style="{% if is_international != True %} display:none; {% else %} display:block {% endif %}">
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                {% if is_lionair == True and is_international == True %}
+                                                <label style="color:red">*</label>
+                                                {% endif %}
+                                                <label>{% trans 'Passport Number' %}</label>
+                                                <div class="input-container-search-ticket">
+                                                    <input type="text" class="form-control" name="child_passport_number{{forloop.counter}}" id="child_passport_number{{forloop.counter}}" placeholder="{% trans 'Passport Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                {% if is_lionair == True and is_international == True %}
+                                                <label style="color:red">*</label>
+                                                {% endif %}
+                                                <label>{% trans 'Passport Expired Date' %}</label>
+                                                <div class="input-container-search-ticket">
+                                                    <input type="text" class="form-control date-picker-passport" style="background:white;" name="child_passport_expired_date{{forloop.counter}}" id="child_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Passport Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                    <button type="button" class="primary-delete-date" onclick="delete_expired_date('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                {% if is_lionair == True and is_international == True %}
+                                                <label style="color:red">*</label>
+                                                {% endif %}
+                                                <label>{% trans 'Country of Issued' %}</label>
+                                                <div class="input-container-search-ticket">
+                                                    <div class="form-select">
+                                                        <select class="form-control js-example-basic-single" name="child_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="child_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('child_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                            <option value="">{% trans 'Country of Issued' %}</option>
+                                                            {% for country in countries %}
+                                                            <option value="{{country.name}}">{{country.name}}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                    <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                    <input type="hidden" name="child_country_of_issued{{forloop.counter}}" id="child_country_of_issued{{forloop.counter}}" />
+                                                </div>
+                                            </div>
+                                            {% if is_lionair == True and is_international == True %}
+                                            <span><span style="color:red">* </span>{% trans 'Passport is required for lion air, wings air, or batik air' %}</span>
+                                            {%endif%}
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
-                                        {% if is_lionair == True and is_international == True %}
-                                        <label style="color:red">*</label>
-                                        {% endif %}
-                                        <label>{% trans 'Passport Expired Date' %}</label>
-                                        <div class="input-container-search-ticket">
-                                            <input type="text" class="form-control date-picker-passport" style="background:white;" name="child_passport_expired_date{{forloop.counter}}" id="child_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Passport Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
-                                            <button type="button" class="primary-delete-date" onclick="delete_expired_date('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        {% if is_lionair == True and is_international == True %}
-                                        <label style="color:red">*</label>
-                                        {% endif %}
-                                        <label>{% trans 'Country of Issued' %}</label>
+
+                                    {% for ff in ff_request %}
+                                    <div class="col-lg-6 col-md-6 col-sm-6" id="child_ff_program_{{counter}}_{{forloop.counter}}">
+                                        <label style="color:white">*</label>
+                                        <label>{% trans 'Frequent Flyer Program Journey' %} {{forloop.counter}}</label>
                                         <div class="input-container-search-ticket">
                                             <div class="form-select">
-                                                <select class="form-control js-example-basic-single" name="child_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="child_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('child_country_of_issued{{forloop.counter}}')" class="nice-select-default">
-                                                    <option value="">{% trans 'Country of Issued' %}</option>
-                                                    {% for country in countries %}
-                                                    <option value="{{country.name}}">{{country.name}}</option>
+                                                <select class="form-control js-example-basic-single" name="child_ff_request{{counter}}_{{forloop.counter}}_id" style="width:100%;" id="chi;d_ff_request{{counter}}_{{forloop.counter}}_id" onchange="auto_complete('child_ff_request{{counter}}_{{forloop.counter}}')" class="nice-select-default">
+                                                    <option value="">{% trans 'Frequent Flyer Program' %}</option>
+                                                    {% for ff_program in ff.ff_availability %}
+                                                    <option value="{{ff_program.code}}">{{ff_program.name}}</option>
                                                     {% endfor %}
                                                 </select>
                                             </div>
-                                            <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                            <input type="hidden" name="child_country_of_issued{{forloop.counter}}" id="child_country_of_issued{{forloop.counter}}" />
+                                            <input type="hidden" name="child_ff_request{{counter}}_{{forloop.counter}}" id="child_ff_request{{counter}}_{{forloop.counter}}" />
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <div class="col-lg-6 col-md-6 col-sm-6" id="child_ff_value_{{counter}}_{{forloop.counter}}">
+                                        <label>{% trans 'Frequent Flyer Number' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" class="form-control" name="child_ff_number{{counter}}_{{forloop.counter}}" id="child_ff_number{{counter}}_{{forloop.counter}}" placeholder="{% trans 'Frequent Flyer Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Frequent Flyer Number '">
                                         </div>
-                                        {% for ff in ff_request %}
-                                        <div class="col-lg-6 col-md-6 col-sm-6" id="child_ff_program_{{counter}}_{{forloop.counter}}">
-                                            <label style="color:white">*</label>
-                                            <label>{% trans 'Frequent Flyer Program Journey' %} {{forloop.counter}}</label>
-                                            <div class="input-container-search-ticket">
-                                                <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="child_ff_request{{counter}}_{{forloop.counter}}_id" style="width:100%;" id="chi;d_ff_request{{counter}}_{{forloop.counter}}_id" onchange="auto_complete('child_ff_request{{counter}}_{{forloop.counter}}')" class="nice-select-default">
-                                                        <option value="">{% trans 'Frequent Flyer Program' %}</option>
-                                                        {% for ff_program in ff.ff_availability %}
-                                                        <option value="{{ff_program.code}}">{{ff_program.name}}</option>
-                                                        {% endfor %}
-                                                    </select>
-                                                </div>
-                                                <input type="hidden" name="child_ff_request{{counter}}_{{forloop.counter}}" id="child_ff_request{{counter}}_{{forloop.counter}}" />
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6" id="child_ff_value_{{counter}}_{{forloop.counter}}">
-                                            <label>{% trans 'Frequent Flyer Number' %}</label>
-                                            <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" name="child_ff_number{{counter}}_{{forloop.counter}}" id="child_ff_number{{counter}}_{{forloop.counter}}" placeholder="{% trans 'Frequent Flyer Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Frequent Flyer Number '">
-                                            </div>
-                                        </div>
-                                        {% endfor %}
-                                    {% if is_lionair == True and is_international == True %}
-                                    <span><span style="color:red">* </span>{% trans 'Passport is required for lion air, wings air, or batik air' %}</span>
-                                    {%endif%}
+                                    </div>
+                                    {% endfor %}
+
                                 </div>
                             </div>
                         </div>
@@ -3863,46 +3931,51 @@
                                             <input type="text" style="background:white;" class="form-control date-picker-birth" name="infant_birth_date{{forloop.counter}}" id="infant_birth_date{{forloop.counter}}" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
-                                        {% if is_lionair == True and is_international == True %}
-                                        <label style="color:red">*</label>
-                                        {% endif %}
-                                        <label>{% trans 'Passport Number' %}</label>
-                                        <div class="input-container-search-ticket">
-                                            <input type="text" class="form-control" name="infant_passport_number{{forloop.counter}}" id="infant_passport_number{{forloop.counter}}" placeholder="{% trans 'Passport Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        {% if is_lionair == True and is_international == True %}
-                                        <label style="color:red">*</label>
-                                        {% endif %}
-                                        <label>{% trans 'Passport Expired Date' %}</label>
-                                        <div class="input-container-search-ticket">
-                                            <input type="text" class="form-control date-picker-passport" style="background:white;" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Passport Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
-                                            <button type="button" class="primary-delete-date" onclick="delete_expired_date('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        {% if is_lionair == True and is_international == True %}
-                                        <label style="color:red">*</label>
-                                        {% endif %}
-                                        <label>{% trans 'Country of Issued' %}</label>
-                                        <div class="input-container-search-ticket">
-                                            <div class="form-select">
-                                                <select class="form-control js-example-basic-single" name="infant_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="infant_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('infant_country_of_issued{{forloop.counter}}')" class="nice-select-default">
-                                                    <option value="">{% trans 'Country of Issued' %}</option>
-                                                    {% for country in countries %}
-                                                    <option value="{{country.name}}">{{country.name}}</option>
-                                                    {% endfor %}
-                                                </select>
+
+                                    <div class="col-lg-12" style="{% if is_international != True %} display:none; {% else %} display:block {% endif %}">
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                {% if is_lionair == True and is_international == True %}
+                                                <label style="color:red">*</label>
+                                                {% endif %}
+                                                <label>{% trans 'Passport Number' %}</label>
+                                                <div class="input-container-search-ticket">
+                                                    <input type="text" class="form-control" name="infant_passport_number{{forloop.counter}}" id="infant_passport_number{{forloop.counter}}" placeholder="{% trans 'Passport Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                </div>
                                             </div>
-                                            <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                            <input type="hidden" name="infant_country_of_issued{{forloop.counter}}" id="infant_country_of_issued{{forloop.counter}}" />
+                                            <div class="col-lg-6">
+                                                {% if is_lionair == True and is_international == True %}
+                                                <label style="color:red">*</label>
+                                                {% endif %}
+                                                <label>{% trans 'Passport Expired Date' %}</label>
+                                                <div class="input-container-search-ticket">
+                                                    <input type="text" class="form-control date-picker-passport" style="background:white;" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Passport Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                    <button type="button" class="primary-delete-date" onclick="delete_expired_date('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                {% if is_lionair == True and is_international == True %}
+                                                <label style="color:red">*</label>
+                                                {% endif %}
+                                                <label>{% trans 'Country of Issued' %}</label>
+                                                <div class="input-container-search-ticket">
+                                                    <div class="form-select">
+                                                        <select class="form-control js-example-basic-single" name="infant_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="infant_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('infant_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                            <option value="">{% trans 'Country of Issued' %}</option>
+                                                            {% for country in countries %}
+                                                            <option value="{{country.name}}">{{country.name}}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                    <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                    <input type="hidden" name="infant_country_of_issued{{forloop.counter}}" id="infant_country_of_issued{{forloop.counter}}" />
+                                                </div>
+                                            </div>
+                                            {% if is_lionair == True and is_international == True %}
+                                            <span><span style="color:red">* </span>{% trans 'Passport is required for lion air, wings air, or batik air' %}</span>
+                                            {%endif%}
                                         </div>
                                     </div>
-                                    {% if is_lionair == True and is_international == True %}
-                                    <span><span style="color:red">* </span>{% trans 'Passport is required for lion air, wings air, or batik air' %}</span>
-                                    {%endif%}
                                 </div>
                             </div>
                         </div>
@@ -4022,6 +4095,13 @@
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px">
                 <span style="font-size:14px; font-weight:600;">{% trans 'Elapsed Time' %} <span class="count_time" id="elapse_time"> </span></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                {% if username.co_user_login == 'agent_b2c' %}
+                {% include 'tt_website_rodextrip/header_signin_signup.html' %}
+                {% endif %}
             </div>
         </div>
     </div>
@@ -4407,45 +4487,49 @@
                                                 <input type="hidden" class="form-control" name="adult_years_old{{forloop.counter}}" id="adult_years_old{{forloop.counter}}">
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
-                                            {% if is_lionair == True and is_international == True %}
-                                            <label style="color:red">*</label>
-                                            {% endif %}
-                                            <label>{% trans 'Passport Number' %}</label>
-                                            <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" name="adult_passport_number{{forloop.counter}}" id="adult_passport_number{{forloop.counter}}" placeholder="{% trans 'Passport Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
-                                            {% if is_lionair == True and is_international == True %}
-                                            <label style="color:red">*</label>
-                                            {% endif %}
-                                            <label>{% trans 'Passport Expired Date' %}</label>
-                                            <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control date-picker-passport" style="background:white;" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Passport Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" autocomplete="off" readonly>
-                                                <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
-                                            {% if is_lionair == True and is_international == True %}
-                                            <label style="color:red">*</label>
-                                            {% endif %}
-                                            <label>{% trans 'Country of Issued' %}</label>
-                                            <div class="input-container-search-ticket">
-                                                <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="adult_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('adult_country_of_issued{{forloop.counter}}')" class="nice-select-default">
-                                                        <option value="">{% trans 'Country of Issued' %}</option>
-                                                        {% for country in countries %}
-                                                        <option value="{{country.name}}">{{country.name}}</option>
-                                                        {% endfor %}
-                                                    </select>
+
+                                        <div class="col-lg-12" style="{% if is_international != True %} display:none; {% else %} display:block {% endif %}">
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    {% if is_lionair == True and is_international == True %}
+                                                    <label style="color:red">*</label>
+                                                    {% endif %}
+                                                    <label>{% trans 'Passport Number' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control" name="adult_passport_number{{forloop.counter}}" id="adult_passport_number{{forloop.counter}}" placeholder="{% trans 'Passport Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                    </div>
                                                 </div>
-                                                <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                <input type="hidden" name="adult_country_of_issued{{forloop.counter}}" id="adult_country_of_issued{{forloop.counter}}" />
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    {% if is_lionair == True and is_international == True %}
+                                                    <label style="color:red">*</label>
+                                                    {% endif %}
+                                                    <label>{% trans 'Passport Expired Date' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Passport Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" autocomplete="off" readonly>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    {% if is_lionair == True and is_international == True %}
+                                                    <label style="color:red">*</label>
+                                                    {% endif %}
+                                                    <label>{% trans 'Country of Issued' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select">
+                                                            <select class="form-control js-example-basic-single" name="adult_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('adult_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                                <option value="">{% trans 'Country of Issued' %}</option>
+                                                                {% for country in countries %}
+                                                                <option value="{{country.name}}">{{country.name}}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                        <input type="hidden" name="adult_country_of_issued{{forloop.counter}}" id="adult_country_of_issued{{forloop.counter}}" />
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
-                                        </div>
+
                                         {% for ff in ff_request %}
                                         <div class="col-lg-6 col-md-6 col-sm-6" id="adult_ff_program_{{counter}}_{{forloop.counter}}">
                                             <label style="color:white">*</label>
@@ -4469,6 +4553,7 @@
                                             </div>
                                         </div>
                                         {% endfor %}
+
                                         <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden1_{{forloop.counter}}" hidden>
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Contact Email Address' %}</label>
@@ -4660,71 +4745,51 @@
                                                 <input type="hidden" class="form-control" name="child_years_old{{forloop.counter}}" id="child_years_old{{forloop.counter}}">
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
-                                            {% if is_lionair == True and is_international == True %}
-                                            <label style="color:red">*</label>
-                                            {% endif %}
-                                            <label>{% trans 'Passport Number' %}</label>
-                                            <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" name="child_passport_number{{forloop.counter}}" id="child_passport_number{{forloop.counter}}" placeholder="{% trans 'Passport Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            {% if is_lionair == True and is_international == True %}
-                                            <label style="color:red">*</label>
-                                            {% endif %}
-                                            <label>{% trans 'Passport Expired Date' %}</label>
-                                            <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control date-picker-passport" style="background:white;" name="child_passport_expired_date{{forloop.counter}}" id="child_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Passport Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
-                                                <button type="button" class="primary-delete-date" onclick="delete_expired_date('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            {% if is_lionair == True and is_international == True %}
-                                            <label style="color:red">*</label>
-                                            {% endif %}
-                                            <label>{% trans 'Country of Issued' %}</label>
-                                            <div class="input-container-search-ticket">
-                                                <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="child_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="child_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('child_country_of_issued{{forloop.counter}}')" class="nice-select-default">
-                                                        <option value="">{% trans 'Country of Issued' %}</option>
-                                                        {% for country in countries %}
-                                                        <option value="{{country.name}}">{{country.name}}</option>
-                                                        {% endfor %}
-                                                    </select>
+
+                                        <div class="col-lg-12" style="{% if is_international != True %} display:none; {% else %} display:block {% endif %}">
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    {% if is_lionair == True and is_international == True %}
+                                                    <label style="color:red">*</label>
+                                                    {% endif %}
+                                                    <label>{% trans 'Passport Number' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control" name="child_passport_number{{forloop.counter}}" id="child_passport_number{{forloop.counter}}" placeholder="{% trans 'Passport Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                    </div>
                                                 </div>
-                                                <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                <input type="hidden" name="child_country_of_issued{{forloop.counter}}" id="child_country_of_issued{{forloop.counter}}" />
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
-                                        </div>
-                                        {% for ff in ff_request %}
-                                        <div class="col-lg-6 col-md-6 col-sm-6" id="child_ff_program_{{counter}}_{{forloop.counter}}">
-                                            <label style="color:white">*</label>
-                                            <label>{% trans 'Frequent Flyer Program Journey' %} {{forloop.counter}}</label>
-                                            <div class="input-container-search-ticket">
-                                                <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="child_ff_request{{counter}}_{{forloop.counter}}_id" style="width:100%;" id="chi;d_ff_request{{counter}}_{{forloop.counter}}_id" onchange="auto_complete('child_ff_request{{counter}}_{{forloop.counter}}')" class="nice-select-default">
-                                                        <option value="">{% trans 'Frequent Flyer Program' %}</option>
-                                                        {% for ff_program in ff.ff_availability %}
-                                                        <option value="{{ff_program.code}}">{{ff_program.name}}</option>
-                                                        {% endfor %}
-                                                    </select>
+                                                <div class="col-lg-6">
+                                                    {% if is_lionair == True and is_international == True %}
+                                                    <label style="color:red">*</label>
+                                                    {% endif %}
+                                                    <label>{% trans 'Passport Expired Date' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="child_passport_expired_date{{forloop.counter}}" id="child_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Passport Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_expired_date('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                    </div>
                                                 </div>
-                                                <input type="hidden" name="child_ff_request{{counter}}_{{forloop.counter}}" id="child_ff_request{{counter}}_{{forloop.counter}}" />
+                                                <div class="col-lg-6">
+                                                    {% if is_lionair == True and is_international == True %}
+                                                    <label style="color:red">*</label>
+                                                    {% endif %}
+                                                    <label>{% trans 'Country of Issued' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select">
+                                                            <select class="form-control js-example-basic-single" name="child_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="child_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('child_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                                <option value="">{% trans 'Country of Issued' %}</option>
+                                                                {% for country in countries %}
+                                                                <option value="{{country.name}}">{{country.name}}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                        <input type="hidden" name="child_country_of_issued{{forloop.counter}}" id="child_country_of_issued{{forloop.counter}}" />
+                                                    </div>
+                                                </div>
+                                                {% if is_lionair == True and is_international == True %}
+                                                <span><span style="color:red">* </span>{% trans 'Passport is required for lion air, wings air, or batik air' %}</span>
+                                                {%endif%}
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6" id="child_ff_value_{{counter}}_{{forloop.counter}}">
-                                            <label>{% trans 'Frequent Flyer Number' %}</label>
-                                            <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" name="child_ff_number{{counter}}_{{forloop.counter}}" id="child_ff_number{{counter}}_{{forloop.counter}}" placeholder="{% trans 'Frequent Flyer Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Frequent Flyer Number '">
-                                            </div>
-                                        </div>
-                                        {% endfor %}
-                                        {% if is_lionair == True and is_international == True %}
-                                        <span><span style="color:red">* </span>{% trans 'Passport is required for lion air, wings air, or batik air' %}</span>
-                                        {%endif%}
                                     </div>
                                 </div>
                             </div>
@@ -4881,46 +4946,75 @@
                                                 <input type="text" style="background:white;" class="form-control date-picker-birth" name="infant_birth_date{{forloop.counter}}" id="infant_birth_date{{forloop.counter}}" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
-                                            {% if is_lionair == True and is_international == True %}
-                                            <label style="color:red">*</label>
-                                            {% endif %}
-                                            <label>{% trans 'Passport Number' %}</label>
-                                            <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" name="infant_passport_number{{forloop.counter}}" id="infant_passport_number{{forloop.counter}}" placeholder="{% trans 'Passport Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+
+                                        <div class="col-lg-12" style="{% if is_international != True %} display:none; {% else %} display:block {% endif %}">
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    {% if is_lionair == True and is_international == True %}
+                                                    <label style="color:red">*</label>
+                                                    {% endif %}
+                                                    <label>{% trans 'Passport Number' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control" name="infant_passport_number{{forloop.counter}}" id="infant_passport_number{{forloop.counter}}" placeholder="{% trans 'Passport Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    {% if is_lionair == True and is_international == True %}
+                                                    <label style="color:red">*</label>
+                                                    {% endif %}
+                                                    <label>{% trans 'Passport Expired Date' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Passport Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_expired_date('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    {% if is_lionair == True and is_international == True %}
+                                                    <label style="color:red">*</label>
+                                                    {% endif %}
+                                                    <label>{% trans 'Country of Issued' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select">
+                                                            <select class="form-control js-example-basic-single" name="infant_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="infant_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('infant_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                                <option value="">{% trans 'Country of Issued' %}</option>
+                                                                {% for country in countries %}
+                                                                <option value="{{country.name}}">{{country.name}}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                        <input type="hidden" name="infant_country_of_issued{{forloop.counter}}" id="infant_country_of_issued{{forloop.counter}}" />
+                                                    </div>
+                                                </div>
+                                                {% if is_lionair == True and is_international == True %}
+                                                <span><span style="color:red">* </span>{% trans 'Passport is required for lion air, wings air, or batik air' %}</span>
+                                                {%endif%}
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
-                                            {% if is_lionair == True and is_international == True %}
-                                            <label style="color:red">*</label>
-                                            {% endif %}
-                                            <label>{% trans 'Passport Expired Date' %}</label>
-                                            <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control date-picker-passport" style="background:white;" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Passport Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
-                                                <button type="button" class="primary-delete-date" onclick="delete_expired_date('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            {% if is_lionair == True and is_international == True %}
-                                            <label style="color:red">*</label>
-                                            {% endif %}
-                                            <label>{% trans 'Country of Issued' %}</label>
+
+                                        {% for ff in ff_request %}
+                                        <div class="col-lg-6 col-md-6 col-sm-6" id="child_ff_program_{{counter}}_{{forloop.counter}}">
+                                            <label style="color:white">*</label>
+                                            <label>{% trans 'Frequent Flyer Program Journey' %} {{forloop.counter}}</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="infant_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="infant_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('infant_country_of_issued{{forloop.counter}}')" class="nice-select-default">
-                                                        <option value="">{% trans 'Country of Issued' %}</option>
-                                                        {% for country in countries %}
-                                                        <option value="{{country.name}}">{{country.name}}</option>
+                                                    <select class="form-control js-example-basic-single" name="child_ff_request{{counter}}_{{forloop.counter}}_id" style="width:100%;" id="chi;d_ff_request{{counter}}_{{forloop.counter}}_id" onchange="auto_complete('child_ff_request{{counter}}_{{forloop.counter}}')" class="nice-select-default">
+                                                        <option value="">{% trans 'Frequent Flyer Program' %}</option>
+                                                        {% for ff_program in ff.ff_availability %}
+                                                        <option value="{{ff_program.code}}">{{ff_program.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
-                                                <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                <input type="hidden" name="infant_country_of_issued{{forloop.counter}}" id="infant_country_of_issued{{forloop.counter}}" />
+                                                <input type="hidden" name="child_ff_request{{counter}}_{{forloop.counter}}" id="child_ff_request{{counter}}_{{forloop.counter}}" />
                                             </div>
                                         </div>
-                                        {% if is_lionair == True and is_international == True %}
-                                        <span><span style="color:red">* </span>{% trans 'Passport is required for lion air, wings air, or batik air' %}</span>
-                                        {%endif%}
+                                        <div class="col-lg-6 col-md-6 col-sm-6" id="child_ff_value_{{counter}}_{{forloop.counter}}">
+                                            <label>{% trans 'Frequent Flyer Number' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control" name="child_ff_number{{counter}}_{{forloop.counter}}" id="child_ff_number{{counter}}_{{forloop.counter}}" placeholder="{% trans 'Frequent Flyer Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Frequent Flyer Number '">
+                                            </div>
+                                        </div>
+                                        {% endfor %}
                                     </div>
                                 </div>
                             </div>
@@ -5000,6 +5094,10 @@
         </div>
     </div>
 </section>
+{% endif %}
+
+{% if username.co_user_login == 'agent_b2c' %}
+{% include 'tt_website_rodextrip/modal_signin_signup.html' %}
 {% endif %}
 
 <script>

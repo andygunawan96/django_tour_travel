@@ -959,14 +959,16 @@ function sort(response, check_filter){
                                         }
                                         text+=`<span class="price_hotel" hidden>Waiting price</span>`;
                                     }
-                                    text += `
+                                    var total_room = document.getElementById("hotel_room").value;
+                                    var total_night = document.getElementById("total_night_search").textContent;
+                                    text+=`
+                                    <div class="col-lg-12">
+                                        <span class="carrier_code_template">( for `+total_room+` room, `+total_night+` night )</span>
+                                    </div>`;
 
+                                    text += `
                                     </div>
                                     <div class="col-lg-12 search_hotel_button" style="text-align:right; position:absolute; bottom:0px; right:0px;">`;
-                                        var total_room = document.getElementById("hotel_room").value;
-                                        var total_night = document.getElementById("total_night_search").textContent;
-                                        text+=`
-                                        <span class="carrier_code_template">( for `+total_room+` room, `+total_night+` night )</span>`;
                                         try{
                                             if(arr.length != 0)
                                                 text+=`<button type="button" class="primary-btn-custom" style="width:100%;" onclick="goto_detail('hotel',`+i+`)">Select</button>`;
@@ -1371,7 +1373,7 @@ function hotel_cancellation_button(key, price_id){
 
 }
 
-function hotel_room_pick(key){
+function hotel_room_pick(key, key2){
     document.getElementById('hotel_detail_table').innerHTML = '';
     $text2 = "";
     $text_share2 = "";
@@ -1393,19 +1395,27 @@ function hotel_room_pick(key){
     $text2 += 'Address: '+ get_address_hotel +'\n';
     $text2 += get_date_hotel +'\n\n';
     total_price_hotel = 0;
+    room_name = document.getElementById("name_room_htl"+key2).value;
+
+    text += `<h5 class="mb-2">`+room_name+`</h5>`;
+    text += '<h6>Cancellation: </h6><div id="cancellation_policy_choose" class="mb-3">';
+    text += '<span style="font-size:14px; font-weight:500;">PLEASE WAIT ... </span>';
+    text += '</div>';
+
+    text += `<div>
+        <center><h6 style="color:`+color+`; display:block; cursor:pointer;" id="price_detail_hotel_down" onclick="show_hide_div('price_detail_hotel');">See Detail <i class="fas fa-chevron-down" style="font-size:14px;"></i></h6></center>
+    </div>`;
+    text += `<div id="price_detail_hotel_div" style="display:none;">`;
     for(i in hotel_room.rooms){
-        text += '<h5>'+ hotel_room.rooms[i].description + '</h5>';
+        text += '<h6><span style="color:' +color+ ';">Room #'+ (parseInt(i)+1) + ' </span>'+ hotel_room.rooms[i].description + '</h6>';
         //text += '<span> '+ hotel_room.rooms[i].category + '<span><br/>';
-        text += '<span>Qty: '+ hotel_room.rooms[i].qty + '<span><br/>';
-        text += '<span>Meal Type: ' + hotel_room.meal_type +'</span/><br/><br/>';
+        //text += '<span>Qty: '+ hotel_room.rooms[i].qty + '<span><br/>';
+        text += '<b>Meal Type: ' + hotel_room.meal_type +'</b/><br/>';
         //text += '<span style="font-weight:500; padding-top:10px;">Cancellation Policy: </span>';
-        text += '<div id="cancellation_policy_choose">';
-        text += '<span style="font-size:14px; font-weight:500;">PLEASE WAIT ... </span>';
-        text += '</div><br/>';
 
         //$text2 += 'Room Category: '+ hotel_room.rooms[i].category +'\n';
-        $text2 += hotel_room.rooms[i].description +'\n';
-        $text2 += hotel_room.rooms[i].qty +' room(s) \n';
+        $text2 += 'Room #' + (parseInt(i)+1) + ' ' + hotel_room.rooms[i].description +'\n';
+        //$text2 += hotel_room.rooms[i].qty +' room(s) \n';
         $text2 += 'Meal Type: '+ hotel_room.meal_type +'\n \n';
 
         response = hotel_get_cancellation_policy(hotel_room.price_code, key, '0');
@@ -1419,7 +1429,6 @@ function hotel_room_pick(key){
         var total_room = document.getElementById("hotel_room").value;
         var total_night = document.getElementById("total_night_search").textContent;
 
-        text += `<div class="col-lg-12"><hr/></div>`;
         text += `<div class="col-lg-6">
             <span style="font-weight:bold;">Total</span>
         </div>
@@ -1427,6 +1436,7 @@ function hotel_room_pick(key){
             <span style="font-weight:bold;">IDR `+ getrupiah(hotel_room.rooms[i].price_total) +`</span><br/>
             <span style="font-weight:500;">(for 1 room, `+total_night+` night)</span>
         </div>`;
+        text += `<div class="col-lg-12"><hr/></div>`;
         if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
             text+=`
             <div class="col-lg-12" style="text-align:center; display:none;" id="show_commission_hotel">
@@ -1439,6 +1449,12 @@ function hotel_room_pick(key){
         $text2 += 'Total: IDR '+getrupiah(hotel_room.rooms[i].price_total) + ' ';
         $text2 += '(for 1 room, ' +total_night+ 'night) \n\n';
     }
+    text += `</div>`;
+
+    text += `<div>
+        <center><h6 style="color:`+color+`; display:none; cursor:pointer;" id="price_detail_hotel_up" onclick="show_hide_div('price_detail_hotel');">Close Detail <i class="fas fa-chevron-up" style="font-size:14px;"></i></h6></center>
+    </div>`;
+
     $text2 += 'Grand Total: IDR '+getrupiah(total_price_hotel)+'(for '+total_room+' room, ' +total_night+ 'night) \n\n';
     text += `<hr/>`;
     text += `<div class="row">`;
@@ -1456,6 +1472,11 @@ function hotel_room_pick(key){
     document.getElementById('button'+key).classList.add("primary-btn-custom-un");
 
     document.getElementById('hotel_detail_table').innerHTML = text;
+
+    $('html, body').animate({
+        scrollTop: $("#price_detail_div").offset().top - 100
+    }, 500);
+
 }
 function hotel_room_pick_button(){
     document.getElementById('hotel_detail_button').innerHTML = '';
@@ -1855,20 +1876,62 @@ function hotel_detail(old_cancellation_policy){
     text = `
     <div class="row" style="margin-bottom:5px; ">
         <div class="col-lg-12">
-           <h4> Price Detail </h4>
+           <h4>Price Detail</h4>
            <hr/>
         </div>
     </div>`;
-    $text2 = '';
+
+    var idx = 0;
+    var idx_img_room = 0;
+    var room_dict = []; //description
+    show_name_room = '';
+    title_name_room = '';
+    document.getElementById("div_name_room").innerHTML = '';
+
     for(i in hotel_price.rooms){
-        text += '<h5>'+ hotel_price.rooms[i].description + '</h5>';
-        text += '<span>Qty: '+ hotel_price.rooms[i].qty + '</span><br/>';
+        room_dict.push(hotel_price.rooms[i].description);
+        document.getElementById("div_name_room").innerHTML += `<input type="hidden" id="name_room_htl`+i+`" name="name_room_htl`+i+`"/>`;
+    }
+
+    room_dict.sort();
+
+    var current_room = null;
+    var cnt_room = 0;
+
+    for (var ro = 0; ro < room_dict.length; ro++) {
+        if (room_dict[ro] != current_room) {
+            if (cnt_room > 0) {
+                show_name_room += '<span style="color:#f15a22;">'+cnt_room+'x </span>'+ current_room+' + ';
+                title_name_room += cnt_room+'x '+ current_room+' + ';
+            }
+            current_room = room_dict[ro];
+            cnt_room = 1;
+        } else {
+            cnt_room++;
+        }
+    }
+    if (cnt_room > 0) {
+        show_name_room += '<span style="color:#f15a22;">'+cnt_room+'x </span>'+ current_room;
+        title_name_room += cnt_room+'x '+ current_room;
+    }
+
+    text+=`<h5>`+show_name_room+`</h5>`;
+
+    $text2 = '';
+    text += `<div class="mt-3">
+        <center><h6 style="color:`+color+`; display:block; cursor:pointer;" id="price_detail_hotel_down" onclick="show_hide_div('price_detail_hotel');">See Detail <i class="fas fa-chevron-down" style="font-size:14px;"></i></h6></center>
+    </div>`;
+    text += `<div id="price_detail_hotel_div" style="display:none;">`;
+    for(i in hotel_price.rooms){
+        var idx_room = parseInt(i)+1;
+        text += '<h6><span style="color:'+color+';">Room #'+ idx_room + ' </span>'+ hotel_price.rooms[i].description + '</h6>';
+        //text += '<span>Qty: '+ hotel_price.rooms[i].qty + '</span><br/>';
         //text += '<span> '+ hotel_price.rooms[i].category + '<span><br/>';
         text += '<span>Meal Type: ' + hotel_price.meal_type + '</span/><br/><br/>';
 
         //$text2 += 'Room Category: '+ hotel_price.rooms[i].category +'\n';
         $text2 += hotel_price.rooms[i].description +'\n';
-        $text2 += hotel_price.rooms[i].qty +' room(s) \n';
+        //$text2 += hotel_price.rooms[i].qty +' room(s) \n';
         $text2 += 'Meal Type: '+ hotel_price.meal_type +'\n \n';
 
         text += `<div class="row">`;
@@ -1887,7 +1950,7 @@ function hotel_detail(old_cancellation_policy){
             total_price_hotel += grand_total_price;
             commission += parseInt(hotel_price.rooms[i].commission) *-1;
         }catch(err){}
-        text += `<div class="col-lg-12"><hr/></div>`;
+
         if(document.URL.split('/')[document.URL.split('/').length-1] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
             text+=`<div class="col-lg-12"><div style="text-align:right;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div></div>`;
         }
@@ -1903,12 +1966,14 @@ function hotel_detail(old_cancellation_policy){
                 grand_total_price += upsell_price;
             }
         }catch(err){console.log(err)}
+
         text += `<div class="col-lg-6">
             <span style="font-weight:bold;">Total</span>
         </div>
         <div class="col-lg-6" style="text-align:right;">
             <span style="font-weight:bold;">IDR `+ getrupiah(grand_total_price) +`</span>
         </div>`;
+        text += `<div class="col-lg-12"><hr/></div>`;
 
         try{
             if(adult.length > 0){
@@ -1923,9 +1988,16 @@ function hotel_detail(old_cancellation_policy){
             $text2 += '\n';
         }catch(err){}
         $text2 += 'Total: IDR ' + getrupiah(hotel_price.rooms[i].price_total) + '\n';
-        text += `</div><br/>`;
+        text += `</div>`;
     }
+    text += `</div>`;
+
+    text += `<div>
+        <center><h6 style="color:`+color+`; display:none; cursor:pointer;" id="price_detail_hotel_up" onclick="show_hide_div('price_detail_hotel');">Close Detail <i class="fas fa-chevron-up" style="font-size:14px;"></i></h6></center>
+    </div>`;
+
     text += `<div class="row">
+        <div class="col-lg-12"><hr/></div>
         <div class="col-lg-6">
             <span style="font-weight:bold;font-size:15px;">Grand Total</span>
         </div>
@@ -1958,7 +2030,7 @@ function hotel_detail(old_cancellation_policy){
                     <span style="font-size:13px; font-weight:bold;">Your Commission: IDR `+ getrupiah(commission) +`</span><br>
                 </div>
             </div>`;
-    text +=`</div></div>`;
+    text +=`</div></div><div class="row">`;
     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
         text += `<div class="col-lg-12">
             <input class="primary-btn-white" id="show_commission_button_hotel" style="width:100%;" type="button" onclick="show_commission_hotel();" value="Show Commission"/>
@@ -1966,7 +2038,7 @@ function hotel_detail(old_cancellation_policy){
     text += `
     <div class="col-lg-12" style="padding-top:10px;">
         <input class="primary-btn-white" style="width:100%;" type="button" onclick="copy_data2();" value="Copy">
-    </div>`;
+    </div></div>`;
 
 
     text += `</div>`;
@@ -2495,4 +2567,21 @@ function reset_filter(){
         document.getElementById("rating_filter2"+i).checked = rating_list[i].status;
     }
     filtering('filter');
+}
+
+function show_hide_div(key){
+    var show_div = document.getElementById(key+'_div');
+    var btn_down = document.getElementById(key+'_down');
+    var btn_up = document.getElementById(key+'_up');
+
+    if (btn_down.style.display === "none") {
+        btn_up.style.display = "none";
+        btn_down.style.display = "inline-block";
+        show_div.style.display = "none";
+    }
+    else {
+        btn_up.style.display = "inline-block";
+        btn_down.style.display = "none";
+        show_div.style.display = "block";
+    }
 }

@@ -70,6 +70,9 @@
             </div>
         </div>
     </div>
+    {% if username.co_user_login == 'agent_b2c' %}
+    {% include 'tt_website_rodextrip/header_signin_signup.html' %}
+    {% endif %}
 </header>
 <section class="destinations-area" style="padding-top:15px; padding-bottom:40px;">
     <div class="container">
@@ -648,9 +651,6 @@
                     </div>
                     <div class="col-lg-4" style="margin-top:10px;">
                         <input type="hidden" value="{{response.name}}" id="get_name_hotel"/>
-                        <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="cancellation_policy">
-
-                        </div><br/>
                         <div style="background-color:white; padding:10px; border:1px solid {{color}};">
                             <h4> {% trans 'Special Request' %} </h4>
                             <hr/>
@@ -662,6 +662,12 @@
                             <textarea rows="1" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="late_ci" name="late_ci"></textarea>
                             <h6>{% trans 'Late' %} {% trans 'Check-Out' %}:</h6>
                             <textarea rows="1" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="late_co" name="late_co"></textarea>
+                        </div><br/>
+                        <div id="div_name_room">
+
+                        </div>
+                        <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="cancellation_policy">
+
                         </div><br/>
                         <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="hotel_detail">
 
@@ -739,6 +745,9 @@
             </div>
         </div>
     </div>
+    {% if username.co_user_login == 'agent_b2c' %}
+    {% include 'tt_website_rodextrip/header_signin_signup.html' %}
+    {% endif %}
 </header>
 <section class="destinations-area" style="padding-top:15px; padding-bottom:40px; background:#f7f7f7; position:relative; z-index:200;">
     <div class="container">
@@ -1395,6 +1404,9 @@
             </div>
         </div>
     </div>
+    {% if username.co_user_login == 'agent_b2c' %}
+    {% include 'tt_website_rodextrip/header_signin_signup.html' %}
+    {% endif %}
 </header>
 <section class="destinations-area" style="padding-top:15px; padding-bottom:40px; background:#f7f7f7;">
     <div class="container">
@@ -2064,6 +2076,9 @@
             </div>
         </div>
     </div>
+    {% if username.co_user_login == 'agent_b2c' %}
+    {% include 'tt_website_rodextrip/header_signin_signup.html' %}
+    {% endif %}
 </header>
 <section class="destinations-area" style="padding-top:40px; padding-bottom:40px; background:#f7f7f7;">
     <div class="container">
@@ -2732,6 +2747,9 @@
             </div>
         </div>
     </div>
+    {% if username.co_user_login == 'agent_b2c' %}
+    {% include 'tt_website_rodextrip/header_signin_signup.html' %}
+    {% endif %}
 </header>
 <section class="destinations-area" style="padding-top:40px; padding-bottom:40px; background:#f7f7f7;">
     <div class="container">
@@ -3379,6 +3397,10 @@
         </div>
     </div>
 </section>
+{% endif %}
+
+{% if username.co_user_login == 'agent_b2c' %}
+{% include 'tt_website_rodextrip/modal_signin_signup.html' %}
 {% endif %}
 
 <script>

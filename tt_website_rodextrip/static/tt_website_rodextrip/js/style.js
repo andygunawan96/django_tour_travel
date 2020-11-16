@@ -1881,7 +1881,7 @@ function show_flight_details2(key){
         flight_up.style.display = "block";
         flight_down.style.display = "none";
         flight.style.display = "block";
-        journey.style.marginBottom = "0px";
+        journey.style.marginBottom = "15px";
     }
     else {
         flight_up.style.display = "none";

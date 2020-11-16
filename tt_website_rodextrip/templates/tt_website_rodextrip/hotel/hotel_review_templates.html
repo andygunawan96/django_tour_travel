@@ -59,6 +59,7 @@
 <title id="title_search">{{name}} Hotel - {% trans 'Review' %}</title>
 <div id="overlay-div-box" onclick="close_div('payment_acq');"></div>
 
+
 {%if template == 1%}
 <header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
     <div class="main-menu">
@@ -82,6 +83,9 @@
             </div>
         </div>
     </div>
+    {% if username.co_user_login == 'agent_b2c' %}
+    {% include 'tt_website_rodextrip/header_signin_signup.html' %}
+    {% endif %}
 </header>
 {% elif template == 2 or template == 3 or template == 4 or template == 5%}
 <header class="header_breadcrumb" style="position:sticky; top:0px; z-index:100; border-bottom:1px solid #cdcdcd; background:white;">
@@ -106,6 +110,9 @@
             </div>
         </div>
     </div>
+    {% if username.co_user_login == 'agent_b2c' %}
+    {% include 'tt_website_rodextrip/header_signin_signup.html' %}
+    {% endif %}
 </header>
 {% endif %}
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; background: #f7f7f7;">
@@ -256,18 +263,21 @@
                                        <h4> Cancellation Policy </h4>
                                        <b>{{hotel_pick.name}}</b>
                                        <hr/>
-                                       <h5> Cancellation Policy </h5>
+                                       <h5 style="color:#5c5c5c;"> Cancellation Policy </h5>
                                        <ul id="old_cancellation_policy" style="list-style-type: disc; margin: 0 15px;">
                                        </ul>
                                        <span id="js_new_cancel" style="display:none;">
                                            <hr/>
-                                           <h5> Newest Cancellation Policy </h5>
+                                           <h5 style="color:{{color}};"> Newest Cancellation Policy </h5>
                                            <ul id="new_cancellation_policy" style="list-style-type: disc; margin: 0 15px;">
                                            </ul>
                                        </span>
                                     </div>
                                 </div>
                                 <br/>
+                            </div>
+                            <div id="div_name_room">
+
                             </div>
                             <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="hotel_detail"></div>
                         </div>
@@ -414,6 +424,9 @@
     </div>
 </section>
 
+{% if username.co_user_login == 'agent_b2c' %}
+{% include 'tt_website_rodextrip/modal_signin_signup.html' %}
+{% endif %}
 
 <script>
     //document.getElementById('voucher_discount').style.display = 'none';
