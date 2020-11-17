@@ -94,6 +94,12 @@ function get_report_overall(){
                         yAxisID: 'y-axis-2',
                         backgroundColor: 'blue',
                         data: result.raw_data.result.response.first_graph.data3
+                    },{
+                        label: 'Profit',
+                        stack: 'Stack 3',
+                        yAxisID: 'y-axis-2',
+                        backgroundColor: 'red',
+                        data: result.raw_data.result.response.first_graph.data4
                     }]
                 },
                 options: {
@@ -479,6 +485,12 @@ $('#report_form').submit(function(evt){
                     yAxisID: 'y-axis-2',
                     backgroundColor: 'blue',
                     data: result.raw_data.result.response.first_graph.data3
+                },{
+                    label: 'Profit',
+                    stack: 'Stack 3',
+                    yAxisID: 'y-axis-2',
+                    backgroundColor: 'red',
+                    data: result.raw_data.result.response.first_graph.data4
                 }]
             }
             reportChart.data("ChartJs", config);
