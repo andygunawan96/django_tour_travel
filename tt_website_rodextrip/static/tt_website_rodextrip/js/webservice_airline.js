@@ -33,6 +33,13 @@ var month = {
     '11': 'Nov',
     '12': 'Dec',
 }
+var airline_cabin_class_list = {
+    'Y': 'Economy',
+    'W': 'Premium Economy',
+    'C': 'Business',
+    'F': 'First Class',
+}
+
 var airline_departure = 'departure';
 function elapse_time(departure,arrival){
     arrival_time = (parseInt(arrival[1].split(':')[0])*3600)+(parseInt(arrival[1].split(':')[1])*60);
