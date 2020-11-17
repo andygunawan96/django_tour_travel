@@ -1500,8 +1500,6 @@ function activity_get_price_date(activity_type_pick, pricing_days){
        },
        data: {
           'product_type_uuid': activity_type[activity_type_pick].uuid,
-          'provider': activity_type[activity_type_pick].provider_code,
-          'fare_code': activity_type[activity_type_pick].provider_fare_code,
           'pricing_days': pricing_days,
           'startingDate': startingDate,
           'signature': signature
