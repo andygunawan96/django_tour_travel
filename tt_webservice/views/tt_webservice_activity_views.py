@@ -249,7 +249,7 @@ def get_pricing(request):
         'product_type_uuid': request.POST['product_type_uuid'],
         'date_start': to_date_now(datetime.strptime(startingDate, '%d %b %Y').strftime('%Y-%m-%d %H:%M:%S'))[:10],
         'date_end': to_date_now((datetime.strptime(startingDate, '%d %b %Y')+timedelta(days=pricing_days)).strftime('%Y-%m-%d %H:%M:%S'))[:10],
-        "provider": request.POST['provider']
+        "provider": request.session['activity_pick']['provider_code']
     }
     headers = {
         "Accept": "application/json,text/html,application/xml",
@@ -265,11 +265,10 @@ def get_pricing(request):
 
 
 def sell_activity(request):
-    data = {
+    data = request.session['activity_review_booking']['search_request']
+    data.update({
         "promotion_codes_booking": [],
-        "search_request": request.session['activity_review_booking']['search_request'],
-        "provider": request.session['activity_pick']['provider_code']
-    }
+    })
     headers = {
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
