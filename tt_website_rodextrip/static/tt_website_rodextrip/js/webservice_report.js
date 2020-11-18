@@ -246,6 +246,12 @@ function get_report_overall(){
                         yAxisID: 'y-axis-2',
                         backgroundColor: 'blue',
                         data: result.raw_data.result.response.third_graph.data3
+                    },{
+                        label: 'Profit',
+                        stack: 'Stack 3',
+                        yAxisID: 'y-axis-2',
+                        backgroundColor: 'red',
+                        data: result.raw_data.result.response.third_graph.data4
                     }]
                 },
                 options: {
@@ -319,6 +325,7 @@ function get_report_overall(){
             // peripherals
             $('#total_rupiah').html(number_format(result.raw_data.result.response.total_rupiah, 2));
             $('#average_rupiah').html(number_format(result.raw_data.result.response.average_rupiah, 2));
+            $('#profit_rupiah').html(number_format(result.raw_data.result.response.profit_total, 2));
 
             // overview section
             contents = overview_overall(result.raw_data.result.response.first_overview);
@@ -538,6 +545,12 @@ $('#report_form').submit(function(evt){
                     yAxisID: 'y-axis-2',
                     backgroundColor: 'blue',
                     data: result.raw_data.result.response.third_graph.data3
+                },{
+                    label: 'Profit',
+                    stack: 'Stack 3',
+                    yAxisID: 'y-axis-2',
+                    backgroundColor: 'red',
+                    data: result.raw_data.result.response.third_graph.data4
                 }]
             }
             thirdReportChart.data("ChartJs", thirdConfig);
@@ -548,6 +561,7 @@ $('#report_form').submit(function(evt){
             // peripherals
             $('#total_rupiah').html(number_format(result.raw_data.result.response.total_rupiah, 2));
             $('#average_rupiah').html(number_format(result.raw_data.result.response.average_rupiah, 2));
+            $('#profit_rupiah').html(number_format(result.raw_data.result.response.profit_total, 2));
 
             // "First" overview section
             if (provider_type == 'overall'){
