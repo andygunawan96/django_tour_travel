@@ -1013,7 +1013,9 @@ function ppob_get_booking(data){
                                         currency = msg.result.response.passengers[j].sale_service_charges[k][l].currency;
                                     if(l == 'RAC')
                                         rac += msg.result.response.passengers[j].sale_service_charges[k][l].amount;
-                                    if(l == 'ROC' )
+                                    else if(l == 'ROC' )
+                                        roc += msg.result.response.passengers[j].sale_service_charges[k][l].amount;
+                                    else if(l == 'TAX' )
                                         roc += msg.result.response.passengers[j].sale_service_charges[k][l].amount;
                                 }
                             }

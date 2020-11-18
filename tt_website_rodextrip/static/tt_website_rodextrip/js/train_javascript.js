@@ -910,7 +910,7 @@ function train_detail(){
         };
         for(j in train_data[i].fares){
             total_tax += train_data[i].fares[0].service_charge_summary[0].total_tax;
-            total_commission += train_data[i].fares[0].service_charge_summary[0].total_rac*-1;
+            total_commission += train_data[i].fares[0].service_charge_summary[0].total_commission*-1;
             for(k in train_data[i].fares[j].service_charge_summary){
                 for(l in train_data[i].fares[j].service_charge_summary[k].service_charges){
                     if(l == 0)

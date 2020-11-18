@@ -1,4 +1,4 @@
-var train_data = '';
+var train_data = [];
 var train_data_filter = '';
 var train_cookie = '';
 var train_sid = '';
@@ -258,7 +258,7 @@ function elapse_time(departure){
 function datasearch2(train){
     var counter = train_data.length;
     data = [];
-
+    data = train_data;
     for(i in train.schedules){
         for(j in train.schedules[i].journeys){
            train.schedules[i].journeys[j].sequence = counter;

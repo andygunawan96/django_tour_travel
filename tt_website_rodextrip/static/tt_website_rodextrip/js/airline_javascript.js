@@ -2956,25 +2956,35 @@ function airline_pick_mc(type){
                         text+=`</span></div><br/>`;
                     }
                 var depart = 0;
-                if(airline_pick_list[i].segments[j].origin == airline_request.destination[counter_search-1].split(' - ')[0])
+                if(airline_pick_list[i].segments[j].origin == airline_request.destination[0].split(' - ')[0])
                     depart = 1;
-                if(depart == 0 && j == 0)
+                if(airline_request.direction != 'MC'){
+                    if(depart == 0 && j == 0)
+                        text+=`
+                        <div class="col-lg-12">
+                            <div style="text-align:left; background-color:white; padding-top:10px;">
+                                <span class="flight_type_template">Departure</span>
+                                <hr/>
+                            </div>
+                        </div>`;
+                    else if(depart == 1){
+                        text+=`
+                        <div class="col-lg-12">
+                            <div style="text-align:left; background-color:white; padding-top:10px;">
+                                <span class="flight_type_template">Return</span>
+                                <hr/>
+                            </div>
+                        </div>`;
+                        depart = 2;
+                    }
+                }else{
                     text+=`
-                    <div class="col-lg-12">
-                        <div style="text-align:left; background-color:white; padding-top:10px;">
-                            <span class="flight_type_template">Departure</span>
-                            <hr/>
-                        </div>
-                    </div>`;
-                else if(depart == 1){
-                    text+=`
-                    <div class="col-lg-12">
-                        <div style="text-align:left; background-color:white; padding-top:10px;">
-                            <span class="flight_type_template">Return</span>
-                            <hr/>
-                        </div>
-                    </div>`;
-                    depart = 2;
+                        <div class="col-lg-12">
+                            <div style="text-align:left; background-color:white; padding-top:10px;">
+                                <span class="flight_type_template">Flight `+parseInt(parseInt(i)+1)+`</span>
+                                <hr/>
+                            </div>
+                        </div>`;
                 }
                 text+=`
                     <div class="col-lg-12">

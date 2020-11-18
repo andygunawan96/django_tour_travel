@@ -689,6 +689,11 @@ function visa_commit_booking(){
                 $("#waitingTransaction").modal('hide');
 //                close_div('payment_acq');
                 set_payment('Issued','visa');
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error visa commit booking </span>' + msg.result.error_msg,
+                })
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
