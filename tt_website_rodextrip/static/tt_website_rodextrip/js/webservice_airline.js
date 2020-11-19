@@ -5134,21 +5134,19 @@ function check_refund_partial_btn(){
                    document.getElementById('refund_detail').hidden = false;
                    text = '<h5>Refund:<h5>';
                    total = 0;
-                   total_price = 0;
                    for (i in msg.result.response.provider_bookings){
                        currency = msg.result.response.provider_bookings[i].currency;
                         try{
-                            total_price += msg.result.response.provider_bookings[i].resv_total_price;
                             total += msg.result.response.provider_bookings[i].resv_total_price;
                         }catch(err){console.log(err)}
-                       }
+
                        text+=`
                         <div class="row" style="margin-bottom:5px;">
                             <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
                                 <span style="font-size:12px;">`+msg.result.response.provider_bookings[i].pnr+`</span>
                             </div>
                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                <span style="font-size:13px;">`+currency+` `+getrupiah(parseInt(total_price))+`</span>
+                                <span style="font-size:13px;">`+currency+` `+getrupiah(parseInt(msg.result.response.provider_bookings[i].resv_total_price))+`</span>
                             </div>
                         </div>`;
                         text+=`
@@ -5170,7 +5168,7 @@ function check_refund_partial_btn(){
                             </div>
                         </div>`;
                         total = total - msg.result.response.provider_bookings[i].penalty_amount - msg.result.response.provider_bookings[i].admin_fee;
-
+                    }
                    text+=`
                         <hr/>
                         <div class="row" style="margin-bottom:5px;">
@@ -8659,11 +8657,24 @@ function airline_get_booking_refund(data){
 
 function pnr_refund_onclick(pnr, type){
 
-    if(type == 'on'){
-        for(i in pnr_list_checkbox[pnr]){
-            document.getElementById(pnr_list_checkbox[pnr][i]).checked = 'checked';
+    if(type == 'on'){//pnr
+        count_check = 0;
+        for(i in pnr_list_checkbox){
+            if(i == pnr){
+                break;
+            }
+            count_check++;
         }
-    }else if(type == 'off'){
+        checkbox_check = document.getElementById('pnr'+count_check.toString()).checked;
+        if(checkbox_check == true)
+            for(i in pnr_list_checkbox[pnr]){
+                document.getElementById(pnr_list_checkbox[pnr][i]).checked = 'checked';
+            }
+        else
+            for(i in pnr_list_checkbox[pnr]){
+                document.getElementById(pnr_list_checkbox[pnr][i]).checked = '';
+            }
+    }else if(type == 'off'){//pax
         console.log(document.getElementById(pnr).checked);
         checkbox_check = document.getElementById(pnr).checked;
         count_check = 0;
