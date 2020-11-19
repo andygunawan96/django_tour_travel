@@ -133,9 +133,10 @@ function airline_redirect_signup(type){
                                            },
                                            data: {
                                               'use_cache': true,
-                                              'signature': new_login_signature
+                                              'signature': new_login_signature,
+                                              'data': JSON.stringify(airline_get_price_request)
                                            },
-                                           success: function(resJson) {
+                                           success: function(msg) {
                                                 console.log(msg);
                                                 $.ajax({
                                                    type: "POST",
@@ -144,7 +145,8 @@ function airline_redirect_signup(type){
                                                         'action': 'get_fare_rules',
                                                    },
                                                    data: {
-                                                        'signature': new_login_signature
+                                                        'signature': new_login_signature,
+                                                        'data': JSON.stringify(airline_get_price_request)
                                                    },
                                                    success: function(msg) {
                                                         console.log(msg);
@@ -158,6 +160,7 @@ function airline_redirect_signup(type){
                                                                    },
                                                                    data: {
                                                                         'signature': new_login_signature,
+                                                                        'data': JSON.stringify(airline_get_price_request)
                                                                    },
                                                                    success: function(msg) {
                                                                        console.log(msg);
@@ -184,30 +187,41 @@ function airline_redirect_signup(type){
                                                                                        },
                                                                                        success: function(msg) {
                                                                                             console.log(msg);
+                                                                                            $.ajax({
+                                                                                               type: "POST",
+                                                                                               url: "/webservice/airline",
+                                                                                               headers:{
+                                                                                                    'action': 'get_ff_availability',
+                                                                                               },
+                                                                                               data: {
+                                                                                                    'signature': new_login_signature
+                                                                                               },
+                                                                                               success: function(msg) {
+                                                                                                    console.log(msg);
+                                                                                                    signature = new_login_signature;
+                                                                                                    //bikin form isi input airline_pick csrf_token time_limit_input signature
+                                                                                                    document.getElementById('reload_page').innerHTML +=`
+                                                                                                        <input type='hidden' name="time_limit_input" value="`+time_limit+`"/>
+                                                                                                        <input type='hidden' id="airline_pick" name="airline_pick" value=""/>
+                                                                                                        <input type='hidden' id="airline_price_itinerary" name="airline_price_itinerary" value=""/>
+                                                                                                        <input type='hidden' name="signature" value='`+new_login_signature+`'/>
+                                                                                                    `;
+                                                                                                    document.getElementById('airline_pick').value = JSON.stringify(airline_pick);
+                                                                                                    document.getElementById('airline_price_itinerary').value = JSON.stringify(price_itinerary);
+                                                                                                    document.getElementById('reload_page').submit();
 
+                                                                                                    //location.reload();
+                                                                                               },
+                                                                                               error: function(XMLHttpRequest, textStatus, errorThrown) {
+                                                                                                    if(XMLHttpRequest.status == 500){
+
+                                                                                                    }
+                                                                                               },timeout: 60000
+                                                                                            });
                                                                                        },
                                                                                        error: function(XMLHttpRequest, textStatus, errorThrown) {
                                                                                             if(XMLHttpRequest.status == 500){
-                                                                                                $.ajax({
-                                                                                                   type: "POST",
-                                                                                                   url: "/webservice/airline",
-                                                                                                   headers:{
-                                                                                                        'action': 'get_ff_availability',
-                                                                                                   },
-                                                                                                   data: {
-                                                                                                        'signature': new_login_signature
-                                                                                                   },
-                                                                                                   success: function(msg) {
-                                                                                                        console.log(msg);
-                                                                                                        signature = new_login_signature;
 
-                                                                                                   },
-                                                                                                   error: function(XMLHttpRequest, textStatus, errorThrown) {
-                                                                                                        if(XMLHttpRequest.status == 500){
-
-                                                                                                        }
-                                                                                                   },timeout: 60000
-                                                                                                });
                                                                                             }
                                                                                        },timeout: 60000
                                                                                     });
@@ -228,6 +242,8 @@ function airline_redirect_signup(type){
                                                                 });
                                                             }else{
                                                                 signature = new_login_signature;
+                                                                $('#myModalSignin').modal('hide');
+                                                                location.reload();
                                                             }
                                                         }
                                                    },
@@ -246,6 +262,8 @@ function airline_redirect_signup(type){
                                         });
                                     }else{
                                         signature = new_login_signature;
+                                        $('#myModalSignin').modal('hide');
+                                        location.reload();
                                     }
                                }
                            },
@@ -257,6 +275,8 @@ function airline_redirect_signup(type){
                         });
                     }else{
                         signature = new_login_signature;
+                        $('#myModalSignin').modal('hide');
+                        location.reload();
                     }
                }
            }catch(err){
@@ -1636,6 +1656,7 @@ function get_price_itinerary_request(){
                     }catch(err){}
                 }
            }
+           get_price_airline_response = resJson
            console.log(resJson);
            price_type = {};
            airline_price = [];
@@ -2372,6 +2393,11 @@ function get_price_itinerary_request(){
 
 function get_fare_rules(){
     getToken();
+    try{
+        data_request = JSON.stringify(get_price_airline_response.result.request)
+    }catch(err){
+        data_request = ''
+    }
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -2379,7 +2405,8 @@ function get_fare_rules(){
             'action': 'get_fare_rules',
        },
        data: {
-            'signature': signature
+            'signature': signature,
+            'data': data_request
        },
        success: function(msg) {
             console.log(msg);
@@ -2477,6 +2504,11 @@ function get_fare_rules(){
 function airline_sell_journeys(){
     $('.loader-rodextrip').fadeIn();
     getToken();
+    try{
+        data_request = JSON.stringify(get_price_airline_response.result.request)
+    }catch(err){
+        data_request = ''
+    }
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -2485,6 +2517,7 @@ function airline_sell_journeys(){
        },
        data: {
             'signature': signature,
+            'data': data_request
        },
        success: function(msg) {
            console.log(msg);
@@ -2983,6 +3016,7 @@ function get_ff_availability(type){
             if(type == ''){
                 document.getElementById('time_limit_input').value = time_limit;
                 document.getElementById('signature').value = signature;
+                document.getElementById('airline_price_itinerary').value = JSON.stringify(get_price_airline_response.result.response);
                 document.getElementById('go_to_passenger').submit();
             }else if(type == 'request_new_ssr' && msg.result.error_code == 0)
                 window.location.href='/airline/ssr';
@@ -5073,7 +5107,10 @@ function check_refund_partial_btn(){
     captcha = {};
     if(refund_msg.result.response.length>0){
         for(i in refund_msg.result.response){
-            captcha[refund_msg.result.response[i].pnr] = document.getElementById('captcha'+parseInt(i+1)).value;
+            if(refund_msg.result.response[i].img != '')
+                captcha[refund_msg.result.response[i].pnr] = document.getElementById('captcha'+parseInt(i+1)).value;
+            else
+                captcha[refund_msg.result.response[i].pnr] = '';
         }
     }
     $.ajax({
@@ -7842,6 +7879,7 @@ function pre_refund_login(){
            document.getElementById('request_captcha').disabled = false;
            $('#request_captcha').removeClass("running");
            refund_msg = msg;
+           check_image = 0;
            if(msg.result.error_code ==0){
                 if(msg.result.response.length == 0){
                     document.getElementById('cancel').hidden = false;
@@ -7849,6 +7887,15 @@ function pre_refund_login(){
                     document.getElementById('cancel').innerHTML += `<input class="primary-btn-ticket" style="width:100%;" id="full_refund" type="button" onclick="check_refund_partial_btn();" value="Check Refund Price Booking">`;
                     document.getElementById('captcha').hidden = true;
                 }else{
+                    for(i in msg.result.response){
+                        if(msg.result.response[i].img != ''){
+                            document.getElementById('cancel').innerHTML += msg.result.response[i].pnr+`<center><img style="margin-bottom:5px;" src="data:image/png;base64,`+msg.result.response[i].img+`"/></center><br/>`;
+                            document.getElementById('cancel').innerHTML += `<input style="margin-bottom:5px;" type="text" class="form-control" name="captcha`+parseInt(i+1)+`" id="captcha`+parseInt(i+1)+`" placeholder="Captcha " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Captcha '">`
+                            check_image++;
+                        }
+                    }
+                }
+                if(check_image != 0){
                     document.getElementById('cancel').hidden = false;
                     document.getElementById('captcha').innerHTML = `
                     <div class="row" style="padding-top:10px">
@@ -7867,14 +7914,16 @@ function pre_refund_login(){
                             <span class="count_time" id="elapse_time_captcha"></i> 0s</span>
                         </div>
                     </div>`;
-                    for(i in msg.result.response){
-                        document.getElementById('cancel').innerHTML += msg.result.response[i].pnr+`<center><img style="margin-bottom:5px;" src="data:image/png;base64,`+msg.result.response[i].img+`"/></center><br/>`;
-                        document.getElementById('cancel').innerHTML += `<input style="margin-bottom:5px;" type="text" class="form-control" name="captcha`+parseInt(i+1)+`" id="captcha`+parseInt(i+1)+`" placeholder="Captcha " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Captcha '">`
-                    }
                     document.getElementById('cancel').innerHTML += `<div id="refund_detail" style="display:none;"></div>`;
                     document.getElementById('cancel').innerHTML += `<input class="primary-btn-ticket" style="width:100%;" id="full_refund" type="button" onclick="check_refund_partial_btn();" value="Check Refund Price Booking">`;
                     time_limit_captcha = captcha_time;
                     captcha_time_limit_airline();
+                }else{
+                    document.getElementById('cancel').innerHTML += `<div id="refund_detail" style="display:none;"></div>`;
+                    document.getElementById('cancel').innerHTML += `<input class="primary-btn-ticket" style="width:100%;" id="full_refund" type="button" onclick="check_refund_partial_btn();" value="Check Refund Price Booking">`;
+                    document.getElementById('cancel').hidden = false;
+                    document.getElementById('request_captcha').hidden = true;
+                    check_refund_partial_btn();
                 }
            }
        },
@@ -8099,15 +8148,17 @@ function airline_get_booking_refund(data){
                         <hr/>`;
                     check = 0;
                     flight_counter = 1;
+                    pnr_list_checkbox = {};
                     for(i in msg.result.response.provider_bookings){
                         $text += 'Booking Code: ' + msg.result.response.provider_bookings[i].pnr+'\n';
+                        pnr_list_checkbox[msg.result.response.provider_bookings[i].pnr] = [];
                         if(i != 0){
                             text+=`<hr/>`;
                         }
                         text+=`<h5>PNR: `+msg.result.response.provider_bookings[i].pnr+`</h5>`;
-                        text+=`<input type="checkbox" id="pnr`+i+`"><label for="pnr`+i+`">  Refund</label>`;
                         for(j in msg.result.response.provider_bookings[i].journeys){
                             text+=`<h6>Flight `+flight_counter+`</h6>`;
+                            text+=`<input type="checkbox" id="pnr`+i+`" onclick="pnr_refund_onclick('`+msg.result.response.provider_bookings[i].pnr+`','on');"><label for="pnr`+i+`">  Refund</label>`;
                             $text += 'Flight '+ flight_counter+'\n';
                             flight_counter++;
                             for(k in msg.result.response.provider_bookings[i].journeys[j].segments){
@@ -8193,69 +8244,76 @@ function airline_get_booking_refund(data){
                                     </div>`;
                                 }
                             }
-                        }
-                        text+=`<br/>
-                        <table style="width:100%" id="list-of-passenger">
-                            <tr>
-                                <th style="width:5%;" class="list-of-passenger-left">Refund</th>
-                                <th style="width:30%;">Name</th>
-                                <th style="width:20%;">Birth Date</th>
-                                <th style="width:20%;">SSR</th>
-                            </tr>`;
-                            for(pax in msg.result.response.passengers){
-                                ticket = '';
-                                ff_request = '';
-                                if(i == 0){
-                                    //price
-                                    currency = '';
-                                    for(pnr in msg.result.response.passengers[pax].sale_service_charges){
-                                        total_price = 0;
-                                        for(charge_code in msg.result.response.passengers[pax].sale_service_charges[pnr]){
-                                            if(charge_code != 'RAC'){
-                                                total_price += msg.result.response.passengers[pax].sale_service_charges[pnr][charge_code].amount;
-                                                if(currency == '')
-                                                    currency = msg.result.response.passengers[pax].sale_service_charges[pnr][charge_code].currency;
+                            text+=`<br/>
+                            <table style="width:100%" id="list-of-passenger">
+                                <tr>
+                                    <th style="width:5%;" class="list-of-passenger-left">Refund</th>
+                                    <th style="width:30%;">Name</th>
+                                    <th style="width:20%;">Birth Date</th>
+                                    <th style="width:20%;">SSR</th>
+                                </tr>`;
+                                for(pax in msg.result.response.passengers){
+                                    ticket = '';
+                                    ff_request = '';
+                                    if(i == 0){
+                                        //price
+                                        currency = '';
+                                        for(pnr in msg.result.response.passengers[pax].sale_service_charges){
+                                            total_price = 0;
+                                            for(charge_code in msg.result.response.passengers[pax].sale_service_charges[pnr]){
+                                                if(charge_code != 'RAC'){
+                                                    total_price += msg.result.response.passengers[pax].sale_service_charges[pnr][charge_code].amount;
+                                                    if(currency == '')
+                                                        currency = msg.result.response.passengers[pax].sale_service_charges[pnr][charge_code].currency;
+                                                }
+                                            }
+                                            if(msg.result.response.passengers[pax].hasOwnProperty('total_price') == false)
+                                                msg.result.response.passengers[pax].total_price = {};
+                                            msg.result.response.passengers[pax].total_price[pnr] = total_price
+                                            if(msg.result.response.passengers[pax].hasOwnProperty('currency') == false)
+                                                msg.result.response.passengers[pax].currency = currency;
+                                        }
+                                    }
+                                    for(provider in msg.result.response.provider_bookings){
+                                        for(journey in msg.result.response.provider_bookings[provider].journeys){
+                                            if(msg.result.response.provider_bookings[i].pnr == msg.result.response.provider_bookings[provider].pnr &&
+                                               msg.result.response.provider_bookings[i].journeys[j].origin == msg.result.response.provider_bookings[provider].journeys[journey].origin &&
+                                               msg.result.response.provider_bookings[i].journeys[j].destination == msg.result.response.provider_bookings[provider].journeys[journey].destination){
+                                                try{
+                                                    ticket += msg.result.response.provider_bookings[provider].tickets[pax].ticket_number;
+                                                    if(provider != msg.result.response.provider_bookings.length - 1)
+                                                        if(ticket != '')
+                                                            ticket += ', ';
+                                                    if(ff_request != '')
+                                                        ff_request += '<br/>';
+                                                    if(msg.result.response.provider_bookings[provider].tickets[pax].ff_name != '' && msg.result.response.provider_bookings[provider].tickets[pax].ff_number != '')
+                                                        ff_request += msg.result.response.provider_bookings[provider].tickets[pax].ff_name + ': '+ msg.result.response.provider_bookings[provider].tickets[pax].ff_number;
+                                                }catch(err){
+
+                                                }
+                                                pnr_list_checkbox[msg.result.response.provider_bookings[i].pnr].push(`pnr~`+msg.result.response.provider_bookings[provider].pnr+`~`+pax+`~`+msg.result.response.provider_bookings[provider].journeys[journey].origin+`~`+msg.result.response.provider_bookings[provider].journeys[journey].destination+`~`+msg.result.response.provider_bookings[provider].journeys[journey].departure_date);
+                                                text+=`<tr>
+                                                <td class="list-of-passenger-left"><input class="refund_pax" type="checkbox" id="pnr~`+msg.result.response.provider_bookings[provider].pnr+`~`+pax+`~`+msg.result.response.provider_bookings[provider].journeys[journey].origin+`~`+msg.result.response.provider_bookings[provider].journeys[journey].destination+`~`+msg.result.response.provider_bookings[provider].journeys[journey].departure_date+`" onclick="pnr_refund_onclick('pnr~`+msg.result.response.provider_bookings[provider].pnr+`~`+pax+`~`+msg.result.response.provider_bookings[provider].journeys[journey].origin+`~`+msg.result.response.provider_bookings[provider].journeys[journey].destination+`~`+msg.result.response.provider_bookings[provider].journeys[journey].departure_date+`','off');" /></td>
+                                                <td>`+msg.result.response.passengers[pax].title+` `+msg.result.response.passengers[pax].first_name+` `+msg.result.response.passengers[pax].last_name+`</td>
+                                                <td>`+msg.result.response.passengers[pax].birth_date+`</td>
+                                                <td>`+ff_request;
+                                                      try{
+                                                          for(i in msg.result.response.passengers[pax].fees){
+                                                            text += `<label>` + msg.result.response.passengers[pax].fees[i].fee_name + ' ' + msg.result.response.passengers[pax].fees[i].fee_value + `</label><br/>`;
+                                                          }
+                                                      }catch(err){}
+                                                      text+=`
+                                                    </div>
+                                                </td>
+                                            </tr>`;
+
                                             }
                                         }
-                                        if(msg.result.response.passengers[pax].hasOwnProperty('total_price') == false)
-                                            msg.result.response.passengers[pax].total_price = {};
-                                        msg.result.response.passengers[pax].total_price[pnr] = total_price
-                                        if(msg.result.response.passengers[pax].hasOwnProperty('currency') == false)
-                                            msg.result.response.passengers[pax].currency = currency;
                                     }
                                 }
-                                for(provider in msg.result.response.provider_bookings){
-                                    try{
-                                        ticket += msg.result.response.provider_bookings[provider].tickets[pax].ticket_number;
-                                        if(provider != msg.result.response.provider_bookings.length - 1)
-                                            if(ticket != '')
-                                                ticket += ', ';
-                                        if(ff_request != '')
-                                            ff_request += '<br/>';
-                                        if(msg.result.response.provider_bookings[provider].tickets[pax].ff_name != '' && msg.result.response.provider_bookings[provider].tickets[pax].ff_number != '')
-                                            ff_request += msg.result.response.provider_bookings[provider].tickets[pax].ff_name + ': '+ msg.result.response.provider_bookings[provider].tickets[pax].ff_number;
-                                    }catch(err){
 
-                                    }
-                                    text+=`<tr>
-                                    <td class="list-of-passenger-left"><input class="refund_pax" type="checkbox" id="pnr~`+msg.result.response.provider_bookings[provider].pnr+`~`+pax+`"></td>
-                                    <td>`+msg.result.response.passengers[pax].title+` `+msg.result.response.passengers[pax].first_name+` `+msg.result.response.passengers[pax].last_name+`</td>
-                                    <td>`+msg.result.response.passengers[pax].birth_date+`</td>
-                                    <td>`+ff_request;
-                                          try{
-                                              for(i in msg.result.response.passengers[pax].fees){
-                                                text += `<label>` + msg.result.response.passengers[pax].fees[i].fee_name + ' ' + msg.result.response.passengers[pax].fees[i].fee_value + `</label><br/>`;
-                                              }
-                                          }catch(err){}
-                                          text+=`
-                                        </div>
-                                    </td>
-                                </tr>`;
-                                }
-
-                            }
-
-                        text+=`</table>`;
+                            text+=`</table>`;
+                        }
                     }
                     text+=`
                         </div>
@@ -8598,3 +8656,33 @@ function airline_get_booking_refund(data){
        },timeout: 300000
     });
 }
+
+function pnr_refund_onclick(pnr, type){
+
+    if(type == 'on'){
+        for(i in pnr_list_checkbox[pnr]){
+            document.getElementById(pnr_list_checkbox[pnr][i]).checked = 'checked';
+        }
+    }else if(type == 'off'){
+        console.log(document.getElementById(pnr).checked);
+        checkbox_check = document.getElementById(pnr).checked;
+        count_check = 0;
+        for(i in pnr_list_checkbox){
+            pnr_checked = true;
+            for(j in pnr_list_checkbox[i]){
+                if(checkbox_check == false){
+                    if(pnr_list_checkbox[i][j] == pnr){
+                        document.getElementById('pnr'+count_check.toString()).checked = '';
+                    }
+                }else{
+                    if(document.getElementById(pnr_list_checkbox[i][j]).checked == false)
+                        pnr_checked = false
+                }
+            }
+            if(pnr_checked == true && checkbox_check == true)
+                document.getElementById('pnr'+count_check.toString()).checked = 'checked';
+            count_check++;
+        }
+    }
+}
+

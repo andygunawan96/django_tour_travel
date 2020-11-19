@@ -28,6 +28,9 @@
                         <div class="ld ld-ring ld-cycle"></div>
                     </button><br/>
                 </div>
+                <form id="reload_page" class="form-wrap" action="" method="POST" style="padding:0; text-align:unset;">
+                    {% csrf_token %}
+                </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
