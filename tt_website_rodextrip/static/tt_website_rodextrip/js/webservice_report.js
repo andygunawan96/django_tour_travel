@@ -597,6 +597,9 @@ $('#report_form').submit(function(evt){
             // enabled button
              $('#update_chart_button').prop('disabled', false);
 
+            if(provider_type == 'overall_airline'){
+                overview_airline_chart(result.raw_data.result.response.first_overview);
+            }
             // process complete!
         }
     });
@@ -794,9 +797,172 @@ function overview_airline(data){
     content += `
             </tbody>
         </table>
+        <h3>Top Airline</h3>
+            <hr>
     `;
 
+    // graph of departure and destination
+    content += `
+        <div class="row">
+            <div class="col-md-6">
+                <h4>Depart From</h4>
+                <canvas id="departure_graph"></canvas>
+            </div>
+            <div class="col-md-6">
+                <h4>Destination</h4>
+                <canvas id="destination_graph"></canvas>
+            </div>
+        </div>
+        <hr>
+    `;
+
+    // top 9 carrier and others summary
+    for (i in data['carrier']){
+        content += `
+            <div class="header">
+                <h5>`+ data['carrier'][i]['carrier_name'] +`</h5>
+                <p style="float:right">`+ data['carrier'][i]['counter'] +`</p>
+            </div>
+            <div class="content">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Departure</th>
+                            <th>Destination</th>
+                            <th>Counter</th>
+                            <th>Passengers</th>
+                        </tr>
+                    <thead>
+                    <tbody>
+        `;
+        for (j in data['carrier'][i]['route']){
+            content += `
+                <tr>
+                    <td>`+ data['carrier'][i]['route'][j]['departure'] +`</td>
+                    <td>`+ data['carrier'][i]['route'][j]['destination'] +`</td>
+                    <td>`+ data['carrier'][i]['route'][j]['counter'] +`</td>
+                    <td>`+ data['carrier'][i]['route'][j]['passenger'] +`</td>
+                </tr>
+            `;
+        }
+
+        content += `
+                    </tbody>
+                </table>
+            </div>
+            <hr>
+        `;
+    }
+
     return content
+}
+
+// create chart for overview_ariline
+function overview_airline_chart(data){
+console.log(data);
+    var departure = {
+        type: 'doughnut',
+        data: {
+            datasets: [{
+                data: data['departure_graph']['data'],
+                backgroundColor: [
+                    'blue',
+                    'orange',
+                    'yellow',
+                    'green',
+                    'red',
+                    'blue',
+                    'orange',
+                    'yellow',
+                    'green',
+                    'red',
+                    'blue',
+                    'orange',
+                    'yellow',
+                    'green',
+                    'red',
+                    'blue',
+                    'orange',
+                    'yellow',
+                    'green',
+                    'red',
+                ],
+                label: 'Departure Cities'
+            }],
+            labels: data['departure_graph']['label']
+        },
+        options: {
+            responsive: true,
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: true,
+                text: ''
+            },
+            animation: {
+                animateScale: true,
+                animateRotate: true
+            }
+        }
+    };
+
+    var ctx = document.getElementById('departure_graph').getContext('2d');
+	departure_Doughnut = new Chart(ctx, departure);
+
+	var destination = {
+        type: 'doughnut',
+        data: {
+            datasets: [{
+                data: data['destination_graph']['data'],
+                backgroundColor: [
+                    'orange',
+                    'yellow',
+                    'green',
+                    'blue',
+                    'purple',
+                    'red',
+                    'orange',
+                    'yellow',
+                    'green',
+                    'blue',
+                    'purple',
+                    'red',
+                    'orange',
+                    'yellow',
+                    'green',
+                    'blue',
+                    'purple',
+                    'red',
+                    'orange',
+                    'yellow',
+                    'green',
+                    'blue',
+                    'purple',
+                    'red',
+                ],
+                label: 'Destination Cities'
+            }],
+            labels: data['destination_graph']['label']
+        },
+        options: {
+            responsive: true,
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: true,
+                text: ''
+            },
+            animation: {
+                animateScale: true,
+                animateRotate: true
+            }
+        }
+    };
+
+    var second_ctx = document.getElementById('destination_graph').getContext('2d');
+	destination_Doughnut = new Chart(second_ctx, destination);
 }
 
 // handler for overview data for activity
@@ -858,7 +1024,41 @@ function overview_event(data){
 // why first, this will be the default page (hence first section)
 // will also  be use to name the section(s)
 function overview_hotel(data){
-    var content = ``;
+    var content = `
+        <h3>Top Cities</h3>
+        <hr>
+    `;
+
+    for (i in data['location']){
+        content += `
+            <div class="header">
+                <h5>`+ data['location'][i]['city'] +` - `+ data['location'][i]['country'] +`</h5>
+                <p style="float:right">`+ data['location'][i]['counter'] +`</p>
+            </div>
+            <div class="content">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Hotel Name</th>
+                            <th># of reservation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+        `;
+        for (j in data['location'][i]['hotel']){
+            content += `
+                <tr>
+                    <td>`+ data['location'][i]['hotel'][j]['name'] +`</td>
+                    <td>`+ data['location'][i]['hotel'][j]['counter'] +`</td>
+                </tr>
+            `;
+        }
+        content += `
+                    </tbody>
+                </table>
+            </div>
+        `;
+    }
 
     return content;
 }
