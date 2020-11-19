@@ -78,7 +78,7 @@ def update_report(request):
         'agent_type_seq_id': request.POST['agent_type'],
     }
 
-    res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST', timeout=120)
+    res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST', timeout=300)
     to_return = {
         'raw_data': res,
         'start_date': request.POST['start_date'],
