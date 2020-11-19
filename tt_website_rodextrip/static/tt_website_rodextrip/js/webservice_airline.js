@@ -5136,38 +5136,40 @@ function check_refund_partial_btn(){
                    total = 0;
                    for (i in msg.result.response.provider_bookings){
                        currency = msg.result.response.provider_bookings[i].currency;
-                        try{
-                            total += msg.result.response.provider_bookings[i].resv_total_price;
-                        }catch(err){console.log(err)}
-
-                       text+=`
-                        <div class="row" style="margin-bottom:5px;">
-                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                <span style="font-size:12px;">`+msg.result.response.provider_bookings[i].pnr+`</span>
-                            </div>
-                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                <span style="font-size:13px;">`+currency+` `+getrupiah(parseInt(msg.result.response.provider_bookings[i].resv_total_price))+`</span>
-                            </div>
-                        </div>`;
-                        text+=`
-                        <div class="row" style="margin-bottom:5px;">
-                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                <span style="font-size:12px;">Refund Fee</span>
-                            </div>
-                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                <span style="font-size:13px;">`+currency+` -`+getrupiah(parseInt(msg.result.response.provider_bookings[i].penalty_amount))+`</span>
-                            </div>
-                        </div>`;
-                        text+=`
-                        <div class="row" style="margin-bottom:5px;">
-                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                <span style="font-size:12px;">Admin Fee</span>
-                            </div>
-                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                <span style="font-size:13px;">`+currency+` -`+getrupiah(parseInt(msg.result.response.provider_bookings[i].admin_fee))+`</span>
-                            </div>
-                        </div>`;
-                        total = total - msg.result.response.provider_bookings[i].penalty_amount - msg.result.response.provider_bookings[i].admin_fee;
+                       if(msg.result.response.provider_bookings[i].hasOwnProperty('resv_total_price')){
+                           try{
+                                total += msg.result.response.provider_bookings[i].resv_total_price;
+                           }catch(err){console.log(err)}
+                           text+=`
+                            <div class="row" style="margin-bottom:5px;">
+                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                    <span style="font-size:12px;">`+msg.result.response.provider_bookings[i].pnr+`</span>
+                                </div>
+                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                    <span style="font-size:13px;">`+currency+` `+getrupiah(parseInt(msg.result.response.provider_bookings[i].resv_total_price))+`</span>
+                                </div>
+                            </div>`;
+                            text+=`
+                            <div class="row" style="margin-bottom:5px;">
+                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                    <span style="font-size:12px;">Refund Fee</span>
+                                </div>
+                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                    <span style="font-size:13px;">`+currency+` -`+getrupiah(parseInt(msg.result.response.provider_bookings[i].penalty_amount))+`</span>
+                                </div>
+                            </div>`;
+                            text+=`
+                            <div class="row" style="margin-bottom:5px;">
+                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                    <span style="font-size:12px;">Admin Fee</span>
+                                </div>
+                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                    <span style="font-size:13px;">`+currency+` -`+getrupiah(parseInt(msg.result.response.provider_bookings[i].admin_fee))+`</span>
+                                </div>
+                            </div>`;
+                            total = total - msg.result.response.provider_bookings[i].penalty_amount - msg.result.response.provider_bookings[i].admin_fee;
+                            console.log(total);
+                        }
                     }
                    text+=`
                         <hr/>
@@ -7917,7 +7919,7 @@ function pre_refund_login(){
                     time_limit_captcha = captcha_time;
                     captcha_time_limit_airline();
                 }else{
-                    document.getElementById('cancel').innerHTML += `<div id="refund_detail" style="display:none;"></div>`;
+                    document.getElementById('cancel').innerHTML = `<div id="refund_detail" style="display:none;"></div>`;
                     document.getElementById('cancel').innerHTML += `<input class="primary-btn-ticket" style="width:100%;" id="full_refund" type="button" onclick="check_refund_partial_btn();" value="Check Refund Price Booking">`;
                     document.getElementById('cancel').hidden = false;
                     document.getElementById('request_captcha').hidden = true;
