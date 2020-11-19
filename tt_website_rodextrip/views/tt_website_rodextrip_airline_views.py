@@ -390,6 +390,7 @@ def passenger(request):
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
             #CHECK INI
+            set_session(request, 'airline_price_itinerary', json.loads(request.POST['airline_price_itinerary']))
             set_session(request, 'time_limit', int(request.POST['time_limit_input']))
             set_session(request, 'signature', request.POST['signature'])
             set_session(request, 'airline_signature', request.POST['signature'])
@@ -426,6 +427,7 @@ def passenger(request):
                 'phone_code': phone_code,
                 'airline_request': request.session['airline_request'],
                 'price': request.session['airline_price_itinerary'],
+                'airline_get_price_request': request.session['airline_get_price_request'],
                 'airline_carriers': carrier,
                 'airline_pick': request.session['airline_price_itinerary']['price_itinerary_provider'],
                 'adults': adult,

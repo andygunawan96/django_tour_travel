@@ -222,9 +222,10 @@ def signin_btc(request):
     res = util.send_request(url=url+'session', data=data, headers=headers, method='POST', timeout=10)
     try:
         if res['result']['error_code'] == 0:
-            for key in reversed(list(request.session._session.keys())):
-                if key != '_language':
-                    del request.session[key]
+            # kalau pindah booking b2c ke login kalau di hapus cache tidak bisa di pindah
+            # for key in reversed(list(request.session._session.keys())):
+            #     if key != '_language':
+            #         del request.session[key]
             request.session.create()
             set_session(request, 'signature', res['result']['response']['signature'])
             set_session(request, 'username', request.POST.get('username') or user_default)

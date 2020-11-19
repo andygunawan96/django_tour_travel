@@ -713,7 +713,7 @@ def get_price_itinerary(request, boolean, counter):
         _logger.info(json.dumps(request.session['airline_get_price_request']))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-        data = request.session['airline_get_price_request']
+        data = json.loads(request.POST['data'])
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -832,7 +832,7 @@ def get_price_itinerary(request, boolean, counter):
         if boolean == False:
             check_special_price = True
             for schedule in data['schedules']:
-                if len(schedule['journey']) > 1:
+                if len(schedule['journeys']) > 1:
                     check_special_price = False
                     break
             res['result']['response'].update({
@@ -842,7 +842,8 @@ def get_price_itinerary(request, boolean, counter):
             res['result']['response'].update({
                 'is_combo_price': not boolean
             })
-    except:
+        res['result']['request'] = data
+    except Exception as e:
         pass
     return res
 
@@ -856,6 +857,13 @@ def get_fare_rules(request):
             "signature": request.POST['signature'],
         }
     except Exception as e:
+        data = json.loads(request.POST['data'])
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_fare_rules",
+            "signature": request.POST['signature'],
+        }
         _logger.error(str(e) + '\n' + traceback.format_exc())
     res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST')
 
@@ -879,6 +887,13 @@ def sell_journeys(request):
             "signature": request.POST['signature'],
         }
     except Exception as e:
+        data = json.loads(request.POST['data'])
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "sell_journeys",
+            "signature": request.POST['signature'],
+        }
         _logger.error(str(e) + '\n' + traceback.format_exc())
     if 'sell_journey' + request.POST['signature'] not in request.session or request.session.get('sell_journey_data' + request.POST['signature']) != data:
         res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST', timeout=300)
@@ -1871,7 +1886,6 @@ def compute_pnr_pax_js(paxs):
         pnr['pax'].append(rec[2])
     return pnrs
 
-
 def compute_pax_js(paxs):
     pax_list = []
     for rec in json.loads(paxs):
@@ -1879,6 +1893,50 @@ def compute_pax_js(paxs):
         if rec_pax[2] not in pax_list:
             pax_list.append(rec_pax[2])
     return [{'passenger_number': int(rec)} for rec in pax_list]
+
+def compute_pax_js_new(paxs):
+    # {PNR: lalala
+    #  journeys:[{
+    #      'desti'
+    #      'origin'
+    #      'departure_date':
+    #      'pax':[{}]
+    #  }]
+    # }
+    journeys = []
+    for rec in json.loads(paxs):
+        rec_pax = rec.split('~')
+        check = True
+        for pnr in journeys:
+            if pnr['pnr'] == rec_pax[1]:
+                for journey in pnr['journeys']:
+                    if rec_pax[3] == journey['destination'] and rec_pax[4] == journey['origin'] and convert_frontend_datetime_to_server_format(rec_pax[5]) == journey['departure_date'] and rec_pax[2] not in journey['pax']:
+                        journey['pax'].append(rec_pax[2])
+                        check = False
+                if check == True:
+                    pnr['journeys'].append({
+                        'destination': rec_pax[3],
+                        'origin': rec_pax[4],
+                        'departure_date': convert_frontend_datetime_to_server_format(rec_pax[5]),
+                        'pax': []
+                    })
+                    journeys[len(journeys) - 1]['journeys'][len(journeys[len(journeys) - 1]['journeys']) - 1]['pax'].append(rec_pax[2])
+                check = False
+
+        if check == True:
+            journeys.append({
+                'pnr': rec_pax[1],
+                'journeys': []
+            })
+            journeys[len(journeys)-1]['journeys'].append({
+                'destination': rec_pax[3],
+                'origin': rec_pax[4],
+                'departure_date': convert_frontend_datetime_to_server_format(rec_pax[5]),
+                'pax': []
+            })
+            journeys[len(journeys) - 1]['journeys'][len(journeys[len(journeys) - 1]['journeys']) -1]['pax'].append(rec_pax[2])
+
+    return journeys
 
 def pre_refund_login(request):
     try:
@@ -1915,7 +1973,7 @@ def get_refund_booking(request):
         data = {
             'order_number': request.POST['order_number'],
             'passengers': request.POST.get('passengers') and compute_pax_js(request.POST['passengers']) or [],
-            'provider_bookings': [],
+            'provider_bookings': request.POST.get('passengers') and compute_pax_js_new(request.POST['passengers']) or [],
             "captcha": json.loads(request.POST['captcha']),
         }
         headers = {
