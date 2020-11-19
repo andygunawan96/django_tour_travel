@@ -38,3 +38,6 @@ def convert_string_to_date_to_string_front_end_with_time(date):
 
 def to_date_now(date):
     return datetime.strftime(datetime.strptime(date, '%Y-%m-%d %H:%M:%S') + timedelta(hours=7), '%Y-%m-%d %H:%M:%S')
+
+def convert_frontend_datetime_to_server_format(date):
+    return datetime.strptime(date, "%d %b %Y  %H:%M").strftime('%Y-%m-%d %H:%M:%S')

@@ -302,6 +302,8 @@ function signin_btc(){
                     window.location.href = '/';
                 }else if(window.location.href.split('/')[window.location.href.split('/').length-2] == 'airline'){
                     airline_redirect_signup(last_session);
+                }else if(window.location.href.split('/')[window.location.href.split('/').length-2] == 'train'){
+                    train_redirect_signup(last_session);
                 }else{
                     window.location.href = '/';
                 }

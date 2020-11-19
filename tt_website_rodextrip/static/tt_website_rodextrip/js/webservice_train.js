@@ -2,6 +2,7 @@ var train_data = [];
 var train_data_filter = '';
 var train_cookie = '';
 var train_sid = '';
+last_session = 'sell_journey'
 var month = {
     '01': 'Jan',
     '02': 'Feb',
@@ -39,6 +40,86 @@ function can_book(departure, arrival){
         }
     }
     return duration;
+}
+
+function train_redirect_signup(type){
+    if(type != 'signin'){
+        getToken();
+        $.ajax({
+           type: "POST",
+           url: "/webservice/train",
+           headers:{
+                'action': 'signin',
+           },
+    //       url: "{% url 'tt_backend_rodextrip:social_media_tree_update' %}",
+           data: {},
+           success: function(msg) {
+           try{
+               console.log(msg);
+               if(msg.result.error_code == 0){
+                    train_signature = msg.result.response.signature;
+                    new_login_signature = msg.result.response.signature;
+                    if(type != 'search'){
+                        $.ajax({
+                           type: "POST",
+                           url: "/webservice/train",
+                           headers:{
+                                'action': 'search',
+                           },
+                           data: {
+                               'use_cache': true,
+                               'signature': new_login_signature
+                           },
+                           success: function(msg) {
+                           console.log(msg);
+                               if(msg.result.error_code == 0){
+                                    signature = new_login_signature;
+                                    document.getElementById('reload_page').innerHTML +=`
+                                        <input type='hidden' name="time_limit_input" value="`+time_limit+`"/>
+                                        <input type='hidden' id="response" name="response" value=""/>
+                                        <input type='hidden' name="signature" value='`+new_login_signature+`'/>
+                                    `;
+                                    try{
+                                        document.getElementById('response').value = train_response;
+                                    }catch(err){}
+                                    document.getElementById('reload_page').submit();
+                                    $('#myModalSignin').modal('hide');
+                               }
+                           },
+                           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                                if(XMLHttpRequest.status == 500){
+
+                                }
+                           },timeout: 120000 // sets timeout to 120 seconds
+                        });
+                    }else{
+                        signature = new_login_signature;
+                        $('#myModalSignin').modal('hide');
+                        location.reload();
+                    }
+               }
+           }catch(err){
+               console.log(err)
+            }
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+              if(XMLHttpRequest.status == 500){
+                  $("#barFlightSearch").hide();
+                  $("#waitFlightSearch").hide();
+
+                  Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: red;">Error airline signin </span>' + errorThrown,
+                  })
+                  $('.loader-rodextrip').fadeOut();
+                  try{
+                    $("#show_loading_booking_airline").hide();
+                  }catch(err){}
+              }
+           },timeout: 60000
+        });
+    }
 }
 
 function train_signin(data){

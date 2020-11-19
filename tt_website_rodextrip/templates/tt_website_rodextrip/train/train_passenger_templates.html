@@ -23,6 +23,13 @@
     train_carriers = train_carriers.replace(/&quot;/g, '"');
     train_carriers = train_carriers.replace(/False/g, 'false');
     train_carriers = train_carriers.replace(/True/g, 'true');
+
+    train_response = `{{response}}`;
+    train_response = train_response.replace(/&#39;/g, '"');
+    train_response = train_response.replace(/&quot;/g, '"');
+    train_response = train_response.replace(/False/g, 'false');
+    train_response = train_response.replace(/True/g, 'true');
+
     train_carriers = JSON.parse(train_carriers);
     birth_date_required = false;
     for(j in train_data){
@@ -69,6 +76,9 @@
             </div>
         </div>
     </div>
+    {% if username.co_user_login == 'agent_b2c' %}
+    {% include 'tt_website_rodextrip/header_signin_signup.html' %}
+    {% endif %}
 </header>
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
     <div class="container">
@@ -3538,6 +3548,10 @@
 
 {% include 'tt_website_rodextrip/footer.html' %}
 
+
+{% if username.co_user_login == 'agent_b2c' %}
+{% include 'tt_website_rodextrip/modal_signin_signup.html' %}
+{% endif %}
 <script>
     train_detail();
     $( document ).ready(function() {
