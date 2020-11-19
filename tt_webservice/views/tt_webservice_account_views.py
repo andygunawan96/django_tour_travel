@@ -390,7 +390,7 @@ def get_transactions(request):
                 "Accept": "application/json,text/html,application/xml",
                 "Content-Type": "application/json",
                 "action": "get_transactions",
-                "signature": request.session['signature'],
+                "signature": request.POST['signature'],
             }
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
@@ -433,7 +433,7 @@ def get_transactions(request):
                     "Accept": "application/json,text/html,application/xml",
                     "Content-Type": "application/json",
                     "action": "get_transactions",
-                    "signature": request.session['signature'],
+                    "signature": request.POST['signature'],
                 }
                 res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
                 if int(request.POST['offset']) == 300:
