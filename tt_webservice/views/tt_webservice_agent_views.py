@@ -703,6 +703,7 @@ def get_new_cache(signature):
         return True
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+        _logger.error(msg='check wiki gitlab file cache baru')
         return False
 
     # cache airline popular

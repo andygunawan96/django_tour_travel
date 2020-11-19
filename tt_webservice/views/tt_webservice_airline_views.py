@@ -525,14 +525,15 @@ def search2(request):
             "signature": request.POST['signature']
         }
     except Exception as e:
+        if request.POST.get('use_cache'):
+            data = request.session['airline_search']
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
+                "action": "search",
+                "signature": request.POST['signature']
+            }
         _logger.error(str(e) + '\n' + traceback.format_exc())
-        data = request.session['airline_search']
-        headers = {
-            "Accept": "application/json,text/html,application/xml",
-            "Content-Type": "application/json",
-            "action": "search",
-            "signature": request.POST['signature']
-        }
     res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST', timeout=120)
     try:
         if res['result']['error_code'] == 0:
@@ -1911,7 +1912,7 @@ def compute_pax_js_new(paxs):
             if pnr['pnr'] == rec_pax[1]:
                 for journey in pnr['journeys']:
                     if rec_pax[3] == journey['destination'] and rec_pax[4] == journey['origin'] and convert_frontend_datetime_to_server_format(rec_pax[5]) == journey['departure_date'] and rec_pax[2] not in journey['pax']:
-                        journey['pax'].append(rec_pax[2])
+                        journey['pax'].append(int(rec_pax[2]))
                         check = False
                 if check == True:
                     pnr['journeys'].append({
@@ -1920,7 +1921,7 @@ def compute_pax_js_new(paxs):
                         'departure_date': convert_frontend_datetime_to_server_format(rec_pax[5]),
                         'pax': []
                     })
-                    journeys[len(journeys) - 1]['journeys'][len(journeys[len(journeys) - 1]['journeys']) - 1]['pax'].append(rec_pax[2])
+                    journeys[len(journeys) - 1]['journeys'][len(journeys[len(journeys) - 1]['journeys']) - 1]['pax'].append(int(rec_pax[2]))
                 check = False
 
         if check == True:
@@ -1934,7 +1935,7 @@ def compute_pax_js_new(paxs):
                 'departure_date': convert_frontend_datetime_to_server_format(rec_pax[5]),
                 'pax': []
             })
-            journeys[len(journeys) - 1]['journeys'][len(journeys[len(journeys) - 1]['journeys']) -1]['pax'].append(rec_pax[2])
+            journeys[len(journeys) - 1]['journeys'][len(journeys[len(journeys) - 1]['journeys']) -1]['pax'].append(int(rec_pax[2]))
 
     return journeys
 

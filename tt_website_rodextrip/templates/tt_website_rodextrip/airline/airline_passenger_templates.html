@@ -45,6 +45,7 @@
     airline_pick = airline_pick.replace('None', '""');
     airline_pick = JSON.parse(airline_pick);
 
+    //b2c login
     airline_get_price_request = `{{airline_get_price_request}}`;
     airline_get_price_request = airline_get_price_request.replace(/&#39;/g, '"');
     airline_get_price_request = airline_get_price_request.replace(/True/g, 'true');

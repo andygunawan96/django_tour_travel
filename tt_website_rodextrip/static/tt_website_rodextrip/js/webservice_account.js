@@ -78,6 +78,7 @@ function get_balance(val){
                             document.getElementById("credit_search").innerHTML = text;
                         }catch(err){}
                     }catch(err){}
+                    get_transactions_notification(val);
                     //document.getElementById('balance').value = msg.result.response.balance + msg.result.response.credit_limit;
                 }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                     auto_logout();
@@ -108,7 +109,7 @@ function get_balance(val){
                       html: '<span style="color: #ff9900;">Error get balance </span>' + msg.result.error_msg,
                   })
                 }
-                get_transactions_notification(val);
+
                },
                error: function(XMLHttpRequest, textStatus, errorThrown) {
                   if(XMLHttpRequest.status == 500){

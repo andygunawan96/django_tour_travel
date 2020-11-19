@@ -234,6 +234,8 @@ def search(request):
             "provider": request.POST['provider'],
             # "provider": "rodextrip_train"
         }
+        if 'train_search' not in request.session._session:
+            set_session(request, 'train_search', data)
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -241,6 +243,14 @@ def search(request):
             "signature": request.POST['signature'],
         }
     except Exception as e:
+        if request.POST.get('use_cache'):
+            data = request.session['train_search']
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
+                "action": "search",
+                "signature": request.POST['signature']
+            }
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
     res = util.send_request(url=url + 'booking/train', data=data, headers=headers, method='POST', timeout=480)

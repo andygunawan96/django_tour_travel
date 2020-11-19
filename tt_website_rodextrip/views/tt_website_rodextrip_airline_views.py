@@ -1249,6 +1249,7 @@ def review(request):
                 'static_path_url_server': get_url_static_path(),
                 'signature': request.session['airline_signature'],
                 'time_limit': int(request.POST['time_limit_input']),
+                'airline_get_price_request': request.session['airline_get_price_request'],
                 # 'co_uid': request.session['co_uid'],
                 # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
             })

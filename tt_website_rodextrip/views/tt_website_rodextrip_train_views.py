@@ -199,6 +199,7 @@ def passenger(request):
             try:
                 set_session(request, 'time_limit', int(request.POST['time_limit_input']))
                 set_session(request, 'train_pick', json.loads(request.POST['response']))
+                set_session(request, 'train_signature', request.POST['signature'])
             except:
                 pass
 
@@ -377,11 +378,21 @@ def review(request):
             set_session(request, 'train_booking', schedules)
             try:
                 set_session(request, 'time_limit', request.POST['time_limit_input'])
+                set_session(request, 'train_signature', request.POST['signature'])
             except:
                 pass
             time_limit = request.session['time_limit']
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
+        except Exception as e:
+            # coba pakai cache
+            try:
+                set_session(request, 'time_limit', request.POST['time_limit_input'])
+                set_session(request, 'train_signature', request.POST['signature'])
+            except:
+                pass
+            time_limit = request.session['time_limit']
+        try:
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
@@ -389,7 +400,9 @@ def review(request):
                 'id_types': id_type,
                 'train_request': request.session['train_request'],
                 'response': request.session['train_pick'],
-                'upsell': request.session.get('train_upsell_'+request.session['train_signature']) and request.session.get('train_upsell_'+request.session['train_signature']) or 0,
+                'upsell': request.session.get(
+                    'train_upsell_' + request.session['train_signature']) and request.session.get(
+                    'train_upsell_' + request.session['train_signature']) or 0,
                 'username': request.session['user_account'],
                 'passenger': request.session['train_create_passengers'],
                 'javascript_version': javascript_version,
