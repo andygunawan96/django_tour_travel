@@ -1719,11 +1719,11 @@ function get_price_itinerary_request(){
                         text+=`
                         <div class="col-lg-12">`;
                         if(i == 0 && j == 0 && resJson.result.response.is_combo_price == true && journey.length > 1){
-                            text += `<marquee direction="down" behavior="alternate" height="50">
-
-                                     <marquee behavior="alternate"><font size="5">Special Price</font></marquee>
-
-                                     </marquee>`;
+//                            text += `<marquee direction="down" behavior="alternate" height="50">
+//
+//                                     <marquee behavior="alternate"><font size="5">Special Price</font></marquee>
+//
+//                                     </marquee>`;
                             $text +='Special Price\n';
                         }
                         flight_count++;

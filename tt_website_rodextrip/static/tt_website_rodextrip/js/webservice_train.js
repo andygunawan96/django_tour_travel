@@ -42,6 +42,13 @@ function can_book(departure, arrival){
     return duration;
 }
 
+function test_search_train(){
+    counter = parseInt(document.getElementById('counter').value);
+    for(i=0;i<counter;i++){
+        train_search('kai');
+    }
+}
+
 function train_redirect_signup(type){
     if(type != 'signin'){
         getToken();
