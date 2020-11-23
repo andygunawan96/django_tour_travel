@@ -907,12 +907,14 @@ function radio_button(type,val){
 }
 
 function triggered_balance(val){
-    var timeInterval = setInterval(function() {
+    timeInterval = setInterval(function() {
         if(time!=0){
             time--;
         }else{
-            if(login_again == true)
+            if(login_again == true){
                 get_balance(val);
+                time--;
+            }
         }
     }, 1000);
 
