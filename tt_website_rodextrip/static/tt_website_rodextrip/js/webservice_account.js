@@ -54,8 +54,8 @@ function get_balance(val){
                },
                success: function(msg) {
                 console.log(msg);
-                time = 300;
                 if(msg.result.error_code == 0){
+                    time = 300;
                     balance = parseInt(msg.result.response.balance);
                     credit_limit = parseInt(msg.result.response.credit_limit);
                     text = `Balance: `+msg.result.response.currency_code + ' ' + getrupiah(balance)+``;
@@ -81,6 +81,8 @@ function get_balance(val){
                     get_transactions_notification(val);
                     //document.getElementById('balance').value = msg.result.response.balance + msg.result.response.credit_limit;
                 }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                    clearTimeout(timeInterval);
+                    time = -1;
                     auto_logout();
                 }else{
                   text = `Balance: Timeout`;
