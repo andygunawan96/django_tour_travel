@@ -45,7 +45,7 @@ function can_book(departure, arrival){
 function test_search_train(){
     counter = parseInt(document.getElementById('counter').value);
     for(i=0;i<counter;i++){
-        train_search('kai');
+        train_signin('');
     }
 }
 
