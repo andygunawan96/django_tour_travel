@@ -144,7 +144,7 @@ function train_signin(data){
                 signature = msg.result.response.signature;
                 get_carriers_train();
                 if(data == '')
-                    train_get_config_provider();
+                    train_get_config_provider(signature);
 //                    train_search(msg.result.response.signature);
                 else if(data != '')
                     train_get_booking(data);
@@ -224,7 +224,7 @@ function get_carriers_train(){
     });
 }
 
-function train_get_config_provider(){
+function train_get_config_provider(signature){
     $.ajax({
        type: "POST",
        url: "/webservice/train",
@@ -242,7 +242,7 @@ function train_get_config_provider(){
             if(msg.result.error_code == 0){
                 provider_length = msg.result.response.providers.length;
                 for(i in msg.result.response.providers){
-                    train_search(msg.result.response.providers[i].provider);
+                    train_search(msg.result.response.providers[i].provider, signature);
                 }
             }else{
                Swal.fire({
@@ -272,7 +272,7 @@ function train_get_config_provider(){
 }
 
 //signin jadi 1 sama search
-function train_search(provider){
+function train_search(provider, signature){
     document.getElementById('train_ticket').innerHTML = ``;
     document.getElementById('train_detail').innerHTML = ``;
     $.ajax({
