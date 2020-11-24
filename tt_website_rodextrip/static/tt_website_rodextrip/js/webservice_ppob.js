@@ -28,15 +28,9 @@ function signin_ppob(data){
 
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                $('.payment_acq_btn').prop('disabled', false);
-                $('.hold-seat-booking-train').removeClass("running");
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error issued offline signin </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error signin ppob');
+            $('.payment_acq_btn').prop('disabled', false);
+            $('.hold-seat-booking-train').removeClass("running");
        },timeout: 60000
     });
 }
@@ -91,13 +85,7 @@ function get_config_ppob(){
             set_container_bill();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error get signature </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get config ppob');
        },timeout: 60000
     });
 }
@@ -119,13 +107,7 @@ function get_carriers_ppob(){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error get signature </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get carriers ppob');
        },timeout: 60000
     });
 }
@@ -147,13 +129,7 @@ function get_carrier_providers_ppob(){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error get signature </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get carrier providers ppob');
        },timeout: 60000
     });
 }
@@ -173,13 +149,7 @@ function get_provider_list(type){
            provider_list_data = msg;
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                   Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      html: '<span style="color: red;">Error ppob get provider list </span>' + errorThrown,
-                   })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error ppob get provider list');
        },timeout: 60000
     });
 }
@@ -544,13 +514,7 @@ function search_ppob(){
                 $('.btn-next').prop('disabled', false);
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                if(XMLHttpRequest.status == 500){
-                    Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      html: '<span style="color: red;">Error get signature </span>' + errorThrown,
-                    })
-                }
+                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error ppob check price');
                 $('.btn-next').removeClass("running");
                 $('.btn-next').prop('disabled', false);
            },timeout: 60000
@@ -608,7 +572,7 @@ function ppob_get_booking(data){
            console.log(msg);
            bills_get_detail = msg;
            get_payment = false;
-           $("#waitingTransaction").modal('hide');
+           hide_modal_waiting_transaction();
            try{
                //get booking view edit here
                if(msg.result.error_code == 0){
@@ -727,7 +691,7 @@ function ppob_get_booking(data){
                 else{
                     //$(".issued_booking_btn").remove();
                     $('.loader-rodextrip').fadeOut();
-                    $("#waitingTransaction").modal('hide');
+                    hide_modal_waiting_transaction();
                 }
 
                 $text += 'Order Number: '+ msg.result.response.order_number + '\n';
@@ -1461,20 +1425,11 @@ function ppob_get_booking(data){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-          if(XMLHttpRequest.status == 500){
-              $("#show_loading_booking_bills").hide();
-              $("#show_error_booking_bills").show();
-              Swal.fire({
-                type: 'error',
-                title: 'Oops!',
-                html: '<span style="color: red;">Error bills booking </span>' + errorThrown,
-              }).then((result) => {
-                  if (result.value) {
-                    $("#waitingTransaction").modal('hide');
-                  }
-                })
-              $('.loader-rodextrip').fadeOut();
-              $("#waitingTransaction").modal('hide');
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error bills get booking');
+            $("#show_loading_booking_bills").hide();
+            $("#show_error_booking_bills").show();
+            hide_modal_waiting_transaction();
+            $('.loader-rodextrip').fadeOut();
           }
        },timeout: 300000
     });
@@ -1510,7 +1465,7 @@ function cancel_btn(){
                    window.location = "/ppob/booking/" + bills_get_detail.result.response.order_number;
                    price_arr_repricing = {};
                    pax_type_repricing = [];
-                   $("#waitingTransaction").modal('hide');
+                   hide_modal_waiting_transaction();
                    document.getElementById('show_loading_booking_bills').hidden = false;
                    document.getElementById('bills_booking').innerHTML = '';
                    document.getElementById('bills_detail').innerHTML = '';
@@ -1540,7 +1495,7 @@ function cancel_btn(){
                         document.getElementById('show_loading_booking_bills').hidden = false;
                         document.getElementById('payment_acq').hidden = true;
 
-                        $("#waitingTransaction").modal('hide');
+                        hide_modal_waiting_transaction();
                         document.getElementById("overlay-div-box").style.display = "none";
 
                         $('.hold-seat-booking-train').prop('disabled', false);
@@ -1551,31 +1506,22 @@ function cancel_btn(){
                }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                if(XMLHttpRequest.status == 500){
-                    Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      html: '<span style="color: red;">Error ppob cancel booking </span>' + errorThrown,
-                    }).then((result) => {
-                      if (result.value) {
-                        price_arr_repricing = {};
-                        pax_type_repricing = [];
-                        document.getElementById('show_loading_booking_bills').hidden = false;
-                        document.getElementById('bills_booking').innerHTML = '';
-                        document.getElementById('bills_detail').innerHTML = '';
-                        document.getElementById('payment_acq').innerHTML = '';
-                        document.getElementById('show_loading_booking_bills').style.display = 'block';
-                        document.getElementById('show_loading_booking_bills').hidden = false;
-                        document.getElementById('payment_acq').hidden = true;
+                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error ppob cancel booking');
+                price_arr_repricing = {};
+                pax_type_repricing = [];
+                document.getElementById('show_loading_booking_bills').hidden = false;
+                document.getElementById('bills_booking').innerHTML = '';
+                document.getElementById('bills_detail').innerHTML = '';
+                document.getElementById('payment_acq').innerHTML = '';
+                document.getElementById('show_loading_booking_bills').style.display = 'block';
+                document.getElementById('show_loading_booking_bills').hidden = false;
+                document.getElementById('payment_acq').hidden = true;
 
-                        $("#waitingTransaction").modal('hide');
-                        document.getElementById("overlay-div-box").style.display = "none";
-                        $('.hold-seat-booking-train').prop('disabled', false);
-                        $('.hold-seat-booking-train').removeClass("running");
-                        ppob_get_booking(bills_get_detail.result.response.order_number);
-                      }
-                    })
-                }
+                hide_modal_waiting_transaction();
+                document.getElementById("overlay-div-box").style.display = "none";
+                $('.hold-seat-booking-train').prop('disabled', false);
+                $('.hold-seat-booking-train').removeClass("running");
+                ppob_get_booking(bills_get_detail.result.response.order_number);
            },timeout: 300000
         });
       }
@@ -1610,21 +1556,11 @@ function resync_status(){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-          if(XMLHttpRequest.status == 500){
-              $("#show_loading_booking_bills").hide();
-              $("#show_error_booking_bills").show();
-              Swal.fire({
-                type: 'error',
-                title: 'Oops!',
-                html: '<span style="color: red;">Error bills booking </span>' + errorThrown,
-              }).then((result) => {
-                  if (result.value) {
-                    $("#waitingTransaction").modal('hide');
-                  }
-                })
-              $('.loader-rodextrip').fadeOut();
-              $("#waitingTransaction").modal('hide');
-          }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error bills sync status');
+            $("#show_loading_booking_bills").hide();
+            $("#show_error_booking_bills").show();
+            hide_modal_waiting_transaction();
+            $('.loader-rodextrip').fadeOut();
        },timeout: 300000
     });
 
@@ -1664,7 +1600,7 @@ function ppob_issued(data){
                    //update ticket
                    price_arr_repricing = {};
                    pax_type_repricing = [];
-                   $("#waitingTransaction").modal('hide');
+                   hide_modal_waiting_transaction();
                    document.getElementById('show_loading_booking_bills').hidden = false;
                    document.getElementById('bills_booking').innerHTML = '';
                    document.getElementById('bills_detail').innerHTML = '';
@@ -1695,7 +1631,7 @@ function ppob_issued(data){
                     document.getElementById('cancel').hidden = true;
                     document.getElementById('payment_acq').hidden = true;
 
-                    $("#waitingTransaction").modal('hide');
+                    hide_modal_waiting_transaction();
                     document.getElementById("overlay-div-box").style.display = "none";
 
                     $('.hold-seat-booking-train').prop('disabled', false);
@@ -1704,28 +1640,22 @@ function ppob_issued(data){
                }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                if(XMLHttpRequest.status == 500){
-                    Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      html: '<span style="color: red;">Error bills issued </span>' + errorThrown,
-                    })
-                    price_arr_repricing = {};
-                    pax_type_repricing = [];
-                    document.getElementById('show_loading_booking_bills').hidden = false;
-                    document.getElementById('bills_booking').innerHTML = '';
-                    document.getElementById('bills_detail').innerHTML = '';
-                    document.getElementById('payment_acq').innerHTML = '';
-                    document.getElementById('show_loading_booking_bills').style.display = 'block';
-                    document.getElementById('show_loading_booking_bills').hidden = false;
-                    document.getElementById('cancel').hidden = true;
-                    document.getElementById('payment_acq').hidden = true;
-                    $("#waitingTransaction").modal('hide');
-                    document.getElementById("overlay-div-box").style.display = "none";
-                    $('.hold-seat-booking-train').prop('disabled', false);
-                    $('.hold-seat-booking-train').removeClass("running");
-                    ppob_get_booking(data);
-                }
+                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error bills issued');
+                price_arr_repricing = {};
+                pax_type_repricing = [];
+                document.getElementById('show_loading_booking_bills').hidden = false;
+                document.getElementById('bills_booking').innerHTML = '';
+                document.getElementById('bills_detail').innerHTML = '';
+                document.getElementById('payment_acq').innerHTML = '';
+                document.getElementById('show_loading_booking_bills').style.display = 'block';
+                document.getElementById('show_loading_booking_bills').hidden = false;
+                document.getElementById('cancel').hidden = true;
+                document.getElementById('payment_acq').hidden = true;
+                hide_modal_waiting_transaction();
+                document.getElementById("overlay-div-box").style.display = "none";
+                $('.hold-seat-booking-train').prop('disabled', false);
+                $('.hold-seat-booking-train').removeClass("running");
+                ppob_get_booking(data);
            },timeout: 300000
         });
       }
@@ -1809,13 +1739,7 @@ function update_service_charge(type){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error bill update service charge </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error bill update service charge');
        },timeout: 60000
     });
 }

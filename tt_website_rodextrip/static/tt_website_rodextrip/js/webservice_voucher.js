@@ -15,13 +15,7 @@ function get_voucher(){
             console.log(msg);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error voucher signin </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error voucher signin');
        },timeout: 60000
     });
 }
@@ -40,13 +34,7 @@ function set_voucher(type){
             console.log(msg);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error voucher signin </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error set voucher');
        },timeout: 60000
     });
 }
@@ -420,13 +408,7 @@ function check_voucher(){
                 }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                if(XMLHttpRequest.status == 500){
-                    Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      html: '<span style="color: red;">Error voucher signin </span>' + errorThrown,
-                    })
-                }
+                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error check voucher');
            },timeout: 60000
         });
     }else{

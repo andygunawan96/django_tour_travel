@@ -184,13 +184,7 @@ function get_social(type){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error get social media </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get social media');
        },timeout: 60000
     });
 }
@@ -222,13 +216,7 @@ function save_social(){
             })
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error save social media </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error save social media');
        },timeout: 60000
     });
 }

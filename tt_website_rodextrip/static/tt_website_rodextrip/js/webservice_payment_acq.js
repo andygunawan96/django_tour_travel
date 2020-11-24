@@ -35,13 +35,7 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
             render_payment();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error payment acq </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error payment acq');
        },timeout: 60000
     });
 }
@@ -147,13 +141,7 @@ function payment(){
             console.log(msg);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error payment </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error payment');
        },timeout: 60000
     });
 }
@@ -1002,13 +990,7 @@ function get_payment_order_number(order_number){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error get signature </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get signature');
        },timeout: 60000
     });
 }
@@ -1029,13 +1011,7 @@ function get_order_number_frontend(order_number){
             get_payment_espay(msg.result.response.order_number)
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error get signature </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get signature');
        },timeout: 60000
     });
 }
@@ -1175,13 +1151,7 @@ function get_va_number(){
             change_top_up_method();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error update banner </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get va number');
        }
     });
 }

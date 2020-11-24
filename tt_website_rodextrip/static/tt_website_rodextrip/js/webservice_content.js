@@ -18,13 +18,7 @@ function update_banner(){
        contentType:false,
        processData:false,
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error update banner </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error update banner');
        }
     });
 }
@@ -108,13 +102,7 @@ function set_inactive_delete_banner(){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error inactive delete banner </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error inactive delete banner');
        }
     });
 }
@@ -493,13 +481,7 @@ function get_banner(type,page){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error banner </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error banner');
        }
     });
 }
@@ -605,13 +587,7 @@ function get_page(data){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error update banner </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error update banner');
        }
     });
 }
@@ -650,13 +626,7 @@ function testing_espay_close(){
             console.log(msg);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error update banner </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error update banner');
        }
     });
 }
@@ -756,13 +726,7 @@ function get_dynamic_page(type){
 
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error update banner </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error update banner');
        }
     });
 }
@@ -841,13 +805,7 @@ function update_dynamic_page(){
            contentType:false,
            processData:false,
            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                if(XMLHttpRequest.status == 500){
-                    Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      html: '<span style="color: red;">Error update dynamic page </span>' + errorThrown,
-                    })
-                }
+                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error update dynamic page');
            }
         });
     }else{
@@ -913,13 +871,7 @@ function delete_dynamic_page(){
            contentType:false,
            processData:false,
            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                if(XMLHttpRequest.status == 500){
-                    Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      html: '<span style="color: red;">Error update dynamic page </span>' + errorThrown,
-                    })
-                }
+                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error update dynamic page');
            }
         });
     }else{
