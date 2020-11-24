@@ -42,12 +42,12 @@ function can_book(departure, arrival){
     return duration;
 }
 
-function test_search_train(){
-    counter = parseInt(document.getElementById('counter').value);
-    for(i=0;i<counter;i++){
-        train_signin('');
-    }
-}
+//function test_search_train(){
+//    counter = parseInt(document.getElementById('counter').value);
+//    for(i=0;i<counter;i++){
+//        train_signin('');
+//    }
+//}
 
 function train_redirect_signup(type){
     if(type != 'signin'){
@@ -207,6 +207,7 @@ function train_get_config_provider(signature){
        success: function(msg) {
             console.log(msg);
             counter_train_provider = 0;
+            counter_train_search = 0;
             if(google_analytics != '')
                 gtag('event', 'train_search', {});
             if(msg.result.error_code == 0){
@@ -252,6 +253,7 @@ function train_search(provider, signature){
        },
        success: function(msg) {
            console.log(msg);
+           counter_train_search++;
            try{
                 if(msg.result.error_code==0){
                     counter_train_provider++;
@@ -285,7 +287,29 @@ function train_search(provider, signature){
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error train search');
-       },timeout: 480000
+            counter_train_search++;
+            if(counter_train_search == provider_length){
+                if(train_data.length == 0){
+                    loadingTrain();
+                    var response = '';
+                    response +=`
+                        <div style="padding:5px; margin:10px;">
+                            <div style="text-align:center">
+                                <img src="/static/tt_website_rodextrip/img/icon/no-train.png" style="width:80px; height:80px;" alt="Not Found Train" title="" />
+                                <br/><br/>
+                                <h6>NO TRAIN AVAILABLE</h6>
+                            </div>
+                        </div>
+                    `;
+                    document.getElementById('train_ticket').innerHTML = response;
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: red;">Error train search </span>' + errorThrown,
+                    })
+                }
+            }
+       },timeout: 300000
     });
 }
 
