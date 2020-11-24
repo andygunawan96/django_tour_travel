@@ -1430,7 +1430,6 @@ function ppob_get_booking(data){
             $("#show_error_booking_bills").show();
             hide_modal_waiting_transaction();
             $('.loader-rodextrip').fadeOut();
-          }
        },timeout: 300000
     });
 }
