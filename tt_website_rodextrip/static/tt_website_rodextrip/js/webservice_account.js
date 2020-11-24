@@ -25,13 +25,7 @@ function signin_rodextrip(type){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error get signature </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get signature');
        },timeout: 60000
     });
 }
@@ -81,7 +75,7 @@ function get_balance(val){
                     get_transactions_notification(val);
                     //document.getElementById('balance').value = msg.result.response.balance + msg.result.response.credit_limit;
                 }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
-                    clearTimeout(timeInterval);
+                    clearTimeout(timeInterval); //clear get balance no session
                     time = -1;
                     auto_logout();
                 }else{
@@ -114,29 +108,27 @@ function get_balance(val){
 
                },
                error: function(XMLHttpRequest, textStatus, errorThrown) {
-                  if(XMLHttpRequest.status == 500){
-                      auto_logout();
-                      text = `Balance: Failed`;
-                      try{
-                        document.getElementById("balance").innerHTML = text;
-                        try{
-                            document.getElementById("balance_mob").innerHTML = text;
-                        }catch(err){}
-                        try{
-                            document.getElementById("balance_search").innerHTML = text;
-                        }catch(err){}
-                      }catch(err){}
-                      text = `Credit Limit: Failed`;
-                      try{
-                        document.getElementById("credit_limit").innerHTML = text;
-                        try{
-                            document.getElementById("credit_mob").innerHTML = text;
-                        }catch(err){}
-                        try{
-                            document.getElementById("credit_search").innerHTML = text;
-                        }catch(err){}
-                      }catch(err){}
-                  }
+                  auto_logout();
+                  text = `Balance: Failed`;
+                  try{
+                    document.getElementById("balance").innerHTML = text;
+                    try{
+                        document.getElementById("balance_mob").innerHTML = text;
+                    }catch(err){}
+                    try{
+                        document.getElementById("balance_search").innerHTML = text;
+                    }catch(err){}
+                  }catch(err){}
+                  text = `Credit Limit: Failed`;
+                  try{
+                    document.getElementById("credit_limit").innerHTML = text;
+                    try{
+                        document.getElementById("credit_mob").innerHTML = text;
+                    }catch(err){}
+                    try{
+                        document.getElementById("credit_search").innerHTML = text;
+                    }catch(err){}
+                  }catch(err){}
                },timeout: 60000
             });
         }else{
@@ -173,13 +165,7 @@ function get_account(){
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
     //            logout();
-                if(XMLHttpRequest.status == 500){
-                    Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      html: '<span style="color: red;">Error account </span>' + errorThrown,
-                    })
-                }
+                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error account');
            },timeout: 60000
         });
     }
@@ -343,19 +329,12 @@ function get_transactions_notification(val){
             }catch(err){}
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                if(XMLHttpRequest.status == 500){
-                    Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      html: '<span style="color: red;">Error transactions notification </span>' + errorThrown,
-                    })
-
-                   text= '';
-                   text+=`<div class="col-lg-12 notification-hover" style="cursor:pointer;">`;
-                   text+=`<span style="font-weight:500;"> Please try again or check your internet connection</span>`;
-                   text+=`</div>`;
-                   document.getElementById('notification_detail').innerHTML = text;
-               }
+                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error transactions notification');
+                text= '';
+                text+=`<div class="col-lg-12 notification-hover" style="cursor:pointer;">`;
+                text+=`<span style="font-weight:500;"> Please try again or check your internet connection</span>`;
+                text+=`</div>`;
+                document.getElementById('notification_detail').innerHTML = text;
            },timeout: 60000
         });
     }else{
@@ -591,13 +570,7 @@ function get_transactions(type){
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error transactions </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error transactions');
        },timeout: 60000
     });
 }
@@ -635,13 +608,7 @@ function get_top_up_quota(){
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error topup amount</span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error top up amount');
        },timeout: 60000
     });
 }
@@ -729,13 +696,7 @@ function buy_quota_btbo2(){
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error topup amount</span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error top up amount');
        },timeout: 60000
     });
 }
@@ -797,16 +758,9 @@ function submit_top_up(){
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           if(XMLHttpRequest.status == 500){
-               document.getElementById('submit_top_up').classList.remove('running');
-               document.getElementById('submit_top_up').disabled = false;
-
-               Swal.fire({
-                 type: 'error',
-                 title: 'Oops!',
-                 html: '<span style="color: red;">Error submit topup </span>' + errorThrown,
-               })
-           }
+           error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error submit top up');
+           document.getElementById('submit_top_up').classList.remove('running');
+           document.getElementById('submit_top_up').disabled = false;
        },timeout: 60000
     });
 }
@@ -846,13 +800,7 @@ function commit_top_up(){
 
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error commit topup </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error commit top up');
        },timeout: 60000
     });
 }
@@ -896,16 +844,9 @@ function cancel_top_up(name){
     //        document.getElementById('top_up_form').submit();
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                if(XMLHttpRequest.status == 500){
-                    Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      html: '<span style="color: red;">Error cancel topup </span>' + errorThrown,
-                    })
-                   $('.loader-rodextrip').fadeOut();
-                   $('#submit_top_up').prop('disabled', false);
-                   $('#submit_top_up').removeClass('running');
-               }
+                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error cancel top up');
+                $('#submit_top_up').prop('disabled', false);
+                $('#submit_top_up').removeClass('running');
            },timeout: 60000
         });
 
@@ -1033,14 +974,8 @@ function get_top_up(){
 //        document.getElementById('top_up_form').submit();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error topup </span>' + errorThrown,
-                })
-                $('#loading-search-top-up').hide();
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error top up');
+            $('#loading-search-top-up').hide();
        },timeout: 60000
     });
 }
@@ -1072,13 +1007,7 @@ function confirm_top_up(name){
         //        document.getElementById('top_up_form').submit();
                },
                error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    if(XMLHttpRequest.status == 500){
-                        Swal.fire({
-                          type: 'error',
-                          title: 'Oops!',
-                          html: '<span style="color: red;">Error confirm topup </span>' + errorThrown,
-                        })
-                    }
+                    error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error confirm top up');
                },timeout: 60000
             });
         }
@@ -1108,13 +1037,7 @@ function request_top_up(val){
 //        document.getElementById('top_up_form').submit();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error request topup </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error request top up');
        },timeout: 60000
     });
 }

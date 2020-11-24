@@ -34,13 +34,7 @@ function get_hotel_config(){
         hotel_config = msg
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error hotel config </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error hotel config');
        },timeout: 180000
     });
 }
@@ -70,13 +64,7 @@ function get_auto_complete(term,suggest){
             }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                if(XMLHttpRequest.status == 500){
-                    Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      html: '<span style="color: red;">Error hotel auto complete </span>' + errorThrown,
-                    })
-                }
+                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error hotel auto complete');
            },timeout: 60000
         });
     }, 1000);
@@ -114,16 +102,10 @@ function hotel_signin(data){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error hotel signin </span>' + errorThrown,
-                })
-              try{
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error hotel signin');
+            try{
                 $('#loading-search-hotel').hide();
-              }catch(err){}
-            }
+            }catch(err){}
        },timeout: 120000
     });
 }
@@ -277,14 +259,8 @@ function hotel_search(){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                $('#loading-search-hotel').hide();
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error hotel search </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error hotel search');
+            $('#loading-search-hotel').hide();
        },timeout: 180000
    });
 }
@@ -335,13 +311,7 @@ function get_top_facility(){
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error hotel top facility </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error hotel top facility');
        },timeout: 60000
     });
 }
@@ -405,13 +375,7 @@ function hotel_facility_request_1(hotel_facilities){
             document.getElementById("js_image_facility").innerHTML = facility_image_html;
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error hotel facility request </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error hotel facility request');
         },timeout: 60000
     });
 }
@@ -729,13 +693,7 @@ function hotel_detail_request(checkin_date, checkout_date){
             }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                if(XMLHttpRequest.status == 500){
-                    Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      html: '<span style="color: red;">Error hotel detail request </span>' + errorThrown,
-                    })
-                }
+                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error hotel detail request');
            },timeout: 60000
         });
     },500);
@@ -945,21 +903,15 @@ function hotel_get_cancellation_policy(price_code, provider, view_type){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           if(XMLHttpRequest.status == 500){
-               if (view_type == '1'){
-                    var text = '<h4>Cancellation Policy</h4>';
-                    text += '<ul style="list-style-type: circle; margin: 0 15px;"><li style="list-style: unset;">No Cancellation Policy Provided</li></ul>';
-                    document.getElementById('cancellation_policy').innerHTML = text;
-               } else {
-                    var text = '<ul style="list-style-type: circle; margin: 0 15px;">';
-                    text += '<li style="list-style: unset;">No Cancellation Policy Provided</li></ul>';
-                    document.getElementById('js_cancellation_button'+provider).parentNode.innerHTML = text;
-               }
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error hotel cancellation policy </span>' + errorThrown,
-                })
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error hotel cancellation policy');
+            if (view_type == '1'){
+                var text = '<h4>Cancellation Policy</h4>';
+                text += '<ul style="list-style-type: circle; margin: 0 15px;"><li style="list-style: unset;">No Cancellation Policy Provided</li></ul>';
+                document.getElementById('cancellation_policy').innerHTML = text;
+            } else {
+                var text = '<ul style="list-style-type: circle; margin: 0 15px;">';
+                text += '<li style="list-style: unset;">No Cancellation Policy Provided</li></ul>';
+                document.getElementById('js_cancellation_button'+provider).parentNode.innerHTML = text;
             }
        },timeout: 60000
     });
@@ -1016,13 +968,7 @@ function hotel_provision(price_code, provider){
             document.getElementById('js_new_cancel').style.display = 'block';
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error hotel provision </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error hotel provision');
        },timeout: 60000
     });
 }
@@ -1303,14 +1249,14 @@ function hotel_issued_booking(val){
                     try{
                         $('.loader-rodextrip').fadeOut();
                     }catch(err){}
-                    $("#waitingTransaction").modal('hide');
+                    hide_modal_waiting_transaction();
                     Swal.fire({
                       type: 'error',
                       title: 'Oops!',
                       html: '<span style="color: red;">Error issued hotel </span>' + msg.result.error_msg,
                     }).then((result) => {
                       if (result.value) {
-                        $("#waitingTransaction").modal('hide');
+                        hide_modal_waiting_transaction();
                       }
                     })
                 }
@@ -1318,31 +1264,21 @@ function hotel_issued_booking(val){
                 try{
                     $('.loader-rodextrip').fadeOut();
                 }catch(err){}
-                $("#waitingTransaction").modal('hide');
+                hide_modal_waiting_transaction();
                 Swal.fire({
                   type: 'error',
                   title: 'Oops!',
                   html: '<span style="color: red;">Error hotel issued booking </span>',
                 }).then((result) => {
                   if (result.value) {
-                    $("#waitingTransaction").modal('hide');
+                    hide_modal_waiting_transaction();
                   }
                 })
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                $("#waitingTransaction").modal('hide');
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error hotel issued booking </span>' + errorThrown,
-                }).then((result) => {
-                  if (result.value) {
-                    $("#waitingTransaction").modal('hide');
-                  }
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error hotel issued booking');
+            hide_modal_waiting_transaction();
        },timeout: 300000
     });
 }
@@ -1362,7 +1298,7 @@ function hotel_get_booking(data){
        },
        success: function(msg) {
             console.log(msg);
-            $("#waitingTransaction").modal('hide');
+            hide_modal_waiting_transaction();
             try{
                 list_pnr = [];
                 if(msg.result.error_code == 0){
@@ -1893,13 +1829,7 @@ function hotel_get_booking(data){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error hotel get booking </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error hotel get booking');
        },timeout: 180000
     });
 }
@@ -2207,14 +2137,8 @@ function update_service_charge(type){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error hotel service charge </span>' + errorThrown,
-                })
-                $('.loader-rodextrip').fadeOut();
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error hotel service charge');
+            $('.loader-rodextrip').fadeOut();
        },timeout: 60000
     });
 

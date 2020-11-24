@@ -200,15 +200,7 @@ function signin(){
             }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                if(XMLHttpRequest.status == 500){
-                    $('.button-login').prop('disabled', false);
-                    $('.button-login').removeClass("running");
-                    Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      html: '<span style="color: red;">Error signin </span>' + errorThrown,
-                    })
-                }
+                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error signin');
            },timeout: 60000
         });
     }
@@ -465,13 +457,7 @@ function reset_password(){
                 }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                if(XMLHttpRequest.status == 500){
-                    Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      html: '<span style="color: red;">Error reset password </span>' + errorThrown,
-                    })
-                }
+                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error reset password');
            },timeout: 60000
         });
     }else{
@@ -498,13 +484,7 @@ function get_path_url_server(){ //DEPRECATED
         static_path_url_server = msg;
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error url server </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error url server');
        },timeout: 60000
     });
 }
@@ -561,13 +541,7 @@ function signup_b2c(){
 
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                if(XMLHttpRequest.status == 500){
-                    Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      html: '<span style="color: red;">Error url server </span>' + errorThrown,
-                    })
-                }
+                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error url server');
            },timeout: 60000
         });
     else{
@@ -812,11 +786,9 @@ function create_new_passenger(){
                             }
                            },
                            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                               if(XMLHttpRequest.status == 500){
-                                   alert(errorThrown);
-                                   $('.loading-booker-train').hide();
-                                   document.getElementById('create_new_passenger_btn').disabled = false;
-                               }
+                               error_ajax(XMLHttpRequest, textStatus, errorThrown, '');
+                               $('.loading-booker-train').hide();
+                               document.getElementById('create_new_passenger_btn').disabled = false;
                            }
                         });
                     }
@@ -824,10 +796,8 @@ function create_new_passenger(){
                contentType:false,
                processData:false,
                error: function(XMLHttpRequest, textStatus, errorThrown) {
-                   if(XMLHttpRequest.status == 500){
-                       alert(errorThrown);
-                       document.getElementById('create_new_passenger_btn').disabled = true;
-                   }
+                   error_ajax(XMLHttpRequest, textStatus, errorThrown, '');
+                   document.getElementById('create_new_passenger_btn').disabled = true;
                }
            });
 
@@ -1095,15 +1065,8 @@ function get_customer_list(passenger, number, product){
                 }
                },
                error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    if(XMLHttpRequest.status == 500){
-                        Swal.fire({
-                          type: 'error',
-                          title: 'Oops!',
-                          html: '<span style="color: red;">Error customer list </span>' + errorThrown,
-                        })
-
-                        $('.loading-booker-train').hide();
-                    }
+                    error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error customer list');
+                    $('.loading-booker-train').hide();
                },timeout: 60000
             });
         }else{
@@ -1271,14 +1234,8 @@ function get_customer_list(passenger, number, product){
 
                },
                error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    if(XMLHttpRequest.status == 500){
-                        Swal.fire({
-                          type: 'error',
-                          title: 'Oops!',
-                          html: '<span style="color: red;">Error customer list </span>' + errorThrown,
-                        })
-                        $('.loading-pax-train').hide();
-                    }
+                    error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error customer list');
+                    $('.loading-pax-train').hide();
                },timeout: 60000
             });
         }else{
@@ -2594,13 +2551,7 @@ function get_top_up_history(){
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error topup history </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error top up history');
        },timeout: 60000
     });
 }
@@ -2721,13 +2672,7 @@ function create_top_up(amount, unique_amount){ //DEPRECATED
 //        $('#payment_selection').niceSelect('update');
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error create topup </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error create top up');
        },timeout: 60000
     });
 
@@ -2770,13 +2715,7 @@ function top_up_payment(){
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error topup payment </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error top up payment');
        },timeout: 60000
     });
 }
@@ -2808,13 +2747,7 @@ function get_merchant_info(){
 //        document.getElementById('form_espay').innerHTML = text;
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error merchant info </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error merchant info');
        },timeout: 60000
     });
 }
@@ -2846,13 +2779,7 @@ function get_payment_espay(order_number_full){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error merchant info </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error merchant info');
        },timeout: 60000
     });
 }
@@ -2872,13 +2799,7 @@ function request_va(){
         console.log(msg);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error request va </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error request VA');
        },timeout: 60000
     });
 }
@@ -2898,13 +2819,7 @@ function request_inv_va(){
         console.log(msg);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error inv va </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error invoice VA');
        },timeout: 60000
     });
 }
@@ -2924,13 +2839,7 @@ function get_voucher(){
         console.log(msg);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error voucher </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error voucher');
        },timeout: 60000
     });
 }
@@ -2974,9 +2883,7 @@ function add_passenger_cache(sequence){
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           if(XMLHttpRequest.status == 500){
-                alert(errorThrown);
-           }
+           error_ajax(XMLHttpRequest, textStatus, errorThrown, '');
        }
     });
 }
@@ -3044,9 +2951,7 @@ function del_passenger_cache(sequence){
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           if(XMLHttpRequest.status == 500){
-                alert(errorThrown);
-           }
+           error_ajax(XMLHttpRequest, textStatus, errorThrown, '');
        }
     });
 }
@@ -3277,9 +3182,7 @@ function get_passenger_cache(){
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           if(XMLHttpRequest.status == 500){
-                alert(errorThrown);
-           }
+           error_ajax(XMLHttpRequest, textStatus, errorThrown, '');
        }
     });
 }
@@ -3625,14 +3528,8 @@ function update_customer_cache_list(val){
         $('.loading-booker-train').hide();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error customer list </span>' + errorThrown,
-                })
-            }
-          $('.loading-booker-train').hide();
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error customer list');
+            $('.loading-booker-train').hide();
        },timeout: 60000
     });
 }
@@ -4176,13 +4073,7 @@ function update_passenger_backend(){
                             }
                        },
                        error: function(XMLHttpRequest, textStatus, errorThrown) {
-                            if(XMLHttpRequest.status == 500){
-                                Swal.fire({
-                                  type: 'error',
-                                  title: 'Oops!',
-                                  html: '<span style="color: red;">Error update passenger </span>' + errorThrown,
-                                })
-                            }
+                            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error update passenger');
                        }
                     });
 
@@ -4192,14 +4083,8 @@ function update_passenger_backend(){
            contentType:false,
            processData:false,
            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                if(XMLHttpRequest.status == 500){
-                    Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      html: '<span style="color: red;">Error update passenger </span>' + errorThrown,
-                    })
-                    document.getElementById('update_passenger_customer').disabled = false;
-                }
+                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error update passenger');
+                document.getElementById('update_passenger_customer').disabled = false;
            }
         });
     }else{
@@ -4241,13 +4126,7 @@ function update_cache_version_func(){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error update cache </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error update cache');
        },timeout: 300000
     });
 }
@@ -4302,4 +4181,20 @@ function auto_logout(msg){
         logout();
       }
     })
+}
+
+function error_ajax(XMLHttpRequest, textStatus, errorThrown, str){
+    if(XMLHttpRequest.status == 500 || XMLHttpRequest.status == 0){
+        Swal.fire({
+          type: 'error',
+          title: 'Oops!',
+          html: '<span style="color: red;">'+str+' </span>' + errorThrown,
+        })
+    }
+}
+
+function hide_modal_waiting_transaction(){
+    setTimeout(function() {
+       $("#waitingTransaction").modal('hide'); // bug modal kalau hasil ajax langsung kembali / tidak loading tidak bisa di hide jadi di beri jeda waktu untuk hide
+   }, 150);
 }

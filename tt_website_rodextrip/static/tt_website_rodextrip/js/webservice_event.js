@@ -159,7 +159,7 @@ function event_get_booking(data){
        success: function(msg) {
             console.log('Get Booking');
             console.log(msg);
-            $("#waitingTransaction").modal('hide');
+            hide_modal_waiting_transaction();
             try{
                 //======================= Resv =========================
                 if(msg.result.error_code == 0){
@@ -641,13 +641,7 @@ function event_get_booking(data){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error event get booking </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error event get booking');
        },timeout: 180000
     });
 }
@@ -683,16 +677,10 @@ function event_signin(data){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error Event signin </span>' + errorThrown,
-                })
-              try{
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error Event signin');
+            try{
                 $('#loading-search-event').hide();
-              }catch(err){console.log('part #3')}
-            }
+            }catch(err){console.log('part #3')}
        },timeout: 120000
     });
 }
@@ -1403,7 +1391,7 @@ function event_issued(data){
                    //update ticket
                    price_arr_repricing = {};
                    pax_type_repricing = [];
-                   $("#waitingTransaction").modal('hide');
+                   hide_modal_waiting_transaction();
                    document.getElementById('show_loading_booking_airline').hidden = false;
                    document.getElementById('event_booking').innerHTML = '';
                    document.getElementById('event_detail').innerHTML = '';
@@ -1417,7 +1405,7 @@ function event_issued(data){
                }else if(msg.result.error_code == 1009){
                    price_arr_repricing = {};
                    pax_type_repricing = [];
-                   $("#waitingTransaction").modal('hide');
+                   hide_modal_waiting_transaction();
                    document.getElementById('show_loading_booking_airline').hidden = false;
                    document.getElementById('event_booking').innerHTML = '';
                    document.getElementById('event_detail').innerHTML = '';
@@ -1433,10 +1421,10 @@ function event_issued(data){
                       html: '<span style="color: #ff9900;">Error event issued </span>' + msg.result.error_msg,
                     }).then((result) => {
                       if (result.value) {
-                        $("#waitingTransaction").modal('hide');
+                        hide_modal_waiting_transaction();
                       }
                     })
-                    $("#waitingTransaction").modal('hide');
+                    hide_modal_waiting_transaction();
                     document.getElementById("overlay-div-box").style.display = "none";
 
                     $('.hold-seat-booking-train').prop('disabled', false);
@@ -1460,7 +1448,7 @@ function event_issued(data){
                     document.getElementById('show_loading_booking_airline').hidden = false;
                     document.getElementById('payment_acq').hidden = true;
 
-                    $("#waitingTransaction").modal('hide');
+                    hide_modal_waiting_transaction();
                     document.getElementById("overlay-div-box").style.display = "none";
 
                     $('.hold-seat-booking-train').prop('disabled', false);
@@ -1469,27 +1457,21 @@ function event_issued(data){
                }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                if(XMLHttpRequest.status == 500){
-                    Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      html: '<span style="color: red;">Error Event issued </span>' + errorThrown,
-                    })
-                    price_arr_repricing = {};
-                    pax_type_repricing = [];
-                    document.getElementById('show_loading_booking_airline').hidden = false;
-                    document.getElementById('airline_booking').innerHTML = '';
-                    document.getElementById('airline_detail').innerHTML = '';
-                    document.getElementById('payment_acq').innerHTML = '';
-                    document.getElementById('show_loading_booking_airline').style.display = 'block';
-                    document.getElementById('show_loading_booking_airline').hidden = false;
-                    document.getElementById('payment_acq').hidden = true;
-                    $("#waitingTransaction").modal('hide');
-                    document.getElementById("overlay-div-box").style.display = "none";
-                    $('.hold-seat-booking-train').prop('disabled', false);
-                    $('.hold-seat-booking-train').removeClass("running");
-                    event_get_booking(data);
-                }
+                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error event issued');
+                price_arr_repricing = {};
+                pax_type_repricing = [];
+                document.getElementById('show_loading_booking_airline').hidden = false;
+                document.getElementById('airline_booking').innerHTML = '';
+                document.getElementById('airline_detail').innerHTML = '';
+                document.getElementById('payment_acq').innerHTML = '';
+                document.getElementById('show_loading_booking_airline').style.display = 'block';
+                document.getElementById('show_loading_booking_airline').hidden = false;
+                document.getElementById('payment_acq').hidden = true;
+                hide_modal_waiting_transaction();
+                document.getElementById("overlay-div-box").style.display = "none";
+                $('.hold-seat-booking-train').prop('disabled', false);
+                $('.hold-seat-booking-train').removeClass("running");
+                event_get_booking(data);
            },timeout: 300000
         });
       }
@@ -1614,13 +1596,7 @@ function update_service_charge(type){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error event service charge </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error event service charge');
        },timeout: 480000
     });
 }

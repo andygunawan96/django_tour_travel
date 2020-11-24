@@ -65,13 +65,7 @@ function submit_agent_registration(){
 
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error submit agent registration </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error submit agent registration');
        },timeout: 60000
     });
 }
@@ -184,13 +178,7 @@ function agent_register_get_config(){
             document.getElementById('agent_type_id').innerHTML = text;
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error agent registration config </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error agent registration get config');
        },timeout: 180000
     });
 }
@@ -270,21 +258,13 @@ function get_promotions(){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                text = '<option value="" disabled selected>Promotions</option>';
-                document.getElementById('promotion').innerHTML = text;
-                if(template == 1 || template == 3 || template == 4 || template == 5){
-                    $('#promotion').niceSelect();
-                }else if(template == 2){
-                    $('#promotion').niceSelect("update");
-                }
-                if(XMLHttpRequest.status == 500){
-                    Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      html: '<span style="color: red;">Error agent registration requirement list </span>' + errorThrown,
-                    })
-                }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error agent registration requirement list');
+            text = '<option value="" disabled selected>Promotions</option>';
+            document.getElementById('promotion').innerHTML = text;
+            if(template == 1 || template == 3 || template == 4 || template == 5){
+                $('#promotion').niceSelect();
+            }else if(template == 2){
+                $('#promotion').niceSelect("update");
             }
        },timeout: 60000
     });
@@ -360,13 +340,7 @@ function agent_register_get_requirement_list_doc(){
                 requirement_document = msg.result.response;
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error agent registration requirement list </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error agent registration requirement list');
        },timeout: 60000
     });
 }

@@ -39,16 +39,10 @@ function tour_login(data, type=''){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error tour login </span>' + errorThrown,
-                })
-                try{
-                    $('#loading-search-tour').hide();
-                }catch(err){}
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error tour login');
+            try{
+                $('#loading-search-tour').hide();
+            }catch(err){}
        },timeout: 60000
     });
 }
@@ -88,13 +82,7 @@ function get_tour_auto_complete(type){
             get_tour_config(type);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error tour config </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error tour config');
        },timeout: 60000
     });
 }
@@ -185,13 +173,7 @@ function get_tour_config(type, val){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error tour config </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error tour get data');
        },timeout: 60000
     });
 }
@@ -616,13 +598,7 @@ function tour_search(){
 
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error tour search </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error tour search');
        },timeout: 60000
     });
 }
@@ -906,13 +882,7 @@ function tour_get_details(tour_code){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error tour details </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error tour details');
        },timeout: 60000
     });
 }
@@ -940,30 +910,20 @@ function update_sell_tour(val){
               html: '<span style="color: #ff9900;">Error update sell tour </span>' + msg.result.error_msg,
             }).then((result) => {
               if (result.value) {
-                $("#waitingTransaction").modal('hide');
+                hide_modal_waiting_transaction();
               }
             })
 
             $('.hold-seat-booking-train').prop('disabled', false);
             $('.hold-seat-booking-train').removeClass("running");
-            $("#waitingTransaction").modal('hide');
+            hide_modal_waiting_transaction();
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error update sell tour </span>' + errorThrown,
-                }).then((result) => {
-                  if (result.value) {
-                    $("#waitingTransaction").modal('hide');
-                  }
-                })
-                $('.hold-seat-booking-train').prop('disabled', false);
-                $('.hold-seat-booking-train').removeClass("running");
-                $("#waitingTransaction").modal('hide');
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error update sell tour');
+            hide_modal_waiting_transaction();
+            $('.hold-seat-booking-train').prop('disabled', false);
+            $('.hold-seat-booking-train').removeClass("running");
        },timeout: 60000
     });
 }
@@ -990,30 +950,20 @@ function update_contact_tour(val){
               html: '<span style="color: #ff9900;">Error update contact tour </span>' + msg.result.error_msg,
             }).then((result) => {
               if (result.value) {
-                $("#waitingTransaction").modal('hide');
+                hide_modal_waiting_transaction();
               }
             })
 
             $('.hold-seat-booking-train').prop('disabled', false);
             $('.hold-seat-booking-train').removeClass("running");
-            $("#waitingTransaction").modal('hide');
+            hide_modal_waiting_transaction();
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error update contact tour </span>' + errorThrown,
-                }).then((result) => {
-                  if (result.value) {
-                    $("#waitingTransaction").modal('hide');
-                  }
-                })
-                $('.hold-seat-booking-train').prop('disabled', false);
-                $('.hold-seat-booking-train').removeClass("running");
-                $("#waitingTransaction").modal('hide');
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error update contact tour');
+            hide_modal_waiting_transaction();
+            $('.hold-seat-booking-train').prop('disabled', false);
+            $('.hold-seat-booking-train').removeClass("running");
        },timeout: 60000
     });
 }
@@ -1075,30 +1025,20 @@ function update_passengers_tour(val){
               html: '<span style="color: #ff9900;">Error update passengers tour </span>' + msg.result.error_msg,
             }).then((result) => {
               if (result.value) {
-                $("#waitingTransaction").modal('hide');
+                hide_modal_waiting_transaction();
               }
             })
 
             $('.hold-seat-booking-train').prop('disabled', false);
             $('.hold-seat-booking-train').removeClass("running");
-            $("#waitingTransaction").modal('hide');
+            hide_modal_waiting_transaction();
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error update passengers tour </span>' + errorThrown,
-                }).then((result) => {
-                  if (result.value) {
-                    $("#waitingTransaction").modal('hide');
-                  }
-                })
-                $('.hold-seat-booking-train').prop('disabled', false);
-                $('.hold-seat-booking-train').removeClass("running");
-                $("#waitingTransaction").modal('hide');
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error update passengers tour');
+            hide_modal_waiting_transaction();
+            $('.hold-seat-booking-train').prop('disabled', false);
+            $('.hold-seat-booking-train').removeClass("running");
        },timeout: 60000
     });
 }
@@ -1171,29 +1111,19 @@ function commit_booking_tour(val)
                   html: '<span style="color: #ff9900;">Error tour commit booking </span>' + msg.result.error_msg,
                 }).then((result) => {
                   if (result.value) {
-                    $("#waitingTransaction").modal('hide');
+                    hide_modal_waiting_transaction();
                   }
                 })
                 $('.hold-seat-booking-train').prop('disabled', false);
                 $('.hold-seat-booking-train').removeClass("running");
-                $("#waitingTransaction").modal('hide');
+                hide_modal_waiting_transaction();
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error tour commit booking </span>' + errorThrown,
-                }).then((result) => {
-                  if (result.value) {
-                    $("#waitingTransaction").modal('hide');
-                  }
-                })
-                $('.hold-seat-booking-train').prop('disabled', false);
-                $('.hold-seat-booking-train').removeClass("running");
-                $("#waitingTransaction").modal('hide');
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error tour commit booking');
+            hide_modal_waiting_transaction();
+            $('.hold-seat-booking-train').prop('disabled', false);
+            $('.hold-seat-booking-train').removeClass("running");
        },timeout: 60000
     });
 }
@@ -1220,13 +1150,7 @@ function get_payment_rules(tour_code)
 //           }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error tour payment rules </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error tour payment rules');
        },timeout: 60000
     });
 }
@@ -1293,7 +1217,7 @@ function tour_issued_booking(order_number)
                    document.getElementById('payment_acq').innerHTML = '';
                    document.getElementById('payment_acq').hidden = true;
                    $("#issuedModal").modal('hide');
-                   $("#waitingTransaction").modal('hide');
+                   hide_modal_waiting_transaction();
                    document.getElementById("overlay-div-box").style.display = "none";
                }
            }else if(msg.result.error_code == 1009){
@@ -1302,7 +1226,7 @@ function tour_issued_booking(order_number)
                document.getElementById('payment_acq').innerHTML = '';
                document.getElementById('payment_acq').hidden = true;
                $("#issuedModal").modal('hide');
-               $("#waitingTransaction").modal('hide');
+               hide_modal_waiting_transaction();
                document.getElementById("overlay-div-box").style.display = "none";
                document.getElementById('tour_final_info').innerHTML = text;
                document.getElementById('product_title').innerHTML = '';
@@ -1317,7 +1241,7 @@ function tour_issued_booking(order_number)
                   html: '<span style="color: red;">Error tour issued booking </span>' + msg.result.error_msg,
                 }).then((result) => {
                   if (result.value) {
-                    $("#waitingTransaction").modal('hide');
+                    hide_modal_waiting_transaction();
                   }
                 })
                 price_arr_repricing = {};
@@ -1325,7 +1249,7 @@ function tour_issued_booking(order_number)
                 document.getElementById('payment_acq').innerHTML = '';
                 document.getElementById('payment_acq').hidden = true;
                 $("#issuedModal").modal('hide');
-                $("#waitingTransaction").modal('hide');
+                hide_modal_waiting_transaction();
                 document.getElementById("overlay-div-box").style.display = "none";
                 document.getElementById('tour_final_info').innerHTML = text;
                 document.getElementById('product_title').innerHTML = '';
@@ -1335,36 +1259,25 @@ function tour_issued_booking(order_number)
                 $("#issuedModal").modal('hide');
                 $('.hold-seat-booking-train').prop('disabled', false);
                 $('.hold-seat-booking-train').removeClass("running");
-                $("#waitingTransaction").modal('hide');
+                hide_modal_waiting_transaction();
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error tour issued booking </span>' + errorThrown,
-                }).then((result) => {
-                  if (result.value) {
-                    $("#waitingTransaction").modal('hide');
-                  }
-                })
-                price_arr_repricing = {};
-                pax_type_repricing = [];
-                document.getElementById('payment_acq').innerHTML = '';
-                document.getElementById('payment_acq').hidden = true;
-                $("#issuedModal").modal('hide');
-                $("#waitingTransaction").modal('hide');
-                document.getElementById("overlay-div-box").style.display = "none";
-                document.getElementById('tour_final_info').innerHTML = text;
-                document.getElementById('product_title').innerHTML = '';
-                document.getElementById('product_type_title').innerHTML = '';
-                document.getElementById('tour_detail_table').innerHTML = '';
-                tour_get_booking(order_number);
-                $('.hold-seat-booking-train').prop('disabled', false);
-                $('.hold-seat-booking-train').removeClass("running");
-                $("#waitingTransaction").modal('hide');
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error tour issued booking');
+            hide_modal_waiting_transaction();
+            price_arr_repricing = {};
+            pax_type_repricing = [];
+            document.getElementById('payment_acq').innerHTML = '';
+            document.getElementById('payment_acq').hidden = true;
+            $("#issuedModal").modal('hide');
+            document.getElementById("overlay-div-box").style.display = "none";
+            document.getElementById('tour_final_info').innerHTML = text;
+            document.getElementById('product_title').innerHTML = '';
+            document.getElementById('product_type_title').innerHTML = '';
+            document.getElementById('tour_detail_table').innerHTML = '';
+            tour_get_booking(order_number);
+            $('.hold-seat-booking-train').prop('disabled', false);
+            $('.hold-seat-booking-train').removeClass("running");
        },timeout: 60000
     });
 }
@@ -1454,13 +1367,7 @@ function update_service_charge(type){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error tour update service charge </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error tour update service charge');
        },timeout: 60000
     });
 }
@@ -1484,7 +1391,7 @@ function tour_get_booking(order_number)
            tour_order_number = order_number;
            tr_get_booking = msg;
            $('#loading-search-tour').hide();
-           $("#waitingTransaction").modal('hide');
+           hide_modal_waiting_transaction();
            try{
                var book_obj = msg.result.response;
                var tour_package = msg.result.response.tour_details;
@@ -2054,13 +1961,7 @@ function tour_get_booking(order_number)
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error tour get booking </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error tour get booking');
        },timeout: 60000
     });
 }
@@ -2083,13 +1984,7 @@ function get_price_itinerary(request,type) {
             table_price_update(msg,type);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error tour price itinerary </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error tour price itinerary');
        },timeout: 60000
     });
 }
@@ -2410,13 +2305,7 @@ function get_price_itinerary_cache(type) {
 
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error tour price itinerary </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error tour price itinerary');
        },timeout: 60000
     });
 }
@@ -2444,9 +2333,7 @@ function tour_search_autocomplete(term,suggest){
             suggest(tour_choices);
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
-               if(XMLHttpRequest.status == 500){
-                    alert(errorThrown);
-               }
+               error_ajax(XMLHttpRequest, textStatus, errorThrown, '');
            }
         });
     }, 150);

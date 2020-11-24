@@ -73,14 +73,8 @@ function activity_login(data, type=''){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                $('#loading-search-activity').hide();
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error activity login </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error activity login');
+            $('#loading-search-activity').hide();
        },timeout: 60000
     });
 }
@@ -289,13 +283,7 @@ function get_activity_config(type, val){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error activity config </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error activity config');
        },timeout: 60000
     });
 }
@@ -523,24 +511,16 @@ function activity_search(){
 
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-          if(XMLHttpRequest.status == 500){
-              $('#loading-search-activity').hide();
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error activity search </span>' + errorThrown,
-                })
-
-              text += `
-              <div class="col-lg-12">
-                  <div style="text-align:center">
-                      <img src="/static/tt_website_rodextrip/images/nofound/no-activity.png" style="width:70px; height:70px;" alt="Not Found Activity" title="" />
-                      <br/>
-                  </div>
-                  <center><div class="alert alert-warning" role="alert" style="margin-top:15px; border:1px solid #cdcdcd;"><h6><i class="fas fa-search-minus"></i> Oops! Activity not found. Please try again or search another activity. </h6></div></center>
-              </div>`;
-              document.getElementById('activity_ticket').innerHTML += text;
-          }
+          error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error activity search');
+          text += `
+          <div class="col-lg-12">
+              <div style="text-align:center">
+                  <img src="/static/tt_website_rodextrip/images/nofound/no-activity.png" style="width:70px; height:70px;" alt="Not Found Activity" title="" />
+                  <br/>
+              </div>
+              <center><div class="alert alert-warning" role="alert" style="margin-top:15px; border:1px solid #cdcdcd;"><h6><i class="fas fa-search-minus"></i> Oops! Activity not found. Please try again or search another activity. </h6></div></center>
+          </div>`;
+          document.getElementById('activity_ticket').innerHTML += text;
        },timeout: 120000
     });
 }
@@ -1397,19 +1377,13 @@ function activity_get_detail(activity_uuid){
 
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error activity detail </span>' + errorThrown,
-                })
-                var temp = ``;
-                temp += `
-                    <label class="btn btn-activity active" style="z-index:1 !important; margin: 0px 5px 5px 0px;" title="`+activity_type[i].name+`" onclick="activity_get_price(`+parseInt(i)+`, false);">
-                    <span>No product type available</span>
-                    </label>`;
-                $('#ticket_type').html(temp);
-              }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error activity detail');
+            var temp = ``;
+            temp += `
+                <label class="btn btn-activity active" style="z-index:1 !important; margin: 0px 5px 5px 0px;" title="`+activity_type[i].name+`" onclick="activity_get_price(`+parseInt(i)+`, false);">
+                <span>No product type available</span>
+                </label>`;
+            $('#ticket_type').html(temp);
        },timeout: 60000
     });
 }
@@ -1785,14 +1759,8 @@ function activity_get_price_date(activity_type_pick, pricing_days){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error activity price date </span>' + errorThrown,
-                })
-                $('#loading-detail-activity').hide();
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error activity price date');
+            $('#loading-detail-activity').hide();
        },timeout: 60000
    });
 }
@@ -1819,29 +1787,20 @@ function update_sell_activity(){
               html: '<span style="color: #ff9900;">Error update sell activity </span>' + msg.result.error_msg,
             }).then((result) => {
               if (result.value) {
-                $("#waitingTransaction").modal('hide');
+                hide_modal_waiting_transaction();
               }
             })
             $('.hold-seat-booking-train').prop('disabled', false);
             $('.hold-seat-booking-train').removeClass("running");
-            $("#waitingTransaction").modal('hide');
+            hide_modal_waiting_transaction();
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error update sell activity </span>' + errorThrown,
-                }).then((result) => {
-                  if (result.value) {
-                    $("#waitingTransaction").modal('hide');
-                  }
-                })
-                $('.hold-seat-booking-train').prop('disabled', false);
-                $('.hold-seat-booking-train').removeClass("running");
-                $("#waitingTransaction").modal('hide');
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error update sell activity');
+            hide_modal_waiting_transaction();
+            $('.hold-seat-booking-train').prop('disabled', false);
+            $('.hold-seat-booking-train').removeClass("running");
+            hide_modal_waiting_transaction();
        },timeout: 60000
     });
 }
@@ -1868,29 +1827,20 @@ function update_contact_activity(){
               html: '<span style="color: #ff9900;">Error update contact activity </span>' + msg.result.error_msg,
             }).then((result) => {
               if (result.value) {
-                $("#waitingTransaction").modal('hide');
+                hide_modal_waiting_transaction();
               }
             })
             $('.hold-seat-booking-train').prop('disabled', false);
             $('.hold-seat-booking-train').removeClass("running");
-            $("#waitingTransaction").modal('hide');
+            hide_modal_waiting_transaction();
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error update contact activity </span>' + errorThrown,
-                }).then((result) => {
-                  if (result.value) {
-                    $("#waitingTransaction").modal('hide');
-                  }
-                })
-                $('.hold-seat-booking-train').prop('disabled', false);
-                $('.hold-seat-booking-train').removeClass("running");
-                $("#waitingTransaction").modal('hide');
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error update contact activity');
+            hide_modal_waiting_transaction();
+            $('.hold-seat-booking-train').prop('disabled', false);
+            $('.hold-seat-booking-train').removeClass("running");
+            hide_modal_waiting_transaction();
        },timeout: 60000
     });
 }
@@ -1917,29 +1867,20 @@ function update_passengers_activity(){
               html: '<span style="color: #ff9900;">Error update passengers activity </span>' + msg.result.error_msg,
             }).then((result) => {
               if (result.value) {
-                $("#waitingTransaction").modal('hide');
+                hide_modal_waiting_transaction();
               }
             })
             $('.hold-seat-booking-train').prop('disabled', false);
             $('.hold-seat-booking-train').removeClass("running");
-            $("#waitingTransaction").modal('hide');
+            hide_modal_waiting_transaction();
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error update passengers activity </span>' + errorThrown,
-                }).then((result) => {
-                  if (result.value) {
-                    $("#waitingTransaction").modal('hide');
-                  }
-                })
-                $('.hold-seat-booking-train').prop('disabled', false);
-                $('.hold-seat-booking-train').removeClass("running");
-                $("#waitingTransaction").modal('hide');
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error submit top up');
+            hide_modal_waiting_transaction();
+            $('.hold-seat-booking-train').prop('disabled', false);
+            $('.hold-seat-booking-train').removeClass("running");
+            hide_modal_waiting_transaction();
        },timeout: 60000
     });
 }
@@ -1972,29 +1913,20 @@ function update_options_activity(){
               html: '<span style="color: #ff9900;">Error update options activity </span>' + msg.result.error_msg,
             }).then((result) => {
               if (result.value) {
-                $("#waitingTransaction").modal('hide');
+                hide_modal_waiting_transaction();
               }
             })
             $('.hold-seat-booking-train').prop('disabled', false);
             $('.hold-seat-booking-train').removeClass("running");
-            $("#waitingTransaction").modal('hide');
+            hide_modal_waiting_transaction();
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error update options activity </span>' + errorThrown,
-                }).then((result) => {
-                  if (result.value) {
-                    $("#waitingTransaction").modal('hide');
-                  }
-                })
-                $('.hold-seat-booking-train').prop('disabled', false);
-                $('.hold-seat-booking-train').removeClass("running");
-                $("#waitingTransaction").modal('hide');
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error update options activity');
+            hide_modal_waiting_transaction();
+            $('.hold-seat-booking-train').prop('disabled', false);
+            $('.hold-seat-booking-train').removeClass("running");
+            hide_modal_waiting_transaction();
        },timeout: 60000
     });
 }
@@ -2081,29 +2013,20 @@ function activity_commit_booking(val){
               html: '<span style="color: #ff9900;">Error activity commit booking </span>' + msg.result.error_msg,
             }).then((result) => {
               if (result.value) {
-                $("#waitingTransaction").modal('hide');
+                hide_modal_waiting_transaction();
               }
             })
             $('.hold-seat-booking-train').prop('disabled', false);
             $('.hold-seat-booking-train').removeClass("running");
-            $("#waitingTransaction").modal('hide');
+            hide_modal_waiting_transaction();
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error activity commit booking </span>' + errorThrown,
-                }).then((result) => {
-                  if (result.value) {
-                    $("#waitingTransaction").modal('hide');
-                  }
-                })
-                $('.hold-seat-booking-train').prop('disabled', false);
-                $('.hold-seat-booking-train').removeClass("running");
-                $("#waitingTransaction").modal('hide');
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error submit top up');
+            hide_modal_waiting_transaction();
+            $('.hold-seat-booking-train').prop('disabled', false);
+            $('.hold-seat-booking-train').removeClass("running");
+            hide_modal_waiting_transaction();
        },timeout: 60000
     });
 }
@@ -2138,7 +2061,7 @@ function activity_issued_booking(order_number)
                    document.getElementById('payment_acq').innerHTML = '';
                    document.getElementById('payment_acq').hidden = true;
                    document.getElementById("overlay-div-box").style.display = "none";
-                   $("#waitingTransaction").modal('hide');
+                   hide_modal_waiting_transaction();
                }
            }else if(msg.result.error_code == 1009){
                price_arr_repricing = {};
@@ -2151,7 +2074,7 @@ function activity_issued_booking(order_number)
                document.getElementById('payment_acq').innerHTML = '';
                document.getElementById('payment_acq').hidden = true;
                document.getElementById("overlay-div-box").style.display = "none";
-               $("#waitingTransaction").modal('hide');
+               hide_modal_waiting_transaction();
                activity_get_booking(order_number);
                Swal.fire({
                   type: 'error',
@@ -2159,12 +2082,12 @@ function activity_issued_booking(order_number)
                   html: '<span style="color: red;">Error activity issued booking </span>' + msg.result.error_msg,
                 }).then((result) => {
                   if (result.value) {
-                    $("#waitingTransaction").modal('hide');
+                    hide_modal_waiting_transaction();
                   }
                 })
                 $('.hold-seat-booking-train').prop('disabled', false);
                 $('.hold-seat-booking-train').removeClass("running");
-                $("#waitingTransaction").modal('hide');
+                hide_modal_waiting_transaction();
            }else{
                Swal.fire({
                   type: 'error',
@@ -2172,7 +2095,7 @@ function activity_issued_booking(order_number)
                   html: '<span style="color: red;">Error activity issued booking </span>' + msg.result.error_msg,
                 }).then((result) => {
                   if (result.value) {
-                    $("#waitingTransaction").modal('hide');
+                    hide_modal_waiting_transaction();
                   }
                 })
                 price_arr_repricing = {};
@@ -2181,30 +2104,21 @@ function activity_issued_booking(order_number)
                 $('.hold-seat-booking-train').prop('disabled', false);
                 $('.hold-seat-booking-train').removeClass("running");
                 document.getElementById("overlay-div-box").style.display = "none";
-                $("#waitingTransaction").modal('hide');
+                hide_modal_waiting_transaction();
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error activity issued booking </span>' + errorThrown,
-                }).then((result) => {
-                  if (result.value) {
-                    $("#waitingTransaction").modal('hide');
-                  }
-                })
-                price_arr_repricing = {};
-                pax_type_repricing = [];
-                activity_get_booking(booking_num);
-                document.getElementById('payment_acq').innerHTML = '';
-                document.getElementById('payment_acq').hidden = true;
-                document.getElementById("overlay-div-box").style.display = "none";
-                $('.hold-seat-booking-train').prop('disabled', false);
-                $('.hold-seat-booking-train').removeClass("running");
-                $("#waitingTransaction").modal('hide');
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error submit top up');
+            hide_modal_waiting_transaction();
+            price_arr_repricing = {};
+            pax_type_repricing = [];
+            activity_get_booking(booking_num);
+            document.getElementById('payment_acq').innerHTML = '';
+            document.getElementById('payment_acq').hidden = true;
+            document.getElementById("overlay-div-box").style.display = "none";
+            $('.hold-seat-booking-train').prop('disabled', false);
+            $('.hold-seat-booking-train').removeClass("running");
+            hide_modal_waiting_transaction();
        },timeout: 60000
     });
 }
@@ -2317,13 +2231,7 @@ function update_service_charge(type){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error activity update service charge </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error activity update service charge');
        },timeout: 60000
     });
 }
@@ -2346,7 +2254,7 @@ function activity_get_booking(data){
        act_order_number = data;
        act_get_booking = msg;
        $('#loading-search-activity').hide();
-       $("#waitingTransaction").modal('hide');
+       hide_modal_waiting_transaction();
        try{
             if(msg.result.error_code == 0){
                 tes = moment.utc(msg.result.response.hold_date).format('YYYY-MM-DD HH:mm:ss')
@@ -3078,13 +2986,7 @@ function activity_get_booking(data){
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error activity booking </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error activity booking');
        },timeout: 60000
     });
 }
@@ -3118,13 +3020,7 @@ function activity_get_voucher(order_number){
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error activity voucher </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error activity voucher');
        },timeout: 60000
     });
 }
@@ -3152,9 +3048,7 @@ function activity_search_autocomplete(term,suggest){
             suggest(activity_choices);
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
-               if(XMLHttpRequest.status == 500){
-                    alert(errorThrown);
-               }
+               error_ajax(XMLHttpRequest, textStatus, errorThrown, '');
            }
         });
     }, 150);
