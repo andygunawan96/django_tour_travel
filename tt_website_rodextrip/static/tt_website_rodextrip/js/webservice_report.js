@@ -408,7 +408,7 @@ function get_report_overall(){
         },
         error: function(result){
             console.log("Error");
-        }
+        },timeout: 300000
     });
 }
 
@@ -601,7 +601,7 @@ $('#report_form').submit(function(evt){
                 overview_airline_chart(result.raw_data.result.response.first_overview);
             }
             // process complete!
-        }
+        },timeout: 300000
     });
 });
 

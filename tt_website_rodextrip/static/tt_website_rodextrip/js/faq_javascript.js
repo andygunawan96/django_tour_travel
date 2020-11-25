@@ -69,13 +69,7 @@ function get_faq(type){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error update banner </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get faq');
        }
     });
 }
@@ -152,13 +146,7 @@ function update_faq(){
            contentType:false,
            processData:false,
            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                if(XMLHttpRequest.status == 500){
-                    Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      html: '<span style="color: red;">Error update dynamic page </span>' + errorThrown,
-                    })
-                }
+                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error save faq');
            }
         });
     }else{
@@ -211,13 +199,7 @@ function delete_faq_btn(){
            contentType:false,
            processData:false,
            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                if(XMLHttpRequest.status == 500){
-                    Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      html: '<span style="color: red;">Error update dynamic page </span>' + errorThrown,
-                    })
-                }
+                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error delete faq');
            }
         });
     }else{

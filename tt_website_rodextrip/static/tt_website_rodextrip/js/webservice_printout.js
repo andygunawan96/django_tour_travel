@@ -47,13 +47,7 @@ function get_printout(order_number,type,provider_type){
                 printout_state = 0;
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                if(XMLHttpRequest.status == 500){
-                    Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      html: '<span style="color: red;">Error printout </span>' + errorThrown,
-                    })
-                }
+                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error printout');
            },timeout: 60000
         });
     }else{

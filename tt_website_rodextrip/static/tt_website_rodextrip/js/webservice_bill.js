@@ -23,15 +23,9 @@ function signin_bills(data){
 
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                $('.payment_acq_btn').prop('disabled', false);
-                $('.hold-seat-booking-train').removeClass("running");
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error issued offline signin </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error issued offline signin');
+            $('.payment_acq_btn').prop('disabled', false);
+            $('.hold-seat-booking-train').removeClass("running");
        },timeout: 60000
     });
 }
@@ -84,13 +78,7 @@ function get_config_ppob(){
             set_container_bill();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error get signature </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get signature');
        },timeout: 60000
     });
 }
@@ -112,13 +100,7 @@ function get_carriers_ppob(){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error get signature </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get signature');
        },timeout: 60000
     });
 }
@@ -140,13 +122,7 @@ function get_carrier_providers_ppob(){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error get signature </span>' + errorThrown,
-                })
-            }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get signature');
        },timeout: 60000
     });
 }
@@ -366,13 +342,7 @@ function search_ppob(){
                 $('.btn-next').prop('disabled', false);
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                if(XMLHttpRequest.status == 500){
-                    Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      html: '<span style="color: red;">Error get signature </span>' + errorThrown,
-                    })
-                }
+                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get signature');
                 $('.btn-next').removeClass("running");
                 $('.btn-next').prop('disabled', false);
            },timeout: 60000
@@ -524,7 +494,7 @@ function bills_get_booking(data){
                 else{
                     //$(".issued_booking_btn").remove();
                     $('.loader-rodextrip').fadeOut();
-                    $("#waitingTransaction").modal('hide');
+                    hide_modal_waiting_transaction();
                 }
 
                 $text += 'Order Number: '+ msg.result.response.order_number + '\n';
@@ -1217,21 +1187,11 @@ function bills_get_booking(data){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-          if(XMLHttpRequest.status == 500){
-              $("#show_loading_booking_bills").hide();
-              $("#show_error_booking_bills").show();
-              Swal.fire({
-                type: 'error',
-                title: 'Oops!',
-                html: '<span style="color: red;">Error bills booking </span>' + errorThrown,
-              }).then((result) => {
-                  if (result.value) {
-                    $("#waitingTransaction").modal('hide');
-                  }
-                })
-              $('.loader-rodextrip').fadeOut();
-              $("#waitingTransaction").modal('hide');
-          }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error bills booking');
+            $("#show_loading_booking_bills").hide();
+            $("#show_error_booking_bills").show();
+            $('.loader-rodextrip').fadeOut();
+            hide_modal_waiting_transaction();
        },timeout: 300000
     });
 }
@@ -1264,21 +1224,11 @@ function resync_status(){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-          if(XMLHttpRequest.status == 500){
-              $("#show_loading_booking_bills").hide();
-              $("#show_error_booking_bills").show();
-              Swal.fire({
-                type: 'error',
-                title: 'Oops!',
-                html: '<span style="color: red;">Error bills booking </span>' + errorThrown,
-              }).then((result) => {
-                  if (result.value) {
-                    $("#waitingTransaction").modal('hide');
-                  }
-                })
-              $('.loader-rodextrip').fadeOut();
-              $("#waitingTransaction").modal('hide');
-          }
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error bills booking');
+            $("#show_loading_booking_bills").hide();
+            $("#show_error_booking_bills").show();
+            $('.loader-rodextrip').fadeOut();
+            hide_modal_waiting_transaction();
        },timeout: 300000
     });
 
@@ -1319,7 +1269,7 @@ function bills_issued(data){
                    //update ticket
                    price_arr_repricing = {};
                    pax_type_repricing = [];
-                   $("#waitingTransaction").modal('hide');
+                   hide_modal_waiting_transaction();
                    document.getElementById('show_loading_booking_bills').hidden = false;
                    document.getElementById('bills_booking').innerHTML = '';
                    document.getElementById('bills_detail').innerHTML = '';
@@ -1348,7 +1298,7 @@ function bills_issued(data){
                     document.getElementById('show_loading_booking_bills').hidden = false;
                     document.getElementById('payment_acq').hidden = true;
 
-                    $("#waitingTransaction").modal('hide');
+                    hide_modal_waiting_transaction();
                     document.getElementById("overlay-div-box").style.display = "none";
 
                     $('.hold-seat-booking-train').prop('disabled', false);
@@ -1357,27 +1307,21 @@ function bills_issued(data){
                }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                if(XMLHttpRequest.status == 500){
-                    Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      html: '<span style="color: red;">Error bills issued </span>' + errorThrown,
-                    })
-                    price_arr_repricing = {};
-                    pax_type_repricing = [];
-                    document.getElementById('show_loading_booking_bills').hidden = false;
-                    document.getElementById('bills_booking').innerHTML = '';
-                    document.getElementById('bills_detail').innerHTML = '';
-                    document.getElementById('payment_acq').innerHTML = '';
-                    document.getElementById('show_loading_booking_bills').style.display = 'block';
-                    document.getElementById('show_loading_booking_bills').hidden = false;
-                    document.getElementById('payment_acq').hidden = true;
-                    $("#waitingTransaction").modal('hide');
-                    document.getElementById("overlay-div-box").style.display = "none";
-                    $('.hold-seat-booking-train').prop('disabled', false);
-                    $('.hold-seat-booking-train').removeClass("running");
-                    bills_get_booking(data);
-                }
+                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error bills issued');
+                price_arr_repricing = {};
+                pax_type_repricing = [];
+                document.getElementById('show_loading_booking_bills').hidden = false;
+                document.getElementById('bills_booking').innerHTML = '';
+                document.getElementById('bills_detail').innerHTML = '';
+                document.getElementById('payment_acq').innerHTML = '';
+                document.getElementById('show_loading_booking_bills').style.display = 'block';
+                document.getElementById('show_loading_booking_bills').hidden = false;
+                document.getElementById('payment_acq').hidden = true;
+                hide_modal_waiting_transaction();
+                document.getElementById("overlay-div-box").style.display = "none";
+                $('.hold-seat-booking-train').prop('disabled', false);
+                $('.hold-seat-booking-train').removeClass("running");
+                bills_get_booking(data);
            },timeout: 300000
         });
       }

@@ -1614,13 +1614,6 @@ function sort(value){
                 response+=`<div style="background-color:#E5E5E5; padding:15px; margin-bottom:15px; border:1px solid #cdcdcd;">`;
             response += `
                 <span class="copy_train" hidden>`+i+`</span>`;
-            if(counter_train_provider > 1)
-                response +=`
-                    <div class="row" style="text-align:right">
-                        <div class="col-sm-9"></div>
-                        <div class="col-sm-3">`+data_filter[i].provider+`</div>
-                    </div>
-                `;
             response+=`
                 <div class="row">
                     <div class="col-lg-9">
@@ -1635,6 +1628,9 @@ function sort(value){
                                <span class="check_box_span_custom"></span>
                            </label>
                            <span class="id_copy_result" hidden>`+i+`</span>`;
+                           if(counter_train_provider > 1){
+                                response +=`<br/><label style="float:right;margin-right: 5px;">`+data_filter[i].provider+`</label>`;
+                            }
                        }
                     response+=`
                     </div>
