@@ -1,3 +1,55 @@
+$('#timeframe').change(function(e){
+    // get selected value
+    var value = $(this).children(':selected').attr('value');
+    // declare todays date object
+    var d = new Date();
+    $('#date_field').hide();
+    if (value == '0'){
+        $('#get_report_startdate').val(d.toISOString().split('T')[0]);
+        $('#get_report_enddate').val(d.toISOString().split('T')[0]);
+    } else if (value == '1'){
+        d.setDate(d.getDate() - 1);
+        $('#get_report_enddate').val(d.toISOString().split('T')[0]);
+        $('#get_report_startdate').val(d.toISOString().split('T')[0]);
+    } else if (value == '7'){
+        $('#get_report_enddate').val(d.toISOString().split('T')[0]);
+        var date_diff = d.getDay() - 1;
+        if (date_diff < 0){
+            d.setDate(d.getDate() - 7);
+            $('#get_report_startdate').val(d.toISOString().split('T')[0]);
+        } else {
+            d.setDate(d.getDate() - date_diff);
+            $('#get_report_startdate').val(d.toISOString().split('T')[0]);
+        }
+    } else if (value == '30'){
+        $('#get_report_enddate').val(d.toISOString().split('T')[0]);
+        var date_diff = d.getDate() - 1;
+        if (date_diff < 1){
+            $('#get_report_startdate').val(d.toISOString().split('T')[0]);
+        } else {
+            d.setDate(d.getDate() - date_diff);
+            $('#get_report_startdate').val(d.toISOString().split('T')[0]);
+        }
+    } else if (value == '-30'){
+        // subtract date to last day of previous month
+        var date_diff = d.getDate();
+        d.setDate(d.getDate() - date_diff);
+        // get how many date within particular month
+        date_diff = d.getDate() - 1;
+        // set end date to last day of the month
+        $('#get_report_enddate').val(d.toISOString().split('T')[0]);
+        // set date to the first date of the month
+        d.setDate(d.getDate() - date_diff);
+        $('#get_report_startdate').val(d.toISOString().split('T')[0]);
+    } else if (value == 'default'){
+        $('#get_report_enddate').val(d.toISOString().split('T')[0]);
+        d.setDate(d.getDate() - 30);
+        $('#get_report_startdate').val(d.toISOString().split('T')[0]);
+    } else {
+        $('#date_field').show();
+    }
+});
+
 function number_format(number, decimals, dec_point, thousands_sep) {
 // *     example: number_format(1234.56, 2, ',', ' ');
 // *     return: '1 234,56'
@@ -325,7 +377,13 @@ function get_report_overall(){
             // peripherals
             $('#total_rupiah').html(number_format(result.raw_data.result.response.total_rupiah, 2));
             $('#average_rupiah').html(number_format(result.raw_data.result.response.average_rupiah, 2));
-            $('#profit_rupiah').html(number_format(result.raw_data.result.response.profit_total, 2));
+            if(result.raw_data.result.response.dependencies.is_ho == 1){
+                $('#profit_rupiah').html(number_format(result.raw_data.result.response.profit_total, 2));
+                $('#profit_ho').html(number_format(result.raw_data.result.response.profit_ho, 2));
+                $('#profit_ho_card').show();
+            } else {
+                $('#profit_rupiah').html(number_format(result.raw_data.result.response.profit_total, 2));
+            }
 
             // overview section
             contents = overview_overall(result.raw_data.result.response.first_overview);
@@ -562,7 +620,13 @@ $('#report_form').submit(function(evt){
             // peripherals
             $('#total_rupiah').html(number_format(result.raw_data.result.response.total_rupiah, 2));
             $('#average_rupiah').html(number_format(result.raw_data.result.response.average_rupiah, 2));
-            $('#profit_rupiah').html(number_format(result.raw_data.result.response.profit_total, 2));
+            if(result.raw_data.result.response.dependencies.is_ho == 1){
+                $('#profit_rupiah').html(number_format(result.raw_data.result.response.profit_total, 2));
+                $('#profit_ho').html(number_format(result.raw_data.result.response.profit_ho, 2));
+                $('#profit_ho_card').show();
+            } else {
+                $('#profit_rupiah').html(number_format(result.raw_data.result.response.profit_total, 2));
+            }
 
             // "First" overview section
             if (provider_type == 'overall'){
@@ -866,16 +930,26 @@ console.log(data);
             datasets: [{
                 data: data['departure_graph']['data'],
                 backgroundColor: [
-                    'blue', 'orange',
-                    'yellow', 'green',
-                    'red', 'blue',
-                    'orange', 'yellow',
-                    'green', 'red',
-                    'blue', 'orange',
-                    'yellow', 'green',
-                    'red', 'blue',
-                    'orange', 'yellow',
-                    'green', 'red',
+                    'blue',
+                    'orange',
+                    'yellow',
+                    'green',
+                    'red',
+                    'blue',
+                    'orange',
+                    'yellow',
+                    'green',
+                    'red',
+                    'blue',
+                    'orange',
+                    'yellow',
+                    'green',
+                    'red',
+                    'blue',
+                    'orange',
+                    'yellow',
+                    'green',
+                    'red',
                 ],
                 label: 'Departure Cities'
             }],
@@ -906,18 +980,30 @@ console.log(data);
             datasets: [{
                 data: data['destination_graph']['data'],
                 backgroundColor: [
-                    'orange', 'yellow',
-                    'green', 'blue',
-                    'purple', 'red',
-                    'orange', 'yellow',
-                    'green', 'blue',
-                    'purple', 'red',
-                    'orange', 'yellow',
-                    'green', 'blue',
-                    'purple', 'red',
-                    'orange', 'yellow',
-                    'green', 'blue',
-                    'purple', 'red',
+                    'orange',
+                    'yellow',
+                    'green',
+                    'blue',
+                    'purple',
+                    'red',
+                    'orange',
+                    'yellow',
+                    'green',
+                    'blue',
+                    'purple',
+                    'red',
+                    'orange',
+                    'yellow',
+                    'green',
+                    'blue',
+                    'purple',
+                    'red',
+                    'orange',
+                    'yellow',
+                    'green',
+                    'blue',
+                    'purple',
+                    'red',
                 ],
                 label: 'Destination Cities'
             }],

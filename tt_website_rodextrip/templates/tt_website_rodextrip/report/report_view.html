@@ -82,13 +82,27 @@
                 <select name="provider" id="provider" class="form-control mb-3">
                     <option value="" selected>-- All Select --</option>
                 </select>
-                <!-- Start date of requested report -->
-                <label>Start Date</label>
-                <input type="date" name="start_date" id="get_report_startdate">
-                <!-- end date of requested report -->
-                <label>Until</label>
-                <input type="date" name="until_date" id="get_report_enddate">
 
+                <!-- timeframe -->
+                <label>TimeFrame</label>
+                <select name="timeframe" id="timeframe" class="form-control mb-3">
+                    <option value="default" selected>Last 30 days</option>
+                    <option value="0">Today</option>
+                    <option value="1">Yesterday</option>
+                    <option value="7">This Week</option>
+                    <option value="30">This Month</option>
+                    <option value="-30">Last Month</option>
+                    <option value="other">Custom</option>
+                </select>
+
+                <!-- Start date of requested report -->
+                <div id="date_field" style="display:none">
+                    <label>Start Date</label>
+                    <input type="date" name="start_date" id="get_report_startdate">
+                    <!-- end date of requested report -->
+                    <label>Until</label>
+                    <input type="date" name="until_date" id="get_report_enddate">
+                </div>
                 <!-- group by label, but not being use again (no effect) since moved to handler -->
                 <!-- <label>Group by</label> -->
                 <select name="group_by" id="group_by" style="display: inline" hidden>
@@ -100,11 +114,11 @@
                 <div class="form-group" id="agent_selector" style="display:none">
                     <label>Agent Type</label>
                     <select name="agent_type" id="agent_type" placeholder="Select Agent" class="form-control">
-                        <option value="" selected>Select</option>
+                        <option value="" selected>All</option>
                     </select>
                     <label>Agent</label>
                     <select name="agent" id="agent" placeholder="Select Agent" class="form-control">
-                        <option value="" selected>Select</option>
+                        <option value="" selected>All</option>
                     </select>
                 </div>
 
@@ -143,7 +157,16 @@
                 <div class="card-body">
                     <h5>Profit</h5>
                     IDR
-                    <h4 id="profit_rupiah" style="float:right">[Profit]</h4>
+                    <h4 id="profit_rupiah" style="float:right">[Profit]</h4><br>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mt-3" id="profit_ho_card" style="display:none">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Profit HO</h5>
+                    IDR
+                    <h4 id="profit_ho" style="float:right">[Profit]</h4><br>
                 </div>
             </div>
         </div>
