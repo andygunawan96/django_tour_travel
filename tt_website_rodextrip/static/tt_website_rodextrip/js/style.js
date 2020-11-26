@@ -61,6 +61,23 @@ $(document).ready(function(){
     $(".img-min-ticket").hide();
     $(".img-min-filter").hide();
 
+
+    if (user_login.co_user_login == 'agent_b2c'){
+        try{
+            document.getElementsByClassName("tab_custom_login")[0].style.backgroundColor = login_color_base;
+            document.getElementsByClassName("tab_custom_login")[0].style.borderBottom = "unset";
+            if(template == 1 || template == 3 || template == 5){
+                document.getElementsByClassName("lnr_color")[0].style.color = text_color;
+            }
+            if(template == 4){
+                document.getElementsByClassName("site-navbar")[0].style.borderBottom = "unset";
+            }
+        }catch(err){
+            console.log('err');
+        }
+    }
+
+
 //    $('#A').click(function (e) { //Default mouse Position
 //        alert(e.pageX + ' , ' + e.pageY);
 //    });
@@ -603,12 +620,10 @@ $(document).ready(function(){
 
         if(quantity < 9){
             $('#hotel_room').val(quantity + 1);
+            $('#hotel_adult').val((quantity+1)*2);
             quantity_room_hotel = quantity + 1;
+            quantity_adult_hotel = (quantity+1)*2;
 
-            if(quantity_room_hotel > quantity_adult_hotel){
-                $('#hotel_adult').val(quantity + 1);
-                quantity_adult_hotel = quantity + 1;
-            }
             $('#show_total_pax_hotel').text(quantity_room_hotel + " Room, " + quantity_adult_hotel + " Adult, " +quantity_child_hotel + " Child");
         }
 

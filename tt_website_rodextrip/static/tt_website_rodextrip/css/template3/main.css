@@ -2015,6 +2015,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Nav Meu Styling */
+.tab_custom_login{
+    background-color: black;
+}
+
 .nav-menu a {
   padding: 5px;
   text-decoration: none;

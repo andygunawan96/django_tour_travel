@@ -319,9 +319,12 @@ function render_room_tour_field(idx, room_data, key_accomodation) {
     var template_txt = '';
         template_txt += '<div id="room_field_' + idx + '" style="margin-bottom:20px; padding:15px; border: 1px solid #cdcdcd;"><div class="banner-right"><div class="form-wrap" style="padding:0px !important; text-align:left;">';
         template_txt += '<input type="hidden" id="room_code_' + idx + '" name="room_code_' + idx + '" value="'+ room_data.room_code + '"/>';
-        template_txt += '<h6 title="'+ room_data.hotel + ' (' + room_data.star + ') - ' + room_data.address + '">Room ' +  idx +  ' - ' + room_data.name + ' ' + room_lib[room_data.bed_type] + '</h6>';
-        template_txt += '<span style="font-size:12px;">' + room_data.description +'</span>';
-        template_txt += '<br/><span style="margin: 0px;"><i class="fa fa-building"></i> ' + room_data.hotel + ' (' + room_data.star + ') - ' + room_data.address +'</span>';
+        template_txt += '<h6 style="margin: 0px;"><i class="fa fa-building" style="font-size:18px;"></i> ' + room_data.hotel + ' (' + room_data.star + ')</h6>';
+        if(room_data.address != ''){
+            template_txt += `<span>`+room_data.address+`</span>`;
+        }
+        template_txt += '<br/><h6 title="'+ room_data.hotel + ' (' + room_data.star + ') - ' + room_data.address + '">Room #' +  idx +  ' - ' + room_data.name + ' ' + room_lib[room_data.bed_type] + '</h6>';
+        template_txt += '<span style="font-size:12px;">' + room_data.description +'</span><br/>';
         template_txt += '<div class="row" style="margin-top:15px;">';
         template_txt += '<div class="col-lg-4 col-md-4 col-sm-4">';
         template_txt += '<span>Adult</span>';
@@ -395,17 +398,32 @@ function render_room_tour_field(idx, room_data, key_accomodation) {
         if (room_data.bed_type=="double")
         {
             template_txt += '<div class="col-lg-12" style="margin-bottom:15px; margin-top:10px;">';
-            template_txt += '<textarea class="form-control" id="notes_' + idx + '" name="notes_' + idx + '" placeholder="Notes" style="margin-bottom:5px;"/>';
+            template_txt += '<textarea class="form-control" rows="3" cols="100%" id="notes_' + idx + '" name="notes_' + idx + '" placeholder="Special Request" style="margin-bottom:5px; resize:none; height:unset;"/>';
             template_txt += '<small style="color: #787878; margin-left: 2px;">Ex: king size, twin, non smoking, etc.</small>';
             template_txt += '</div>';
         }
         else
         {
-            template_txt += '<input type="text" class="form-control hide" id="notes_' + idx + '" name="notes_' + idx + '" placeholder="Notes" value=" "/>';
+            template_txt += '<input type="text" class="form-control hide" id="notes_' + idx + '" name="notes_' + idx + '" placeholder="Special Request" value=" "/>';
         }
+
+        template_txt += `
+        <div class="col-lg-12">
+            <span style="font-size:14px; font-weight:600;">Note:</span><br/>
+            <span>Minimum: <span style="font-size:12px;font-weight:500;color:`+color+`">`+room_data.pax_minimum+` Adult</span> and Maximum: <span style="font-size:12px;color:`+color+`;font-weight:500;">`+room_data.pax_limit+` Guest</span>.</span><br/>
+            <ul style="list-style-type: disc; margin: 0 15px;">
+                <li style="list-style: unset;">
+                    If the selected room is adult and child, where the selected adult is less than the minimum number of adults ( < <span style="font-size:12px;font-weight:500;color:`+color+`">`+room_data.pax_minimum+` Adult</span> ), then there will be a child that is counted as an adult price until it reaches the minimum number of adults.
+                </li>
+                <li style="list-style: unset;">
+                    If there is a selected room for adults only, which does not reach the minimum number of adults ( < <span style="font-size:12px;font-weight:500;color:`+color+`">`+room_data.pax_minimum+` Adult</span> ), then that selected room will get an additional Single Supplement fee.
+                </li>
+            </ul>
+        </div>`;
+
         template_txt += '</div>';
         template_txt += '<input type="hidden" id="accomodation_index_' + idx + '" name="accomodation_index_' + idx + '" value="' + key_accomodation + '"/>';
-        template_txt += '</div></div>'
+        template_txt += '</div></div>';
         template_txt += '</div>';
     return template_txt;
 }

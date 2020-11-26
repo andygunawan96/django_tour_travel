@@ -507,7 +507,7 @@ option::after{
   width: 300px;
   position: fixed;
   left: 0;
-  z-index: 2000;
+  z-index: 1050;
   padding-top: 20px;
   background: #fff;
   height: calc(100vh);

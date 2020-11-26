@@ -5482,7 +5482,7 @@
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Title' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <div class="form-select" id="default-select">
+                                                <div class="form-select" id="default-select" style="margin-bottom:0px;">
                                                     <select id="booker_title" name="booker_title" class="nice-select-default" onchange="change_booker_value('title');">
                                                         {% for title in adult_title%}
                                                         <option>{{title}}</option>
@@ -5705,7 +5705,7 @@
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Title' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <div class="form-select">
+                                                <div class="form-select" style="margin-bottom:0px;">
                                                     <select id="adult_title{{forloop.counter}}" name="adult_title{{forloop.counter}}">
                                                         {% for title in adult_title%}
                                                         <option>{{title}}</option>
@@ -5981,7 +5981,7 @@
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Title' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <div class="form-select">
+                                                <div class="form-select" style="margin-bottom:0px;">
                                                     <select id="senior_title{{forloop.counter}}" name="senior_title{{forloop.counter}}">
                                                         {% for title in adult_title%}
                                                         <option>{{title}}</option>
@@ -6259,7 +6259,7 @@
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Title' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <div class="form-select">
+                                                <div class="form-select" style="margin-bottom:0px;">
                                                     <select id="child_title{{forloop.counter}}" name="child_title{{forloop.counter}}">
                                                         {% for title in infant_title%}
                                                         <option>{{title}}</option>
@@ -6509,7 +6509,7 @@
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Title' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <div class="form-select">
+                                                <div class="form-select" style="margin-bottom:0px;">
                                                     <select id="infant_title{{forloop.counter}}" name="infant_title{{forloop.counter}}">
                                                         {% for title in infant_title%}
                                                         <option>{{title}}</option>

@@ -1312,9 +1312,6 @@
                         </div>
                         <div class="col-lg-4" style="margin-top:10px;">
                             <input type="hidden" value="{{response.name}}" id="get_name_hotel"/>
-                            <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="cancellation_policy">
-
-                            </div><br/>
                             <div style="background-color:white; padding:10px; border:1px solid {{color}};">
                                 <h4> {% trans 'Special Request' %} </h4>
                                 <hr/>
@@ -1326,6 +1323,12 @@
                                 <textarea rows="1" cols="50" class="form-control" style="{%if template == 2%} height:70px; line-height:22px;{% endif %} font-size:13px; border-radius:unset; resize: none;" type="text" id="late_ci" name="late_ci"></textarea>
                                 <h6>{% trans 'Late' %} {% trans 'Check-Out' %}:</h6>
                                 <textarea rows="1" cols="50" class="form-control" style="{%if template == 2%} height:70px; line-height:22px;{% endif %} font-size:13px; border-radius:unset; resize: none;" type="text" id="late_co" name="late_co"></textarea>
+                            </div><br/>
+                            <div id="div_name_room">
+
+                            </div>
+                            <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="cancellation_policy">
+
                             </div><br/>
                             <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="hotel_detail">
 
@@ -1490,14 +1493,12 @@
                                         <div class="col-lg-6 col-xs-6">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Title' %}</label>
-                                            <div class="form-group">
-                                                <div class="default-select" id="default-select">
-                                                    <select id="booker_title" name="booker_title" class="nice-select-default" onchange="change_booker_value('hotel');">
-                                                        {% for title in adult_title%}
-                                                        <option>{{title}}</option>
-                                                        {% endfor %}
-                                                    </select>
-                                                </div>
+                                            <div class="default-select" id="default-select">
+                                                <select id="booker_title" name="booker_title" class="nice-select-default" onchange="change_booker_value('hotel');">
+                                                    {% for title in adult_title%}
+                                                    <option>{{title}}</option>
+                                                    {% endfor %}
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
@@ -1569,7 +1570,6 @@
                                                 <input type="hidden" name="booker_nationality" id="booker_nationality" />
                                             </div>
                                         </div>
-
 
                                         <div class="col-lg-6">
                                             <label style="color:red">*</label>
@@ -1710,14 +1710,12 @@
                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Title' %}</label>
-                                            <div class="form-group">
-                                                <div class="default-select">
-                                                    <select id="adult_title{{forloop.counter}}" name="adult_title{{forloop.counter}}" class="nice-select-default">
-                                                        {% for title in adult_title%}
-                                                        <option>{{title}}</option>
-                                                        {% endfor %}
-                                                    </select>
-                                                </div>
+                                            <div class="default-select">
+                                                <select id="adult_title{{forloop.counter}}" name="adult_title{{forloop.counter}}" class="nice-select-default">
+                                                    {% for title in adult_title%}
+                                                    <option>{{title}}</option>
+                                                    {% endfor %}
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
@@ -1897,14 +1895,12 @@
                                         <div class="col-lg-6 col-xs-6">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Title' %}</label>
-                                            <div class="form-group">
-                                                <div class="default-select">
-                                                    <select id="child_title{{forloop.counter}}" name="child_title{{forloop.counter}}" class="nice-select-default">
-                                                        {% for title in infant_title%}
-                                                        <option>{{title}}</option>
-                                                        {% endfor %}
-                                                    </select>
-                                                </div>
+                                            <div class="default-select">
+                                                <select id="child_title{{forloop.counter}}" name="child_title{{forloop.counter}}" class="nice-select-default">
+                                                    {% for title in infant_title%}
+                                                    <option>{{title}}</option>
+                                                    {% endfor %}
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
@@ -1981,13 +1977,9 @@
                         </div>
                         <br/>
                         {% endfor %}
-
                     </div>
                     <div class="col-lg-4" style="margin-top:10px;">
                         <input type="hidden" value="{{response.name}}" id="get_name_hotel"/>
-                        <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="cancellation_policy">
-
-                        </div><br/>
                         <div style="background-color:white; padding:10px; border:1px solid {{color}};">
                             <h4> {% trans 'Special Request' %} </h4>
                             <hr/>
@@ -1999,6 +1991,12 @@
                             <textarea rows="1" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="late_ci" name="late_ci"></textarea>
                             <h6>{% trans 'Late' %} {% trans 'Check-Out' %}:</h6>
                             <textarea rows="1" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="late_co" name="late_co"></textarea>
+                        </div><br/>
+                        <div id="div_name_room">
+
+                        </div>
+                        <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="cancellation_policy">
+
                         </div><br/>
                         <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="hotel_detail">
 
@@ -2657,9 +2655,6 @@
                 </div>
                 <div class="col-lg-4" style="margin-top:10px;">
                     <input type="hidden" value="{{response.name}}" id="get_name_hotel"/>
-                    <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="cancellation_policy">
-
-                    </div><br/>
                     <div style="background-color:white; padding:10px; border:1px solid {{color}};">
                         <h4> {% trans 'Special Request' %} </h4>
                         <hr/>
@@ -2672,6 +2667,13 @@
                         <h6>{% trans 'Late' %} {% trans 'Check-Out' %}:</h6>
                         <textarea rows="1" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="late_co" name="late_co"></textarea>
                     </div><br/>
+                    <div id="div_name_room">
+
+                    </div>
+                    <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="cancellation_policy">
+
+                    </div><br/>
+
                     <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="hotel_detail">
 
                     </div>
@@ -2834,7 +2836,7 @@
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Title' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <div class="form-select" id="default-select">
+                                                <div class="form-select" id="default-select" style="margin-bottom:0px;">
                                                     <select id="booker_title" name="booker_title" class="nice-select-default" onchange="change_booker_value('hotel');">
                                                         {% for title in adult_title%}
                                                         <option>{{title}}</option>
@@ -3055,7 +3057,7 @@
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Title' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <div class="form-select">
+                                                <div class="form-select" style="margin-bottom:0px;">
                                                     <select id="adult_title{{forloop.counter}}" name="adult_title{{forloop.counter}}" class="nice-select-default">
                                                         {% for title in adult_title%}
                                                         <option>{{title}}</option>
@@ -3242,7 +3244,7 @@
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Title' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <div class="form-select">
+                                                <div class="form-select" style="margin-bottom:0px;">
                                                     <select id="child_title{{forloop.counter}}" name="child_title{{forloop.counter}}" class="nice-select-default">
                                                         {% for title in infant_title%}
                                                         <option>{{title}}</option>
@@ -3329,9 +3331,6 @@
                     </div>
                     <div class="col-lg-4" style="margin-top:10px;">
                         <input type="hidden" value="{{response.name}}" id="get_name_hotel"/>
-                        <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="cancellation_policy">
-
-                        </div><br/>
                         <div style="background-color:white; padding:10px; border:1px solid {{color}};">
                             <h4> {% trans 'Special Request' %} </h4>
                             <hr/>
@@ -3344,6 +3343,13 @@
                             <h6>{% trans 'Late' %} {% trans 'Check-Out' %}:</h6>
                             <textarea rows="1" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="late_co" name="late_co"></textarea>
                         </div><br/>
+                        <div id="div_name_room">
+
+                        </div>
+                        <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="cancellation_policy">
+
+                        </div><br/>
+
                         <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="hotel_detail">
 
                         </div>

@@ -170,17 +170,18 @@ function event_get_booking(data){
                         <h6 class="carrier_code_template">Order Number : </h6><h6>`+msg.result.response.order_number+`</h6><br/>
                         <table style="width:100%;">
                             <tr>
-                                <th class="carrier_code_template">Booking Code</th>
-                                <th class="carrier_code_template">Hold Date</th>
-                                <th class="carrier_code_template">Status</th>
+                                <th style="font-weight:600;">Booking Code</th>
+                                <th style="font-weight:600;">Hold Date</th>
+                                <th style="font-weight:600;">Status</th>
                             </tr>`;
                             for(i in msg.result.response.providers){
+                                hold_date_event = new Date(msg.result.response.hold_date).toString().split(' ');
                                 text+=`
                                     <tr>`;
 
                                 text+=`
                                     <td>`+msg.result.response.providers[i].pnr+`</td>
-                                    <td>`+msg.result.response.hold_date+`</td>`;
+                                    <td>`+hold_date_event[2]+` `+hold_date_event[1]+` `+hold_date_event[3]+`</td>`;
                                 text+=`
                                         <td>`+msg.result.response.status.charAt(0).toUpperCase()+msg.result.response.status.slice(1).toLowerCase()+`</td>
                                     </tr>
@@ -192,33 +193,33 @@ function event_get_booking(data){
                    `;
                    text+=`<div class="row">`;
                    text+=`<div class="col-lg-12"></div>`;
-                   text+=`<div class="col-lg-4 col-md-4 col-sm-6">`;
+                   text+=`<div class="col-lg-3 col-md-4 col-sm-6">`;
                    if(msg.result.response.event_name != false)
-                        text+=`<span class="carrier_code_template">Event Name: </span><br/>`;
+                        text+=`<span style="font-weight:600;">Event Name: </span><br/>`;
                    text+=`</div>`;
 
-                   text+=`<div class="col-lg-8 col-md-8 col-sm-6" style="margin-bottom:5px;">`;
+                   text+=`<div class="col-lg-9 col-md-8 col-sm-6" style="margin-bottom:5px;">`;
                    if(msg.result.response.event_name != false)
                         text+=`<span>`+msg.result.response.event_name+`</span><br/>`;
                    text+=`</div>`;
 
-                   text+=`<div class="col-lg-4 col-md-4 col-sm-6">`;
+                   text+=`<div class="col-lg-3 col-md-4 col-sm-6">`;
                    if(msg.result.response.event_location != false)
-                        text+=`<span class="carrier_code_template">Location: </span>`;
+                        text+=`<span style="font-weight:600;">Location: </span>`;
                    text+=`</div>`;
 
-                   text+=`<div class="col-lg-8 col-md-8 col-sm-6" style="margin-bottom:5px;">`;
+                   text+=`<div class="col-lg-9 col-md-8 col-sm-6" style="margin-bottom:5px;">`;
                        if(msg.result.response.event_location != false)
                            for (loc_obj in msg.result.response.event_location)
                                text+=`<span><i class="fas fa-map-marker-alt" style="color:`+color+`;"></i> `+msg.result.response.event_location[loc_obj].name+`, `+msg.result.response.event_location[loc_obj].address+`, `+msg.result.response.event_location[loc_obj].city+`</span><br/>`;
                    text+=`</div>`;
 
-                   text+=`<div class="col-lg-4 col-md-4 col-sm-6">`;
+                   text+=`<div class="col-lg-3 col-md-4 col-sm-6">`;
                    if(msg.result.response.event_location != false)
-                        text+=`<span class="carrier_code_template">Event Detail: </span>`;
+                        text+=`<span style="font-weight:600;">Event Detail: </span>`;
                    text+=`</div>`;
 
-                   text+=`<div class="col-lg-8 col-md-8 col-sm-6" style="margin-bottom:5px;">`;
+                   text+=`<div class="col-lg-9 col-md-8 col-sm-6" style="margin-bottom:5px;">`;
                        if(msg.result.response.description != false)
                            text+=`<span style="font-size:13px !important;">`+msg.result.response.description+`</span><br/>`;
                        else
@@ -320,7 +321,7 @@ function event_get_booking(data){
                             text+=`
                                 <br/>
                                 <span>Extra Question :
-                                    <span style="padding-left:5px; font-size:12px; color:`+color+`; cursor:pointer;" data-toggle="modal" data-target="#answerModal`+i+`"> Show Your Answer </span>
+                                    <span style="padding-left:5px; font-weight:600; font-size:12px; color:`+color+`; cursor:pointer;" data-toggle="modal" data-target="#answerModal`+i+`"> Show Your Answer </span>
                                 </span>
                                 <div class="modal fade" id="answerModal`+i+`" role="dialog" data-keyboard="false">
                                     <div class="modal-dialog">
@@ -351,8 +352,13 @@ function event_get_booking(data){
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-3" style="margin-bottom:10px;">
-                                <div class="img-event-search" style="background-size:contain; background-repeat: no-repeat; cursor:pointer; background-image: url(`+msg.result.response.options[i].image_url+`);"></div>
+                            <div class="col-lg-3" style="margin-bottom:10px;">`;
+                            console.log(msg.result.response);
+                                if(msg.result.response.options[i].image_url.length != 0)
+                                    text+=`<div class="border-event"><div class="img-event-detail" style="background-size:contain; background-repeat: no-repeat; background-image: url('`+msg.result.response.options[i].image_url+`');"></div></div>`;
+                                else
+                                    text+=`<div class="border-event"><div class="img-event-detail" style="background-size:contain; background-repeat: no-repeat; background-image: url('/static/tt_website_rodextrip/images/no pic/no-ticket.png');"></div></div>`;
+                            text+=`
                             </div>
                             <div class="col-lg-9">
                                 <h6>Description</h6>`;
@@ -1268,7 +1274,7 @@ function event_issued_alert(val){
             document.getElementById("passengers").value = JSON.stringify({'booker':booker});
             document.getElementById("signature").value = signature;
             document.getElementById("provider").value = 'event';
-            document.getElementById("type").value = 'hotel_review';
+            document.getElementById("type").value = 'event';
             document.getElementById("voucher_code").value = voucher_code;
             document.getElementById("discount").value = JSON.stringify(discount_voucher);
             document.getElementById("session_time_input").value = time_limit;

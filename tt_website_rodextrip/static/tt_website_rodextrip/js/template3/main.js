@@ -642,7 +642,7 @@ $(document).ready(function(){
       'id': ''
     });
     $('body .main-menu .container .mobile-menu .mobile-nav').append($mobile_nav);
-    $('body .main-menu .container .mobile-menu .mobile-nav').prepend('<button type="button" id="mobile-nav-toggle"><i class="lnr lnr-menu"></i></button>');
+    $('body .main-menu .container .mobile-menu .mobile-nav').prepend('<button type="button" id="mobile-nav-toggle"><i class="lnr lnr-menu lnr_color"></i></button>');
     $('body .main-menu .container .mobile-menu .mobile-nav').append('<div id="mobile-body-overly"></div>');
     $('#mobile-nav').find('.balance_mobile').replaceWith('<li><a style="color:white;"><span id="balance_mob"></span></a></li>');
     $('#mobile-nav').find('.credit_mobile').replaceWith('<li><a style="color:white;"><span id="credit_mob"></span></a></li>');

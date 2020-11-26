@@ -34,6 +34,12 @@
         $('#username_mb').hide();
         $('#password_mb').hide();
         $('#forget_mb').hide();
+        try{
+            document.getElementsByClassName("signup_pc_mb")[0].style.color = text_color;
+        }catch(err){
+            console.log('err');
+        }
+
     }
     else {
         $('#username_pc').hide();
@@ -42,6 +48,11 @@
         $('#username_mb').show();
         $('#password_mb').show();
         $('#forget_mb').show();
+        try{
+            document.getElementsByClassName("signup_pc_mb")[0].style.color = "#2a303b";
+        }catch(err){
+            console.log('err');
+        }
     }
 
     $(window).resize(function() {
@@ -52,6 +63,11 @@
             $('#username_mb').hide();
             $('#password_mb').hide();
             $('#forget_mb').hide();
+            try{
+                document.getElementsByClassName("signup_pc_mb")[0].style.color = text_color;
+            }catch(err){
+                console.log('err');
+            }
         }
         else {
             $('#username_pc').hide();
@@ -60,6 +76,11 @@
             $('#username_mb').show();
             $('#password_mb').show();
             $('#forget_mb').show();
+            try{
+                document.getElementsByClassName("signup_pc_mb")[0].style.color = "#2a303b";
+            }catch(err){
+                console.log('err');
+            }
         }
     });
 

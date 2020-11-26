@@ -1059,11 +1059,13 @@ def get_data_template(request, type='home', provider_type = []):
                                 login_background_color = 'transparent'
                             else:
                                 tab_color = 'transparent'
+                                login_background_color = 'transparent'
                         else:
                             if type != 'login':
                                 login_background_color = line.split('\n')[0]
                             else:
                                 tab_color = line.split('\n')[0]
+                                login_background_color = line.split('\n')[0]
 
             if color == '':
                 color = '#f15a22'

@@ -514,7 +514,7 @@
                             <div class="banner-right" style="background:white; border:1px solid #cdcdcd;">
                                 <div id="description-tab" class="create_tab-content current" style="padding:20px 0px 10px 0px;">
                                     <div class="col-lg-12">
-                                        {% if event_code.description != '' %}
+                                        {% if event_code.description != '' and event_code.description != '<p><br></p>' %}
                                         {% autoescape off %}
                                         {{event_code.description}}
                                         {% endautoescape %}
@@ -525,7 +525,7 @@
                                 </div>
                                 <div id="itinerary-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
                                     <div class="col-lg-12">
-                                        {% if event_code.itinerary != ''%}
+                                        {% if event_code.itinerary != '' and event_code.itinerary != '<p><br></p>' %}
                                         {% autoescape off %}
                                         {{event_code.itinerary}}
                                         {% endautoescape %}
@@ -536,7 +536,7 @@
                                 </div>
                                 <div id="inclusion-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
                                     <div class="col-lg-12">
-                                        {% if event_code.includes != ''%}
+                                        {% if event_code.includes != '' and event_code.includes != '<p><br></p>' %}
                                         {% autoescape off %}
                                         {{event_code.includes}}
                                         {% endautoescape %}
@@ -547,7 +547,7 @@
                                 </div>
                                 <div id="exclude-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
                                     <div class="col-lg-12">
-                                        {% if event_code.excludes != ''%}
+                                        {% if event_code.excludes != '' and event_code.excludes != '<p><br></p>' %}
                                         {% autoescape off %}
                                         {{event_code.excludes}}
                                         {% endautoescape %}
@@ -558,7 +558,7 @@
                                 </div>
                                 <div id="info-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
                                     <div class="col-lg-12">
-                                        {% if event_code.additional_info != ''%}
+                                        {% if event_code.additional_info != '' and event_code.additional_info != '<p><br></p>' %}
                                         {% autoescape off %}
                                         {{event_code.additional_info}}
                                         {% endautoescape %}
@@ -569,7 +569,7 @@
                                 </div>
                                 <div id="notice-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
                                     <div class="col-lg-12">
-                                        {% if event_code.to_notice != ''%}
+                                        {% if event_code.to_notice != '' and event_code.to_notice != '<p><br></p>' %}
                                         {% autoescape off %}
                                         {{event_code.to_notice}}
                                         {% endautoescape %}
