@@ -620,12 +620,10 @@ $(document).ready(function(){
 
         if(quantity < 9){
             $('#hotel_room').val(quantity + 1);
+            $('#hotel_adult').val((quantity+1)*2);
             quantity_room_hotel = quantity + 1;
+            quantity_adult_hotel = (quantity+1)*2;
 
-            if(quantity_room_hotel > quantity_adult_hotel){
-                $('#hotel_adult').val(quantity + 1);
-                quantity_adult_hotel = quantity + 1;
-            }
             $('#show_total_pax_hotel').text(quantity_room_hotel + " Room, " + quantity_adult_hotel + " Adult, " +quantity_child_hotel + " Child");
         }
 

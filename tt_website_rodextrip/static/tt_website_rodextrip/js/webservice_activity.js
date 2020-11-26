@@ -549,14 +549,14 @@ function activity_get_detail(activity_uuid){
                    for(i in activity_type){
                        if (counti == 0){
                            temp += `
-                           <label class="btn btn-activity active" style="z-index:1 !important; margin: 0px 5px 5px 0px;" title="`+activity_type[i].name+`" onclick="activity_get_price(`+parseInt(i)+`, false);">
+                           <label class="btn btn-activity active" style="width:unset; z-index:1 !important; margin: 0px 5px 5px 0px;" title="`+activity_type[i].name+`" onclick="activity_get_price(`+parseInt(i)+`, false);">
                                <input type="radio" class="activity" name="product_type" autocomplete="off" checked="checked"/><span>`+activity_type[i].name+`</span>
                            </label>
                        `;
                        }
                        else {
                            temp += `
-                           <label class="btn btn-activity" style="z-index:1 !important; margin: 0px 5px 5px 0px;" title="`+activity_type[i].name+`" onclick="activity_get_price(`+parseInt(i)+`, false);">
+                           <label class="btn btn-activity" style="width:unset; z-index:1 !important; margin: 0px 5px 5px 0px;" title="`+activity_type[i].name+`" onclick="activity_get_price(`+parseInt(i)+`, false);">
                                <input type="radio" class="activity" name="product_type" autocomplete="off"/><span>`+activity_type[i].name+`</span>
                            </label>
                        `;
@@ -1610,6 +1610,10 @@ function activity_get_price_date(activity_type_pick, pricing_days){
                                                 <span class="check_box_span_custom"></span>
                                             </label>
                                     `;
+                                    if(template != 1){
+                                        text+=`<br/>`;
+                                    }
+
                                 }
                             }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 3){
                                 //number validation
