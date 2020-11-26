@@ -571,7 +571,7 @@ input:focus {
 
 .classy-nav-container {
   background-color: transparent;
-  padding: 0; }
+  padding: 5px; }
   .classy-nav-container .classy-navbar {
     -webkit-transition-duration: 500ms;
     -o-transition-duration: 500ms;

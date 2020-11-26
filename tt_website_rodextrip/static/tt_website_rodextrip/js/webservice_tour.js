@@ -2145,9 +2145,23 @@ function table_price_update(msg,type){
             room_prices.push(price_data[i]);
         }
     }
+    price_txt2 += `<div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+            <span style="font-size:13px; font-weight:500;">Total Charge</span>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+            <span style="font-size:13px; font-weight:500;" id="total_charge_pd"></span>
+        </div>
+    </div>`;
+    total_charge = 0;
+    price_txt2 += `<div class="row">
+    <div class="col-lg-12">
+        <center><h6 style="color:`+color+`; display:block; cursor:pointer;" id="price_detail_tour_down" onclick="show_hide_div('price_detail_tour');">See Detail <i class="fas fa-chevron-down" style="font-size:14px;"></i></h6></center>
+    </div>
+    <div class="col-lg-12 mt-3" id="price_detail_tour_div" style="display:none;">`;
     for(var j=0; j<room_amount; j++)
     {
-        price_txt2 += `<br/><div class="row"><div class="col-xs-12"><span style="font-weight: bold;">Room `+String(j+1)+`</span></div></div>`;
+        price_txt2 += `<div class="row"><div class="col-xs-12"><span style="font-weight: bold; color:`+color+`;">Room #`+String(j+1)+`</span></div></div>`;
         temp_copy2 += '\nRoom ' + String(j+1) + '\n';
         found_room_price = false;
         for(var k=0; k<room_prices.length; k++)
@@ -2163,6 +2177,7 @@ function table_price_update(msg,type){
                                         <span style="font-size:13px; font-weight:500;">IDR `+getrupiah(room_prices[k].total)+`</span>
                                     </div>
                                </div>`;
+                total_charge += room_prices[k].total;
                 grand_total += room_prices[k].total;
                 temp_copy2 += String(room_prices[k].pax_count) + ' ' + room_prices[k].description + ' @IDR ' + getrupiah(room_prices[k].amount) + '\n';
             }
@@ -2179,7 +2194,13 @@ function table_price_update(msg,type){
                            </div>`;
             temp_copy2 += '(No Charge)\n';
         }
+        price_txt2 += `<div class="row"><div class="col-lg-12"><hr/></div></div>`;
     }
+    price_txt2+=`
+    <div class="col-lg-12">
+        <center><h6 style="color:`+color+`; display:block; cursor:pointer;" id="price_detail_tour_up" onclick="show_hide_div('price_detail_tour');">Show Less <i class="fas fa-chevron-up" style="font-size:14px;"></i></h6></center>
+    </div>`;
+    price_txt2 += `</div></div>`;
     try{
         grand_total += upsell_price;
     }catch(err){}
@@ -2258,6 +2279,7 @@ function table_price_update(msg,type){
 
 
     document.getElementById('tour_detail_table').innerHTML = price_txt;
+    document.getElementById('total_charge_pd').innerHTML = `<span>IDR `+getrupiah(total_charge)+`</span>`;
     if(type == 'detail'){
         if(agent_security.includes('book_reservation') == true)
         next_btn_txt = `<center>
@@ -2337,4 +2359,21 @@ function tour_search_autocomplete(term,suggest){
            }
         });
     }, 150);
+}
+
+function show_hide_div(key){
+    var show_div = document.getElementById(key+'_div');
+    var btn_down = document.getElementById(key+'_down');
+    var btn_up = document.getElementById(key+'_up');
+
+    if (btn_down.style.display === "none") {
+        btn_up.style.display = "none";
+        btn_down.style.display = "inline-block";
+        show_div.style.display = "none";
+    }
+    else {
+        btn_up.style.display = "inline-block";
+        btn_down.style.display = "none";
+        show_div.style.display = "block";
+    }
 }

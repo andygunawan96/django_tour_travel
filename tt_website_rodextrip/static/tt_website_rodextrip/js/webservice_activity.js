@@ -572,120 +572,15 @@ function activity_get_detail(activity_uuid){
                    activity_desc_bar_txt = ``;
                    if (template == 1)
                    {
-                        activity_desc_bar_txt += `<ul class="nav nav-tabs-activity" style="text-align:center; margin-bottom:15px;">
-                                        <li class="li-activity" style="display: inline-block !important; width: 135px; text-align: center; margin: 0px -2px 0px 0px !important;">
-                                            <a class="tab-menu-activity active" data-toggle="tab" href="#detail"><i class="fa fa-info-circle" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Details</span></a>
-                                        </li>
-                                        <li class="li-activity" style="display: inline-block !important; width: 135px; text-align: center; margin: 0px -2px 0px 0px !important;">
-                                            <a class="tab-menu-activity" data-toggle="tab" href="#rules"><i class="fa fa-exclamation-circle" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Rules</span></a>
-                                        </li>
-                                        <li class="li-activity" style="display: inline-block !important; width: 135px; text-align: center; margin: 0px -2px 0px 0px !important;">
-                                            <a class="tab-menu-activity" data-toggle="tab" href="#vouchers"><i class="fa fa-ticket-alt" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Vouchers</span></a>
-                                        </li>`;
-                                        if (activity_data.itinerary != '')
-                                        {
-                                            activity_desc_bar_txt += `
-                                                <li class="li-activity" style="display: inline-block !important; width: 135px; text-align: center; margin: 0px -2px 0px 0px !important;">
-                                                    <a class="tab-menu-activity" data-toggle="tab" href="#price_itinerary"><i class="fa fa-list-ul" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Price Itinerary</span></a>
-                                                </li>
-                                            `;
-                                        }
-                                    activity_desc_bar_txt += `
-                                    </ul>
-                                    <div class="row tab-content">
-                                        <div id="detail" class="col-lg-12 tab-pane fade in active show">`;
-                                            if (activity_data.description != '')
-                                            {
-                                                activity_desc_bar_txt += `
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Description</h4>
-                                                <p style="padding:0 15px;text-align:justify">`+activity_data.description+`</p>`;
-                                            }
-                                            if (activity_data.highlights != '')
-                                            {
-                                                activity_desc_bar_txt += `
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Highlights</h4>
-                                                <p style="padding:0 15px;text-align:justify">`+activity_data.highlights+`</p>`;
-                                            }
-                                            if (activity_data.additionalInfo != '')
-                                            {
-                                                activity_desc_bar_txt += `
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Additional Info</h4>
-                                                <p style="padding:0 15px;text-align:justify">`+activity_data.additionalInfo+`</p>`;
-                                            }
-                                            if (activity_data.priceIncludes != '')
-                                            {
-                                                activity_desc_bar_txt += `
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Price Includes</h4>
-                                                <p style="padding:0 15px;text-align:justify">`+activity_data.priceIncludes+`</p>`;
-                                            }
-                                            if (activity_data.priceExcludes != '')
-                                            {
-                                                activity_desc_bar_txt += `
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Price Excludes</h4>
-                                                <p style="padding:0 15px;text-align:justify">`+activity_data.priceExcludes+`</p>`;
-                                            }
-                                        activity_desc_bar_txt += `</div>
-                                        <div id="rules" class="col-lg-12 tab-pane fade">`;
-                                            if (activity_data.warnings != '')
-                                            {
-                                                activity_desc_bar_txt += `
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Warnings</h4>
-                                                <p style="padding:0 15px;text-align:justify">`+activity_data.warnings+`</p>`;
-                                            }
-                                            if (activity_data.safety != '')
-                                            {
-                                                activity_desc_bar_txt += `
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Safety</h4>
-                                                <p style="padding:0 15px;text-align:justify">`+activity_data.safety+`</p>`;
-                                            }
-                                        activity_desc_bar_txt += `</div>
-                                        <div id="vouchers" class="col-lg-12 tab-pane fade">`;
-                                            if (activity_data.voucher_validity != '')
-                                            {
-                                                activity_desc_bar_txt += `
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Validity</h4>
-                                                <p style="padding:0 15px;text-align:justify">`+activity_data.voucher_validity+`</p>`;
-                                            }
-                                            if (activity_data.voucherUse != '')
-                                            {
-                                                activity_desc_bar_txt += `
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Voucher Use</h4>
-                                                <p style="padding:0 15px;text-align:justify">`+activity_data.voucherUse+`</p>`;
-                                            }
-                                            if (activity_data.voucherRedemptionAddress != '')
-                                            {
-                                                activity_desc_bar_txt += `
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Voucher Address</h4>
-                                                <p style="padding:0 15px; text-align:justify;">`+activity_data.voucherRedemptionAddress+`</p>`;
-                                            }
-                                            if (activity_data.voucherRequiresPrinting != '')
-                                            {
-                                                activity_desc_bar_txt += `
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Voucher Print</h4>
-                                                <p style="padding:0 15px;text-align:justify">`+activity_data.voucherRequiresPrinting+`</p>`;
-                                            }
-                                        activity_desc_bar_txt += `</div>
-                                        <div id="price_itinerary" class="col-lg-12 tab-pane fade">`;
-                                            if (activity_data.itinerary != '')
-                                            {
-                                                activity_desc_bar_txt += `
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Itinerary</h4>
-                                                <p style="padding:0 15px; text-align:justify">`+activity_data.itinerary+`</p>`;
-                                            }
-                                        activity_desc_bar_txt += `</div>
-                                    </div>`;
-                   }
-                   else if (template == 2)
-                   {
                         activity_desc_bar_txt += `<div class="style-scrollbar" style="overflow:auto; white-space:nowrap; background: white;">
-                                        <ul class="tabs" style="background:white;">
-                                            <li class="tab-link current" data-tab="detail"><label><i class="fa fa-info-circle" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Details</span></label></li>
-                                            <li class="tab-link" data-tab="rules"><label><i class="fa fa-exclamation-circle" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Rules</span></label></li>
-                                            <li class="tab-link" data-tab="vouchers"><label><i class="fa fa-ticket-alt" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Vouchers</span></label></li>`;
+                                        <ul class="create_tabs" style="background:white;">
+                                            <li class="create_tab-link current" data-tab="detail"><label><i class="fa fa-info-circle" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Details</span></label></li>
+                                            <li class="create_tab-link" data-tab="rules"><label><i class="fa fa-exclamation-circle" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Rules</span></label></li>
+                                            <li class="create_tab-link" data-tab="vouchers"><label><i class="fa fa-ticket-alt" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Vouchers</span></label></li>`;
                                             if (activity_data.itinerary != '')
                                             {
                                                 activity_desc_bar_txt += `
-                                                <li class="tab-link" data-tab="price_itinerary"><label><i class="fa fa-list-ul" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Price Itinerary</span></label></li>
+                                                <li class="create_tab-link" data-tab="price_itinerary"><label><i class="fa fa-list-ul" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Price Itinerary</span></label></li>
                                                 `;
                                             }
                                          activity_desc_bar_txt += `
@@ -693,7 +588,7 @@ function activity_get_detail(activity_uuid){
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-12">
-                                            <div id="detail" class="tab-content current" style="border-top:2px solid #cdcdcd;">`;
+                                            <div id="detail" class="create_tab-content current" style="border-top:2px solid #cdcdcd;">`;
                                             if (activity_data.description != '')
                                             {
                                                 activity_desc_bar_txt += `
@@ -726,7 +621,7 @@ function activity_get_detail(activity_uuid){
                                             }
                                         activity_desc_bar_txt += `
                                              </div>
-                                            <div id="rules" class="tab-content" style="border-top:2px solid #cdcdcd;">`;
+                                            <div id="rules" class="create_tab-content" style="border-top:2px solid #cdcdcd;">`;
                                                 if (activity_data.warnings != '')
                                                 {
                                                     activity_desc_bar_txt += `
@@ -740,7 +635,7 @@ function activity_get_detail(activity_uuid){
                                                     <p style="padding:0 15px;text-align:justify">`+activity_data.safety+`</p>`;
                                                 }
                                              activity_desc_bar_txt += `</div>
-                                            <div id="vouchers" class="tab-content" style="border-top:2px solid #cdcdcd;">`;
+                                            <div id="vouchers" class="create_tab-content" style="border-top:2px solid #cdcdcd;">`;
                                                 if (activity_data.voucher_validity != '')
                                                 {
                                                     activity_desc_bar_txt += `
@@ -766,7 +661,109 @@ function activity_get_detail(activity_uuid){
                                                     <p style="padding:0 15px;text-align:justify">`+activity_data.voucherRequiresPrinting+`</p>`;
                                                 }
                                             activity_desc_bar_txt += `</div>
-                                            <div id="price_itinerary" class="tab-content" style="border-top:2px solid #cdcdcd;">`;
+                                            <div id="price_itinerary" class="create_tab-content" style="border-top:2px solid #cdcdcd;">`;
+                                                if (activity_data.itinerary != '')
+                                                {
+                                                    activity_desc_bar_txt += `
+                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Itinerary</h4>
+                                                    <p style="padding:0 15px; text-align:justify">`+activity_data.itinerary+`</p>`;
+                                                }
+                                            activity_desc_bar_txt += `</div>
+                                        </div>
+                                    </div>`;
+                   }
+                   else if (template == 2)
+                   {
+                        activity_desc_bar_txt += `<div class="style-scrollbar" style="overflow:auto; white-space:nowrap; background: white;">
+                                        <ul class="create_tabs" style="background:white;">
+                                            <li class="create_tab-link current" data-tab="detail"><label><i class="fa fa-info-circle" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Details</span></label></li>
+                                            <li class="create_tab-link" data-tab="rules"><label><i class="fa fa-exclamation-circle" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Rules</span></label></li>
+                                            <li class="create_tab-link" data-tab="vouchers"><label><i class="fa fa-ticket-alt" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Vouchers</span></label></li>`;
+                                            if (activity_data.itinerary != '')
+                                            {
+                                                activity_desc_bar_txt += `
+                                                <li class="create_tab-link" data-tab="price_itinerary"><label><i class="fa fa-list-ul" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Price Itinerary</span></label></li>
+                                                `;
+                                            }
+                                         activity_desc_bar_txt += `
+                                        </ul>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div id="detail" class="create_tab-content current" style="border-top:2px solid #cdcdcd;">`;
+                                            if (activity_data.description != '')
+                                            {
+                                                activity_desc_bar_txt += `
+                                                <h4 style="padding:0 15px; margin-bottom:10px;">Description</h4>
+                                                <p style="padding:0 15px;text-align:justify">`+activity_data.description+`</p>`;
+                                            }
+                                            if (activity_data.highlights != '')
+                                            {
+                                                activity_desc_bar_txt += `
+                                                <h4 style="padding:0 15px; margin-bottom:10px;">Highlights</h4>
+                                                <p style="padding:0 15px;text-align:justify">`+activity_data.highlights+`</p>`;
+                                            }
+                                            if (activity_data.additionalInfo != '')
+                                            {
+                                                activity_desc_bar_txt += `
+                                                <h4 style="padding:0 15px; margin-bottom:10px;">Additional Info</h4>
+                                                <p style="padding:0 15px;text-align:justify">`+activity_data.additionalInfo+`</p>`;
+                                            }
+                                            if (activity_data.priceIncludes != '')
+                                            {
+                                                activity_desc_bar_txt += `
+                                                <h4 style="padding:0 15px; margin-bottom:10px;">Price Includes</h4>
+                                                <p style="padding:0 15px;text-align:justify">`+activity_data.priceIncludes+`</p>`;
+                                            }
+                                            if (activity_data.priceExcludes != '')
+                                            {
+                                                activity_desc_bar_txt += `
+                                                <h4 style="padding:0 15px; margin-bottom:10px;">Price Excludes</h4>
+                                                <p style="padding:0 15px;text-align:justify">`+activity_data.priceExcludes+`</p>`;
+                                            }
+                                        activity_desc_bar_txt += `
+                                             </div>
+                                            <div id="rules" class="create_tab-content" style="border-top:2px solid #cdcdcd;">`;
+                                                if (activity_data.warnings != '')
+                                                {
+                                                    activity_desc_bar_txt += `
+                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Warnings</h4>
+                                                    <p style="padding:0 15px;text-align:justify">`+activity_data.warnings+`</p>`;
+                                                }
+                                                if (activity_data.safety != '')
+                                                {
+                                                    activity_desc_bar_txt += `
+                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Safety</h4>
+                                                    <p style="padding:0 15px;text-align:justify">`+activity_data.safety+`</p>`;
+                                                }
+                                             activity_desc_bar_txt += `</div>
+                                            <div id="vouchers" class="create_tab-content" style="border-top:2px solid #cdcdcd;">`;
+                                                if (activity_data.voucher_validity != '')
+                                                {
+                                                    activity_desc_bar_txt += `
+                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Validity</h4>
+                                                    <p style="padding:0 15px;text-align:justify">`+activity_data.voucher_validity+`</p>`;
+                                                }
+                                                if (activity_data.voucherUse != '')
+                                                {
+                                                    activity_desc_bar_txt += `
+                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Voucher Use</h4>
+                                                    <p style="padding:0 15px;text-align:justify">`+activity_data.voucherUse+`</p>`;
+                                                }
+                                                if (activity_data.voucherRedemptionAddress != '')
+                                                {
+                                                    activity_desc_bar_txt += `
+                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Voucher Address</h4>
+                                                    <p style="padding:0 15px; text-align:justify;">`+activity_data.voucherRedemptionAddress+`</p>`;
+                                                }
+                                                if (activity_data.voucherRequiresPrinting != '')
+                                                {
+                                                    activity_desc_bar_txt += `
+                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Voucher Print</h4>
+                                                    <p style="padding:0 15px;text-align:justify">`+activity_data.voucherRequiresPrinting+`</p>`;
+                                                }
+                                            activity_desc_bar_txt += `</div>
+                                            <div id="price_itinerary" class="create_tab-content" style="border-top:2px solid #cdcdcd;">`;
                                                 if (activity_data.itinerary != '')
                                                 {
                                                     activity_desc_bar_txt += `

@@ -99,6 +99,9 @@
     time_limit = {{time_limit}};
     session_time_limit();
 </script>
+
+<style>.hotel-search-form-area .hotel-search-form .form-control{margin-bottom:0px;}</style>
+
 {% include 'tt_website_rodextrip/logout.html' %}
 {% include 'tt_website_rodextrip/loading_screen.html' %}
 {% include 'tt_website_rodextrip/check_connection.html' %}
@@ -1137,8 +1140,8 @@
 </section>
 
 {% elif template == 2 %}
-<header class="header_breadcrumb" style="border-bottom:1px solid #cdcdcd;">
-    <div class="main-header-area">
+<header class="header_breadcrumb" style="padding:unset; background:white;">
+    <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:15px 0px 15px 0px;">
         <div class="classy-nav-container breakpoint-off">
             <div class="container">
                 <nav class="classy-navbar justify-content-between" id="robertoNav">
@@ -1253,7 +1256,7 @@
                                                 <div class="col-lg-6 col-xs-6">
                                                     <label style="color:red">*</label>
                                                     <label>{% trans 'Title' %}</label>
-                                                    <select id="booker_title" name="booker_title" class="form-control">
+                                                    <select id="booker_title" name="booker_title" class="form-control" style="margin-bottom:0px;">
                                                         {% for title in adult_title%}
                                                         <option>{{title}}</option>
                                                         {% endfor %}
@@ -1389,6 +1392,7 @@
                                 </div>
 
                                 {% for adult in adults%}
+                                {% with forloop.counter as counter%}
                                 <div class="row" id="adult{{forloop.counter}}">
                                     <div class="col-lg-12">
                                         <div class="passenger_div" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
@@ -1552,14 +1556,12 @@
                                                     <label style="color:white">*</label>
                                                     <label>{% trans 'Frequent Flyer Program Journey' %} {{forloop.counter}}</label>
                                                     <div class="input-container-search-ticket">
-                                                        <div class="form-select">
-                                                            <select class="form-control js-example-basic-single" name="adult_ff_request{{counter}}_{{forloop.counter}}_id" style="width:100%;" id="adult_ff_request{{counter}}_{{forloop.counter}}_id" onchange="auto_complete('adult_ff_request{{counter}}_{{forloop.counter}}')" class="nice-select-default">
-                                                                <option value="">{% trans 'Frequent Flyer Program' %}</option>
-                                                                {% for ff_program in ff.ff_availability %}
-                                                                <option value="{{ff_program.code}}">{{ff_program.name}}</option>
-                                                                {% endfor %}
-                                                            </select>
-                                                        </div>
+                                                        <select class="form-control js-example-basic-single" name="adult_ff_request{{counter}}_{{forloop.counter}}_id" style="width:100%;" id="adult_ff_request{{counter}}_{{forloop.counter}}_id" onchange="auto_complete('adult_ff_request{{counter}}_{{forloop.counter}}')" class="nice-select-default">
+                                                            <option value="">{% trans 'Frequent Flyer Program' %}</option>
+                                                            {% for ff_program in ff.ff_availability %}
+                                                            <option value="{{ff_program.code}}">{{ff_program.name}}</option>
+                                                            {% endfor %}
+                                                        </select>
                                                         <input type="hidden" name="adult_ff_request{{counter}}_{{forloop.counter}}" id="adult_ff_request{{counter}}_{{forloop.counter}}" />
                                                     </div>
                                                 </div>
@@ -1607,9 +1609,11 @@
                                     </div>
                                 </div>
                                 <br/>
+                                {% endwith %}
                                 {% endfor %}
 
                                 {% for child in childs%}
+                                {% with forloop.counter as counter%}
                                 <div class="row" id="child{{forloop.counter}}">
                                     <div class="col-lg-12">
                                         <div class="passenger_div" onclick="show_paxs_airline('child', '{{forloop.counter}}');">
@@ -1762,14 +1766,12 @@
                                                     <label style="color:white">*</label>
                                                     <label>{% trans 'Frequent Flyer Program Journey' %} {{forloop.counter}}</label>
                                                     <div class="input-container-search-ticket">
-                                                        <div class="form-select">
-                                                            <select class="form-control js-example-basic-single" name="child_ff_request{{counter}}_{{forloop.counter}}_id" style="width:100%;" id="chi;d_ff_request{{counter}}_{{forloop.counter}}_id" onchange="auto_complete('child_ff_request{{counter}}_{{forloop.counter}}')" class="nice-select-default">
-                                                                <option value="">{% trans 'Frequent Flyer Program' %}</option>
-                                                                {% for ff_program in ff.ff_availability %}
-                                                                <option value="{{ff_program.code}}">{{ff_program.name}}</option>
-                                                                {% endfor %}
-                                                            </select>
-                                                        </div>
+                                                        <select class="form-control js-example-basic-single" name="child_ff_request{{counter}}_{{forloop.counter}}_id" style="width:100%;" id="chi;d_ff_request{{counter}}_{{forloop.counter}}_id" onchange="auto_complete('child_ff_request{{counter}}_{{forloop.counter}}')" class="nice-select-default">
+                                                            <option value="">{% trans 'Frequent Flyer Program' %}</option>
+                                                            {% for ff_program in ff.ff_availability %}
+                                                            <option value="{{ff_program.code}}">{{ff_program.name}}</option>
+                                                            {% endfor %}
+                                                        </select>
                                                         <input type="hidden" name="child_ff_request{{counter}}_{{forloop.counter}}" id="child_ff_request{{counter}}_{{forloop.counter}}" />
                                                     </div>
                                                 </div>
@@ -1785,6 +1787,7 @@
                                     </div>
                                 </div>
                                 <br/>
+                                {% endwith %}
                                 {% endfor %}
 
                                 {% for infant in infants%}
@@ -2010,33 +2013,31 @@
 </section>
 
 {% elif template == 3 %}
-<header>
-    <div class="container" style="padding-top:15px; padding-bottom:15px;">
-        <div class="row align-items-center justify-content-between d-flex mobile-menu">
-            <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
-                <a class="nav-brand" href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="Logo {{name}}" title="{{name}}" /></a>
-            </div>
-            <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
+<header class="header_breadcrumb" style="padding:unset; background:white;">
+    <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:15px 0px 15px 0px;">
+        <div class="container" style="padding-top:10px;">
+            <div class="row align-items-center justify-content-between d-flex mobile-menu"  >
+                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                    <a class="nav-brand" href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="Logo {{name}}" title="{{name}}" /></a>
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
 
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px">
-                <span style="font-size:14px; font-weight:600; padding-right:10px;">{% trans 'Session Time' %} <span class="count_time" id="session_time"></span></span>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px">
-                <span style="font-size:14px; font-weight:600;">{% trans 'Elapsed Time' %} <span class="count_time" id="elapse_time"> </span></span>
-            </div>
-            {% include 'tt_website_rodextrip/balance_credit.html' %}
-        </div>
-        <div class="row">
-            <div class="col-lg-12">
-                {% if username.co_user_login == 'agent_b2c' %}
-                {% include 'tt_website_rodextrip/header_signin_signup.html' %}
-                {% endif %}
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px">
+                    <span style="font-size:14px; font-weight:600; padding-right:10px;">{% trans 'Session Time' %} <span class="count_time" id="session_time"></span></span>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px">
+                    <span style="font-size:14px; font-weight:600;">{% trans 'Elapsed Time' %} <span class="count_time" id="elapse_time"> </span></span>
+                </div>
+                {% include 'tt_website_rodextrip/balance_credit.html' %}
             </div>
         </div>
     </div>
+    {% if username.co_user_login == 'agent_b2c' %}
+    {% include 'tt_website_rodextrip/header_signin_signup.html' %}
+    {% endif %}
 </header>
 <section class="relative" style="padding:15px 0px 15px 0px; background:#f7f7f7;">
     <div class="container">
@@ -2267,6 +2268,7 @@
                         </div>
 
                         {% for adult in adults%}
+                        {% with forloop.counter as counter%}
                         <div class="row" id="adult{{forloop.counter}}">
                             <div class="col-lg-12">
                                 <div class="passenger_div" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
@@ -2536,9 +2538,11 @@
                             </div>
                         </div>
                         <br/>
+                        {% endwith %}
                         {% endfor %}
 
                         {% for child in childs%}
+                        {% with forloop.counter as counter%}
                         <div class="row" id="child{{forloop.counter}}">
                             <div class="col-lg-12">
                                 <div class="passenger_div" onclick="show_paxs_airline('child', '{{forloop.counter}}');">
@@ -2761,6 +2765,7 @@
                             </div>
                         </div>
                         <br/>
+                        {% endwith %}
                         {% endfor %}
 
 
@@ -3040,8 +3045,8 @@
 </section>
 
 {% elif template == 4 %}
-<header class="header_breadcrumb" style="position:sticky; top:0px; z-index:100; border-bottom:1px solid #cdcdcd;">
-    <div class="main-menu">
+<header class="header_breadcrumb" style="padding:unset; background:white;">
+    <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:15px 0px 15px 0px;">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
                 <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
@@ -3301,6 +3306,7 @@
                     </div>
 
                     {% for adult in adults%}
+                    {% with forloop.counter as counter%}
                     <div class="row" id="adult{{forloop.counter}}">
                         <div class="col-lg-12">
                             <div class="passenger_div" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
@@ -3567,9 +3573,11 @@
                         </div>
                     </div>
                     <br/>
+                    {% endwith %}
                     {% endfor %}
 
                     {% for child in childs%}
+                    {% with forloop.counter as counter%}
                     <div class="row" id="child{{forloop.counter}}">
                         <div class="col-lg-12">
                             <div class="passenger_div" onclick="show_paxs_airline('child', '{{forloop.counter}}');">
@@ -3790,6 +3798,7 @@
                         </div>
                     </div>
                     <br/>
+                    {% endwith %}
                     {% endfor %}
 
 
@@ -4066,55 +4075,30 @@
 </section>
 
 {% elif template == 5 %}
-<header>
-    <div class="container" style="padding-top:15px; padding-bottom:15px;">
-        <div class="row align-items-center justify-content-between d-flex mobile-menu">
-            <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
-                <a class="nav-brand" href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="Logo {{name}}" title="{{name}}" /></a>
-            </div>
-            <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create" style="display:flex; padding-top:5px; padding-left:15px;">
-                <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_rodextrip:index'%}';">
-                    <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
-                    <span style="padding-left:5px;">Home</span>
-                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+<header class="header_breadcrumb" style="padding:unset; background:white;">
+    <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:15px 0px 15px 0px;">
+        <div class="container" style="padding-top:15px; padding-bottom:15px;">
+            <div class="row align-items-center justify-content-between d-flex mobile-menu">
+                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                    <a class="nav-brand" href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="Logo {{name}}" title="{{name}}" /></a>
                 </div>
-                <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_rodextrip:airline_search'%}';">
-                    <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
-                    <span style="padding-left:5px;">Search</span>
-                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
-                </div>
-                <div class="breadcrumbs-rdx br-active">
-                    <span class="breadcrumb-rdx-icon br-icon-active">3</span>
-                    <span style="padding-left:5px;">Passenger</span>
-                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
-                </div>
-                <div class="breadcrumbs-rdx">
-                    <span class="breadcrumb-rdx-icon">4</span>
-                    <span style="padding-left:5px;">Booking</span>
-                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
-                </div>
-                <div class="breadcrumbs-rdx">
-                    <span class="breadcrumb-rdx-icon">5</span>
-                    <span style="padding-left:5px;">Issued</span>
+                <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
+
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px">
-                <span style="font-size:14px; font-weight:600;">{% trans 'Session Time' %} <span class="count_time" id="session_time"> </span></span>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px">
-                <span style="font-size:14px; font-weight:600;">{% trans 'Elapsed Time' %} <span class="count_time" id="elapse_time"> </span></span>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12">
-                {% if username.co_user_login == 'agent_b2c' %}
-                {% include 'tt_website_rodextrip/header_signin_signup.html' %}
-                {% endif %}
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px">
+                    <span style="font-size:14px; font-weight:600;">{% trans 'Session Time' %} <span class="count_time" id="session_time"> </span></span>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px">
+                    <span style="font-size:14px; font-weight:600;">{% trans 'Elapsed Time' %} <span class="count_time" id="elapse_time"> </span></span>
+                </div>
             </div>
         </div>
     </div>
+    {% if username.co_user_login == 'agent_b2c' %}
+    {% include 'tt_website_rodextrip/header_signin_signup.html' %}
+    {% endif %}
 </header>
 <section class="destinations-area" style="padding-top:15px; padding-bottom:40px; background:#f7f7f7;">
     <div class="container">
@@ -4199,7 +4183,7 @@
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Title' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <div class="form-select" id="default-select">
+                                                <div class="form-select" id="default-select" style="margin-bottom:0px;">
                                                     <select id="booker_title" name="booker_title" class="nice-select-default" onchange="change_booker_value('title');">
                                                         {% for title in adult_title%}
                                                         <option>{{title}}</option>
@@ -4341,6 +4325,7 @@
                         </div>
 
                         {% for adult in adults%}
+                        {% with forloop.counter as counter%}
                         <div class="row" id="adult{{forloop.counter}}">
                             <div class="col-lg-12">
                                 <div class="passenger_div" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
@@ -4607,9 +4592,11 @@
                             </div>
                         </div>
                         <br/>
+                        {% endwith %}
                         {% endfor %}
 
                         {% for child in childs%}
+                        {% with forloop.counter as counter%}
                         <div class="row" id="child{{forloop.counter}}">
                             <div class="col-lg-12">
                                 <div class="passenger_div" onclick="show_paxs_airline('child', '{{forloop.counter}}');">
@@ -4805,6 +4792,7 @@
                             </div>
                         </div>
                         <br/>
+                        {% endwith %}
                         {% endfor %}
 
 

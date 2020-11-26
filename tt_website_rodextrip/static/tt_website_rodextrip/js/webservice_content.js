@@ -171,7 +171,7 @@ function get_banner(type,page){
                             </section>`;
                         }else if(template == 2){
                             text+=`
-                            <section class="roberto-service-area" style="background:white;">
+                            <section class="roberto-service-area" style="z-index:0; background:white;">
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-xs-12">

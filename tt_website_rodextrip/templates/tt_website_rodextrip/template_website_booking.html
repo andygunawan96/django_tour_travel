@@ -43,6 +43,13 @@ Licence URI: http://www.os-templates.com/template-terms
     <link rel="icon" href="{{ logo_icon }}" sizes="16x16" type="image/png">
     <!--<link href="https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700" rel="stylesheet">-->
 
+    {% if username.co_user_login == 'agent_b2c' %}
+    <script>
+        login_color_base = '{{login_background_color}}';
+        login_color_base = login_color_base.substr(0,7);
+    </script>
+    {% endif %}
+
     <!--template1-->
     <style>
         .login-header{
@@ -195,6 +202,7 @@ Licence URI: http://www.os-templates.com/template-terms
     <!--select2-->
     <!--other-->
     <script src="{{ static_path }}js/vendor/jquery-2.2.4.min.js?version={{javascript_version}}"></script>
+
     <style media="screen" type="text/css">
         .bx-imopenlines-config-sidebar{
             height: 65% !important;
@@ -501,7 +509,7 @@ Licence URI: http://www.os-templates.com/template-terms
             display: block;
         }
         .select2-container--default .select2-results__option--highlighted[aria-selected] {
-            background-color: {{color}};
+            background-color: {{color}} !important;
             color: white;
         }
         .autocomplete-suggestion.selected {
@@ -623,7 +631,7 @@ Licence URI: http://www.os-templates.com/template-terms
             position: fixed;
             top: 85px;
             right: 55px;
-            z-index: 999;
+            z-index: 1000;
             background-color: {{color}};
             color: white;
             font-size:16px;
@@ -1103,6 +1111,13 @@ Licence URI: http://www.os-templates.com/template-terms
             color: {{color}} !important;
         }
         {% elif template == 2%}
+
+        {% if username.co_user_login == 'agent_b2c' %}
+        .classy-navbar-toggler .navbarToggler span{
+            background-color: {{text_color}};
+        }
+        {% endif %}
+
         .hotel-search-form-area .hotel-search-form{
             background: #f7f7f7;
         }
@@ -1201,6 +1216,29 @@ Licence URI: http://www.os-templates.com/template-terms
         .single-footer-widget .footer-nav li a:focus, .single-footer-widget .footer-nav li a:hover{
             color: {{color}};
         }
+        .banner-area-rodex{
+            height:60vh;
+        }
+        @media only screen and (max-width: 575px) {
+            .banner-area-rodex{
+                height:48vh !important;
+            }
+        }
+        @media only screen and (min-width: 576px) and (max-width: 767px) {
+            .banner-area-rodex{
+                height:57vh;
+            }
+        }
+        @media only screen and (min-width: 768px) and (max-width: 991px) {
+            .banner-area-rodex{
+                height:60vh;
+            }
+        }
+        @media only screen and (min-width: 992px) and (max-width: 1079px) {
+            .banner-area-rodex{
+                height:70vh;
+            }
+        }
         {% elif template == 3 %}
         .switch_a{
             color:{{text_color}};
@@ -1292,6 +1330,17 @@ Licence URI: http://www.os-templates.com/template-terms
             opacity: 0.8;
         }
         {% elif template == 4 %}
+        .site-blocks-cover, .site-blocks-cover > .container > .row{
+            min-height: 600px;
+            height: calc(60vh);
+        }
+        @media (max-width: 767px) {
+            .site-blocks-cover, .site-blocks-cover > .container > .row{
+                min-height: 400px;
+                height: calc(40vh);
+            }
+        }
+
         .modal-header{
             background-color: {{color}};
         }

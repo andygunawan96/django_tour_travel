@@ -113,7 +113,7 @@
 
                             <div class="col-lg-6 col-md-6" style="padding:0px;">
                                 <span class="span-search-ticket"><i class="fas fa-globe-asia"></i> {% trans 'Guest Nationality' %}</span>
-                                <select class="js-example-basic-single" name="hotel_id_nationality_id" style="width:100%;" id="hotel_id_nationality_id" placeholder="{% trans 'Guest Nationality' %}" onchange="auto_complete('hotel_id_nationality');" class="nice-select-default">
+                                <select class="js-example-basic-single" name="hotel_id_nationality_id" style="width:100%;" id="hotel_id_nationality_id" placeholder="{% trans 'Guest Nationality' %}" onchange="auto_complete('hotel_id_nationality');">
                                 {% for country in countries %}
                                     {% if country.code == hotel_search.nationality %}
                                     <option value="{{country.code}} - {{country.name}}" selected>{{country.code}} - {{country.name}}</option>

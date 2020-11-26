@@ -761,8 +761,8 @@
     </div>
 </section>
 {% elif template == 2 %}
-<header class="header_breadcrumb" style="border-bottom:1px solid #cdcdcd; background:white;">
-    <div class="main-menu">
+<header class="header_breadcrumb" style="padding:unset; background:white;">
+    <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:15px 0px 15px 0px;">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
                 <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
@@ -783,6 +783,9 @@
             </div>
         </div>
     </div>
+    {% if username.co_user_login == 'agent_b2c' %}
+    {% include 'tt_website_rodextrip/header_signin_signup.html' %}
+    {% endif %}
 </header>
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; background:#f7f7f7; position:relative;">
     <div class="container">
@@ -1458,8 +1461,8 @@
     </div>
 </section>
 {% elif template == 3 %}
-<header class="header_breadcrumb" style="position:sticky; top:0px; z-index:100; border-bottom:1px solid #cdcdcd; background:white;">
-    <div class="main-menu">
+<header class="header_breadcrumb" style="position:sticky; top:0px; padding:unset; z-index:100; background:white;">
+    <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:15px 0px 15px 0px;">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
                 <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
@@ -1480,6 +1483,9 @@
             </div>
         </div>
     </div>
+    {% if username.co_user_login == 'agent_b2c' %}
+    {% include 'tt_website_rodextrip/header_signin_signup.html' %}
+    {% endif %}
 </header>
 <section class="relative" style="padding-top:30px; padding-bottom:40px; background:#f7f7f7;">
     <div class="container">
@@ -2142,8 +2148,8 @@
     </div>
 </section>
 {% elif template == 4 %}
-<header class="header_breadcrumb" style="position:sticky; top:0px; z-index:100; border-bottom:1px solid #cdcdcd; background:white;">
-    <div class="main-menu">
+<header class="header_breadcrumb" style="position:sticky; top:0px; z-index:100; padding:unset; background:white;">
+    <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:15px 0px 15px 0px;">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
                 <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
@@ -2164,6 +2170,9 @@
             </div>
         </div>
     </div>
+    {% if username.co_user_login == 'agent_b2c' %}
+    {% include 'tt_website_rodextrip/header_signin_signup.html' %}
+    {% endif %}
 </header>
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; background: #f7f7f7;">
     <div class="container">
@@ -2842,8 +2851,8 @@
     </div>
 </section>
 {% elif template == 5 %}
-<header class="header_breadcrumb" style="position:sticky; top:0px; z-index:100; border-bottom:1px solid #cdcdcd; background:white;">
-    <div class="main-menu">
+<header class="header_breadcrumb" style="position:sticky; top:0px; z-index:100; padding:unset; background:white;">
+    <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:15px 0px 15px 0px;">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
                 <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
@@ -2864,6 +2873,9 @@
             </div>
         </div>
     </div>
+    {% if username.co_user_login == 'agent_b2c' %}
+    {% include 'tt_website_rodextrip/header_signin_signup.html' %}
+    {% endif %}
 </header>
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; background: #f7f7f7;">
     <div class="container">
@@ -2948,7 +2960,7 @@
                                             <label style="color:red">*</label>
                                             <label>{% trans "Title" %}</label>
                                             <div class="input-container-search-ticket">
-                                                <div class="form-select" id="default-select">
+                                                <div class="form-select" id="default-select" style="margin-bottom:0px;">
                                                     <select id="booker_title" name="booker_title" class="nice-select-default" onchange="change_booker_value('train');">
                                                         {% for title in adult_title%}
                                                         <option>{{title}}</option>
@@ -3167,7 +3179,7 @@
                                             <label style="color:red">*</label>
                                             <label>{% trans "Title" %}</label>
                                             <div class="input-container-search-ticket">
-                                                <div class="form-select">
+                                                <div class="form-select" style="margin-bottom:0px;">
                                                     <select id="adult_title{{forloop.counter}}" name="adult_title{{forloop.counter}}" class="nice-select-default">
                                                         {% for title in adult_title%}
                                                         <option>{{title}}</option>
@@ -3407,7 +3419,7 @@
                                             <label style="color:red">*</label>
                                             <label>{% trans "Title" %}</label>
                                             <div class="input-container-search-ticket">
-                                                <div class="form-select">
+                                                <div class="form-select" style="margin-bottom:0px;">
                                                     <select id="infant_title{{forloop.counter}}" name="infant_title{{forloop.counter}}" class="nice-select-default">
                                                         {% for title in infant_title%}
                                                         <option>{{title}}</option>

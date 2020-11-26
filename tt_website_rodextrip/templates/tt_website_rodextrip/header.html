@@ -10,7 +10,7 @@
 <div id="status" class="status on" style="display:none; top:0px; z-index:1000;"></div>
 {%if template == 1%}
 <header id="header">
-    <div class="main-menu">
+    <div class="main-menu tab_custom_login">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
                 <div id="logo">
@@ -121,38 +121,44 @@
                     <ul class="nav-menu" id="nav-menu-container_no_login" {% if username.co_user_login != 'agent_b2c' %} style="display:none;" {% endif %}>
                         <li class="username_mobile" style="padding-right:5px;">
                             <div class="input-container-search-ticket">
+                                <i class="fa fa-user" style="font-size: 20px;padding-top: 12px; color:{{text_color}};"></i>
                                 <input type="text" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="username" placeholder="Username" tabindex="1" />
                             </div>
                         </li>
                         <li class="password_mobile" style="padding-right:5px;">
                             <div class="input-container-search-ticket">
+                                <i class="fa fa-lock" style="font-size: 20px;padding-top: 12px; color:{{text_color}};"></i>
                                 <input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password" placeholder="Password" tabindex="2" />
                             </div>
-                            <label class="check_box_custom" style="margin-top:5px; margin-right:5px; float:right;">
-                                <span style="font-size:13px;">{% trans 'Keep Me Signin' %}</span>
-                                <input type="checkbox" value="" id="keep_me_signin" name="keep_me_signin" checked="checked">
-                                <span class="check_box_span_custom"></span>
-                            </label>
+                            <div class="input-container-search-ticket">
+                                <label class="check_box_custom" style="margin-top:5px; margin-right:5px;">
+                                    <span style="font-size:13px;color:{{text_color}};">{% trans 'Keep Me Signin' %}</span>
+                                    <input type="checkbox" value="" id="keep_me_signin" name="keep_me_signin" checked="checked">
+                                    <span class="check_box_span_custom"></span>
+                                </label>
+                                <label style="cursor:pointer; margin-left:5px; margin-right:5px; font-size: 13px; color:{{text_color}};" onclick="reset_password_btc();"><i class="fa fa-lock" style="font-size: 15px; color:{{text_color}};padding-top: 7px; padding-right:3px;"></i> Forget Password</label>
+                            </div>
                         </li>
                         <li class="keep_me_mobile" style="padding-right:5px;"></li>
+                        <li class="forget_password_mobile"></li>
+
                         <!--<li class="pt5"><input type="text" placeholder="Username"/><input type="text" placeholder="Password"/></li>-->
-                        <li style="font-size:12px;color:black; margin:5px;">
+                        <li style="font-size:12px;color:{{text_color}}; margin:5px;">
                             <button onclick="signin_btc();" class="loading-button primary-btn-custom ld-ext-right" style="margin-bottom:10px;">
                                 Sign in <i class="fas fa-sign-in-alt"></i>
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button><br/>
                             <span style="margin-top:5px; font-size:13px; font-weight:500; cursor:pointer; text-transform: unset; padding:0px 2px;" data-toggle="modal" data-target="#myModalb2c"><i class="fas fa-user-plus"></i> {% trans 'Sign Up' %}</span>
                         </li>
-                        <li class="forget_password_mobile" style="font-size:12px;color:black;">
-                            <a style="cursor:pointer;" onclick="reset_password_btc();"><i class="fa fa-lock" style="font-size: 20px;padding-top: 12px;"></i></a>
-                        </li>
                     </ul>
                 </nav>
                 <nav class="notification-mobile" style="display:none;">
                     <ul class="nav-menu">
+                        {% if username.co_user_login != 'agent_b2c' %}
                         <li title="Click to show your notification" style="font-size:16px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover bell_notif animated swing" style="font-size:20px;"></i>
 
                         </li>
+                        {% endif %}
                     </ul>
                 </nav>
             </div>
@@ -203,13 +209,16 @@
     <!-- Top Header Area End -->
 
     <!-- Main Header Start -->
-    <div class="main-header-area">
+    <div class="main-header-area tab_custom_login">
         <div class="classy-nav-container breakpoint-off">
             <div class="container">
                 <nav class="classy-navbar justify-content-between" id="robertoNav">
                     <a class="nav-brand" href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="{% if username.co_user_login != 'agent_b2c' %} max-height:40px;max-width:150px;{%else%} max-height:60px;max-width:225px; {%endif%}" alt="Logo {{name}}" title="{{name}}" /></a>
+
                     <div style="display:flex;">
+                        {% if username.co_user_login != 'agent_b2c' %}
                         <i class="fas fa-bell notification-mobile" data-toggle="modal" data-target="#myModalNotification" style="font-size:20px; cursor:pointer; padding-right:15px; padding-top:5px; display:none; color:{{color}};"></i>
+                        {% endif %}
                         <div class="classy-navbar-toggler">
                             <span class="navbarToggler"><span></span><span></span><span></span></span>
                         </div>
@@ -317,7 +326,7 @@
                                 </ul>
                             </li>
                             <li title="Click to show your notification" class="notification-pc" style="position:relative; bottom:5px; padding-right:15px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover bell_notif animated swing" style="font-size:20px;"></i>
-                                {% endif %}
+                            {% endif %}
                         </ul>
                         <!-- Search -->
                         <!--                            <div class="search-btn ml-4">-->
@@ -334,18 +343,23 @@
                         <ul class="nav" style="display:inherit; margin-top:15px;">
                             <li id="username_pc" style="padding-right:5px; display:block;">
                                 <div class="input-container-search-ticket">
+                                    <i class="fa fa-user" style="font-size: 20px;padding-top: 12px; color:{{text_color}};"></i>
                                     <input type="text" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="username" placeholder="Username"/>
                                 </div>
                             </li>
                             <li id="password_pc" style="padding-right:5px; display:block;">
                                 <div class="input-container-search-ticket">
+                                    <i class="fa fa-lock" style="font-size: 20px;padding-top: 12px; color:{{text_color}};"></i>
                                     <input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password" placeholder="Password"/>
                                 </div>
-                                <label class="check_box_custom" style="margin-right:5px; float:right;">
-                                    <span style="font-size:13px;">{% trans 'Keep Me Signin' %}</span>
-                                    <input type="checkbox" value="" id="keep_me_signin" name="keep_me_signin" checked="checked">
-                                    <span class="check_box_span_custom"></span>
-                                </label>
+                                <div class="input-container-search-ticket">
+                                    <label class="check_box_custom" style="margin-right:10px;">
+                                        <span style="font-size:13px; color:{{text_color}};">{% trans 'Keep Me Signin' %}</span>
+                                        <input type="checkbox" value="" id="keep_me_signin" name="keep_me_signin" checked="checked">
+                                        <span class="check_box_span_custom"></span>
+                                    </label>
+                                    <label id="forget_pc" style="cursor:pointer; background-color:unset; color:{{text_color}};" onclick="reset_password_btc();"><i class="fa fa-lock" style="font-size: 15px;"></i> Forget Password</label>
+                                </div>
                             </li>
                             <li id="username_mb" style="padding-right:5px; display:none;">
                                 <div class="input-container-search-ticket">
@@ -362,20 +376,16 @@
                                     <span class="check_box_span_custom"></span>
                                 </label>
                             </li>
-
+                            <li id="forget_mb" style="font-size:12px;color:black;display:none;">
+                                <a style="cursor:pointer; background-color:unset;" onclick="reset_password_btc();"><i class="fa fa-lock" style="font-size: 20px;padding-top: 8px;"></i> Forget Password</a>
+                            </li>
                             <!--<li class="pt5"><input type="text" placeholder="Username"/><input type="text" placeholder="Password"/></li>-->
                             <li style="font-size:12px;color:black; margin:5px;">
                                 <button onclick="signin_btc();" class="loading-button primary-btn-custom ld-ext-right">
                                     Sign in <i class="fas fa-sign-in-alt"></i>
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
-                                <a style="font-size:13px; background-color:unset; font-weight:500; cursor:pointer; text-transform: unset; padding:0px 2px;" data-toggle="modal" data-target="#myModalb2c"><i class="fas fa-user-plus"></i> {% trans 'Sign Up' %}</a>
-                            </li>
-                            <li id="forget_pc" style="font-size:12px;color:black;margin-top:10px;">
-                                <a style="cursor:pointer; background-color:unset;" onclick="reset_password_btc();"><i class="fa fa-lock" style="font-size: 20px;padding-top: 8px;"></i></a>
-                            </li>
-                            <li id="forget_mb" style="font-size:12px;color:black;display:none;">
-                                <a style="cursor:pointer; background-color:unset;" onclick="reset_password_btc();"><i class="fa fa-lock" style="font-size: 20px;padding-top: 8px;"></i> Forget Password</a>
+                                <a class="signup_pc_mb" style="font-size:13px; color:{{text_color}}; background-color:unset; font-weight:500; cursor:pointer; text-transform: unset; padding:0px 2px;" data-toggle="modal" data-target="#myModalb2c"><i class="fas fa-user-plus"></i> {% trans 'Sign Up' %}</a>
                             </li>
                         </ul>
                     </div>
@@ -385,7 +395,7 @@
     </div>
 </header>
 {% elif template == 3%}
-<header id="header" id="home" style="background:rgba(30, 30, 30, 1);">
+<header id="header" class="tab_custom_login">
     <div class="main-menu">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex mobile-menu">
@@ -402,133 +412,141 @@
                 </div>
                 <nav id="nav-menu-container">
                     <ul class="nav-menu" id="nav-menu-container_login" {% if username.co_user_login == 'agent_b2c' %} style="display:none;" {% endif %}>
-                    <li class="menu-active"><a href="index.html">{% trans 'Home' %}</a></li>
-                    {% if username.co_user_login != '' %}
-                    <li><a href="{% url 'tt_website_rodextrip:reservation'%}">{% trans 'My Reservation' %}</a></li>
-                    {% if "top_up" in username.co_agent_frontend_security %}
-                    <li class="menu-has-children"><a href="#">{% trans 'Top Up' %}</a>
-                        <ul>
-                            <li><a href="{% url 'tt_website_rodextrip:top_up'%}">{% trans 'Request' %}</a></li>
-                            {% if "pnr_quota" in username.co_agent_frontend_security %}
-                            <li><a href="{% url 'tt_website_rodextrip:quota_pnr'%}">{% trans 'PNR Quota' %}</a></li>
-                            {% endif %}
-                            <li><a href="{% url 'tt_website_rodextrip:top_up_history'%}">{% trans 'History' %}</a></li>
-                        </ul>
-                    </li>
-                    {% endif%}
-                    <li><a href="{% url 'tt_website_rodextrip:issued_offline'%}">{% trans 'Issued Offline' %}</a></li>
-                    {% endif %}
-                    <li class="menu-has-children"><a href="#">{% trans 'Highlight' %}</a>
-                        <ul id="highlight_header_div">
-                        </ul>
-                    </li>
-                    {% if username.co_agent_type_name == "Customer COR" or username.co_agent_type_name == "Customer POR" %}
-                    <li class="credit_mobile" style="color:white;"><a id="credit_limit"></a></li>
-                    {% else %}
-                    <li class="balance_mobile" style="color:white;"><a id="balance"></a></li>
-                    {% endif %}
+                        <li class="menu-active"><a href="index.html">{% trans 'Home' %}</a></li>
+                        {% if username.co_user_login != '' %}
+                        <li><a href="{% url 'tt_website_rodextrip:reservation'%}">{% trans 'My Reservation' %}</a></li>
+                        {% if "top_up" in username.co_agent_frontend_security %}
+                        <li class="menu-has-children"><a href="#">{% trans 'Top Up' %}</a>
+                            <ul>
+                                <li><a href="{% url 'tt_website_rodextrip:top_up'%}">{% trans 'Request' %}</a></li>
+                                {% if "pnr_quota" in username.co_agent_frontend_security %}
+                                <li><a href="{% url 'tt_website_rodextrip:quota_pnr'%}">{% trans 'PNR Quota' %}</a></li>
+                                {% endif %}
+                                <li><a href="{% url 'tt_website_rodextrip:top_up_history'%}">{% trans 'History' %}</a></li>
+                            </ul>
+                        </li>
+                        {% endif%}
+                        <li><a href="{% url 'tt_website_rodextrip:issued_offline'%}">{% trans 'Issued Offline' %}</a></li>
+                        {% endif %}
+                        <li class="menu-has-children"><a href="#">{% trans 'Highlight' %}</a>
+                            <ul id="highlight_header_div">
+                            </ul>
+                        </li>
+                        {% if username.co_agent_type_name == "Customer COR" or username.co_agent_type_name == "Customer POR" %}
+                        <li class="credit_mobile" style="color:white;"><a id="credit_limit"></a></li>
+                        {% else %}
+                        <li class="balance_mobile" style="color:white;"><a id="balance"></a></li>
+                        {% endif %}
 
-                    <li class="menu-has-children"><a href="#">{% trans 'Setting' %}</a>
-                        <ul>
-                            <li class="menu-has-children"><a href="#">{% trans 'Language' %}</a>
-                                <ul style="width:100%;">
-                                    <form action="{% url 'set_language' %}" method="post" id="form_language">
-                                        {% csrf_token %}
-                                        <input name="next" type="hidden" value="" >
-                                        <input type="hidden" id="selection_language" name="language"/>
-                                        {% get_current_language as LANGUAGE_CODE %}
-                                        {% get_available_languages as LANGUAGES %}
-                                        {% get_language_info_list for LANGUAGES as languages %}
-                                        {% for language in languages %}
-                                        <li><a href="javascript:change_language('{{language.code}}');"><img src="{% if language.code == 'en' %}{{static_path}}images/lang-global.png{% elif language.code == 'id' %}{{static_path}}images/lang-indonesia.png{% endif %}" style="height:21px; width:21px;" alt="{{language.name}}"/> {{language.name}}</a></li>
-                                        {% endfor %}
-                                    </form>
-                                </ul>
-                            </li>
-                            <!--                                <li class="menu-has-children pt5"><a href="#">Currency</a>-->
-                            <!--                                    <ul>-->
-                            <!--                                        <li><a href="#">IDR</a></li>-->
-                            <!--                                        <li><a href="#">USD</a></li>-->
-                            <!--                                    </ul>-->
-                            <!--                                </li>-->
-                        </ul>
-                    </li>
+                        <li class="menu-has-children"><a href="#">{% trans 'Setting' %}</a>
+                            <ul>
+                                <li class="menu-has-children"><a href="#">{% trans 'Language' %}</a>
+                                    <ul style="width:100%;">
+                                        <form action="{% url 'set_language' %}" method="post" id="form_language">
+                                            {% csrf_token %}
+                                            <input name="next" type="hidden" value="" >
+                                            <input type="hidden" id="selection_language" name="language"/>
+                                            {% get_current_language as LANGUAGE_CODE %}
+                                            {% get_available_languages as LANGUAGES %}
+                                            {% get_language_info_list for LANGUAGES as languages %}
+                                            {% for language in languages %}
+                                            <li><a href="javascript:change_language('{{language.code}}');"><img src="{% if language.code == 'en' %}{{static_path}}images/lang-global.png{% elif language.code == 'id' %}{{static_path}}images/lang-indonesia.png{% endif %}" style="height:21px; width:21px;" alt="{{language.name}}"/> {{language.name}}</a></li>
+                                            {% endfor %}
+                                        </form>
+                                    </ul>
+                                </li>
+                                <!--                                <li class="menu-has-children pt5"><a href="#">Currency</a>-->
+                                <!--                                    <ul>-->
+                                <!--                                        <li><a href="#">IDR</a></li>-->
+                                <!--                                        <li><a href="#">USD</a></li>-->
+                                <!--                                    </ul>-->
+                                <!--                                </li>-->
+                            </ul>
+                        </li>
 
-                    {% if username.co_user_login != '' %}
-                    <li class="menu-has-children notification-pc" style="cursor:pointer;"><a title="{{username.co_user_login}}" style="font-weight:700; color:white; top:10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px;">{{username.co_user_login}}</a>
-                        <ul>
-                            <li><a data-toggle="modal" data-target="#myModalb2c">Sign Up</a></li>
-                            {% if "admin" in username.co_agent_frontend_security %}
-                            <li><a href="{% url 'tt_website_rodextrip:admin'%}">Admin</a></li>
-                            {% endif %}
-                            {% if "report" in username.co_agent_frontend_security %}
-                            <li><a href="{% url 'tt_website_rodextrip:report'%}">Report</a></li>
-                            {% endif %}
-                            <li><a href="" id="backend_btn">Backend</a></li>
-                            <li>
-                                <center>
+                        {% if username.co_user_login != '' %}
+                        <li class="menu-has-children notification-pc" style="cursor:pointer;"><a title="{{username.co_user_login}}" style="font-weight:700; color:white; top:10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px;">{{username.co_user_login}}</a>
+                            <ul>
+                                <li><a data-toggle="modal" data-target="#myModalb2c">Sign Up</a></li>
+                                {% if "admin" in username.co_agent_frontend_security %}
+                                <li><a href="{% url 'tt_website_rodextrip:admin'%}">Admin</a></li>
+                                {% endif %}
+                                {% if "report" in username.co_agent_frontend_security %}
+                                <li><a href="{% url 'tt_website_rodextrip:report'%}">Report</a></li>
+                                {% endif %}
+                                <li><a href="" id="backend_btn">Backend</a></li>
+                                <li>
+                                    <center>
+                                        <a>
+                                            <button type="button" onclick="logout();" class="primary-btn-ticket" style="color:{{text_color}};">{% trans 'Logout' %}</button>
+                                        </a>
+                                    </center>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="menu-has-children notification-mobile" style="padding-right:15px;cursor:pointer; display:none"><a href="#"><img src="{{static_path}}images/noprofile.png" alt="Photo Profile" class="image-rounded-profile"/> {{username.co_user_login}}</a>
+                            <ul>
+                                <li><a data-toggle="modal" data-target="#myModalb2c">Sign Up</a></li>
+                                {% if "admin" in username.co_agent_frontend_security %}
+                                <li><a href="{% url 'tt_website_rodextrip:admin'%}">Admin</a></li>
+                                {% endif %}
+                                {% if "report" in username.co_agent_frontend_security %}
+                                <li><a href="{% url 'tt_website_rodextrip:report'%}">Report</a></li>
+                                {% endif %}
+                                <li><a href="" id="backend_btn2">Backend</a></li>
+                                <li>
                                     <a>
                                         <button type="button" onclick="logout();" class="primary-btn-ticket" style="color:{{text_color}};">{% trans 'Logout' %}</button>
                                     </a>
-                                </center>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="menu-has-children notification-mobile" style="padding-right:15px;cursor:pointer; display:none"><a href="#"><img src="{{static_path}}images/noprofile.png" alt="Photo Profile" class="image-rounded-profile"/> {{username.co_user_login}}</a>
-                        <ul>
-                            <li><a data-toggle="modal" data-target="#myModalb2c">Sign Up</a></li>
-                            {% if "admin" in username.co_agent_frontend_security %}
-                            <li><a href="{% url 'tt_website_rodextrip:admin'%}">Admin</a></li>
-                            {% endif %}
-                            {% if "report" in username.co_agent_frontend_security %}
-                            <li><a href="{% url 'tt_website_rodextrip:report'%}">Report</a></li>
-                            {% endif %}
-                            <li><a href="" id="backend_btn2">Backend</a></li>
-                            <li>
-                                <a>
-                                    <button type="button" onclick="logout();" class="primary-btn-ticket" style="color:{{text_color}};">{% trans 'Logout' %}</button>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li title="Click to show your notification" class="notification-pc" style="color:{{color}}; padding-right:15px; padding-top:7px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover bell_notif animated swing" style="font-size:20px;"></i></li>
+                                </li>
+                            </ul>
+                        </li>
+                        <li title="Click to show your notification" class="notification-pc" style="color:{{color}}; padding-right:15px; padding-top:7px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover bell_notif animated swing" style="font-size:20px;"></i></li>
                         {% endif %}
-                        </ul>
-                        <ul class="nav-menu" id="nav-menu-container_no_login" {% if username.co_user_login != 'agent_b2c' %} style="display:none;" {% endif %}>
+                    </ul>
+                    <ul class="nav-menu" id="nav-menu-container_no_login" {% if username.co_user_login != 'agent_b2c' %} style="display:none;" {% endif %}>
                             <li class="username_mobile" style="margin:15px 0px; padding-right:5px;">
                                 <div class="input-container-search-ticket">
+                                    <i class="fa fa-user" style="font-size: 20px;padding-top: 12px; color:{{text_color}};"></i>
                                     <input type="text" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="username" placeholder="Username"/>
                                 </div>
                             </li>
                             <li class="password_mobile" style="margin:15px 0px; padding-right:5px;">
                                 <div class="input-container-search-ticket">
+                                    <i class="fa fa-lock" style="font-size: 20px;padding-top: 12px; color:{{text_color}};"></i>
                                     <input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password" placeholder="Password"/>
                                 </div>
-                                <label class="check_box_custom" style="margin-right:5px; float:right;">
-                                    <span style="font-size:13px; color:{{text_color}};">{% trans 'Keep Me Signin' %}</span>
-                                    <input type="checkbox" value="" id="keep_me_signin" name="keep_me_signin" checked="checked">
-                                    <span class="check_box_span_custom"></span>
-                                </label>
+                                <div class="input-container-search-ticket">
+                                    <label class="check_box_custom" style="margin-right:5px;">
+                                        <span style="font-size:13px; color:{{text_color}};">{% trans 'Keep Me Signin' %}</span>
+                                        <input type="checkbox" value="" id="keep_me_signin" name="keep_me_signin" checked="checked">
+                                        <span class="check_box_span_custom"></span>
+                                    </label>
+                                    <label style="cursor:pointer; color:{{text_color}};" onclick="reset_password_btc();"><i class="fa fa-lock" style="font-size: 20px;padding-left:5px;"></i> Forget Password</label>
+                                </div>
                             </li>
                             <li class="keep_me_mobile" style="padding-right:5px;"></li>
+
+                            <li class="forget_password_mobile" style="font-size:12px;color:white;"></li>
                             <!--<li class="pt5"><input type="text" placeholder="Username"/><input type="text" placeholder="Password"/></li>-->
-                            <li style="font-size:12px;color:black; padding-left:5px; margin:20px 0px;">
+                            <li style="font-size:12px;color:{{text_color}}; padding-left:5px; margin:20px 0px;">
                                 <button onclick="signin_btc();" class="loading-button primary-btn-custom ld-ext-right">
                                     Sign in <i class="fas fa-sign-in-alt"></i>
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button><br/>
-                                <a style="color:{{text_color}}; margin-top:5px; font-size:13px; font-weight:600; cursor:pointer; text-transform: unset; padding:0px 2px;" data-toggle="modal" data-target="#myModalb2c"><i class="fas fa-user-plus"></i> {% trans 'Sign Up' %}</a>
-                            </li>
-                            <li class="forget_password_mobile" style="font-size:12px;color:white;">
-                                <a style="cursor:pointer;" onclick="reset_password_btc();"><i class="fa fa-lock" style="font-size: 20px;padding-left:5px; padding-top: 20px;"></i></a>
+                                <a style="margin-top:5px; font-size:13px; font-weight:600; cursor:pointer; text-transform: unset; padding:0px 2px;" data-toggle="modal" data-target="#myModalb2c"><i class="fas fa-user-plus"></i> {% trans 'Sign Up' %}</a>
                             </li>
                         </ul>
                 </nav>
+
                 <nav class="notification-mobile mobile-nav" style="display:none; padding:15px 15px 15px 0px;">
                     <ul class="nav-menu" style="display:inline;">
+                        {% if username.co_user_login != 'agent_b2c' %}
                         <li title="Click to show your notification" class="menu-has-children" style="font-size:13px; padding-top:5px; padding-right:5px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover bell_notif animated swing" style="font-size:20px; color:{{color}}; padding-top:5px;"></i></li>
+                        {% endif %}
                     </ul>
                 </nav>
+
             </div>
         </div>
     </div>
@@ -543,7 +561,7 @@
     <div class="site-mobile-menu-body"></div>
 </div>
 <header class="site-navbar py-0" role="banner">
-    <div class="main-menu" style="background:rgba(255, 255, 255, 1);">
+    <div class="main-menu tab_custom_login" style="padding:5px;">
         <div class="container">
             <!--        <div class="row" style="border-radius: 4px;">-->
             <!--            <div class="col-5" id="with-detail" style="text-align:left; padding:0px 0px 5px 0px;">-->
@@ -676,33 +694,35 @@
                                     <input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password2" placeholder="Password"/>
                                 </div>
                                 <label class="check_box_custom" style="margin-left:5px; float:left;">
-                                    <span style="font-size:13px; color:{{color}};">{% trans 'Keep Me Signin' %}</span>
+                                    <span style="font-size:13px;">{% trans 'Keep Me Signin' %}</span>
                                     <input type="checkbox" value="" id="keep_me_signin2" name="keep_me_signin" checked="checked">
                                     <span class="check_box_span_custom"></span>
                                 </label>
                             </li>
-                            <li class="keep_me_mobile" style="padding-right:5px;"></li>
 
                             <!--<li class="pt5"><input type="text" placeholder="Username"/><input type="text" placeholder="Password"/></li>-->
+                            <li class="forget_password_mobile" style="font-size:12px;color:black;padding:0px; display:none;">
+                                <a style="cursor:pointer; padding-left:7px; font-size:15px;" onclick="reset_password_btc();"><i class="fa fa-lock" style="font-size: 13px;padding-top: 8px;"></i> Forget Password</a>
+                            </li>
+
                             <li style="font-size:12px;color:black; margin:5px; display:inline-table;">
                                 <button onclick="signin_btc();" class="loading-button primary-btn-custom ld-ext-right">
                                     Sign in <i class="fas fa-sign-in-alt"></i>
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button><br/>
-                                <a style="margin-top:10px; font-size:13px; font-weight:600; cursor:pointer; text-transform: unset; padding:0px 2px;" data-toggle="modal" data-target="#myModalb2c"><i class="fas fa-user-plus"></i> {% trans 'Sign Up' %}</a>
-                            </li>
-                            <li class="forget_password_mobile" style="font-size:12px;color:black;padding:0px;">
-                                <a style="cursor:pointer; padding-left:7px; font-size:15px; font-weight:600;" onclick="reset_password_btc();"><i class="fa fa-lock" style="font-size: 13px;padding-top: 8px;"></i> Forget Password</a>
+                                <a class="signup_pc_mb" style="margin-top:10px; font-size:13px; font-weight:600; cursor:pointer; text-transform: unset; padding:0px 2px;" data-toggle="modal" data-target="#myModalb2c"><i class="fas fa-user-plus"></i> {% trans 'Sign Up' %}</a>
                             </li>
                         </ul>
                     </nav>
                 </div>
 
                 <div class="d-inline-block d-xl-none ml-auto py-3 col-6 text-right" style="position: relative; top: 3px; padding-right:15px;">
+                    {% if username.co_user_login != 'agent_b2c' %}
                     <div class="dropdown-custom" style="bottom:3px;">
                         <button class="dropbtn-custom" style="color:{{color}};padding-top:7px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell" style="font-size:20px;"></i></button>
                     </div>
-                    <a href="#" class="site-menu-toggle js-menu-toggle text-black"><span class="icon-menu h3"></span></a>
+                    {% endif %}
+                    <a href="#" class="site-menu-toggle js-menu-toggle" style="color:{{text_color}};"><span class="icon-menu h3"></span></a>
                 </div>
             </div>
         </div>
@@ -731,7 +751,7 @@
     <!--        </div>-->
     <!--    </div>-->
 
-    <div class="main-menu">
+    <div class="main-menu tab_custom_login">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex menu-header-icon">
                 <div id="logo">
@@ -832,37 +852,39 @@
                         </ul>
                     </li>
                     <li title="Click to show your notification" class="menu-has-children notification-pc" style="padding-right:15px; padding-top:25px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover bell_notif animated swing" style="font-size:20px;"></i>
-                        {% else %}
+                    {% else %}
                     <li style="font-size:12px;color:black;"><a href="{% url 'tt_website_rodextrip:login'%}" class="cta"><span class="primary-btn" style="padding-right:30px !important;">{% trans 'Sign In' %} <i class="fas fa-sign-in-alt"></i></span></a></li>
                     {% endif %}
                     </ul>
+
                     <ul class="nav-menu" id="nav-menu-container_no_login" {% if username.co_user_login != 'agent_b2c' %} style="display:none;" {% endif %}>
                         <li class="username_mobile" style="padding-right:5px; margin-top:13px;margin-bottom:13px;">
                             <div class="input-container-search-ticket">
+                                <i class="fa fa-user" style="font-size: 20px;padding-top: 12px; color:{{text_color}};"></i>
                                 <input type="text" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="username" placeholder="Username"/>
                             </div>
                         </li>
                         <li class="password_mobile" style="padding-right:5px; margin-top:13px; margin-bottom:13px;">
                             <div class="input-container-search-ticket">
+                                <i class="fa fa-lock" style="font-size: 20px;padding-top: 12px; color:{{text_color}};"></i>
                                 <input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password" placeholder="Password"/>
                             </div>
-                            <label class="check_box_custom" style="margin-left:5px; float:left;">
-                                <span style="font-size:13px; color:{{color}};">{% trans 'Keep Me Signin' %}</span>
+                            <label class="check_box_custom" style="margin-left:5px; margin-right:5px;">
+                                <span style="font-size:13px; color:{{text_color}};">{% trans 'Keep Me Signin' %}</span>
                                 <input type="checkbox" value="" id="keep_me_signin" name="keep_me_signin" checked="checked">
                                 <span class="check_box_span_custom"></span>
                             </label>
+                            <label style="cursor:pointer; color:{{text_color}};" onclick="reset_password_btc();"><i class="fa fa-lock" style="font-size: 15px;"></i> Forget Password</label>
                         </li>
                         <li class="keep_me_mobile" style="padding-right:5px;"></li>
+                        <li class="forget_password_mobile" style="font-size:12px;color:black;"></li>
                         <!--<li class="pt5"><input type="text" placeholder="Username"/><input type="text" placeholder="Password"/></li>-->
                         <li style="font-size:12px;color:black; margin-top:18px; padding-left:5px;">
                             <button onclick="signin_btc();" class="loading-button primary-btn-custom ld-ext-right">
                                 Sign in <i class="fas fa-sign-in-alt"></i>
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button><br/>
-                            <span class="sign_up_login" style="margin-top:10px; font-size:13px; font-weight:500; cursor:pointer; text-transform: unset; padding:0px 2px;" data-toggle="modal" data-target="#myModalb2c"><i class="fas fa-user-plus"></i> {% trans 'Sign Up' %}</span>
-                        </li>
-                        <li class="forget_password_mobile" style="font-size:12px;color:black;">
-                            <a style="cursor:pointer;" onclick="reset_password_btc();"><i class="fa fa-lock" style="font-size: 20px;padding-top: 5px;"></i></a>
+                            <span class="sign_up_login signup_pc_mb" style="margin-top:10px; font-size:13px; font-weight:500; cursor:pointer; text-transform: unset; padding:0px 2px;" data-toggle="modal" data-target="#myModalb2c"><i class="fas fa-user-plus"></i> {% trans 'Sign Up' %}</span>
                         </li>
                     </ul>
                 </nav>

@@ -134,6 +134,39 @@ $(document).ready(function () {
 
     $(document).ready(function () {
         $('#mc_embed_signup').find('form').ajaxChimp();
+
+        if( $(window).width() > 992){
+            try{
+                document.getElementsByClassName("signup_pc_mb")[0].style.color = text_color;
+            }catch(err){
+                console.log('err');
+            }
+        }
+        else {
+            try{
+                document.getElementsByClassName("signup_pc_mb")[0].style.color = "#212529";
+            }catch(err){
+                console.log('err');
+            }
+        }
+
+        $(window).resize(function() {
+            if ($(window).width() >= 992) {
+                try{
+                    document.getElementsByClassName("signup_pc_mb")[0].style.color = text_color;
+                }catch(err){
+                    console.log('err');
+                }
+            }
+            else {
+                try{
+                    document.getElementsByClassName("signup_pc_mb")[0].style.color = "#212529";
+                }catch(err){
+                    console.log('err');
+                }
+            }
+        });
+
     });
 
     //------- Mobile Nav  js --------//  
@@ -147,8 +180,10 @@ $(document).ready(function () {
             'id': ''
         });
         $('body').append($mobile_nav);
-        $('body .main-menu .container .menu-header-icon .menu-header-icon2').prepend('<button type="button" id="mobile-nav-toggle"><i class="lnr lnr-menu"></i></button>');
-        $('body .main-menu .container .menu-header-icon .menu-header-icon2').prepend('<span class="notification-mbl" title="Click to show your notification" style="font-size:16px;color:`+color+`; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover" style="font-size:20px;"></i></span>');
+        $('body .main-menu .container .menu-header-icon .menu-header-icon2').prepend('<button type="button" id="mobile-nav-toggle"><i class="lnr lnr-menu lnr_color"></i></button>');
+        if (username.co_user_login == 'agent_b2c'){
+            $('body .main-menu .container .menu-header-icon .menu-header-icon2').prepend('<span class="notification-mbl" title="Click to show your notification" style="font-size:16px;color:`+color+`; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover" style="font-size:20px;"></i></span>');
+        }
         $('body .main-menu .container .menu-header-icon .menu-header-icon2').append('<div id="mobile-body-overly"></div>');
         $('#mobile-nav').find('.balance_mobile').replaceWith('<li class="pt5"><a style="color:white;"><span id="balance_mob"></span></a></li>');
         $('#mobile-nav').find('.credit_mobile').replaceWith('<li class="pt5"><a style="color:white;"><span id="credit_mob"></span></a></li>');
