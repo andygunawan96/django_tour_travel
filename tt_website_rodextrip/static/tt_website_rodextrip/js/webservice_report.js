@@ -884,8 +884,23 @@ function overview_airline(data){
     for (i in data['carrier']){
         content += `
             <div class="header">
-                <h5>`+ data['carrier'][i]['carrier_name'] +`</h5>
-                <p style="float:right">`+ data['carrier'][i]['counter'] +`</p>
+                <div class="row">
+                    <div class="col-md-3 col-sm-6">
+                        <h5>`+ data['carrier'][i]['carrier_name'] +`</h5>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        # of reservation
+                        <p style="float:right">`+ data['carrier'][i]['counter'] +`</p>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        Revenue
+                        <p style="float:right">IDR `+ number_format(data['carrier'][i]['revenue'],2) +`</p>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        Passenger
+                        <p style="float:right">`+ data['carrier'][i]['passenger'] +` <i class="fa fa-user" aria-hidden="true"></i></p>
+                    </div>
+                </div>
             </div>
             <div class="content">
                 <table class="table">
@@ -893,7 +908,7 @@ function overview_airline(data){
                         <tr>
                             <th>Departure</th>
                             <th>Destination</th>
-                            <th>Counter</th>
+                            <th># of reservation</th>
                             <th>Passengers</th>
                         </tr>
                     <thead>
@@ -905,7 +920,7 @@ function overview_airline(data){
                     <td>`+ data['carrier'][i]['route'][j]['departure'] +`</td>
                     <td>`+ data['carrier'][i]['route'][j]['destination'] +`</td>
                     <td>`+ data['carrier'][i]['route'][j]['counter'] +`</td>
-                    <td>`+ data['carrier'][i]['route'][j]['passenger'] +`</td>
+                    <td>`+ data['carrier'][i]['route'][j]['passenger'] + ` <i class="fa fa-user" aria-hidden="true"></i></td>
                 </tr>
             `;
         }
@@ -1342,6 +1357,7 @@ function overview_book_issued(data){
                 <td>`+ data[i]['counter'] +`</td>
                 <td>`+ data[i]['booked'] +`</td>
                 <td>`+ data[i]['issued'] +`</td>
+                <td>`+ data[i]['cancel2'] +`</td>
             </tr>
         `;
     }
