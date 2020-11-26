@@ -259,23 +259,25 @@ function train_search(provider, signature){
                     counter_train_provider++;
                     datasearch2(msg.result.response)
                 }else{
-                    loadingTrain();
-                    var response = '';
-                    response +=`
-                        <div style="padding:5px; margin:10px;">
-                            <div style="text-align:center">
-                                <img src="/static/tt_website_rodextrip/img/icon/no-train.png" style="width:80px; height:80px;" alt="Not Found Train" title="" />
-                                <br/><br/>
-                                <h6>NO TRAIN AVAILABLE</h6>
+                    if(counter_train_search == provider_length){
+                        loadingTrain();
+                        var response = '';
+                        response +=`
+                            <div style="padding:5px; margin:10px;">
+                                <div style="text-align:center">
+                                    <img src="/static/tt_website_rodextrip/img/icon/no-train.png" style="width:80px; height:80px;" alt="Not Found Train" title="" />
+                                    <br/><br/>
+                                    <h6>NO TRAIN AVAILABLE</h6>
+                                </div>
                             </div>
-                        </div>
-                    `;
-                    document.getElementById('train_ticket').innerHTML = response;
-                    Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      html: '<span style="color: red;">Error train search </span>' + errorThrown,
-                    })
+                        `;
+                        document.getElementById('train_ticket').innerHTML = response;
+                        Swal.fire({
+                          type: 'error',
+                          title: 'Oops!',
+                          html: '<span style="color: red;">Error train search </span>' + errorThrown,
+                        })
+                    }
                }
            }catch(err){
                 Swal.fire({

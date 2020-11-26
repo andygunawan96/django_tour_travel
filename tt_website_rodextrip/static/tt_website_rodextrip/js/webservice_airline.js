@@ -8021,47 +8021,14 @@ function airline_get_booking_refund(data){
                                     <th style="width:5%;" class="list-of-passenger-left">Refund</th>
                                     <th style="width:30%;">Name</th>
                                     <th style="width:20%;">Birth Date</th>
-                                    <th style="width:20%;">SSR</th>
                                 </tr>`;
-                                for(pax in msg.result.response.passengers){
+                                for(pax in msg.result.response.provider_bookings[i].tickets){
                                     ticket = '';
-                                    ff_request = '';
-                                    if(i == 0){
-                                        //price
-                                        currency = '';
-                                        for(pnr in msg.result.response.passengers[pax].sale_service_charges){
-                                            total_price = 0;
-                                            for(charge_code in msg.result.response.passengers[pax].sale_service_charges[pnr]){
-                                                if(charge_code != 'RAC'){
-                                                    total_price += msg.result.response.passengers[pax].sale_service_charges[pnr][charge_code].amount;
-                                                    if(currency == '')
-                                                        currency = msg.result.response.passengers[pax].sale_service_charges[pnr][charge_code].currency;
-                                                }
-                                            }
-                                            if(msg.result.response.passengers[pax].hasOwnProperty('total_price') == false)
-                                                msg.result.response.passengers[pax].total_price = {};
-                                            msg.result.response.passengers[pax].total_price[pnr] = total_price
-                                            if(msg.result.response.passengers[pax].hasOwnProperty('currency') == false)
-                                                msg.result.response.passengers[pax].currency = currency;
-                                        }
-                                    }
                                     for(provider in msg.result.response.provider_bookings){
                                         for(journey in msg.result.response.provider_bookings[provider].journeys){
                                             if(msg.result.response.provider_bookings[i].pnr == msg.result.response.provider_bookings[provider].pnr &&
                                                msg.result.response.provider_bookings[i].journeys[j].origin == msg.result.response.provider_bookings[provider].journeys[journey].origin &&
                                                msg.result.response.provider_bookings[i].journeys[j].destination == msg.result.response.provider_bookings[provider].journeys[journey].destination){
-                                                try{
-                                                    ticket += msg.result.response.provider_bookings[provider].tickets[pax].ticket_number;
-                                                    if(provider != msg.result.response.provider_bookings.length - 1)
-                                                        if(ticket != '')
-                                                            ticket += ', ';
-                                                    if(ff_request != '')
-                                                        ff_request += '<br/>';
-                                                    if(msg.result.response.provider_bookings[provider].tickets[pax].ff_name != '' && msg.result.response.provider_bookings[provider].tickets[pax].ff_number != '')
-                                                        ff_request += msg.result.response.provider_bookings[provider].tickets[pax].ff_name + ': '+ msg.result.response.provider_bookings[provider].tickets[pax].ff_number;
-                                                }catch(err){
-
-                                                }
 
                                                 text+=`<tr>`;
                                                 if(moment().format('YYYY-MM-DD HH:mm:ss') < msg.result.response.provider_bookings[i].departure_date){
@@ -8074,15 +8041,7 @@ function airline_get_booking_refund(data){
                                                 text+=`
                                                 <td>`+msg.result.response.passengers[pax].title+` `+msg.result.response.passengers[pax].first_name+` `+msg.result.response.passengers[pax].last_name+`</td>
                                                 <td>`+msg.result.response.passengers[pax].birth_date+`</td>
-                                                <td>`+ff_request;
-                                                      try{
-                                                          for(i in msg.result.response.passengers[pax].fees){
-                                                            text += `<label>` + msg.result.response.passengers[pax].fees[i].fee_name + ' ' + msg.result.response.passengers[pax].fees[i].fee_value + `</label><br/>`;
-                                                          }
-                                                      }catch(err){}
-                                                      text+=`
-                                                    </div>
-                                                </td>
+
                                             </tr>`;
 
                                             }
