@@ -204,10 +204,14 @@ function airline_redirect_signup(type){
                                                                                                         <input type='hidden' name="time_limit_input" value="`+time_limit+`"/>
                                                                                                         <input type='hidden' id="airline_pick" name="airline_pick" value=""/>
                                                                                                         <input type='hidden' id="airline_price_itinerary" name="airline_price_itinerary" value=""/>
+                                                                                                        <input type='hidden' id="airline_price_itinerary_request" name="airline_price_itinerary_request" value=""/>
                                                                                                         <input type='hidden' name="signature" value='`+new_login_signature+`'/>
                                                                                                     `;
-                                                                                                    document.getElementById('airline_pick').value = JSON.stringify(airline_pick);
-                                                                                                    document.getElementById('airline_price_itinerary').value = JSON.stringify(price_itinerary);
+                                                                                                    try{
+                                                                                                        document.getElementById('airline_pick').value = JSON.stringify(airline_pick);
+                                                                                                        document.getElementById('airline_price_itinerary').value = JSON.stringify(price_itinerary);
+                                                                                                        document.getElementById('airline_price_itinerary_request').value = JSON.stringify(airline_get_price_request);
+                                                                                                    }catch(err){}
                                                                                                     document.getElementById('reload_page').submit();
 
                                                                                                     //location.reload();
@@ -2903,9 +2907,12 @@ function get_ff_availability(type){
        success: function(msg) {
             console.log(msg);
             if(type == ''){
-                document.getElementById('time_limit_input').value = time_limit;
-                document.getElementById('signature').value = signature;
-                document.getElementById('airline_price_itinerary').value = JSON.stringify(get_price_airline_response.result.response);
+                try{
+                    document.getElementById('time_limit_input').value = time_limit;
+                    document.getElementById('signature').value = signature;
+                    document.getElementById('airline_price_itinerary').value = JSON.stringify(get_price_airline_response.result.response);
+                    document.getElementById('airline_price_itinerary_request').value = JSON.stringify(get_price_airline_response.result.request);
+                }catch(err){}
                 document.getElementById('go_to_passenger').submit();
             }else if(type == 'request_new_ssr' && msg.result.error_code == 0)
                 window.location.href='/airline/ssr';

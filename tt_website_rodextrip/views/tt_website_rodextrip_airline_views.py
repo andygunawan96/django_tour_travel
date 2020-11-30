@@ -391,6 +391,7 @@ def passenger(request):
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
             #CHECK INI
             set_session(request, 'airline_price_itinerary', json.loads(request.POST['airline_price_itinerary']))
+            set_session(request, 'airline_price_itinerary_request', json.loads(request.POST['airline_price_itinerary_request']))
             set_session(request, 'time_limit', int(request.POST['time_limit_input']))
             set_session(request, 'signature', request.POST['signature'])
             set_session(request, 'airline_signature', request.POST['signature'])
