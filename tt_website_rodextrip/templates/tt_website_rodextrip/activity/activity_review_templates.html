@@ -13,7 +13,16 @@
 <script src="{{ static_path }}js/webservice_printout.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/pricing_javascript.js?version={{javascript_version}}"></script>
 <script>
-    static_path_url_server = '{{static_path_url_server}}'
+    static_path_url_server = '{{static_path_url_server}}';
+
+    pax_count = `{{pax_count}}`;
+    pax_count = JSON.parse(pax_count.replace(/&#39;/g,'"'));
+    printout_paxs = `{{printout_paxs}}`;
+    printout_paxs = printout_paxs.replace(/&#39;/g,'"');
+    printout_paxs = JSON.parse(printout_paxs);
+    printout_prices = `{{printout_prices}}`;
+    printout_prices = printout_prices.replace(/&#39;/g,'"');
+    printout_prices = JSON.parse(printout_prices);
     price = `{{price}}`;
     price = price.replace(/&#39;/g,'"');
     price = JSON.parse(price.replace(/True/g,'true'));
@@ -95,6 +104,7 @@
     };
     time_slot_pick = `{{timeslot_pick}}`;
     time_limit = {{time_limit}};
+    last_session = 'review';
     session_time_limit();
 </script>
 <div id="overlay-div-box" onclick="close_div('payment_acq');"></div>
@@ -125,6 +135,9 @@
             </div>
         </div>
     </div>
+    {% if username.co_user_login == 'agent_b2c' %}
+    {% include 'tt_website_rodextrip/header_signin_signup.html' %}
+    {% endif %}
 </header>
 {% elif template == 2 %}
 <header class="header_breadcrumb" style="position:sticky; top:0px; z-index:100; border-bottom:1px solid #cdcdcd; background:white;">
@@ -487,6 +500,9 @@
         </form>
     </div>
 </div>
+{% if username.co_user_login == 'agent_b2c' %}
+{% include 'tt_website_rodextrip/modal_signin_signup.html' %}
+{% endif %}
 {% include 'tt_website_rodextrip/footer.html' %}
 
 <script>

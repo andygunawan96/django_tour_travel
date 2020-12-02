@@ -16,7 +16,6 @@
 <script>
     static_path_url_server = '{{static_path_url_server}}'
     function check_years_old(sequence, type){
-
         var birth_date = '';
         if(type =='adult'){
             birth_date = moment(document.getElementById('adult_birth_date'+sequence).value, 'DD MMM YYYY');
@@ -1132,6 +1131,7 @@
                         </div>
                     </div>
                     <input type="hidden" id="time_limit_input" name="time_limit_input" />
+                    <input type="hidden" id="airline_price_itinerary_request" name="airline_price_itinerary_request" />
                     <input type="hidden" id="additional_price_input" name="additional_price_input" value="0"/>
                 </div>
             </form>
@@ -2003,6 +2003,7 @@
                                 </div>
                             </div>
                             <input type="hidden" id="time_limit_input" name="time_limit_input" />
+                            <input type="hidden" id="airline_price_itinerary_request" name="airline_price_itinerary_request" />
                             <input type="hidden" id="additional_price_input" name="additional_price_input" value="0"/>
                         </div>
                     </form>
@@ -3037,6 +3038,7 @@
                         </div>
                     </div>
                     <input type="hidden" id="time_limit_input" name="time_limit_input" />
+                    <input type="hidden" id="airline_price_itinerary_request" name="airline_price_itinerary_request" />
                     <input type="hidden" id="additional_price_input" name="additional_price_input" value="0"/>
                 </div>
             </form>
@@ -4068,6 +4070,7 @@
                     </div>
                 </div>
                 <input type="hidden" id="time_limit_input" name="time_limit_input" />
+                <input type="hidden" id="airline_price_itinerary_request" name="airline_price_itinerary_request" />
                 <input type="hidden" id="additional_price_input" name="additional_price_input" value="0"/>
             </div>
         </form>
@@ -5086,6 +5089,7 @@
                         </div>
                     </div>
                     <input type="hidden" id="time_limit_input" name="time_limit_input" />
+                    <input type="hidden" id="airline_price_itinerary_request" name="airline_price_itinerary_request" />
                     <input type="hidden" id="additional_price_input" name="additional_price_input" value="0"/>
                 </div>
             </form>

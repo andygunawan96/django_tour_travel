@@ -65,6 +65,8 @@ def api_models(request):
             res = update_passengers(request)
         elif req_data['action'] == 'update_options':
             res = update_options(request)
+        elif req_data['action'] == 'activity_review_booking':
+            res = get_review_booking_data(request)
         elif req_data['action'] == 'commit_booking':
             res = commit_booking(request)
         elif req_data['action'] == 'issued_booking':
@@ -193,8 +195,19 @@ def search(request):
             "action": "search",
             "signature": request.POST['signature']
         }
+        set_session(request, 'activity_search_request', data)
     except Exception as e:
-        logging.error(msg=str(e) + '\n' + traceback.format_exc())
+        if request.POST.get('use_cache'):
+            data = request.session['activity_search_request']
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
+                "action": "search",
+                "signature": request.POST['signature']
+            }
+            logging.info(msg='use cache login change b2c to login')
+        else:
+            logging.error(msg=str(e) + '\n' + traceback.format_exc())
 
     res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST', timeout=120)
     try:
@@ -212,15 +225,29 @@ def search(request):
 
 
 def get_details(request):
-    data = {
-        'activity_uuid': request.POST['activity_uuid'],
-    }
-    headers = {
-        "Accept": "application/json,text/html,application/xml",
-        "Content-Type": "application/json",
-        "action": "get_details",
-        "signature": request.POST['signature']
-    }
+    try:
+        data = {
+            'activity_uuid': request.POST['activity_uuid'],
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_details",
+            "signature": request.POST['signature']
+        }
+        set_session(request, 'activity_detail_request', data)
+    except Exception as e:
+        if request.POST.get('use_cache'):
+            data = request.session['activity_detail_request']
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
+                "action": "get_details",
+                "signature": request.POST['signature']
+            }
+            logging.info(msg='use cache login change b2c to login')
+        else:
+            logging.error(msg=str(e) + '\n' + traceback.format_exc())
 
     res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
     try:
@@ -243,20 +270,34 @@ def get_details(request):
 
 
 def get_pricing(request):
-    pricing_days = int(request.POST['pricing_days'])
-    startingDate = request.POST['startingDate']
-    data = {
-        'product_type_uuid': request.POST['product_type_uuid'],
-        'date_start': to_date_now(datetime.strptime(startingDate, '%d %b %Y').strftime('%Y-%m-%d %H:%M:%S'))[:10],
-        'date_end': to_date_now((datetime.strptime(startingDate, '%d %b %Y')+timedelta(days=pricing_days)).strftime('%Y-%m-%d %H:%M:%S'))[:10],
-        "provider": request.session['activity_pick']['provider_code']
-    }
-    headers = {
-        "Accept": "application/json,text/html,application/xml",
-        "Content-Type": "application/json",
-        "action": "get_pricing",
-        "signature": request.POST['signature']
-    }
+    try:
+        pricing_days = int(request.POST['pricing_days'])
+        startingDate = request.POST['startingDate']
+        data = {
+            'product_type_uuid': request.POST['product_type_uuid'],
+            'date_start': to_date_now(datetime.strptime(startingDate, '%d %b %Y').strftime('%Y-%m-%d %H:%M:%S'))[:10],
+            'date_end': to_date_now((datetime.strptime(startingDate, '%d %b %Y')+timedelta(days=pricing_days)).strftime('%Y-%m-%d %H:%M:%S'))[:10],
+            "provider": request.session['activity_pick']['provider_code']
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_pricing",
+            "signature": request.POST['signature']
+        }
+        set_session(request, 'activity_get_pricing_request', data)
+    except Exception as e:
+        if request.POST.get('use_cache'):
+            data = request.session['activity_get_pricing_request']
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
+                "action": "get_pricing",
+                "signature": request.POST['signature']
+            }
+            logging.info(msg='use cache login change b2c to login')
+        else:
+            logging.error(msg=str(e) + '\n' + traceback.format_exc())
 
     res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
     set_session(request, 'activity_price', res)
@@ -479,6 +520,9 @@ def update_passengers(request):
     res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST', timeout=300)
     return res
 
+
+def get_review_booking_data(request):
+    return request.session['activity_review_booking']
 
 def update_options(request):
     javascript_version = get_cache_version()

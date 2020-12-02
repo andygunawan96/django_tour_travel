@@ -95,6 +95,8 @@ def api_models(request):
             res = get_ff_availability(request)
         elif req_data['action'] == 'get_seat_map_response':
             res = get_seat_map_response(request)
+        elif req_data['action'] == 'get_pax':
+            res = get_pax(request)
         elif req_data['action'] == 'update_contacts':
             res = update_contacts(request)
         elif req_data['action'] == 'update_passengers':
@@ -129,6 +131,12 @@ def api_models(request):
             res = get_refund_booking(request)
         elif req_data['action'] == 'pre_refund_login':
             res = pre_refund_login(request)
+        elif req_data['action'] == 'get_provider_booking_from_vendor':
+            res = get_provider_booking_from_vendor(request)
+        elif req_data['action'] == 'get_retrieve_booking_from_vendor':
+            res = get_retrieve_booking_from_vendor(request)
+        elif req_data['action'] == 'save_retrieve_booking_from_vendor':
+            res = save_retrieve_booking_from_vendor(request)
 
         # elif req_data['action'] == 'get_buy_information':
         #     res = get_buy_information(request)
@@ -999,6 +1007,9 @@ def get_ff_availability(request):
 
 def get_seat_map_response(request):
     return request.session['airline_get_seat_availability']['result']['response']
+
+def get_pax(request):
+    return request.session['airline_create_passengers']
 
 def update_contacts(request):
     try:
@@ -1954,6 +1965,181 @@ def pre_refund_login(request):
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "pre_refund_login",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST', timeout=300)
+    try:
+        if res['result']['error_code'] == 0:
+            _logger.info("SUCCESS cancel AIRLINE SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("ERROR cancel_airline AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def get_provider_booking_from_vendor(request):
+    try:
+        data = {}
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_provider_booking_from_vendor",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    file = read_cache_with_folder_path("get_provider_booking_from_vendor_airline", 86400)
+    if not file:
+        res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST', timeout=300)
+        try:
+            if res['result']['error_code'] == 0:
+                write_cache_with_folder(res, "get_provider_booking_from_vendor_airline")
+                _logger.info("SUCCESS get_provider_booking_from_vendor AIRLINE SIGNATURE " + request.POST['signature'])
+            else:
+                _logger.error("ERROR get_provider_booking_from_vendor AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+        except Exception as e:
+            _logger.error(str(e) + '\n' + traceback.format_exc())
+    else:
+        try:
+            res = file
+        except Exception as e:
+            _logger.error('ERROR get_airline_active_carriers file\n' + str(e) + '\n' + traceback.format_exc())
+    return res
+
+def get_retrieve_booking_from_vendor(request):
+    try:
+        data = {
+            'proxy_co_uid': False,
+            'pnr': request.POST.get('pnr'),
+            'provider': request.POST.get('provider'),
+            'is_retrieved': False,
+            'pricing_date': False
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "retrieve_booking",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    res = util.send_request(url=url + 'booking/airline/private', data=data, headers=headers, method='POST', timeout=300)
+    try:
+        if res['result']['error_code'] == 0:
+            javascript_version = get_cache_version()
+            response = get_cache_data(javascript_version)
+            file = read_cache_with_folder_path("airline_destination", 90911)
+            if file:
+                response = file
+            airline_destinations = []
+            for country in response:
+                airline_destinations.append({
+                    'code': country['code'],
+                    'name': country['name'],
+                    'city': country['city']
+                })
+            for journey in res['result']['response']['journeys']:
+                journey.update({
+                    'departure_date': convert_string_to_date_to_string_front_end_with_time(journey['departure_date']),
+                    'arrival_date': convert_string_to_date_to_string_front_end_with_time(journey['arrival_date'])
+                })
+                for destination in airline_destinations:
+                    if destination['code'] == journey['origin']:
+                        journey.update({
+                            'origin_city': destination['city'],
+                            'origin_name': destination['name'],
+                        })
+                        break
+                for destination in airline_destinations:
+                    if destination['code'] == journey['destination']:
+                        journey.update({
+                            'destination_city': destination['city'],
+                            'destination_name': destination['name'],
+                        })
+                        break
+                for segment in journey['segments']:
+                    segment.update({
+                        'departure_date': convert_string_to_date_to_string_front_end_with_time(segment['departure_date']),
+                        'arrival_date': convert_string_to_date_to_string_front_end_with_time(segment['arrival_date']),
+                    })
+                    for destination in airline_destinations:
+                        if destination['code'] == segment['origin']:
+                            segment.update({
+                                'origin_city': destination['city'],
+                                'origin_name': destination['name'],
+                            })
+                            break
+                    for destination in airline_destinations:
+                        if destination['code'] == segment['destination']:
+                            segment.update({
+                                'destination_city': destination['city'],
+                                'destination_name': destination['name'],
+                            })
+                            break
+                    for leg in segment['legs']:
+                        leg.update({
+                            'departure_date': convert_string_to_date_to_string_front_end_with_time(
+                                leg['departure_date']),
+                            'arrival_date': convert_string_to_date_to_string_front_end_with_time(leg['arrival_date']),
+                        })
+                        for destination in airline_destinations:
+                            if destination['code'] == leg['origin']:
+                                leg.update({
+                                    'origin_city': destination['city'],
+                                    'origin_name': destination['name'],
+                                })
+                                break
+                        for destination in airline_destinations:
+                            if destination['code'] == leg['destination']:
+                                leg.update({
+                                    'destination_city': destination['city'],
+                                    'destination_name': destination['name'],
+                                })
+                                break
+            _logger.info("SUCCESS cancel AIRLINE SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("ERROR cancel_airline AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def save_retrieve_booking_from_vendor(request):
+    try:
+        response = json.loads(request.POST['response'])
+        response['result']['signature'] = request.POST['signature']
+        for journey in response['result']['response']['journeys']:
+            journey.update({
+                'departure_date': convert_frontend_datetime_to_server_format(journey['departure_date']),
+                'arrival_date': convert_frontend_datetime_to_server_format(journey['arrival_date'])
+            })
+            for segment in journey['segments']:
+                segment.update({
+                    'departure_date': convert_frontend_datetime_to_server_format(segment['departure_date']),
+                    'arrival_date': convert_frontend_datetime_to_server_format(segment['arrival_date']),
+                })
+                for leg in segment['legs']:
+                    leg.update({
+                        'departure_date': convert_frontend_datetime_to_server_format(
+                            leg['departure_date']),
+                        'arrival_date': convert_frontend_datetime_to_server_format(leg['arrival_date']),
+                    })
+        if request.POST.get('duplicate_pnr') == 'true':
+            bool_pnr = True
+        else:
+            bool_pnr = False
+        data = {
+            'booker_id': request.POST.get('booker_id'),
+            'response': response['result'],
+            'duplicate_pnr': bool_pnr
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "save_retrieve_booking_frontend",
             "signature": request.POST['signature'],
         }
     except Exception as e:

@@ -46,7 +46,7 @@
     hotel_price = hotel_price.replace(/False/g, 'false');
     hotel_price = hotel_price.replace(/True/g, 'true');
     hotel_price = hotel_price.replace(/None/g, '""');
-
+    last_session = 'review';
     hotel_price = JSON.parse(hotel_price);
     cancellation_policy = `{{hotel_cancellation_policy}}`;
     cancellation_policy = JSON.parse(cancellation_policy.replace(/&#39;/g, '"').replace(/&quot;/g, '"').replace(/False/g, 'false').replace(/True/g, 'true').replace(/None/g, '""'));

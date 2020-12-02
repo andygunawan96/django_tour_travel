@@ -507,804 +507,826 @@ def passenger(request):
 def review(request):
     if 'user_account' in request.session._session:
         try:
-            #adult
-            adult = []
-            child = []
-            infant = []
-            senior = []
-            contact = []
-            upload = []
-            skus = []
-            all_pax = []
-            printout_paxs = []
-            used_price = []
+            try: #check change login atau tidak
+                #tidak
+                #adult
+                adult = []
+                child = []
+                infant = []
+                senior = []
+                contact = []
+                upload = []
+                skus = []
+                all_pax = []
+                printout_paxs = []
+                used_price = []
 
-            javascript_version = get_javascript_version()
-            cache_version = get_cache_version()
-            response = get_cache_data(cache_version)
-            airline_country = response['result']['response']['airline']['country']
-            phone_code = []
-            for i in airline_country:
-                if i['phone_code'] not in phone_code:
-                    phone_code.append(i['phone_code'])
-            phone_code = sorted(phone_code)
-            values = get_data_template(request)
-            set_session(request, 'time_limit', int(request.POST['time_limit_input']))
+                javascript_version = get_javascript_version()
+                cache_version = get_cache_version()
+                response = get_cache_data(cache_version)
+                airline_country = response['result']['response']['airline']['country']
+                phone_code = []
+                for i in airline_country:
+                    if i['phone_code'] not in phone_code:
+                        phone_code.append(i['phone_code'])
+                phone_code = sorted(phone_code)
+                values = get_data_template(request)
+                set_session(request, 'time_limit', int(request.POST['time_limit_input']))
 
-            booker = {
-                'title': request.POST['booker_title'],
-                'first_name': request.POST['booker_first_name'],
-                'last_name': request.POST['booker_last_name'],
-                'nationality_name': request.POST['booker_nationality'],
-                'email': request.POST['booker_email'],
-                'calling_code': request.POST['booker_phone_code'],
-                'mobile': request.POST['booker_phone'],
-                'booker_seq_id': request.POST['booker_id']
-            }
+                booker = {
+                    'title': request.POST['booker_title'],
+                    'first_name': request.POST['booker_first_name'],
+                    'last_name': request.POST['booker_last_name'],
+                    'nationality_name': request.POST['booker_nationality'],
+                    'email': request.POST['booker_email'],
+                    'calling_code': request.POST['booker_phone_code'],
+                    'mobile': request.POST['booker_phone'],
+                    'booker_seq_id': request.POST['booker_id']
+                }
 
-            perpax_list = []
-            perpax_list_temp = []
-            for i in range(int(request.session['activity_request']['adult_passenger_count'])):
-                adult.append({
-                    "first_name": request.POST['adult_first_name'+str(i+1)],
-                    "last_name": request.POST['adult_last_name'+str(i+1)],
-                    "nationality_name": request.POST['adult_nationality'+str(i+1)],
-                    "title": request.POST['adult_title'+str(i+1)],
-                    "pax_type": "ADT",
-                    "pax_type_str": "Adult",
-                    "birth_date": request.POST['adult_birth_date'+str(i+1)],
-                    "identity_number": request.POST.get('adult_passport_number' + str(i + 1)) and request.POST['adult_passport_number' + str(i + 1)] or '',
-                    "identity_expdate": request.POST.get('adult_passport_expired_date' + str(i + 1)) and request.POST['adult_passport_expired_date' + str(i + 1)] or '',
-                    "identity_country_of_issued_name": request.POST.get('adult_country_of_issued' + str(i + 1)) and request.POST['adult_country_of_issued' + str(i + 1)] or '',
-                    "passenger_seq_id": request.POST['adult_id'+str(i+1)],
-                    "identity_type": "passport",
-                    "sku_id": request.POST['adult_sku_id'+str(i+1)],
-                    "sku_title": request.POST['adult_sku_title' + str(i + 1)],
-                    "sku_real_id": request.POST['adult_sku_real_id' + str(i + 1)],
-                    "calling_code": request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_phone_code' + str(i + 1)],
-                    "mobile": request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_phone' + str(i + 1)] or ' - ',
-                    "email": request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_email' + str(i + 1)] or ' - ',
-                    "is_cp": request.POST.get('adult_cp' + str(i + 1)),
-                })
-                printout_paxs.append({
-                    "name": request.POST['adult_title' + str(i + 1)] + ' ' + request.POST['adult_first_name' + str(i + 1)] + ' ' + request.POST['adult_last_name' + str(i + 1)],
-                    'ticket_number': request.POST['adult_sku_id' + str(i + 1)],
-                    'birth_date': request.POST['adult_birth_date' + str(i + 1)],
-                    'pax_type': 'Adult',
-                    'additional_info': ["Ticket:" + request.POST['adult_sku_title' + str(i + 1)]],
-                })
+                perpax_list = []
+                perpax_list_temp = []
+                for i in range(int(request.session['activity_request']['adult_passenger_count'])):
+                    adult.append({
+                        "first_name": request.POST['adult_first_name'+str(i+1)],
+                        "last_name": request.POST['adult_last_name'+str(i+1)],
+                        "nationality_name": request.POST['adult_nationality'+str(i+1)],
+                        "title": request.POST['adult_title'+str(i+1)],
+                        "pax_type": "ADT",
+                        "pax_type_str": "Adult",
+                        "birth_date": request.POST['adult_birth_date'+str(i+1)],
+                        "identity_number": request.POST.get('adult_passport_number' + str(i + 1)) and request.POST['adult_passport_number' + str(i + 1)] or '',
+                        "identity_expdate": request.POST.get('adult_passport_expired_date' + str(i + 1)) and request.POST['adult_passport_expired_date' + str(i + 1)] or '',
+                        "identity_country_of_issued_name": request.POST.get('adult_country_of_issued' + str(i + 1)) and request.POST['adult_country_of_issued' + str(i + 1)] or '',
+                        "passenger_seq_id": request.POST['adult_id'+str(i+1)],
+                        "identity_type": "passport",
+                        "sku_id": request.POST['adult_sku_id'+str(i+1)],
+                        "sku_title": request.POST['adult_sku_title' + str(i + 1)],
+                        "sku_real_id": request.POST['adult_sku_real_id' + str(i + 1)],
+                        "calling_code": request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_phone_code' + str(i + 1)],
+                        "mobile": request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_phone' + str(i + 1)] or ' - ',
+                        "email": request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_email' + str(i + 1)] or ' - ',
+                        "is_cp": request.POST.get('adult_cp' + str(i + 1)),
+                    })
+                    printout_paxs.append({
+                        "name": request.POST['adult_title' + str(i + 1)] + ' ' + request.POST['adult_first_name' + str(i + 1)] + ' ' + request.POST['adult_last_name' + str(i + 1)],
+                        'ticket_number': request.POST['adult_sku_id' + str(i + 1)],
+                        'birth_date': request.POST['adult_birth_date' + str(i + 1)],
+                        'pax_type': 'Adult',
+                        'additional_info': ["Ticket:" + request.POST['adult_sku_title' + str(i + 1)]],
+                    })
 
-                # perpax
-                for idx, perpax in enumerate(request.session['activity_request']['activity_types_data'][
-                                                 int(request.session['activity_request']['activity_type_pick'])]['options'][
-                                                 'perPax']):
-                    if perpax['name'] != 'Guest age' and perpax['name'] != 'Nationality' and perpax[
-                        'name'] != 'Full name' and perpax['name'] != 'Gender' and perpax['name'] != 'Date of birth' and \
-                            perpax['name'] != 'Passport number' and perpax['name'] != 'Passport expiry date':
-                        if perpax['inputType'] == 1:
-                            perpax_list_temp.append({
-                                "uuid": perpax['uuid'],
-                                "value": request.POST['adult_perpax' + str(i + 1) + '_' + str(idx + 1)],
-                                "name": perpax['name']
-                            })
-                        elif perpax['inputType'] == 2:
-                            for j, item in enumerate(perpax['items']):
-                                try:
-                                    if request.POST['adult_perpax' + str(i + 1) + '_' + str(idx + 1) + ' ' + str(j)] == 'true':
-                                        perpax_list_temp.append({
-                                            "uuid": perpax['uuid'],
-                                            "value": item['value'],
-                                            "name": perpax['name']
-                                        })
-                                except:
-                                    print('no perbooking2')
-                        elif perpax['inputType'] == 3:
-                            perpax_list_temp.append({
-                                "uuid": perpax['uuid'],
-                                "value": request.POST['adult_perpax' + str(i + 1) + '_' + str(idx + 1)],
-                                "name": perpax['name']
-                            })
-                        elif perpax['inputType'] == 4:
-                            perpax_list_temp.append({
-                                "uuid": perpax['uuid'],
-                                "value": request.POST['adult_perpax' + str(i + 1) + '_' + str(idx + 1)],
-                                "name": perpax['name']
-                            })
-                        elif perpax['inputType'] == 5:
-                            if request.POST['adult_perpax' + str(i + 1) + '_' + str(idx + 1)] == 'on':
+                    # perpax
+                    for idx, perpax in enumerate(request.session['activity_request']['activity_types_data'][
+                                                     int(request.session['activity_request']['activity_type_pick'])]['options'][
+                                                     'perPax']):
+                        if perpax['name'] != 'Guest age' and perpax['name'] != 'Nationality' and perpax[
+                            'name'] != 'Full name' and perpax['name'] != 'Gender' and perpax['name'] != 'Date of birth' and \
+                                perpax['name'] != 'Passport number' and perpax['name'] != 'Passport expiry date':
+                            if perpax['inputType'] == 1:
                                 perpax_list_temp.append({
                                     "uuid": perpax['uuid'],
-                                    "value": 'True',
+                                    "value": request.POST['adult_perpax' + str(i + 1) + '_' + str(idx + 1)],
+                                    "name": perpax['name']
+                                })
+                            elif perpax['inputType'] == 2:
+                                for j, item in enumerate(perpax['items']):
+                                    try:
+                                        if request.POST['adult_perpax' + str(i + 1) + '_' + str(idx + 1) + ' ' + str(j)] == 'true':
+                                            perpax_list_temp.append({
+                                                "uuid": perpax['uuid'],
+                                                "value": item['value'],
+                                                "name": perpax['name']
+                                            })
+                                    except:
+                                        print('no perbooking2')
+                            elif perpax['inputType'] == 3:
+                                perpax_list_temp.append({
+                                    "uuid": perpax['uuid'],
+                                    "value": request.POST['adult_perpax' + str(i + 1) + '_' + str(idx + 1)],
+                                    "name": perpax['name']
+                                })
+                            elif perpax['inputType'] == 4:
+                                perpax_list_temp.append({
+                                    "uuid": perpax['uuid'],
+                                    "value": request.POST['adult_perpax' + str(i + 1) + '_' + str(idx + 1)],
+                                    "name": perpax['name']
+                                })
+                            elif perpax['inputType'] == 5:
+                                if request.POST['adult_perpax' + str(i + 1) + '_' + str(idx + 1)] == 'on':
+                                    perpax_list_temp.append({
+                                        "uuid": perpax['uuid'],
+                                        "value": 'True',
+                                        "name": perpax['name']
+                                    })
+                                else:
+                                    perpax_list_temp.append({
+                                        "uuid": perpax['uuid'],
+                                        "value": 'False',
+                                        "name": perpax['name']
+                                    })
+                            elif perpax['inputType'] == 6:
+                                perpax_list_temp.append({
+                                    "uuid": perpax['uuid'],
+                                    "value": request.POST['adult_perpax' + str(i + 1) + '_' + str(idx + 1)],
+                                    "name": perpax['name']
+                                })
+                            elif perpax['inputType'] == 7:
+                                # upload
+                                upload.append({
+                                    "uuid": perpax['uuid'],
+                                    "value": base64.b64encode(request.FILES['adult_perpax' + str(i + 1) + '_' + str(idx + 1)].read()).decode(),
+                                    "name": perpax['name'],
+                                    "type": request.FILES['adult_perpax' + str(i + 1) + '_' + str(idx + 1)].content_type.split('/')[-1]
+                                })
+                            elif perpax['inputType'] == 8:
+                                # upload
+                                upload.append({
+                                    "uuid": perpax['uuid'],
+                                    "value": base64.b64encode(request.FILES['adult_perpax' + str(i + 1) + '_' + str(idx + 1)].read()).decode(),
+                                    "name": perpax['name'],
+                                    "type": request.FILES['adult_perpax' + str(i + 1) + '_' + str(idx + 1)].content_type.split('/')[-1]
+                                })
+                            elif perpax['inputType'] == 9:
+                                perpax_list_temp.append({
+                                    "uuid": perpax['uuid'],
+                                    "value": request.POST['adult_perpax' + str(i + 1) + '_' + str(idx + 1)],
+                                    "name": perpax['name']
+                                })
+                            elif perpax['inputType'] == 10:
+                                perpax_list_temp.append({
+                                    "uuid": perpax['uuid'],
+                                    "value": request.POST['adult_perpax' + str(i + 1) + '_' + str(idx + 1)],
+                                    "name": perpax['name']
+                                })
+                            elif perpax['inputType'] == 11:
+                                perpax_list_temp.append({
+                                    "uuid": perpax['uuid'],
+                                    "value": request.POST['adult_perpax' + str(i + 1) + '_' + str(idx + 1)],
+                                    "name": perpax['name']
+                                })
+                            elif perpax['inputType'] == 12:
+                                perpax_list_temp.append({
+                                    "uuid": perpax['uuid'],
+                                    "value": request.POST['adult_perpax' + str(i + 1) + '_' + str(idx + 1)],
+                                    "name": perpax['name']
+                                })
+                            elif perpax['inputType'] == 13:
+                                print('deprecated')
+                            elif perpax['inputType'] == 14:
+                                perpax_list_temp.append({
+                                    "uuid": perpax['uuid'],
+                                    "value": request.POST['adult_perpax' + str(i + 1) + '_' + str(idx + 1)],
+                                    "name": perpax['name']
+                                })
+                            elif perpax['inputType'] == 50:
+                                perpax_list_temp.append({
+                                    "uuid": perpax['uuid'],
+                                    "value": request.POST['adult_perpax' + str(i + 1) + '_' + str(idx + 1)],
+                                    "name": perpax['name']
+                                })
+                        elif perpax['name'] == 'Guest age':
+                            perpax_list_temp.append({
+                                "uuid": perpax['uuid'],
+                                "value": int(request.POST['adult_years_old' + str(i + 1)]),
+                                "name": perpax['name']
+                            })
+                        elif perpax['name'] == 'Nationality':
+                            perpax_list_temp.append({
+                                "uuid": perpax['uuid'],
+                                "value": request.POST['adult_nationality' + str(i + 1)],
+                                "name": perpax['name']
+                            })
+                        elif perpax['name'] == 'Full name':
+                            perpax_list_temp.append({
+                                "uuid": perpax['uuid'],
+                                "value": request.POST['adult_title' + str(i + 1)] + ' ' + request.POST[
+                                    'adult_first_name' + str(i + 1)] + ' ' + request.POST['adult_last_name' + str(i + 1)],
+                                "name": perpax['name']
+                            })
+                        elif perpax['name'] == 'Gender':
+                            if request.POST['adult_title' + str(i + 1)] == 'MR':
+                                perpax_list_temp.append({
+                                    "uuid": perpax['uuid'],
+                                    "value": 'Male',
                                     "name": perpax['name']
                                 })
                             else:
                                 perpax_list_temp.append({
                                     "uuid": perpax['uuid'],
-                                    "value": 'False',
+                                    "value": 'Female',
                                     "name": perpax['name']
                                 })
-                        elif perpax['inputType'] == 6:
+                        elif perpax['name'] == 'Date of birth':
                             perpax_list_temp.append({
                                 "uuid": perpax['uuid'],
-                                "value": request.POST['adult_perpax' + str(i + 1) + '_' + str(idx + 1)],
+                                "value": request.POST['adult_birth_date' + str(i + 1)],
                                 "name": perpax['name']
                             })
-                        elif perpax['inputType'] == 7:
-                            # upload
-                            upload.append({
-                                "uuid": perpax['uuid'],
-                                "value": base64.b64encode(request.FILES['adult_perpax' + str(i + 1) + '_' + str(idx + 1)].read()).decode(),
-                                "name": perpax['name'],
-                                "type": request.FILES['adult_perpax' + str(i + 1) + '_' + str(idx + 1)].content_type.split('/')[-1]
-                            })
-                        elif perpax['inputType'] == 8:
-                            # upload
-                            upload.append({
-                                "uuid": perpax['uuid'],
-                                "value": base64.b64encode(request.FILES['adult_perpax' + str(i + 1) + '_' + str(idx + 1)].read()).decode(),
-                                "name": perpax['name'],
-                                "type": request.FILES['adult_perpax' + str(i + 1) + '_' + str(idx + 1)].content_type.split('/')[-1]
-                            })
-                        elif perpax['inputType'] == 9:
+                        elif perpax['name'] == 'Passport number':
                             perpax_list_temp.append({
                                 "uuid": perpax['uuid'],
-                                "value": request.POST['adult_perpax' + str(i + 1) + '_' + str(idx + 1)],
+                                "value": request.POST['adult_passport_number' + str(i + 1)],
                                 "name": perpax['name']
                             })
-                        elif perpax['inputType'] == 10:
+                        elif perpax['name'] == 'Passport expiry date':
                             perpax_list_temp.append({
                                 "uuid": perpax['uuid'],
-                                "value": request.POST['adult_perpax' + str(i + 1) + '_' + str(idx + 1)],
+                                "value": request.POST['adult_passport_expired_date' + str(i + 1)],
                                 "name": perpax['name']
                             })
-                        elif perpax['inputType'] == 11:
-                            perpax_list_temp.append({
-                                "uuid": perpax['uuid'],
-                                "value": request.POST['adult_perpax' + str(i + 1) + '_' + str(idx + 1)],
-                                "name": perpax['name']
-                            })
-                        elif perpax['inputType'] == 12:
-                            perpax_list_temp.append({
-                                "uuid": perpax['uuid'],
-                                "value": request.POST['adult_perpax' + str(i + 1) + '_' + str(idx + 1)],
-                                "name": perpax['name']
-                            })
-                        elif perpax['inputType'] == 13:
-                            print('deprecated')
-                        elif perpax['inputType'] == 14:
-                            perpax_list_temp.append({
-                                "uuid": perpax['uuid'],
-                                "value": request.POST['adult_perpax' + str(i + 1) + '_' + str(idx + 1)],
-                                "name": perpax['name']
-                            })
-                        elif perpax['inputType'] == 50:
-                            perpax_list_temp.append({
-                                "uuid": perpax['uuid'],
-                                "value": request.POST['adult_perpax' + str(i + 1) + '_' + str(idx + 1)],
-                                "name": perpax['name']
-                            })
-                    elif perpax['name'] == 'Guest age':
-                        perpax_list_temp.append({
-                            "uuid": perpax['uuid'],
-                            "value": int(request.POST['adult_years_old' + str(i + 1)]),
-                            "name": perpax['name']
-                        })
-                    elif perpax['name'] == 'Nationality':
-                        perpax_list_temp.append({
-                            "uuid": perpax['uuid'],
-                            "value": request.POST['adult_nationality' + str(i + 1)],
-                            "name": perpax['name']
-                        })
-                    elif perpax['name'] == 'Full name':
-                        perpax_list_temp.append({
-                            "uuid": perpax['uuid'],
-                            "value": request.POST['adult_title' + str(i + 1)] + ' ' + request.POST[
-                                'adult_first_name' + str(i + 1)] + ' ' + request.POST['adult_last_name' + str(i + 1)],
-                            "name": perpax['name']
-                        })
-                    elif perpax['name'] == 'Gender':
-                        if request.POST['adult_title' + str(i + 1)] == 'MR':
-                            perpax_list_temp.append({
-                                "uuid": perpax['uuid'],
-                                "value": 'Male',
-                                "name": perpax['name']
+                    if perpax_list_temp:
+                        perpax_list.append(perpax_list_temp)
+                    perpax_list_temp = []
+
+                    if i == 0:
+                        if request.POST['myRadios'] == 'yes':
+                            adult[len(adult) - 1].update({
+                                'is_also_booker': True,
+                                'is_also_contact': True
                             })
                         else:
-                            perpax_list_temp.append({
-                                "uuid": perpax['uuid'],
-                                "value": 'Female',
-                                "name": perpax['name']
+                            adult[len(adult) - 1].update({
+                                'is_also_booker': False
                             })
-                    elif perpax['name'] == 'Date of birth':
-                        perpax_list_temp.append({
-                            "uuid": perpax['uuid'],
-                            "value": request.POST['adult_birth_date' + str(i + 1)],
-                            "name": perpax['name']
-                        })
-                    elif perpax['name'] == 'Passport number':
-                        perpax_list_temp.append({
-                            "uuid": perpax['uuid'],
-                            "value": request.POST['adult_passport_number' + str(i + 1)],
-                            "name": perpax['name']
-                        })
-                    elif perpax['name'] == 'Passport expiry date':
-                        perpax_list_temp.append({
-                            "uuid": perpax['uuid'],
-                            "value": request.POST['adult_passport_expired_date' + str(i + 1)],
-                            "name": perpax['name']
-                        })
-                if perpax_list_temp:
-                    perpax_list.append(perpax_list_temp)
-                perpax_list_temp = []
-
-                if i == 0:
-                    if request.POST['myRadios'] == 'yes':
-                        adult[len(adult) - 1].update({
-                            'is_also_booker': True,
-                            'is_also_contact': True
-                        })
                     else:
                         adult[len(adult) - 1].update({
                             'is_also_booker': False
                         })
-                else:
-                    adult[len(adult) - 1].update({
-                        'is_also_booker': False
+                    try:
+                        if request.POST['adult_cp' + str(i + 1)] == 'on':
+                            adult[len(adult) - 1].update({
+                                'is_also_contact': True
+                            })
+                        else:
+                            adult[len(adult) - 1].update({
+                                'is_also_contact': False
+                            })
+                    except:
+                        if i == 0 and request.POST['myRadios'] == 'yes':
+                            continue
+                        else:
+                            adult[len(adult) - 1].update({
+                                'is_also_contact': False
+                            })
+                    try:
+                        if request.POST['adult_cp' + str(i + 1)] == 'on':
+                            contact.append({
+                                "first_name": request.POST['adult_first_name' + str(i + 1)],
+                                "last_name": request.POST['adult_last_name' + str(i + 1)],
+                                "title": request.POST['adult_title' + str(i + 1)],
+                                "email": request.POST['adult_email' + str(i + 1)],
+                                "calling_code": request.POST['adult_phone_code' + str(i + 1)],
+                                "mobile": request.POST['adult_phone' + str(i + 1)],
+                                "nationality_name": request.POST['adult_nationality' + str(i + 1)],
+                                "contact_seq_id": request.POST['adult_id' + str(i + 1)]
+                            })
+                        if i == 0:
+                            if request.POST['myRadios'] == 'yes':
+                                contact[len(contact)].update({
+                                    'is_also_booker': True
+                                })
+                            else:
+                                contact[len(contact)].update({
+                                    'is_also_booker': False
+                                })
+                    except:
+                        pass
+
+                if len(contact) == 0:
+                    contact.append({
+                        'title': request.POST['booker_title'],
+                        'first_name': request.POST['booker_first_name'],
+                        'last_name': request.POST['booker_last_name'],
+                        'email': request.POST['booker_email'],
+                        'calling_code': request.POST['booker_phone_code'],
+                        'mobile': request.POST['booker_phone'],
+                        'nationality_name': request.POST['booker_nationality'],
+                        'contact_seq_id': request.POST['booker_id'],
+                        'is_also_booker': True
                     })
-                try:
-                    if request.POST['adult_cp' + str(i + 1)] == 'on':
-                        adult[len(adult) - 1].update({
-                            'is_also_contact': True
-                        })
-                    else:
-                        adult[len(adult) - 1].update({
-                            'is_also_contact': False
-                        })
-                except:
-                    if i == 0 and request.POST['myRadios'] == 'yes':
-                        continue
-                    else:
-                        adult[len(adult) - 1].update({
-                            'is_also_contact': False
-                        })
-                try:
-                    if request.POST['adult_cp' + str(i + 1)] == 'on':
-                        contact.append({
-                            "first_name": request.POST['adult_first_name' + str(i + 1)],
-                            "last_name": request.POST['adult_last_name' + str(i + 1)],
-                            "title": request.POST['adult_title' + str(i + 1)],
-                            "email": request.POST['adult_email' + str(i + 1)],
-                            "calling_code": request.POST['adult_phone_code' + str(i + 1)],
-                            "mobile": request.POST['adult_phone' + str(i + 1)],
-                            "nationality_name": request.POST['adult_nationality' + str(i + 1)],
-                            "contact_seq_id": request.POST['adult_id' + str(i + 1)]
-                        })
-                    if i == 0:
-                        if request.POST['myRadios'] == 'yes':
-                            contact[len(contact)].update({
-                                'is_also_booker': True
-                            })
-                        else:
-                            contact[len(contact)].update({
-                                'is_also_booker': False
-                            })
-                except:
-                    pass
 
-            if len(contact) == 0:
-                contact.append({
-                    'title': request.POST['booker_title'],
-                    'first_name': request.POST['booker_first_name'],
-                    'last_name': request.POST['booker_last_name'],
-                    'email': request.POST['booker_email'],
-                    'calling_code': request.POST['booker_phone_code'],
-                    'mobile': request.POST['booker_phone'],
-                    'nationality_name': request.POST['booker_nationality'],
-                    'contact_seq_id': request.POST['booker_id'],
-                    'is_also_booker': True
-                })
+                #senior
+                for i in range(int(request.session['activity_request']['senior_passenger_count'])):
 
-            #senior
-            for i in range(int(request.session['activity_request']['senior_passenger_count'])):
+                    senior.append({
+                        "first_name": request.POST['senior_first_name'+str(i+1)],
+                        "last_name": request.POST['senior_last_name'+str(i+1)],
+                        "nationality_name": request.POST['senior_nationality'+str(i+1)],
+                        "title": request.POST['senior_title'+str(i+1)],
+                        "pax_type": "YCD",
+                        "pax_type_str": "Senior",
+                        "birth_date": request.POST['senior_birth_date'+str(i+1)],
+                        "identity_number": request.POST.get('senior_passport_number' + str(i + 1)) and request.POST['senior_passport_number' + str(i + 1)] or '',
+                        "identity_expdate": request.POST.get('senior_passport_expired_date' + str(i + 1)) and request.POST['senior_passport_expired_date' + str(i + 1)] or '',
+                        "identity_country_of_issued_name": request.POST.get('senior_country_of_issued' + str(i + 1)) and request.POST['senior_country_of_issued' + str(i + 1)] or '',
+                        "passenger_seq_id": request.POST['senior_id'+str(i+1)],
+                        "identity_type": "passport",
+                        "sku_id": request.POST['senior_sku_id' + str(i + 1)],
+                        "sku_title": request.POST['senior_sku_title' + str(i + 1)],
+                        "sku_real_id": request.POST['senior_sku_real_id' + str(i + 1)],
+                    })
+                    printout_paxs.append({
+                        "name": request.POST['senior_title' + str(i + 1)] + ' ' + request.POST['senior_first_name' + str(i + 1)] + ' ' + request.POST['senior_last_name' + str(i + 1)],
+                        'ticket_number': request.POST['senior_sku_id' + str(i + 1)],
+                        'birth_date': request.POST['senior_birth_date' + str(i + 1)],
+                        'pax_type': 'Senior',
+                        'additional_info': ["Ticket:" + request.POST['senior_sku_title' + str(i + 1)]],
+                    })
 
-                senior.append({
-                    "first_name": request.POST['senior_first_name'+str(i+1)],
-                    "last_name": request.POST['senior_last_name'+str(i+1)],
-                    "nationality_name": request.POST['senior_nationality'+str(i+1)],
-                    "title": request.POST['senior_title'+str(i+1)],
-                    "pax_type": "YCD",
-                    "pax_type_str": "Senior",
-                    "birth_date": request.POST['senior_birth_date'+str(i+1)],
-                    "identity_number": request.POST.get('senior_passport_number' + str(i + 1)) and request.POST['senior_passport_number' + str(i + 1)] or '',
-                    "identity_expdate": request.POST.get('senior_passport_expired_date' + str(i + 1)) and request.POST['senior_passport_expired_date' + str(i + 1)] or '',
-                    "identity_country_of_issued_name": request.POST.get('senior_country_of_issued' + str(i + 1)) and request.POST['senior_country_of_issued' + str(i + 1)] or '',
-                    "passenger_seq_id": request.POST['senior_id'+str(i+1)],
-                    "identity_type": "passport",
-                    "sku_id": request.POST['senior_sku_id' + str(i + 1)],
-                    "sku_title": request.POST['senior_sku_title' + str(i + 1)],
-                    "sku_real_id": request.POST['senior_sku_real_id' + str(i + 1)],
-                })
-                printout_paxs.append({
-                    "name": request.POST['senior_title' + str(i + 1)] + ' ' + request.POST['senior_first_name' + str(i + 1)] + ' ' + request.POST['senior_last_name' + str(i + 1)],
-                    'ticket_number': request.POST['senior_sku_id' + str(i + 1)],
-                    'birth_date': request.POST['senior_birth_date' + str(i + 1)],
-                    'pax_type': 'Senior',
-                    'additional_info': ["Ticket:" + request.POST['senior_sku_title' + str(i + 1)]],
-                })
-
-                # perpax
-                for idx, perpax in enumerate(request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])]['options']['perPax']):
-                    if perpax['name'] != 'Guest age' and perpax['name'] != 'Nationality' and perpax['name'] != 'Full name' and perpax['name'] != 'Gender' and perpax['name'] != 'Date of birth' and perpax['name'] != 'Passport number' and perpax['name'] != 'Passport expiry date':
-                        if perpax['inputType'] == 1:
-                            perpax_list_temp.append({
-                                "uuid": perpax['uuid'],
-                                "value": request.POST['senior_perpax' + str(i+1) + '_' + str(idx+1)],
-                                "name": perpax['name']
-                            })
-                        elif perpax['inputType'] == 2:
-                            for j, item in enumerate(perpax['items']):
-                                try:
-                                    if request.POST['senior_perpax' + str(i+1) + '_' + str(idx+1) + ' ' + str(j+1)] == 'true':
-                                        perpax_list_temp.append({
-                                            "uuid": perpax['uuid'],
-                                            "value": item['value'],
-                                            "name": perpax['name']
-                                        })
-                                except:
-                                    print('no perbooking2')
-                        elif perpax['inputType'] == 3:
-                            perpax_list_temp.append({
-                                "uuid": perpax['uuid'],
-                                "value": request.POST['senior_perpax' + str(i+1) + '_' + str(idx+1)],
-                                "name": perpax['name']
-                            })
-                        elif perpax['inputType'] == 4:
-                            perpax_list_temp.append({
-                                "uuid": perpax['uuid'],
-                                "value": request.POST['senior_perpax' + str(i+1) + '_' + str(idx+1)],
-                                "name": perpax['name']
-                            })
-                        elif perpax['inputType'] == 5:
-                            if request.POST['senior_perpax' + str(i+1) + '_' + str(idx+1)] == 'on':
+                    # perpax
+                    for idx, perpax in enumerate(request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])]['options']['perPax']):
+                        if perpax['name'] != 'Guest age' and perpax['name'] != 'Nationality' and perpax['name'] != 'Full name' and perpax['name'] != 'Gender' and perpax['name'] != 'Date of birth' and perpax['name'] != 'Passport number' and perpax['name'] != 'Passport expiry date':
+                            if perpax['inputType'] == 1:
                                 perpax_list_temp.append({
                                     "uuid": perpax['uuid'],
-                                    "value": 'True',
+                                    "value": request.POST['senior_perpax' + str(i+1) + '_' + str(idx+1)],
+                                    "name": perpax['name']
+                                })
+                            elif perpax['inputType'] == 2:
+                                for j, item in enumerate(perpax['items']):
+                                    try:
+                                        if request.POST['senior_perpax' + str(i+1) + '_' + str(idx+1) + ' ' + str(j+1)] == 'true':
+                                            perpax_list_temp.append({
+                                                "uuid": perpax['uuid'],
+                                                "value": item['value'],
+                                                "name": perpax['name']
+                                            })
+                                    except:
+                                        print('no perbooking2')
+                            elif perpax['inputType'] == 3:
+                                perpax_list_temp.append({
+                                    "uuid": perpax['uuid'],
+                                    "value": request.POST['senior_perpax' + str(i+1) + '_' + str(idx+1)],
+                                    "name": perpax['name']
+                                })
+                            elif perpax['inputType'] == 4:
+                                perpax_list_temp.append({
+                                    "uuid": perpax['uuid'],
+                                    "value": request.POST['senior_perpax' + str(i+1) + '_' + str(idx+1)],
+                                    "name": perpax['name']
+                                })
+                            elif perpax['inputType'] == 5:
+                                if request.POST['senior_perpax' + str(i+1) + '_' + str(idx+1)] == 'on':
+                                    perpax_list_temp.append({
+                                        "uuid": perpax['uuid'],
+                                        "value": 'True',
+                                        "name": perpax['name']
+                                    })
+                                else:
+                                    perpax_list_temp.append({
+                                        "uuid": perpax['uuid'],
+                                        "value": 'False',
+                                        "name": perpax['name']
+                                    })
+                            elif perpax['inputType'] == 6:
+                                perpax_list_temp.append({
+                                    "uuid": perpax['uuid'],
+                                    "value": request.POST['senior_perpax' + str(i+1) + '_' + str(idx+1)],
+                                    "name": perpax['name']
+                                })
+                            elif perpax['inputType'] == 7:
+                                # upload
+                                upload.append({
+                                    "uuid": perpax['uuid'],
+                                    "value": base64.b64encode(request.FILES['senior_perpax' + str(i + 1) + '_' + str(idx + 1)].read()).decode(),
+                                    "name": perpax['name'],
+                                    "type": request.FILES['senior_perpax' + str(i + 1) + '_' + str(idx + 1)].content_type.split('/')[-1]
+                                })
+                            elif perpax['inputType'] == 8:
+                                # upload
+                                upload.append({
+                                    "uuid": perpax['uuid'],
+                                    "value": base64.b64encode(request.FILES['senior_perpax' + str(i + 1) + '_' + str(idx + 1)].read()).decode(),
+                                    "name": perpax['name'],
+                                    "type":request.FILES['senior_perpax' + str(i + 1) + '_' + str(idx + 1)].content_type.split('/')[-1]
+                                })
+                            elif perpax['inputType'] == 9:
+                                perpax_list_temp.append({
+                                    "uuid": perpax['uuid'],
+                                    "value": request.POST['senior_perpax' + str(i+1) + '_' + str(idx+1)],
+                                    "name": perpax['name']
+                                })
+                            elif perpax['inputType'] == 10:
+                                perpax_list_temp.append({
+                                    "uuid": perpax['uuid'],
+                                    "value": request.POST['senior_perpax' + str(i+1) + '_' + str(idx+1)],
+                                    "name": perpax['name']
+                                })
+                            elif perpax['inputType'] == 11:
+                                perpax_list_temp.append({
+                                    "uuid": perpax['uuid'],
+                                    "value": request.POST['senior_perpax' + str(i+1) + '_' + str(idx+1)],
+                                    "name": perpax['name']
+                                })
+                            elif perpax['inputType'] == 12:
+                                perpax_list_temp.append({
+                                    "uuid": perpax['uuid'],
+                                    "value": request.POST['senior_perpax' + str(i+1) + '_' + str(idx+1)],
+                                    "name": perpax['name']
+                                })
+                            elif perpax['inputType'] == 13:
+                                print('deprecated')
+                            elif perpax['inputType'] == 14:
+                                perpax_list_temp.append({
+                                    "uuid": perpax['uuid'],
+                                    "value": request.POST['senior_perpax' + str(i+1) + '_' + str(idx+1)],
+                                    "name": perpax['name']
+                                })
+                            elif perpax['inputType'] == 50:
+                                perpax_list_temp.append({
+                                    "uuid": perpax['uuid'],
+                                    "value": request.POST['senior_perpax' + str(i+1) + '_' + str(idx+1)],
+                                    "name": perpax['name']
+                                })
+                        elif perpax['name'] == 'Guest age':
+                            perpax_list_temp.append({
+                                "uuid": perpax['uuid'],
+                                "value": int(request.POST['senior_years_old'+str(i+1)]),
+                                "name": perpax['name']
+                            })
+                        elif perpax['name'] == 'Nationality':
+                            perpax_list_temp.append({
+                                "uuid": perpax['uuid'],
+                                "value": request.POST['senior_nationality'+str(i+1)],
+                                "name": perpax['name']
+                            })
+                        elif perpax['name'] == 'Full name':
+                            perpax_list_temp.append({
+                                "uuid": perpax['uuid'],
+                                "value": request.POST['senior_title' + str(i + 1)]+' '+request.POST['senior_first_name' + str(i + 1)]+' '+request.POST['senior_last_name' + str(i + 1)],
+                                "name": perpax['name']
+                            })
+                        elif perpax['name'] == 'Gender':
+                            if request.POST['senior_title' + str(i + 1)] == 'MR':
+                                perpax_list_temp.append({
+                                    "uuid": perpax['uuid'],
+                                    "value": 'Male',
                                     "name": perpax['name']
                                 })
                             else:
                                 perpax_list_temp.append({
                                     "uuid": perpax['uuid'],
-                                    "value": 'False',
+                                    "value": 'Female',
                                     "name": perpax['name']
                                 })
-                        elif perpax['inputType'] == 6:
+                        elif perpax['name'] == 'Date of birth':
                             perpax_list_temp.append({
                                 "uuid": perpax['uuid'],
-                                "value": request.POST['senior_perpax' + str(i+1) + '_' + str(idx+1)],
+                                "value": request.POST['senior_birth_date'+str(i+1)],
                                 "name": perpax['name']
                             })
-                        elif perpax['inputType'] == 7:
-                            # upload
-                            upload.append({
-                                "uuid": perpax['uuid'],
-                                "value": base64.b64encode(request.FILES['senior_perpax' + str(i + 1) + '_' + str(idx + 1)].read()).decode(),
-                                "name": perpax['name'],
-                                "type": request.FILES['senior_perpax' + str(i + 1) + '_' + str(idx + 1)].content_type.split('/')[-1]
-                            })
-                        elif perpax['inputType'] == 8:
-                            # upload
-                            upload.append({
-                                "uuid": perpax['uuid'],
-                                "value": base64.b64encode(request.FILES['senior_perpax' + str(i + 1) + '_' + str(idx + 1)].read()).decode(),
-                                "name": perpax['name'],
-                                "type":request.FILES['senior_perpax' + str(i + 1) + '_' + str(idx + 1)].content_type.split('/')[-1]
-                            })
-                        elif perpax['inputType'] == 9:
+                        elif perpax['name'] == 'Passport number':
                             perpax_list_temp.append({
                                 "uuid": perpax['uuid'],
-                                "value": request.POST['senior_perpax' + str(i+1) + '_' + str(idx+1)],
+                                "value": request.POST['senior_passport_number'+str(i+1)],
                                 "name": perpax['name']
                             })
-                        elif perpax['inputType'] == 10:
+                        elif perpax['name'] == 'Passport expiry date':
                             perpax_list_temp.append({
                                 "uuid": perpax['uuid'],
-                                "value": request.POST['senior_perpax' + str(i+1) + '_' + str(idx+1)],
+                                "value": request.POST['senior_passport_expired_date'+str(i+1)],
                                 "name": perpax['name']
                             })
-                        elif perpax['inputType'] == 11:
-                            perpax_list_temp.append({
-                                "uuid": perpax['uuid'],
-                                "value": request.POST['senior_perpax' + str(i+1) + '_' + str(idx+1)],
-                                "name": perpax['name']
-                            })
-                        elif perpax['inputType'] == 12:
-                            perpax_list_temp.append({
-                                "uuid": perpax['uuid'],
-                                "value": request.POST['senior_perpax' + str(i+1) + '_' + str(idx+1)],
-                                "name": perpax['name']
-                            })
-                        elif perpax['inputType'] == 13:
-                            print('deprecated')
-                        elif perpax['inputType'] == 14:
-                            perpax_list_temp.append({
-                                "uuid": perpax['uuid'],
-                                "value": request.POST['senior_perpax' + str(i+1) + '_' + str(idx+1)],
-                                "name": perpax['name']
-                            })
-                        elif perpax['inputType'] == 50:
-                            perpax_list_temp.append({
-                                "uuid": perpax['uuid'],
-                                "value": request.POST['senior_perpax' + str(i+1) + '_' + str(idx+1)],
-                                "name": perpax['name']
-                            })
-                    elif perpax['name'] == 'Guest age':
-                        perpax_list_temp.append({
-                            "uuid": perpax['uuid'],
-                            "value": int(request.POST['senior_years_old'+str(i+1)]),
-                            "name": perpax['name']
-                        })
-                    elif perpax['name'] == 'Nationality':
-                        perpax_list_temp.append({
-                            "uuid": perpax['uuid'],
-                            "value": request.POST['senior_nationality'+str(i+1)],
-                            "name": perpax['name']
-                        })
-                    elif perpax['name'] == 'Full name':
-                        perpax_list_temp.append({
-                            "uuid": perpax['uuid'],
-                            "value": request.POST['senior_title' + str(i + 1)]+' '+request.POST['senior_first_name' + str(i + 1)]+' '+request.POST['senior_last_name' + str(i + 1)],
-                            "name": perpax['name']
-                        })
-                    elif perpax['name'] == 'Gender':
-                        if request.POST['senior_title' + str(i + 1)] == 'MR':
-                            perpax_list_temp.append({
-                                "uuid": perpax['uuid'],
-                                "value": 'Male',
-                                "name": perpax['name']
-                            })
-                        else:
-                            perpax_list_temp.append({
-                                "uuid": perpax['uuid'],
-                                "value": 'Female',
-                                "name": perpax['name']
-                            })
-                    elif perpax['name'] == 'Date of birth':
-                        perpax_list_temp.append({
-                            "uuid": perpax['uuid'],
-                            "value": request.POST['senior_birth_date'+str(i+1)],
-                            "name": perpax['name']
-                        })
-                    elif perpax['name'] == 'Passport number':
-                        perpax_list_temp.append({
-                            "uuid": perpax['uuid'],
-                            "value": request.POST['senior_passport_number'+str(i+1)],
-                            "name": perpax['name']
-                        })
-                    elif perpax['name'] == 'Passport expiry date':
-                        perpax_list_temp.append({
-                            "uuid": perpax['uuid'],
-                            "value": request.POST['senior_passport_expired_date'+str(i+1)],
-                            "name": perpax['name']
-                        })
-                if perpax_list_temp:
-                    perpax_list.append(perpax_list_temp)
-                perpax_list_temp = []
+                    if perpax_list_temp:
+                        perpax_list.append(perpax_list_temp)
+                    perpax_list_temp = []
 
-            #child
-            for i in range(int(request.session['activity_request']['child_passenger_count'])):
-                child.append({
-                    "first_name": request.POST['child_first_name'+str(i+1)],
-                    "last_name": request.POST['child_last_name'+str(i+1)],
-                    "nationality_name": request.POST['child_nationality'+str(i+1)],
-                    "title": request.POST['child_title'+str(i+1)],
-                    "pax_type": "CHD",
-                    "pax_type_str": "Child",
-                    "birth_date": request.POST['child_birth_date'+str(i+1)],
-                    "identity_number": request.POST.get('child_passport_number' + str(i + 1)) and request.POST['child_passport_number' + str(i + 1)] or '',
-                    "identity_expdate": request.POST.get('child_passport_expired_date' + str(i + 1)) and request.POST['child_passport_expired_date' + str(i + 1)] or '',
-                    "identity_country_of_issued_name": request.POST.get('child_country_of_issued' + str(i + 1)) and request.POST['child_country_of_issued' + str(i + 1)] or '',
-                    "passenger_seq_id": request.POST['child_id'+str(i+1)],
-                    "identity_type": "passport",
-                    "sku_id": request.POST['child_sku_id' + str(i + 1)],
-                    "sku_title": request.POST['child_sku_title' + str(i + 1)],
-                    "sku_real_id": request.POST['child_sku_real_id' + str(i + 1)],
+                #child
+                for i in range(int(request.session['activity_request']['child_passenger_count'])):
+                    child.append({
+                        "first_name": request.POST['child_first_name'+str(i+1)],
+                        "last_name": request.POST['child_last_name'+str(i+1)],
+                        "nationality_name": request.POST['child_nationality'+str(i+1)],
+                        "title": request.POST['child_title'+str(i+1)],
+                        "pax_type": "CHD",
+                        "pax_type_str": "Child",
+                        "birth_date": request.POST['child_birth_date'+str(i+1)],
+                        "identity_number": request.POST.get('child_passport_number' + str(i + 1)) and request.POST['child_passport_number' + str(i + 1)] or '',
+                        "identity_expdate": request.POST.get('child_passport_expired_date' + str(i + 1)) and request.POST['child_passport_expired_date' + str(i + 1)] or '',
+                        "identity_country_of_issued_name": request.POST.get('child_country_of_issued' + str(i + 1)) and request.POST['child_country_of_issued' + str(i + 1)] or '',
+                        "passenger_seq_id": request.POST['child_id'+str(i+1)],
+                        "identity_type": "passport",
+                        "sku_id": request.POST['child_sku_id' + str(i + 1)],
+                        "sku_title": request.POST['child_sku_title' + str(i + 1)],
+                        "sku_real_id": request.POST['child_sku_real_id' + str(i + 1)],
 
-                })
-                printout_paxs.append({
-                    "name": request.POST['child_title' + str(i + 1)] + ' ' + request.POST['child_first_name' + str(i + 1)] + ' ' + request.POST['child_last_name' + str(i + 1)],
-                    'ticket_number': request.POST['child_sku_id' + str(i + 1)],
-                    'birth_date': request.POST['child_birth_date' + str(i + 1)],
-                    'pax_type': 'Child',
-                    'additional_info': ["Ticket:" + request.POST['child_sku_title' + str(i + 1)]],
-                })
+                    })
+                    printout_paxs.append({
+                        "name": request.POST['child_title' + str(i + 1)] + ' ' + request.POST['child_first_name' + str(i + 1)] + ' ' + request.POST['child_last_name' + str(i + 1)],
+                        'ticket_number': request.POST['child_sku_id' + str(i + 1)],
+                        'birth_date': request.POST['child_birth_date' + str(i + 1)],
+                        'pax_type': 'Child',
+                        'additional_info': ["Ticket:" + request.POST['child_sku_title' + str(i + 1)]],
+                    })
 
-                # perpax
-                for idx, perpax in enumerate(request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])]['options']['perPax']):
-                    if perpax['name'] != 'Guest age' and perpax['name'] != 'Nationality' and perpax['name'] != 'Full name' and perpax['name'] != 'Gender' and perpax['name'] != 'Date of birth' and perpax['name'] != 'Passport number' and perpax['name'] != 'Passport expiry date':
-                        if perpax['inputType'] == 1:
-                            perpax_list_temp.append({
-                                "uuid": perpax['uuid'],
-                                "value": request.POST['child_perpax' + str(i+1) + '_' + str(idx+1)],
-                                "name": perpax['name']
-                            })
-                        elif perpax['inputType'] == 2:
-                            for j, item in enumerate(perpax['items']):
-                                try:
-                                    if request.POST['child_perpax' + str(i+1) + '_' + str(idx+1) + ' ' + str(j)] == 'true':
-                                        perpax_list_temp.append({
-                                            "uuid": perpax['uuid'],
-                                            "value": item['value'],
-                                            "name": perpax['name']
-                                        })
-                                except:
-                                    print('no perbooking2')
-                        elif perpax['inputType'] == 3:
-                            perpax_list_temp.append({
-                                "uuid": perpax['uuid'],
-                                "value": request.POST['child_perpax' + str(i+1) + '_' + str(idx+1)],
-                                "name": perpax['name']
-                            })
-                        elif perpax['inputType'] == 4:
-                            perpax_list_temp.append({
-                                "uuid": perpax['uuid'],
-                                "value": request.POST['child_perpax' + str(i+1) + '_' + str(idx+1)],
-                                "name": perpax['name']
-                            })
-                        elif perpax['inputType'] == 5:
-                            if request.POST['child_perpax' + str(i+1) + '_' + str(idx+1)] == 'on':
+                    # perpax
+                    for idx, perpax in enumerate(request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])]['options']['perPax']):
+                        if perpax['name'] != 'Guest age' and perpax['name'] != 'Nationality' and perpax['name'] != 'Full name' and perpax['name'] != 'Gender' and perpax['name'] != 'Date of birth' and perpax['name'] != 'Passport number' and perpax['name'] != 'Passport expiry date':
+                            if perpax['inputType'] == 1:
                                 perpax_list_temp.append({
                                     "uuid": perpax['uuid'],
-                                    "value": 'True',
+                                    "value": request.POST['child_perpax' + str(i+1) + '_' + str(idx+1)],
+                                    "name": perpax['name']
+                                })
+                            elif perpax['inputType'] == 2:
+                                for j, item in enumerate(perpax['items']):
+                                    try:
+                                        if request.POST['child_perpax' + str(i+1) + '_' + str(idx+1) + ' ' + str(j)] == 'true':
+                                            perpax_list_temp.append({
+                                                "uuid": perpax['uuid'],
+                                                "value": item['value'],
+                                                "name": perpax['name']
+                                            })
+                                    except:
+                                        print('no perbooking2')
+                            elif perpax['inputType'] == 3:
+                                perpax_list_temp.append({
+                                    "uuid": perpax['uuid'],
+                                    "value": request.POST['child_perpax' + str(i+1) + '_' + str(idx+1)],
+                                    "name": perpax['name']
+                                })
+                            elif perpax['inputType'] == 4:
+                                perpax_list_temp.append({
+                                    "uuid": perpax['uuid'],
+                                    "value": request.POST['child_perpax' + str(i+1) + '_' + str(idx+1)],
+                                    "name": perpax['name']
+                                })
+                            elif perpax['inputType'] == 5:
+                                if request.POST['child_perpax' + str(i+1) + '_' + str(idx+1)] == 'on':
+                                    perpax_list_temp.append({
+                                        "uuid": perpax['uuid'],
+                                        "value": 'True',
+                                        "name": perpax['name']
+                                    })
+                                else:
+                                    perpax_list_temp.append({
+                                        "uuid": perpax['uuid'],
+                                        "value": 'False',
+                                        "name": perpax['name']
+                                    })
+                            elif perpax['inputType'] == 6:
+                                perpax_list_temp.append({
+                                    "uuid": perpax['uuid'],
+                                    "value": request.POST['child_perpax' + str(i+1) + '_' + str(idx+1)],
+                                    "name": perpax['name']
+                                })
+                            elif perpax['inputType'] == 7:
+                                # upload
+                                upload.append({
+                                    "uuid": perpax['uuid'],
+                                    "value": base64.b64encode(request.FILES['child_perpax' + str(i + 1) + '_' + str(idx + 1)].read()).decode(),
+                                    "name": perpax['name'],
+                                    "type": request.FILES['child_perpax' + str(i + 1) + '_' + str(idx + 1)].content_type.split('/')[-1]
+                                })
+                            elif perpax['inputType'] == 8:
+                                # upload
+                                upload.append({
+                                    "uuid": perpax['uuid'],
+                                    "value": base64.b64encode(request.FILES['child_perpax' + str(i + 1) + '_' + str(idx + 1)].read()).decode(),
+                                    "name": perpax['name'],
+                                    "type": request.FILES['child_perpax' + str(i + 1) + '_' + str(idx + 1)].content_type.split('/')[-1]
+                                })
+                            elif perpax['inputType'] == 9:
+                                perpax_list_temp.append({
+                                    "uuid": perpax['uuid'],
+                                    "value": request.POST['child_perpax' + str(i+1) + '_' + str(idx+1)],
+                                    "name": perpax['name']
+                                })
+                            elif perpax['inputType'] == 10:
+                                perpax_list_temp.append({
+                                    "uuid": perpax['uuid'],
+                                    "value": request.POST['child_perpax' + str(i+1) + '_' + str(idx+1)],
+                                    "name": perpax['name']
+                                })
+                            elif perpax['inputType'] == 11:
+                                perpax_list_temp.append({
+                                    "uuid": perpax['uuid'],
+                                    "value": request.POST['child_perpax' + str(i+1) + '_' + str(idx+1)],
+                                    "name": perpax['name']
+                                })
+                            elif perpax['inputType'] == 12:
+                                perpax_list_temp.append({
+                                    "uuid": perpax['uuid'],
+                                    "value": request.POST['child_perpax' + str(i+1) + '_' + str(idx+1)],
+                                    "name": perpax['name']
+                                })
+                            elif perpax['inputType'] == 13:
+                                print('deprecated')
+                            elif perpax['inputType'] == 14:
+                                perpax_list_temp.append({
+                                    "uuid": perpax['uuid'],
+                                    "value": request.POST['child_perpax' + str(i+1) + '_' + str(idx+1)],
+                                    "name": perpax['name']
+                                })
+                            elif perpax['inputType'] == 50:
+                                perpax_list_temp.append({
+                                    "uuid": perpax['uuid'],
+                                    "value": request.POST['child_perpax' + str(i+1) + '_' + str(idx+1)],
+                                    "name": perpax['name']
+                                })
+                        elif perpax['name'] == 'Guest age':
+                            perpax_list_temp.append({
+                                "uuid": perpax['uuid'],
+                                "value": int(request.POST['child_years_old' + str(i + 1)]),
+                                "name": perpax['name']
+                            })
+                        elif perpax['name'] == 'Nationality':
+                            perpax_list_temp.append({
+                                "uuid": perpax['uuid'],
+                                "value": request.POST['child_nationality' + str(i + 1)],
+                                "name": perpax['name']
+                            })
+                        elif perpax['name'] == 'Full name':
+                            perpax_list_temp.append({
+                                "uuid": perpax['uuid'],
+                                "value": request.POST['child_title' + str(i + 1)] + ' ' + request.POST['child_first_name' + str(i + 1)] + ' ' + request.POST['child_last_name' + str(i + 1)],
+                                "name": perpax['name']
+                            })
+                        elif perpax['name'] == 'Gender':
+                            if request.POST['child_title' + str(i + 1)] == 'MSTR':
+                                perpax_list_temp.append({
+                                    "uuid": perpax['uuid'],
+                                    "value": 'Male',
                                     "name": perpax['name']
                                 })
                             else:
                                 perpax_list_temp.append({
                                     "uuid": perpax['uuid'],
-                                    "value": 'False',
+                                    "value": 'Female',
                                     "name": perpax['name']
                                 })
-                        elif perpax['inputType'] == 6:
+                        elif perpax['name'] == 'Date of birth':
                             perpax_list_temp.append({
                                 "uuid": perpax['uuid'],
-                                "value": request.POST['child_perpax' + str(i+1) + '_' + str(idx+1)],
+                                "value": request.POST['child_birth_date' + str(i + 1)],
                                 "name": perpax['name']
                             })
-                        elif perpax['inputType'] == 7:
-                            # upload
-                            upload.append({
-                                "uuid": perpax['uuid'],
-                                "value": base64.b64encode(request.FILES['child_perpax' + str(i + 1) + '_' + str(idx + 1)].read()).decode(),
-                                "name": perpax['name'],
-                                "type": request.FILES['child_perpax' + str(i + 1) + '_' + str(idx + 1)].content_type.split('/')[-1]
-                            })
-                        elif perpax['inputType'] == 8:
-                            # upload
-                            upload.append({
-                                "uuid": perpax['uuid'],
-                                "value": base64.b64encode(request.FILES['child_perpax' + str(i + 1) + '_' + str(idx + 1)].read()).decode(),
-                                "name": perpax['name'],
-                                "type": request.FILES['child_perpax' + str(i + 1) + '_' + str(idx + 1)].content_type.split('/')[-1]
-                            })
-                        elif perpax['inputType'] == 9:
+                        elif perpax['name'] == 'Passport number':
                             perpax_list_temp.append({
                                 "uuid": perpax['uuid'],
-                                "value": request.POST['child_perpax' + str(i+1) + '_' + str(idx+1)],
+                                "value": request.POST['child_passport_number'+str(i+1)],
                                 "name": perpax['name']
                             })
-                        elif perpax['inputType'] == 10:
+                        elif perpax['name'] == 'Passport expiry date':
                             perpax_list_temp.append({
                                 "uuid": perpax['uuid'],
-                                "value": request.POST['child_perpax' + str(i+1) + '_' + str(idx+1)],
+                                "value": request.POST['child_passport_expired_date'+str(i+1)],
                                 "name": perpax['name']
                             })
-                        elif perpax['inputType'] == 11:
-                            perpax_list_temp.append({
-                                "uuid": perpax['uuid'],
-                                "value": request.POST['child_perpax' + str(i+1) + '_' + str(idx+1)],
-                                "name": perpax['name']
-                            })
-                        elif perpax['inputType'] == 12:
-                            perpax_list_temp.append({
-                                "uuid": perpax['uuid'],
-                                "value": request.POST['child_perpax' + str(i+1) + '_' + str(idx+1)],
-                                "name": perpax['name']
-                            })
-                        elif perpax['inputType'] == 13:
-                            print('deprecated')
-                        elif perpax['inputType'] == 14:
-                            perpax_list_temp.append({
-                                "uuid": perpax['uuid'],
-                                "value": request.POST['child_perpax' + str(i+1) + '_' + str(idx+1)],
-                                "name": perpax['name']
-                            })
-                        elif perpax['inputType'] == 50:
-                            perpax_list_temp.append({
-                                "uuid": perpax['uuid'],
-                                "value": request.POST['child_perpax' + str(i+1) + '_' + str(idx+1)],
-                                "name": perpax['name']
-                            })
-                    elif perpax['name'] == 'Guest age':
-                        perpax_list_temp.append({
-                            "uuid": perpax['uuid'],
-                            "value": int(request.POST['child_years_old' + str(i + 1)]),
-                            "name": perpax['name']
-                        })
-                    elif perpax['name'] == 'Nationality':
-                        perpax_list_temp.append({
-                            "uuid": perpax['uuid'],
-                            "value": request.POST['child_nationality' + str(i + 1)],
-                            "name": perpax['name']
-                        })
-                    elif perpax['name'] == 'Full name':
-                        perpax_list_temp.append({
-                            "uuid": perpax['uuid'],
-                            "value": request.POST['child_title' + str(i + 1)] + ' ' + request.POST['child_first_name' + str(i + 1)] + ' ' + request.POST['child_last_name' + str(i + 1)],
-                            "name": perpax['name']
-                        })
-                    elif perpax['name'] == 'Gender':
-                        if request.POST['child_title' + str(i + 1)] == 'MSTR':
-                            perpax_list_temp.append({
-                                "uuid": perpax['uuid'],
-                                "value": 'Male',
-                                "name": perpax['name']
-                            })
+                    if perpax_list_temp:
+                        perpax_list.append(perpax_list_temp)
+                    perpax_list_temp = []
+
+                #infant
+                for i in range(int(request.session['activity_request']['infant_passenger_count'])):
+                    infant.append({
+                        "first_name": request.POST['infant_first_name'+str(i+1)],
+                        "last_name": request.POST['infant_last_name'+str(i+1)],
+                        "nationality_name": request.POST['infant_nationality'+str(i+1)],
+                        "title": request.POST['infant_title'+str(i+1)],
+                        "pax_type": "INF",
+                        "pax_type_str": "Infant",
+                        "birth_date": request.POST['infant_birth_date'+str(i+1)],
+                        "identity_number": request.POST.get('infant_passport_number' + str(i + 1)) and request.POST['infant_passport_number' + str(i + 1)] or '',
+                        "identity_expdate": request.POST.get('infant_passport_expired_date' + str(i + 1)) and request.POST['infant_passport_expired_date' + str(i + 1)] or '',
+                        "identity_country_of_issued_name": request.POST.get('infant_country_of_issued' + str(i + 1)) and request.POST['infant_country_of_issued' + str(i + 1)] or '',
+                        "passenger_seq_id": request.POST['infant_id'+str(i+1)],
+                        "identity_type": "passport",
+                        "sku_id": request.POST['infant_sku_id' + str(i + 1)],
+                        "sku_title": request.POST['infant_sku_title' + str(i + 1)],
+                        "sku_real_id": request.POST['infant_sku_real_id' + str(i + 1)],
+                    })
+                    printout_paxs.append({
+                        "name": request.POST['infant_title'+str(i+1)] + ' ' + request.POST['infant_first_name'+str(i+1)] + ' ' + request.POST['infant_last_name'+str(i+1)],
+                        'ticket_number': request.POST['infant_sku_id' + str(i + 1)],
+                        'birth_date': request.POST['infant_birth_date'+str(i+1)],
+                        'pax_type': 'Infant',
+                        'additional_info': ["Ticket:" + request.POST['infant_sku_title' + str(i + 1)]],
+                    })
+
+                    if perpax_list_temp:
+                        perpax_list.append(perpax_list_temp)
+                    perpax_list_temp = []
+                set_session(request, 'activity_perpax', perpax_list)
+
+                for rec in adult:
+                    all_pax.append(rec)
+                for rec in senior:
+                    all_pax.append(rec)
+                for rec in child:
+                    all_pax.append(rec)
+                for rec in infant:
+                    all_pax.append(rec)
+
+                pax_count = {}
+                no_low_pax_count = {}
+                for temp_sku in request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])]['skus']:
+                    low_sku_id = temp_sku['sku_id'].lower()
+                    skus.append({
+                        'id': temp_sku['id'],
+                        'sku_id': low_sku_id,
+                        'raw_sku_id': temp_sku['sku_id'],
+                        'pax_type': temp_sku['pax_type'],
+                        'title': temp_sku['title'],
+                        'amount': int(request.session['activity_request'][low_sku_id+'_passenger']),
+                    })
+                    pax_count.update({
+                        low_sku_id: int(request.session['activity_request'][low_sku_id+'_passenger'])
+                    })
+                    no_low_pax_count.update({
+                        temp_sku['sku_id']: int(request.session['activity_request'][low_sku_id + '_passenger'])
+                    })
+
+                try:
+                    event_id = int(request.session['activity_request']['event_pick'])
+                except:
+                    event_id = 0
+
+                timeslot = False
+                if request.session['activity_request'].get('activity_timeslot'):
+                    for time in request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])]['timeslots']:
+                        if time['uuid'] == request.session['activity_request']['activity_timeslot']:
+                            timeslot = time
+
+                all_price = request.session['activity_price']['result']['response'][int(request.session['activity_request']['event_pick'])][int(request.session['activity_request']['activity_date_pick'])]
+
+                for temp_key, temp_val in no_low_pax_count.items():
+                    if temp_val != 0 and temp_key not in ['Infant']:
+                        if all_price['prices'][temp_key].get(str(temp_val)):
+                            temp_used_price = copy.deepcopy(all_price['prices'][temp_key][str(temp_val)]['service_charges'])
                         else:
-                            perpax_list_temp.append({
-                                "uuid": perpax['uuid'],
-                                "value": 'Female',
-                                "name": perpax['name']
+                            temp_used_price = copy.deepcopy(all_price['prices'][temp_key]['1']['service_charges'])
+
+                        for temp_sc in temp_used_price:
+                            temp_sc.update({
+                                'sku_id': str(temp_key)
                             })
-                    elif perpax['name'] == 'Date of birth':
-                        perpax_list_temp.append({
-                            "uuid": perpax['uuid'],
-                            "value": request.POST['child_birth_date' + str(i + 1)],
-                            "name": perpax['name']
-                        })
-                    elif perpax['name'] == 'Passport number':
-                        perpax_list_temp.append({
-                            "uuid": perpax['uuid'],
-                            "value": request.POST['child_passport_number'+str(i+1)],
-                            "name": perpax['name']
-                        })
-                    elif perpax['name'] == 'Passport expiry date':
-                        perpax_list_temp.append({
-                            "uuid": perpax['uuid'],
-                            "value": request.POST['child_passport_expired_date'+str(i+1)],
-                            "name": perpax['name']
-                        })
-                if perpax_list_temp:
-                    perpax_list.append(perpax_list_temp)
-                perpax_list_temp = []
+                        used_price.append(temp_used_price)
 
-            #infant
-            for i in range(int(request.session['activity_request']['infant_passenger_count'])):
-                infant.append({
-                    "first_name": request.POST['infant_first_name'+str(i+1)],
-                    "last_name": request.POST['infant_last_name'+str(i+1)],
-                    "nationality_name": request.POST['infant_nationality'+str(i+1)],
-                    "title": request.POST['infant_title'+str(i+1)],
-                    "pax_type": "INF",
-                    "pax_type_str": "Infant",
-                    "birth_date": request.POST['infant_birth_date'+str(i+1)],
-                    "identity_number": request.POST.get('infant_passport_number' + str(i + 1)) and request.POST['infant_passport_number' + str(i + 1)] or '',
-                    "identity_expdate": request.POST.get('infant_passport_expired_date' + str(i + 1)) and request.POST['infant_passport_expired_date' + str(i + 1)] or '',
-                    "identity_country_of_issued_name": request.POST.get('infant_country_of_issued' + str(i + 1)) and request.POST['infant_country_of_issued' + str(i + 1)] or '',
-                    "passenger_seq_id": request.POST['infant_id'+str(i+1)],
-                    "identity_type": "passport",
-                    "sku_id": request.POST['infant_sku_id' + str(i + 1)],
-                    "sku_title": request.POST['infant_sku_title' + str(i + 1)],
-                    "sku_real_id": request.POST['infant_sku_real_id' + str(i + 1)],
+                printout_prices = []
+                for usdp in used_price:
+                    total_amount = 0
+                    total_price = 0
+                    temp_pax_count = 0
+                    temp_pax_type = 'ADT'
+                    temp_sku_id = ''
+                    for usdp2 in usdp:
+                        if usdp2['charge_type'] in ['FARE', 'ROC']:
+                            total_amount += usdp2['amount']
+                            total_price += usdp2['total']
+                            temp_pax_count = usdp2['pax_count']
+                            temp_pax_type = usdp2['pax_type']
+                            temp_sku_id = str(usdp2['sku_id'])
+                    printout_prices.append({
+                        "fare": total_amount,
+                        "name": temp_sku_id,
+                        "qty": temp_pax_count,
+                        "total": total_price,
+                        "pax_type": temp_pax_type,
+                        "tax": 0
+                    })
+
+                search_request = {
+                    "product_uuid": request.session['activity_request']['activity_uuid'],
+                    "product_type_uuid": request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])]['uuid'],
+                    "visit_date": request.session['activity_price']['result']['response'][int(request.session['activity_request']['event_pick'])][int(request.session['activity_request']['activity_date_pick'])]['date'],
+                    "timeslot": timeslot and timeslot['uuid'] or False,
+                    "event_seq": event_id,
+                }
+
+                set_session(request, 'activity_review_booking', {
+                    'all_pax': all_pax,
+                    'contacts': contact,
+                    'booker': booker,
+                    'adult': adult,
+                    'senior': senior,
+                    'child': child,
+                    'infant': infant,
+                    'skus': skus,
+                    'upload_value': upload,
+                    'search_request': search_request
                 })
-                printout_paxs.append({
-                    "name": request.POST['infant_title'+str(i+1)] + ' ' + request.POST['infant_first_name'+str(i+1)] + ' ' + request.POST['infant_last_name'+str(i+1)],
-                    'ticket_number': request.POST['infant_sku_id' + str(i + 1)],
-                    'birth_date': request.POST['infant_birth_date'+str(i+1)],
-                    'pax_type': 'Infant',
-                    'additional_info': ["Ticket:" + request.POST['infant_sku_title' + str(i + 1)]],
-                })
-
-                if perpax_list_temp:
-                    perpax_list.append(perpax_list_temp)
-                perpax_list_temp = []
-            set_session(request, 'activity_perpax', perpax_list)
-
-            for rec in adult:
-                all_pax.append(rec)
-            for rec in senior:
-                all_pax.append(rec)
-            for rec in child:
-                all_pax.append(rec)
-            for rec in infant:
-                all_pax.append(rec)
-
-            pax_count = {}
-            no_low_pax_count = {}
-            for temp_sku in request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])]['skus']:
-                low_sku_id = temp_sku['sku_id'].lower()
-                skus.append({
-                    'id': temp_sku['id'],
-                    'sku_id': low_sku_id,
-                    'raw_sku_id': temp_sku['sku_id'],
-                    'pax_type': temp_sku['pax_type'],
-                    'title': temp_sku['title'],
-                    'amount': int(request.session['activity_request'][low_sku_id+'_passenger']),
-                })
-                pax_count.update({
-                    low_sku_id: int(request.session['activity_request'][low_sku_id+'_passenger'])
-                })
-                no_low_pax_count.update({
-                    temp_sku['sku_id']: int(request.session['activity_request'][low_sku_id + '_passenger'])
-                })
-
-            try:
-                event_id = int(request.session['activity_request']['event_pick'])
-            except:
-                event_id = 0
-
-            timeslot = False
-            if request.session['activity_request'].get('activity_timeslot'):
-                for time in request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])]['timeslots']:
-                    if time['uuid'] == request.session['activity_request']['activity_timeslot']:
-                        timeslot = time
-
-            all_price = request.session['activity_price']['result']['response'][int(request.session['activity_request']['event_pick'])][int(request.session['activity_request']['activity_date_pick'])]
-
-            for temp_key, temp_val in no_low_pax_count.items():
-                if temp_val != 0 and temp_key not in ['Infant']:
-                    if all_price['prices'][temp_key].get(str(temp_val)):
-                        temp_used_price = copy.deepcopy(all_price['prices'][temp_key][str(temp_val)]['service_charges'])
-                    else:
-                        temp_used_price = copy.deepcopy(all_price['prices'][temp_key]['1']['service_charges'])
-
-                    for temp_sc in temp_used_price:
-                        temp_sc.update({
-                            'sku_id': str(temp_key)
-                        })
-                    used_price.append(temp_used_price)
-
-            printout_prices = []
-            for usdp in used_price:
-                total_amount = 0
-                total_price = 0
-                temp_pax_count = 0
-                temp_pax_type = 'ADT'
-                temp_sku_id = ''
-                for usdp2 in usdp:
-                    if usdp2['charge_type'] in ['FARE', 'ROC']:
-                        total_amount += usdp2['amount']
-                        total_price += usdp2['total']
-                        temp_pax_count = usdp2['pax_count']
-                        temp_pax_type = usdp2['pax_type']
-                        temp_sku_id = str(usdp2['sku_id'])
-                printout_prices.append({
-                    "fare": total_amount,
-                    "name": temp_sku_id,
-                    "qty": temp_pax_count,
-                    "total": total_price,
-                    "pax_type": temp_pax_type,
-                    "tax": 0
-                })
-
-            search_request = {
-                "product_uuid": request.session['activity_request']['activity_uuid'],
-                "product_type_uuid": request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])]['uuid'],
-                "visit_date": request.session['activity_price']['result']['response'][int(request.session['activity_request']['event_pick'])][int(request.session['activity_request']['activity_date_pick'])]['date'],
-                "timeslot": timeslot and timeslot['uuid'] or False,
-                "event_seq": event_id,
-            }
-
-            set_session(request, 'activity_review_booking', {
-                'all_pax': all_pax,
-                'contacts': contact,
-                'booker': booker,
-                'adult': adult,
-                'senior': senior,
-                'child': child,
-                'infant': infant,
-                'skus': skus,
-                'upload_value': upload,
-                'search_request': search_request
-            })
+            except Exception as e:
+                #change b2c to login
+                set_session(request, 'activity_review_booking', json.loads(request.POST['activity_review_booking']))
+                printout_paxs = json.loads(request.POST['printout_paxs'])
+                printout_prices = json.loads(request.POST['printout_prices'])
+                pax_count = json.loads(request.POST['pax_count'])
+                all_price = json.loads(request.POST['all_price']) #price
+                adult = request.session['activity_review_booking']['adult']
+                infant = request.session['activity_review_booking']['infant']
+                child = request.session['activity_review_booking']['child']
+                senior = request.session['activity_review_booking']['senior']
+                contact = request.session['activity_review_booking']['contacts']
+                all_pax = request.session['activity_review_booking']['all_pax']
+                booker = request.session['activity_review_booking']['booker']
+                skus = request.session['activity_review_booking']['skus']
+                timeslot = False
+                if request.session['activity_request'].get('activity_timeslot'):
+                    for time in request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])]['timeslots']:
+                        if time['uuid'] == request.session['activity_request']['activity_timeslot']:
+                            timeslot = time
 
             printout_rec = {
                 "type": "activity",
@@ -1332,6 +1354,8 @@ def review(request):
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
                 'phone_code': phone_code,
+                'printout_paxs': printout_paxs,
+                'printout_prices': printout_prices,
                 'response': request.session['activity_pick'],
                 'perBooking': request.session['activity_perbooking'],
                 'perPax': request.session['activity_perpax'],

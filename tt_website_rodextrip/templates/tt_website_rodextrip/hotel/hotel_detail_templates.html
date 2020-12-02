@@ -30,6 +30,12 @@
     facilities = facilities.replace(/&quot;/g, '"');
     facilities = facilities.replace(/False/g, 'false');
     facilities = facilities.replace(/True/g, 'true');
+    last_session = 'sell_journeys';
+    hotel_search_data = `{{hotel_search}}`;
+    hotel_search_data = hotel_search_data.replace(/&#39;/g, '"');
+    hotel_search_data = hotel_search_data.replace(/&quot;/g, '"');
+    hotel_search_data = hotel_search_data.replace(/False/g, 'false');
+    hotel_search_data = hotel_search_data.replace(/True/g, 'true');
 </script>
 <style>
     ul li{

@@ -16,6 +16,7 @@ var month = {
     '11': 'Nov',
     '12': 'Dec',
 }
+last_session = '';
 high_price_slider = 0;
 low_price_slider = 99999999;
 step_slider = 0;
@@ -68,6 +69,129 @@ function get_auto_complete(term,suggest){
            },timeout: 60000
         });
     }, 1000);
+}
+
+function hotel_redirect_signup(type){
+    if(type != 'signin'){
+        getToken();
+        $.ajax({
+           type: "POST",
+           url: "/webservice/hotel",
+           headers:{
+                'action': 'signin',
+           },
+    //       url: "{% url 'tt_backend_rodextrip:social_media_tree_update' %}",
+           data: {},
+           success: function(msg) {
+           try{
+               console.log(msg);
+               if(msg.result.error_code == 0){
+                    hotel_signature = msg.result.response.signature;
+                    new_login_signature = msg.result.response.signature;
+
+                    if(type != 'search'){
+                        $.ajax({
+                           type: "POST",
+                           url: "/webservice/hotel",
+                           headers:{
+                                'action': 'get_top_facility',
+                           },
+                           data: {
+                               'use_cache': true,
+                               'signature': new_login_signature
+                           },
+                           success: function(msg) {
+                           console.log(msg);
+                               if(msg.result.error_code == 0){
+                                    $.ajax({
+                                       type: "POST",
+                                       url: "/webservice/hotel",
+                                       headers:{
+                                            'action': 'search',
+                                       },
+                                       data: {
+                                          'use_cache': true,
+                                          'signature': new_login_signature,
+                                       },
+                                       success: function(msg) {
+                                            console.log(msg);
+                                            if(msg.result.error_code == 0 && type != 'get_details'){
+                                                $.ajax({
+                                                   type: "POST",
+                                                   url: "/webservice/hotel",
+                                                   headers:{
+                                                        'action': 'detail',
+                                                   },
+                                                   data: {
+                                                        'use_cache': true,
+                                                        'signature': new_login_signature
+                                                   },
+                                                   success: function(msg) {
+                                                        console.log(msg);
+                                                        if(type == 'review' && msg.result.error_code == 0){
+                                                            $.ajax({
+                                                               type: "POST",
+                                                               url: "/webservice/hotel",
+                                                               headers:{
+                                                                    'action': 'get_cancellation_policy',
+                                                               },
+                                                               data: {
+                                                                    'use_cache': true,
+                                                                    'signature': new_login_signature
+                                                               },
+                                                               success: function(msg) {
+                                                                    console.log(msg);
+                                                                    signature = new_login_signature;
+                                                                    $('#myModalSignin').modal('hide');
+                                                                    location.reload();
+                                                            },error: function(XMLHttpRequest, textStatus, errorThrown) {
+                                                               },timeout: 60000
+                                                            });
+                                                        }else{
+                                                            signature = new_login_signature;
+                                                            $('#myModalSignin').modal('hide');
+                                                            location.reload();
+
+                                                        }
+                                                },error: function(XMLHttpRequest, textStatus, errorThrown) {
+                                                   },timeout: 60000
+                                                });
+                                            }else{
+                                                signature = new_login_signature;
+                                                $('#myModalSignin').modal('hide');
+                                                location.reload();
+
+                                            }
+                                       },
+                                       error: function(XMLHttpRequest, textStatus, errorThrown) {
+                                       },timeout: 120000
+                                    });
+                               }
+                           },
+                           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                           },timeout: 120000 // sets timeout to 120 seconds
+                        });
+                    }else{
+                        signature = new_login_signature;
+                        $('#myModalSignin').modal('hide');
+                        location.reload();
+                    }
+               }
+           }catch(err){
+               console.log(err)
+            }
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+              error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline signin');
+              $("#barFlightSearch").hide();
+              $("#waitFlightSearch").hide();
+              $('.loader-rodextrip').fadeOut();
+              try{
+                $("#show_loading_booking_airline").hide();
+              }catch(err){}
+           },timeout: 60000
+        });
+    }
 }
 
 function hotel_signin(data){
@@ -155,7 +279,8 @@ function hotel_search(){
         'adult': $('#hotel_adult').val(),
         'child': $('#hotel_child').val(),
         'child_age': child_age,
-        'business_trip': $('#business_trip').val()
+        'business_trip': $('#business_trip').val(),
+        'signature': signature
        },
        success: function(msg) {
            $('#loading-search-hotel').hide();
@@ -340,6 +465,7 @@ function hotel_facility_request_1(hotel_facilities){
             'signature': signature
         },
         success: function(msg) {
+            console.log(msg);
             if(msg.result.error_code == 0){
                 //console.log('start');
                 facility_image = msg.result.response;
@@ -408,6 +534,7 @@ function hotel_facility_request(hotel_facilities){
     var facility_image_html = '';
     try{
         hotel_facilities = $.parseJSON(hotel_facilities);
+        console.log(hotel_facilities);
         for (rec in hotel_facilities){
             //console.log(hotel_facilities[rec].facility_name);
             if (hotel_facilities[rec].facility_name != undefined){
@@ -420,7 +547,7 @@ function hotel_facility_request(hotel_facilities){
             facility_image_html += `
                     <div class="col-md-3 col-xs-6" style="width:25%; padding-bottom:15px;">
                         <i class="fas fa-circle" style="font-size:9px;"></i>
-                        <span style="font-weight:500;"> `+ fac_name +`</span>
+                        <span style="font-weight:500;"> `+ fac_name.name +`</span>
                     </div>`;
         }
         document.getElementById("js_image_facility").innerHTML = facility_image_html;
@@ -454,7 +581,8 @@ function hotel_detail_request(checkin_date, checkout_date){
            data: {
                 'checkin_date': checkin_date,
                 'checkout_date': checkout_date,
-                'signature': '',
+                'signature': signature,
+                'data': hotel_search_data
            },
            success: function(msg) {
             // Remove Copy dan Next button waktu ganti tanggal START
@@ -874,7 +1002,8 @@ function hotel_get_cancellation_policy(price_code, provider, view_type){
        },
        data: {
           "price_code": price_code,
-          "provider": provider
+          "provider": provider,
+          'signature': signature
        },
        success: function(msg) {
             // hotel_provision(price_code, provider);
@@ -977,7 +1106,8 @@ function hotel_provision(price_code, provider){
        },
        data: {
           "price_code": price_code,
-          "provider": provider
+          "provider": provider,
+          'signature': signature
        },
        success: function(msg) {
             //testing start

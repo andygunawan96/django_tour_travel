@@ -4268,6 +4268,7 @@ function check_passenger(adult, child, infant){
        }
        $('.loader-rodextrip').fadeIn();
        document.getElementById('time_limit_input').value = time_limit;
+       document.getElementById('airline_price_itinerary_request').value = JSON.stringify(airline_get_price_request);
        document.getElementById('airline_review').submit();
    }
    else{
