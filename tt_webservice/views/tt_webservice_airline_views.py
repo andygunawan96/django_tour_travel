@@ -2127,10 +2127,11 @@ def save_retrieve_booking_from_vendor(request):
                             leg['departure_date']),
                         'arrival_date': convert_frontend_datetime_to_server_format(leg['arrival_date']),
                     })
-        if request.POST.get('duplicate_pnr') == 'true':
-            bool_pnr = True
-        else:
-            bool_pnr = False
+        # if request.POST.get('duplicate_pnr') == 'true':
+        #     bool_pnr = True
+        # else:
+        #     bool_pnr = False
+        bool_pnr = False
         data = {
             'booker_id': request.POST.get('booker_id'),
             'response': response['result'],
