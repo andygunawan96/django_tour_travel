@@ -269,8 +269,20 @@ def search(request):
             "action": "search",
             "signature": request.session['hotel_signature']
         }
+        set_session(request, 'hotel_search_request', data)
     except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+        if request.POST.get('use_cache'):
+            data = request.session['hotel_search_request']
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
+                "action": "search",
+                "signature": request.POST['signature']
+            }
+            logging.info(msg='use cache login change b2c to login')
+        else:
+            logging.error(msg=str(e) + '\n' + traceback.format_exc())
+
     if data:
         res = util.send_request(url=url + "booking/hotel", data=data, headers=headers, method='POST', timeout=300)
         set_session(request, 'hotel_response_search', res)
@@ -333,7 +345,7 @@ def search(request):
 
 def detail(request):
     try:
-        data = request.session['hotel_request_data']
+        data = json.loads(request.POST['data'])
         data.update({
             'hotel_id': request.session['hotel_detail']['id'],
             'checkin_date': request.POST['checkin_date'] and str(datetime.strptime(request.POST['checkin_date'], '%d %b %Y'))[:10] or data['checkin_date'],
@@ -346,8 +358,19 @@ def detail(request):
             "action": "get_details",
             "signature": request.session['hotel_signature'],
         }
+        set_session(request, 'hotel_detail_request', data)
     except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+        if request.POST.get('use_cache'):
+            data = request.session['hotel_detail_request']
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
+                "action": "get_details",
+                "signature": request.POST['signature']
+            }
+            logging.info(msg='use cache login change b2c to login')
+        else:
+            logging.error(msg=str(e) + '\n' + traceback.format_exc())
     res = util.send_request(url=url + "booking/hotel", data=data, headers=headers, method='POST')
     try:
         signature = copy.deepcopy(request.session['hotel_signature'])
@@ -378,8 +401,19 @@ def get_cancellation_policy(request):
             "action": "get_cancellation_policy",
             "signature": request.session['hotel_signature'],
         }
+        set_session(request, 'hotel_get_cancellation_policy_request', data)
     except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+        if request.POST.get('use_cache'):
+            data = request.session['hotel_get_cancellation_policy_request']
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
+                "action": "get_cancellation_policy",
+                "signature": request.POST['signature']
+            }
+            logging.info(msg='use cache login change b2c to login')
+        else:
+            logging.error(msg=str(e) + '\n' + traceback.format_exc())
     res = util.send_request(url=url + "booking/hotel", data=data, headers=headers, method='POST')
     try:
         if res['result']['error_code'] == 0:

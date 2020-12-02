@@ -629,11 +629,18 @@
                             <div id="testing-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
                                 <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
                                     {% if "cache_version" in username.co_agent_frontend_security %}
-                                    <div class="col-lg-12">
-                                        <h6 style="color:{{text_color}};margin-bottom:10px;">Update Cache</h6>
-                                        <button type="button" class="primary-btn" id="update_cache_version" onclick="update_cache_version_func();">Update Cache</button>
+                                    <div class="col-lg-6">
+                                        <h6 style="color:{{text_color}};margin-bottom:10px;">Update Cache Data</h6>
+                                        <button type="button" class="primary-btn" id="update_cache_version" onclick="update_cache_version_func('data');">Update Cache</button>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <h6 style="color:{{text_color}};margin-bottom:10px;">Update Cache Image</h6>
+                                        <button type="button" class="primary-btn" id="update_cache_image" onclick="update_cache_version_func('image');">Update Cache</button>
                                     </div>
                                     <hr/>
+                                    <div class="col-lg-12" style="text-align:center;">
+                                        <br/>
+                                    </div>
                                     {% endif %}
                                     <div class="col-lg-12" style="text-align:center;">
                                         <button type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
@@ -1557,10 +1564,14 @@
                         <div id="testing-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
                             <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
                                 {% if "cache_version" in username.co_agent_frontend_security %}
-                                <div class="col-lg-12">
-                                    <h6 style="color:{{text_color}};margin-bottom:10px;">Update Cache</h6>
-                                    <button type="button" class="primary-btn" id="update_cache_version" onclick="update_cache_version_func();">Update Cache</button>
+                                <div class="col-lg-6">
+                                    <h6 style="color:{{text_color}};margin-bottom:10px;">Update Cache Data</h6>
+                                    <button type="button" class="primary-btn" id="update_cache_version" onclick="update_cache_version_func('data');">Update Cache</button>
                                 </div>
+                                <div class="col-lg-6">
+                                        <h6 style="color:{{text_color}};margin-bottom:10px;">Update Cache Image</h6>
+                                        <button type="button" class="primary-btn" id="update_cache_image" onclick="update_cache_version_func('image');">Update Cache</button>
+                                    </div>
                                 <hr/>
                                 {% endif %}
                                 <div class="col-lg-12" style="text-align:center;">
@@ -2499,10 +2510,14 @@
                         <div id="testing-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
                             <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
                                 {% if "cache_version" in username.co_agent_frontend_security %}
-                                <div class="col-lg-12">
-                                    <h6 style="color:{{text_color}};margin-bottom:10px;">Update Cache</h6>
-                                    <button type="button" class="primary-btn" id="update_cache_version" onclick="update_cache_version_func();">Update Cache</button>
+                                <div class="col-lg-6">
+                                    <h6 style="color:{{text_color}};margin-bottom:10px;">Update Cache Data</h6>
+                                    <button type="button" class="primary-btn" id="update_cache_version" onclick="update_cache_version_func('data');">Update Cache</button>
                                 </div>
+                                <div class="col-lg-6">
+                                        <h6 style="color:{{text_color}};margin-bottom:10px;">Update Cache Image</h6>
+                                        <button type="button" class="primary-btn" id="update_cache_image" onclick="update_cache_version_func('image');">Update Cache</button>
+                                    </div>
                                 <hr/>
                                 {% endif %}
                                 <div class="col-lg-12" style="text-align:center;">
@@ -3452,9 +3467,13 @@
                     <div id="testing-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
                         <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
                             {% if "cache_version" in username.co_agent_frontend_security %}
-                            <div class="col-lg-12">
-                                <h6 style="color:{{text_color}};margin-bottom:10px;">Update Cache</h6>
-                                <button type="button" class="primary-btn" id="update_cache_version" onclick="update_cache_version_func();">Update Cache</button>
+                            <div class="col-lg-6">
+                                <h6 style="color:{{text_color}};margin-bottom:10px;">Update Cache Data</h6>
+                                <button type="button" class="primary-btn" id="update_cache_version" onclick="update_cache_version_func('data');">Update Cache</button>
+                            </div>
+                            <div class="col-lg-6">
+                                <h6 style="color:{{text_color}};margin-bottom:10px;">Update Cache Image</h6>
+                                <button type="button" class="primary-btn" id="update_cache_image" onclick="update_cache_version_func('image');">Update Cache</button>
                             </div>
                             <hr/>
                             {% endif %}
@@ -4404,9 +4423,13 @@
                         <div id="testing-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
                             <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
                                 {% if "cache_version" in username.co_agent_frontend_security %}
-                                <div class="col-lg-12">
-                                    <h6 style="color:{{text_color}};margin-bottom:10px;">Update Cache</h6>
-                                    <button type="button" class="primary-btn" id="update_cache_version" onclick="update_cache_version_func();">Update Cache</button>
+                                <div class="col-lg-6">
+                                    <h6 style="color:{{text_color}};margin-bottom:10px;">Update Cache Data</h6>
+                                    <button type="button" class="primary-btn" id="update_cache_version" onclick="update_cache_version_func('data');">Update Cache</button>
+                                </div>
+                                <div class="col-lg-6">
+                                    <h6 style="color:{{text_color}};margin-bottom:10px;">Update Cache Image</h6>
+                                    <button type="button" class="primary-btn" id="update_cache_image" onclick="update_cache_version_func('image');">Update Cache</button>
                                 </div>
                                 <hr/>
                                 {% endif %}

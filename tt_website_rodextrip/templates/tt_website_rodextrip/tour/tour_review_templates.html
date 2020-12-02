@@ -33,7 +33,7 @@
     booker = booker.replace(/False/g,'false');
     booker = booker.replace(/None/g,'""');
     booker = JSON.parse(booker);
-
+    last_session = 'sell_journeys';
     time_limit = {{time_limit}};
     session_time_limit();
 </script>
@@ -79,6 +79,9 @@
             </div>
         </div>
     </div>
+    {% if username.co_user_login == 'agent_b2c' %}
+    {% include 'tt_website_rodextrip/header_signin_signup.html' %}
+    {% endif %}
 </header>
 {% elif template == 2 %}
 <header class="header_breadcrumb" style="position:sticky; top:0px; z-index:100; border-bottom:1px solid #cdcdcd;">
@@ -554,7 +557,9 @@
         </form>
     </div>
 </div>
-{% include 'tt_website_rodextrip/footer.html' %}
+{% if username.co_user_login == 'agent_b2c' %}
+{% include 'tt_website_rodextrip/modal_signin_signup.html' %}
+{% endif %}
 
 <script>
     $(document).ready(function () {

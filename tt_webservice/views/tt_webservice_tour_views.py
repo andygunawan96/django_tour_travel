@@ -237,8 +237,19 @@ def search(request):
             "action": "search",
             "signature": request.session['signature']
         }
+        set_session(request, 'tour_search_request', data)
     except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+        if request.POST.get('use_cache'):
+            data = request.session['tour_search_request']
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
+                "action": "search",
+                "signature": request.POST['signature']
+            }
+            logging.info(msg='use cache login change b2c to login')
+        else:
+            logging.error(msg=str(e) + '\n' + traceback.format_exc())
 
     res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST')
     try:
@@ -286,8 +297,19 @@ def get_details(request):
             "action": "get_details",
             "signature": request.session['tour_signature']
         }
+        set_session(request, 'tour_details_request', data)
     except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+        if request.POST.get('use_cache'):
+            data = request.session['tour_details_request']
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
+                "action": "get_details",
+                "signature": request.POST['signature']
+            }
+            logging.info(msg='use cache login change b2c to login')
+        else:
+            logging.error(msg=str(e) + '\n' + traceback.format_exc())
 
     res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST')
     try:
@@ -320,8 +342,19 @@ def get_pricing(request):
             "action": "get_pricing",
             "signature": request.session['tour_signature']
         }
+        set_session(request, 'tour_get_pricing_request', data)
     except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+        if request.POST.get('use_cache'):
+            data = request.session['tour_get_pricing_request']
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
+                "action": "get_pricing",
+                "signature": request.POST['signature']
+            }
+            logging.info(msg='use cache login change b2c to login')
+        else:
+            logging.error(msg=str(e) + '\n' + traceback.format_exc())
 
     res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST')
     try:
@@ -378,30 +411,44 @@ def get_pricing_cache(request):
 
 
 def sell_tour(request):
-    room_list = request.session['tour_booking_data']['room_list']
-    final_room_list = []
-    for room in room_list:
-        final_room_list.append({
-            'room_code': room['room_code'],
-            'notes': room['notes'],
-            'room_seq': room['room_seq'],
-        })
+    try:
+        room_list = request.session['tour_booking_data']['room_list']
+        final_room_list = []
+        for room in room_list:
+            final_room_list.append({
+                'room_code': room['room_code'],
+                'notes': room['notes'],
+                'room_seq': room['room_seq'],
+            })
 
-    data = {
-        "promotion_codes_booking": [],
-        "tour_code": request.session['tour_pick']['tour_code'],
-        'room_list': final_room_list,
-        "adult": request.session['tour_booking_data']['adult'],
-        "child": request.session['tour_booking_data']['child'],
-        "infant": request.session['tour_booking_data']['infant'],
-        'provider': request.session['tour_pick']['provider'],
-    }
-    headers = {
-        "Accept": "application/json,text/html,application/xml",
-        "Content-Type": "application/json",
-        "action": "sell_tour",
-        "signature": request.POST['signature']
-    }
+        data = {
+            "promotion_codes_booking": [],
+            "tour_code": request.session['tour_pick']['tour_code'],
+            'room_list': final_room_list,
+            "adult": request.session['tour_booking_data']['adult'],
+            "child": request.session['tour_booking_data']['child'],
+            "infant": request.session['tour_booking_data']['infant'],
+            'provider': request.session['tour_pick']['provider'],
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "sell_tour",
+            "signature": request.POST['signature']
+        }
+        set_session(request, 'tour_sell_tour_request', data)
+    except Exception as e:
+        if request.POST.get('use_cache'):
+            data = request.session['tour_sell_tour_request']
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
+                "action": "sell_tour",
+                "signature": request.POST['signature']
+            }
+            logging.info(msg='use cache login change b2c to login')
+        else:
+            logging.error(msg=str(e) + '\n' + traceback.format_exc())
 
     res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST', timeout=300)
     return res

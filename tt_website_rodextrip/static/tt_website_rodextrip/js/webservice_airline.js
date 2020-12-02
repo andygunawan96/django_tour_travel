@@ -199,21 +199,58 @@ function airline_redirect_signup(type){
                                                                                                success: function(msg) {
                                                                                                     console.log(msg);
                                                                                                     signature = new_login_signature;
-                                                                                                    //bikin form isi input airline_pick csrf_token time_limit_input signature
-                                                                                                    document.getElementById('reload_page').innerHTML +=`
-                                                                                                        <input type='hidden' name="time_limit_input" value="`+time_limit+`"/>
-                                                                                                        <input type='hidden' id="airline_pick" name="airline_pick" value=""/>
-                                                                                                        <input type='hidden' id="airline_price_itinerary" name="airline_price_itinerary" value=""/>
-                                                                                                        <input type='hidden' id="airline_price_itinerary_request" name="airline_price_itinerary_request" value=""/>
-                                                                                                        <input type='hidden' name="signature" value='`+new_login_signature+`'/>
-                                                                                                    `;
-                                                                                                    try{
-                                                                                                        document.getElementById('airline_pick').value = JSON.stringify(airline_pick);
-                                                                                                        document.getElementById('airline_price_itinerary').value = JSON.stringify(price_itinerary);
-                                                                                                        document.getElementById('airline_price_itinerary_request').value = JSON.stringify(airline_get_price_request);
-                                                                                                    }catch(err){}
-                                                                                                    document.getElementById('reload_page').submit();
-
+                                                                                                    if(type == 'review'){
+                                                                                                        //ambil pax
+                                                                                                         $.ajax({
+                                                                                                           type: "POST",
+                                                                                                           url: "/webservice/airline",
+                                                                                                           headers:{
+                                                                                                                'action': 'get_pax',
+                                                                                                           },
+                                                                                                           data: {
+                                                                                                                'signature': new_login_signature
+                                                                                                           },
+                                                                                                           success: function(msg) {
+                                                                                                                console.log(msg);
+                                                                                                                //bikin form isi input airline_pick csrf_token time_limit_input signature
+                                                                                                                document.getElementById('reload_page').innerHTML +=`
+                                                                                                                    <input type='hidden' name="time_limit_input" value="`+time_limit+`"/>
+                                                                                                                    <input type='hidden' id="airline_pick" name="airline_pick" value=""/>
+                                                                                                                    <input type='hidden' id="airline_price_itinerary" name="airline_price_itinerary" value=""/>
+                                                                                                                    <input type='hidden' id="airline_price_itinerary_request" name="airline_price_itinerary_request" value=""/>
+                                                                                                                    <input type='hidden' id="additional_price_input" name="additional_price_input" value=""/>
+                                                                                                                    <input type='hidden' id="airline_create_passengers" name="airline_create_passengers" value=""/>
+                                                                                                                    <input type='hidden' name="signature" value='`+new_login_signature+`'/>
+                                                                                                                `;
+                                                                                                                try{
+                                                                                                                    document.getElementById('airline_pick').value = JSON.stringify(airline_pick);
+                                                                                                                    document.getElementById('airline_price_itinerary').value = JSON.stringify(price_itinerary);
+                                                                                                                    document.getElementById('airline_price_itinerary_request').value = JSON.stringify(airline_get_price_request);
+                                                                                                                    document.getElementById('airline_create_passengers').value = JSON.stringify(msg);
+                                                                                                                    document.getElementById('additional_price_input').value = JSON.stringify(additional_price);
+                                                                                                                }catch(err){}
+                                                                                                                document.getElementById('reload_page').submit();
+                                                                                                           },error: function(XMLHttpRequest, textStatus, errorThrown) {
+                                                                                                           },timeout: 60000
+                                                                                                         });
+                                                                                                    }else{
+                                                                                                        //bikin form isi input airline_pick csrf_token time_limit_input signature
+                                                                                                        document.getElementById('reload_page').innerHTML +=`
+                                                                                                            <input type='hidden' name="time_limit_input" value="`+time_limit+`"/>
+                                                                                                            <input type='hidden' id="airline_pick" name="airline_pick" value=""/>
+                                                                                                            <input type='hidden' id="airline_price_itinerary" name="airline_price_itinerary" value=""/>
+                                                                                                            <input type='hidden' id="airline_price_itinerary_request" name="airline_price_itinerary_request" value=""/>
+                                                                                                            <input type='hidden' id="additional_price_input" name="additional_price_input" value=""/>
+                                                                                                            <input type='hidden' name="signature" value='`+new_login_signature+`'/>
+                                                                                                        `;
+                                                                                                        try{
+                                                                                                            document.getElementById('airline_pick').value = JSON.stringify(airline_pick);
+                                                                                                            document.getElementById('airline_price_itinerary').value = JSON.stringify(price_itinerary);
+                                                                                                            document.getElementById('airline_price_itinerary_request').value = JSON.stringify(airline_get_price_request);
+                                                                                                            document.getElementById('additional_price_input').value = JSON.stringify(additional_price);
+                                                                                                        }catch(err){}
+                                                                                                        document.getElementById('reload_page').submit();
+                                                                                                    }
                                                                                                     //location.reload();
                                                                                                },
                                                                                                error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -581,6 +618,236 @@ function get_carriers(){
        },timeout: 60000
     });
 }
+
+function get_provider_booking_from_vendor(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/airline",
+       headers:{
+            'action': 'get_provider_booking_from_vendor',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           if(msg.result.error_code == 0)
+               airline_provider_list_from_vendor = msg.result.response.list_provider
+           else
+               airline_provider_list_from_vendor = [];
+
+           for(i in airline_provider_list_from_vendor){
+                document.getElementById('provider_booking_from_vendor').innerHTML += `<option value="`+airline_provider_list_from_vendor[i][0]+`">`+airline_provider_list_from_vendor[i][1]+`</option>`;
+           }
+           $('#provider_booking_from_vendor').niceSelect('update');
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+
+       },timeout: 60000
+    });
+}
+
+function get_retrieve_booking_from_vendor(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/airline",
+       headers:{
+            'action': 'get_retrieve_booking_from_vendor',
+       },
+       data: {
+            'signature': signature,
+            'pnr':  document.getElementById('pnr').value,
+            'provider': document.getElementById('provider_booking_from_vendor').value
+       },
+       success: function(msg) {
+           console.log(msg);
+           data_get_retrieve_booking = msg;
+           if(msg.result.error_code == 0){
+               response = draw_get_booking(msg.result.response)
+               document.getElementById('result_get_booking_from_vendor').innerHTML = response;
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+
+       },timeout: 60000
+    });
+}
+
+function draw_get_booking(msg){
+    text = '';
+
+    var localTime;
+    text+=`
+    <div style="background-color:white; border:1px solid #cdcdcd;">
+        <div class="row">
+            <div class="col-lg-12">
+                <div style="padding:10px; background-color:white;">
+                <h5> Flight Detail <img style="width:18px;" src="/static/tt_website_rodextrip/images/icon/plane.png" alt="Flight Detail"/></h5>
+                <hr/>`;
+            check = 0;
+            flight_counter = 1;
+            text+=`<h5>PNR: `+msg.pnr+`</h5>`;
+            for(i in msg.journeys){
+                for(j in msg.journeys[i].segments){
+                    if(j != 0){
+                        text+=`<hr/>`;
+                    }
+                    text+=`<h6>Flight `+flight_counter+`</h6>`;
+                    flight_counter++;
+                    for(k in msg.journeys[i].segments[j].legs){
+                        text+= `
+                            <div class="row">
+                                <div class="col-lg-2">`;
+                                try{
+                                    text += `<img data-toggle="tooltip" style="width:50px; height:50px;" alt="`+airline_carriers[0][msg.journeys[i].segments[j].legs[k].carrier_code].name+`" title="`+airline_carriers[0][msg.journeys[i].segments[j].legs[k].carrier_code].name+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+msg.journeys[i].segments[j].legs[k].carrier_code+`.png"/>`;
+                                }catch(err){
+                                    text += `<img data-toggle="tooltip" style="width:50px; height:50px;" alt="`+msg.journeys[i].segments[j].legs[k].carrier_code+`" title="`+msg.journeys[i].segments[j].legs[k].carrier_code+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+msg.journeys[i].segments[j].legs[k].carrier_code+`.png"/>`;
+                                }
+                                text+=`<h5>`+msg.journeys[i].segments[j].legs[k].carrier_name+`</h5><br/>
+                                </div>
+                                <div class="col-lg-10" style="padding-top:10px;">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-xs-6">
+                                            <table style="width:100%">
+                                                <tr>
+                                                    <td><h5>`+msg.journeys[i].segments[j].legs[k].departure_date.split('  ')[1]+`</h5></td>
+                                                    <td style="padding-left:15px;">
+                                                        <img src="/static/tt_website_rodextrip/img/icon/airlines-01.png" alt="Airline" style="width:20px; height:20px;"/>
+                                                    </td>
+                                                    <td style="height:30px;padding:0 15px;width:100%">
+                                                        <div style="display:inline-block;position:relative;width:100%">
+                                                            <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
+                                                            <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
+                                                            <div style="height:30px;min-width:40px;position:relative;width:0%"/>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <span>`+msg.journeys[i].segments[j].legs[k].departure_date.split('  ')[0]+`</span><br/>
+                                            <span style="font-weight:500;">`+msg.journeys[i].segments[j].legs[k].origin_name+` - `+msg.journeys[i].segments[j].legs[k].origin_city+` (`+msg.journeys[i].segments[j].legs[k].origin+`)</span>
+                                        </div>
+
+                                        <div class="col-lg-6 col-xs-6" style="padding:0;">
+                                            <table style="width:100%; margin-bottom:6px;">
+                                                <tr>
+                                                    <td><h5>`+msg.journeys[i].segments[j].legs[k].arrival_date.split('  ')[1]+`</h5></td>
+                                                    <td></td>
+                                                    <td style="height:30px;padding:0 15px;width:100%"></td>
+                                                </tr>
+                                            </table>
+                                            <span>`+msg.journeys[i].segments[j].legs[k].arrival_date.split('  ')[0]+`</span><br/>
+                                            <span style="font-weight:500;">`+msg.journeys[i].segments[j].legs[k].destination_name+` - `+msg.journeys[i].segments[j].legs[k].destination_city+` (`+msg.journeys[i].segments[j].legs[k].destination+`)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`;
+                    }
+                }
+            }
+            text+=`
+                </div>
+            </div>
+        </div>
+    </div>`;
+    text+=`
+
+    <div style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;">
+        <h5> List of Passenger</h5>
+        <hr/>
+        <table style="width:100%" id="list-of-passenger">
+            <tr>
+                <th style="width:5%;" class="list-of-passenger-left">No</th>
+                <th style="width:30%;">Name</th>
+                <th style="width:20%;">Birth Date</th>
+            </tr>`;
+            for(pax in msg.passengers){
+                text+=`
+                <tr>
+                    <td class="list-of-passenger-left">`+(parseInt(pax)+1)+`</td>
+                    <td>`+msg.passengers[pax].title+` `+msg.passengers[pax].first_name+` `+msg.passengers[pax].last_name+`</td>
+                    <td>-</td>
+                </tr>`;
+            }
+
+        text+=`</table>
+        </div>
+    </div>`;
+    price = [];
+    for(i in msg.journeys){
+        for(j in msg.journeys[i].segments){
+            for(k in msg.journeys[i].segments[j].fares){
+                for(l in msg.journeys[i].segments[j].fares[k].service_charge_summary){
+                    price.push(msg.journeys[i].segments[j].fares[k].service_charge_summary[l])
+                }
+            }
+        }
+    }
+    for(i in price){
+        text+=`
+        <div class="row" style="margin-bottom:5px;">
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                <span style="font-size:12px;">`+price[i].pax_count+`x Fare `+price[i].pax_type+` @`+price[i].service_charges[0].currency+` `+getrupiah(price[i].total_fare/price[i].pax_count)+`</span>`;
+            text+=`</div>
+            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                <span style="font-size:13px;">`+price[i].service_charges[0].currency+` `+getrupiah(price[i].total_fare)+`</span>
+            </div>
+        </div>`;
+        text+=`
+        <div class="row" style="margin-bottom:5px;">
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                <span style="font-size:12px;">`+price[i].pax_count+`x Tax `+price[i].pax_type+` @`+price[i].service_charges[0].currency+` `+getrupiah(price[i].total_tax/price[i].pax_count)+`</span>`;
+            text+=`</div>
+            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                <span style="font-size:13px;">`+price[i].service_charges[0].currency+` `+getrupiah(price[i].total_tax)+`</span>
+            </div>
+        </div>`;
+    }
+    //pilih booker
+    //button save backend
+    text += `<input type="button" id="save_retrieve_booking_from_vendor();" class="primary-btn" onclick="save_retrieve_booking_from_vendor();" value="Save to backend"/>`
+    return text;
+}
+
+function save_retrieve_booking_from_vendor(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/airline",
+       headers:{
+            'action': 'save_retrieve_booking_from_vendor',
+       },
+       data: {
+            'signature': signature,
+            'booker_id': document.getElementById('booker_vendor_id').value,
+            'response': JSON.stringify(data_get_retrieve_booking),
+            'duplicate_pnr': document.getElementById('duplicate_pnr').checked
+       },
+       success: function(msg) {
+           console.log(msg);
+           if(msg.result.error_code == 0){
+               Swal.fire({
+                  type: 'success',
+                  title: 'Update!',
+                  html: msg.result.error_msg,
+               })
+               document.getElementById('pnr').value = '';
+               document.getElementById('booker_vendor').value = '';
+               document.getElementById('booker_vendor_id').value = '';
+               document.getElementById('result_get_booking_from_vendor').innerHTML = '';
+
+           }else{
+               Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: msg.result.error_msg,
+               })
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+
+       },timeout: 60000
+    });
+}
+
 
 function get_provider_list(type){
     $.ajax({

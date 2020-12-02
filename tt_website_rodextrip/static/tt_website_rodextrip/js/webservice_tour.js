@@ -3,6 +3,119 @@ offset = 0;
 high_price_slider = 0;
 low_price_slider = 99999999;
 step_slider = 0;
+last_session = '';
+
+function tour_redirect_signup(type){
+    if(type != 'signin'){
+        getToken();
+        $.ajax({
+           type: "POST",
+           url: "/webservice/tour",
+           headers:{
+                'action': 'signin',
+           },
+    //       url: "{% url 'tt_backend_rodextrip:social_media_tree_update' %}",
+           data: {},
+           success: function(msg) {
+           try{
+               console.log(msg);
+               if(msg.result.error_code == 0){
+                    tour_signature = msg.result.response.signature;
+                    new_login_signature = msg.result.response.signature;
+
+                    if(type != 'search'){
+                        $.ajax({
+                           type: "POST",
+                           url: "/webservice/tour",
+                           headers:{
+                                'action': 'search',
+                           },
+                           data: {
+                               'use_cache': true,
+                               'signature': new_login_signature
+                           },
+                           success: function(msg) {
+                           console.log(msg);
+                               if(msg.result.error_code == 0){
+                                    if(type != 'get_details'){
+                                        $.ajax({
+                                           type: "POST",
+                                           url: "/webservice/tour",
+                                           headers:{
+                                                'action': 'get_details',
+                                           },
+                                           data: {
+                                              'use_cache': true,
+                                              'signature': new_login_signature,
+                                           },
+                                           success: function(msg) {
+                                                console.log(msg);
+                                                if(msg.result.error_code == 0 && type != 'get_pricing'){
+                                                    $.ajax({
+                                                       type: "POST",
+                                                       url: "/webservice/tour",
+                                                       headers:{
+                                                            'action': 'get_pricing',
+                                                       },
+                                                       data: {
+                                                            'use_cache': true,
+                                                            'signature': new_login_signature
+                                                       },
+                                                       success: function(msg) {
+                                                            console.log(msg);
+                                                            if(type != 'sell_journeys' && msg.result.error_code == 0){
+
+                                                            }else{
+                                                                signature = new_login_signature;
+                                                                $('#myModalSignin').modal('hide');
+                                                                location.reload();
+
+                                                            }
+                                                    },error: function(XMLHttpRequest, textStatus, errorThrown) {
+                                                       },timeout: 60000
+                                                    });
+                                                }else{
+                                                    signature = new_login_signature;
+                                                    $('#myModalSignin').modal('hide');
+                                                    location.reload();
+
+                                                }
+                                           },
+                                           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                                           },timeout: 120000
+                                        });
+                                    }else{
+                                        signature = new_login_signature;
+                                        $('#myModalSignin').modal('hide');
+                                        location.reload();
+                                    }
+                               }
+                           },
+                           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                           },timeout: 120000 // sets timeout to 120 seconds
+                        });
+                    }else{
+                        signature = new_login_signature;
+                        $('#myModalSignin').modal('hide');
+                        location.reload();
+                    }
+               }
+           }catch(err){
+               console.log(err)
+            }
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+              error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline signin');
+              $("#barFlightSearch").hide();
+              $("#waitFlightSearch").hide();
+              $('.loader-rodextrip').fadeOut();
+              try{
+                $("#show_loading_booking_airline").hide();
+              }catch(err){}
+           },timeout: 60000
+        });
+    }
+}
 
 function tour_login(data, type=''){
     //document.getElementById('activity_category').value.split(' - ')[1]
@@ -886,7 +999,6 @@ function tour_get_details(tour_code){
        },timeout: 60000
     });
 }
-
 
 function update_sell_tour(val){
     getToken();
@@ -1981,6 +2093,7 @@ function get_price_itinerary(request,type) {
        },
        success: function(msg) {
             console.log(msg);
+            last_session = 'sell_journeys'
             table_price_update(msg,type);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {

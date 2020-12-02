@@ -391,7 +391,7 @@ def passenger(request):
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
             #CHECK INI
             set_session(request, 'airline_price_itinerary', json.loads(request.POST['airline_price_itinerary']))
-            set_session(request, 'airline_price_itinerary_request', json.loads(request.POST['airline_price_itinerary_request']))
+            set_session(request, 'airline_get_price_request', json.loads(request.POST['airline_price_itinerary_request']))
             set_session(request, 'time_limit', int(request.POST['time_limit_input']))
             set_session(request, 'signature', request.POST['signature'])
             set_session(request, 'airline_signature', request.POST['signature'])
@@ -1211,6 +1211,14 @@ def review(request):
                 for pax in passenger:
                     pax['ssr_list'] = []
             else:
+                #b2c login
+                try:
+                    set_session(request, 'airline_get_price_request',json.loads(request.POST['airline_price_itinerary_request']))
+                    set_session(request, 'signature', request.POST['signature'])
+                    set_session(request, 'airline_signature', request.POST['signature'])
+                    # set_session(request, 'airline_create_passengers', airline_create_passengers)
+                except Exception as e:
+                    _logger.error('use airline get price request from cache')
                 passenger = request.session['airline_create_passengers']['adult'] + request.session['airline_create_passengers']['child']
             file = read_cache_with_folder_path("get_airline_carriers", 90911)
             if file:
@@ -1225,7 +1233,6 @@ def review(request):
             for airline in request.session['airline_price_itinerary']['price_itinerary_provider']:
                 if airline['provider'] == 'traveloka':
                     force_issued = False
-
 
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),

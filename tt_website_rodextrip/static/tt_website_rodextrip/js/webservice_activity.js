@@ -10,6 +10,7 @@ pricing_days = 1;
 high_price_slider = 0;
 low_price_slider = 99999999;
 step_slider = 0;
+last_session = '';
 var month = {
     '01': 'Jan',
     '02': 'Feb',
@@ -35,6 +36,232 @@ var month = {
     'Oct': '10',
     'Nov': '11',
     'Dec': '12',
+}
+
+function activity_redirect_signup(type){
+    if(type != 'signin'){
+        getToken();
+        $.ajax({
+           type: "POST",
+           url: "/webservice/activity",
+           headers:{
+                'action': 'login',
+           },
+    //       url: "{% url 'tt_backend_rodextrip:social_media_tree_update' %}",
+           data: {},
+           success: function(msg) {
+           try{
+               console.log(msg);
+               if(msg.result.error_code == 0){
+                    activity_signature = msg.result.response.signature;
+                    new_login_signature = msg.result.response.signature;
+
+                    if(type != 'search'){
+                        $.ajax({
+                           type: "POST",
+                           url: "/webservice/activity",
+                           headers:{
+                                'action': 'search',
+                           },
+                           data: {
+                               'use_cache': true,
+                               'signature': new_login_signature
+                           },
+                           success: function(msg) {
+                           console.log(msg);
+                               if(msg.result.error_code == 0){
+                                    if(type != 'get_details'){
+                                        $.ajax({
+                                           type: "POST",
+                                           url: "/webservice/activity",
+                                           headers:{
+                                                'action': 'get_details',
+                                           },
+                                           data: {
+                                              'use_cache': true,
+                                              'signature': new_login_signature,
+                                           },
+                                           success: function(msg) {
+                                                console.log(msg);
+                                                if(type != 'get_price' && msg.result.error_code == 0){
+                                                    $.ajax({
+                                                       type: "POST",
+                                                       url: "/webservice/activity",
+                                                       headers:{
+                                                            'action': 'get_pricing',
+                                                       },
+                                                       data: {
+                                                            'signature': new_login_signature,
+                                                            'use_cache': true,
+                                                       },
+                                                       success: function(msg) {
+                                                            console.log(msg);
+                                                            if(msg.result.error_code == 0){
+                                                                if(type != 'sell_journeys'){
+                                                                    $.ajax({
+                                                                       type: "POST",
+                                                                       url: "/webservice/activity",
+                                                                       headers:{
+                                                                            'action': 'sell_activity',
+                                                                       },
+                                                                       data: {
+                                                                            'signature': new_login_signature,
+                                                                       },
+                                                                       success: function(msg) {
+                                                                           console.log(msg);
+                                                                           if(msg.result.error_code == 0){
+                                                                                $.ajax({
+                                                                                   type: "POST",
+                                                                                   url: "/webservice/activity",
+                                                                                   headers:{
+                                                                                        'action': 'update_contact',
+                                                                                   },
+                                                                                   data: {
+                                                                                        'signature': new_login_signature
+                                                                                   },
+                                                                                   success: function(msg) {
+                                                                                        console.log(msg);
+                                                                                        $.ajax({
+                                                                                           type: "POST",
+                                                                                           url: "/webservice/activity",
+                                                                                           headers:{
+                                                                                                'action': 'update_passengers',
+                                                                                           },
+                                                                                           data: {
+                                                                                                'signature': new_login_signature
+                                                                                           },
+                                                                                           success: function(msg) {
+                                                                                                console.log(msg);
+                                                                                                $.ajax({
+                                                                                                   type: "POST",
+                                                                                                   url: "/webservice/activity",
+                                                                                                   headers:{
+                                                                                                        'action': 'update_options',
+                                                                                                   },
+                                                                                                   data: {
+                                                                                                        'signature': new_login_signature
+                                                                                                   },
+                                                                                                   success: function(msg) {
+                                                                                                        console.log(msg);
+                                                                                                        signature = new_login_signature;
+                                                                                                        if(type == 'review'){
+                                                                                                            //ambil pax
+                                                                                                             $.ajax({
+                                                                                                               type: "POST",
+                                                                                                               url: "/webservice/activity",
+                                                                                                               headers:{
+                                                                                                                    'action': 'activity_review_booking',
+                                                                                                               },
+                                                                                                               data: {
+                                                                                                                    'signature': new_login_signature
+                                                                                                               },
+                                                                                                               success: function(msg) {
+                                                                                                                    console.log(msg);
+                                                                                                                    //bikin form isi input airline_pick csrf_token time_limit_input signature
+                                                                                                                    document.getElementById('reload_page').innerHTML +=`
+                                                                                                                        <input type='hidden' name="time_limit_input" value="`+time_limit+`"/>
+                                                                                                                        <input type='hidden' id="activity_review_booking" name="activity_review_booking" value=""/>
+                                                                                                                        <input type='hidden' id="pax_count" name="pax_count" value=""/>
+                                                                                                                        <input type='hidden' id="all_price" name="all_price" value=""/>
+                                                                                                                        <input type='hidden' id="printout_prices" name="printout_prices" value=""/>
+                                                                                                                        <input type='hidden' id="printout_paxs" name="printout_paxs" value=""/>
+                                                                                                                        <input type='hidden' id="additional_price" name="additional_price" value="`+additional_price+`"/>
+                                                                                                                        <input type='hidden' name="signature" value='`+new_login_signature+`'/>
+                                                                                                                    `;
+                                                                                                                    try{
+                                                                                                                        document.getElementById('activity_review_booking').value = JSON.stringify(msg);
+                                                                                                                        document.getElementById('pax_count').value = JSON.stringify(pax_count);
+                                                                                                                        document.getElementById('all_price').value = JSON.stringify(price);
+                                                                                                                        document.getElementById('printout_prices').value = JSON.stringify(printout_prices);
+                                                                                                                        document.getElementById('printout_paxs').value = JSON.stringify(printout_paxs);
+
+                                                                                                                    }catch(err){}
+                                                                                                                    document.getElementById('reload_page').submit();
+                                                                                                               },error: function(XMLHttpRequest, textStatus, errorThrown) {
+                                                                                                               },timeout: 60000
+                                                                                                             });
+                                                                                                        }else{
+                                                                                                            //bikin form isi input airline_pick csrf_token time_limit_input signature
+                                                                                                            document.getElementById('reload_page').innerHTML +=`
+                                                                                                                <input type='hidden' name="time_limit_input" value="`+time_limit+`"/>
+                                                                                                                <input type='hidden' id="airline_pick" name="airline_pick" value=""/>
+                                                                                                                <input type='hidden' id="airline_price_itinerary" name="airline_price_itinerary" value=""/>
+                                                                                                                <input type='hidden' id="airline_price_itinerary_request" name="airline_price_itinerary_request" value=""/>
+                                                                                                                <input type='hidden' id="additional_price_input" name="additional_price_input" value=""/>
+                                                                                                                <input type='hidden' name="signature" value='`+new_login_signature+`'/>
+                                                                                                            `;
+                                                                                                            try{
+                                                                                                                document.getElementById('airline_pick').value = JSON.stringify(airline_pick);
+                                                                                                                document.getElementById('airline_price_itinerary').value = JSON.stringify(price_itinerary);
+                                                                                                                document.getElementById('airline_price_itinerary_request').value = JSON.stringify(airline_get_price_request);
+                                                                                                                document.getElementById('additional_price_input').value = JSON.stringify(additional_price);
+                                                                                                            }catch(err){}
+                                                                                                            document.getElementById('reload_page').submit();
+                                                                                                        }
+                                                                                                        //location.reload();
+                                                                                                   },
+                                                                                                   error: function(XMLHttpRequest, textStatus, errorThrown) {
+                                                                                                   },timeout: 60000
+                                                                                                });
+                                                                                           },
+                                                                                           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                                                                                           },timeout: 60000
+                                                                                        });
+                                                                                   },
+                                                                                   error: function(XMLHttpRequest, textStatus, errorThrown) {
+                                                                                   },timeout: 60000
+                                                                                });
+                                                                           }
+                                                                       },
+                                                                       error: function(XMLHttpRequest, textStatus, errorThrown) {
+                                                                       },timeout: 60000
+                                                                    });
+                                                                }else{
+                                                                    signature = new_login_signature;
+                                                                    $('#myModalSignin').modal('hide');
+                                                                    location.reload();
+                                                                }
+                                                            }
+                                                       },
+                                                       error: function(XMLHttpRequest, textStatus, errorThrown) {
+                                                       },timeout: 60000
+                                                    });
+                                                }
+                                           },
+                                           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                                           },timeout: 120000
+                                        });
+                                    }else{
+                                        signature = new_login_signature;
+                                        $('#myModalSignin').modal('hide');
+                                        location.reload();
+                                    }
+                               }
+                           },
+                           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                           },timeout: 120000 // sets timeout to 120 seconds
+                        });
+                    }else{
+                        signature = new_login_signature;
+                        $('#myModalSignin').modal('hide');
+                        location.reload();
+                    }
+               }
+           }catch(err){
+               console.log(err)
+            }
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+              error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline signin');
+              $("#barFlightSearch").hide();
+              $("#waitFlightSearch").hide();
+              $('.loader-rodextrip').fadeOut();
+              try{
+                $("#show_loading_booking_airline").hide();
+              }catch(err){}
+           },timeout: 60000
+        });
+    }
 }
 
 function activity_login(data, type=''){
@@ -542,6 +769,7 @@ function activity_get_detail(activity_uuid){
            try{
                console.log(msg);
                if(msg.result.error_code == 0){
+                   last_session = 'get_price'
                    activity_data = msg.result.response;
                    activity_type = msg.result.response.activity_lines;
                    var counti = 0;
@@ -1477,6 +1705,7 @@ function activity_get_price_date(activity_type_pick, pricing_days){
        },
        success: function(msg) {
            if(msg.result.error_code == 0){
+               last_session = 'sell_journeys'
                console.log(startingDate);
                console.log(msg);
                activity_date = msg.result.response;

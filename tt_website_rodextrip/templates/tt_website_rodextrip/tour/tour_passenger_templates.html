@@ -30,7 +30,7 @@
 
         document.getElementById(type+'_years_old'+sequence).value = parseInt(Math.abs(moment(new Date()) - birth_date)/31536000000);
     }
-
+    last_session = 'sell_journeys';
     adult = {{adult_amt}};
     child = {{child_amt}};
     infant = {{infant_amt}};
@@ -65,6 +65,9 @@
             </div>
         </div>
     </div>
+    {% if username.co_user_login == 'agent_b2c' %}
+    {% include 'tt_website_rodextrip/header_signin_signup.html' %}
+    {% endif %}
 </header>
 <div class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
     <div class="container">
@@ -4692,7 +4695,9 @@
     </div>
 </div>
 {% endif %}
-{% include 'tt_website_rodextrip/footer.html' %}
+{% if username.co_user_login == 'agent_b2c' %}
+{% include 'tt_website_rodextrip/modal_signin_signup.html' %}
+{% endif %}
 
 <script>
     $( document ).ready(function() {

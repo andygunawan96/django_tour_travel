@@ -119,7 +119,7 @@ def search(request):
                     'room': int(request.POST['hotel_room']),
                     'adult': int(request.POST['hotel_adult']),
                     'child': int(request.POST['hotel_child']),
-                    'child_age': child_age
+                    'child_ages': child_age
                 })
             except:
                 print('error')
@@ -297,112 +297,25 @@ def review(request):
                 if i['phone_code'] not in phone_code:
                     phone_code.append(i['phone_code'])
             phone_code = sorted(phone_code)
-            spc_req = ''
-            for rec in request.POST.keys():
-                if 'special_request' in rec:
-                    if request.POST[rec]:
-                        spc_req += 'Room ' + rec[16:] + ': ' + request.POST[rec] + '; '
-                    else:
-                        spc_req += 'Room ' + rec[16:] + ': - ; '
-            spc_req += request.POST.get('late_ci') and 'Early/Late CheckIn: ' + request.POST['late_ci'] + '; 'or ''
-            spc_req += request.POST.get('late_co') and 'Late CheckOut: ' + request.POST['late_co'] + '; ' or ''
-
-            request.session['hotel_request'].update({'special_request': spc_req})
-            set_session(request, 'time_limit', int(request.POST['time_limit_input']))
-
-            adult = []
-            child = []
-            contact = []
-            printout_paxs = []
-            booker = {
-                'title': request.POST['booker_title'],
-                'first_name': request.POST['booker_first_name'],
-                'last_name': request.POST['booker_last_name'],
-                'email': request.POST['booker_email'],
-                'calling_code': request.POST['booker_phone_code'],
-                'mobile': request.POST['booker_phone'],
-                'nationality_name': request.POST['booker_nationality'],
-                "work_phone": request.POST['booker_phone_code'] + request.POST['booker_phone'],
-                'booker_seq_id': request.POST['booker_id']
-            }
-            for i in range(int(request.session['hotel_request']['adult'])):
-                adult.append({
-                    "pax_type": "ADT",
-                    "first_name": request.POST['adult_first_name' + str(i + 1)],
-                    "last_name": request.POST['adult_last_name' + str(i + 1)],
-                    "title": request.POST['adult_title' + str(i + 1)],
-                    "birth_date": request.POST['adult_birth_date' + str(i + 1)],
-                    "nationality_name": request.POST['adult_nationality' + str(i + 1)],
-                    "passenger_seq_id": request.POST['adult_id' + str(i + 1)],
-                    "room_number": '1'
-                })
-                printout_paxs.append({
-                    "name": request.POST['adult_title' + str(i + 1)] + ' ' + request.POST[
-                        'adult_first_name' + str(i + 1)] + ' ' + request.POST['adult_last_name' + str(i + 1)],
-                    'ticket_number': '',
-                    'birth_date': request.POST['adult_birth_date' + str(i + 1)],
-                    'pax_type': 'Adult',
-                    'additional_info': ["Room: 1", "SpecialReq:" + request.session['hotel_request']['special_request']],
-                })
-
-                if i == 0:
-                    if request.POST['myRadios'] == 'yes':
-                        adult[len(adult) - 1].update({
-                            'is_also_booker': True,
-                            'is_also_contact': True
-                        })
-                    else:
-                        adult[len(adult) - 1].update({
-                            'is_also_booker': False
-                        })
-                else:
-                    adult[len(adult) - 1].update({
-                        'is_also_booker': False
-                    })
-                try:
-                    if request.POST['adult_cp' + str(i + 1)] == 'on':
-                        adult[len(adult) - 1].update({
-                            'is_also_contact': True
-                        })
-                    else:
-                        adult[len(adult) - 1].update({
-                            'is_also_contact': False
-                        })
-                except:
-                    if i == 0 and request.POST['myRadios'] == 'yes':
-                        continue
-                    else:
-                        adult[len(adult) - 1].update({
-                            'is_also_contact': False
-                        })
-                try:
-                    if request.POST['adult_cp' + str(i + 1)] == 'on':
-                        contact.append({
-                            "first_name": request.POST['adult_first_name' + str(i + 1)],
-                            "last_name": request.POST['adult_last_name' + str(i + 1)],
-                            "title": request.POST['adult_title' + str(i + 1)],
-                            "email": request.POST['adult_email' + str(i + 1)],
-                            "calling_code": request.POST['adult_phone_code' + str(i + 1)],
-                            "mobile": request.POST['adult_phone' + str(i + 1)],
-                            "nationality_name": request.POST['adult_nationality' + str(i + 1)],
-                            "work_phone": request.POST['booker_phone_code'] + request.POST['booker_phone'],
-                            "address": request.session.get('company_details') and request.session['company_details']['address'] or '',
-                            "contact_seq_id": request.POST['adult_id' + str(i + 1)]
-                        })
-                    if i == 0:
-                        if request.POST['myRadios'] == 'yes':
-                            contact[len(contact)].update({
-                                'is_also_booker': True
-                            })
+            try:
+                spc_req = ''
+                for rec in request.POST.keys():
+                    if 'special_request' in rec:
+                        if request.POST[rec]:
+                            spc_req += 'Room ' + rec[16:] + ': ' + request.POST[rec] + '; '
                         else:
-                            contact[len(contact)].update({
-                                'is_also_booker': False
-                            })
-                except:
-                    pass
+                            spc_req += 'Room ' + rec[16:] + ': - ; '
+                spc_req += request.POST.get('late_ci') and 'Early/Late CheckIn: ' + request.POST['late_ci'] + '; 'or ''
+                spc_req += request.POST.get('late_co') and 'Late CheckOut: ' + request.POST['late_co'] + '; ' or ''
 
-            if len(contact) == 0:
-                contact.append({
+                request.session['hotel_request'].update({'special_request': spc_req})
+                set_session(request, 'time_limit', int(request.POST['time_limit_input']))
+
+                adult = []
+                child = []
+                contact = []
+                printout_paxs = []
+                booker = {
                     'title': request.POST['booker_title'],
                     'first_name': request.POST['booker_first_name'],
                     'last_name': request.POST['booker_last_name'],
@@ -410,63 +323,156 @@ def review(request):
                     'calling_code': request.POST['booker_phone_code'],
                     'mobile': request.POST['booker_phone'],
                     'nationality_name': request.POST['booker_nationality'],
-                    'contact_seq_id': request.POST['booker_id'],
                     "work_phone": request.POST['booker_phone_code'] + request.POST['booker_phone'],
-                    "address": request.session.get('company_details') and request.session['company_details']['address'] or '',
-                    'is_also_booker': True
+                    'booker_seq_id': request.POST['booker_id']
+                }
+                for i in range(int(request.session['hotel_request']['adult'])):
+                    adult.append({
+                        "pax_type": "ADT",
+                        "first_name": request.POST['adult_first_name' + str(i + 1)],
+                        "last_name": request.POST['adult_last_name' + str(i + 1)],
+                        "title": request.POST['adult_title' + str(i + 1)],
+                        "birth_date": request.POST['adult_birth_date' + str(i + 1)],
+                        "nationality_name": request.POST['adult_nationality' + str(i + 1)],
+                        "passenger_seq_id": request.POST['adult_id' + str(i + 1)],
+                        "room_number": '1'
+                    })
+                    printout_paxs.append({
+                        "name": request.POST['adult_title' + str(i + 1)] + ' ' + request.POST[
+                            'adult_first_name' + str(i + 1)] + ' ' + request.POST['adult_last_name' + str(i + 1)],
+                        'ticket_number': '',
+                        'birth_date': request.POST['adult_birth_date' + str(i + 1)],
+                        'pax_type': 'Adult',
+                        'additional_info': ["Room: 1", "SpecialReq:" + request.session['hotel_request']['special_request']],
+                    })
+
+                    if i == 0:
+                        if request.POST['myRadios'] == 'yes':
+                            adult[len(adult) - 1].update({
+                                'is_also_booker': True,
+                                'is_also_contact': True
+                            })
+                        else:
+                            adult[len(adult) - 1].update({
+                                'is_also_booker': False
+                            })
+                    else:
+                        adult[len(adult) - 1].update({
+                            'is_also_booker': False
+                        })
+                    try:
+                        if request.POST['adult_cp' + str(i + 1)] == 'on':
+                            adult[len(adult) - 1].update({
+                                'is_also_contact': True
+                            })
+                        else:
+                            adult[len(adult) - 1].update({
+                                'is_also_contact': False
+                            })
+                    except:
+                        if i == 0 and request.POST['myRadios'] == 'yes':
+                            continue
+                        else:
+                            adult[len(adult) - 1].update({
+                                'is_also_contact': False
+                            })
+                    try:
+                        if request.POST['adult_cp' + str(i + 1)] == 'on':
+                            contact.append({
+                                "first_name": request.POST['adult_first_name' + str(i + 1)],
+                                "last_name": request.POST['adult_last_name' + str(i + 1)],
+                                "title": request.POST['adult_title' + str(i + 1)],
+                                "email": request.POST['adult_email' + str(i + 1)],
+                                "calling_code": request.POST['adult_phone_code' + str(i + 1)],
+                                "mobile": request.POST['adult_phone' + str(i + 1)],
+                                "nationality_name": request.POST['adult_nationality' + str(i + 1)],
+                                "work_phone": request.POST['booker_phone_code'] + request.POST['booker_phone'],
+                                "address": request.session.get('company_details') and request.session['company_details']['address'] or '',
+                                "contact_seq_id": request.POST['adult_id' + str(i + 1)]
+                            })
+                        if i == 0:
+                            if request.POST['myRadios'] == 'yes':
+                                contact[len(contact)].update({
+                                    'is_also_booker': True
+                                })
+                            else:
+                                contact[len(contact)].update({
+                                    'is_also_booker': False
+                                })
+                    except:
+                        pass
+
+                if len(contact) == 0:
+                    contact.append({
+                        'title': request.POST['booker_title'],
+                        'first_name': request.POST['booker_first_name'],
+                        'last_name': request.POST['booker_last_name'],
+                        'email': request.POST['booker_email'],
+                        'calling_code': request.POST['booker_phone_code'],
+                        'mobile': request.POST['booker_phone'],
+                        'nationality_name': request.POST['booker_nationality'],
+                        'contact_seq_id': request.POST['booker_id'],
+                        "work_phone": request.POST['booker_phone_code'] + request.POST['booker_phone'],
+                        "address": request.session.get('company_details') and request.session['company_details']['address'] or '',
+                        'is_also_booker': True
+                    })
+
+                for i in range(int(request.session['hotel_request']['child'])):
+                    child.append({
+                        "pax_type": "CHD",
+                        "first_name": request.POST['child_first_name' + str(i + 1)],
+                        "last_name": request.POST['child_last_name' + str(i + 1)],
+                        "title": request.POST['child_title' + str(i + 1)],
+                        "birth_date": request.POST['child_birth_date' + str(i + 1)],
+                        "nationality_name": request.POST['child_nationality' + str(i + 1)],
+                        "passenger_seq_id": request.POST['child_id' + str(i + 1)],
+                        "room_number": '1'
+                    })
+                    printout_paxs.append({
+                        "name": request.POST['child_title' + str(i + 1)] + ' ' + request.POST[
+                            'child_first_name' + str(i + 1)] + ' ' + request.POST['child_last_name' + str(i + 1)],
+                        'ticket_number': '',
+                        'birth_date': request.POST['child_birth_date' + str(i + 1)],
+                        'pax_type': 'Child',
+                        'additional_info': ["Room: 1", "SpecialReq:" + request.session['hotel_request']['special_request']],
+                    })
+
+                set_session(request, 'hotel_review_pax', {
+                    'booker': booker,
+                    'contact': contact,
+                    'adult': adult,
+                    'child': child,
                 })
 
-            for i in range(int(request.session['hotel_request']['child'])):
-                child.append({
-                    "pax_type": "CHD",
-                    "first_name": request.POST['child_first_name' + str(i + 1)],
-                    "last_name": request.POST['child_last_name' + str(i + 1)],
-                    "title": request.POST['child_title' + str(i + 1)],
-                    "birth_date": request.POST['child_birth_date' + str(i + 1)],
-                    "nationality_name": request.POST['child_nationality' + str(i + 1)],
-                    "passenger_seq_id": request.POST['child_id' + str(i + 1)],
-                    "room_number": '1'
+                print_json = json.dumps({
+                    "type": "hotel",
+                    "agent_name": request.session._session['user_account']['co_agent_name'],
+                    "passenger": printout_paxs,
+                    "price_detail":[{
+                        "fare": rec['price_total'],
+                        "name": rec['category'] + ' ' + rec['description'],
+                        "qty": 1,
+                        "total": rec['price_total'],
+                        "pax_type": "Adult: " + str(rec['pax']['adult']) + " Child: " + str(len(rec['pax'].get('child_ages',0))),
+                        "tax": 0
+                    } for rec in request.session['hotel_room_pick']['rooms'] ],
+                    "line": [
+                       {
+                           "resv": "-",
+                           "checkin": request.session['hotel_request']['checkin_date'],
+                           "checkout": request.session['hotel_request']['checkout_date'],
+                           "meal_type": request.session['hotel_room_pick']['meal_type'],
+                           "room_name": rec['category'] + ' ' + rec['description'],
+                           "hotel_name": request.session['hotel_detail']['name'],
+                       }
+                   for rec in request.session['hotel_room_pick']['rooms']],
                 })
-                printout_paxs.append({
-                    "name": request.POST['child_title' + str(i + 1)] + ' ' + request.POST[
-                        'child_first_name' + str(i + 1)] + ' ' + request.POST['child_last_name' + str(i + 1)],
-                    'ticket_number': '',
-                    'birth_date': request.POST['child_birth_date' + str(i + 1)],
-                    'pax_type': 'Child',
-                    'additional_info': ["Room: 1", "SpecialReq:" + request.session['hotel_request']['special_request']],
-                })
-
-            set_session(request, 'hotel_review_pax', {
-                'booker': booker,
-                'contact': contact,
-                'adult': adult,
-                'child': child,
-            })
-
-            print_json = json.dumps({
-                "type": "hotel",
-                "agent_name": request.session._session['user_account']['co_agent_name'],
-                "passenger": printout_paxs,
-                "price_detail":[{
-                    "fare": rec['price_total'],
-                    "name": rec['category'] + ' ' + rec['description'],
-                    "qty": 1,
-                    "total": rec['price_total'],
-                    "pax_type": "Adult: " + str(rec['pax']['adult']) + " Child: " + str(len(rec['pax'].get('child_ages',0))),
-                    "tax": 0
-                } for rec in request.session['hotel_room_pick']['rooms'] ],
-                "line": [
-                   {
-                       "resv": "-",
-                       "checkin": request.session['hotel_request']['checkin_date'],
-                       "checkout": request.session['hotel_request']['checkout_date'],
-                       "meal_type": request.session['hotel_room_pick']['meal_type'],
-                       "room_name": rec['category'] + ' ' + rec['description'],
-                       "hotel_name": request.session['hotel_detail']['name'],
-                   }
-               for rec in request.session['hotel_room_pick']['rooms']],
-            })
-            set_session(request, 'hotel_json_printout' + request.session['hotel_signature'], print_json)
+                set_session(request, 'hotel_json_printout' + request.session['hotel_signature'], print_json)
+            except Exception as e:
+                booker = request.session['hotel_review_pax']['booker']
+                contact = request.session['hotel_review_pax']['contact']
+                adult = request.session['hotel_review_pax']['adult']
+                child = request.session['hotel_review_pax']['child']
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'booker': booker,
