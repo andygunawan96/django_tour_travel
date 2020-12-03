@@ -226,14 +226,25 @@ function sort(response, check_filter){
                 if (response[i].end_date) {
                     obj_end_date = Date.parse(response[i].end_date);
                 }
+                // Event Blum Berlangsung
                 if (Date.parse(response[i].start_date) > Date.now()){
+                    console.log('Blum Langsung');
                     if (response[i].option.length > 0){
                         available_prop = 1;
                     }
+                // Event Sedang Berlangsung
                 } else if (Date.parse(response[i].start_date) < Date.now() && Date.now() < obj_end_date){
                     for (opt_idx in response[i].option){
-                        if (response[i].option[opt_idx].ticket_sale_start_day > Date.now() && response[i].option[opt_idx].ticket_sale_end_day > Date.now()){
+                        // Cek apakah ada ticket option yg masih dijual
+                        // Cek ticket yg tgl juale lebih kecil tmbang date now
+                        // kita bilang tetep available tpi g bsa dibeli dulu soale lu tanggal beli ne
+                        if (Date.parse(response[i].option[opt_idx].ticket_sale_start_day) > Date.now()){
                             available_prop = 1;
+                            console.log('start date ticket blum');
+                        // Cek yg masih blum end date
+                        } else if (Date.parse(response[i].option[opt_idx].ticket_sale_end_day) > Date.now()){
+                            available_prop = 1;
+                            console.log('end date ticket blum');
                         }
                     }
                 }

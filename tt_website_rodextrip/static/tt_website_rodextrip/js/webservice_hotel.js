@@ -665,7 +665,7 @@ function hotel_detail_request(checkin_date, checkout_date){
 
                         img_dict.sort(sortFunction);
 
-                        console.log(img_dict);
+                        //console.log(img_dict);
                         var current_img = null;
                         var current_url = "";
                         var cnt_img = 0;
@@ -1776,6 +1776,9 @@ function hotel_get_booking(data){
                     text_detail += `<div id="price_detail_hotel_div" style="display:none;">`;
                     for(i in msg.result.response.hotel_rooms){
                         try{
+                            // Update Vin Harga Pax yg diterima di FE adalah Total per pax tidak  perlu dikali total per night lagi
+                            // Todo: Pertimbangkan better mechanism
+                            total_price = 0
                             for(j in msg.result.response.passengers){
                                 price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0};
                                 for(k in msg.result.response.passengers[j].sale_service_charges[msg.result.response.hotel_rooms[i].prov_issued_code]){
@@ -1796,14 +1799,13 @@ function hotel_get_booking(data){
                                         'price': price
                                     })
                                     total_price += parseInt(price.TAX + price.ROC + price.FARE + price.CSC + price.DISC);
-
                                 }
                                 commission += parseInt(price.RAC);
                             }
                             for(j in msg.result.response.passengers){
                                 pax_type_repricing.push([msg.result.response.passengers[j].title+' '+msg.result.response.passengers[j].first_name+' '+msg.result.response.passengers[j].last_name, msg.result.response.passengers[j].title+' '+msg.result.response.passengers[j].first_name+' '+msg.result.response.passengers[j].last_name]);
                                 price_arr_repricing[msg.result.response.passengers[j].title+' '+msg.result.response.passengers[j].first_name+' '+msg.result.response.passengers[j].last_name] = {
-                                    'Fare': (price['FARE']/msg.result.response.passengers.length) + price['SSR'] + price['DISC'],
+                                    'Fare': (price['FARE']/msg.result.response.passengers.length/msg.result.response.hotel_rooms.length) + price['SSR'] + price['DISC'],
                                     'Tax': price['TAX'] + price['ROC'],
                                     'Repricing': price['CSC']
                                 }
@@ -1852,8 +1854,12 @@ function hotel_get_booking(data){
                                             text_detail+=`<br/>`;
                                         }
                                         try{
+                                        var total_per_room = parseInt(0);
+                                        for(j in msg.result.response.hotel_rooms[i].dates){
+                                            total_per_room = total_per_room + parseInt(msg.result.response.hotel_rooms[i].dates[j].sale_price);
+                                        }
                                         text_detail+=`
-                                        <span style="font-size:13px; font-weight:700;">`+total_price_provider[i].price.currency+` `+getrupiah(parseInt(total_price_provider[i].price.FARE + total_price_provider[i].price.TAX + total_price_provider[i].price.ROC))+`</span>`;
+                                        <span style="font-size:13px; font-weight:700;">`+msg.result.response.hotel_rooms[i].dates[j].currency+` `+ getrupiah(total_per_room) +`</span>`;
                                         }catch(err){}
                                         text_detail+=`
                                     </div>

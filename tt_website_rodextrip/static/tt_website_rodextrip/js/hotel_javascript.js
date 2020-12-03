@@ -1555,7 +1555,7 @@ function goto_passenger(){
     document.getElementById('goto_passenger').submit();
 }
 
-function check_passenger(adult, child){
+function check_passenger(adult, child, room){
     //booker
     length_name = 25;
     error_log = '';
@@ -1652,7 +1652,7 @@ function check_passenger(adult, child){
            }else{
                document.getElementById('adult_first_name'+i).style['border-color'] = '#EFEFEF';
                document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
-           }if(document.getElementById('adult_first_name'+i).value == '' || check_word(document.getElementById('adult_first_name'+i).value) == false){
+           }if((document.getElementById('adult_first_name'+i).value == '' || check_word(document.getElementById('adult_first_name'+i).value) == false) && i < room){
                if(document.getElementById('adult_first_name'+i).value == '')
                    error_log+= 'Please input first name of adult passenger '+i+'!</br>\n';
                else if(check_word(document.getElementById('adult_first_name'+i).value) == false)
@@ -1668,12 +1668,12 @@ function check_passenger(adult, child){
            }else{
                document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
            }
-           if(check_date(document.getElementById('adult_birth_date'+i).value)==false){
+           if(check_date(document.getElementById('adult_birth_date'+i).value)==false && document.getElementById('adult_first_name'+i).value != ''){
                error_log+= 'Birth date wrong for passenger adult '+i+'!</br>\n';
                document.getElementById('adult_birth_date'+i).style['border-color'] = 'red';
            }else{
                document.getElementById('adult_birth_date'+i).style['border-color'] = '#EFEFEF';
-           }if(document.getElementById('adult_nationality'+i).value == ''){
+           }if(document.getElementById('adult_nationality'+i).value == ''  && document.getElementById('adult_first_name'+i).value != ''){
                error_log+= 'Please fill nationality for passenger adult '+i+'!</br>\n';
                document.getElementById('adult_nationality'+i).style['border-color'] = 'red';
            }else{
