@@ -1301,7 +1301,7 @@ function pick_passenger(type, sequence, product){
             document.getElementById('cus_parent_div').hidden = false;
         }else{
             document.getElementById('customer_parent_booking_from_vendor').innerHTML = '';
-            document.getElementById('cus_parent_div').hidden = false;
+            document.getElementById('cus_parent_div').hidden = true;
             $('#customer_parent_booking_from_vendor').niceSelect('update');
         }
 //        get_customer_parent();
