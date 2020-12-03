@@ -1,54 +1,68 @@
-$('#timeframe').change(function(e){
-    // get selected value
-    var value = $(this).children(':selected').attr('value');
-    // declare todays date object
-    var d = new Date();
-    $('#date_field').hide();
-    if (value == '0'){
-        $('#get_report_startdate').val(d.toISOString().split('T')[0]);
-        $('#get_report_enddate').val(d.toISOString().split('T')[0]);
-    } else if (value == '1'){
-        d.setDate(d.getDate() - 1);
-        $('#get_report_enddate').val(d.toISOString().split('T')[0]);
-        $('#get_report_startdate').val(d.toISOString().split('T')[0]);
-    } else if (value == '7'){
-        $('#get_report_enddate').val(d.toISOString().split('T')[0]);
-        var date_diff = d.getDay() - 1;
-        if (date_diff < 0){
-            d.setDate(d.getDate() - 7);
+$(document).ready(function(){
+    result_data = [];
+    $('#timeframe').change(function(e){
+        // get selected value
+        var value = $(this).children(':selected').attr('value');
+        // declare todays date object
+        var d = new Date();
+        $('#date_field').hide();
+        if (value == '0'){
             $('#get_report_startdate').val(d.toISOString().split('T')[0]);
-        } else {
+            $('#get_report_enddate').val(d.toISOString().split('T')[0]);
+        } else if (value == '1'){
+            d.setDate(d.getDate() - 1);
+            $('#get_report_enddate').val(d.toISOString().split('T')[0]);
+            $('#get_report_startdate').val(d.toISOString().split('T')[0]);
+        } else if (value == '7'){
+            $('#get_report_enddate').val(d.toISOString().split('T')[0]);
+            var date_diff = d.getDay() - 1;
+            if (date_diff < 0){
+                d.setDate(d.getDate() - 7);
+                $('#get_report_startdate').val(d.toISOString().split('T')[0]);
+            } else {
+                d.setDate(d.getDate() - date_diff);
+                $('#get_report_startdate').val(d.toISOString().split('T')[0]);
+            }
+        } else if (value == '30'){
+            $('#get_report_enddate').val(d.toISOString().split('T')[0]);
+            var date_diff = d.getDate() - 1;
+            if (date_diff < 1){
+                $('#get_report_startdate').val(d.toISOString().split('T')[0]);
+            } else {
+                d.setDate(d.getDate() - date_diff);
+                $('#get_report_startdate').val(d.toISOString().split('T')[0]);
+            }
+        } else if (value == '-30'){
+            // subtract date to last day of previous month
+            var date_diff = d.getDate();
+            d.setDate(d.getDate() - date_diff);
+            // get how many date within particular month
+            date_diff = d.getDate() - 1;
+            // set end date to last day of the month
+            $('#get_report_enddate').val(d.toISOString().split('T')[0]);
+            // set date to the first date of the month
             d.setDate(d.getDate() - date_diff);
             $('#get_report_startdate').val(d.toISOString().split('T')[0]);
-        }
-    } else if (value == '30'){
-        $('#get_report_enddate').val(d.toISOString().split('T')[0]);
-        var date_diff = d.getDate() - 1;
-        if (date_diff < 1){
+        } else if (value == 'default'){
+            $('#get_report_enddate').val(d.toISOString().split('T')[0]);
+            d.setDate(d.getDate() - 30);
             $('#get_report_startdate').val(d.toISOString().split('T')[0]);
         } else {
-            d.setDate(d.getDate() - date_diff);
-            $('#get_report_startdate').val(d.toISOString().split('T')[0]);
+            $('#date_field').show();
         }
-    } else if (value == '-30'){
-        // subtract date to last day of previous month
-        var date_diff = d.getDate();
-        d.setDate(d.getDate() - date_diff);
-        // get how many date within particular month
-        date_diff = d.getDate() - 1;
-        // set end date to last day of the month
-        $('#get_report_enddate').val(d.toISOString().split('T')[0]);
-        // set date to the first date of the month
-        d.setDate(d.getDate() - date_diff);
-        $('#get_report_startdate').val(d.toISOString().split('T')[0]);
-    } else if (value == 'default'){
-        $('#get_report_enddate').val(d.toISOString().split('T')[0]);
-        d.setDate(d.getDate() - 30);
-        $('#get_report_startdate').val(d.toISOString().split('T')[0]);
-    } else {
-        $('#date_field').show();
-    }
+    });
+
+    $('#provider_type').change(function(e){
+        var value_provider_type = $( "#provider_type option:selected" ).text();
+        filter_provider(result_data, value_provider_type);
+    });
+
+    $('#agent_type').change(function(e){
+        var value_agent_type = $( "#agent_type option:selected" ).attr('label');
+        filter_agent(result_data, value_agent_type);
+    });
 });
+
 
 function number_format(number, decimals, dec_point, thousands_sep) {
 // *     example: number_format(1234.56, 2, ',', ' ');
@@ -214,6 +228,7 @@ function get_report_overall(){
                     }
                 }
             }
+
             reportChart.data("ChartJs", config);
             var ctx = reportChart[0].getContext("2d");
 
@@ -380,6 +395,8 @@ function get_report_overall(){
             if(result.raw_data.result.response.dependencies.is_ho == 1){
                 $('#profit_rupiah').html(number_format(result.raw_data.result.response.profit_total, 2));
                 $('#profit_ho').html(number_format(result.raw_data.result.response.profit_ho, 2));
+                $('#profit_agent').html(number_format(result.raw_data.result.response.profit_agent, 2));
+                $('#profit_agent_card').show();
                 $('#profit_ho_card').show();
             } else {
                 $('#profit_rupiah').html(number_format(result.raw_data.result.response.profit_total, 2));
@@ -397,6 +414,10 @@ function get_report_overall(){
             // handler of dynamic session
             /////////////////////////////////
 
+            result_data = result;
+
+            var value_type = $('#provider_type').children(':selected').attr('value');
+
             //provider type data
             var provider_type_datalist = ``;
             result.raw_data.result.response.dependencies.provider_type.forEach(function(item, index){
@@ -404,22 +425,30 @@ function get_report_overall(){
             });
 
             //provider data
-            var provider_datalist = ``;
-            result.raw_data.result.response.dependencies.provider.forEach(function(item){
-                provider_datalist += `<option value="`+ item['code'] +`">`+ item['name'] +`</option>`
-            });
+            if(value_type == 'overall'){
+                var provider_datalist = ``;
+                result.raw_data.result.response.dependencies.provider.forEach(function(item){
+                    if(item['code'] == ""){
+                        provider_datalist += `<option value="`+ item['code'] +`">`+ item['name'] +`</option>`
+                    }
+                });
+            }
 
             // agent type
             var agent_type_datalist = ``;
             result.raw_data.result.response.dependencies.agent_type.forEach(function(item){
-                agent_type_datalist += `<option value="`+ item['code'] +`">`+ item['name'] +`</option>`;
+                agent_type_datalist += `<option value="`+ item['code'] +`" label="`+ item['id'] +`">`+ item['name'] +`</option>`;
             });
 
             // proceed with agent data
             var agent_datalist = ``;
             result.raw_data.result.response.dependencies.agent_list.forEach(function(item){
-                agent_datalist += `<option value="`+ item['seq_id'] +`">`+ item['name'] +`</option>`;
+                if(item['seq_id'] == ""){
+                    agent_datalist += `<option value="`+ item['seq_id'] +`">`+ item['name'] +`</option>`;
+                }
             });
+
+            $('#loading-report').hide();
 
             // for debugging purposes
 //            console.log(agent_datalist);
@@ -430,21 +459,16 @@ function get_report_overall(){
             // after document ready then show the input field and all
             $(document).ready(function(){
                 //destroy niceselect
-                $('#provider_type').niceSelect('destroy');
+
                 $('#provider').niceSelect('destroy');
-                $('#agent_type').niceSelect('destroy');
                 $('#agent').niceSelect('destroy');
-                $('#group_by').niceSelect('destroy');
                 // populating provider type
                 $('#provider_type').append(provider_type_datalist);
 
                 // populating provider selector
                 $('#provider').append(provider_datalist);
+                $('#provider').select2();
                 // change agent selector to text and dropdown (user can type the name of provider)
-                $('#provider').selectize({
-                      sortField: 'text'
-                  });
-
                 // populating agent type selector
                 // agent list will be empty list if agent is not HO
                 $('#agent_type').append(agent_type_datalist);
@@ -453,10 +477,10 @@ function get_report_overall(){
                 // agent list will be empty list if agent is not HO
                 $('#agent').append(agent_datalist);
                 // change agent selector to text and dropdown (user can type the name of the agent)
-                $('#agent').selectize({
-                      sortField: 'text'
-                  });
+                $('#agent').select2();
 
+                $('#provider_type').niceSelect('update');
+                $('#agent_type').niceSelect('update');
                 // if agent is HO then shows the agent type and agent selector
                 // if not then hide
                 if(result.raw_data.result.response.dependencies.is_ho == 1){
@@ -472,10 +496,10 @@ function get_report_overall(){
 
 $('#report_form').submit(function(evt){
     evt.preventDefault();
+    console.log("HAII");
     // check if date is bigger than 30 days
     var start = $('#get_report_startdate').val();
     var end = $('#get_report_enddate').val();
-    var group = $('#group_by').val();
 
     var date1 = new Date(start);
     var date2 = new Date(end);
@@ -495,7 +519,11 @@ $('#report_form').submit(function(evt){
 
     // disable button while updating chart, this prevent of double click (causing chart broken)
     $('#update_chart_button').prop('disabled', true);
+    $('#loading-report').show();
     $('.report_button').prop('disabled', true);
+    $('html, body').animate({
+        scrollTop: $("#loading-report").offset().top - 25
+    }, 500);
 
     // get respected chart by id
     var reportChart = $('#first_chart_report');
@@ -510,7 +538,7 @@ $('#report_form').submit(function(evt){
     // prepare data
     var postdata = $(this).serialize();
     postdata += "&type=custom&signature=" + signature;
-
+    console.log(postdata);
     // get provider type
     var provider_type = $('#provider_type').val();
 
@@ -623,6 +651,8 @@ $('#report_form').submit(function(evt){
             if(result.raw_data.result.response.dependencies.is_ho == 1){
                 $('#profit_rupiah').html(number_format(result.raw_data.result.response.profit_total, 2));
                 $('#profit_ho').html(number_format(result.raw_data.result.response.profit_ho, 2));
+                $('#profit_agent').html(number_format(result.raw_data.result.response.profit_agent, 2));
+                $('#profit_agent_card').show();
                 $('#profit_ho_card').show();
             } else {
                 $('#profit_rupiah').html(number_format(result.raw_data.result.response.profit_total, 2));
@@ -652,14 +682,26 @@ $('#report_form').submit(function(evt){
             } else {
                 contents = ``;
             }
-            $('#first_overview_content').html(contents);
+
+            if(contents != ''){
+                $('#first_overview_content').html(contents);
+                $('#div_overview_first').show();
+            }else{
+                $('#div_overview_first').hide();
+            }
 
             // second overview secction
             second_contents = overview_book_issued(result.raw_data.result.response.second_overview);
-            $('#second_overview_content').html(second_contents);
+            if(div_overview_second != ''){
+                $('#second_overview_content').html(second_contents);
+                $('#div_overview_second').show();
+            }else{
+                $('#div_overview_second').hide();
+            }
 
             // enabled button
              $('#update_chart_button').prop('disabled', false);
+             $('#loading-report').hide();
 
             if(provider_type == 'overall_airline'){
                 overview_airline_chart(result.raw_data.result.response.first_overview);
@@ -725,11 +767,12 @@ function overview_overall(data){
 
     // first section of overview
     content += `
+    <div class="mb-3" style="overflow:auto;">
         <table class="table">
             <thead>
                 <tr>
-                    <th>Provider</th>
-                    <th># of issued</th>
+                    <th style="width:50%;">Provider</th>
+                    <th style="width:50%;"># of Issued</th>
                 </tr>
             </thead>
             <tbody>
@@ -749,6 +792,7 @@ function overview_overall(data){
     content += `
                     </tbody>
                 </table>
+            </div>
     `;
 
     // return content
@@ -769,17 +813,18 @@ function overview_airline(data){
     // counter sector and direction summary
     // will split the table into col-6
     content += `
-        <h4>Sector Summary</h4>
-        <table class="table">
+        <h3 class="mb-2"><i class="fas fa-chevron-circle-right" style="color:`+color+`;"></i> Sector Summary</h3>
+        <div class="mb-3" style="overflow:auto;">
+        <table class="table" style="border:1px solid #cdcdcd;">
             <thead>
                 <tr>
-                    <td>Sector</td>
-                    <td># of trans.</td>
-                    <td>One way</td>
-                    <td>Return</td>
-                    <td>Multi City</td>
-                    <td>Revenue</td>
-                    <td>Passengers</td>
+                    <th>Sector</th>
+                    <th># of Trans.</th>
+                    <th>One way</th>
+                    <th>Return</th>
+                    <th>Multi City</th>
+                    <th>Revenue</th>
+                    <th>Passengers</th>
                 </tr>
             </thead>
             <tbody>
@@ -802,18 +847,20 @@ function overview_airline(data){
     content += `
             </tbody>
         </table>
+        </div>
     `;
 
 
     // Domestic table
     content += `
-    <h3>Top Domestic Route</h3>
-        <table class="table">
+    <h3 class="mb-2"><i class="fas fa-chevron-circle-right" style="color:`+color+`;"></i> Top Domestic Route</h3>
+        <div class="mb-3" style="overflow:auto;">
+        <table class="table" style="border:1px solid #cdcdcd;">
             <thead>
                 <tr>
-                    <td>Departure</td>
-                    <td>Destination</td>
-                    <td>Counter</td>
+                    <th>Departure</th>
+                    <th>Destination</th>
+                    <th>Counter</th>
                 </tr>
             </thead>
             <tbody>
@@ -832,17 +879,19 @@ function overview_airline(data){
     content += `
             </tbody>
         </table>
+        </div>
     `;
 
     // International table
     content += `
-        <h3>Top International Route</h3>
-        <table class="table">
+        <h3 class="mb-2"><i class="fas fa-chevron-circle-right" style="color:`+color+`;"></i> Top International Route</h3>
+        <div class="mb-3" style="overflow:auto;">
+        <table class="table" style="border:1px solid #cdcdcd;">
             <thead>
                 <tr>
-                    <td>Departure</td>
-                    <td>Destination</td>
-                    <td># of transactions</td>
+                    <th>Departure</th>
+                    <th>Destination</th>
+                    <th># of Transactions</th>
                 </tr>
             </thead>
             <tbody>
@@ -861,8 +910,9 @@ function overview_airline(data){
     content += `
             </tbody>
         </table>
-        <h3>Top Airline</h3>
-            <hr>
+        </div>
+        <h3><i class="fas fa-chevron-circle-right" style="color:`+color+`;"></i> Top Airline</h3>
+            <hr/>
     `;
 
     // graph of departure and destination
@@ -870,45 +920,50 @@ function overview_airline(data){
         <div class="row">
             <div class="col-md-6">
                 <h4>Depart From</h4>
-                <canvas id="departure_graph"></canvas>
+                <canvas id="departure_graph" class="canvas_half"></canvas>
             </div>
             <div class="col-md-6">
                 <h4>Destination</h4>
-                <canvas id="destination_graph"></canvas>
+                <canvas id="destination_graph" class="canvas_half"></canvas>
             </div>
         </div>
-        <hr>
+        <br/>
     `;
 
     // top 9 carrier and others summary
     for (i in data['carrier']){
         content += `
-            <div class="header">
+            <div class="header" style="border:1px solid #cdcdcd; padding:15px;">
                 <div class="row">
-                    <div class="col-md-3 col-sm-6">
-                        <h5>`+ data['carrier'][i]['carrier_name'] +`</h5>
+                    <div class="col-lg-10">
+                        <h5 style="color:`+text_color+`; background:`+color+`; padding:5px; width:fit-content; width: -moz-fit-content;">`+ data['carrier'][i]['carrier_name'] +`</h5>
+                        <div class="row">
+                            <div class="col-md-3 col-sm-6">
+                                <span style="font-weight:600;"># of Reservation</span>
+                                <span style="float:right; color:`+color+`;">`+ data['carrier'][i]['counter'] +`</span>
+                            </div>
+                            <div class="col-md-3 col-sm-6">
+                                <span style="font-weight:600;">Revenue</span>
+                                <span style="float:right; color:`+color+`;">IDR `+ number_format(data['carrier'][i]['revenue'],2) +`</span>
+                            </div>
+                            <div class="col-md-3 col-sm-6">
+                                <span style="font-weight:600;">Passenger</span>
+                                <span style="float:right; color:`+color+`;">`+ data['carrier'][i]['passenger'] +` <i class="fa fa-user" aria-hidden="true"></i></span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-3 col-sm-6">
-                        # of reservation
-                        <p style="float:right">`+ data['carrier'][i]['counter'] +`</p>
-                    </div>
-                    <div class="col-md-3 col-sm-6">
-                        Revenue
-                        <p style="float:right">IDR `+ number_format(data['carrier'][i]['revenue'],2) +`</p>
-                    </div>
-                    <div class="col-md-3 col-sm-6">
-                        Passenger
-                        <p style="float:right">`+ data['carrier'][i]['passenger'] +` <i class="fa fa-user" aria-hidden="true"></i></p>
+                    <div class="col-lg-2">
+                        <span id="report_airline`+i+`" onclick="report_dropdown_id('airline',`+i+`);" style="font-weight:700; color:`+color+`; cursor:pointer;" class="center_vh"> See Detail <i class="fas fa-chevron-down"></i></span>
                     </div>
                 </div>
             </div>
-            <div class="content">
+            <div class="content mb-3" id="div_report_airline`+i+`" style="border-color: #cdcdcd; border-style: solid; border-width: 0px 1px 1px 1px; display:none; overflow:auto;">
                 <table class="table">
                     <thead>
                         <tr>
                             <th>Departure</th>
                             <th>Destination</th>
-                            <th># of reservation</th>
+                            <th># of Reservation</th>
                             <th>Passengers</th>
                         </tr>
                     <thead>
@@ -929,7 +984,7 @@ function overview_airline(data){
                     </tbody>
                 </table>
             </div>
-            <hr>
+            <br/>
         `;
     }
 
@@ -1055,12 +1110,13 @@ function overview_activity(data){
 
     // first table
     content += `
+    <div class="mb-3" style="overflow:auto;">
         <table class="table">
             <thead>
                 <tr>
-                    <td>Destination</td>
-                    <td># of Transaction</td>
-                    <td># of Passengers</td>
+                    <th>Destination</th>
+                    <th># of Transaction</th>
+                    <th># of Passengers</th>
                 </tr>
             </thead>
             <tbody>
@@ -1079,6 +1135,7 @@ function overview_activity(data){
     content += `
             </tbody>
         </table>
+    </div>
     `;
 
     return content;
@@ -1104,22 +1161,47 @@ function overview_event(data){
 // will also  be use to name the section(s)
 function overview_hotel(data){
     var content = `
-        <h3>Top Cities</h3>
+        <h3><i class="fas fa-chevron-circle-right" style="color:`+color+`;"></i> Top Cities</h3>
         <hr>
     `;
 
     for (i in data['location']){
         content += `
-            <div class="header">
-                <h5>`+ data['location'][i]['city'] +` - `+ data['location'][i]['country'] +`</h5>
-                <p style="float:right">`+ data['location'][i]['counter'] +`</p>
+            <div class="header" style="border:1px solid #cdcdcd; padding:15px;">
+                <div class="row">
+                    <div class="col-lg-10">
+                        <h5 style="color:`+text_color+`; background:`+color+`; padding:5px; width:fit-content; width: -moz-fit-content;">`+ data['location'][i]['city'];
+                        if(data['location'][i]['country'] != ''){
+                            content += ` - `+ data['location'][i]['country'];
+                        }
+                        content += `
+                        </h5>
+                        <div class="row">
+                            <div class="col-md-3 col-sm-6">
+                                <span style="font-weight:600;"># of Reservation</span>
+                                <span style="float:right; color:`+color+`;">`+ data['location'][i]['counter'] +`</span>
+                            </div>
+                            <div class="col-md-3 col-sm-6">
+                                <span style="font-weight:600;">Revenue</span>
+                                <span style="float:right; color:`+color+`;">IDR -</span>
+                            </div>
+                            <div class="col-md-3 col-sm-6">
+                                <span style="font-weight:600;">Passenger</span>
+                                <span style="float:right; color:`+color+`;"> - <i class="fa fa-user" aria-hidden="true"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <span id="report_airline`+i+`" onclick="report_dropdown_id('airline',`+i+`);" style="font-weight:700; color:`+color+`; cursor:pointer;" class="center_vh"> See Detail <i class="fas fa-chevron-down"></i></span>
+                    </div>
+                </div>
             </div>
-            <div class="content">
+            <div class="content mb-3" id="div_report_airline`+i+`" style="border-color: #cdcdcd; border-style: solid; border-width: 0px 1px 1px 1px; display:none; overflow:auto;">
                 <table class="table">
                     <thead>
                         <tr>
                             <th>Hotel Name</th>
-                            <th># of reservation</th>
+                            <th># of Reservation</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -1136,6 +1218,7 @@ function overview_hotel(data){
                     </tbody>
                 </table>
             </div>
+            <br/>
         `;
     }
 
@@ -1166,17 +1249,18 @@ function overview_train(data){
     // counter sector and direction summary
     // will split the table into col-6
     content += `
-        <h4>Sector Summary</h4>
+        <h3><i class="fas fa-chevron-circle-right" style="color:`+color+`;"></i> Sector Summary</h3>
+        <div class="mb-3" style="overflow:auto;">
         <table class="table">
             <thead>
                 <tr>
-                    <td>Sector</td>
-                    <td># of trans.</td>
-                    <td>One way</td>
-                    <td>Return</td>
-                    <td>Multi City</td>
-                    <td>Revenue</td>
-                    <td>Passengers</td>
+                    <th>Sector</th>
+                    <th># of Trans.</th>
+                    <th>One way</th>
+                    <th>Return</th>
+                    <th>Multi City</th>
+                    <th>Revenue</th>
+                    <th>Passengers</th>
                 </tr>
             </thead>
             <tbody>
@@ -1199,17 +1283,19 @@ function overview_train(data){
     content += `
             </tbody>
         </table>
+        </div>
     `;
 
     // first table
     content += `
-    <h3>Top Domestic Route</h3>
+    <h3 class="mb-2"><i class="fas fa-chevron-circle-right" style="color:`+color+`;"></i> Top Domestic Route</h3>
+        <div class="mb-3" style="overflow:auto;">
         <table class="table">
             <thead>
                 <tr>
-                    <td>Departure</td>
-                    <td>Destination</td>
-                    <td># of transactions</td>
+                    <th>Departure</th>
+                    <th>Destination</th>
+                    <th># of Transactions</th>
                 </tr>
             </thead>
             <tbody>
@@ -1229,6 +1315,7 @@ function overview_train(data){
     content += `
             </tbody>
         </table>
+        </div>
     `;
 
     return content;
@@ -1256,12 +1343,13 @@ function overview_visa(data){
     var content = ``;
     // table
     content += `
+        <div class="mb-3" style="overflow:auto;">
         <table class="table">
             <thead>
                 <tr>
                     <th>Country</th>
-                    <th># of transaction</th>
-                    <th># of passenger</th>
+                    <th># of Transaction</th>
+                    <th># of Passenger</th>
                 </tr>
             </thead>
             <tbody>
@@ -1270,7 +1358,7 @@ function overview_visa(data){
     for(i in data){
         content += `
             <tr>
-                <td>`+ data[i]['product'] +`</td>
+                <td>`+ data[i]['country'] +`</td>
                 <td>`+ data[i]['counter'] +`</td>
                 <td>`+ data[i]['passenger'] +`</td>
             </tr>
@@ -1281,6 +1369,7 @@ function overview_visa(data){
     content += `
             </tbody>
         </table>
+        </div>
     `;
     return content;
 }
@@ -1296,6 +1385,7 @@ function overview_offline(data){
 
     // beginning of table
     content += `
+        <div class="mb-3" style="overflow:auto;">
         <table class="table">
             <thead>
                 <tr>
@@ -1320,6 +1410,7 @@ function overview_offline(data){
     content += `
             </tbody>
         </table>
+        </div>
     `;
     return content;
 }
@@ -1336,14 +1427,15 @@ function overview_book_issued(data){
 
     // first section of overview
     content += `
+        <div class="mb-3" style="overflow:auto;">
         <table class="table">
             <thead>
                 <tr>
                     <th>Provider</th>
-                    <th># reservation</th>
-                    <th>book</th>
-                    <th>issued</th>
-                    <th>expired</th>
+                    <th># Reservation</th>
+                    <th>Book</th>
+                    <th>Issued</th>
+                    <th>Expired</th>
                 </tr>
             </thead>
             <tbody>
@@ -1361,7 +1453,61 @@ function overview_book_issued(data){
             </tr>
         `;
     }
+    content += `
+            </tbody>
+        </table>
+    </div>
+    `;
 
     // return result
     return content;
+}
+
+function filter_provider(result, provider_type_text){
+    document.getElementById('provider').innerHTML = '';
+
+    var provider_datalist = ``;
+    result.raw_data.result.response.dependencies.provider.forEach(function(item){
+        var prov_type = item['provider_type'].toLowerCase();
+        if(prov_type == ""){
+            provider_datalist += `<option value="" selected>All Provider</option>`;
+        }
+        else if(prov_type == provider_type_text){
+            provider_datalist += `<option value="`+ item['code'] +`">`+ item['name'] +`</option>`;
+        }
+    });
+
+    $('#provider').append(provider_datalist);
+    $('#provider').select2();
+}
+
+function filter_agent(result, agent_type_label){
+    document.getElementById('agent').innerHTML = '';
+
+    var agent_datalist = ``;
+    result.raw_data.result.response.dependencies.agent_list.forEach(function(item){
+        var agent_type = parseInt(agent_type_label);
+        if(item['agent_type_id'] == ""){
+            agent_datalist += `<option value="" selected>All Agent</option>`;
+        }else if(item['agent_type_id'] == agent_type){
+            agent_datalist += `<option value="`+ item['seq_id'] +`">`+ item['name'] +`</option>`;
+        }
+    });
+
+    $('#agent').append(agent_datalist);
+    $('#agent').select2();
+}
+
+function report_dropdown_id(type,id){
+    var report_show = document.getElementById('report_'+type+id);
+    var report_div = document.getElementById('div_report_'+type+id);
+
+    if (report_div.style.display === "none") {
+        report_show.innerHTML = ` Hide Detail <i class="fas fa-chevron-up"></i>`;
+        report_div.style.display = "block";
+    }
+    else {
+        report_show.innerHTML = ` See Detail <i class="fas fa-chevron-down"></i>`;
+        report_div.style.display = "none";
+    }
 }

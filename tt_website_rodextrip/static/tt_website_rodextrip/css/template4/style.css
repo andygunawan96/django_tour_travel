@@ -5459,28 +5459,6 @@ display: block;
   background-color: #C04B21;
 }
 
-.mystickybookingvendor {
-    position: fixed;
-    bottom: 180px;
-    right: 58px;
-    z-index: 999;
-    font-size: 20px;
-    border: 1px solid gray;
-    outline: none;
-    background-color: #f15a22;
-    color: white;
-    cursor: pointer;
-    height: 55px;
-    width: 55px;
-    border-radius: 30px;
-    padding-left: 0px !important;
-    padding-right: 0px !important;
-}
-
-.mystickybookingvendor:hover {
-  background-color: #C04B21;
-}
-
 .myticket_static {
   background-color: #f15a22;
   color: white;
@@ -5750,6 +5728,49 @@ ul.edit_tabs li.current .image-rounded-icon{
 .edit_tab-content.current{
     display: inherit;
 }
+
+/* ul li button */
+ul.btn_tabs{
+    list-style: none;
+}
+ul.btn_tabs li{
+    /*background: rgba(0,0,0,0.5);*/
+    color: black;
+    margin-bottom:10px;
+    display: inline-block;
+    padding: 10px 15px;
+    cursor: pointer;
+    border: 2px solid #f15a22;
+}
+
+ul.btn_tabs li:hover{
+   color:#f15a22;
+}
+
+li.btn_tab-link label{
+    cursor: pointer;
+    text-align:center;
+}
+
+ul.btn_tabs li.current{
+    background: #f15a22;
+    color: white;
+}
+
+ul.btn_tabs li.current .image-rounded-icon{
+    background: #f15a22 !important;
+}
+
+.btn_tab-content{
+    display: none;
+    /*background: rgba(0,0,0,0.5);*/
+    padding: 20px;
+}
+
+.btn_tab-content.current{
+    display: inherit;
+}
+
 
 .single-destination{
     border: 1px solid #cdcdcd;
@@ -6117,4 +6138,17 @@ ul.edit_tabs li.current .image-rounded-icon{
 .primary-btn-white:hover {
   background: #f15a22;
   color: white;
+}
+
+.chartjs-size-monitor {
+    position:relative;
+    overflow:auto;
+}
+
+.center_vh{
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

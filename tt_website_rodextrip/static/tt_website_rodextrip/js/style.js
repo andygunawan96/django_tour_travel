@@ -189,6 +189,16 @@ $(document).ready(function(){
 		$("#"+tab_id).addClass('current');
 	})
 
+    $('ul.btn_tabs li').click(function(){
+		var tab_id = $(this).attr('data-tab');
+
+		$('ul.btn_tabs li').removeClass('current');
+		$('.btn_tab-content').removeClass('current');
+
+		$(this).addClass('current');
+		$("#"+tab_id).addClass('current');
+	})
+
     $('ul.popular1_tabs li').click(function(){
 		var tab_id = $(this).attr('data-tab');
 

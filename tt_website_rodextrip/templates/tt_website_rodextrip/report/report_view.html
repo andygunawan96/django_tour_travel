@@ -31,6 +31,10 @@
 </script>
 
 <style>
+    .nice-select{
+        line-height:28px;
+        width:100%;
+    }
     @media only screen and (min-width: 991px) {
         #slider_home {
             margin-top: 88px;
@@ -47,8 +51,13 @@
     .tab {
         display:inline;
     }
+    .canvas_full{
+        box-sizing: border-box !important;
+        width: 1078px !important;
+        height: auto !important;
+    }
 </style>
-<title>{{name}} - {% trans 'Activity' %}</title>
+<title>{{name}} - {% trans 'Report' %}</title>
 
 {% if username.co_user_login != '' %}
 {% include 'tt_website_rodextrip/plugin_passenger.html' %}
@@ -59,163 +68,274 @@
 <div class="datalist" id="agent_datalist">
 
 </div>
+{% if template == 1%}
+<section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
+{% elif template == 2%}
+<section style="padding-top:30px; padding-bottom:40px; background:#f7f7f7;">
+{% elif template == 3%}
+<section class="relative" style="padding:50px 0px 50px 0px; background:#f7f7f7; border-bottom:2px solid #cdcdcd;">
+{% elif template == 4%}
+<section style="padding:50px 0px 50px 0px; background:#f7f7f7;">
+{% elif template == 5%}
+<section style="padding:50px 0px 50px 0px; background:white; border-bottom:2px solid #cdcdcd; background:#f7f7f7;">
+{% endif %}
+    <div class="container mt-3 mb-4">
+        <div class="row">
+            <div class="col-lg-12">
+                <!-- card for form -->
+                <div class="card">
+                    <div class="card-body">
+                        <!-- pretty much "advance search" for form -->
+                        <h3 style="padding-left: 1rem; padding-top:1rem">Report Selector</h3>
 
-<div class="container mt-3 mb-3">
-    <!-- card for form -->
-    <div class="card">
-        <div class="card-body">
+                        <!-- start of form -->
+                        <form class="p-3 update_chart" id="report_form" action="/webservice/report">
+                            {% csrf_token %}
+                            <input type="hidden" value="get_report" name="action">
 
-            <!-- pretty much "advance search" for form -->
-            <h3 style="padding-left: 1rem; padding-top:1rem">Report Selector</h3>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <!--  select option for provider type -->
+                                    <h6 class="pb-2">Provider Type</h6>
+                                    {% if template != 3 %}
+                                    <div class="form-select" id="default-select">
+                                    {% else %}
+                                    <div class="default-select">
+                                    {% endif %}
+                                        <select name="provider_type" id="provider_type" class="form-control mb-3">
+                                            <option value="overall" selected>All</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 mb-3">
+                                    <!-- select option for provider -->
+                                    <h6 class="pb-2">Provider</h6>
+                                    <select name="provider" id="provider" class="form-control js-example-basic-single" style="width:100%;">
+                                        <option value="" selected>All Provider</option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-6">
+                                    <!-- timeframe -->
+                                    <h6 class="pb-2">TimeFrame</h6>
+                                    {% if template != 3 %}
+                                    <div class="form-select" id="default-select">
+                                    {% else %}
+                                    <div class="default-select">
+                                    {% endif %}
+                                        <select name="timeframe" id="timeframe" class="form-control mb-3" style="width:100%;">
+                                            <option value="default" selected>Last 30 days</option>
+                                            <option value="0">Today</option>
+                                            <option value="1">Yesterday</option>
+                                            <option value="7">This Week</option>
+                                            <option value="30">This Month</option>
+                                            <option value="-30">Last Month</option>
+                                            <option value="other">Custom</option>
+                                        </select>
+                                    </div>
+                                </div>
 
-            <!-- start of form -->
-            <form class="p-3 update_chart" id="report_form" action="/webservice/report">
-                {% csrf_token %}
-                <input type="hidden" value="get_report" name="action">
-                <!--  select option for provider type -->
-                <label>Provider Type</label>
-                <select name="provider_type" id="provider_type" class="form-control mb-3">
-                    <option value="overall" selected>All</option>
-                </select>
-                <!-- select option for provider -->
-                <label>Provider</label>
-                <select name="provider" id="provider" class="form-control mb-3">
-                    <option value="" selected>-- All Select --</option>
-                </select>
+                                <!-- Start date of requested report -->
+                                <div class="col-lg-6" id="date_field" style="display:none">
+                                    <div class="row">
+                                        <div class="col-lg-6 mb-3">
+                                            <h6 class="pb-2">Start Date</h6>
+                                            <input class="form-control" type="date" name="start_date" id="get_report_startdate">
+                                        </div>
+                                        <div class="col-lg-6 mb-3">
+                                            <!-- end date of requested report -->
+                                            <h6 class="pb-2">Until</h6>
+                                            <input class="form-control" type="date" name="until_date" id="get_report_enddate">
+                                        </div>
+                                    </div>
+                                </div>
 
-                <!-- timeframe -->
-                <label>TimeFrame</label>
-                <select name="timeframe" id="timeframe" class="form-control mb-3">
-                    <option value="default" selected>Last 30 days</option>
-                    <option value="0">Today</option>
-                    <option value="1">Yesterday</option>
-                    <option value="7">This Week</option>
-                    <option value="30">This Month</option>
-                    <option value="-30">Last Month</option>
-                    <option value="other">Custom</option>
-                </select>
+                                <div class="col-lg-12">
+                                    <!-- if agent is HO then there will be an option to select agent type and or agent -->
+                                    <div class="form-group" id="agent_selector" style="display:none;">
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <h6 class="pb-2">Agent Type</h6>
+                                                    {% if template != 3 %}
+                                                    <div class="form-select" id="default-select">
+                                                    {% else %}
+                                                    <div class="default-select">
+                                                    {% endif %}
+                                                    <select name="agent_type" id="agent_type" placeholder="Select Agent" class="form-control" style="width:100%;">
+                                                        <option value="" selected>All</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <h6 class="pb-2">Agent</h6>
+                                                <select name="agent" id="agent" placeholder="Select Agent" class="form-control js-example-basic-single" style="width:100%;">
+                                                    <option value="" selected>All Agent</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
-                <!-- Start date of requested report -->
-                <div id="date_field" style="display:none">
-                    <label>Start Date</label>
-                    <input type="date" name="start_date" id="get_report_startdate">
-                    <!-- end date of requested report -->
-                    <label>Until</label>
-                    <input type="date" name="until_date" id="get_report_enddate">
+                                <div class="col-lg-12 mt-3">
+                                    <!--<input name="agent" list="agent" id="agent">-->
+                                    <!-- submit button -->
+                                    <button class="primary-btn-ticket" type="submit" id="update_chart_button">Update</button>
+                                </div>
+                            </div>
+                        </form>
+                        <!-- end of form -->
+                    </div>
                 </div>
-                <!-- group by label, but not being use again (no effect) since moved to handler -->
-                <!-- <label>Group by</label> -->
-                <select name="group_by" id="group_by" style="display: inline" hidden>
-                    <option value="date" selected>Date</option>
-                    <option value="month">Month</option>
-                </select>
-
-                <!-- if agent is HO then there will be an option to select agent type and or agent -->
-                <div class="form-group" id="agent_selector" style="display:none">
-                    <label>Agent Type</label>
-                    <select name="agent_type" id="agent_type" placeholder="Select Agent" class="form-control">
-                        <option value="" selected>All</option>
-                    </select>
-                    <label>Agent</label>
-                    <select name="agent" id="agent" placeholder="Select Agent" class="form-control">
-                        <option value="" selected>All</option>
-                    </select>
-                </div>
-
-    <!--            <input name="agent" list="agent" id="agent">-->
-                <!-- submit button -->
-                <button type="submit" id="update_chart_button" style="margin-left:1rem">update</button>
-            </form>
-            <!-- end of form -->
+                <!-- end of card for form -->
+            </div>
         </div>
     </div>
-    <!-- end of card for form -->
-</div>
 
-<div class="container mb-3">
-    <div class="row">
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5>Revenue</h5>
-                    IDR
-                    <h4 id="total_rupiah" style="float:right">[Revenue]</h4>
+    <div class="container mb-4" id="loading-report" style="display:block">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="sk-circle">
+                    <div class="sk-circle1 sk-child"></div>
+                    <div class="sk-circle2 sk-child"></div>
+                    <div class="sk-circle3 sk-child"></div>
+                    <div class="sk-circle4 sk-child"></div>
+                    <div class="sk-circle5 sk-child"></div>
+                    <div class="sk-circle6 sk-child"></div>
+                    <div class="sk-circle7 sk-child"></div>
+                    <div class="sk-circle8 sk-child"></div>
+                    <div class="sk-circle9 sk-child"></div>
+                    <div class="sk-circle10 sk-child"></div>
+                    <div class="sk-circle11 sk-child"></div>
+                    <div class="sk-circle12 sk-child"></div>
+                </div>
+                <div style="text-align:center"><h6>{% trans 'PLEASE WAIT' %}</h6></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mb-4">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 style="border-bottom:4px solid {{color}}; width:fit-content; width: -moz-fit-content;">Total Revenue</h4>
+                        IDR
+                        <h4 id="total_rupiah" style="float:right">[Revenue]</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 style="border-bottom:3px solid {{color}}; width:fit-content; width: -moz-fit-content;">Total Average</h4>
+                        IDR
+                        <h4 id="average_rupiah" style="float:right">[Average]</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 style="border-bottom:3px solid {{color}}; width:fit-content; width: -moz-fit-content;">Total Profit</h4>
+                        IDR
+                        <h4 id="profit_rupiah" style="float:right">[Profit]</h4><br>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mt-3" id="profit_agent_card" style="display:none">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 style="border-bottom:3px solid {{color}}; width:fit-content; width: -moz-fit-content;">Profit Agent</h4>
+                        IDR
+                        <h4 id="profit_agent" style="float:right">[Profit]</h4><br>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mt-3" id="profit_ho_card" style="display:none">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 style="border-bottom:3px solid {{color}}; width:fit-content; width: -moz-fit-content;">Profit HO</h4>
+                        IDR
+                        <h4 id="profit_ho" style="float:right">[Profit]</h4><br>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5>Average</h5>
-                    IDR
-                    <h4 id="average_rupiah" style="float:right">[Average]</h4>
+    </div>
+
+    <div class="container">
+        <ul class="btn_tabs">
+            <Li class="tab mr-3 btn_tab-link current" data-tab="first-tab" id="first">Issued Report</Li>
+            <li class="tab mr-3 btn_tab-link" data-tab="second-tab" id="second">Book Issued</li>
+            <li class="tab btn_tab-link" data-tab="third-tab" id="third">Channel Rank</li>
+        </ul>
+    </div>
+
+
+    <div class="container btn_tab-content current" id="first-tab">
+        <div class="row" style="padding:10px;">
+            <div class="col-lg-12 mb-4" style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                <h2>Overall Report</h2>
+                <hr/>
+                <div class="chart_container first_container" style="overflow-y:auto !important; width:100% !important; display: flex !important;">
+                    <div id="first_graph">
+                        <canvas id="first_chart_report" class="canvas_full"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12" id="div_overview_first" style="background:white; border:1px solid #cdcdcd; padding:15px; display:block;">
+                <h2>Overview</h2>
+                <hr>
+                <div class="first_container" id="first_overview_content">
+
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5>Profit</h5>
-                    IDR
-                    <h4 id="profit_rupiah" style="float:right">[Profit]</h4><br>
+    </div>
+
+    <div class="container btn_tab-content" id="second-tab">
+        <div class="row" style="padding:10px;">
+            <div class="col-lg-12 mb-4" style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                <h2>Overall Report</h2>
+                <hr/>
+                <div class="chart_container second_container" style="display:none; overflow-y:auto !important; width:100% !important; display: flex !important;">
+                    <div id="second_graph">
+                        <canvas id="second_chart_report" class="canvas_full"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12" id="div_overview_second" style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                <h2>Overview</h2>
+                <hr>
+                <div class="second_container" id="second_overview_content" style="display:none">
+
                 </div>
             </div>
         </div>
-        <div class="col-md-4 mt-3" id="profit_ho_card" style="display:none">
-            <div class="card">
-                <div class="card-body">
-                    <h5>Profit HO</h5>
-                    IDR
-                    <h4 id="profit_ho" style="float:right">[Profit]</h4><br>
+    </div>
+
+    <div class="container btn_tab-content" id="third-tab">
+        <div class="row" style="padding:10px;">
+            <div class="col-lg-12 mb-4" style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                <h2>Overall Report</h2>
+                <hr/>
+                <div class="chart_container third_container" style="display:none; overflow-y:auto !important; width:100% !important; display: flex !important;">
+                    <div id="third_graph">
+                        <canvas id="third_chart_report" class="canvas_full"></canvas>
+                    </div>
                 </div>
             </div>
+<!--            <div class="col-lg-12" style="background:white; border:1px solid #cdcdcd; padding:15px;">-->
+<!--                <h2>Overview</h2>-->
+<!--                <hr>-->
+<!--                <div class="third_container" id="third_overview_content" style="display:none">-->
+
+<!--                </div>-->
+<!--            </div>-->
         </div>
     </div>
-</div>
-
-<div class="container">
-<ul>
-    <Li class="tab mr-3 btn btn-primary" id="first">Issued Report</Li>
-    <li class="tab mr-3 btn btn-primary" id="second">Book Issued</li>
-    <li class="tab btn btn-primary" id="third">Channel Rank</li>
-</ul>
-</div>
-
-<div class="container">
-    <h2>Overall Report</h2>
-    <hr>
-    <div class="chart_container first_container">
-        <div id="first_graph">
-            <canvas id="first_chart_report"></canvas>
-        </div>
-    </div>
-    <div class="chart_container second_container" style="display:none">
-        <div id="second_graph">
-            <canvas id="second_chart_report"></canvas>
-        </div>
-    </div>
-    <div class="chart_container third_container" style="display:none">
-        <div id="third_graph">
-            <canvas id="third_chart_report"></canvas>
-        </div>
-    </div>
-</div>
-
-<div class="container">
-    <h2>Overview</h2>
-    <hr>
-    <div class="first_container" id="first_overview_content">
-
-    </div>
-    <div class="second_container" id="second_overview_content" style="display:none">
-
-    </div>
-    <div class="third_container" id="third_overview_content" style="display:none">
-
-    </div>
-</div>
-<script src="{{ static_path }}js/selectize.min.js" integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="{{ static_path }}css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
+</section>
+<!--<script src="{{ static_path }}js/selectize.min.js" integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>-->
+<!--<link rel="stylesheet" href="{{ static_path }}css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />-->
 <script src="{{ static_path }}js/webservice_report.js?version={{javascript_version}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
 <script>
