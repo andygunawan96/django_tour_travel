@@ -839,7 +839,7 @@ function save_retrieve_booking_from_vendor(){
                Swal.fire({
                   type: 'error',
                   title: 'Oops!',
-                  html: msg.result.error_msg,
+                  html: msg.result.error_additional_message,
                })
            }
        },
