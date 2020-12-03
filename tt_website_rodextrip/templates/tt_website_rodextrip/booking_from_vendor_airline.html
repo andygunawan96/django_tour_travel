@@ -81,7 +81,7 @@
                                     <input type="hidden" class="form-control" name="pnr" id="booker_vendor_id"/>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-xs-6">
+                            <div class="col-lg-6 col-xs-6" hidden id="cus_parent_div">
                                 <label style="color:red">*</label>
                                 <label>{% trans 'Customer Parent' %}</label>
                                 <div class="input-container-search-ticket">
@@ -3489,6 +3489,7 @@
            },
            data: {
                 'signature': signature,
+                'booker_id': document.getElementById('booker_vendor_id').value,
            },
            success: function(msg) {
                console.log(msg);
@@ -3507,7 +3508,6 @@
            },timeout: 60000
         });
     }
-    get_customer_parent();
 
     function hide_result_booker_vendor(){
         document.getElementById('search_result_booker_vendor').hidden = !document.getElementById('search_result_booker_vendor').hidden;
