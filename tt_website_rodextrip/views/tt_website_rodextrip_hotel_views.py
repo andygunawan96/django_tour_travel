@@ -244,12 +244,8 @@ def passengers(request):
             phone_code = sorted(phone_code)
 
             # pax
-            adult = []
-            child = []
-            for i in range(int(request.session['hotel_request']['adult'])):
-                adult.append('')
-            for i in range(int(request.session['hotel_request']['child'])):
-                child.append('')
+            adult = ['' for i in range(int(request.session['hotel_request']['adult']))]
+            child = ['' for i in range(int(request.session['hotel_request']['child']))]
             request.session['hotel_request'].update({
                 'check_in': request.POST.get('checkin_date') and str(datetime.strptime(request.POST['checkin_date'], '%d %b %Y'))[:10] or request.session['hotel_request']['checkin_date'],
                 'check_out': request.POST.get('checkout_date') and str(datetime.strptime(request.POST['checkout_date'], '%d %b %Y'))[:10] or request.session['hotel_request']['checkout_date'],
@@ -268,6 +264,7 @@ def passengers(request):
                 'childs': child,
                 'adults': adult,
                 'rooms': [rec + 1 for rec in range(request.session['hotel_request']['room'])],
+                'room_qty': int(request.session['hotel_request']['room']) + 1,
                 'adult_count': int(request.session['hotel_request']['adult']),
                 'child_count': int(request.session['hotel_request']['child']),
                 'adult_title': adult_title,

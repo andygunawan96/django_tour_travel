@@ -158,6 +158,7 @@ def get_config(request):
             "signature": request.POST['signature']
         }
         file = read_cache_with_folder_path("event_cache_data", 86400)
+        # TODO VIN: Some Update Mekanisme ontime misal ada perubahan data dkk
         if not file:
             res = util.send_request(url=url + "booking/event", data=data, headers=headers, method='POST', timeout=300)
             try:

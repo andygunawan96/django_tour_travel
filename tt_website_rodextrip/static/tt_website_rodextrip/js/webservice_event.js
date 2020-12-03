@@ -726,7 +726,7 @@ function event_search(){
         'signature': signature
        },
        success: function(msg) {
-//           console.log('Result');
+//           console.log('Result Event');
 //           console.log(msg);
            if(google_analytics != '')
                gtag('event', 'event_search', {});
