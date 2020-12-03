@@ -36,7 +36,7 @@
     }
 
 </style>
-{%if "b2c_limitation" not in username.co_agent_frontend_security%}
+{%if "get_booking_from_vendor" in username.co_agent_frontend_security%}
 <button type="button" style="background-color:{{color}};" class="mystickybookingvendor" class="primary-btn" data-toggle="modal" data-target="#myModalPluginVendor">
     <i class="fas fa-plane-departure"></i>
 </button>
@@ -79,6 +79,17 @@
                                 <div class="input-container-search-ticket">
                                     <input type="text" class="form-control" name="pnr" id="booker_vendor" placeholder="{% trans 'Booker' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Booker '" disabled/>
                                     <input type="hidden" class="form-control" name="pnr" id="booker_vendor_id"/>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-xs-6">
+                                <label style="color:red">*</label>
+                                <label>{% trans 'Customer Parent' %}</label>
+                                <div class="input-container-search-ticket">
+                                    <div class="form-select-2">
+                                        <select id="customer_parent_booking_from_vendor" name="provider_booking_from_vendor" class="nice-select-default">
+
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                             <!--<div class="col-lg-6 col-md-6 col-sm-6">-->
@@ -3469,6 +3480,35 @@
         });
 
     });
+    function get_customer_parent(){
+        $.ajax({
+           type: "POST",
+           url: "/webservice/agent",
+           headers:{
+                'action': 'get_customer_parent',
+           },
+           data: {
+                'signature': signature,
+           },
+           success: function(msg) {
+               console.log(msg);
+               console.log('lalla');
+               if(msg.result.error_code == 0){
+                    customer_parent = msg.result.response;
+                    for(i in msg.result.response){
+                        document.getElementById('customer_parent_booking_from_vendor').innerHTML += `<option value="`+msg.result.response[i].id+`">`+msg.result.response[i].name+`</option>`;
+                    }
+
+               }else{
+               }
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+
+           },timeout: 60000
+        });
+    }
+    get_customer_parent();
+
     function hide_result_booker_vendor(){
         document.getElementById('search_result_booker_vendor').hidden = !document.getElementById('search_result_booker_vendor').hidden;
         if(document.getElementById('search_result_booker_vendor').hidden)

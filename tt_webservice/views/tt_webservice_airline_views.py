@@ -2135,7 +2135,8 @@ def save_retrieve_booking_from_vendor(request):
         data = {
             'booker_id': request.POST.get('booker_id'),
             'response': response['result'],
-            'duplicate_pnr': bool_pnr
+            'duplicate_pnr': bool_pnr,
+            'customer_parent_id': request.POST.get('customer_parent_id')
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
