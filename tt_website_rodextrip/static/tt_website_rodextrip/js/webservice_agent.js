@@ -1299,6 +1299,10 @@ function pick_passenger(type, sequence, product){
                 $('#customer_parent_booking_from_vendor').niceSelect('update');
             }
             document.getElementById('cus_parent_div').hidden = false;
+        }else{
+            document.getElementById('customer_parent_booking_from_vendor').innerHTML = '';
+            document.getElementById('cus_parent_div').hidden = false;
+            $('#customer_parent_booking_from_vendor').niceSelect('update');
         }
 //        get_customer_parent();
     }else if(type == '' || product == 'issued_offline'){
