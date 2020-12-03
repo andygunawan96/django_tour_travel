@@ -2179,6 +2179,7 @@ h1, h2, h3, h4, h5, h6 {
 .main-menu {
   padding-bottom: 15px;
   padding-top: 15px;
+  margin-bottom:-1px;
   background: rgba(255, 255, 255, 1);
   padding-left: 15px;
   padding-right: 15px;
@@ -2197,7 +2198,7 @@ h1, h2, h3, h4, h5, h6 {
 
 #header {
   left: 0;
-  top: 0;
+  top: -1px;
   right: 0;
   transition: all 0.5s;
   z-index: 999;
@@ -8169,6 +8170,50 @@ ul.edit_tabs li.current .image-rounded-icon{
 }
 
 
+/* ul li button */
+ul.btn_tabs{
+    list-style: none;
+}
+ul.btn_tabs li{
+    /*background: rgba(0,0,0,0.5);*/
+    color: black;
+    margin-bottom:10px;
+    display: inline-block;
+    padding: 10px 15px;
+    cursor: pointer;
+    border: 2px solid #f15a22;
+}
+
+ul.btn_tabs li:hover{
+   color:#f15a22;
+}
+
+li.btn_tab-link label{
+    cursor: pointer;
+    text-align:center;
+}
+
+ul.btn_tabs li.current{
+    background: #f15a22;
+    color: white;
+}
+
+ul.btn_tabs li.current .image-rounded-icon{
+    background: #f15a22 !important;
+}
+
+.btn_tab-content{
+    display: none;
+    /*background: rgba(0,0,0,0.5);*/
+    padding: 20px;
+}
+
+.btn_tab-content.current{
+    display: inherit;
+}
+
+
+
 /* popular1 new */
 ul.popular1_tabs{
     margin: 0px;
@@ -8718,4 +8763,17 @@ ul.popular2_tabs li.current .image-rounded-icon{
 .primary-btn-white:hover {
   background: #f15a22;
   color: white;
+}
+
+.chartjs-size-monitor {
+    position:relative;
+    overflow:auto;
+}
+
+.center_vh{
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
