@@ -5459,6 +5459,28 @@ display: block;
   background-color: #C04B21;
 }
 
+.mystickybookingvendor {
+    position: fixed;
+    bottom: 180px;
+    right: 58px;
+    z-index: 999;
+    font-size: 20px;
+    border: 1px solid gray;
+    outline: none;
+    background-color: #f15a22;
+    color: white;
+    cursor: pointer;
+    height: 55px;
+    width: 55px;
+    border-radius: 30px;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
+.mystickybookingvendor:hover {
+  background-color: #C04B21;
+}
+
 .myticket_static {
   background-color: #f15a22;
   color: white;
