@@ -3834,11 +3834,14 @@ function airline_hold_booking(val){
     })
 }
 
-function airline_get_booking(data){
+function airline_get_booking(data, sync=false){
     airline_pick_list = [];
     document.getElementById('payment_acq').hidden = true;
     price_arr_repricing = {};
     get_balance('false');
+    show_loading();
+    please_wait_transaction();
+    $("#waitingTransaction").modal('show');
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -3847,11 +3850,13 @@ function airline_get_booking(data){
        },
        data: {
             'order_number': data,
-            'signature': signature
+            'signature': signature,
+            'sync': sync
        },
        success: function(msg) {
            console.log(msg);
            hide_modal_waiting_transaction();
+           document.getElementById('div_sync_status').hidden = false;
            document.getElementById("overlay-div-box").style.display = "none";
 
            airline_get_detail = msg;
@@ -4483,7 +4488,12 @@ function airline_get_booking(data){
                     </div>
                 </div>
 
-                <div class="row" style="margin-top:20px;">
+                <div class="row" style="margin-top:20px;">`;
+                if(msg.result.response.state == 'issued')
+                text+=`
+                    <div class="col-lg-3" style="padding-bottom:10px;">`;
+                else
+                text+=`
                     <div class="col-lg-4" style="padding-bottom:10px;">`;
                         if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
                             if (msg.result.response.state == 'booked'){
@@ -4501,7 +4511,12 @@ function airline_get_booking(data){
                             }
                         }
                         text+=`
-                    </div>
+                    </div>`;
+                    if(msg.result.response.state == 'issued')
+                    text+=`
+                    <div class="col-lg-3" style="padding-bottom:10px;">`;
+                    else
+                        text+=`
                     <div class="col-lg-4" style="padding-bottom:10px;">`;
                         if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
                             if (msg.result.response.state  == 'booked'){
@@ -4514,14 +4529,28 @@ function airline_get_booking(data){
                             else if (msg.result.response.state == 'issued'){
                                 text+=`
                                 <a class="print-booking-train ld-ext-right" style="color:`+text_color+`;">
-                                    <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Print Ticket (with Price)" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket_price','airline');" />
+                                    <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Print Ticket(Price)" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket_price','airline');" />
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </a>`;
                             }
                         }
                             text+=`
-                    </div>
-                    <div class="col-lg-4" style="padding-bottom:10px;">`;
+                    </div>`;
+                    if(msg.result.response.state == 'issued'){
+                    text+=`
+                    <div class="col-lg-3" style="padding-bottom:10px;">`;
+                        text+=`
+                        <a class="print-booking-train ld-ext-right" style="color:`+text_color+`;">
+                            <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Print Ori Ticket" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket_original','airline');" />
+                            <div class="ld ld-ring ld-cycle"></div>
+                        </a>
+                    </div>`;
+                    }
+                    if(msg.result.response.state == 'issued')
+                    text+=`
+                    <div class="col-lg-3" style="padding-bottom:10px;">`;
+                    else
+                    text+=`<div class="col-lg-4" style="padding-bottom:10px;">`;
                         if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
                             if (msg.result.response.state  == 'booked'){
                                 text+=`
@@ -4587,7 +4616,10 @@ function airline_get_booking(data){
                         }
                             text+=`
                         </a>
-                    </div>
+                    </div>`;
+                    text+=`
+                    </div>`;
+                text+=`
                 </div>`;
                 document.getElementById('airline_booking').innerHTML = text;
 

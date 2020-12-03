@@ -1265,8 +1265,12 @@ def commit_booking(request):
 
 def get_booking(request):
     try:
+        sync = False
+        if request.POST['sync'] == 'true':
+            sync = True
         data = {
-            'order_number': request.POST['order_number']
+            'order_number': request.POST['order_number'],
+            'force_sync': sync
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
