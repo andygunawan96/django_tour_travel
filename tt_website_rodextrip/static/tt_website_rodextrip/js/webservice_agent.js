@@ -288,7 +288,7 @@ function signin_btc(){
                     user_login = msg.result.response;
                     signature = msg.result.response.signature;
                     triggered_balance(false);
-                    get_balance(false);
+                    //get_balance(false); //firefox error
                 }catch(err){}
                 if(window.location.href.split('/')[3] == ''){
                     window.location.href = '/';
