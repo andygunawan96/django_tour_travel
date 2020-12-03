@@ -152,12 +152,18 @@
             {% csrf_token %}
             <div class="row" style="padding-top:20px;">
                 <div class="col-lg-12">
-                    <div id="show_title_airline" hidden>
-                        <h3>{% trans 'Please Review Your Booking' %}</h3>
-                        <h4>{% trans 'Prices may changes at any time' %}</h4>
-                        <br/>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div id="show_title_airline" hidden>
+                                <h3>{% trans 'Please Review Your Booking' %}</h3>
+                                <h4>{% trans 'Prices may changes at any time' %}</h4>
+                                <br/>
+                            </div>
+                        </div>
+                        <div class="col-lg-2" id="div_sync_status" hidden>
+                            <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" value="Sync Status" onclick="airline_get_booking('{{order_number}}',true)">
+                        </div>
                     </div>
-
                     <div class="col-lg-12" id="show_loading_booking_airline">
                         <div class="center-div">
                             <div>
