@@ -3965,6 +3965,7 @@ function airline_get_booking(data, sync=false){
                        check_cancel = 0;
                        check_reschedule = 0;
                        check_ff = 0;
+                       col = 4;
                        if(last_date != '' && time_now < last_date){
                            for(i in msg.result.response.provider_bookings){
                                 if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_reschedule){
@@ -3981,6 +3982,9 @@ function airline_get_booking(data, sync=false){
                                 }
                                 if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_cancel){
                                     check_cancel = 1;
+                                }
+                                if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_ori_ticket){
+                                    col = 3;
                                 }
 
                            }
@@ -4037,6 +4041,7 @@ function airline_get_booking(data, sync=false){
                        check_cancel = 0;
                        check_reschedule = 0;
                        check_ff = 0;
+                       col = 4;
                        if(last_date != '' && time_now < last_date){
                            for(i in msg.result.response.provider_bookings){
                                 if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_booked_reschedule){
@@ -4053,6 +4058,9 @@ function airline_get_booking(data, sync=false){
                                 }
                                 if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_booked_cancel){
                                     check_cancel = 1;
+                                }
+                                if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_ori_ticket){
+                                    col = 3;
                                 }
 
                            }
@@ -4489,12 +4497,9 @@ function airline_get_booking(data, sync=false){
                 </div>
 
                 <div class="row" style="margin-top:20px;">`;
-                if(msg.result.response.state == 'issued')
+
                 text+=`
-                    <div class="col-lg-3" style="padding-bottom:10px;">`;
-                else
-                text+=`
-                    <div class="col-lg-4" style="padding-bottom:10px;">`;
+                    <div class="col-lg-`+col+`" style="padding-bottom:10px;">`;
                         if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
                             if (msg.result.response.state == 'booked'){
                                 text+=`
@@ -4512,12 +4517,8 @@ function airline_get_booking(data, sync=false){
                         }
                         text+=`
                     </div>`;
-                    if(msg.result.response.state == 'issued')
                     text+=`
-                    <div class="col-lg-3" style="padding-bottom:10px;">`;
-                    else
-                        text+=`
-                    <div class="col-lg-4" style="padding-bottom:10px;">`;
+                    <div class="col-lg-`+col+`" style="padding-bottom:10px;">`;
                         if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
                             if (msg.result.response.state  == 'booked'){
                                 text+=`
@@ -4536,9 +4537,9 @@ function airline_get_booking(data, sync=false){
                         }
                             text+=`
                     </div>`;
-                    if(msg.result.response.state == 'issued'){
+                    if(msg.result.response.state == 'issued' && col == 3){
                     text+=`
-                    <div class="col-lg-3" style="padding-bottom:10px;">`;
+                    <div class="col-lg-`+col+`" style="padding-bottom:10px;">`;
                         text+=`
                         <a class="print-booking-train ld-ext-right" style="color:`+text_color+`;">
                             <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Print Ori Ticket" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket_original','airline');" />
@@ -4546,11 +4547,7 @@ function airline_get_booking(data, sync=false){
                         </a>
                     </div>`;
                     }
-                    if(msg.result.response.state == 'issued')
-                    text+=`
-                    <div class="col-lg-3" style="padding-bottom:10px;">`;
-                    else
-                    text+=`<div class="col-lg-4" style="padding-bottom:10px;">`;
+                    text+=`<div class="col-lg-`+col+`" style="padding-bottom:10px;">`;
                         if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
                             if (msg.result.response.state  == 'booked'){
                                 text+=`
