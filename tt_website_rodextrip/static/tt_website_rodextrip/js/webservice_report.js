@@ -496,7 +496,6 @@ function get_report_overall(){
 
 $('#report_form').submit(function(evt){
     evt.preventDefault();
-    console.log("HAII");
     // check if date is bigger than 30 days
     var start = $('#get_report_startdate').val();
     var end = $('#get_report_enddate').val();
@@ -538,7 +537,6 @@ $('#report_form').submit(function(evt){
     // prepare data
     var postdata = $(this).serialize();
     postdata += "&type=custom&signature=" + signature;
-    console.log(postdata);
     // get provider type
     var provider_type = $('#provider_type').val();
 
