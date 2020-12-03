@@ -819,6 +819,7 @@ function save_retrieve_booking_from_vendor(){
             'signature': signature,
             'booker_id': document.getElementById('booker_vendor_id').value,
             'response': JSON.stringify(data_get_retrieve_booking),
+            'customer_parent_id': document.getElementById('customer_parent_booking_from_vendor').value
 //            'duplicate_pnr': document.getElementById('duplicate_pnr').checked
        },
        success: function(msg) {
@@ -833,7 +834,7 @@ function save_retrieve_booking_from_vendor(){
                document.getElementById('booker_vendor').value = '';
                document.getElementById('booker_vendor_id').value = '';
                document.getElementById('result_get_booking_from_vendor').innerHTML = '';
-
+               window.location= "/airline/booking/"+btoa(msg.result.response.order_number);
            }else{
                Swal.fire({
                   type: 'error',
