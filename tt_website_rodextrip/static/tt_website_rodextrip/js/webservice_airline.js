@@ -819,7 +819,7 @@ function save_retrieve_booking_from_vendor(){
             'signature': signature,
             'booker_id': document.getElementById('booker_vendor_id').value,
             'response': JSON.stringify(data_get_retrieve_booking),
-            'duplicate_pnr': document.getElementById('duplicate_pnr').checked
+//            'duplicate_pnr': document.getElementById('duplicate_pnr').checked
        },
        success: function(msg) {
            console.log(msg);
