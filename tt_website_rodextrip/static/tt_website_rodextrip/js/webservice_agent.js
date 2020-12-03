@@ -1054,7 +1054,9 @@ function get_customer_list(passenger, number, product){
                     }else{
                         response = '';
                         response+=`<center><div class="alert alert-danger" role="alert" style="margin-top:10px;"><h6><i class="fas fa-search-minus"></i> Oops! User not found!</h6></div></center>`;
-                        if(passenger == 'passenger')
+                        if(product == 'get_booking_vendor'){
+                            document.getElementById('search_result_passenger').innerHTML = response;
+                        }else if(passenger == 'passenger')
                             document.getElementById('search_result_passenger').innerHTML = response;
                         else
                             document.getElementById('search_result').innerHTML = response;
@@ -1291,7 +1293,14 @@ function pick_passenger(type, sequence, product){
         document.getElementById('hide_btn_click').hidden = true;
         document.getElementById('booker_vendor').value = passenger_data[sequence].title + ' ' + passenger_data[sequence].first_name + ' ' + passenger_data[sequence].last_name;
         document.getElementById('booker_vendor_id').value = passenger_data[sequence].seq_id;
-
+        if(passenger_data[sequence].customer_parents.length != 0){
+            for(i in passenger_data[sequence].customer_parents){
+                document.getElementById('customer_parent_booking_from_vendor').innerHTML += `<option value="`+passenger_data[sequence].customer_parents[i].seq_id+`">`+passenger_data[sequence].customer_parents[i].name+`</option>`;
+                $('#customer_parent_booking_from_vendor').niceSelect('update');
+            }
+            document.getElementById('cus_parent_div').hidden = false;
+        }
+//        get_customer_parent();
     }else if(type == '' || product == 'issued_offline'){
         if(type == 'Booker'){
             document.getElementById('contact_person').value = passenger_data[sequence].title + ' ' + passenger_data[sequence].first_name + ' ' + passenger_data[sequence].last_name;
