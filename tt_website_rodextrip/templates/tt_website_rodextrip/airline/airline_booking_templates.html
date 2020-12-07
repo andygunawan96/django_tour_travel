@@ -221,6 +221,12 @@
                     <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;margin-top:10px;" id="reissued" hidden>
 
                     </div>
+                    <button type="button" class="primary-btn" id="button-home" style="width:100%;margin-top:15px;" onclick="window.location.href='/'" hidden>
+                        {% trans 'Home' %}
+                    </button>
+                    <button type="button" class="primary-btn" id="button-new-reservation" style="width:100%;margin-top:15px;" onclick="window.location.href='/'+window.location.href.split('/')[3]" hidden>
+                        {% trans 'Book New Reservation' %}
+                    </button>
                 </div>
                 <div class="modal fade" id="myModalRepricing" role="dialog">
                     <div class="modal-dialog" style="width:100% !important; height:100% !important; max-width:1200px;padding: 0;">

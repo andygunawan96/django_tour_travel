@@ -47,14 +47,33 @@ Licence URI: http://www.os-templates.com/template-terms
     <script>
         login_color_base = '{{login_background_color}}';
         login_color_base = login_color_base.substr(0,7);
+        text_color_login = `{{text_color_login}}`;
     </script>
     {% endif %}
 
     <!--template1-->
+
     <style>
         .login-header{
             background-image: url('{{background}}');
         }
+        {% if username.co_user_login == 'agent_b2c' %}
+
+            .tab_custom_login {
+                background-color: {{login_background_color}} !important;
+                border-bottom: unset !important;
+            }
+            {% if template == 1 or template == 3 or template == 5%}
+                .lnr_color {
+                    color: {{text_color_login}} !important;
+                }
+            {% else %}
+                .site-navbar {
+                    border-bottom: unset !important;
+                }
+            {% endif %}
+        {% endif %}
+
 
         {%if template == 1%}
         .testimonial-area {

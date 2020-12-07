@@ -870,6 +870,7 @@ function get_booking_offline(data){
        success: function(msg) {
             console.log(msg);
             try{
+                document.getElementById('button-home').hidden = false;
                 if(msg.result.error_code == 0){
                     offline_get_detail = msg;
                     var text = '';

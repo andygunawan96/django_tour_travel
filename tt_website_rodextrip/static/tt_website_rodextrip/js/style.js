@@ -62,20 +62,20 @@ $(document).ready(function(){
     $(".img-min-filter").hide();
 
 
-    if (user_login.co_user_login == 'agent_b2c'){
-        try{
-            document.getElementsByClassName("tab_custom_login")[0].style.backgroundColor = login_color_base;
-            document.getElementsByClassName("tab_custom_login")[0].style.borderBottom = "unset";
-            if(template == 1 || template == 3 || template == 5){
-                document.getElementsByClassName("lnr_color")[0].style.color = text_color;
-            }
-            if(template == 4){
-                document.getElementsByClassName("site-navbar")[0].style.borderBottom = "unset";
-            }
-        }catch(err){
-            console.log('err');
-        }
-    }
+//    if (user_login.co_user_login == 'agent_b2c'){
+//        try{
+//            document.getElementsByClassName("tab_custom_login")[0].style.backgroundColor = login_color_base;
+//            document.getElementsByClassName("tab_custom_login")[0].style.borderBottom = "unset";
+//            if(template == 1 || template == 3 || template == 5){
+//                document.getElementsByClassName("lnr_color")[0].style.color = text_color;
+//            }
+//            if(template == 4){
+//                document.getElementsByClassName("site-navbar")[0].style.borderBottom = "unset";
+//            }
+//        }catch(err){
+//            console.log('err');
+//        }
+//    }
 
 
 //    $('#A').click(function (e) { //Default mouse Position

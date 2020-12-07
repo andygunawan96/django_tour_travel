@@ -1487,6 +1487,8 @@ function hotel_get_booking(data){
        },
        success: function(msg) {
             console.log(msg);
+            document.getElementById('button-home').hidden = false;
+            document.getElementById('button-new-reservation').hidden = false;
             hide_modal_waiting_transaction();
             try{
                 list_pnr = [];

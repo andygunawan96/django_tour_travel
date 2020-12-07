@@ -3856,7 +3856,8 @@ function airline_get_booking(data, sync=false){
        success: function(msg) {
            console.log(msg);
            hide_modal_waiting_transaction();
-           document.getElementById('div_sync_status').hidden = false;
+           document.getElementById('button-home').hidden = false;
+           document.getElementById('button-new-reservation').hidden = false;
            document.getElementById("overlay-div-box").style.display = "none";
 
            airline_get_detail = msg;
@@ -3866,6 +3867,8 @@ function airline_get_booking(data, sync=false){
            //get booking view edit here
            try{
                if(msg.result.error_code == 0){
+                if(msg.result.response.state == 'booked' || msg.result.response.state == 'partial_booked' || msg.result.response.state == 'partial_issued' || msg.result.response.state == 'fail_issued')
+                    document.getElementById('div_sync_status').hidden = false;
                 for(i in msg.result.response.passengers[0].sale_service_charges){
                     for(j in msg.result.response.passengers[0].sale_service_charges[i]){
                         currency = msg.result.response.passengers[0].sale_service_charges[i][j].currency
@@ -3953,7 +3956,7 @@ function airline_get_booking(data, sync=false){
                 for(i in msg.result.response.provider_bookings){
                     last_date = msg.result.response.provider_bookings[i].departure_date.substr(0,10);
                 }
-
+                col = 4;
                 if(msg.result.response.state == 'issued' || msg.result.response.state == 'rescheduled' || msg.result.response.state == 'reissue'){
                     try{
                         document.getElementById('voucher_discount').style.display = 'none';
@@ -3983,11 +3986,12 @@ function airline_get_booking(data, sync=false){
                                 if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_cancel){
                                     check_cancel = 1;
                                 }
-                                if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_ori_ticket){
-                                    col = 3;
-                                }
-
                            }
+                       }
+                       for(i in msg.result.response.provider_bookings){
+                            if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_ori_ticket){
+                                    col = 3;
+                            }
                        }
                        if(check_reschedule){
                             document.getElementById('reissued').hidden = false;

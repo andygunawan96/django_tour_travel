@@ -585,7 +585,7 @@ def admin(request):
                     if request.POST.get('tab_login_background_checkbox'):
                         opacity = 'B3'
                     text += "#" + request.POST['tab_login_background'] + opacity + '\n'
-
+                    text += "#" + request.POST['text_pick_login'] + '\n'
                     write_cache_with_folder(text, "data_cache_template")
                     temp = text.split('\n')
                     for idx, rec in enumerate(temp):
@@ -920,6 +920,7 @@ def get_data_template(request, type='home', provider_type = []):
     tawk_code = ''
     tab_color = '#333333'
     text_color = '#FFFFFF'
+    text_color_login = '#FFFFFF'
     espay_api_key = ''
     espay_api_key_callback_url = ''
     backend_url = ''
@@ -1066,7 +1067,9 @@ def get_data_template(request, type='home', provider_type = []):
                             else:
                                 tab_color = line.split('\n')[0]
                                 login_background_color = line.split('\n')[0]
-
+                elif idx == 21:
+                    if line != '':
+                        text_color_login = line.split('\n')[0]
             if color == '':
                 color = '#f15a22'
             if len(background.split('\n')) > 1:
@@ -1084,6 +1087,7 @@ def get_data_template(request, type='home', provider_type = []):
         'tawk_chat': tawk_chat,
         'tawk_code': tawk_code,
         'text_color': text_color,
+        'text_color_login': text_color_login,
         'tab_color': tab_color,
         'update_data': '',
         'espay_api_key': espay_api_key,

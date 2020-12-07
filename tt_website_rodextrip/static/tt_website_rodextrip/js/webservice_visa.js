@@ -667,6 +667,8 @@ function visa_get_data(data){
        success: function(msg) {
             console.log(msg);
             try{
+                document.getElementById('button-home').hidden = false;
+                document.getElementById('button-new-reservation').hidden = false;
                 if(msg.result.error_code == 0){
                     visa = msg.result.response;
                     var cur_state = msg.result.response.journey.state;

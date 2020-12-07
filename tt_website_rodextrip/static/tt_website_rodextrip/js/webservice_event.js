@@ -159,6 +159,8 @@ function event_get_booking(data){
        success: function(msg) {
             console.log('Get Booking');
             console.log(msg);
+            document.getElementById('button-home').hidden = false;
+            document.getElementById('button-new-reservation').hidden = false;
             hide_modal_waiting_transaction();
             try{
                 //======================= Resv =========================

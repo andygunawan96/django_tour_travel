@@ -531,6 +531,8 @@ function train_get_booking(data){
        success: function(msg) {
         console.log(msg);
         try{
+            document.getElementById('button-home').hidden = false;
+            document.getElementById('button-new-reservation').hidden = false;
             if(msg.result.error_code == 0){
                 train_get_detail = msg;
                 if(msg.result.response.hold_date != false && msg.result.response.hold_date != ''){
