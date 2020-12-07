@@ -1638,7 +1638,7 @@ function check_passenger(adult, child, room){
                     error_log += 'Copy booker to passenger true, value title, first name, and last name has to be same!</br>\n';
        //adult
        for(i=1;i<=adult;i++){
-           if(pax_list.includes(document.getElementById('adult_first_name'+i).value+document.getElementById('adult_last_name'+i).value) == true)
+           if(pax_list.includes(document.getElementById('adult_first_name'+i).value+document.getElementById('adult_last_name'+i).value) == true && document.getElementById('adult_first_name'+i).value != '')
                 error_log+= 'please use different name for adult passenger '+i+'!</br>\n';
            else
                 pax_list.push(document.getElementById('adult_first_name'+i).value+document.getElementById('adult_last_name'+i).value)
@@ -1951,22 +1951,6 @@ function hotel_detail(old_cancellation_policy){
             commission += parseInt(hotel_price.rooms[i].commission) *-1;
         }catch(err){}
 
-        if(document.URL.split('/')[document.URL.split('/').length-1] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
-            text+=`<div class="col-lg-12"><div style="text-align:right;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div></div>`;
-        }
-        try{
-            if(upsell_price != 0){
-                text+=`<div class="col-lg-7" style="text-align:left;">
-                    <span style="font-size:13px;font-weight:500;">Other Service Charge</span><br/>
-                </div>
-                <div class="col-lg-5" style="text-align:right;">`;
-                text+=`
-                    <span style="font-size:13px; font-weight:500;">IDR `+getrupiah(upsell_price)+`</span><br/>`;
-                text+=`</div>`;
-                grand_total_price += upsell_price;
-            }
-        }catch(err){console.log(err)}
-
         text += `<div class="col-lg-6">
             <span style="font-weight:bold;">Total</span>
         </div>
@@ -1997,15 +1981,30 @@ function hotel_detail(old_cancellation_policy){
     </div>`;
 
     text += `<div class="row">
-        <div class="col-lg-12"><hr/></div>
-        <div class="col-lg-6">
+        <div class="col-lg-12"><hr/></div>`;
+        if(document.URL.split('/')[document.URL.split('/').length-1] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
+            text+=`<div class="col-lg-12"><div style="text-align:right;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div></div>`;
+        }
+        try{
+            if(upsell_price != 0){
+                text+=`<div class="col-lg-7" style="text-align:left;">
+                    <span style="font-size:13px;font-weight:500;">Other Service Charge</span><br/>
+                </div>
+                <div class="col-lg-5" style="text-align:right;">`;
+                text+=`
+                    <span style="font-size:13px; font-weight:500;">IDR `+getrupiah(upsell_price)+`</span><br/>`;
+                text+=`</div>`;
+                grand_total_price += upsell_price;
+            }
+        }catch(err){console.log(err)}
+    text += `<div class="col-lg-6">
             <span style="font-weight:bold;font-size:15px;">Grand Total</span>
         </div>
         <div class="col-lg-6" style="text-align:right;">
-            <span style="font-weight:bold;font-size:15px;">IDR `+ getrupiah(total_price_hotel) +`</span>
+            <span style="font-weight:bold;font-size:15px;">IDR `+ getrupiah(grand_total_price) +`</span>
         </div>
     </div>`;
-    $text2 += 'Grand Total: IDR ' + getrupiah(total_price_hotel) + '\n';
+    $text2 += 'Grand Total: IDR ' + getrupiah(grand_total_price) + '\n';
     text += `<div class="row"><div class="col-lg-12" style="padding-bottom:15px;">
         <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
         share_data2();

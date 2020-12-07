@@ -238,7 +238,7 @@ def search(request):
             'destination_id': destination_id,
             'child_ages': child_age,
             'nationality': request.POST['nationality'].split(' - ')[0],
-            'is_bussiness_trip': request.POST['nationality'],
+            'is_bussiness_trip': request.POST['business_trip'],
         }
         try:
             hotel_request_data = request.session['hotel_request_data']
