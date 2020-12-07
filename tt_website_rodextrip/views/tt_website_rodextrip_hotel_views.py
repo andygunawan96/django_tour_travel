@@ -111,7 +111,7 @@ def search(request):
                     'destination': request.POST['hotel_id_destination'],
                     'guest_nationality': request.POST['hotel_id_nationality'],
                     'nationality': request.POST['hotel_id_nationality'].split(' - ')[0],
-                    'business_trip': request.POST.get('business_trip'), #Checkbox klo disi baru di POST
+                    'business_trip': request.POST.get('business_trip') and 'T' or 'F', #Checkbox klo disi baru di POST
                     'checkin_date': request.POST['hotel_checkin_checkout'].split(' - ')[0],
                     'checkout_date': request.POST['hotel_checkin_checkout'].split(' - ')[1],
                     # 'checkin_date': request.POST['hotel_checkin'],
@@ -324,6 +324,8 @@ def review(request):
                     'booker_seq_id': request.POST['booker_id']
                 }
                 for i in range(int(request.session['hotel_request']['adult'])):
+                    if request.POST['adult_first_name' + str(i + 1)] == '':
+                        continue
                     adult.append({
                         "pax_type": "ADT",
                         "first_name": request.POST['adult_first_name' + str(i + 1)],
