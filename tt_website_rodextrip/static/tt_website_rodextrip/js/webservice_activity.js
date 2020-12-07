@@ -2484,6 +2484,8 @@ function activity_get_booking(data){
        act_order_number = data;
        act_get_booking = msg;
        $('#loading-search-activity').hide();
+       document.getElementById('button-home').hidden = false;
+       document.getElementById('button-new-reservation').hidden = false;
        hide_modal_waiting_transaction();
        try{
             if(msg.result.error_code == 0){

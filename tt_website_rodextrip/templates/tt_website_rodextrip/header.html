@@ -127,16 +127,16 @@
                         </li>
                         <li class="password_mobile" style="padding-right:5px;">
                             <div class="input-container-search-ticket">
-                                <i class="fa fa-lock" style="font-size: 20px;padding-top: 12px; color:{{text_color}};"></i>
+                                <i class="fa fa-lock" style="font-size: 20px;padding-top: 12px; color:{{text_color_login}};"></i>
                                 <input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password" placeholder="Password" tabindex="2" />
                             </div>
                             <div class="input-container-search-ticket">
                                 <label class="check_box_custom" style="margin-top:5px; margin-right:5px;">
-                                    <span style="font-size:13px;color:{{text_color}};">{% trans 'Keep Me Signin' %}</span>
+                                    <span style="font-size:13px;color:{{text_color_login}};">{% trans 'Keep Me Signin' %}</span>
                                     <input type="checkbox" value="" id="keep_me_signin" name="keep_me_signin" checked="checked">
                                     <span class="check_box_span_custom"></span>
                                 </label>
-                                <label style="cursor:pointer; margin-left:5px; margin-right:5px; font-size: 13px; color:{{text_color}};" onclick="reset_password_btc();"><i class="fa fa-lock" style="font-size: 15px; color:{{text_color}};padding-top: 7px; padding-right:3px;"></i> Forget Password</label>
+                                <label style="cursor:pointer; margin-left:5px; margin-right:5px; font-size: 13px; color:{{text_color_login}};" onclick="reset_password_btc();"><i class="fa fa-lock" style="font-size: 15px; color:{{text_color}};padding-top: 7px; padding-right:3px;"></i> Forget Password</label>
                             </div>
                         </li>
                         <li class="keep_me_mobile" style="padding-right:5px;"></li>
@@ -148,7 +148,7 @@
                                 Sign in <i class="fas fa-sign-in-alt"></i>
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button><br/>
-                            <span style="margin-top:5px; font-size:13px; font-weight:500; cursor:pointer; text-transform: unset; padding:0px 2px;" data-toggle="modal" data-target="#myModalb2c"><i class="fas fa-user-plus"></i> {% trans 'Sign Up' %}</span>
+                            <span style="margin-top:5px; font-size:13px; font-weight:500; cursor:pointer; text-transform: unset; padding:0px 2px; color:{{text_color_login}}" data-toggle="modal" data-target="#myModalb2c"><i class="fas fa-user-plus"></i> {% trans 'Sign Up' %}</span>
                         </li>
                     </ul>
                 </nav>

@@ -1504,6 +1504,8 @@ function tour_get_booking(order_number)
            tr_get_booking = msg;
            $('#loading-search-tour').hide();
            hide_modal_waiting_transaction();
+           document.getElementById('button-home').hidden = false;
+           document.getElementById('button-new-reservation').hidden = false;
            try{
                var book_obj = msg.result.response;
                var tour_package = msg.result.response.tour_details;

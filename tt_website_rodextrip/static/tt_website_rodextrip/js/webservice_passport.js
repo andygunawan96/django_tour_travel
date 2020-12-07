@@ -609,6 +609,8 @@ function passport_get_data(data){
        success: function(msg) {
             console.log(msg);
             hide_modal_waiting_transaction();
+            document.getElementById('button-home').hidden = false;
+            document.getElementById('button-new-reservation').hidden = false;
             try{
                 if(msg.result.error_code == 0){
                     passport = msg.result.response;

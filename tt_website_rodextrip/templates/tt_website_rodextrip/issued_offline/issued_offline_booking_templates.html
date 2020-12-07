@@ -247,13 +247,9 @@
                          Issued Booking
                     </button>
                     {% endif %}
-                    <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;margin-top:10px;" id="ssr_request_after_sales" hidden>
-                        <input class="primary-btn-ticket" style="width:100%;margin-bottom:10px;" type="button" onclick="set_new_request_ssr()" value="Request New SSR"> <!--KALO UDA FIX DI HAPUS BIAR TIDAK BISA INSPECT ELEMENT-->
-                        <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="set_new_request_seat()" value="Request New Seat"> <!--KALO UDA FIX DI HAPUS BIAR TIDAK BISA INSPECT ELEMENT-->
-                    </div>
-                    <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;margin-top:10px;" id="reissued" hidden>
-                        <input class="primary-btn-ticket" style="width:100%;margin-bottom:10px;" type="button" onclick="reissued_btn();" value="Reissued">
-                    </div>
+                    <button type="button" class="primary-btn" id="button-home" style="width:100%;margin-top:15px;" onclick="window.location.href='/'" hidden>
+                        {% trans 'Home' %}
+                    </button>
                 </div>
                 <div class="modal fade" id="myModalRepricing" role="dialog">
                     <div class="modal-dialog" style="width:100% !important; height:100% !important; max-width:1200px;padding: 0;">

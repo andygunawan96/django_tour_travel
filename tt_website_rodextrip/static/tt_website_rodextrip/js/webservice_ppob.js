@@ -573,6 +573,8 @@ function ppob_get_booking(data){
            bills_get_detail = msg;
            get_payment = false;
            hide_modal_waiting_transaction();
+           document.getElementById('button-home').hidden = false;
+           document.getElementById('button-new-reservation').hidden = false;
            try{
                //get booking view edit here
                if(msg.result.error_code == 0){
