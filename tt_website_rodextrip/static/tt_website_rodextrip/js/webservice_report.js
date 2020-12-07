@@ -1465,12 +1465,11 @@ function filter_provider(result, provider_type_text){
     document.getElementById('provider').innerHTML = '';
 
     var provider_datalist = ``;
+    provider_datalist += `<option value="" selected>All Provider</option>`;
+
     result.raw_data.result.response.dependencies.provider.forEach(function(item){
         var prov_type = item['provider_type'].toLowerCase();
-        if(prov_type == ""){
-            provider_datalist += `<option value="" selected>All Provider</option>`;
-        }
-        else if(prov_type == provider_type_text){
+        if(prov_type == provider_type_text){
             provider_datalist += `<option value="`+ item['code'] +`">`+ item['name'] +`</option>`;
         }
     });
@@ -1483,11 +1482,10 @@ function filter_agent(result, agent_type_label){
     document.getElementById('agent').innerHTML = '';
 
     var agent_datalist = ``;
+    agent_datalist += `<option value="" selected>All Agent</option>`;
     result.raw_data.result.response.dependencies.agent_list.forEach(function(item){
         var agent_type = parseInt(agent_type_label);
-        if(item['agent_type_id'] == ""){
-            agent_datalist += `<option value="" selected>All Agent</option>`;
-        }else if(item['agent_type_id'] == agent_type){
+        if(item['agent_type_id'] == agent_type){
             agent_datalist += `<option value="`+ item['seq_id'] +`">`+ item['name'] +`</option>`;
         }
     });
