@@ -43,7 +43,7 @@ def index(request):
         values = get_data_template(request)
         if not request.session.get('user_account') and values['website_mode'] == 'btc' or not request.session.get('user_account') and values['website_mode'] == 'btc_btb':
             provider = signin_btc(request)
-            values = get_data_template(request, provider['result']['response']['provider'])
+            values = get_data_template(request, 'home', provider['result']['response']['provider'])
         elif request.session.get('user_account') and values['website_mode'] == 'btb':
             if request.session.get('user_account').get('co_user_login') == user_default:
                 for key in reversed(list(request.session._session.keys())):
