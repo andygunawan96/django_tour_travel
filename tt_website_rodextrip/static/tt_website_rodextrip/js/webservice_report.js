@@ -762,6 +762,7 @@ function update_chart(button_class, canvas_id, action, report_title, report_of, 
 function overview_overall(data){
     // declare return variable
     var content = ``;
+    var total = 0;
 
     // first section of overview
     content += `
@@ -778,6 +779,7 @@ function overview_overall(data){
 
     // iterate every data
     for (i in data){
+        total += data[i]['counter']
         content += `
             <tr>
                 <td>`+ data[i]['provider'] +`</td>
@@ -788,6 +790,10 @@ function overview_overall(data){
 
     // close the html tag
     content += `
+            <tr>
+                <td><strong>Total</strong></td>
+                <td><strong>`+ total +`</strong></td>
+            </tr>
                     </tbody>
                 </table>
             </div>
@@ -909,8 +915,71 @@ function overview_airline(data){
             </tbody>
         </table>
         </div>
-        <h3><i class="fas fa-chevron-circle-right" style="color:`+color+`;"></i> Top Airline</h3>
-            <hr/>
+    `;
+
+    // depart issued section
+    content += `
+        <h3 class="mb-2"><i class="fas fa-chevron-circle-right" style="color:`+color+`;"></i> Issued to Depart(International)</h3>
+        <div class="mb-3" style="overflow:auto;">
+        <table class="table" style="border:1px solid #cdcdcd;">
+            <thead>
+                <tr>
+                    <th># of days</th>
+                    <th>counter</th>
+                    <th>passenger</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+
+    // populate depart issued table
+    for (i in data['international_issued_depart']){
+        content += `
+            <tr>
+                <td>`+ data['international_issued_depart'][i]['day'] +`</td>
+                <td>`+ data['international_issued_depart'][i]['counter'] +`</td>
+                <td>`+ data['international_issued_depart'][i]['passenger'] +`</td>
+            </tr>
+        `;
+    }
+
+    // end of depart issued table
+    content += `
+            </tbody>
+        </table>
+        </div>
+    `;
+
+    content += `
+        <h3 class="mb-2"><i class="fas fa-chevron-circle-right" style="color:`+color+`;"></i> Issued to Depart (Domestic)</h3>
+        <div class="mb-3" style="overflow:auto;">
+        <table class="table" style="border:1px solid #cdcdcd;">
+            <thead>
+                <tr>
+                    <th># of days</th>
+                    <th>counter</th>
+                    <th>passenger</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+
+    // populate depart issued table
+    for (i in data['domestic_issued_depart']){
+        content += `
+            <tr>
+                <td>`+ data['domestic_issued_depart'][i]['day'] +`</td>
+                <td>`+ data['domestic_issued_depart'][i]['counter'] +`</td>
+                <td>`+ data['domestic_issued_depart'][i]['passenger'] +`</td>
+            </tr>
+        `;
+    }
+
+    // end of depart issued table
+    content += `
+            </tbody>
+        </table>
+        </div>
     `;
 
     // graph of departure and destination
@@ -926,6 +995,8 @@ function overview_airline(data){
             </div>
         </div>
         <br/>
+        <h3><i class="fas fa-chevron-circle-right" style="color:`+color+`;"></i> Top Airline</h3>
+            <hr/>
     `;
 
     // top 9 carrier and others summary
@@ -1159,6 +1230,37 @@ function overview_event(data){
 // will also  be use to name the section(s)
 function overview_hotel(data){
     var content = `
+        <h3><i class="fas fa-chevron-circle-right" style="color:`+color+`;"></i> Issued Check in</h3>
+        <hr>
+        <table class="table">
+            <thead>
+                <tr>
+                    <td># of days</td>
+                    <td># of reservation</td>
+                    <td>Passenger</td>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+
+    for(i in data['issued_depart']){
+        content += `
+            <tr>
+                <td>`+ data['issued_depart'][i]['day'] +`</td>
+                <td>`+ data['issued_depart'][i]['counter'] +`</td>
+                <td>`+ data['issued_depart'][i]['passenger'] +`</td>
+            </tr>
+        `;
+    }
+
+    // end of depart checkin table
+    content += `
+            </tbody>
+        </table>
+    `;
+
+    // top cities result
+    content += `
         <h3><i class="fas fa-chevron-circle-right" style="color:`+color+`;"></i> Top Cities</h3>
         <hr>
     `;
@@ -1181,11 +1283,11 @@ function overview_hotel(data){
                             </div>
                             <div class="col-md-3 col-sm-6">
                                 <span style="font-weight:600;">Revenue</span>
-                                <span style="float:right; color:`+color+`;">IDR -</span>
+                                <span style="float:right; color:`+color+`;">IDR `+ data['location'][i]['revenue'] +`</span>
                             </div>
                             <div class="col-md-3 col-sm-6">
                                 <span style="font-weight:600;">Passenger</span>
-                                <span style="float:right; color:`+color+`;"> - <i class="fa fa-user" aria-hidden="true"></i></span>
+                                <span style="float:right; color:`+color+`;">`+ data['location'][i]['passenger'] +` <i class="fa fa-user" aria-hidden="true"></i></span>
                             </div>
                         </div>
                     </div>
@@ -1314,6 +1416,37 @@ function overview_train(data){
             </tbody>
         </table>
         </div>
+    `;
+
+    // issued depart report
+    content += `
+        <h3 class="mb-2"><i class="fas fa-chevron-circle-right" style="color:`+color+`;"></i> Issued Depart</h3>
+        <hr>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th># of days</th>
+                    <th># of reservation</th>
+                    <th>passenger</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+
+    for(i in data['issued_depart']){
+        content += `
+            <tr>
+                <td>`+ data['issued_depart'][i]['day'] +`</td>
+                <td>`+ data['issued_depart'][i]['counter'] +`</td>
+                <td>`+ data['issued_depart'][i]['passenger'] +`</td>
+            </tr>
+        `;
+    }
+
+    // end of table
+    content += `
+            </tbody>
+        </table>
     `;
 
     return content;

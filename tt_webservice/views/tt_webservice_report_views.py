@@ -40,8 +40,10 @@ def get_report(request):
         "signature": request.POST['signature']
     }
 
-    start_date = datetime.strftime(datetime.now() - timedelta(days=30), '%Y-%m-%d')
-    end_date = datetime.strftime(datetime.now(), '%Y-%m-%d')
+    temp_date = datetime.now()
+    start = temp_date.replace(day=1)
+    start_date = datetime.strftime(start, '%Y-%m-%d')
+    end_date = datetime.strftime(temp_date, '%Y-%m-%d')
     data = {
         "end_date": end_date,
         "start_date": start_date,
