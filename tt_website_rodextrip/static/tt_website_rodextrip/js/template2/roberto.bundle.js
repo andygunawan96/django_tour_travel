@@ -35,7 +35,7 @@
         $('#password_mb').hide();
         $('#forget_mb').hide();
         try{
-            document.getElementsByClassName("signup_pc_mb")[0].style.color = text_color;
+            document.getElementsByClassName("signup_pc_mb")[0].style.color = text_color_login;
         }catch(err){
             console.log('err');
         }
@@ -64,7 +64,7 @@
             $('#password_mb').hide();
             $('#forget_mb').hide();
             try{
-                document.getElementsByClassName("signup_pc_mb")[0].style.color = text_color;
+                document.getElementsByClassName("signup_pc_mb")[0].style.color = text_color_login;
             }catch(err){
                 console.log('err');
             }

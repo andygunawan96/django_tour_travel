@@ -40,11 +40,25 @@ def get_report(request):
         "signature": request.POST['signature']
     }
 
-    temp_date = datetime.now()
-    start = temp_date.replace(day=1)
-    start_date = datetime.strftime(start, '%Y-%m-%d')
-    end_date = datetime.strftime(temp_date, '%Y-%m-%d')
+    # temp_date = datetime.now()
+    # start = temp_date.replace(day=1)
+    # start_date = datetime.strftime(datetime.now() - timedelta(days=30), '%Y-%m-%d')
+    # end_date = datetime.strftime(datetime.now(), '%Y-%m-%d')
+    end_date = ''
+    start_date = ''
+    if datetime.now().strftime('%Y-%m-%d') < request.POST['end_date']:
+        end_date = datetime.now().strftime('%Y-%m-%d')
+    else:
+        end_date = request.POST['end_date']
+
+    if datetime.now().strftime('%Y-%m-%d') < request.POST['start_date']:
+        start_date = datetime.now().strftime('%Y-%m-%d')
+    else:
+        start_date = request.POST['start_date']
+
     data = {
+        # "end_date": end_date,
+        # "start_date": start_date,
         "end_date": end_date,
         "start_date": start_date,
         'report_type': request.POST['provider_type'],
@@ -71,9 +85,21 @@ def update_report(request):
         "signature": request.POST['signature']
     }
 
+    end_date = ''
+    start_date = ''
+    if datetime.now().strftime('%Y-%m-%d') < request.POST['until_date']:
+        end_date = datetime.now().strftime('%Y-%m-%d')
+    else:
+        end_date = request.POST['until_date']
+
+    if datetime.now().strftime('%Y-%m-%d') < request.POST['start_date']:
+        start_date = datetime.now().strftime('%Y-%m-%d')
+    else:
+        start_date = request.POST['start_date']
+
     data = {
-        "start_date": request.POST['start_date'],
-        "end_date": request.POST['until_date'],
+        "start_date": start_date,
+        "end_date": end_date,
         'report_type': request.POST['provider_type'],
         'provider': request.POST['provider'],
         'agent_seq_id': request.POST['agent'],
@@ -83,8 +109,8 @@ def update_report(request):
     res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST', timeout=300)
     to_return = {
         'raw_data': res,
-        'start_date': request.POST['start_date'],
-        'end_date': request.POST['until_date'],
+        'start_date': start_date,
+        'end_date': end_date,
     }
     return to_return
 

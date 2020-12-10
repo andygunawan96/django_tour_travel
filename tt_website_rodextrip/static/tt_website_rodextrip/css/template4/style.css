@@ -363,6 +363,7 @@ option::after{
   margin-bottom: 0px;
   z-index: 1040;
   position: relative;
+  background:white;
   /*top: 15px;
   left: 50%;
   -webkit-transform: translateX(-50%);

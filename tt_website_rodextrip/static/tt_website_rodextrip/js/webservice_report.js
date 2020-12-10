@@ -1,55 +1,26 @@
 $(document).ready(function(){
     result_data = [];
-    $('#timeframe').change(function(e){
-        // get selected value
-        var value = $(this).children(':selected').attr('value');
-        // declare todays date object
-        var d = new Date();
-        $('#date_field').hide();
-        if (value == '0'){
-            $('#get_report_startdate').val(d.toISOString().split('T')[0]);
-            $('#get_report_enddate').val(d.toISOString().split('T')[0]);
-        } else if (value == '1'){
-            d.setDate(d.getDate() - 1);
-            $('#get_report_enddate').val(d.toISOString().split('T')[0]);
-            $('#get_report_startdate').val(d.toISOString().split('T')[0]);
-        } else if (value == '7'){
-            $('#get_report_enddate').val(d.toISOString().split('T')[0]);
-            var date_diff = d.getDay() - 1;
-            if (date_diff < 0){
-                d.setDate(d.getDate() - 7);
-                $('#get_report_startdate').val(d.toISOString().split('T')[0]);
-            } else {
-                d.setDate(d.getDate() - date_diff);
-                $('#get_report_startdate').val(d.toISOString().split('T')[0]);
-            }
-        } else if (value == '30'){
-            $('#get_report_enddate').val(d.toISOString().split('T')[0]);
-            var date_diff = d.getDate() - 1;
-            if (date_diff < 1){
-                $('#get_report_startdate').val(d.toISOString().split('T')[0]);
-            } else {
-                d.setDate(d.getDate() - date_diff);
-                $('#get_report_startdate').val(d.toISOString().split('T')[0]);
-            }
-        } else if (value == '-30'){
-            // subtract date to last day of previous month
-            var date_diff = d.getDate();
-            d.setDate(d.getDate() - date_diff);
-            // get how many date within particular month
-            date_diff = d.getDate() - 1;
-            // set end date to last day of the month
-            $('#get_report_enddate').val(d.toISOString().split('T')[0]);
-            // set date to the first date of the month
-            d.setDate(d.getDate() - date_diff);
-            $('#get_report_startdate').val(d.toISOString().split('T')[0]);
-        } else if (value == 'default'){
-            $('#get_report_enddate').val(d.toISOString().split('T')[0]);
-            d.setDate(d.getDate() - 30);
-            $('#get_report_startdate').val(d.toISOString().split('T')[0]);
-        } else {
-            $('#date_field').show();
+
+    $('#date_report').daterangepicker({
+        "showDropdowns": true,
+        ranges: {
+            'Today': [moment(), moment()],
+            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+            'This Month': [moment().startOf('month'), moment().endOf('month')],
+            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        },
+        "startDate": moment().startOf('month'),
+        "endDate": moment().endOf('month'),
+        "maxDate": moment().endOf('month'),
+        "opens": "center",
+        locale: {
+            format: 'DD MMM YYYY',
         }
+    }, function(start, end, label) {
+        $('#get_report_startdate').val(start.format('YYYY-MM-DD'));
+        $('#get_report_enddate').val(end.format('YYYY-MM-DD'));
     });
 
     $('#provider_type').change(function(e){
@@ -127,7 +98,9 @@ function get_report_overall(){
             'signature': signature,
             'provider_type': "overall",
             'provider': '',
-            'type': "overall"
+            'type': "overall",
+            'start_date': moment().startOf('month').format('YYYY-MM-DD'),
+            'end_date': moment().endOf('month').format('YYYY-MM-DD'),
         },
         success: function(result){
             console.log("This one sparks joy");

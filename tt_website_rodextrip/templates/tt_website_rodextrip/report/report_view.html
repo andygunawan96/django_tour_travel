@@ -114,30 +114,34 @@
                                         <option value="" selected>All Provider</option>
                                     </select>
                                 </div>
-                                <div class="col-lg-6">
-                                    <!-- timeframe -->
-                                    <h6 class="pb-2">TimeFrame</h6>
-                                    {% if template != 3 %}
-                                    <div class="form-select" id="default-select">
-                                    {% else %}
-                                    <div class="default-select">
-                                    {% endif %}
-                                        <select name="timeframe" id="timeframe" class="form-control mb-3" style="width:100%;">
-                                            <option value="default">Last 30 days</option>
-                                            <option value="0">Today</option>
-                                            <option value="1">Yesterday</option>
-                                            <option value="7">This Week</option>
-                                            <option value="30" selected>This Month</option>
-                                            <option value="-30">Last Month</option>
-                                            <option value="other">Custom</option>
-                                        </select>
-                                    </div>
+                                <div class="col-lg-6 mb-3">
+                                    <h6 class="pb-2">Date</h6>
+                                    <input type="text" class="form-control" style="background:white;" id="date_report" placeholder="Date " onfocus="this.placeholder = ''" onblur="this.placeholder = Date" autocomplete="off" readonly>
                                 </div>
+<!--                                <div class="col-lg-6">-->
+<!--                                    &lt;!&ndash; timeframe &ndash;&gt;-->
+<!--                                    <h6 class="pb-2">TimeFrame</h6>-->
+<!--                                    {% if template != 3 %}-->
+<!--                                    <div class="form-select" id="default-select">-->
+<!--                                    {% else %}-->
+<!--                                    <div class="default-select">-->
+<!--                                    {% endif %}-->
+<!--                                        <select name="timeframe" id="timeframe" class="form-control mb-3" style="width:100%;">-->
+<!--                                            <option value="default" selected>Last 30 days</option>-->
+<!--                                            <option value="0">Today</option>-->
+<!--                                            <option value="1">Yesterday</option>-->
+<!--                                            <option value="7">This Week</option>-->
+<!--                                            <option value="30">This Month</option>-->
+<!--                                            <option value="-30">Last Month</option>-->
+<!--                                            <option value="other">Custom</option>-->
+<!--                                        </select>-->
+<!--                                    </div>-->
+<!--                                </div>-->
 
                                 <!-- Start date of requested report -->
                                 <div class="col-lg-6" id="date_field" style="display:none">
                                     <div class="row">
-                                        <div class="col-lg-6 mb-3">
+                                        <div class="col-lg-6 mb-2">
                                             <h6 class="pb-2">Start Date</h6>
                                             <input class="form-control" type="date" name="start_date" id="get_report_startdate">
                                         </div>
@@ -153,7 +157,7 @@
                                     <!-- if agent is HO then there will be an option to select agent type and or agent -->
                                     <div class="form-group" id="agent_selector" style="display:none;">
                                         <div class="row">
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-6 mb-2">
                                                 <h6 class="pb-2">Agent Type</h6>
                                                     {% if template != 3 %}
                                                     <div class="form-select" id="default-select">
@@ -343,6 +347,8 @@
     //get_peripherals("top_up_rupiah", "get_top_up_rupiah");
     //get_peripherals("average_rupiah", "get_average_rupiah");
     $( document ).ready(function() {
+        $('#get_report_startdate').val(moment().startOf('month').format('YYYY-MM-DD'));
+        $('#get_report_enddate').val(moment().endOf('month').format('YYYY-MM-DD'));
         get_report_overall();
 
         $('#first').on('click', function(){

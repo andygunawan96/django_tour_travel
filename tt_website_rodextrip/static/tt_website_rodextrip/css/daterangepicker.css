@@ -308,6 +308,8 @@
   font-size: 12px;
   font-weight: bold;
   padding: 4px 8px;
+  border: 1px solid #cdcdcd;
+  width: unset;
 }
 
 .daterangepicker.show-ranges.single.rtl .drp-calendar.left {
@@ -437,7 +439,7 @@
   .daterangepicker {
     width: auto;
     max-width:250px;
-    left:0 !important;
+    /*left:0 !important;*/
   }
 }
 
