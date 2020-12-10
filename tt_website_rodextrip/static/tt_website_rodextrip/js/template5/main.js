@@ -137,7 +137,7 @@ $(document).ready(function () {
 
         if( $(window).width() > 992){
             try{
-                document.getElementsByClassName("signup_pc_mb")[0].style.color = text_color;
+                document.getElementsByClassName("signup_pc_mb")[0].style.color = text_color_login;
             }catch(err){
                 console.log('err');
             }
@@ -153,7 +153,7 @@ $(document).ready(function () {
         $(window).resize(function() {
             if ($(window).width() >= 992) {
                 try{
-                    document.getElementsByClassName("signup_pc_mb")[0].style.color = text_color;
+                    document.getElementsByClassName("signup_pc_mb")[0].style.color = text_color_login;
                 }catch(err){
                     console.log('err');
                 }

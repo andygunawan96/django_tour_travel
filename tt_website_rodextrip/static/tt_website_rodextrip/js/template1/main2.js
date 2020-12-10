@@ -494,7 +494,6 @@ $(document).ready(function() {
     //     });
 
     $('.zoom-img').wrap('<span style="display:inline-block"></span>').css('display', 'block').parent().zoom({ on:'click' });
-
     //------- Mobile Nav  js --------//
 
     if ($('#nav-menu-container').length) {
@@ -514,6 +513,7 @@ $(document).ready(function() {
         $('#mobile-nav').find('.password_mobile').replaceWith('<li style="padding-right:5px;"><div class="input-container-search-ticket"><input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password2" placeholder="Password"/></div></li>');
         $('#mobile-nav').find('.keep_me_mobile').replaceWith('<li style="padding-right:5px;"><div class="input-container-search-ticket"><label class="check_box_custom" style="margin:5px; float:right;"><span style="font-size:13px; color:white;">Keep Me Signin</span><input type="checkbox" value="" id="keep_me_signin2" name="keep_me_signin" checked="checked"><span class="check_box_span_custom"></span></label></div></li>');
         $('#mobile-nav').find('.forget_password_mobile').replaceWith('<li style="padding-right:5px;"><div class="input-container-search-ticket"><a style="cursor:pointer; text-transform: unset; padding:0px 5px;" onclick="reset_password_btc();"><i class="fa fa-lock" style="font-size: 20px;padding-top: 12px;"></i> Forget Password</a></div></li>');
+        $('#mobile-nav').find('.signup_pc_mb').replaceWith('<a style="margin-top:5px; font-size:13px; font-weight:500; cursor:pointer; text-transform: unset; padding:0px 2px;" data-toggle="modal" data-target="#myModalb2c"><i class="fas fa-user-plus"></i> Sign Up</a>');
         $('#mobile-nav').find('.menu-has-children').prepend('<i class="lnr lnr-chevron-down"></i>');
         try{
             document.getElementById("balance_mob").innerHTML = document.getElementById("balance").innerHTML;

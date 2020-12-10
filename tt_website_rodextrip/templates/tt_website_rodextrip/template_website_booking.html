@@ -85,14 +85,12 @@ Licence URI: http://www.os-templates.com/template-terms
         .price-area {
           background: linear-gradient(0deg,rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)),url("{{background}}") !important;
           min-height: 300px;
-          background-attachment: fixed !important;
-          background-position: center !important;
-          background-size: auto !important;
+          background-position: center center !important;
+          background-size: cover !important;
           background-repeat: no-repeat !important;
         }
         {%elif template == 2%}
         .bg-img{
-            background-image: url("{{background}}") !important;
             min-height:250px;
         }
         {%elif template == 3%}
@@ -103,9 +101,8 @@ Licence URI: http://www.os-templates.com/template-terms
         {%elif template == 4%}
         .price-area {
           background: linear-gradient(0deg,rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)),url("{{background}}") !important;
-          background-attachment: fixed !important;
-          background-position: center !important;
-          background-size: auto !important;
+          background-position: center center !important;
+          background-size: cover !important;
           background-repeat: no-repeat !important;
         }
         {%elif template == 5%}
@@ -120,8 +117,8 @@ Licence URI: http://www.os-templates.com/template-terms
         .price-area {
           background: linear-gradient(0deg,rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)),url("{{background}}") !important;
           background-attachment: fixed !important;
-          background-position: center !important;
-          background-size: auto !important;
+          background-position: center center !important;
+          background-size: cover !important;
           background-repeat: no-repeat !important;
         }
         {% endif %}
@@ -1133,7 +1130,7 @@ Licence URI: http://www.os-templates.com/template-terms
 
         {% if username.co_user_login == 'agent_b2c' %}
         .classy-navbar-toggler .navbarToggler span{
-            background-color: {{text_color}};
+            background-color: {{text_color_login}};
         }
         {% endif %}
 

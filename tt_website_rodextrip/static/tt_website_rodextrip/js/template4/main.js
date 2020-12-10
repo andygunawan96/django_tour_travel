@@ -9,6 +9,7 @@ $lengthimg = $("#length-img").val();
 jQuery(document).ready(function($) {
 
 	"use strict";
+	var f = '';
 
     try{
         document.getElementById("balance").innerHTML = document.getElementById("balance_mob").innerHTML;
@@ -30,17 +31,12 @@ jQuery(document).ready(function($) {
     var check_video_play = 0;
     var check_video_slider = 0;
 
-    if( $(window).width() > 992){
+    if( $(window).width() >= 1200){
         $('#username_pc').show();
         $('#password_pc').show();
         $('#username_mb').hide();
         $('#password_mb').hide();
         $('.forget_password_mobile').hide();
-        try{
-            document.getElementsByClassName("signup_pc_mb")[0].style.color = text_color;
-        }catch(err){
-            console.log('err');
-        }
     }
     else {
         $('#username_pc').hide();
@@ -48,25 +44,15 @@ jQuery(document).ready(function($) {
         $('#username_mb').show();
         $('#password_mb').show();f
         $('.forget_password_mobile').show();
-        try{
-            document.getElementsByClassName("signup_pc_mb")[0].style.color = "#212529";
-        }catch(err){
-            console.log('err');
-        }
     }
 
     $(window).resize(function() {
-        if ($(window).width() >= 992) {
+        if ($(window).width() >= 1200) {
             $('#username_pc').show();
             $('#password_pc').show();
             $('#username_mb').hide();
             $('#password_mb').hide();
             $('.forget_password_mobile').hide();
-            try{
-                document.getElementsByClassName("signup_pc_mb")[0].style.color = text_color;
-            }catch(err){
-                console.log('err');
-            }
         }
         else {
             $('#username_pc').hide();
@@ -74,12 +60,6 @@ jQuery(document).ready(function($) {
             $('#username_mb').show();
             $('#password_mb').show();
             $('.forget_password_mobile').show();
-            try{
-                document.getElementsByClassName("signup_pc_mb")[0].style.color = "#212529";
-            }catch(err){
-                console.log('err');
-            }
-
         }
     });
 
@@ -90,6 +70,7 @@ jQuery(document).ready(function($) {
 			$this.clone().attr('class', 'site-nav-wrap').appendTo('.site-mobile-menu-body');
             $this.find('.balance_mobile').replaceWith('<li><a style="color:black;"><span id="balance_mob"></span></a></li>');
             $this.find('.credit_mobile').replaceWith('<li><a style="color:black;"><span id="credit_mob"></span></a></li>');
+            $this.find('.signup_pc_mb').replaceWith('<a style="margin-top:10px; font-size:13px; font-weight:600; cursor:pointer; color:'+text_color_login+';text-transform: unset; padding:0px 2px;" data-toggle="modal" data-target="#myModalb2c"><i class="fas fa-user-plus"></i> Sign Up </a>');
             try{
                 document.getElementById("balance_mob").innerHTML = document.getElementById("balance").innerHTML;
             }catch(err){}
@@ -101,8 +82,9 @@ jQuery(document).ready(function($) {
 		$('.js-clone-nav2').each(function() {
 			var $this = $(this);
 			$this.clone().attr('class', 'site-nav-wrap').appendTo('.site-mobile-menu-body');
-            $this.find('.username_mobile').replaceWith('<li style="padding-right:5px; width:300px; margin-bottom:15px;"><div class="input-container-search-ticket"><i class="fa fa-user" style="font-size: 20px;padding-top: 12px; color:'+text_color+';"></i><input type="text" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="username" placeholder="Username"/></div></li>');
-            $this.find('.password_mobile').replaceWith('<li style="padding-right:5px; width:300px; margin-bottom:15px;"><div class="input-container-search-ticket"><i class="fa fa-lock" style="font-size: 20px;padding-top: 12px; color:'+text_color+';"></i><input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password" placeholder="Password"/></div><div style="position:absolute; text-align:right;"><label class="check_box_custom" style="margin:5px;"><span style="font-size:13px; color:'+text_color+';">Keep Me Signin</span><input type="checkbox" value="" id="keep_me_signin" name="keep_me_signin" checked="checked"><span class="check_box_span_custom"></span></label><span style="cursor:pointer; padding-left:7px; font-size:13px; color:'+text_color+';" onclick="reset_password_btc();"><i class="fa fa-lock" style="font-size: 13px;padding-top: 8px;"></i> Forget Password</span></div></li>');
+            $this.find('.username_mobile').replaceWith('<li style="padding-right:5px; width:300px; margin-bottom:15px;"><div class="input-container-search-ticket" style="margin-bottom:unset;"><i class="fa fa-user" style="font-size: 20px;padding-top: 12px; color:'+text_color_login+';"></i><input type="text" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="username" placeholder="Username"/></div></li>');
+            $this.find('.password_mobile').replaceWith('<li style="padding-right:5px; width:300px; margin-bottom:15px;"><div class="input-container-search-ticket" style="margin-bottom:unset;"><i class="fa fa-lock" style="font-size: 20px;padding-top: 12px; color:'+text_color_login+';"></i><input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password" placeholder="Password"/></div><div style="position:absolute; text-align:right;"><label class="check_box_custom" style="margin:5px;"><span style="font-size:13px; color:'+text_color_login+';">Keep Me Signin</span><input type="checkbox" value="" id="keep_me_signin" name="keep_me_signin" checked="checked"><span class="check_box_span_custom"></span></label><span style="cursor:pointer; padding-left:7px; font-size:13px; color:'+text_color_login+';" onclick="reset_password_btc();"><i class="fa fa-lock" style="font-size: 13px;padding-top: 8px;"></i> Forget Password</span></div></li>');
+            $this.find('.signup_pc_mb').replaceWith('<a style="margin-top:10px; font-size:13px; font-weight:600; cursor:pointer; color:'+text_color_login+';text-transform: unset; padding:0px 2px;" data-toggle="modal" data-target="#myModalb2c"><i class="fas fa-user-plus"></i> Sign Up </a>');
 		});
 		//$this.find('.forget_password_mobile').replaceWith('<li style="padding-right:5px;"><a style="cursor:pointer; text-transform: unset; padding:0px 5px; color:'+text_color+';" onclick="reset_password_btc();"><i class="fa fa-lock" style="font-size: 20px;padding-top: 12px;"></i> Forgot Password</a></li>');
 
