@@ -1436,15 +1436,7 @@ function hotel_room_pick(key, key2){
             <span style="font-weight:bold;">IDR `+ getrupiah(hotel_room.rooms[i].price_total) +`</span><br/>
             <span style="font-weight:500;">(for 1 room, `+total_night+` night)</span>
         </div>`;
-        text += `<div class="col-lg-12"><hr/></div>`;
-        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
-            text+=`
-            <div class="col-lg-12" style="text-align:center; display:none;" id="show_commission_hotel">
-                <div class="alert alert-success">
-                    <span style="font-size:13px; font-weight:bold;">Your Commission: IDR `+ getrupiah(parseInt(hotel_room.rooms[i].commission)*-1) +`</span><br>
-                </div>
-            </div>`;
-        text += `</div>`;
+        text += `<div class="col-lg-12"><hr/></div></div>`;
         total_price_hotel += hotel_room.rooms[i].price_total;
         $text2 += 'Total: IDR '+getrupiah(hotel_room.rooms[i].price_total) + ' ';
         $text2 += '(for 1 room, ' +total_night+ 'night) \n\n';
@@ -1466,6 +1458,14 @@ function hotel_room_pick(key, key2){
             <span style="font-weight:500;">(for `+total_room+` room, `+total_night+` night)</span>
         </div>
     </div>`;
+
+    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+    text += `<br/>
+        <div class="col-lg-12" style="text-align:center; display:none;" id="show_commission_hotel">
+            <div class="alert alert-success">
+                <span style="font-size:13px; font-weight:bold;">Your Commissioning: IDR `+ getrupiah(parseInt(hotel_room.rooms[i].commission)*-1) +`</span><br>
+            </div>
+        </div>`;
 
     document.getElementById('button'+key).innerHTML = 'Chosen';
     document.getElementById('button'+key).classList.remove("primary-btn-custom");
@@ -1502,7 +1502,7 @@ function hotel_room_pick_button(){
     text +=`</div>`;
     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
         text += `<div class="col-lg-12">
-            <input class="primary-btn-white" id="show_commission_button_hotel" style="width:100%;" type="button" onclick="show_commission_hotel();" value="Show Commission"/>
+            <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission_hotel();" value="Show Commission"/>
         </div>`;
     text += `
     <div class="col-lg-12" style="padding-top:10px;">
@@ -2004,6 +2004,15 @@ function hotel_detail(old_cancellation_policy){
             <span style="font-weight:bold;font-size:15px;">IDR `+ getrupiah(grand_total_price) +`</span>
         </div>
     </div>`;
+
+    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+        text+=`<br/>
+        <div class="col-lg-12 col-xs-12" style="text-align:center; display:none;" id="show_commission_hotel">
+            <div class="alert alert-success">
+                <span style="font-size:13px; font-weight:bold;">Your Commission: IDR `+ getrupiah(commission) +`</span><br>
+            </div>
+        </div>`;
+
     $text2 += 'Grand Total: IDR ' + getrupiah(grand_total_price) + '\n';
     text += `<div class="row"><div class="col-lg-12" style="padding-bottom:15px;">
         <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
@@ -2022,17 +2031,10 @@ function hotel_detail(old_cancellation_policy){
                 <a href="https://telegram.me/share/url?text=`+ $text_share2 +`&url=Share2" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"/></a>
                 <a href="mailto:?subject=This is the hotel price detail&amp;body=`+ $text_share2 +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/></a>`;
         }
-    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
-            text+=`<br/>
-            <div class="col-lg-12 col-xs-12" style="text-align:center; display:none;" id="show_commission_hotel">
-                <div class="alert alert-success">
-                    <span style="font-size:13px; font-weight:bold;">Your Commission: IDR `+ getrupiah(commission) +`</span><br>
-                </div>
-            </div>`;
     text +=`</div></div><div class="row">`;
     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
         text += `<div class="col-lg-12">
-            <input class="primary-btn-white" id="show_commission_button_hotel" style="width:100%;" type="button" onclick="show_commission_hotel();" value="Show Commission"/>
+            <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission_hotel();" value="Show Commission"/>
         </div>`;
     text += `
     <div class="col-lg-12" style="padding-top:10px;">
