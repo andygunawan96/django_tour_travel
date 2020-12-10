@@ -1266,8 +1266,11 @@ def commit_booking(request):
 def get_booking(request):
     try:
         sync = False
-        if request.POST['sync'] == 'true':
-            sync = True
+        try:
+            if request.POST['sync'] == 'true':
+                sync = True
+        except Exception as e:
+            _logger.error('get refund booking')
         data = {
             'order_number': request.POST['order_number'],
             'force_sync': sync

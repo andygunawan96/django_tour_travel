@@ -7983,6 +7983,12 @@ function pre_refund_login(){
                     document.getElementById('request_captcha').hidden = true;
                     check_refund_partial_btn();
                 }
+           }else{
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error get refund price </span>' + msg.result.additional_message,
+                })
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -8148,7 +8154,7 @@ function airline_get_booking_refund(data){
                    }catch(err){}
 //                   check_cancel = 1; //testing ivan
                    if(check_cancel){
-                        document.getElementById('captcha').hidden = false;
+                        //document.getElementById('captcha').hidden = false;
 //                        document.getElementById('cancel').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="check_refund_partial_btn();" value="Check Refund Price Partial"><hr/>`;
                         document.getElementById('captcha').innerHTML = `
                             <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" id="request_captcha" style="width:100%;" type="button" value="Next" onclick="next_disabled();pre_refund_login();">
@@ -8760,5 +8766,20 @@ function pnr_refund_onclick(val, type){
             }
         }
     }
+    btn_show = false;
+    for(i in pnr_list_checkbox){
+        if(document.getElementById(pnr_list_checkbox[i].pnr_checkbox).checked == true)
+            btn_show = true;
+        if(btn_show == true)
+            break;
+        for(j in pnr_list_checkbox[i]['checkbox']){
+            if(document.getElementById(pnr_list_checkbox[i]['checkbox'][j]).checked == true)
+            btn_show = true;
+        }
+    }
+    if(btn_show == true)
+        document.getElementById('captcha').hidden = false;
+    else
+        document.getElementById('captcha').hidden = true;
 }
 
