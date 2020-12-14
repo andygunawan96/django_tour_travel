@@ -383,6 +383,14 @@ function get_report_overall(){
             second_contents = overview_book_issued(result.raw_data.result.response.second_overview);
             $('#second_overview_content').html(second_contents);
 
+            if(result.raw_data.result.response.dependencies.is_ho != 1){
+                third_contents = overview_customer(result.raw_data.result.response.third_overview);
+                $('#third_overview_content').html(third_contents);
+            } else {
+                third_contents = overview_chanel(result.raw_data.result.response.third_overview);
+                $('#third_overview_content').html(third_contents);
+            }
+
             /////////////////////////////////
             // handler of dynamic session
             /////////////////////////////////
@@ -668,6 +676,14 @@ $('#report_form').submit(function(evt){
                 $('#div_overview_second').show();
             }else{
                 $('#div_overview_second').hide();
+            }
+
+            if(result.raw_data.result.response.dependencies.is_ho != 1){
+                third_contents = overview_customer(result.raw_data.result.response.third_overview);
+                $('#third_overview_content').html(third_contents);
+            } else {
+                third_contents = overview_chanel(result.raw_data.result.response.third_overview);
+                $('#third_overview_content').html(third_contents);
             }
 
             // enabled button
@@ -1565,6 +1581,84 @@ function overview_book_issued(data){
 
     // return result
     return content;
+}
+
+// handler for overview data
+// input is object that has been trim to the exact object needed to print
+// in chanel/cutomer rank for HO, and later on for agent
+// return.raw_data.result.response.second_overview
+// second because book issued will always be in tab 2
+// will also  be use to name the section(s)
+function overview_chanel(data){
+    // start of table
+    var content = `
+        <div class="mb-3" style="overflow:auto;">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Agent</th>
+                    <th># Reservation</th>
+                    <th>Revenue</th>
+                    <th>Profit</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+
+    for(i in data){
+        content += `
+            <tr>
+                <td>`+ data[i]['agent_name'] +`</td>
+                <td>`+ data[i]['reservation'] +`</td>
+                <td>`+ number_format(data[i]['revenue'], 2) +`</td>
+                <td>`+ number_format(data[i]['profit'], 2) +`</td>
+            </tr>
+        `;
+    }
+
+    // end of the table
+    content += `
+            </tbody>
+        </table>
+    `;
+
+    return content
+}
+
+function overview_customer(data){
+    // start of table
+    var content = `
+        <div class="mb-3" style="overflow:auto;">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Agent</th>
+                    <th># Reservation</th>
+                    <th>Revenue</th>
+                    <th>Profit</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+
+    for(i in data){
+        content += `
+            <tr>
+                <td>`+ data[i]['customer_name'] +`</td>
+                <td>`+ data[i]['reservation'] +`</td>
+                <td>`+ number_format(data[i]['revenue'], 2) +`</td>
+                <td>`+ number_format(data[i]['profit'], 2) +`</td>
+            </tr>
+        `;
+    }
+
+    // end of the table
+    content += `
+            </tbody>
+        </table>
+    `;
+
+    return content
 }
 
 function filter_provider(result, provider_type_text){
