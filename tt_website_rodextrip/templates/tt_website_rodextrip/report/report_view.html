@@ -270,7 +270,8 @@
         <ul class="btn_tabs">
             <Li class="tab mr-3 btn_tab-link current" data-tab="first-tab" id="first">Issued Report</Li>
             <li class="tab mr-3 btn_tab-link" data-tab="second-tab" id="second">Book Issued</li>
-            <li class="tab btn_tab-link" data-tab="third-tab" id="third">Channel Rank</li>
+            <li class="tab mr-3 btn_tab-link" data-tab="third-tab" id="third">Channel Rank</li>
+            <li class="tab btn_tab-link" data-tab="fourth-tab" id="fourth">Customer Rank</li>
         </ul>
     </div>
 
@@ -337,6 +338,44 @@
             </div>
         </div>
     </div>
+
+    <div class="container btn_tab-content" id="fourth-tab">
+        <div class="row" style="padding:10px;">
+            <div class="col-lg-12 mb-4" style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                <h2>Booker Report</h2>
+                <hr/>
+                <div class="chart_container fourth_container" style="display:none; overflow-y:auto !important; width:100% !important; display: flex !important;">
+                    <div id="fourth_graph">
+                        <canvas id="fourth_chart_report" class="canvas_full"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                <h2>Overview</h2>
+                <hr>
+                <div class="fourth_container" id="fourth_overview_content" style="display:none">
+
+                </div>
+            </div>
+            <div class="col-lg-12 mb-4" style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                <h2>Customer Report</h2>
+                <hr/>
+                <div class="chart_container fourth_container" style="display:none; overflow-y:auto !important; width:100% !important; display: flex !important;">
+                    <div id="fifth_graph">
+                        <canvas id="fifth_chart_report" class="canvas_full"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12" style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                <h2>Overview</h2>
+                <hr>
+                <div class="fourth_container" id="fifth_overview_content" style="display:none">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
 </section>
 <!--<script src="{{ static_path }}js/selectize.min.js" integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>-->
 <!--<link rel="stylesheet" href="{{ static_path }}css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />-->
@@ -355,16 +394,25 @@
             $('.first_container').show();
             $('.second_container').hide();
             $('.third_container').hide();
+            $('.fourth_container').hide();
         });
         $('#second').on('click', function(){
             $('.first_container').hide();
             $('.second_container').show();
             $('.third_container').hide();
+            $('.fourth_container').hide();
         });
         $('#third').on('click', function(){
             $('.first_container').hide();
             $('.second_container').hide();
             $('.third_container').show();
+            $('.fourth_container').hide();
+        });
+        $('#fourth').on('click', function(){
+            $('.first_container').hide();
+            $('.second_container').hide();
+            $('.third_container').hide();
+            $('.fourth_container').show();
         });
     });
 
