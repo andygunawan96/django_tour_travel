@@ -99,6 +99,9 @@ function get_report_overall(){
     var reportChart = $('#first_chart_report');
     var secondReportChart = $('#second_chart_report');
     var thirdReportChart = $('#third_chart_report');
+    var fourthReportChart = $('#fourth_chart_report');
+    var fifthReportChart = $('#fifth_chart_report');
+
     getToken();
     $.ajax({
         type: 'POST',
@@ -374,6 +377,204 @@ function get_report_overall(){
 
             third_chart_object = new Chart(third_ctx, third_config);
 
+            // fourth graph
+            var fourth_config = {
+                type: 'bar',
+                data: {
+                    labels: result.raw_data.result.response.fourth_graph.label,
+                    datasets: [{
+                        label: '# of reservation',
+                        stack: 'Stack 0',
+                        backgroundColor: 'orange',
+                        yAxisID: 'y-axis-1',
+                        data: result.raw_data.result.response.fourth_graph.data2
+                    },{
+                        label: 'Revenue',
+                        stack: 'Stack 1',
+                        yAxisID: 'y-axis-2',
+                        backgroundColor: 'green',
+                        data: result.raw_data.result.response.fourth_graph.data
+                    },{
+                        label: 'Average',
+                        stack: 'Stack 2',
+                        yAxisID: 'y-axis-2',
+                        backgroundColor: 'blue',
+                        data: result.raw_data.result.response.fourth_graph.data3
+                    },{
+                        label: 'Profit',
+                        stack: 'Stack 3',
+                        yAxisID: 'y-axis-2',
+                        backgroundColor: 'red',
+                        data: result.raw_data.result.response.fourth_graph.data4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    legend: {
+                        position: 'top'
+                    },
+                    title: {
+                        display: true,
+                        text: "Booker Report"
+                    },
+                    scales: {
+                        yAxes: [{
+                            // config label handler untuk jumlah data
+                            type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+							display: true,
+							position: 'left',
+							id: 'y-axis-1',
+                            ticks: {
+                                beginAtZero: true
+                            },
+                            scaleLabel: {
+                                display: true,
+                                labelString: '# of data'
+                            }
+                        },{
+                            // config label handler untuk IDR
+                            type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+							display: true,
+							position: 'right',
+							id: 'y-axis-2',
+							gridLines: {
+								drawOnChartArea: false
+							},
+                            ticks: {
+                                beginAtZero: true,
+                                callback: function(value, index, values) {
+                                    return 'IDR ' + number_format(value);
+                                }
+                            },
+                            stack: true,
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Rupiah'
+                            }
+                        }],
+                        xAxes: [{
+                            stack: true,
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Agent'
+                            }
+                        }]
+                    },
+                    tooltips: {
+                        callbacks: {
+                            label: function(tooltipItem, chart){
+                                var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label;
+                                return datasetLabel + ' ' + number_format(tooltipItem.yLabel, 2);
+                            }
+                        }
+                    }
+                }
+            }
+
+            fourthReportChart.data("ChartJs", fourth_config);
+            var fourth_ctx = fourthReportChart[0].getContext("2d");
+
+            fourth_chart_object = new Chart(fourth_ctx, fourth_config);
+
+            // fifth graph
+            var fifth_config = {
+                type: 'bar',
+                data: {
+                    labels: result.raw_data.result.response.fifth_graph.label,
+                    datasets: [{
+                        label: '# of reservation',
+                        stack: 'Stack 0',
+                        backgroundColor: 'orange',
+                        yAxisID: 'y-axis-1',
+                        data: result.raw_data.result.response.fifth_graph.data2
+                    },{
+                        label: 'Revenue',
+                        stack: 'Stack 1',
+                        yAxisID: 'y-axis-2',
+                        backgroundColor: 'green',
+                        data: result.raw_data.result.response.fifth_graph.data
+                    },{
+                        label: 'Average',
+                        stack: 'Stack 2',
+                        yAxisID: 'y-axis-2',
+                        backgroundColor: 'blue',
+                        data: result.raw_data.result.response.fifth_graph.data3
+                    },{
+                        label: 'Profit',
+                        stack: 'Stack 3',
+                        yAxisID: 'y-axis-2',
+                        backgroundColor: 'red',
+                        data: result.raw_data.result.response.fifth_graph.data4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    legend: {
+                        position: 'top'
+                    },
+                    title: {
+                        display: true,
+                        text: "Customer Report"
+                    },
+                    scales: {
+                        yAxes: [{
+                            // config label handler untuk jumlah data
+                            type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+							display: true,
+							position: 'left',
+							id: 'y-axis-1',
+                            ticks: {
+                                beginAtZero: true
+                            },
+                            scaleLabel: {
+                                display: true,
+                                labelString: '# of data'
+                            }
+                        },{
+                            // config label handler untuk IDR
+                            type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+							display: true,
+							position: 'right',
+							id: 'y-axis-2',
+							gridLines: {
+								drawOnChartArea: false
+							},
+                            ticks: {
+                                beginAtZero: true,
+                                callback: function(value, index, values) {
+                                    return 'IDR ' + number_format(value);
+                                }
+                            },
+                            stack: true,
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Rupiah'
+                            }
+                        }],
+                        xAxes: [{
+                            stack: true,
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Agent'
+                            }
+                        }]
+                    },
+                    tooltips: {
+                        callbacks: {
+                            label: function(tooltipItem, chart){
+                                var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label;
+                                return datasetLabel + ' ' + number_format(tooltipItem.yLabel, 2);
+                            }
+                        }
+                    }
+                }
+            }
+
+            fifthReportChart.data("ChartJs", fifth_config);
+            var fifth_ctx = fifthReportChart[0].getContext("2d");
+
+            fifth_chart_object = new Chart(fifth_ctx, fifth_config);
+
             // peripherals
             $('#total_rupiah').html(number_format(result.raw_data.result.response.total_rupiah, 2));
             $('#average_rupiah').html(number_format(result.raw_data.result.response.average_rupiah, 2));
@@ -395,13 +596,14 @@ function get_report_overall(){
             second_contents = overview_book_issued(result.raw_data.result.response.second_overview);
             $('#second_overview_content').html(second_contents);
 
-            if(result.raw_data.result.response.dependencies.is_ho != 1){
-                third_contents = overview_customer(result.raw_data.result.response.third_overview);
-                $('#third_overview_content').html(third_contents);
-            } else {
-                third_contents = overview_chanel(result.raw_data.result.response.third_overview);
-                $('#third_overview_content').html(third_contents);
-            }
+            third_contents = overview_chanel(result.raw_data.result.response.third_overview);
+            $('#third_overview_content').html(third_contents);
+
+            fourth_contents = overview_customer(result.raw_data.result.response.fourth_overview);
+            $('#fourth_overview_content').html(fourth_contents);
+
+            fifth_contents = overview_booker(result.raw_data.result.response.fifth_overview);
+            $('#fifth_overview_content').html(fifth_contents);
 
             /////////////////////////////////
             // handler of dynamic session
@@ -521,11 +723,15 @@ $('#report_form').submit(function(evt){
     var reportChart = $('#first_chart_report');
     var secondReportChart = $('#second_chart_report');
     var thirdReportChart = $('#third_chart_report');
+    var fourthReportChart = $('#fourth_chart_report');
+    var fifthReportChart = $('#fifth_chart_report');
 
     // highlight "to update" config
     var config = reportChart.data("ChartJs");
     var secondConfig = secondReportChart.data("ChartJs");
     var thirdConfig = thirdReportChart.data("ChartJs");
+    var fourthConfig = fourthReportChart.data("ChartJs");
+    var fifthConfig = fifthReportChart.data("ChartJs");
 
     // prepare data
     var postdata = $(this).serialize();
@@ -636,6 +842,74 @@ $('#report_form').submit(function(evt){
             third_chart_object = new Chart(third_ctx, thirdConfig);
             third_chart_object.update();
 
+            // update fourth chart
+            fourthConfig.data = {
+                labels: result.raw_data.result.response.fourth_graph.label,
+                datasets: [{
+                    label: '# of reservation',
+                    stack: 'Stack 0',
+                    backgroundColor: 'orange',
+                    yAxisID: 'y-axis-1',
+                    data: result.raw_data.result.response.fourth_graph.data2
+                },{
+                    label: 'Revenue',
+                    stack: 'Stack 1',
+                    yAxisID: 'y-axis-2',
+                    backgroundColor: 'green',
+                    data: result.raw_data.result.response.fourth_graph.data
+                },{
+                    label: 'Average',
+                    stack: 'Stack 2',
+                    yAxisID: 'y-axis-2',
+                    backgroundColor: 'blue',
+                    data: result.raw_data.result.response.fourth_graph.data3
+                },{
+                    label: 'Profit',
+                    stack: 'Stack 3',
+                    yAxisID: 'y-axis-2',
+                    backgroundColor: 'red',
+                    data: result.raw_data.result.response.fourth_graph.data4
+                }]
+            }
+            fourthReportChart.data("ChartJs", fourthConfig);
+            var fourth_ctx = fourthReportChart[0].getContext("2d");
+            fourth_chart_object = new Chart(fourth_ctx, fourthConfig);
+            fourth_chart_object.update();
+
+            // update fifth chart
+            fifthConfig.data = {
+                labels: result.raw_data.result.response.fifth_graph.label,
+                datasets: [{
+                    label: '# of reservation',
+                    stack: 'Stack 0',
+                    backgroundColor: 'orange',
+                    yAxisID: 'y-axis-1',
+                    data: result.raw_data.result.response.fifth_graph.data2
+                },{
+                    label: 'Revenue',
+                    stack: 'Stack 1',
+                    yAxisID: 'y-axis-2',
+                    backgroundColor: 'green',
+                    data: result.raw_data.result.response.fifth_graph.data
+                },{
+                    label: 'Average',
+                    stack: 'Stack 2',
+                    yAxisID: 'y-axis-2',
+                    backgroundColor: 'blue',
+                    data: result.raw_data.result.response.fifth_graph.data3
+                },{
+                    label: 'Profit',
+                    stack: 'Stack 3',
+                    yAxisID: 'y-axis-2',
+                    backgroundColor: 'red',
+                    data: result.raw_data.result.response.fifth_graph.data4
+                }]
+            }
+            fifthReportChart.data("ChartJs", fifthConfig);
+            var fifth_ctx = fifthReportChart[0].getContext("2d");
+            fifth_chart_object = new Chart(fifth_ctx, fifthConfig);
+            fifth_chart_object.update();
+
             // peripherals
             $('#total_rupiah').html(number_format(result.raw_data.result.response.total_rupiah, 2));
             $('#average_rupiah').html(number_format(result.raw_data.result.response.average_rupiah, 2));
@@ -690,13 +964,14 @@ $('#report_form').submit(function(evt){
                 $('#div_overview_second').hide();
             }
 
-            if(result.raw_data.result.response.dependencies.is_ho != 1){
-                third_contents = overview_customer(result.raw_data.result.response.third_overview);
-                $('#third_overview_content').html(third_contents);
-            } else {
-                third_contents = overview_chanel(result.raw_data.result.response.third_overview);
-                $('#third_overview_content').html(third_contents);
-            }
+            third_contents = overview_chanel(result.raw_data.result.response.third_overview);
+            $('#third_overview_content').html(third_contents);
+
+            fourth_contents = overview_customer(result.raw_data.result.response.fourth_overview);
+            $('#fourth_overview_content').html(fourth_contents);
+
+            fifth_contents = overview_booker(result.raw_data.result.response.fifth_overview);
+            $('#fifth_overview_content').html(fifth_contents);
 
             // enabled button
              $('#update_chart_button').prop('disabled', false);
@@ -1534,7 +1809,7 @@ function overview_offline(data){
             <tr>
                 <td>`+ data[i]['category'] +` - `+ data[i]['provider_type'] +`</td>
                 <td>`+ data[i]['counter'] +`</td>
-                <td>`+ data[i]['amount'] +`</td>
+                <td>`+ number_format(data[i]['amount'],2) +`</td>
             </tr>
         `;
     }
@@ -1597,7 +1872,7 @@ function overview_book_issued(data){
 
 // handler for overview data
 // input is object that has been trim to the exact object needed to print
-// in chanel/cutomer rank for HO, and later on for agent
+// in chanel rank for HO, and later on for agent
 // return.raw_data.result.response.second_overview
 // second because book issued will always be in tab 2
 // will also  be use to name the section(s)
@@ -1637,6 +1912,12 @@ function overview_chanel(data){
     return content
 }
 
+// handler for overview data
+// input is object that has been trim to the exact object needed to print
+// in cutomer rank for HO, and later on for agent
+// return.raw_data.result.response.second_overview
+// second because book issued will always be in tab 2
+// will also  be use to name the section(s)
 function overview_customer(data){
     // start of table
     var content = `
@@ -1644,7 +1925,49 @@ function overview_customer(data){
         <table class="table">
             <thead>
                 <tr>
-                    <th>Agent</th>
+                    <th>Customer</th>
+                    <th># Reservation</th>
+                    <th>Revenue</th>
+                    <th>Profit</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+
+    for(i in data){
+        content += `
+            <tr>
+                <td>`+ data[i]['customer_parent_name'] +`</td>
+                <td>`+ data[i]['reservation'] +`</td>
+                <td>`+ number_format(data[i]['revenue'], 2) +`</td>
+                <td>`+ number_format(data[i]['profit'], 2) +`</td>
+            </tr>
+        `;
+    }
+
+    // end of the table
+    content += `
+            </tbody>
+        </table>
+    `;
+
+    return content
+}
+
+// handler for overview data
+// input is object that has been trim to the exact object needed to print
+// in booker rank for HO, and later on for agent
+// return.raw_data.result.response.second_overview
+// second because book issued will always be in tab 2
+// will also  be use to name the section(s)
+function overview_booker(data){
+    // start of table
+    var content = `
+        <div class="mb-3" style="overflow:auto;">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Booker</th>
                     <th># Reservation</th>
                     <th>Revenue</th>
                     <th>Profit</th>
