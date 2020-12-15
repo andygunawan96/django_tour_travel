@@ -1696,7 +1696,7 @@ function sort(value){
                             else if(data_filter[i].can_book == false)
                                 response+=`
                                 <span class="copy_price" style="font-size:16px; margin-right:10px;">IDR `+getrupiah(data_filter[i].price)+`</span>
-                                <input class="disabled-btn" type="button" id="train_choose`+i+`" value="No Available" disabled>`
+                                <input class="disabled-btn" type="button" id="train_choose`+i+`" value="Not Available" disabled>`
                             else
                                 response+=`
                                 <span class="copy_price" style="font-size:16px; margin-right:10px;">IDR `+getrupiah(data_filter[i].price)+`</span>
