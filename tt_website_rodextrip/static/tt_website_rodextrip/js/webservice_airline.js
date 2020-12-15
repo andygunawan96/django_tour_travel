@@ -804,11 +804,12 @@ function draw_get_booking(msg){
     }
     //pilih booker
     //button save backend
-    text += `<input type="button" id="save_retrieve_booking_from_vendor();" class="primary-btn" onclick="save_retrieve_booking_from_vendor();" value="Save to backend"/>`
+    text += `<input type="button" id="save_retrieve_booking_from_vendor" class="primary-btn" onclick="save_retrieve_booking_from_vendor();" value="Save to backend"/>`
     return text;
 }
 
 function save_retrieve_booking_from_vendor(){
+    document.getElementById('save_retrieve_booking_from_vendor').disabled = true;
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -842,6 +843,7 @@ function save_retrieve_booking_from_vendor(){
                   html: msg.result.error_additional_message,
                })
            }
+           document.getElementById('save_retrieve_booking_from_vendor').disabled = false;
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
 

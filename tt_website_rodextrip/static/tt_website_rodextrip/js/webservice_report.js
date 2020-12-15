@@ -18,7 +18,7 @@ $(document).ready(function(){
             'This Week': [moment().subtract(date_day[now.split(' ')[0]], 'days'), moment()],
             'Last Week': [moment().subtract(date_day[now.split(' ')[0]]+7, 'days'), moment().subtract(date_day[now.split(' ')[0]]+1, 'days')],
             'This Month': [moment().startOf('month'), moment().endOf('month')],
-            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
             'Last 7 Days': [moment().subtract(6, 'days'), moment()],
             'Last 30 Days': [moment().subtract(29, 'days'), moment()],
         },
