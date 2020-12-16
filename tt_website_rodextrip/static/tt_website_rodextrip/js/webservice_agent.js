@@ -1043,7 +1043,6 @@ function get_customer_list(passenger, number, product){
                         if(product == 'get_booking_vendor'){
                             document.getElementById('search_result_booker_vendor').innerHTML = response;
                             document.getElementById('search_result_booker_vendor').hidden = false;
-                            document.getElementById('hide_btn_click').hidden = false;
                         }else if(passenger == 'passenger')
                             document.getElementById('search_result_passenger').innerHTML = response;
                         else
@@ -1293,6 +1292,11 @@ function pick_passenger(type, sequence, product){
         document.getElementById('hide_btn_click').hidden = true;
         document.getElementById('booker_vendor').value = passenger_data[sequence].title + ' ' + passenger_data[sequence].first_name + ' ' + passenger_data[sequence].last_name;
         document.getElementById('booker_vendor_id').value = passenger_data[sequence].seq_id;
+        document.getElementById('booker_div').hidden = false;
+        document.getElementById('clear_booker_booking_from_vendor_id').hidden = false;
+        document.getElementById('clear_booker_booking_div').hidden = false;
+        document.getElementById('search_booker_booking_from_vendor').hidden = true;
+        document.getElementById('hide_btn_click').hidden = false;
         if(passenger_data[sequence].customer_parents.length != 0){
             for(i in passenger_data[sequence].customer_parents){
                 document.getElementById('customer_parent_booking_from_vendor').innerHTML += `<option value="`+passenger_data[sequence].customer_parents[i].seq_id+`">`+passenger_data[sequence].customer_parents[i].name+`</option>`;

@@ -73,13 +73,16 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-5" id="booker_div" hidden>
                                 <label style="color:red">*</label>
                                 <label>{% trans 'Booker' %}</label>
                                 <div class="input-container-search-ticket">
                                     <input type="text" class="form-control" name="pnr" id="booker_vendor" placeholder="{% trans 'Booker' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Booker '" disabled/>
                                     <input type="hidden" class="form-control" name="pnr" id="booker_vendor_id"/>
                                 </div>
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1" style="margin-top:4.5vh;" id="clear_booker_booking_div" hidden>
+                                <button type="button" class="primary-btn" id="clear_booker_booking_from_vendor_id" onclick="clear_booker_booking_from_vendor();" style="float:right;" hidden><i class="fas fa-times"></i></button>
                             </div>
                             <div class="col-lg-6 col-xs-6" hidden id="cus_parent_div">
                                 <label style="color:red">*</label>
@@ -101,9 +104,11 @@
                                     <!--</label>-->
                                 <!--</div>-->
                             <!--</div>-->
-                            <div class="col-lg-12">
+                            <div class="col-lg-12" id="search_booker_booking_from_vendor">
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <label style="color:red">*</label>
+                                        <label>{% trans 'Booker' %}</label>
                                         <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
                                     </div>
                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
@@ -3478,7 +3483,7 @@
                 backdrop: 'static'
             });
         });
-
+        get_provider_booking_from_vendor();
     });
     function get_customer_parent(){
         $.ajax({
@@ -3516,7 +3521,17 @@
         else
             document.getElementById('hide_btn_click').innerHTML = 'Hide';
     }
-    get_provider_booking_from_vendor();
+    function clear_booker_booking_from_vendor(){
+        document.getElementById('search_booker_booking_from_vendor').hidden = false;
+        document.getElementById('clear_booker_booking_div').hidden = false;
+        document.getElementById('booker_div').hidden = true;
+        document.getElementById('clear_booker_booking_from_vendor_id').hidden = true;
+        document.getElementById('clear_booker_booking_div').hidden = true;
+        document.getElementById('hide_btn_click').hidden = true;
+        document.getElementById('booker_vendor_id').value = '';
+        document.getElementById('booker_vendor').innerHTML = '';
+
+    }
 </script>
 
 {% endif %}

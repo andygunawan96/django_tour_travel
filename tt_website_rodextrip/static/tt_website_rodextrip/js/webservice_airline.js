@@ -810,45 +810,47 @@ function draw_get_booking(msg){
 
 function save_retrieve_booking_from_vendor(){
     document.getElementById('save_retrieve_booking_from_vendor').disabled = true;
-    $.ajax({
-       type: "POST",
-       url: "/webservice/airline",
-       headers:{
-            'action': 'save_retrieve_booking_from_vendor',
-       },
-       data: {
-            'signature': signature,
-            'booker_id': document.getElementById('booker_vendor_id').value,
-            'response': JSON.stringify(data_get_retrieve_booking),
-            'customer_parent_id': document.getElementById('customer_parent_booking_from_vendor').value
-//            'duplicate_pnr': document.getElementById('duplicate_pnr').checked
-       },
-       success: function(msg) {
-           console.log(msg);
-           if(msg.result.error_code == 0){
-               Swal.fire({
-                  type: 'success',
-                  title: 'Update!',
-                  html: msg.result.error_msg,
-               })
-               document.getElementById('pnr').value = '';
-               document.getElementById('booker_vendor').value = '';
-               document.getElementById('booker_vendor_id').value = '';
-               document.getElementById('result_get_booking_from_vendor').innerHTML = '';
-               window.location= "/airline/booking/"+btoa(msg.result.response.order_number);
-           }else{
-               Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: msg.result.error_additional_message,
-               })
-           }
-           document.getElementById('save_retrieve_booking_from_vendor').disabled = false;
-       },
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
+    if(document.getElementById('booker_vendor_id').value != ''){
+        $.ajax({
+           type: "POST",
+           url: "/webservice/airline",
+           headers:{
+                'action': 'save_retrieve_booking_from_vendor',
+           },
+           data: {
+                'signature': signature,
+                'booker_id': document.getElementById('booker_vendor_id').value,
+                'response': JSON.stringify(data_get_retrieve_booking),
+                'customer_parent_id': document.getElementById('customer_parent_booking_from_vendor').value
+    //            'duplicate_pnr': document.getElementById('duplicate_pnr').checked
+           },
+           success: function(msg) {
+               console.log(msg);
+               if(msg.result.error_code == 0){
+                   Swal.fire({
+                      type: 'success',
+                      title: 'Update!',
+                      html: msg.result.error_msg,
+                   })
+                   document.getElementById('pnr').value = '';
+                   document.getElementById('booker_vendor').value = '';
+                   document.getElementById('booker_vendor_id').value = '';
+                   document.getElementById('result_get_booking_from_vendor').innerHTML = '';
+                   window.location= "/airline/booking/"+btoa(msg.result.response.order_number);
+               }else{
+                   Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: msg.result.error_additional_message,
+                   })
+               }
+               document.getElementById('save_retrieve_booking_from_vendor').disabled = false;
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
 
-       },timeout: 60000
-    });
+           },timeout: 60000
+        });
+    }
 }
 
 
