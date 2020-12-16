@@ -648,6 +648,8 @@ function get_provider_booking_from_vendor(){
 }
 
 function get_retrieve_booking_from_vendor(){
+    document.getElementById('retrieve_booking_from_vendor').disabled = true;
+    $('.loader-rodextrip').fadeIn();
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -669,12 +671,15 @@ function get_retrieve_booking_from_vendor(){
                Swal.fire({
                   type: 'error',
                   title: 'Oops!',
-                  html: msg.result.error_msg,
+                  html: msg.result.error_additional_message,
                })
            }
+           document.getElementById('retrieve_booking_from_vendor').disabled = false;
+           $('.loader-rodextrip').fadeOut();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-
+           document.getElementById('retrieve_booking_from_vendor').disabled = false;
+           $('.loader-rodextrip').fadeOut();
        },timeout: 60000
     });
 }
@@ -808,6 +813,15 @@ function draw_get_booking(msg){
             </div>
         </div>`;
     }
+    text+=`
+        <div class="row" style="margin-bottom:5px;">
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                <span style="font-size:12px;">Grand Total</span>`;
+            text+=`</div>
+            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                <span style="font-size:13px;">`+price[0].service_charges[0].currency+` `+getrupiah(msg.total_price)+`</span>
+            </div>
+        </div>`;
     //pilih booker
     //button save backend
     text += `<input type="button" id="save_retrieve_booking_from_vendor_id" class="primary-btn" onclick="save_retrieve_booking_from_vendor();" value="Save to backend"/>`
@@ -815,8 +829,8 @@ function draw_get_booking(msg){
 }
 
 function save_retrieve_booking_from_vendor(){
-    document.getElementById('save_retrieve_booking_from_vendor_id').disabled = true;
     if(document.getElementById('booker_vendor_id').value != ''){
+        document.getElementById('save_retrieve_booking_from_vendor_id').disabled = true;
         $.ajax({
            type: "POST",
            url: "/webservice/airline",
@@ -856,6 +870,12 @@ function save_retrieve_booking_from_vendor(){
 
            },timeout: 60000
         });
+    }else{
+        Swal.fire({
+          type: 'error',
+          title: 'Oops!',
+          html: 'Please input booker',
+        })
     }
 }
 

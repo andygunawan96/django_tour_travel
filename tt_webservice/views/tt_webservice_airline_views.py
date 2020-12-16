@@ -2028,13 +2028,13 @@ def get_retrieve_booking_from_vendor(request):
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
-            "action": "retrieve_booking",
+            "action": "get_booking_frontend_check_pnr",
             "signature": request.POST['signature'],
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/airline/private', data=data, headers=headers, method='POST', timeout=300)
+    res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST', timeout=300)
     try:
         if res['result']['error_code'] == 0:
             javascript_version = get_cache_version()
