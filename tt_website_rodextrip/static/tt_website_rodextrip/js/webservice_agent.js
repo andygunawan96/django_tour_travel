@@ -1043,6 +1043,7 @@ function get_customer_list(passenger, number, product){
                         if(product == 'get_booking_vendor'){
                             document.getElementById('search_result_booker_vendor').innerHTML = response;
                             document.getElementById('search_result_booker_vendor').hidden = false;
+                            document.getElementById('search_btn_click').disabled=false;
                         }else if(passenger == 'passenger')
                             document.getElementById('search_result_passenger').innerHTML = response;
                         else
@@ -1084,7 +1085,14 @@ function get_customer_list(passenger, number, product){
             $('.loading-booker-train').hide();
             response = '';
             response+=`<center><div class="alert alert-danger" role="alert" style="margin-top:10px;"><h6><i class="fas fa-times-circle"></i> Please input more than 1 letter!</h6></div></center>`;
-            document.getElementById('search_result').innerHTML = response;
+            try{
+                document.getElementById('search_result').innerHTML = response;
+            }catch(err){
+                try{
+                    document.getElementById('search_result_passenger').innerHTML = response;
+                    document.getElementById('search_btn_click').disabled=false;
+                }catch(err){}
+            }
         }
 
     }else{

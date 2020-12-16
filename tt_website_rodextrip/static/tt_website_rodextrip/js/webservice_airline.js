@@ -648,40 +648,48 @@ function get_provider_booking_from_vendor(){
 }
 
 function get_retrieve_booking_from_vendor(){
-    document.getElementById('retrieve_booking_from_vendor').disabled = true;
-    $('.loader-rodextrip').fadeIn();
-    $.ajax({
-       type: "POST",
-       url: "/webservice/airline",
-       headers:{
-            'action': 'get_retrieve_booking_from_vendor',
-       },
-       data: {
-            'signature': signature,
-            'pnr':  document.getElementById('pnr').value,
-            'provider': document.getElementById('provider_booking_from_vendor').value
-       },
-       success: function(msg) {
-           console.log(msg);
-           data_get_retrieve_booking = msg;
-           if(msg.result.error_code == 0){
-               response = draw_get_booking(msg.result.response)
-               document.getElementById('result_get_booking_from_vendor').innerHTML = response;
-           }else{
-               Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: msg.result.error_additional_message,
-               })
-           }
-           document.getElementById('retrieve_booking_from_vendor').disabled = false;
-           $('.loader-rodextrip').fadeOut();
-       },
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
-           document.getElementById('retrieve_booking_from_vendor').disabled = false;
-           $('.loader-rodextrip').fadeOut();
-       },timeout: 60000
-    });
+    if(document.getElementById('pnr').value != ''){
+        document.getElementById('retrieve_booking_from_vendor').disabled = true;
+        $('.loader-rodextrip').fadeIn();
+        $.ajax({
+           type: "POST",
+           url: "/webservice/airline",
+           headers:{
+                'action': 'get_retrieve_booking_from_vendor',
+           },
+           data: {
+                'signature': signature,
+                'pnr':  document.getElementById('pnr').value,
+                'provider': document.getElementById('provider_booking_from_vendor').value
+           },
+           success: function(msg) {
+               console.log(msg);
+               data_get_retrieve_booking = msg;
+               if(msg.result.error_code == 0){
+                   response = draw_get_booking(msg.result.response)
+                   document.getElementById('result_get_booking_from_vendor').innerHTML = response;
+               }else{
+                   Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: msg.result.additional_message,
+                   })
+               }
+               document.getElementById('retrieve_booking_from_vendor').disabled = false;
+               $('.loader-rodextrip').fadeOut();
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+               document.getElementById('retrieve_booking_from_vendor').disabled = false;
+               $('.loader-rodextrip').fadeOut();
+           },timeout: 60000
+        });
+    }else{
+        Swal.fire({
+          type: 'error',
+          title: 'Oops!',
+          html: 'Please fill pnr',
+        })
+    }
 }
 
 function draw_get_booking(msg){
