@@ -672,7 +672,7 @@ function get_retrieve_booking_from_vendor(){
                    Swal.fire({
                       type: 'error',
                       title: 'Oops!',
-                      html: msg.result.additional_message,
+                      html: msg.result.error_additional_msg,
                    })
                }
                document.getElementById('retrieve_booking_from_vendor').disabled = false;
@@ -8025,7 +8025,7 @@ function pre_refund_login(){
                 Swal.fire({
                   type: 'error',
                   title: 'Oops!',
-                  html: '<span style="color: #ff9900;">Error get refund price </span>' + msg.result.additional_message,
+                  html: '<span style="color: #ff9900;">Error get refund price </span>' + msg.result.error_additional_msg,
                 })
            }
        },
