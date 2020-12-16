@@ -112,7 +112,7 @@
                                         <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
                                     </div>
                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                        <button type="button" class="primary-btn" id="search_btn_click" onclick="get_customer_list('booker','','get_booking_vendor')">{% trans 'Search' %}</button>
+                                        <button type="button" class="primary-btn" id="search_btn_click" onclick="search_btn_booker_get_booking_from_vendor();get_customer_list('booker','','get_booking_vendor');">{% trans 'Search' %}</button>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                     </div>
@@ -3530,7 +3530,16 @@
         document.getElementById('hide_btn_click').hidden = true;
         document.getElementById('booker_vendor_id').value = '';
         document.getElementById('booker_vendor').innerHTML = '';
-
+    }
+    function search_btn_booker_get_booking_from_vendor(){
+        document.getElementById('search_btn_click').disabled=true;
+        if(document.getElementById('train_booker_search').value == ''){
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: 'Please fill booker name',
+            })
+        }
     }
 </script>
 
