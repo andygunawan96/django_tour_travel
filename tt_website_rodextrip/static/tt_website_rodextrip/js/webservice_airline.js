@@ -665,6 +665,12 @@ function get_retrieve_booking_from_vendor(){
            if(msg.result.error_code == 0){
                response = draw_get_booking(msg.result.response)
                document.getElementById('result_get_booking_from_vendor').innerHTML = response;
+           }else{
+               Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: msg.result.error_msg,
+               })
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -804,12 +810,12 @@ function draw_get_booking(msg){
     }
     //pilih booker
     //button save backend
-    text += `<input type="button" id="save_retrieve_booking_from_vendor" class="primary-btn" onclick="save_retrieve_booking_from_vendor();" value="Save to backend"/>`
+    text += `<input type="button" id="save_retrieve_booking_from_vendor_id" class="primary-btn" onclick="save_retrieve_booking_from_vendor();" value="Save to backend"/>`
     return text;
 }
 
 function save_retrieve_booking_from_vendor(){
-    document.getElementById('save_retrieve_booking_from_vendor').disabled = true;
+    document.getElementById('save_retrieve_booking_from_vendor_id').disabled = true;
     if(document.getElementById('booker_vendor_id').value != ''){
         $.ajax({
            type: "POST",
@@ -844,7 +850,7 @@ function save_retrieve_booking_from_vendor(){
                       html: msg.result.error_additional_message,
                    })
                }
-               document.getElementById('save_retrieve_booking_from_vendor').disabled = false;
+               document.getElementById('save_retrieve_booking_from_vendor_id').disabled = false;
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
 
