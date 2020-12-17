@@ -681,6 +681,383 @@ function get_report_overall(){
                 if(result.raw_data.result.response.dependencies.is_ho == 1){
                     $('#agent_selector').show();
                 }
+
+                $('#overall_table').DataTable({
+                    "footerCallback": function ( row, data, start, end, display ) {
+                        var api = this.api(), data;
+
+                        // Remove the formatting to get integer data for summation
+                        var intVal = function ( i ) {
+                            return typeof i === 'string' ?
+                                i.replace(/[\$,]/g, '')*1 :
+                                typeof i === 'number' ?
+                                    i : 0;
+                        };
+
+                        // Total over all pages
+                        total = api
+                            .column( 1 )
+                            .data()
+                            .reduce( function (a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0 );
+
+                        // Total over this page
+                        pageTotal = api
+                            .column( 1, { page: 'current'} )
+                            .data()
+                            .reduce( function (a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0 );
+
+                        // Update footer
+                        $( api.column( 1 ).footer() ).html(
+                            ''+pageTotal +' ( '+ total +' total )'
+                        );
+                    }
+                });
+
+                $('#customer_table').DataTable({
+                    "footerCallback": function ( row, data, start, end, display ) {
+                        var api = this.api(), data;
+
+                        // Remove the formatting to get integer data for summation
+                        var intVal = function ( i ) {
+                            return typeof i === 'string' ?
+                                i.replace(/[\$,]/g, '')*1 :
+                                typeof i === 'number' ?
+                                    i : 0;
+                        };
+
+                        //reservation
+                        // Total over all pages
+                        total = api
+                            .column( 1 )
+                            .data()
+                            .reduce( function (a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0 );
+
+                        // Total over this page
+                        pageTotal = api
+                            .column( 1, { page: 'current'} )
+                            .data()
+                            .reduce( function (a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0 );
+
+                        // Update footer
+                        $( api.column( 1 ).footer() ).html(
+                            ''+number_format(pageTotal) +' ( '+ number_format(total) +' total )'
+                        );
+
+                        //revenue
+                        // Total over all pages
+                        total2 = api
+                            .column( 2 )
+                            .data()
+                            .reduce( function (a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0 );
+
+                        // Total over this page
+                        pageTotal2 = api
+                            .column( 2, { page: 'current'} )
+                            .data()
+                            .reduce( function (a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0 );
+
+                        // Update footer
+                        $( api.column( 2 ).footer() ).html(
+                            ''+number_format(pageTotal2) +' ( '+ number_format(total2) +' total )'
+                        );
+
+                        //profit
+                        // Total over all pages
+                        total3 = api
+                            .column( 3 )
+                            .data()
+                            .reduce( function (a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0 );
+
+                        // Total over this page
+                        pageTotal3 = api
+                            .column( 3, { page: 'current'} )
+                            .data()
+                            .reduce( function (a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0 );
+
+                        // Update footer
+                        $( api.column( 3 ).footer() ).html(
+                            ''+number_format(pageTotal3) +' ( '+ number_format(total3) +' total )'
+                        );
+                    }
+                });
+
+                $('#booker_table').DataTable({
+                    "footerCallback": function ( row, data, start, end, display ) {
+                        var api = this.api(), data;
+
+                        // Remove the formatting to get integer data for summation
+                        var intVal = function ( i ) {
+                            return typeof i === 'string' ?
+                                i.replace(/[\$,]/g, '')*1 :
+                                typeof i === 'number' ?
+                                    i : 0;
+                        };
+
+                        //reservation
+                        // Total over all pages
+                        total = api
+                            .column( 1 )
+                            .data()
+                            .reduce( function (a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0 );
+
+                        // Total over this page
+                        pageTotal = api
+                            .column( 1, { page: 'current'} )
+                            .data()
+                            .reduce( function (a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0 );
+
+                        // Update footer
+                        $( api.column( 1 ).footer() ).html(
+                            ''+number_format(pageTotal) +' ( '+ number_format(total) +' total )'
+                        );
+
+                        //revenue
+                        // Total over all pages
+                        total2 = api
+                            .column( 2 )
+                            .data()
+                            .reduce( function (a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0 );
+
+                        // Total over this page
+                        pageTotal2 = api
+                            .column( 2, { page: 'current'} )
+                            .data()
+                            .reduce( function (a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0 );
+
+                        // Update footer
+                        $( api.column( 2 ).footer() ).html(
+                            ''+number_format(pageTotal2) +' ( '+ number_format(total2) +' total )'
+                        );
+
+                        //profit
+                        // Total over all pages
+                        total3 = api
+                            .column( 3 )
+                            .data()
+                            .reduce( function (a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0 );
+
+                        // Total over this page
+                        pageTotal3 = api
+                            .column( 3, { page: 'current'} )
+                            .data()
+                            .reduce( function (a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0 );
+
+                        // Update footer
+                        $( api.column( 3 ).footer() ).html(
+                            ''+number_format(pageTotal3) +' ( '+ number_format(total3) +' total )'
+                        );
+                    }
+                });
+
+                $('#channel_table').DataTable({
+                    "footerCallback": function ( row, data, start, end, display ) {
+                        var api = this.api(), data;
+
+                        // Remove the formatting to get integer data for summation
+                        var intVal = function ( i ) {
+                            return typeof i === 'string' ?
+                                i.replace(/[\$,]/g, '')*1 :
+                                typeof i === 'number' ?
+                                    i : 0;
+                        };
+
+                        //reservation
+                        // Total over all pages
+                        total = api
+                            .column( 1 )
+                            .data()
+                            .reduce( function (a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0 );
+
+                        // Total over this page
+                        pageTotal = api
+                            .column( 1, { page: 'current'} )
+                            .data()
+                            .reduce( function (a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0 );
+
+                        // Update footer
+                        $( api.column( 1 ).footer() ).html(
+                            ''+number_format(pageTotal) +' ( '+ number_format(total) +' total )'
+                        );
+
+                        //revenue
+                        // Total over all pages
+                        total2 = api
+                            .column( 2 )
+                            .data()
+                            .reduce( function (a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0 );
+
+                        // Total over this page
+                        pageTotal2 = api
+                            .column( 2, { page: 'current'} )
+                            .data()
+                            .reduce( function (a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0 );
+
+                        // Update footer
+                        $( api.column( 2 ).footer() ).html(
+                            ''+number_format(pageTotal2) +' ( '+ number_format(total2) +' total )'
+                        );
+
+                        //profit
+                        // Total over all pages
+                        total3 = api
+                            .column( 3 )
+                            .data()
+                            .reduce( function (a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0 );
+
+                        // Total over this page
+                        pageTotal3 = api
+                            .column( 3, { page: 'current'} )
+                            .data()
+                            .reduce( function (a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0 );
+
+                        // Update footer
+                        $( api.column( 3 ).footer() ).html(
+                            ''+number_format(pageTotal3) +' ( '+ number_format(total3) +' total )'
+                        );
+                    }
+                });
+
+                $('#book_issued_table').DataTable({
+                    "footerCallback": function ( row, data, start, end, display ) {
+                        var api = this.api(), data;
+
+                        // Remove the formatting to get integer data for summation
+                        var intVal = function ( i ) {
+                            return typeof i === 'string' ?
+                                i.replace(/[\$,]/g, '')*1 :
+                                typeof i === 'number' ?
+                                    i : 0;
+                        };
+
+                        //reservation
+                        // Total over all pages
+                        total = api
+                            .column( 1 )
+                            .data()
+                            .reduce( function (a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0 );
+
+                        // Total over this page
+                        pageTotal = api
+                            .column( 1, { page: 'current'} )
+                            .data()
+                            .reduce( function (a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0 );
+
+                        // Update footer
+                        $( api.column( 1 ).footer() ).html(
+                            ''+number_format(pageTotal) +' ( '+ number_format(total) +' total )'
+                        );
+
+                        //revenue
+                        // Total over all pages
+                        total2 = api
+                            .column( 2 )
+                            .data()
+                            .reduce( function (a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0 );
+
+                        // Total over this page
+                        pageTotal2 = api
+                            .column( 2, { page: 'current'} )
+                            .data()
+                            .reduce( function (a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0 );
+
+                        // Update footer
+                        $( api.column( 2 ).footer() ).html(
+                            ''+number_format(pageTotal2) +' ( '+ number_format(total2) +' total )'
+                        );
+
+                        //profit
+                        // Total over all pages
+                        total3 = api
+                            .column( 3 )
+                            .data()
+                            .reduce( function (a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0 );
+
+                        // Total over this page
+                        pageTotal3 = api
+                            .column( 3, { page: 'current'} )
+                            .data()
+                            .reduce( function (a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0 );
+
+                        // Update footer
+                        $( api.column( 3 ).footer() ).html(
+                            ''+number_format(pageTotal3) +' ( '+ number_format(total3) +' total )'
+                        );
+
+                        //profit
+                        // Total over all pages
+                        total4 = api
+                            .column( 4 )
+                            .data()
+                            .reduce( function (a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0 );
+
+                        // Total over this page
+                        pageTotal4 = api
+                            .column( 4, { page: 'current'} )
+                            .data()
+                            .reduce( function (a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0 );
+
+                        // Update footer
+                        $( api.column( 4 ).footer() ).html(
+                            ''+number_format(pageTotal4) +' ( '+ number_format(total4) +' total )'
+                        );
+                    }
+                });
             });
         },
         error: function(result){
@@ -981,6 +1358,383 @@ $('#report_form').submit(function(evt){
                 overview_airline_chart(result.raw_data.result.response.first_overview);
             }
             // process complete!
+
+            $('#overall_table').DataTable({
+                "footerCallback": function ( row, data, start, end, display ) {
+                    var api = this.api(), data;
+
+                    // Remove the formatting to get integer data for summation
+                    var intVal = function ( i ) {
+                        return typeof i === 'string' ?
+                            i.replace(/[\$,]/g, '')*1 :
+                            typeof i === 'number' ?
+                                i : 0;
+                    };
+
+                    // Total over all pages
+                    total = api
+                        .column( 1 )
+                        .data()
+                        .reduce( function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0 );
+
+                    // Total over this page
+                    pageTotal = api
+                        .column( 1, { page: 'current'} )
+                        .data()
+                        .reduce( function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0 );
+
+                    // Update footer
+                    $( api.column( 1 ).footer() ).html(
+                        ''+pageTotal +' ( '+ total +' total )'
+                    );
+                }
+            });
+
+            $('#customer_table').DataTable({
+                "footerCallback": function ( row, data, start, end, display ) {
+                    var api = this.api(), data;
+
+                    // Remove the formatting to get integer data for summation
+                    var intVal = function ( i ) {
+                        return typeof i === 'string' ?
+                            i.replace(/[\$,]/g, '')*1 :
+                            typeof i === 'number' ?
+                                i : 0;
+                    };
+
+                    //reservation
+                    // Total over all pages
+                    total = api
+                        .column( 1 )
+                        .data()
+                        .reduce( function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0 );
+
+                    // Total over this page
+                    pageTotal = api
+                        .column( 1, { page: 'current'} )
+                        .data()
+                        .reduce( function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0 );
+
+                    // Update footer
+                    $( api.column( 1 ).footer() ).html(
+                        ''+number_format(pageTotal) +' ( '+ number_format(total) +' total )'
+                    );
+
+                    //revenue
+                    // Total over all pages
+                    total2 = api
+                        .column( 2 )
+                        .data()
+                        .reduce( function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0 );
+
+                    // Total over this page
+                    pageTotal2 = api
+                        .column( 2, { page: 'current'} )
+                        .data()
+                        .reduce( function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0 );
+
+                    // Update footer
+                    $( api.column( 2 ).footer() ).html(
+                        ''+number_format(pageTotal2) +' ( '+ number_format(total2) +' total )'
+                    );
+
+                    //profit
+                    // Total over all pages
+                    total3 = api
+                        .column( 3 )
+                        .data()
+                        .reduce( function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0 );
+
+                    // Total over this page
+                    pageTotal3 = api
+                        .column( 3, { page: 'current'} )
+                        .data()
+                        .reduce( function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0 );
+
+                    // Update footer
+                    $( api.column( 3 ).footer() ).html(
+                        ''+number_format(pageTotal3) +' ( '+ number_format(total3) +' total )'
+                    );
+                }
+            });
+
+            $('#booker_table').DataTable({
+                "footerCallback": function ( row, data, start, end, display ) {
+                    var api = this.api(), data;
+
+                    // Remove the formatting to get integer data for summation
+                    var intVal = function ( i ) {
+                        return typeof i === 'string' ?
+                            i.replace(/[\$,]/g, '')*1 :
+                            typeof i === 'number' ?
+                                i : 0;
+                    };
+
+                    //reservation
+                    // Total over all pages
+                    total = api
+                        .column( 1 )
+                        .data()
+                        .reduce( function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0 );
+
+                    // Total over this page
+                    pageTotal = api
+                        .column( 1, { page: 'current'} )
+                        .data()
+                        .reduce( function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0 );
+
+                    // Update footer
+                    $( api.column( 1 ).footer() ).html(
+                        ''+number_format(pageTotal) +' ( '+ number_format(total) +' total )'
+                    );
+
+                    //revenue
+                    // Total over all pages
+                    total2 = api
+                        .column( 2 )
+                        .data()
+                        .reduce( function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0 );
+
+                    // Total over this page
+                    pageTotal2 = api
+                        .column( 2, { page: 'current'} )
+                        .data()
+                        .reduce( function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0 );
+
+                    // Update footer
+                    $( api.column( 2 ).footer() ).html(
+                        ''+number_format(pageTotal2) +' ( '+ number_format(total2) +' total )'
+                    );
+
+                    //profit
+                    // Total over all pages
+                    total3 = api
+                        .column( 3 )
+                        .data()
+                        .reduce( function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0 );
+
+                    // Total over this page
+                    pageTotal3 = api
+                        .column( 3, { page: 'current'} )
+                        .data()
+                        .reduce( function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0 );
+
+                    // Update footer
+                    $( api.column( 3 ).footer() ).html(
+                        ''+number_format(pageTotal3) +' ( '+ number_format(total3) +' total )'
+                    );
+                }
+            });
+
+            $('#channel_table').DataTable({
+                    "footerCallback": function ( row, data, start, end, display ) {
+                        var api = this.api(), data;
+
+                        // Remove the formatting to get integer data for summation
+                        var intVal = function ( i ) {
+                            return typeof i === 'string' ?
+                                i.replace(/[\$,]/g, '')*1 :
+                                typeof i === 'number' ?
+                                    i : 0;
+                        };
+
+                        //reservation
+                        // Total over all pages
+                        total = api
+                            .column( 1 )
+                            .data()
+                            .reduce( function (a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0 );
+
+                        // Total over this page
+                        pageTotal = api
+                            .column( 1, { page: 'current'} )
+                            .data()
+                            .reduce( function (a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0 );
+
+                        // Update footer
+                        $( api.column( 1 ).footer() ).html(
+                            ''+number_format(pageTotal) +' ( '+ number_format(total) +' total )'
+                        );
+
+                        //revenue
+                        // Total over all pages
+                        total2 = api
+                            .column( 2 )
+                            .data()
+                            .reduce( function (a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0 );
+
+                        // Total over this page
+                        pageTotal2 = api
+                            .column( 2, { page: 'current'} )
+                            .data()
+                            .reduce( function (a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0 );
+
+                        // Update footer
+                        $( api.column( 2 ).footer() ).html(
+                            ''+number_format(pageTotal2) +' ( '+ number_format(total2) +' total )'
+                        );
+
+                        //profit
+                        // Total over all pages
+                        total3 = api
+                            .column( 3 )
+                            .data()
+                            .reduce( function (a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0 );
+
+                        // Total over this page
+                        pageTotal3 = api
+                            .column( 3, { page: 'current'} )
+                            .data()
+                            .reduce( function (a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0 );
+
+                        // Update footer
+                        $( api.column( 3 ).footer() ).html(
+                            ''+number_format(pageTotal3) +' ( '+ number_format(total3) +' total )'
+                        );
+                    }
+                });
+
+            $('#book_issued_table').DataTable({
+                "footerCallback": function ( row, data, start, end, display ) {
+                    var api = this.api(), data;
+
+                    // Remove the formatting to get integer data for summation
+                    var intVal = function ( i ) {
+                        return typeof i === 'string' ?
+                            i.replace(/[\$,]/g, '')*1 :
+                            typeof i === 'number' ?
+                                i : 0;
+                    };
+
+                    //reservation
+                    // Total over all pages
+                    total = api
+                        .column( 1 )
+                        .data()
+                        .reduce( function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0 );
+
+                    // Total over this page
+                    pageTotal = api
+                        .column( 1, { page: 'current'} )
+                        .data()
+                        .reduce( function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0 );
+
+                    // Update footer
+                    $( api.column( 1 ).footer() ).html(
+                        ''+number_format(pageTotal) +' ( '+ number_format(total) +' total )'
+                    );
+
+                    //revenue
+                    // Total over all pages
+                    total2 = api
+                        .column( 2 )
+                        .data()
+                        .reduce( function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0 );
+
+                    // Total over this page
+                    pageTotal2 = api
+                        .column( 2, { page: 'current'} )
+                        .data()
+                        .reduce( function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0 );
+
+                    // Update footer
+                    $( api.column( 2 ).footer() ).html(
+                        ''+number_format(pageTotal2) +' ( '+ number_format(total2) +' total )'
+                    );
+
+                    //profit
+                    // Total over all pages
+                    total3 = api
+                        .column( 3 )
+                        .data()
+                        .reduce( function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0 );
+
+                    // Total over this page
+                    pageTotal3 = api
+                        .column( 3, { page: 'current'} )
+                        .data()
+                        .reduce( function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0 );
+
+                    // Update footer
+                    $( api.column( 3 ).footer() ).html(
+                        ''+number_format(pageTotal3) +' ( '+ number_format(total3) +' total )'
+                    );
+
+                    //profit
+                    // Total over all pages
+                    total3 = api
+                        .column( 4 )
+                        .data()
+                        .reduce( function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0 );
+
+                    // Total over this page
+                    pageTotal4 = api
+                        .column( 4, { page: 'current'} )
+                        .data()
+                        .reduce( function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0 );
+
+                    // Update footer
+                    $( api.column( 4 ).footer() ).html(
+                        ''+number_format(pageTotal4) +' ( '+ number_format(total4) +' total )'
+                    );
+                }
+            });
         },timeout: 300000
     });
 });
@@ -1043,7 +1797,7 @@ function overview_overall(data){
     // first section of overview
     content += `
     <div class="mb-3" style="overflow:auto;">
-        <table class="table">
+        <table class="table list-of-reservation" id="overall_table">
             <thead>
                 <tr>
                     <th style="width:50%;">Provider</th>
@@ -1066,14 +1820,15 @@ function overview_overall(data){
 
     // close the html tag
     content += `
-            <tr>
-                <td><strong>Total</strong></td>
-                <td><strong>`+ total +`</strong></td>
-            </tr>
-                    </tbody>
-                </table>
-            </div>
-    `;
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>Totals</th>
+                    <th>`+ total +`</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>`;
 
     // return content
     return content
@@ -1086,7 +1841,7 @@ function overview_overall(data){
 // why first, this will be the default page (hence first section)
 // will also  be use to name the section(s)
 function overview_airline(data){
-//    console.log(data);
+    //console.log(data);
     // declare return
     var content = ``;
 
@@ -1095,7 +1850,7 @@ function overview_airline(data){
     content += `
         <h3 class="mb-2"><i class="fas fa-chevron-circle-right" style="color:`+color+`;"></i> Sector Summary</h3>
         <div class="mb-3" style="overflow:auto;">
-        <table class="table" style="border:1px solid #cdcdcd;">
+        <table class="table list-of-reservation">
             <thead>
                 <tr>
                     <th>Sector</th>
@@ -1135,7 +1890,7 @@ function overview_airline(data){
     content += `
     <h3 class="mb-2"><i class="fas fa-chevron-circle-right" style="color:`+color+`;"></i> Top Domestic Route</h3>
         <div class="mb-3" style="overflow:auto;">
-        <table class="table" style="border:1px solid #cdcdcd;">
+        <table class="table list-of-reservation" style="border:1px solid #cdcdcd;">
             <thead>
                 <tr>
                     <th>Departure</th>
@@ -1166,7 +1921,7 @@ function overview_airline(data){
     content += `
         <h3 class="mb-2"><i class="fas fa-chevron-circle-right" style="color:`+color+`;"></i> Top International Route</h3>
         <div class="mb-3" style="overflow:auto;">
-        <table class="table" style="border:1px solid #cdcdcd;">
+        <table class="table list-of-reservation" style="border:1px solid #cdcdcd;">
             <thead>
                 <tr>
                     <th>Departure</th>
@@ -1197,7 +1952,7 @@ function overview_airline(data){
     content += `
         <h3 class="mb-2"><i class="fas fa-chevron-circle-right" style="color:`+color+`;"></i> Issued to Depart(International)</h3>
         <div class="mb-3" style="overflow:auto;">
-        <table class="table" style="border:1px solid #cdcdcd;">
+        <table class="table list-of-reservation" style="border:1px solid #cdcdcd;">
             <thead>
                 <tr>
                     <th># of days</th>
@@ -1229,7 +1984,7 @@ function overview_airline(data){
     content += `
         <h3 class="mb-2"><i class="fas fa-chevron-circle-right" style="color:`+color+`;"></i> Issued to Depart (Domestic)</h3>
         <div class="mb-3" style="overflow:auto;">
-        <table class="table" style="border:1px solid #cdcdcd;">
+        <table class="table list-of-reservation" style="border:1px solid #cdcdcd;">
             <thead>
                 <tr>
                     <th># of days</th>
@@ -1303,7 +2058,7 @@ function overview_airline(data){
                 </div>
             </div>
             <div class="content mb-3" id="div_report_airline`+i+`" style="border-color: #cdcdcd; border-style: solid; border-width: 0px 1px 1px 1px; display:none; overflow:auto;">
-                <table class="table">
+                <table class="table list-of-reservation">
                     <thead>
                         <tr>
                             <th>Departure</th>
@@ -1456,7 +2211,7 @@ function overview_activity(data){
     // first table
     content += `
     <div class="mb-3" style="overflow:auto;">
-        <table class="table">
+        <table class="table list-of-reservation">
             <thead>
                 <tr>
                     <th>Destination</th>
@@ -1508,7 +2263,7 @@ function overview_hotel(data){
     var content = `
         <h3><i class="fas fa-chevron-circle-right" style="color:`+color+`;"></i> Issued Check in</h3>
         <hr>
-        <table class="table">
+        <table class="table list-of-reservation">
             <thead>
                 <tr>
                     <td># of days</td>
@@ -1573,7 +2328,7 @@ function overview_hotel(data){
                 </div>
             </div>
             <div class="content mb-3" id="div_report_airline`+i+`" style="border-color: #cdcdcd; border-style: solid; border-width: 0px 1px 1px 1px; display:none; overflow:auto;">
-                <table class="table">
+                <table class="table list-of-reservation">
                     <thead>
                         <tr>
                             <th>Hotel Name</th>
@@ -1627,7 +2382,7 @@ function overview_train(data){
     content += `
         <h3><i class="fas fa-chevron-circle-right" style="color:`+color+`;"></i> Sector Summary</h3>
         <div class="mb-3" style="overflow:auto;">
-        <table class="table">
+        <table class="table list-of-reservation">
             <thead>
                 <tr>
                     <th>Sector</th>
@@ -1666,7 +2421,7 @@ function overview_train(data){
     content += `
     <h3 class="mb-2"><i class="fas fa-chevron-circle-right" style="color:`+color+`;"></i> Top Domestic Route</h3>
         <div class="mb-3" style="overflow:auto;">
-        <table class="table">
+        <table class="table list-of-reservation">
             <thead>
                 <tr>
                     <th>Departure</th>
@@ -1698,7 +2453,7 @@ function overview_train(data){
     content += `
         <h3 class="mb-2"><i class="fas fa-chevron-circle-right" style="color:`+color+`;"></i> Issued Depart</h3>
         <hr>
-        <table class="table">
+        <table class="table list-of-reservation">
             <thead>
                 <tr>
                     <th># of days</th>
@@ -1751,7 +2506,7 @@ function overview_visa(data){
     // table
     content += `
         <div class="mb-3" style="overflow:auto;">
-        <table class="table">
+        <table class="table list-of-reservation">
             <thead>
                 <tr>
                     <th>Country</th>
@@ -1793,7 +2548,7 @@ function overview_offline(data){
     // beginning of table
     content += `
         <div class="mb-3" style="overflow:auto;">
-        <table class="table">
+        <table class="table list-of-reservation">
             <thead>
                 <tr>
                     <th>Provider</th>
@@ -1835,7 +2590,7 @@ function overview_book_issued(data){
     // first section of overview
     content += `
         <div class="mb-3" style="overflow:auto;">
-        <table class="table">
+        <table class="table list-of-reservation" id="book_issued_table">
             <thead>
                 <tr>
                     <th>Provider</th>
@@ -1862,6 +2617,15 @@ function overview_book_issued(data){
     }
     content += `
             </tbody>
+            <tfoot>
+                <tr>
+                    <th>Totals</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </tfoot>
         </table>
     </div>
     `;
@@ -1880,7 +2644,7 @@ function overview_chanel(data){
     // start of table
     var content = `
         <div class="mb-3" style="overflow:auto;">
-        <table class="table">
+        <table class="table list-of-reservation" id="channel_table">
             <thead>
                 <tr>
                     <th>Agent</th>
@@ -1906,8 +2670,15 @@ function overview_chanel(data){
     // end of the table
     content += `
             </tbody>
-        </table>
-    `;
+            <tfoot>
+                <tr>
+                    <th>Totals</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </tfoot>
+        </table>`;
 
     return content
 }
@@ -1922,7 +2693,7 @@ function overview_customer(data){
     // start of table
     var content = `
         <div class="mb-3" style="overflow:auto;">
-        <table class="table">
+        <table class="table list-of-reservation" id="customer_table">
             <thead>
                 <tr>
                     <th>Customer</th>
@@ -1948,6 +2719,14 @@ function overview_customer(data){
     // end of the table
     content += `
             </tbody>
+            <tfoot>
+                <tr>
+                    <th>Totals</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </tfoot>
         </table>
     `;
 
@@ -1964,7 +2743,7 @@ function overview_booker(data){
     // start of table
     var content = `
         <div class="mb-3" style="overflow:auto;">
-        <table class="table">
+        <table class="table list-of-reservation" id="booker_table">
             <thead>
                 <tr>
                     <th>Booker</th>
@@ -1990,6 +2769,14 @@ function overview_booker(data){
     // end of the table
     content += `
             </tbody>
+            <tfoot>
+                <tr>
+                    <th>Totals</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </tfoot>
         </table>
     `;
 

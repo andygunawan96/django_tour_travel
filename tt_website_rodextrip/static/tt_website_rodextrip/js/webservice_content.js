@@ -510,7 +510,9 @@ function handleFileSelect_bigbanner(e) {
 
         var reader = new FileReader();
         reader.onload = function (e) {
-            var html = "<img src=\"" + e.target.result + "\">" + f.name + "<br clear=\"left\"/>";
+            var html = `<div class="col-lg-12">`;
+            html += "<img src=\"" + e.target.result + "\"></div><div class='col-lg-12'><span style='color:"+color+" !important;'>" + f.name + "</span></div>";
+            html += `<div class="col-lg-12"><hr/></div>`;
             selDiv_bigbanner.innerHTML += html;
         }
         reader.readAsDataURL(f);
@@ -532,7 +534,9 @@ function handleFileSelect_smallbanner(e) {
 
         var reader = new FileReader();
         reader.onload = function (e) {
-            var html = "<img src=\"" + e.target.result + "\">" + f.name + "<br clear=\"left\"/>";
+            var html = `<div class="col-lg-12">`;
+            html += "<img src=\"" + e.target.result + "\"></div><div class='col-lg-12'><span style='color:"+color+" !important;'>" + f.name + "</span></div>";
+            html += `<div class="col-lg-12"><hr/></div>`;
             selDiv_smallbanner.innerHTML += html;
         }
         reader.readAsDataURL(f);
@@ -557,7 +561,9 @@ function handleFileSelect_promotionbanner(e) {
 
         var reader = new FileReader();
         reader.onload = function (e) {
-            var html = "<img src=\"" + e.target.result + "\">" + f.name + "<br clear=\"left\"/>";
+            var html = `<div class="col-lg-12">`;
+            html += "<img src=\"" + e.target.result + "\"></div><div class='col-lg-12'><span style='color:"+color+" !important;'>" + f.name + "</span></div>";
+            html += `<div class="col-lg-12"><hr/></div>`;
             selDiv_promotionbanner.innerHTML += html;
         }
         reader.readAsDataURL(f);
