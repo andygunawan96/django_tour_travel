@@ -101,9 +101,10 @@ def login(request):
 
     res = util.send_request(url=url + 'session', data=data, headers=headers, method='POST')
     try:
-        set_session(request, 'event_signature', res['result']['response']['signature'])
-        set_session(request, 'signature', res['result']['response']['signature'])
-        _logger.info(json.dumps(request.session['event_signature']))
+        if res['result']['error_code'] == 0:
+            set_session(request, 'event_signature', res['result']['response']['signature'])
+            set_session(request, 'signature', res['result']['response']['signature'])
+            _logger.info(json.dumps(request.session['event_signature']))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
@@ -132,7 +133,7 @@ def get_carriers(request):
                 _logger.info("get_carriers HOTEL RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
                 try:
-                    file = read_cache_with_folder_path("get_event_carriers")
+                    file = read_cache_with_folder_path("get_event_carriers", 90911)
                     if file:
                         res = file
                     _logger.info("get_carriers HOTEL ERROR USE CACHE SIGNATURE " + request.POST['signature'])
@@ -142,6 +143,7 @@ def get_carriers(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
+            file = read_cache_with_folder_path("get_event_carriers", 90911)
             res = file
         except Exception as e:
             _logger.error('ERROR get_hotel_carriers file\n' + str(e) + '\n' + traceback.format_exc())
@@ -171,13 +173,13 @@ def get_config(request):
                 file = read_cache_with_folder_path("event_cache_data", 86400)
                 if file:
                     response = file
-                res = {
-                    'result': {
-                        'error_code': 0,
-                        'error_msg': 'using old cache',
-                        'response': response
+                    res = {
+                        'result': {
+                            'error_code': 0,
+                            'error_msg': 'using old cache',
+                            'response': response
+                        }
                     }
-                }
         else:
             response = file
             res = {
@@ -217,12 +219,13 @@ def get_auto_complete(request):
 
     limit = 25
     req = request.POST
+    record_json = []
     try:
         file = read_cache_with_folder_path("hotel_cache_data", 90911)
         if file:
             record_cache = file
 
-        record_json = []
+
         # for rec in filter(lambda x: req['name'].lower() in x['name'].lower(), record_cache):
         for rec in find_hotel_ilike(req['name'].lower(), record_cache, limit):
             if len(record_json) < limit:

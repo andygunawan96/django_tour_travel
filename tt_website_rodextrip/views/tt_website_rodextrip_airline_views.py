@@ -260,9 +260,7 @@ def search(request):
                             direction = 'OW'
                             return_date.append(request.POST['airline_departure'])
                 except Exception as e:
-
                     direction = 'OW'
-                    return_date = request.POST['airline_departure']
                     print('airline no return')
 
 
@@ -286,6 +284,7 @@ def search(request):
             except:
                 airline_request = request.session['airline_request']
                 airline_carriers = request.session['airline_carriers_request']
+                return_date = request.session['airline_request']['departure']
 
             flight = ''
 
