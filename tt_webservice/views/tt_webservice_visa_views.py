@@ -113,9 +113,10 @@ def login(request):
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     res = util.send_request(url=url + 'session', data=data, headers=headers, method='POST')
     try:
-        set_session(request, 'visa_signature', res['result']['response']['signature'])
-        set_session(request, 'signature', res['result']['response']['signature'])
-        _logger.info(json.dumps(request.session['visa_signature']))
+        if res['result']['error_code'] == 0:
+            set_session(request, 'visa_signature', res['result']['response']['signature'])
+            set_session(request, 'signature', res['result']['response']['signature'])
+            _logger.info(json.dumps(request.session['visa_signature']))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
@@ -144,7 +145,7 @@ def get_carriers(request):
                 _logger.info("get_carriers HOTEL RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
                 try:
-                    file = read_cache_with_folder_path("get_visa_carriers")
+                    file = read_cache_with_folder_path("get_visa_carriers", 90911)
                     if file:
                         res = file
                     _logger.info("get_carriers HOTEL ERROR USE CACHE SIGNATURE " + request.POST['signature'])
@@ -154,6 +155,7 @@ def get_carriers(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
+            file = read_cache_with_folder_path("get_visa_carriers", 90911)
             res = file
         except Exception as e:
             _logger.error('ERROR get_hotel_carriers file\n' + str(e) + '\n' + traceback.format_exc())
@@ -183,7 +185,7 @@ def get_config_provider(request):
                 _logger.info("get_providers VISA RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
                 try:
-                    file = read_cache_with_folder_path("visa_provider")
+                    file = read_cache_with_folder_path("visa_provider", 90911)
                     if file:
                         res = file
                     _logger.info("get_provider_list ERROR USE CACHE SUCCESS SIGNATURE " + request.POST['signature'])
@@ -193,6 +195,7 @@ def get_config_provider(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
+            file = read_cache_with_folder_path("visa_provider", 90911)
             res = file
         except Exception as e:
             _logger.error('ERROR get_provider_list visa file\n' + str(e) + '\n' + traceback.format_exc())

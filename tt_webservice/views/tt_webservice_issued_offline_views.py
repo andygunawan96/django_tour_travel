@@ -93,9 +93,10 @@ def signin(request):
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     res = util.send_request(url=url + 'session', data=data, headers=headers, method='POST')
     try:
-        set_session(request, 'issued_offline_signature', res['result']['response']['signature'])
-        set_session(request, 'signature', res['result']['response']['signature'])
-        _logger.info(json.dumps(request.session['issued_offline_signature']))
+        if res['result']['error_code'] == 0:
+            set_session(request, 'issued_offline_signature', res['result']['response']['signature'])
+            set_session(request, 'signature', res['result']['response']['signature'])
+            _logger.info(json.dumps(request.session['issued_offline_signature']))
 
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())

@@ -282,7 +282,7 @@ def get_carrier_code_list(request):
                     _logger.error('ERROR get_airline_active_carriers file \n' + str(e) + '\n' + traceback.format_exc())
             else:
                 try:
-                    file = read_cache_with_folder_path("get_airline_active_carriers")
+                    file = read_cache_with_folder_path("get_airline_active_carriers", 90911)
                     if file:
                         res = file
                     _logger.info("get_carriers AIRLINE ERROR USE CACHE SIGNATURE " + request.POST['signature'])
@@ -292,6 +292,7 @@ def get_carrier_code_list(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
+            file = read_cache_with_folder_path("get_airline_active_carriers", 90911)
             res = file
         except Exception as e:
             _logger.error('ERROR get_airline_active_carriers file\n' + str(e) + '\n' + traceback.format_exc())
@@ -330,6 +331,7 @@ def get_carrier_providers(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
+            file = read_cache_with_folder_path("get_list_provider", 90911)
             res = file
         except Exception as e:
             _logger.error('ERROR get_list_provider file\n' + str(e) + '\n' + traceback.format_exc())
@@ -368,6 +370,7 @@ def get_carriers(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
+            file = read_cache_with_folder_path("get_airline_carriers", 90911)
             res = file
         except Exception as e:
             _logger.error('ERROR get_airline_carriers file\n' + str(e) + '\n' + traceback.format_exc())
@@ -406,7 +409,11 @@ def get_carriers_search(request):
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
-        res = file
+        try:
+            file = read_cache_with_folder_path("get_airline_active_carriers", 90911)
+            res = file
+        except Exception as e:
+            _logger.error('ERROR get_airline_active_carriers file\n' + str(e) + '\n' + traceback.format_exc())
 
     return res
 
@@ -446,6 +453,7 @@ def get_provider_description(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
+            file = read_cache_with_folder_path("get_list_provider_data", 90911)
             res = file
         except Exception as e:
             _logger.error('ERROR get_list_provider_data file\n' + str(e) + '\n' + traceback.format_exc())
@@ -541,7 +549,8 @@ def search2(request):
                 "action": "search",
                 "signature": request.POST['signature']
             }
-        _logger.error(str(e) + '\n' + traceback.format_exc())
+        else:
+            _logger.error(str(e) + '\n' + traceback.format_exc())
     res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST', timeout=120)
     try:
         if res['result']['error_code'] == 0:
@@ -627,7 +636,7 @@ def search2(request):
         else:
             _logger.error("ERROR SEARCH AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
-        _logger.error(str(e) + '\n' + traceback.format_exc())
+        _logger.error('Error response airline search\n' + str(e) + '\n' + traceback.format_exc())
     try:
         response_search = res['result']
 
@@ -896,14 +905,16 @@ def sell_journeys(request):
             "signature": request.POST['signature'],
         }
     except Exception as e:
-        data = json.loads(request.POST['data'])
-        headers = {
-            "Accept": "application/json,text/html,application/xml",
-            "Content-Type": "application/json",
-            "action": "sell_journeys",
-            "signature": request.POST['signature'],
-        }
-        _logger.error(str(e) + '\n' + traceback.format_exc())
+        if request.POST.get('data'):
+            data = json.loads(request.POST['data'])
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
+                "action": "sell_journeys",
+                "signature": request.POST['signature'],
+            }
+        else:
+            _logger.error(str(e) + '\n' + traceback.format_exc())
     if 'sell_journey' + request.POST['signature'] not in request.session or request.session.get('sell_journey_data' + request.POST['signature']) != data:
         res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST', timeout=300)
     else:
@@ -2011,6 +2022,7 @@ def get_provider_booking_from_vendor(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
+            file = read_cache_with_folder_path("get_provider_booking_from_vendor_airline", 90911)
             res = file
         except Exception as e:
             _logger.error('ERROR get_airline_active_carriers file\n' + str(e) + '\n' + traceback.format_exc())
