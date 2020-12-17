@@ -35,6 +35,54 @@
         line-height:28px;
         width:100%;
     }
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover{
+        background: {{color}};
+        color: {{text_color}} !important;
+        padding-left: 15px;
+        padding-right: 15px;
+        border: none;
+        border-radius: 3px;
+        color: {{text_color}};
+        display: inline-block;
+        font-size: 14px;
+        font-weight: 500;
+        position: relative;
+        -webkit-transition: all 0.3s ease 0s;
+        -moz-transition: all 0.3s ease 0s;
+        -o-transition: all 0.3s ease 0s;
+        transition: all 0.3s ease 0s;
+        cursor: pointer;
+        position: relative;
+        border-radius: 3px;
+    }
+    .dataTables_wrapper .dataTables_paginate .paginate_button:hover{
+        background: {{color}};
+        color: {{text_color}} !important;
+        padding-left: 15px;
+        padding-right: 15px;
+        border: none;
+        border-radius: 3px;
+        color: {{text_color}};
+        display: inline-block;
+        font-size: 14px;
+        font-weight: 500;
+        position: relative;
+        -webkit-transition: all 0.3s ease 0s;
+        -moz-transition: all 0.3s ease 0s;
+        -o-transition: all 0.3s ease 0s;
+        transition: all 0.3s ease 0s;
+        cursor: pointer;
+        position: relative;
+        border-radius: 3px;
+    }
+    .dataTables_wrapper .dataTables_paginate .paginate_button.disabled, .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover, .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:active{
+        cursor:not-allowed;
+        font-size:13px;
+        padding-right: 15px;
+        padding-left: 15px;
+        font-weight:unset;
+    }
+
     @media only screen and (min-width: 991px) {
         #slider_home {
             margin-top: 88px;
@@ -415,8 +463,8 @@
             $('.fourth_container').show();
         });
     });
-
-
 </script>
+
+
 {% include 'tt_website_rodextrip/footer.html' %}
 {% endblock %}

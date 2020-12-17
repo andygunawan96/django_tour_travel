@@ -123,6 +123,7 @@ Licence URI: http://www.os-templates.com/template-terms
         }
         {% endif %}
     </style>
+    <link rel="stylesheet" href="{{ static_path }}/css/jquery.dataTables.min.css?version={{javascript_version}}">
     <link rel="stylesheet" href="{{ static_path }}/css/auto-complete.css?version={{javascript_version}}">
     <script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
     {%if template == 1%}
@@ -1636,6 +1637,7 @@ Licence URI: http://www.os-templates.com/template-terms
 <script src="https://d.line-scdn.net/r/web/social-plugin/js/thirdparty/loader.min.js" async="async" defer="defer"></script>
 <!--<script src="{{ static_path }}js/maps.js?version={{javascript_version}}"></script>-->
 
+<script src="{{ static_path }}js/jquery.dataTables.min.js?version={{javascript_version}}"></script>
 
 <script src="{{ static_path }}js/vendor/bootstrap.min.js?version={{javascript_version}}"></script>
 <!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhOdIF3Y9382fqJYt5I_sswSrEw5eihAA"></script>-->

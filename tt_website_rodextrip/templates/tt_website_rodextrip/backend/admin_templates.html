@@ -179,13 +179,15 @@
                                         <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                         <span style="color:{{text_color}}">Max.Width: 150px, Max.Height: 40px</span><br/>
                                         <div class="input-container-search-ticket mb-2">
-                                            <input type="file" name="fileToUpload" id="fileToUpload"/>
-                                            <label class="check_box_custom">
+                                            <input type="file" name="fileToUpload" id="fileToUpload" accept="image/*" onchange="file_validation('fileToUpload');"/>
+                                            <label class="check_box_custom" style="float:right;">
                                                 <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Delete' %}</span>
                                                 <input type="checkbox" id="empty_logo" name="empty_logo" />
                                                 <span class="check_box_span_custom"></span>
                                             </label>
+                                            <br/>
                                         </div>
+                                        <span id="size_fileToUpload"></span>
                                     </div>
                                     <div class="col-lg-6 mt-2" style="border-bottom:2px solid {{text_color}};">
                                         <div class="row">
@@ -199,13 +201,14 @@
                                         <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                         <span style="color:{{text_color}}">Width: 50px, Height: 50px</span><br/>
                                         <div class="input-container-search-ticket mb-2">
-                                            <input type="file" name="filelogoicon" id="filelogoicon"/>
+                                            <input type="file" name="filelogoicon" id="filelogoicon" accept="image/*" onchange="file_validation('filelogoicon');"/>
                                             <label class="check_box_custom">
                                                 <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Delete' %}</span>
                                                 <input type="checkbox" id="empty_logo_icon" name="empty_logo_icon" />
                                                 <span class="check_box_span_custom"></span>
                                             </label>
                                         </div>
+                                        <span id="size_filelogoicon"></span>
                                     </div>
                                     <div class="col-lg-6 mt-2" style="border-bottom:2px solid {{text_color}};">
                                         <div class="row">
@@ -219,13 +222,14 @@
                                         <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                         <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
                                         <div class="input-container-search-ticket mb-2">
-                                            <input type="file" name="fileBackgroundHome" id="fileBackgroundHome"/>
+                                            <input type="file" name="fileBackgroundHome" id="fileBackgroundHome" accept="image/*" onchange="file_validation('fileBackgroundHome');"/>
                                             <label class="check_box_custom">
                                                 <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Delete' %}</span>
                                                 <input type="checkbox" id="empty_image_home" name="empty_image_home" />
                                                 <span class="check_box_span_custom"></span>
                                             </label>
                                         </div>
+                                        <span id="size_fileBackgroundHome"></span>
                                     </div>
                                     <div class="col-lg-6 mt-2" style="border-bottom:2px solid {{text_color}};">
                                         <div class="row">
@@ -239,13 +243,14 @@
                                         <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                         <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
                                         <div class="input-container-search-ticket mb-2">
-                                            <input type="file" name="fileBackgroundLogin" id="fileBackgroundLogin"/>
+                                            <input type="file" name="fileBackgroundLogin" id="fileBackgroundLogin" accept="image/*" onchange="file_validation('fileBackgroundLogin');"/>
                                             <label class="check_box_custom">
                                                 <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Delete' %}</span>
                                                 <input type="checkbox" id="empty_image_login" name="empty_image_login" />
                                                 <span class="check_box_span_custom"></span>
                                             </label>
                                         </div>
+                                        <span id="size_fileBackgroundLogin"></span>
                                     </div>
                                     <div class="col-lg-6 mt-2" style="border-bottom:2px solid {{text_color}};">
                                         <div class="row">
@@ -259,14 +264,14 @@
                                         <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                         <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
                                         <div class="input-container-search-ticket mb-2">
-                                            <input type="file" name="fileBackgroundSearch" id="fileBackgroundSearch"/>
+                                            <input type="file" name="fileBackgroundSearch" id="fileBackgroundSearch" accept="image/*" onchange="file_validation('fileBackgroundSearch');"/>
                                             <label class="check_box_custom">
                                                 <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Delete' %}</span>
                                                 <input type="checkbox" id="empty_image_search" name="empty_image_search" />
                                                 <span class="check_box_span_custom"></span>
                                             </label>
                                         </div>
-
+                                        <span id="size_fileBackgroundSearch"></span>
                                     </div>
                                     <div class="col-lg-6 mt-2" style="border-bottom:2px solid {{text_color}};">
                                         <div class="row">
@@ -280,13 +285,14 @@
                                         <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                         <span style="color:{{text_color}}">Max.Width: 1110px, Height: Free</span><br/>
                                         <div class="input-container-search-ticket mb-2">
-                                            <input type="file" name="fileRegistrationBanner" id="fileRegistrationBanner"/>
+                                            <input type="file" name="fileRegistrationBanner" id="fileRegistrationBanner" accept="image/*" onchange="file_validation('fileRegistrationBanner');"/>
                                             <label class="check_box_custom">
                                                 <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Delete' %}</span>
                                                 <input type="checkbox" id="empty_image_regis" name="empty_image_regis" />
                                                 <span class="check_box_span_custom"></span>
                                             </label>
                                         </div>
+                                        <span id="size_fileRegistrationBanner"></span>
                                     </div>
                                     <div class="col-lg-12 mt-3" style="text-align:center;">
                                         <button type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
@@ -312,11 +318,9 @@
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                     </div>
                                                     <div class="modal-body">
-
-                                                        Files: <input type="file" id="files_bigbanner" name="files_bigbanner" multiple="" accept="image/*"><br>
-
-                                                        <div id="selectedFiles_bigbanner"></div>
-
+                                                        <h6>Files:</h6> <input type="file" id="files_bigbanner" name="files_bigbanner" multiple="" accept="image/*" onchange="file_validation_multiple('files_bigbanner');">
+                                                        <span id="size_files_bigbanner"></span><hr/>
+                                                        <div class="row" id="selectedFiles_bigbanner"></div>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
@@ -348,11 +352,9 @@
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                     </div>
                                                     <div class="modal-body">
-
-                                                        Files: <input type="file" id="files_smallbanner" name="files_smallbanner" multiple="" accept="image/*"><br>
-
-                                                        <div id="selectedFiles_smallbanner"></div>
-
+                                                        <h6>Files:</h6> <input type="file" id="files_smallbanner" name="files_smallbanner" multiple="" accept="image/*" onchange="file_validation_multiple('files_smallbanner');">
+                                                        <span id="size_files_smallbanner"></span><hr/>
+                                                        <div class="row" id="selectedFiles_smallbanner"></div>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
@@ -384,11 +386,9 @@
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                     </div>
                                                     <div class="modal-body">
-
-                                                        Files: <input type="file" id="files_promotionbanner" name="files_promotionbanner" multiple="" accept="image/*"><br>
-
-                                                        <div id="selectedFiles_promotionbanner"></div>
-
+                                                        <h6>Files:</h6> <input type="file" id="files_promotionbanner" name="files_promotionbanner" multiple="" accept="image/*" onchange="file_validation_multiple('files_promotionbanner');">
+                                                        <span id="size_files_promotionbanner"></span><hr/>
+                                                        <div class="row" id="selectedFiles_promotionbanner"></div>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
@@ -455,7 +455,8 @@
                                                         <span style="color:{{text_color}}">Max.Width: 1100px, Height: 360px</span><br/>
 
                                                         <div class="input-container-search-ticket form-select">
-                                                            <input type="file" name="image_paragraph" id="image_paragraph"/>
+                                                            <input type="file" name="image_paragraph" id="image_paragraph" accept="image/*" onchange="file_validation('image_paragraph');"/>
+                                                            <span id="size_image_paragraph"></span>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-xs-6">
@@ -560,7 +561,8 @@
                                                     <div class="col-lg-6 col-md-6 col-xs-6">
                                                         <h6 style="margin-bottom:10px;color:{{text_color}};">Partner Logo</h6>
                                                         <div class="input-container-search-ticket form-select">
-                                                            <input type="file" name="image_partner" id="image_partner"/>
+                                                            <input type="file" name="image_partner" id="image_partner" accept="image/*" onchange="file_validation('image_partner');"/>
+                                                            <span id="size_image_partner"></span>
                                                         </div>
                                                         <img id="partner_img" alt="Partner Image" style="height:auto; width:100px;">
                                                     </div>
@@ -681,8 +683,9 @@
                                         <span style="color:{{text_color}}">Max.Width: 1100px, Height: 360px</span><br/>
 
                                         <div class="input-container-search-ticket form-select">
-                                            <input type="file" name="image_carousel" id="image_carousel"/>
+                                            <input type="file" name="image_carousel" id="image_carousel" accept="image/*" onchange="file_validation('image_carousel');"/>
                                         </div>
+                                        <span id="size_image_carousel"></span>
                                     </div>
                                     <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
                                         <textarea class="ckeditor" name="editor" id="editor"></textarea>
@@ -1128,13 +1131,14 @@
                                     <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Max.Width: 150px, Max.Height: 40px</span><br/>
                                     <div class="input-container-search-ticket mb-2">
-                                        <input type="file" name="fileToUpload" id="fileToUpload"/>
+                                        <input type="file" name="fileToUpload" id="fileToUpload" accept="image/*" onchange="file_validation('fileToUpload');"/>
                                         <label class="check_box_custom">
                                             <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Delete' %}</span>
                                             <input type="checkbox" id="empty_logo" name="empty_logo" />
                                             <span class="check_box_span_custom"></span>
                                         </label>
                                     </div>
+                                    <span id="size_fileToUpload"></span>
                                 </div>
                                 <div class="col-lg-6 mt-2" style="border-bottom:2px solid {{text_color}};">
                                     <div class="row">
@@ -1148,13 +1152,14 @@
                                     <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Width: 50px, Height: 50px</span><br/>
                                     <div class="input-container-search-ticket mb-2">
-                                        <input type="file" name="filelogoicon" id="filelogoicon"/>
+                                        <input type="file" name="filelogoicon" id="filelogoicon" accept="image/*" onchange="file_validation('filelogoicon');"/>
                                         <label class="check_box_custom">
                                             <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Delete' %}</span>
                                             <input type="checkbox" id="empty_logo_icon" name="empty_logo_icon" />
                                             <span class="check_box_span_custom"></span>
                                         </label>
                                     </div>
+                                    <span id="size_filelogoicon"></span>
                                 </div>
                                 <div class="col-lg-6 mt-2" style="border-bottom:2px solid {{text_color}};">
                                     <div class="row">
@@ -1168,13 +1173,14 @@
                                     <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
                                     <div class="input-container-search-ticket mb-2">
-                                        <input type="file" name="fileBackgroundHome" id="fileBackgroundHome"/>
+                                        <input type="file" name="fileBackgroundHome" id="fileBackgroundHome" accept="image/*" onchange="file_validation('fileBackgroundHome');"/>
                                         <label class="check_box_custom">
                                             <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Delete' %}</span>
                                             <input type="checkbox" id="empty_image_home" name="empty_image_home" />
                                             <span class="check_box_span_custom"></span>
                                         </label>
                                     </div>
+                                    <span id="size_fileBackgroundHome"></span>
                                 </div>
                                 <div class="col-lg-6 mt-2" style="border-bottom:2px solid {{text_color}};">
                                     <div class="row">
@@ -1188,13 +1194,14 @@
                                     <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
                                     <div class="input-container-search-ticket mb-2">
-                                        <input type="file" name="fileBackgroundLogin" id="fileBackgroundLogin"/>
+                                        <input type="file" name="fileBackgroundLogin" id="fileBackgroundLogin" accept="image/*" onchange="file_validation('fileBackgroundLogin');"/>
                                         <label class="check_box_custom">
                                             <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Delete' %}</span>
                                             <input type="checkbox" id="empty_image_login" name="empty_image_login" />
                                             <span class="check_box_span_custom"></span>
                                         </label>
                                     </div>
+                                    <span id="size_fileBackgroundLogin"></span>
                                 </div>
                                 <div class="col-lg-6 mt-2" style="border-bottom:2px solid {{text_color}};">
                                     <div class="row">
@@ -1208,14 +1215,14 @@
                                     <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
                                     <div class="input-container-search-ticket mb-2">
-                                        <input type="file" name="fileBackgroundSearch" id="fileBackgroundSearch"/>
+                                        <input type="file" name="fileBackgroundSearch" id="fileBackgroundSearch" accept="image/*" onchange="file_validation('fileBackgroundSearch');"/>
                                         <label class="check_box_custom">
                                             <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Delete' %}</span>
                                             <input type="checkbox" id="empty_image_search" name="empty_image_search" />
                                             <span class="check_box_span_custom"></span>
                                         </label>
                                     </div>
-
+                                    <span id="size_fileBackgroundSearch"></span>
                                 </div>
                                 <div class="col-lg-6 mt-2" style="border-bottom:2px solid {{text_color}};">
                                     <div class="row">
@@ -1229,13 +1236,14 @@
                                     <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Max.Width: 1110px, Height: Free</span><br/>
                                     <div class="input-container-search-ticket mb-2">
-                                        <input type="file" name="fileRegistrationBanner" id="fileRegistrationBanner"/>
+                                        <input type="file" name="fileRegistrationBanner" id="fileRegistrationBanner" accept="image/*" onchange="file_validation('fileRegistrationBanner');"/>
                                         <label class="check_box_custom">
                                             <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Delete' %}</span>
                                             <input type="checkbox" id="empty_image_regis" name="empty_image_regis" />
                                             <span class="check_box_span_custom"></span>
                                         </label>
                                     </div>
+                                    <span id="size_fileRegistrationBanner"></span>
                                 </div>
                                 <div class="col-lg-12 mt-3" style="text-align:center;">
                                     <button type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
@@ -1260,11 +1268,9 @@
                                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                 </div>
                                                 <div class="modal-body">
-
-                                                    Files: <input type="file" id="files_bigbanner" name="files_bigbanner" multiple="" accept="image/*"><br>
-
-                                                    <div id="selectedFiles_bigbanner"></div>
-
+                                                    <h6>Files:</h6> <input type="file" id="files_bigbanner" name="files_bigbanner" multiple="" accept="image/*" onchange="file_validation_multiple('files_bigbanner');">
+                                                    <span id="size_files_bigbanner"></span><hr/>
+                                                    <div class="row" id="selectedFiles_bigbanner"></div>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
@@ -1296,11 +1302,9 @@
                                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                 </div>
                                                 <div class="modal-body">
-
-                                                    Files: <input type="file" id="files_smallbanner" name="files_smallbanner" multiple="" accept="image/*"><br>
-
-                                                    <div id="selectedFiles_smallbanner"></div>
-
+                                                    <h6>Files:</h6> <input type="file" id="files_smallbanner" name="files_smallbanner" multiple="" accept="image/*" onchange="file_validation_multiple('files_smallbanner');">
+                                                    <span id="size_files_smallbanner"></span><hr/>
+                                                    <div class="row" id="selectedFiles_smallbanner"></div>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
@@ -1332,11 +1336,9 @@
                                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                 </div>
                                                 <div class="modal-body">
-
-                                                    Files: <input type="file" id="files_promotionbanner" name="files_promotionbanner" multiple="" accept="image/*"><br>
-
-                                                    <div id="selectedFiles_promotionbanner"></div>
-
+                                                    <h6>Files:</h6> <input type="file" id="files_promotionbanner" name="files_promotionbanner" multiple="" accept="image/*" onchange="file_validation_multiple('files_promotionbanner');">
+                                                    <span id="size_files_promotionbanner"></span><hr/>
+                                                    <div class="row" id="selectedFiles_promotionbanner"></div>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
@@ -1401,7 +1403,8 @@
                                                         <span style="color:{{text_color}}">Max.Width: 1100px, Height: 360px</span><br/>
 
                                                         <div class="input-container-search-ticket form-select">
-                                                            <input type="file" name="image_paragraph" id="image_paragraph"/>
+                                                            <input type="file" name="image_paragraph" id="image_paragraph" accept="image/*" onchange="file_validation('image_paragraph');"/>
+                                                            <span id="size_image_paragraph"></span>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-xs-6">
@@ -1503,7 +1506,8 @@
                                                     <div class="col-lg-6 col-md-6 col-xs-6">
                                                         <h6 style="margin-bottom:10px;color:{{text_color}};">Partner Logo</h6>
                                                         <div class="input-container-search-ticket form-select">
-                                                            <input type="file" name="image_partner" id="image_partner"/>
+                                                            <input type="file" name="image_partner" id="image_partner" accept="image/*" onchange="file_validation('image_partner');"/>
+                                                            <span id="size_image_partner"></span>
                                                         </div>
                                                         <img id="partner_img" alt="Partner Image" style="height:auto; width:100px;">
                                                     </div>
@@ -1614,8 +1618,9 @@
                                     <h6 style="color:{{text_color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Max.Width: 1100px, Height: 360px</span><br/>
                                     <div class="input-container-search-ticket form-select">
-                                        <input type="file" name="image_carousel" id="image_carousel"/>
+                                        <input type="file" name="image_carousel" id="image_carousel" accept="image/*" onchange="file_validation('image_carousel');"/>
                                     </div>
+                                    <span id="size_image_carousel"></span>
                                 </div>
                                 <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px; margin-top:15px;">
                                     <textarea class="ckeditor" name="editor" id="editor"></textarea>
@@ -2078,13 +2083,14 @@
                                     <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Max.Width: 150px, Max.Height: 40px</span><br/>
                                     <div class="input-container-search-ticket mb-2">
-                                        <input type="file" name="fileToUpload" id="fileToUpload"/>
+                                        <input type="file" name="fileToUpload" id="fileToUpload" accept="image/*" onchange="file_validation('fileToUpload');"/>
                                         <label class="check_box_custom">
                                             <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Delete' %}</span>
                                             <input type="checkbox" id="empty_logo" name="empty_logo" />
                                             <span class="check_box_span_custom"></span>
                                         </label>
                                     </div>
+                                    <span id="size_fileToUpload"></span>
                                 </div>
                                 <div class="col-lg-6 mt-2" style="border-bottom:2px solid {{text_color}};">
                                     <div class="row">
@@ -2098,13 +2104,14 @@
                                     <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Width: 50px, Height: 50px</span><br/>
                                     <div class="input-container-search-ticket mb-2">
-                                        <input type="file" name="filelogoicon" id="filelogoicon"/>
+                                        <input type="file" name="filelogoicon" id="filelogoicon" accept="image/*" onchange="file_validation('filelogoicon');"/>
                                         <label class="check_box_custom">
                                             <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Delete' %}</span>
                                             <input type="checkbox" id="empty_logo_icon" name="empty_logo_icon" />
                                             <span class="check_box_span_custom"></span>
                                         </label>
                                     </div>
+                                    <span id="size_filelogoicon"></span>
                                 </div>
                                 <div class="col-lg-6 mt-2" style="border-bottom:2px solid {{text_color}};">
                                     <div class="row">
@@ -2118,13 +2125,14 @@
                                     <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
                                     <div class="input-container-search-ticket mb-2">
-                                        <input type="file" name="fileBackgroundHome" id="fileBackgroundHome"/>
+                                        <input type="file" name="fileBackgroundHome" id="fileBackgroundHome" accept="image/*" onchange="file_validation('fileBackgroundHome');"/>
                                         <label class="check_box_custom">
                                             <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Delete' %}</span>
                                             <input type="checkbox" id="empty_image_home" name="empty_image_home" />
                                             <span class="check_box_span_custom"></span>
                                         </label>
                                     </div>
+                                    <span id="size_fileBackgroundHome"></span>
                                 </div>
                                 <div class="col-lg-6 mt-2" style="border-bottom:2px solid {{text_color}};">
                                     <div class="row">
@@ -2138,13 +2146,14 @@
                                     <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
                                     <div class="input-container-search-ticket mb-2">
-                                        <input type="file" name="fileBackgroundLogin" id="fileBackgroundLogin"/>
+                                        <input type="file" name="fileBackgroundLogin" id="fileBackgroundLogin" accept="image/*" onchange="file_validation('fileBackgroundLogin');"/>
                                         <label class="check_box_custom">
                                             <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Delete' %}</span>
                                             <input type="checkbox" id="empty_image_login" name="empty_image_login" />
                                             <span class="check_box_span_custom"></span>
                                         </label>
                                     </div>
+                                    <span id="size_fileBackgroundLogin"></span>
                                 </div>
                                 <div class="col-lg-6 mt-2" style="border-bottom:2px solid {{text_color}};">
                                     <div class="row">
@@ -2158,14 +2167,14 @@
                                     <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
                                     <div class="input-container-search-ticket mb-2">
-                                        <input type="file" name="fileBackgroundSearch" id="fileBackgroundSearch"/>
+                                        <input type="file" name="fileBackgroundSearch" id="fileBackgroundSearch" accept="image/*" onchange="file_validation('fileBackgroundSearch');"/>
                                         <label class="check_box_custom">
                                             <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Delete' %}</span>
                                             <input type="checkbox" id="empty_image_search" name="empty_image_search" />
                                             <span class="check_box_span_custom"></span>
                                         </label>
                                     </div>
-
+                                    <span id="size_fileBackgroundSearch"></span>
                                 </div>
                                 <div class="col-lg-6 mt-2" style="border-bottom:2px solid {{text_color}};">
                                     <div class="row">
@@ -2179,13 +2188,14 @@
                                     <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Max.Width: 1110px, Height: Free</span><br/>
                                     <div class="input-container-search-ticket mb-2">
-                                        <input type="file" name="fileRegistrationBanner" id="fileRegistrationBanner"/>
+                                        <input type="file" name="fileRegistrationBanner" id="fileRegistrationBanner" accept="image/*" onchange="file_validation('fileRegistrationBanner');"/>
                                         <label class="check_box_custom">
                                             <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Delete' %}</span>
                                             <input type="checkbox" id="empty_image_regis" name="empty_image_regis" />
                                             <span class="check_box_span_custom"></span>
                                         </label>
                                     </div>
+                                    <span id="size_fileRegistrationBanner"></span>
                                 </div>
                                 <div class="col-lg-12 mt-3" style="text-align:center;">
                                     <button type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
@@ -2212,11 +2222,9 @@
                                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                 </div>
                                                 <div class="modal-body">
-
-                                                    Files: <input type="file" id="files_bigbanner" name="files_bigbanner" multiple="" accept="image/*"><br>
-
-                                                    <div id="selectedFiles_bigbanner"></div>
-
+                                                    <h6>Files:</h6> <input type="file" id="files_bigbanner" name="files_bigbanner" multiple="" accept="image/*" onchange="file_validation_multiple('files_bigbanner');">
+                                                    <span id="size_files_bigbanner"></span><hr/>
+                                                    <div class="row" id="selectedFiles_bigbanner"></div>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
@@ -2248,11 +2256,9 @@
                                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                 </div>
                                                 <div class="modal-body">
-
-                                                    Files: <input type="file" id="files_smallbanner" name="files_smallbanner" multiple="" accept="image/*"><br>
-
-                                                    <div id="selectedFiles_smallbanner"></div>
-
+                                                    <h6>Files:</h6> <input type="file" id="files_smallbanner" name="files_smallbanner" multiple="" accept="image/*" onchange="file_validation_multiple('files_smallbanner');">
+                                                    <span id="size_files_smallbanner"></span><hr/>
+                                                    <div class="row" id="selectedFiles_smallbanner"></div>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
@@ -2284,11 +2290,9 @@
                                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                 </div>
                                                 <div class="modal-body">
-
-                                                    Files: <input type="file" id="files_promotionbanner" name="files_promotionbanner" multiple="" accept="image/*"><br>
-
-                                                    <div id="selectedFiles_promotionbanner"></div>
-
+                                                    <h6>Files:</h6> <input type="file" id="files_promotionbanner" name="files_promotionbanner" multiple="" accept="image/*" onchange="file_validation_multiple('files_promotionbanner');">
+                                                    <span id="size_files_promotionbanner"></span><hr/>
+                                                    <div class="row" id="selectedFiles_promotionbanner"></div>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
@@ -2353,7 +2357,8 @@
                                                     <span style="color:{{text_color}}">Max.Width: 1100px, Height: 360px</span><br/>
 
                                                     <div class="input-container-search-ticket form-select">
-                                                        <input type="file" name="image_paragraph" id="image_paragraph"/>
+                                                        <input type="file" name="image_paragraph" id="image_paragraph" accept="image/*" onchange="file_validation('image_paragraph');"/>
+                                                        <span id="size_image_paragraph"></span>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-xs-6 mt-3">
@@ -2455,7 +2460,8 @@
                                                 <div class="col-lg-6 col-md-6 col-xs-6">
                                                     <h6 style="margin-bottom:10px; margin-top:10px; color:{{text_color}};">Partner Logo</h6>
                                                     <div class="input-container-search-ticket form-select">
-                                                        <input type="file" name="image_partner" id="image_partner"/>
+                                                        <input type="file" name="image_partner" id="image_partner" accept="image/*" onchange="file_validation('image_partner');"/>
+                                                        <span id="size_image_partner"></span>
                                                     </div>
                                                     <img id="partner_img" alt="Partner Image" style="height:auto; width:100px;">
                                                 </div>
@@ -2572,8 +2578,9 @@
                                     <h6 style="color:{{text_color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Max.Width: 1100px, Height: 360px</span><br/>
                                     <div class="input-container-search-ticket form-select">
-                                        <input type="file" name="image_carousel" id="image_carousel"/>
+                                        <input type="file" name="image_carousel" id="image_carousel" accept="image/*" onchange="file_validation('image_carousel');"/>
                                     </div>
+                                    <span id="size_image_carousel"></span>
                                 </div>
                                 <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
                                     <textarea class="ckeditor" name="editor" id="editor"></textarea>
@@ -3036,13 +3043,14 @@
                                 <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                 <span style="color:{{text_color}}">Max.Width: 150px, Max.Height: 40px</span><br/>
                                 <div class="input-container-search-ticket mb-2">
-                                    <input type="file" name="fileToUpload" id="fileToUpload"/>
+                                    <input type="file" name="fileToUpload" id="fileToUpload" accept="image/*" onchange="file_validation('fileToUpload');"/>
                                     <label class="check_box_custom">
                                         <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Delete' %}</span>
                                         <input type="checkbox" id="empty_logo" name="empty_logo" />
                                         <span class="check_box_span_custom"></span>
                                     </label>
                                 </div>
+                                <span id="size_fileToUpload"></span>
                             </div>
                             <div class="col-lg-6 mt-2" style="border-bottom:2px solid {{text_color}};">
                                 <div class="row">
@@ -3056,13 +3064,14 @@
                                 <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                 <span style="color:{{text_color}}">Width: 50px, Height: 50px</span><br/>
                                 <div class="input-container-search-ticket mb-2">
-                                    <input type="file" name="filelogoicon" id="filelogoicon"/>
+                                    <input type="file" name="filelogoicon" id="filelogoicon" accept="image/*" onchange="file_validation('filelogoicon');"/>
                                     <label class="check_box_custom">
                                         <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Delete' %}</span>
                                         <input type="checkbox" id="empty_logo_icon" name="empty_logo_icon" />
                                         <span class="check_box_span_custom"></span>
                                     </label>
                                 </div>
+                                <span id="size_filelogoicon"></span>
                             </div>
                             <div class="col-lg-6 mt-2" style="border-bottom:2px solid {{text_color}};">
                                 <div class="row">
@@ -3076,13 +3085,14 @@
                                 <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                 <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
                                 <div class="input-container-search-ticket mb-2">
-                                    <input type="file" name="fileBackgroundHome" id="fileBackgroundHome"/>
+                                    <input type="file" name="fileBackgroundHome" id="fileBackgroundHome" accept="image/*" onchange="file_validation('fileBackgroundHome');"/>
                                     <label class="check_box_custom">
                                         <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Delete' %}</span>
                                         <input type="checkbox" id="empty_image_home" name="empty_image_home" />
                                         <span class="check_box_span_custom"></span>
                                     </label>
                                 </div>
+                                <span id="size_fileBackgroundHome"></span>
                             </div>
                             <div class="col-lg-6 mt-2" style="border-bottom:2px solid {{text_color}};">
                                 <div class="row">
@@ -3096,13 +3106,14 @@
                                 <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                 <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
                                 <div class="input-container-search-ticket mb-2">
-                                    <input type="file" name="fileBackgroundLogin" id="fileBackgroundLogin"/>
+                                    <input type="file" name="fileBackgroundLogin" id="fileBackgroundLogin" accept="image/*" onchange="file_validation('fileBackgroundLogin');"/>
                                     <label class="check_box_custom">
                                         <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Delete' %}</span>
                                         <input type="checkbox" id="empty_image_login" name="empty_image_login" />
                                         <span class="check_box_span_custom"></span>
                                     </label>
                                 </div>
+                                <span id="size_fileBackgroundLogin"></span>
                             </div>
                             <div class="col-lg-6 mt-2" style="border-bottom:2px solid {{text_color}};">
                                 <div class="row">
@@ -3116,14 +3127,14 @@
                                 <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                 <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
                                 <div class="input-container-search-ticket mb-2">
-                                    <input type="file" name="fileBackgroundSearch" id="fileBackgroundSearch"/>
+                                    <input type="file" name="fileBackgroundSearch" id="fileBackgroundSearch" accept="image/*" onchange="file_validation('fileBackgroundSearch');"/>
                                     <label class="check_box_custom">
                                         <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Delete' %}</span>
                                         <input type="checkbox" id="empty_image_search" name="empty_image_search" />
                                         <span class="check_box_span_custom"></span>
                                     </label>
                                 </div>
-
+                                <span id="size_fileBackgroundSearch"></span>
                             </div>
                             <div class="col-lg-6 mt-2" style="border-bottom:2px solid {{text_color}};">
                                 <div class="row">
@@ -3137,13 +3148,14 @@
                                 <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                 <span style="color:{{text_color}}">Max.Width: 1110px, Height: Free</span><br/>
                                 <div class="input-container-search-ticket mb-2">
-                                    <input type="file" name="fileRegistrationBanner" id="fileRegistrationBanner"/>
+                                    <input type="file" name="fileRegistrationBanner" id="fileRegistrationBanner" accept="image/*" onchange="file_validation('fileRegistrationBanner');"/>
                                     <label class="check_box_custom">
                                         <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Delete' %}</span>
                                         <input type="checkbox" id="empty_image_regis" name="empty_image_regis" />
                                         <span class="check_box_span_custom"></span>
                                     </label>
                                 </div>
+                                <span id="size_fileRegistrationBanner"></span>
                             </div>
                             <div class="col-lg-12 mt-3" style="text-align:center;">
                                 <button type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
@@ -3169,11 +3181,9 @@
                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                             </div>
                                             <div class="modal-body">
-
-                                                Files: <input type="file" id="files_bigbanner" name="files_bigbanner" multiple="" accept="image/*"><br>
-
-                                                <div id="selectedFiles_bigbanner"></div>
-
+                                                <h6>Files:</h6> <input type="file" id="files_bigbanner" name="files_bigbanner" multiple="" accept="image/*" onchange="file_validation_multiple('files_bigbanner');">
+                                                <span id="size_files_bigbanner"></span><hr/>
+                                                <div class="row" id="selectedFiles_bigbanner"></div>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
@@ -3205,11 +3215,9 @@
                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                             </div>
                                             <div class="modal-body">
-
-                                                Files: <input type="file" id="files_smallbanner" name="files_smallbanner" multiple="" accept="image/*"><br>
-
-                                                <div id="selectedFiles_smallbanner"></div>
-
+                                                <h6>Files:</h6> <input type="file" id="files_smallbanner" name="files_smallbanner" multiple="" accept="image/*" onchange="file_validation_multiple('files_smallbanner');">
+                                                <span id="size_files_smallbanner"></span><hr/>
+                                                <div class="row" id="selectedFiles_smallbanner"></div>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
@@ -3241,11 +3249,9 @@
                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                             </div>
                                             <div class="modal-body">
-
-                                                Files: <input type="file" id="files_promotionbanner" name="files_promotionbanner" multiple="" accept="image/*"><br>
-
-                                                <div id="selectedFiles_promotionbanner"></div>
-
+                                                <h6>Files:</h6> <input type="file" id="files_promotionbanner" name="files_promotionbanner" multiple="" accept="image/*" onchange="file_validation_multiple('files_promotionbanner');">
+                                                <span id="size_files_promotionbanner"></span><hr/>
+                                                <div class="row" id="selectedFiles_promotionbanner"></div>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
@@ -3312,7 +3318,8 @@
                                                 <span style="color:{{text_color}}">Max.Width: 1100px, Height: 360px</span><br/>
 
                                                 <div class="input-container-search-ticket form-select">
-                                                    <input type="file" name="image_paragraph" id="image_paragraph"/>
+                                                    <input type="file" name="image_paragraph" id="image_paragraph" accept="image/*" onchange="file_validation('image_paragraph');"/>
+                                                    <span id="size_image_paragraph"></span>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-xs-6 mt-3">
@@ -3416,7 +3423,8 @@
                                             <div class="col-lg-6 col-md-6 col-xs-6">
                                                 <h6 style="margin-bottom:10px;color:{{text_color}};">Partner Logo</h6>
                                                 <div class="input-container-search-ticket form-select">
-                                                    <input type="file" name="image_partner" id="image_partner"/>
+                                                    <input type="file" name="image_partner" id="image_partner" accept="image/*" onchange="file_validation('image_partner');"/>
+                                                    <span id="size_image_partner"></span>
                                                 </div>
                                                 <img id="partner_img" alt="Partner Image" style="height:auto; width:100px;">
                                             </div>
@@ -3535,8 +3543,9 @@
                                 <h6 style="color:{{text_color}};">Recommended Size: </h6>
                                 <span style="color:{{text_color}}">Max.Width: 1100px, Height: 360px</span><br/>
                                 <div class="input-container-search-ticket form-select">
-                                    <input type="file" name="image_carousel" id="image_carousel"/>
+                                    <input type="file" name="image_carousel" id="image_carousel" accept="image/*" onchange="file_validation('image_carousel');"/>
                                 </div>
+                                <span id="size_image_carousel"></span>
                             </div>
                             <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
                                 <textarea class="ckeditor" name="editor" id="editor"></textarea>
@@ -3998,13 +4007,14 @@
                                     <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Max.Width: 150px, Max.Height: 40px</span><br/>
                                     <div class="input-container-search-ticket mb-2">
-                                        <input type="file" name="fileToUpload" id="fileToUpload"/>
+                                        <input type="file" name="fileToUpload" id="fileToUpload" accept="image/*" onchange="file_validation('fileToUpload');"/>
                                         <label class="check_box_custom">
                                             <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Delete' %}</span>
                                             <input type="checkbox" id="empty_logo" name="empty_logo" />
                                             <span class="check_box_span_custom"></span>
                                         </label>
                                     </div>
+                                    <span id="size_fileToUpload"></span>
                                 </div>
                                 <div class="col-lg-6 mt-2" style="border-bottom:2px solid {{text_color}};">
                                     <div class="row">
@@ -4018,13 +4028,14 @@
                                     <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Width: 50px, Height: 50px</span><br/>
                                     <div class="input-container-search-ticket mb-2">
-                                        <input type="file" name="filelogoicon" id="filelogoicon"/>
+                                        <input type="file" name="filelogoicon" id="filelogoicon" accept="image/*" onchange="file_validation('filelogoicon');"/>
                                         <label class="check_box_custom">
                                             <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Delete' %}</span>
                                             <input type="checkbox" id="empty_logo_icon" name="empty_logo_icon" />
                                             <span class="check_box_span_custom"></span>
                                         </label>
                                     </div>
+                                    <span id="size_filelogoicon"></span>
                                 </div>
                                 <div class="col-lg-6 mt-2" style="border-bottom:2px solid {{text_color}};">
                                     <div class="row">
@@ -4038,13 +4049,14 @@
                                     <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
                                     <div class="input-container-search-ticket mb-2">
-                                        <input type="file" name="fileBackgroundHome" id="fileBackgroundHome"/>
+                                        <input type="file" name="fileBackgroundHome" id="fileBackgroundHome" accept="image/*" onchange="file_validation('fileBackgroundHome');"/>
                                         <label class="check_box_custom">
                                             <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Delete' %}</span>
                                             <input type="checkbox" id="empty_image_home" name="empty_image_home" />
                                             <span class="check_box_span_custom"></span>
                                         </label>
                                     </div>
+                                    <span id="size_fileBackgroundHome"></span>
                                 </div>
                                 <div class="col-lg-6 mt-2" style="border-bottom:2px solid {{text_color}};">
                                     <div class="row">
@@ -4058,13 +4070,14 @@
                                     <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
                                     <div class="input-container-search-ticket mb-2">
-                                        <input type="file" name="fileBackgroundLogin" id="fileBackgroundLogin"/>
+                                        <input type="file" name="fileBackgroundLogin" id="fileBackgroundLogin" accept="image/*" onchange="file_validation('fileBackgroundLogin');"/>
                                         <label class="check_box_custom">
                                             <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Delete' %}</span>
                                             <input type="checkbox" id="empty_image_login" name="empty_image_login" />
                                             <span class="check_box_span_custom"></span>
                                         </label>
                                     </div>
+                                    <span id="size_fileBackgroundLogin"></span>
                                 </div>
                                 <div class="col-lg-6 mt-2" style="border-bottom:2px solid {{text_color}};">
                                     <div class="row">
@@ -4078,14 +4091,14 @@
                                     <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
                                     <div class="input-container-search-ticket mb-2">
-                                        <input type="file" name="fileBackgroundSearch" id="fileBackgroundSearch"/>
+                                        <input type="file" name="fileBackgroundSearch" id="fileBackgroundSearch" accept="image/*" onchange="file_validation('fileBackgroundSearch');"/>
                                         <label class="check_box_custom">
                                             <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Delete' %}</span>
                                             <input type="checkbox" id="empty_image_search" name="empty_image_search" />
                                             <span class="check_box_span_custom"></span>
                                         </label>
                                     </div>
-
+                                    <span id="size_fileBackgroundSearch"></span>
                                 </div>
                                 <div class="col-lg-6 mt-2" style="border-bottom:2px solid {{text_color}};">
                                     <div class="row">
@@ -4099,13 +4112,14 @@
                                     <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Max.Width: 1110px, Height: Free</span><br/>
                                     <div class="input-container-search-ticket mb-2">
-                                        <input type="file" name="fileRegistrationBanner" id="fileRegistrationBanner"/>
+                                        <input type="file" name="fileRegistrationBanner" id="fileRegistrationBanner" accept="image/*" onchange="file_validation('fileRegistrationBanner');"/>
                                         <label class="check_box_custom">
                                             <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Delete' %}</span>
                                             <input type="checkbox" id="empty_image_regis" name="empty_image_regis" />
                                             <span class="check_box_span_custom"></span>
                                         </label>
                                     </div>
+                                    <span id="size_fileRegistrationBanner"></span>
                                 </div>
                                 <div class="col-lg-12 mt-3" style="text-align:center;">
                                     <button type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
@@ -4131,11 +4145,9 @@
                                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                 </div>
                                                 <div class="modal-body">
-
-                                                    Files: <input type="file" id="files_bigbanner" name="files_bigbanner" multiple="" accept="image/*"><br>
-
-                                                    <div id="selectedFiles_bigbanner"></div>
-
+                                                    <h6>Files:</h6> <input type="file" id="files_bigbanner" name="files_bigbanner" multiple="" accept="image/*" onchange="file_validation_multiple('files_bigbanner');">
+                                                    <span id="size_files_bigbanner"></span><hr/>
+                                                    <div class="row" id="selectedFiles_bigbanner"></div>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
@@ -4167,11 +4179,9 @@
                                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                 </div>
                                                 <div class="modal-body">
-
-                                                    Files: <input type="file" id="files_smallbanner" name="files_smallbanner" multiple="" accept="image/*"><br>
-
+                                                    <h6>Files:</h6> <input type="file" id="files_smallbanner" name="files_smallbanner" multiple="" accept="image/*" onchange="file_validation_multiple('files_smallbanner');">
+                                                    <span id="size_files_smallbanner"></span><hr/>
                                                     <div id="selectedFiles_smallbanner"></div>
-
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
@@ -4203,11 +4213,9 @@
                                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                 </div>
                                                 <div class="modal-body">
-
-                                                    Files: <input type="file" id="files_promotionbanner" name="files_promotionbanner" multiple="" accept="image/*"><br>
-
-                                                    <div id="selectedFiles_promotionbanner"></div>
-
+                                                    <h6>Files:</h6> <input type="file" id="files_promotionbanner" name="files_promotionbanner" multiple="" accept="image/*" onchange="file_validation_multiple('files_promotionbanner');">
+                                                    <span id="size_files_promotionbanner"></span><hr/>
+                                                    <div class="row" id="selectedFiles_promotionbanner"></div>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
@@ -4274,7 +4282,8 @@
                                                         <span style="color:{{text_color}}">Max.Width: 1100px, Height: 360px</span><br/>
 
                                                         <div class="input-container-search-ticket form-select">
-                                                            <input type="file" name="image_paragraph" id="image_paragraph"/>
+                                                            <input type="file" name="image_paragraph" id="image_paragraph" accept="image/*" onchange="file_validation('image_paragraph');"/>
+                                                            <span id="size_image_paragraph"></span>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-xs-6">
@@ -4378,7 +4387,8 @@
                                                     <div class="col-lg-6 col-md-6 col-xs-6">
                                                         <h6 style="margin-bottom:10px;color:{{text_color}};">Partner Logo</h6>
                                                         <div class="input-container-search-ticket form-select">
-                                                            <input type="file" name="image_partner" id="image_partner"/>
+                                                            <input type="file" name="image_partner" id="image_partner" accept="image/*" onchange="file_validation('image_partner');"/>
+                                                            <span id="size_image_partner"></span>
                                                         </div>
                                                         <img id="partner_img" alt="Partner Image" style="height:auto; width:100px;">
                                                     </div>
@@ -4497,8 +4507,9 @@
                                     <h6 style="color:{{text_color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Max.Width: 1100px, Height: 360px</span><br/>
                                     <div class="input-container-search-ticket form-select">
-                                        <input type="file" name="image_carousel" id="image_carousel"/>
+                                        <input type="file" name="image_carousel" id="image_carousel" accept="image/*" onchange="file_validation('image_carousel');"/>
                                     </div>
+                                    <span id="size_image_carousel"></span>
                                 </div>
                                 <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
                                     <textarea class="ckeditor" name="editor" id="editor"></textarea>
@@ -4875,11 +4886,42 @@
             document.getElementById('tab_login_background').style.backgroundColor = 'transparent';
         }
     }
+
+    function file_validation(id_file){
+        var fi = document.getElementById(''+id_file);
+        if (fi.files.length > 0) {
+            for (const i = 0; i <= fi.files.length - 1; i++) {
+
+                var fsize = fi.files.item(i).size;
+                var file = Math.round((fsize / 1024));
+                // The size of the file.
+                document.getElementById('size_'+id_file).innerHTML = `<span style="font-weight:500; font-size:14px;">File size: `+ file +` KB</span>`;
+                if (file > 512) {
+                    document.getElementById('size_'+id_file).innerHTML += `<br/><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i><span style="font-size:14px; font-weight:500; color:#ffcc00;"> Bigger file size may affect your website performance</span>`;
+                }
+            }
+        }
+    }
+
+    function file_validation_multiple(id_file){
+        var fi = document.getElementById(''+id_file);
+        if (fi.files.length > 0) {
+            for (var i = 0; i <= fi.files.length - 1; i++) {
+
+                var fsize = fi.files.item(i).size;
+                var file = Math.round((fsize / 1024));
+                // The size of the file.
+                document.getElementById('size_'+id_file).innerHTML = `<span style="font-weight:500; font-size:14px;">File size: `+ file +` KB</span>`;
+                if (file > 512) {
+                    document.getElementById('size_'+id_file).innerHTML += `<br/><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i><span style="font-size:14px; font-weight:500; color:#ffcc00;"> Bigger file size may affect your website performance</span>`;
+                }
+            }
+        }
+    }
+
     $( document ).ready(function() {
         if(`{{bg_tab_color}}` == 'transpa')
             no_fill();
     });
-
 </script>
-
 {% endblock %}
