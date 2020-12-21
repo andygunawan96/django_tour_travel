@@ -6425,7 +6425,7 @@
 {% include 'tt_website_rodextrip/footer.html' %}
 <script>
     get_carriers();
-    {% if username.co_user_login != '' %}
+    {% if username.co_user_login != '' and 'ticketing' in username.co_agent_frontend_security %}
         try{
             //hotel_signin('home');
 
@@ -6735,158 +6735,160 @@
     })
 
     $( document ).ready(function() {
-      $('.js-example-basic-single').select2();
-      {% if "hotel" in provider %}
-      $("#hotel_checkin").val(moment().subtract(-1, 'days').format('DD MMM YYYY'));
-      $("#hotel_checkout").val(moment().subtract(-2, 'days').format('DD MMM YYYY'));
-      {% endif %}
-      get_banner('big_banner','home');
-      get_banner('small_banner','home');
-      {% if website_mode == 'btc' or website_mode == 'btc_btb' %}
-      get_dynamic_page('home');
-      {% endif %}
-      get_banner('promotion','home');
-      var now = moment().format('DD MMM YYYY');
-        {% if "airline" in provider %}
-            try{
-                document.getElementById('origin_id_flight').value = cache.airline.origin;
-            }catch(err){
-                document.getElementById('origin_id_flight').value = 'SUB - Juanda International Airport - Surabaya - Indonesia';
-            }
-            try{
-                document.getElementById('destination_id_flight').value = cache.airline.destination;
-            }catch(err){
-                document.getElementById('destination_id_flight').value = 'SIN - Changi Intl - Singapore - Singapore';
-            }
-            try{
-                airline_date = cache.airline.departure;
-            }catch(err){
-                airline_date = now;
-            }
-            $('input[name="airline_departure"]').daterangepicker({
-                singleDatePicker: true,
-                autoUpdateInput: true,
-                startDate: airline_date,
-                minDate: moment(),
-                maxDate: moment().subtract(-1, 'years'),
-                showDropdowns: true,
-                opens: 'center',
-                locale: {
-                    format: 'DD MMM YYYY',
+        {% if 'ticketing' in username.co_agent_frontend_security %}
+          $('.js-example-basic-single').select2();
+          {% if "hotel" in provider %}
+          $("#hotel_checkin").val(moment().subtract(-1, 'days').format('DD MMM YYYY'));
+          $("#hotel_checkout").val(moment().subtract(-2, 'days').format('DD MMM YYYY'));
+          {% endif %}
+          get_banner('big_banner','home');
+          get_banner('small_banner','home');
+          {% if website_mode == 'btc' or website_mode == 'btc_btb' %}
+          get_dynamic_page('home');
+          {% endif %}
+          get_banner('promotion','home');
+          var now = moment().format('DD MMM YYYY');
+            {% if "airline" in provider %}
+                try{
+                    document.getElementById('origin_id_flight').value = cache.airline.origin;
+                }catch(err){
+                    document.getElementById('origin_id_flight').value = 'SUB - Juanda International Airport - Surabaya - Indonesia';
                 }
-            });
+                try{
+                    document.getElementById('destination_id_flight').value = cache.airline.destination;
+                }catch(err){
+                    document.getElementById('destination_id_flight').value = 'SIN - Changi Intl - Singapore - Singapore';
+                }
+                try{
+                    airline_date = cache.airline.departure;
+                }catch(err){
+                    airline_date = now;
+                }
+                $('input[name="airline_departure"]').daterangepicker({
+                    singleDatePicker: true,
+                    autoUpdateInput: true,
+                    startDate: airline_date,
+                    minDate: moment(),
+                    maxDate: moment().subtract(-1, 'years'),
+                    showDropdowns: true,
+                    opens: 'center',
+                    locale: {
+                        format: 'DD MMM YYYY',
+                    }
+                });
 
-        {% endif %}
-        {% if "train" in provider %}
-            try{
-                document.getElementById('train_origin').value = cache.train.origin;
-            }catch(err){
-                document.getElementById('train_origin').value = 'GMR - Gambir - Jakarta - Indonesia';
-            }
-            try{
-                document.getElementById('train_destination').value = cache.train.destination;
-            }catch(err){
-                document.getElementById('train_destination').value = 'BD - Bandung - Bandung - Indonesia';
-            }
-            try{
-                train_date = cache.train.departure;
-            }catch(err){
-                train_date = now;
-            }
-            $('input[name="train_departure"]').daterangepicker({
-                singleDatePicker: true,
-                autoUpdateInput: true,
-                startDate: train_date,
-                minDate: moment(),
-                maxDate: moment().subtract(-90, 'days'),
-                showDropdowns: true,
-                opens: 'center',
-                locale: {
-                    format: 'DD MMM YYYY',
+            {% endif %}
+            {% if "train" in provider %}
+                try{
+                    document.getElementById('train_origin').value = cache.train.origin;
+                }catch(err){
+                    document.getElementById('train_origin').value = 'GMR - Gambir - Jakarta - Indonesia';
                 }
-            });
-        {% endif %}
+                try{
+                    document.getElementById('train_destination').value = cache.train.destination;
+                }catch(err){
+                    document.getElementById('train_destination').value = 'BD - Bandung - Bandung - Indonesia';
+                }
+                try{
+                    train_date = cache.train.departure;
+                }catch(err){
+                    train_date = now;
+                }
+                $('input[name="train_departure"]').daterangepicker({
+                    singleDatePicker: true,
+                    autoUpdateInput: true,
+                    startDate: train_date,
+                    minDate: moment(),
+                    maxDate: moment().subtract(-90, 'days'),
+                    showDropdowns: true,
+                    opens: 'center',
+                    locale: {
+                        format: 'DD MMM YYYY',
+                    }
+                });
+            {% endif %}
 
-        {% if "hotel" in provider %}
-            try{
-                hotel_checkin = cache.hotel.checkin;
-                hotel_checkout = cache.hotel.checkout
-            }catch(err){
-                hotel_checkin = now;
-                hotel_checkout = moment().subtract(-2, 'days');
-            }
+            {% if "hotel" in provider %}
+                try{
+                    hotel_checkin = cache.hotel.checkin;
+                    hotel_checkout = cache.hotel.checkout
+                }catch(err){
+                    hotel_checkin = now;
+                    hotel_checkout = moment().subtract(-2, 'days');
+                }
 
-            $('input[name="hotel_checkin_checkout"]').daterangepicker({
-                singleDatePicker: false,
-                autoUpdateInput: true,
-                opens: 'center',
-                autoApply: true,
-                startDate: hotel_checkin,
-                endDate: hotel_checkout,
-                minDate: moment(),
-                maxDate: moment().subtract(-366, 'days'),
-                showDropdowns: true,
-                locale: {
-                    format: 'DD MMM YYYY',
-                }
-            });
+                $('input[name="hotel_checkin_checkout"]').daterangepicker({
+                    singleDatePicker: false,
+                    autoUpdateInput: true,
+                    opens: 'center',
+                    autoApply: true,
+                    startDate: hotel_checkin,
+                    endDate: hotel_checkout,
+                    minDate: moment(),
+                    maxDate: moment().subtract(-366, 'days'),
+                    showDropdowns: true,
+                    locale: {
+                        format: 'DD MMM YYYY',
+                    }
+                });
 
-            $('input[name="hotel_checkin_checkout"]').on('apply.daterangepicker', function(ev, picker) {
-                $(this).val(picker.startDate.format('DD MMM YYYY') + ' - ' + picker.endDate.format('DD MMM YYYY'));
-                $("#hotel_checkin").val(picker.startDate.format('DD MMM YYYY'));
-                $("#hotel_checkout").val(picker.endDate.format('DD MMM YYYY'));
+                $('input[name="hotel_checkin_checkout"]').on('apply.daterangepicker', function(ev, picker) {
+                    $(this).val(picker.startDate.format('DD MMM YYYY') + ' - ' + picker.endDate.format('DD MMM YYYY'));
+                    $("#hotel_checkin").val(picker.startDate.format('DD MMM YYYY'));
+                    $("#hotel_checkout").val(picker.endDate.format('DD MMM YYYY'));
 
-                var oneDay = 24*60*60*1000;
-                var firstDate = new Date($("#hotel_checkin").val());
-                var secondDate = new Date($("#hotel_checkout").val());
+                    var oneDay = 24*60*60*1000;
+                    var firstDate = new Date($("#hotel_checkin").val());
+                    var secondDate = new Date($("#hotel_checkout").val());
 
-                var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
-                $("#total_night_search").text(diffDays);
-            });
-        {% endif %}
-        {% if "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
-            try{
-                visa_date = cache.visa.date;
-            }catch(err){
-                visa_date = now;
-            }
-            $('input[name="visa_departure"]').daterangepicker({
-                singleDatePicker: true,
-                autoUpdateInput: true,
-                startDate: visa_date,
-                minDate: moment(),
-                maxDate: moment().subtract(-365, 'days'),
-                showDropdowns: true,
-                opens: 'center',
-                locale: {
-                    format: 'DD MMM YYYY',
+                    var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
+                    $("#total_night_search").text(diffDays);
+                });
+            {% endif %}
+            {% if "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
+                try{
+                    visa_date = cache.visa.date;
+                }catch(err){
+                    visa_date = now;
                 }
-            });
-        {% endif %}
-        {% if "tour" in provider %}
-            get_tour_auto_complete('home');
-            $("#tour_search_form").bind("keypress", function(e) {
-                if (e.keyCode == 13) {
-                    return false;
-                }
-            });
-        {% endif %}
-        {% if "activity" in provider %}
-            get_activity_config('home');
-            $("#activity_search_form").bind("keypress", function(e) {
-                if (e.keyCode == 13) {
-                    return false;
-                }
-            });
-        {% endif %}
-        {% if "ppob" in provider %}
-            get_config_ppob();
-            get_carrier_providers_ppob();
-            $("#bill_searchForm").bind("keypress", function(e) {
-                if (e.keyCode == 13) {
-                    return false;
-                }
-            });
+                $('input[name="visa_departure"]').daterangepicker({
+                    singleDatePicker: true,
+                    autoUpdateInput: true,
+                    startDate: visa_date,
+                    minDate: moment(),
+                    maxDate: moment().subtract(-365, 'days'),
+                    showDropdowns: true,
+                    opens: 'center',
+                    locale: {
+                        format: 'DD MMM YYYY',
+                    }
+                });
+            {% endif %}
+            {% if "tour" in provider %}
+                get_tour_auto_complete('home');
+                $("#tour_search_form").bind("keypress", function(e) {
+                    if (e.keyCode == 13) {
+                        return false;
+                    }
+                });
+            {% endif %}
+            {% if "activity" in provider %}
+                get_activity_config('home');
+                $("#activity_search_form").bind("keypress", function(e) {
+                    if (e.keyCode == 13) {
+                        return false;
+                    }
+                });
+            {% endif %}
+            {% if "ppob" in provider %}
+                get_config_ppob();
+                get_carrier_providers_ppob();
+                $("#bill_searchForm").bind("keypress", function(e) {
+                    if (e.keyCode == 13) {
+                        return false;
+                    }
+                });
+            {% endif %}
         {% endif %}
     });
 

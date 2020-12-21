@@ -701,7 +701,16 @@ function draw_get_booking(msg){
         <div class="row">
             <div class="col-lg-12">
                 <div style="padding:10px; background-color:white;">
-                <h5> Flight Detail <img style="width:18px;" src="/static/tt_website_rodextrip/images/icon/plane.png" alt="Flight Detail"/></h5>
+                    <div class="row">
+                        <div class='col-lg-4'>
+                        </div>
+                        <div class='col-lg-4'>
+                            <h5> Flight Detail <img style="width:18px;margin-top:-5px;" src="/static/tt_website_rodextrip/img/icon/airplane.png" alt="Flight Detail"/></h5>
+                        </div>
+                        <div class='col-lg-4'>
+                            <h5>`+msg.status+`</h5>
+                        </div>
+                    </div>
                 <hr/>`;
             check = 0;
             flight_counter = 1;
