@@ -287,7 +287,7 @@ def goto_dashboard(request):
     return redirect(language+'/')
 
 def testing(request):
-    if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
+    if 'user_account' in request.session._session and 'ticketing_airline' in request.session['user_account']['co_agent_frontend_security']:
         values = {
             'static_path_url_server': get_url_static_path(),
             'static_path': path_util.get_static_path(MODEL_NAME),

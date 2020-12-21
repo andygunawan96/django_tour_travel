@@ -3685,6 +3685,10 @@ function airline_detail(type){
                 <hr/>
                 <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
                 try{
+                    $text += 'Booker:\n';
+                    $text += passengers.booker.title + ' ' + passengers.booker.first_name + ' ' + passengers.booker.last_name + '\n';
+                    $text += passengers.booker.email + '\n';
+                    $text += passengers.booker.mobile + '\n\n';
                     for(i in passengers.adult){
                         if(i == 0)
                             $text += 'Passengers:\n';
@@ -3697,7 +3701,10 @@ function airline_detail(type){
                         for(j in passengers.adult[i].seat_list){
                             $text += ', ' + passengers.adult[i].seat_list[j].seat_pick;
                         }
-                        $text += ' (ADT / ' + passengers.adult[i].birth_date + ')\n';
+                        if(passengers.adult[i].birth_date != '')
+                            $text += ' (ADT / ' + passengers.adult[i].birth_date + ')\n';
+                        else
+                            $text += ' (ADT)\n';
                     }
                     for(i in passengers.child){
                         $text += passengers.child[i].title + ' ' + passengers.child[i].first_name + ' ' + passengers.child[i].last_name + ' (CHD / ' + passengers.child[i].birth_date + ')\n';

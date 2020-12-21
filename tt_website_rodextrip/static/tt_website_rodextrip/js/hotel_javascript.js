@@ -1959,6 +1959,11 @@ function hotel_detail(old_cancellation_policy){
         </div>`;
         text += `<div class="col-lg-12"><hr/></div>`;
 
+        $text += 'Booker:\n';
+        $text += booker.title + ' ' + booker.first_name + ' ' + booker.last_name + '\n';
+        $text += booker.email + '\n';
+        $text += booker.mobile + '\n\n';
+
         try{
             if(adult.length > 0){
                 $text2 += '\nPassengers\n'

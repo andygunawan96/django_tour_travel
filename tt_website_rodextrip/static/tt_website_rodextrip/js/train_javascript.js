@@ -998,6 +998,12 @@ function train_detail(){
     $text += '1x Convenience fee '+price['currency']+' '+ getrupiah(total_tax) + '\n\n';
     try{
         console.log(passengers);
+
+        $text += 'Booker:\n';
+        $text += passenger_with_booker.booker.title + ' ' + passenger_with_booker.booker.first_name + ' ' + passenger_with_booker.booker.last_name + '\n';
+        $text += passenger_with_booker.booker.email + '\n';
+        $text += passenger_with_booker.booker.mobile + '\n\n';
+
         $text += 'Passengers\n';
         for(i in passengers){
             for(j in passengers[i]){

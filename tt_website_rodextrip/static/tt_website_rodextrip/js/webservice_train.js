@@ -561,7 +561,8 @@ function train_get_booking(data){
                 $text = '';
                 text = '';
                 $text += 'Order Number: '+ msg.result.response.order_number + '\n';
-                $text += 'Hold Date:\n';
+                if(msg.result.response.state == 'booked')
+                    $text += 'Hold Date:\n';
                 text += `
                 <div class="col-lg-12" style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-bottom:20px;">
                     <h6>Order Number : `+msg.result.response.order_number+`</h6><br/>
@@ -940,6 +941,19 @@ function train_get_booking(data){
                 //repricing
                 counter_service_charge = 0;
                 disc = 0;
+                $text += '\nBooker:\n';
+                title = '';
+                if(msg.result.response.booker.gender == 'male')
+                    title = 'MR';
+                else if(msg.result.response.booker.gender == 'female' && msg.result.response.booker.marital_status == true)
+                    title = 'MRS';
+                else if(msg.result.response.booker.gender == 'female')
+                    title = 'MS';
+                $text += title + ' ' + msg.result.response.booker.name + '\n';
+                $text += msg.result.response.booker.email + '\n';
+                if(msg.result.response.booker.phones.length > 0)
+                    $text += msg.result.response.booker.phones[0].calling_number + '\n';
+
                 $text += '\nPrice:\n';
                 for(i in msg.result.response.provider_bookings){
                     try{

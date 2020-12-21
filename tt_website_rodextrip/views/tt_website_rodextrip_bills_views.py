@@ -21,7 +21,7 @@ _logger = logging.getLogger("rodextrip_logger")
 MODEL_NAME = 'tt_website_rodextrip'
 
 def bill(request):
-    if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
+    if 'user_account' in request.session._session and 'ticketing_ppob' in request.session['user_account']['co_agent_frontend_security']:
         try:
             values = get_data_template(request)
             javascript_version = get_javascript_version()
@@ -56,7 +56,7 @@ def bill(request):
         return no_session_logout(request)
 
 def review(request):
-    if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
+    if 'user_account' in request.session._session and 'ticketing_ppob' in request.session['user_account']['co_agent_frontend_security']:
         try:
             javascript_version = get_javascript_version()
             cache_version = get_cache_version()

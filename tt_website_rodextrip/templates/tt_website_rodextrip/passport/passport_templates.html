@@ -97,7 +97,7 @@
                 <input type="hidden" id="end"/>
 
                 <div class="col-lg-12" id="div-search-overlay">
-                    {% if "ticketing" in username.co_agent_frontend_security %}
+                    {% if "ticketing_passport" in username.co_agent_frontend_security %}
                     <div class="banner-right">
                         <!--<img src="{{static_path}}images/christmas-icon2.png" style="width:auto; height:90px; position:absolute; right:-35px; top:35px; float:right; z-index:200;" alt="">-->
                         <div class="tab-content" id="myTabContent" style="border-radius:7px;">
@@ -857,7 +857,7 @@
                     <input type="hidden" id="country_id"/>
                     <input type="hidden" id="start"/>
                     <input type="hidden" id="end"/>
-                    {% if "ticketing" in username.co_agent_frontend_security %}
+                    {% if "ticketing_passport" in username.co_agent_frontend_security %}
                     <div class="tab_body" style="border:2px solid #cdcdcd;">
                         {% if "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security%}
                         <div id="tab-passport" class="tab-content current">
@@ -1198,7 +1198,7 @@
                     </div>
                     <div class="row fullscreen d-flex" id="div-search-overlay" style="margin-top:40px; margin-bottom:40px; position:relative; padding:15px;">
                         {% if username.co_user_name != '' %}
-                        {% if "ticketing" in username.co_agent_frontend_security %}
+                        {% if "ticketing_passport" in username.co_agent_frontend_security %}
                         <div class="banner-content col-xl-4 col-lg-4 col-md-4" style="padding:25px 15px 15px 20px; background-color: {{tab_color}}; border:1px solid #cdcdcd;">
                             <h4 class="text-white">
                                 {% if username.co_user_login != 'agent_b2c' %}

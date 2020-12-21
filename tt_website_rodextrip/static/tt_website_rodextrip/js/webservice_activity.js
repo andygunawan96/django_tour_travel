@@ -2959,6 +2959,19 @@ function activity_get_booking(data){
                 //repricing
                 counter_service_charge = 0;
                 disc = 0;
+                $test += '\nBooker:\n';
+                title = '';
+                if(msg.result.response.booker.gender == 'male')
+                    title = 'MR';
+                else if(msg.result.response.booker.gender == 'female' && msg.result.response.booker.marital_status == true)
+                    title = 'MRS';
+                else if(msg.result.response.booker.gender == 'female')
+                    title = 'MS';
+                $test += title + ' ' + msg.result.response.booker.name + '\n';
+                $test += msg.result.response.booker.email + '\n';
+                if(msg.result.response.booker.phones.length > 0)
+                    $test += msg.result.response.booker.phones[0].calling_number + '\n';
+
                 $test += '\nPrice:\n';
                 for(i in msg.result.response.passengers[0].sale_service_charges){
                     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')

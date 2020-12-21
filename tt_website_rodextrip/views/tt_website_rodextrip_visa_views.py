@@ -22,7 +22,7 @@ MODEL_NAME = 'tt_website_rodextrip'
 
 # Create your views here.
 def visa(request):
-    if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
+    if 'user_account' in request.session._session and 'ticketing_visa' in request.session['user_account']['co_agent_frontend_security']:
         try:
             values = get_data_template(request)
             javascript_version = get_javascript_version()

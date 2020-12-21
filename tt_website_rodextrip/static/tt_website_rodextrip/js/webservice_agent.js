@@ -3241,21 +3241,36 @@ function edit_passenger_cache(val){
         document.getElementById('passenger_first_name_div').innerHTML = `<label id="passenger_edit_first_name">`+passenger_data_cache[val].first_name+`</label>`;
         document.getElementById('passenger_last_name_div').innerHTML = `<label id="passenger_edit_last_name">`+passenger_data_cache[val].last_name+`</label>`;
     }
-
-    document.getElementById('passenger_edit_birth_date').innerHTML = passenger_data_cache[val].birth_date;
+    if(passenger_data_cache[val].birth_date != ''){
+        $('input[name="passenger_edit_birth_date"]').val(passenger_data_cache[val].birth_date);
+        document.getElementById('passenger_edit_birth_date').disabled = true;
+    }else{
+        $('input[name="passenger_edit_birth_date"]').val("");
+        document.getElementById('passenger_edit_birth_date').disabled = false;
+    }
     document.getElementById('passenger_edit_email').value = passenger_data_cache[val].email;
-    document.getElementById('passenger_edit_nationality').value = passenger_data_cache[val].nationality_name;
-    document.getElementById('passenger_edit_nationality_id').value = passenger_data_cache[val].nationality_name;
-    document.getElementById('select2-passenger_edit_nationality_id-container').innerHTML = passenger_data_cache[val].nationality_name;
+    if(passenger_data_cache[val].nationality_name != ''){
+        document.getElementById('passenger_edit_nationality').value = passenger_data_cache[val].nationality_name;
+        document.getElementById('passenger_edit_nationality_id').value = passenger_data_cache[val].nationality_name;
+        document.getElementById('select2-passenger_edit_nationality_id-container').innerHTML = passenger_data_cache[val].nationality_name;
+        $('#passenger_edit_nationality_id').niceSelect('update');
+    }else{
+        document.getElementById('passenger_edit_nationality').value = 'Indonesia';
+        document.getElementById('passenger_edit_nationality_id').value = 'Indonesia';
+        document.getElementById('select2-passenger_edit_nationality_id-container').innerHTML = 'Indonesia';
+        $('#passenger_edit_nationality_id').niceSelect('update');
+    }
+
     text = '';
     if(passenger_data_cache[val].phones.length != 0){
         for(i in passenger_data_cache[val].phones){
+            console.log(`phone_cache`+parseInt(parseInt(i)+1)+`_id`);
             text+=`
-                <div class='row' id="phone_cache`+parseInt(i+1)+`_id">
+                <div class='row' id="phone_cache`+parseInt(parseInt(i)+1)+`_id">
                     <div class="col-sm-5">
                         <label>Phone Id</label><br/>
                         <div class="form-select">
-                            <select class="form-control js-example-basic-single" name="passenger_edit_phone_code`+parseInt(i+1)+`_id" style="width:100%;" id="passenger_edit_phone_code`+parseInt(i+1)+`_id" placeholder="Nationality" onchange="auto_complete('passenger_edit_phone_code`+parseInt(i+1)+`')" class="nice-select-default">`;
+                            <select class="form-control js-example-basic-single" name="passenger_edit_phone_code`+parseInt(parseInt(i)+1)+`_id" style="width:100%;" id="passenger_edit_phone_code`+parseInt(parseInt(i)+1)+`_id" placeholder="Nationality" onchange="auto_complete('passenger_edit_phone_code`+parseInt(parseInt(i)+1)+`')" class="nice-select-default">`;
                                 for(j in country_cache){
                                     text += `<option value="`+country_cache[j].phone_code+`"`;
                                     if(passenger_data_cache[val].phones[i].calling_code == country_cache[j].phone_code)
@@ -3264,27 +3279,42 @@ function edit_passenger_cache(val){
                                 }
                             text+=`</select>
                         </div>
-                        <input type="hidden" name="passenger_edit_phone_code`+parseInt(i+1)+`" id="passenger_edit_phone_code`+parseInt(i+1)+`" value="`+passenger_data_cache[val].phones[i].calling_code+`" />
-                    </div>
+                        <input type="hidden" name="passenger_edit_phone_code`+parseInt(parseInt(i)+1)+`" id="passenger_edit_phone_code`+parseInt(parseInt(i)+1)+`" value="`+passenger_data_cache[val].phones[i].calling_code+`" />
+                    </div>`;
+            if(passenger_data_cache[val].phones[i].calling_number != false){
+            text+=`
                     <div class="col-sm-6">
                         <label>Phone Number</label><br/>
                         <div class="form-select">
                             <div class="input-container-search-ticket">
-                                <input type="text" class="form-control" name="passenger_edit_phone_number`+parseInt(i+1)+`" id="passenger_edit_phone_number`+parseInt(i+1)+`" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" value="`+passenger_data_cache[val].phones[i].calling_number+`">
+                                <input type="text" class="form-control" name="passenger_edit_phone_number`+parseInt(parseInt(i)+1)+`" id="passenger_edit_phone_number`+parseInt(parseInt(i)+1)+`" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" value="`+passenger_data_cache[val].phones[i].calling_number+`">
                             </div>
                         </div>
-                    </div>
+                    </div>`;
+            }else{
+                text+=`
+                    <div class="col-sm-6">
+                        <label>Phone Number</label><br/>
+                        <div class="form-select">
+                            <div class="input-container-search-ticket">
+                                <input type="text" class="form-control" name="passenger_edit_phone_number`+parseInt(parseInt(i)+1)+`" id="passenger_edit_phone_number`+parseInt(parseInt(i)+1)+`" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" value="">
+                            </div>
+                        </div>
+                    </div>`;
+            }
+
+            text+=`
                     <div class="col-sm-1" style="margin-top:25px;">
-                        <button type="button" class="primary-delete-date" onclick="delete_phone_passenger_cache(`+parseInt(i+1)+`)">
+                        <button type="button" class="primary-delete-date" onclick="delete_phone_passenger_cache(`+parseInt(parseInt(i)+1)+`)">
                             <i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i>
                         </button>
                     </div>
                 </div>`;
-            passenger_data_edit_phone = parseInt(i + 1)
+            passenger_data_edit_phone = parseInt(parseInt(i) + 1)
         }
         document.getElementById('passenger_edit_phone_table').innerHTML = text;
         for(i in passenger_data_cache[val].phones){
-            $('#passenger_edit_phone_code'+parseInt(i+1)+'_id').select2();
+            $('#passenger_edit_phone_code'+parseInt(parseInt(i)+1)+'_id').select2();
         }
     }
     document.getElementById('attachment').innerHTML = '';
@@ -3417,7 +3447,9 @@ function delete_phone_passenger_cache(val){
 
 function add_phone_passenger_edit_cache(){
     text = '';
-    passenger_data_edit_phone = passenger_data_edit_phone + 1;
+    var node = document.createElement("div");
+    node.setAttribute('id', "phone_cache`+passenger_data_edit_phone+`_id");
+    passenger_data_edit_phone = parseInt(parseInt(passenger_data_edit_phone) + 1);
     text+=`
         <div class='row' id="phone_cache`+passenger_data_edit_phone+`_id">
             <div class="col-sm-5">
@@ -3430,7 +3462,7 @@ function add_phone_passenger_edit_cache(){
                                 text += `selected`;
                             text += `>`+country_cache[j].phone_code+`</option>`;
                         }
-                    text+=`</select>
+                    text +=`</select>
                 </div>
                 <input type="hidden" name="passenger_edit_phone_code`+passenger_data_edit_phone+`" id="passenger_edit_phone_code`+passenger_data_edit_phone+`" />
             </div>
@@ -3438,7 +3470,7 @@ function add_phone_passenger_edit_cache(){
                 <label>Phone Number</label><br/>
                 <div class="form-select">
                     <div class="input-container-search-ticket">
-                        <input type="text" class="form-control" name="passenger_edit_phone_number`+passenger_data_edit_phone+`" id="passenger_edit_phone_number`+passenger_data_edit_phone+`" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" value="">
+                        <input type="text" class="form-control" name="passenger_edit_phone_number`+passenger_data_edit_phone+`" id="passenger_edit_phone_number`+passenger_data_edit_phone+`" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" value="">
                     </div>
                 </div>
             </div>
@@ -3448,7 +3480,8 @@ function add_phone_passenger_edit_cache(){
                 </button>
             </div>
         </div>`;
-    document.getElementById('passenger_edit_phone_table').innerHTML += text;
+    node.innerHTML = text;
+    document.getElementById('passenger_edit_phone_table').appendChild(node);
     document.getElementById('passenger_edit_phone_code'+passenger_data_edit_phone).value = '62';
     $('#passenger_edit_phone_code'+passenger_data_edit_phone+'_id').select2();
 }
@@ -4091,7 +4124,8 @@ function update_passenger_backend(){
                         'phone': phone,
                         'identity': identity,
                         'image': img_list,
-                        'seq_id': passenger_data_cache[passenger_cache_pick].seq_id
+                        'seq_id': passenger_data_cache[passenger_cache_pick].seq_id,
+                        'birth_date': passenger_data_cache[passenger_cache_pick].birth_date != '' ? passenger_data_cache[passenger_cache_pick].birth_date : document.getElementById('passenger_edit_birth_date').value
                     }
                     console.log(JSON.stringify(update_passenger_dict));
                     $.ajax({
@@ -4107,12 +4141,22 @@ function update_passenger_backend(){
                        success: function(msg) {
                             console.log(msg);
                             if(msg.result.error_code == 0){
-
+                                Swal.fire({
+                                  type: 'success',
+                                  title: 'Update!',
+                                  html: '',
+                                })
                                 document.getElementById('passenger_chosen').hidden = false;
                                 document.getElementById('passenger_update').hidden = true;
                                 get_passenger_cache();
                                 document.getElementById('update_passenger_customer').disabled = false;
                                 //document.getElementById('form_admin').submit();
+                            }else{
+                                Swal.fire({
+                                  type: 'error',
+                                  title: 'Oops!',
+                                  html: msg.result.error_msg,
+                                })
                             }
                        },
                        error: function(XMLHttpRequest, textStatus, errorThrown) {

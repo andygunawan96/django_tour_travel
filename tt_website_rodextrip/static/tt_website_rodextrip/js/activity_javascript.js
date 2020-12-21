@@ -511,6 +511,11 @@ function activity_table_detail2(pagetype){
 
    document.getElementById('product_visit_date').innerHTML = visit_date_txt;
 
+   $test += 'Booker:\n';
+   $test += booker.title + ' ' + booker.first_name + ' ' + booker.last_name + '\n';
+   $test += booker.email + '\n';
+   $test += booker.mobile + '\n\n';
+
    try{
         for(i in all_pax){
             if(i == 0)
