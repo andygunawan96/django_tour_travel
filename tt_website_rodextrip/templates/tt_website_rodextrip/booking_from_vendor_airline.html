@@ -73,16 +73,20 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-5" id="booker_div" hidden>
+                            <div class="col-lg-6" id="booker_div" hidden>
                                 <label style="color:red">*</label>
                                 <label>{% trans 'Booker' %}</label>
-                                <div class="input-container-search-ticket">
-                                    <input type="text" class="form-control" name="pnr" id="booker_vendor" placeholder="{% trans 'Booker' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Booker '" disabled/>
-                                    <input type="hidden" class="form-control" name="pnr" id="booker_vendor_id"/>
+                                <div class="row">
+                                    <div class="col-lg-10">
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" class="form-control" name="pnr" id="booker_vendor" placeholder="{% trans 'Booker' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Booker '" disabled/>
+                                            <input type="hidden" class="form-control" name="pnr" id="booker_vendor_id"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" id="clear_booker_booking_div" hidden>
+                                        <button type="button" class="primary-btn" id="clear_booker_booking_from_vendor_id" onclick="clear_booker_booking_from_vendor();" style="float:right;" hidden><i class="fas fa-times"></i></button>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1" style="margin-top:4.5vh;" id="clear_booker_booking_div" hidden>
-                                <button type="button" class="primary-btn" id="clear_booker_booking_from_vendor_id" onclick="clear_booker_booking_from_vendor();" style="float:right;" hidden><i class="fas fa-times"></i></button>
                             </div>
                             <div class="col-lg-6 col-xs-6" hidden id="cus_parent_div">
                                 <label style="color:red">*</label>
