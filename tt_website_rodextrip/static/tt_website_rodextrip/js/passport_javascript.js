@@ -451,6 +451,12 @@ function update_table(type){
             }
         }
         text+=`</table>`;
+
+        $text += 'Booker:\n';
+        $text += passenger.booker.title + ' ' + passenger.booker.first_name + ' ' + passenger.booker.last_name + '\n';
+        $text += passenger.booker.email + '\n';
+        $text += passenger.booker.mobile + '\n\n';
+
         $text += 'Passenger\n';
         for(i in passenger){
             if(i != 'booker' && i != 'contact'){
@@ -565,6 +571,12 @@ function update_table(type){
         $text += 'Order Number: '+ passport.journey.name+'\n';
         $text += passport.journey.country + ' ' + passport.journey.departure_date + ' ' + passport.journey.state_visa + '\n';
         $text += passport.journey.state_passport + '\n'
+
+        $text += '\nBooker:\n';
+        $text += passport.contact.title + ' ' + passport.contact.name + '\n';
+        $text += passport.contact.email + '\n';
+        if(passport.contact.phone != '')
+            $text += passport.contact.phone + '\n';
 
         for(i in passport.passengers){
             if(i == 0)

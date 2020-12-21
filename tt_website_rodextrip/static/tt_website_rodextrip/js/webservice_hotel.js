@@ -1770,6 +1770,20 @@ function hotel_get_booking(data){
                     type_amount_repricing = ['Repricing'];
                     //repricing
                     counter_service_charge = 0;
+
+                    $text += '\nBooker:\n';
+                    title = '';
+                    if(msg.result.response.booker.gender == 'male')
+                        title = 'MR';
+                    else if(msg.result.response.booker.gender == 'female' && msg.result.response.booker.marital_status == true)
+                        title = 'MRS';
+                    else if(msg.result.response.booker.gender == 'female')
+                        title = 'MS';
+                    $text += title + ' ' + msg.result.response.booker.name + '\n';
+                    $text += msg.result.response.booker.email + '\n';
+                    if(msg.result.response.booker.phones.length > 0)
+                        $text += msg.result.response.booker.phones[0].calling_number + '\n';
+
                     $text += '\nPrice:\n';
 
                     text_detail += `<div class="mt-3">

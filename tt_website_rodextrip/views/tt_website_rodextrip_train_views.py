@@ -41,7 +41,7 @@ def can_book(now, dep):
     return dep > now
 
 def train(request):
-    if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
+    if 'user_account' in request.session._session and 'ticketing_train' in request.session['user_account']['co_agent_frontend_security']:
         try:
             values = get_data_template(request)
             javascript_version = get_javascript_version()

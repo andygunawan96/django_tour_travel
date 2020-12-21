@@ -454,6 +454,11 @@ function update_table(type){
             }
         }
         text+=`</table>`;
+        $text += 'Booker:\n';
+        $text += passenger.booker.title + ' ' + passenger.booker.first_name + ' ' + passenger.booker.last_name + '\n';
+        $text += passenger.booker.email + '\n';
+        $text += passenger.booker.mobile + '\n\n';
+
         $text += 'Passenger\n';
         for(i in passenger){
             if(i != 'booker' && i != 'contact'){
@@ -570,6 +575,11 @@ function update_table(type){
         $text += visa.journey.country + ' ' + visa.journey.departure_date + ' ' + visa.journey.state_visa + '\n';
         $text += visa.journey.state_visa + '\n'
 
+        $text += '\nBooker:\n';
+        $text += visa.contact.title + ' ' + visa.contact.name + '\n';
+        $text += visa.contact.email + '\n';
+        if(visa.contact.phone != '')
+            $text += visa.contact.phone + '\n';
         for(i in visa.passengers){
             if(i == 0)
                 $text += '\nPassengers\n';

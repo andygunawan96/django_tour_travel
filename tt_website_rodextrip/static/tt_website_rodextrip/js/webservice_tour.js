@@ -1810,6 +1810,20 @@ function tour_get_booking(order_number)
                 //repricing
                 type_amount_repricing = ['Repricing'];
                 //repricing
+
+                $text += '\nBooker:\n';
+                title = '';
+                if(msg.result.response.booker.gender == 'male')
+                    title = 'MR';
+                else if(msg.result.response.booker.gender == 'female' && msg.result.response.booker.marital_status == true)
+                    title = 'MRS';
+                else if(msg.result.response.booker.gender == 'female')
+                    title = 'MS';
+                $text += title + ' ' + msg.result.response.booker.name + '\n';
+                $text += msg.result.response.booker.email + '\n';
+                if(msg.result.response.booker.phones.length > 0)
+                    $text += msg.result.response.booker.phones[0].calling_number + '\n';
+
                 counter_service_charge = 0;
                 $test += '\nPrice:\n';
                 for(i in msg.result.response.passengers[0].sale_service_charges){
@@ -2169,6 +2183,11 @@ function table_price_update(msg,type){
     price_tour_info = msg.result.tour_info;
     $test += price_tour_info.name + '\n';
     $test += price_tour_info.departure_date_str + ' - ' + price_tour_info.arrival_date_str + '\n\n';
+
+    $text += 'Booker:\n';
+    $text += booker.title + ' ' + booker.first_name + ' ' + booker.last_name + '\n';
+    $text += booker.email + '\n';
+    $text += booker.mobile + '\n\n';
 
     try{
         for(i in all_pax){

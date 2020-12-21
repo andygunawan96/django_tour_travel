@@ -47,7 +47,7 @@ adult_title = ['MR', 'MRS', 'MS']
 infant_title = ['MSTR', 'MISS']
 
 def tour(request):
-    if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
+    if 'user_account' in request.session._session and 'ticketing_tour' in request.session['user_account']['co_agent_frontend_security']:
         try:
             values = get_data_template(request)
             javascript_version = get_javascript_version()

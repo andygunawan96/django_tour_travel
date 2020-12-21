@@ -29,7 +29,7 @@ def can_book(now, dep):
     return dep > now
 
 def airline(request):
-    if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
+    if 'user_account' in request.session._session and 'ticketing_airline' in request.session['user_account']['co_agent_frontend_security']:
         try:
             values = get_data_template(request)
             javascript_version = get_javascript_version()
@@ -92,7 +92,7 @@ def airline(request):
         return no_session_logout(request)
 
 def search(request):
-    if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
+    if 'user_account' in request.session._session and 'ticketing_airline' in request.session['user_account']['co_agent_frontend_security']:
         try:
             javascript_version = get_javascript_version()
             cache_version = get_cache_version()
@@ -347,7 +347,7 @@ def search(request):
         return no_session_logout(request)
 
 def passenger(request):
-    if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
+    if 'user_account' in request.session._session and 'ticketing_airline' in request.session['user_account']['co_agent_frontend_security']:
         try:
             javascript_version = get_javascript_version()
             cache_version = get_cache_version()
@@ -454,7 +454,7 @@ def passenger(request):
         return no_session_logout(request)
 
 def ssr(request):
-    if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
+    if 'user_account' in request.session._session and 'ticketing_airline' in request.session['user_account']['co_agent_frontend_security']:
         try:
             javascript_version = get_javascript_version()
             cache_version = get_cache_version()
@@ -680,7 +680,7 @@ def ssr(request):
         return no_session_logout(request)
 
 def seat_map(request):
-    if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
+    if 'user_account' in request.session._session and 'ticketing_airline' in request.session['user_account']['co_agent_frontend_security']:
         try:
             javascript_version = get_javascript_version()
             cache_version = get_cache_version()
@@ -929,7 +929,7 @@ def seat_map_public(request, signature=-1):
         return no_session_logout(request)
 
 def review(request):
-    if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
+    if 'user_account' in request.session._session and 'ticketing_airline' in request.session['user_account']['co_agent_frontend_security']:
         try:
             javascript_version = get_javascript_version()
             cache_version = get_cache_version()
@@ -1268,7 +1268,7 @@ def review(request):
         return no_session_logout(request)
 
 def review_after_sales(request):
-    if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
+    if 'user_account' in request.session._session and 'ticketing_airline' in request.session['user_account']['co_agent_frontend_security']:
         try:
             javascript_version = get_javascript_version()
             cache_version = get_cache_version()

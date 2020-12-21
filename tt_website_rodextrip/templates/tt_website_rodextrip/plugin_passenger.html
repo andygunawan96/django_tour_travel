@@ -2168,8 +2168,8 @@
                             <div class="col-lg-6">
                                 <label style="color:red">*</label>
                                 <label>{% trans 'Birth Date' %}</label><br>
-                                <div class="form-control" style="background:#cdcdcd;">
-                                    <span id="passenger_edit_birth_date"></span>
+                                <div class="input-container-search-ticket">
+                                    <input type="text" class="form-control" name="passenger_edit_birth_date" id="passenger_edit_birth_date" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6">
@@ -3909,6 +3909,17 @@
 
 
         $('.js-example-basic-single').select2();
+        $('input[name="passenger_edit_birth_date"]').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              maxDate: moment(),
+              showDropdowns: true,
+              opens: 'center',
+              locale: {
+                  format: 'DD MMM YYYY',
+              }
+        });
+        $('input[name="passenger_edit_birth_date"]').val("");
         $('input[name="passenger_birth_date"]').daterangepicker({
               singleDatePicker: true,
               autoUpdateInput: true,
