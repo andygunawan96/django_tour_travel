@@ -3281,7 +3281,7 @@ function edit_passenger_cache(val){
                         </div>
                         <input type="hidden" name="passenger_edit_phone_code`+parseInt(parseInt(i)+1)+`" id="passenger_edit_phone_code`+parseInt(parseInt(i)+1)+`" value="`+passenger_data_cache[val].phones[i].calling_code+`" />
                     </div>`;
-            if(passenger_data_cache[val].phones[i].calling_number != false){
+            if(passenger_data_cache[val].phones[i].calling_number != false || passenger_data_cache[val].phones[i].calling_number.length != undefined){
             text+=`
                     <div class="col-sm-6">
                         <label>Phone Number</label><br/>
