@@ -51,14 +51,6 @@ var sorting_list = [
         status: false
     },
     {
-        value:'Earliest Departure',
-        status: false
-    },
-    {
-        value:'Latest Departure',
-        status: false
-    },
-    {
         value:'Shortest Duration',
         status: false
     },
@@ -75,10 +67,6 @@ var sorting_list2 = [
     },
     {
         value:'Price',
-        status: false
-    },
-    {
-        value:'Departure',
         status: false
     },
     {
@@ -300,6 +288,15 @@ function generate_other_info(list_of_dict){
     return temp_txt;
 }
 
+function select_tour_date(key_change_date){
+    line_data = tour_data.tour_lines[key_change_date];
+    document.getElementById('tour_line_code').value = line_data.tour_line_code;
+    document.getElementById('tour_line_display').value = line_data.departure_date_str + ' - ' + line_data.arrival_date_str;
+    selected_tour_date = line_data.departure_date_str + ' - ' + line_data.arrival_date_str;
+    document.getElementById('product_date').innerHTML = selected_tour_date;
+    $('#ChangeDateModal').modal('hide');
+}
+
 function add_tour_room(key_accomodation){
     room_data = tour_data.accommodations[key_accomodation];
     console.log(room_data);
@@ -472,12 +469,23 @@ function render_child_infant_selection(adult_select) {
 }
 
 function check_detail(){
-    $('.btn-next').addClass("running");
-    $('.btn-next').prop('disabled', true);
+    if (document.getElementById('tour_line_code').value != '')
+    {
+        $('.btn-next').addClass("running");
+        $('.btn-next').prop('disabled', true);
 
-    document.getElementById('room_amount').value = room_amount;
-    document.getElementById('time_limit_input').value = time_limit;
-    document.getElementById('go_to_pax').submit();
+        document.getElementById('room_amount').value = room_amount;
+        document.getElementById('time_limit_input').value = time_limit;
+        document.getElementById('go_to_pax').submit();
+    }
+    else
+    {
+        Swal.fire({
+          type: 'error',
+          title: 'Oops!',
+          html: 'Please select Tour Date!',
+        })
+    }
 }
 
 function check_passenger(adult, child, infant){
@@ -1226,16 +1234,6 @@ function sort_button(value){
            document.getElementById("img-sort-up-price").style.display = "none";
        }
 
-   }else if(value == 'departure'){
-       if(sorting_value == '' || sorting_value == 'Earliest Departure'){
-           sorting_value = 'Latest Departure';
-           document.getElementById("img-sort-down-departure").style.display = "none";
-           document.getElementById("img-sort-up-departure").style.display = "block";
-       }else{
-           sorting_value = 'Earliest Departure';
-           document.getElementById("img-sort-down-departure").style.display = "block";
-           document.getElementById("img-sort-up-departure").style.display = "none";
-       }
    }else if(value == 'duration'){
        if(sorting_value == '' || sorting_value == 'Shortest Duration'){
            sorting_value = 'Longest Duration';
@@ -1411,26 +1409,6 @@ function sort(tour_dat, exist_check){
                         tour_dat[i] = tour_dat[j];
                         tour_dat[j] = temp;
                     }
-                }else if(sorting == 'Earliest Departure'){
-                    var dept_datei = '';
-                    var dept_datej = '';
-                    dept_datei = Date.parse(tour_dat[i].departure_date);
-                    dept_datej = Date.parse(tour_dat[j].departure_date);
-                    if(dept_datei > dept_datej){
-                        var temp = tour_dat[i];
-                        tour_dat[i] = tour_dat[j];
-                        tour_dat[j] = temp;
-                    }
-                }else if(sorting == 'Latest Departure'){
-                    var dept_datei = '';
-                    var dept_datej = '';
-                    dept_datei = Date.parse(tour_dat[i].departure_date);
-                    dept_datej = Date.parse(tour_dat[j].departure_date);
-                    if(dept_datei < dept_datej){
-                        var temp = tour_dat[i];
-                        tour_dat[i] = tour_dat[j];
-                        tour_dat[j] = temp;
-                    }
                 }else if(sorting == 'Shortest Duration'){
                     if(tour_dat[i].duration > tour_dat[j].duration){
                         var temp = tour_dat[i];
@@ -1470,8 +1448,8 @@ function sort(tour_dat, exist_check){
                text+=`
 
                <div class="col-lg-4 col-md-6">
-                    <form action='/tour/detail' method='POST' id='myForm`+tour_dat[i].sequence+`'>
-                    <div id='csrf`+tour_dat[i].sequence+`'></div>
+                    <form action='/tour/detail' method='POST' id='myForm`+tour_dat[i].tour_code+`'>
+                    <div id='csrf`+tour_dat[i].tour_code+`'></div>
                     <input type='hidden' value='`+JSON.stringify(tour_dat[i]).replace(/[']/g, /["]/g)+`'/>
                     <input id='uuid' name='uuid' type='hidden' value='`+tour_dat[i].id+`'/>
                     <input id='sequence' name='sequence' type='hidden' value='`+tour_dat[i].sequence+`'/>`;
@@ -1509,7 +1487,7 @@ function sort(tour_dat, exist_check){
                         else
                         {
                             text+=`
-                            <div class="single-recent-blog-post item" style="cursor:pointer;" onclick="go_to_detail('`+tour_dat[i].sequence+`')">
+                            <div class="single-recent-blog-post item" style="cursor:pointer;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">
                                 <div class="single-destination avail-sd relative">
                                     <div class="thumb relative">
                                         <div class="overlay overlay-bg"></div>
@@ -1525,7 +1503,7 @@ function sort(tour_dat, exist_check){
                                                 </div>
                                                 <div class="col-lg-12" style="text-align:right;">
                                                     <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`  </span>
-                                                    <button type="button" class="primary-btn" onclick="go_to_detail('`+tour_dat[i].sequence+`')">BOOK</button>
+                                                    <button type="button" class="primary-btn" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">BOOK</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -1557,7 +1535,7 @@ function sort(tour_dat, exist_check){
                                                 <div class="col-lg-12" style="text-align:right;">
                                                     <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_data[i].adult_sale_price)+`</span>
                                                     <br/>
-                                                    <button type="button" class="primary-btn-custom" onclick="go_to_detail('`+tour_data[i].sequence+`')">BOOK</button>
+                                                    <button type="button" class="primary-btn-custom" onclick="go_to_detail('`+tour_data[i].tour_code+`')">BOOK</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -1568,7 +1546,7 @@ function sort(tour_dat, exist_check){
                         else
                         {
                             text+=`
-                            <div class="single-post-area mb-30" onclick="go_to_detail('`+tour_dat[i].sequence+`')" style="cursor:pointer;">
+                            <div class="single-post-area mb-30" onclick="go_to_detail('`+tour_dat[i].tour_code+`')" style="cursor:pointer;">
                                 <div class="single-destination avail-sd relative">
                                     <div class="thumb relative">
                                         <div class="overlay overlay-bg"></div>
@@ -1585,7 +1563,7 @@ function sort(tour_dat, exist_check){
                                                 <div class="col-lg-12" style="text-align:right;">
                                                     <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`</span>
                                                     <br/>
-                                                    <button type="button" class="primary-btn" onclick="go_to_detail('`+tour_dat[i].sequence+`')">BOOK</button>
+                                                    <button type="button" class="primary-btn" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">BOOK</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -1617,7 +1595,7 @@ function sort(tour_dat, exist_check){
                                                 <div class="col-lg-12" style="text-align:right;">
                                                     <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_data[i].adult_sale_price)+`</span>
                                                     <br/>
-                                                    <button type="button" class="primary-btn-custom" onclick="go_to_detail('`+tour_data[i].sequence+`')">BOOK</button>
+                                                    <button type="button" class="primary-btn-custom" onclick="go_to_detail('`+tour_data[i].tour_code+`')">BOOK</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -1628,7 +1606,7 @@ function sort(tour_dat, exist_check){
                         else
                         {
                             text+=`
-                            <div class="single-post-area mb-30" onclick="go_to_detail('`+tour_dat[i].sequence+`')" style="cursor:pointer;">
+                            <div class="single-post-area mb-30" onclick="go_to_detail('`+tour_dat[i].tour_code+`')" style="cursor:pointer;">
                                 <div class="single-destination avail-sd relative">
                                     <div class="thumb relative">
                                         <div class="overlay overlay-bg"></div>
@@ -1645,7 +1623,7 @@ function sort(tour_dat, exist_check){
                                                 <div class="col-lg-12" style="text-align:right;">
                                                     <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`</span>
                                                     <br/>
-                                                    <button type="button" class="primary-btn" onclick="go_to_detail('`+tour_dat[i].sequence+`')">BOOK</button>
+                                                    <button type="button" class="primary-btn" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">BOOK</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -1677,7 +1655,7 @@ function sort(tour_dat, exist_check){
                                                 <div class="col-lg-12" style="text-align:right;">
                                                     <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_data[i].adult_sale_price)+`</span>
                                                     <br/>
-                                                    <button type="button" class="primary-btn-custom" onclick="go_to_detail('`+tour_data[i].sequence+`')">BOOK</button>
+                                                    <button type="button" class="primary-btn-custom" onclick="go_to_detail('`+tour_data[i].tour_code+`')">BOOK</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -1688,7 +1666,7 @@ function sort(tour_dat, exist_check){
                         else
                         {
                             text+=`
-                            <div class="single-post-area mb-30" onclick="go_to_detail('`+tour_dat[i].sequence+`')" style="cursor:pointer;">
+                            <div class="single-post-area mb-30" onclick="go_to_detail('`+tour_dat[i].tour_code+`')" style="cursor:pointer;">
                                 <div class="single-destination avail-sd relative">
                                     <div class="thumb relative">
                                         <div class="overlay overlay-bg"></div>
@@ -1705,7 +1683,7 @@ function sort(tour_dat, exist_check){
                                                 <div class="col-lg-12" style="text-align:right;">
                                                     <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`</span>
                                                     <br/>
-                                                    <button type="button" class="primary-btn" onclick="go_to_detail('`+tour_dat[i].sequence+`')">BOOK</button>
+                                                    <button type="button" class="primary-btn" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">BOOK</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -1736,7 +1714,7 @@ function sort(tour_dat, exist_check){
                                                 <div class="col-lg-12" style="text-align:right;">
                                                     <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_data[i].adult_sale_price)+`</span>
                                                     <br/>
-                                                    <button type="button" class="primary-btn-custom" onclick="go_to_detail('`+tour_data[i].sequence+`')">BOOK</button>
+                                                    <button type="button" class="primary-btn-custom" onclick="go_to_detail('`+tour_data[i].tour_code+`')">BOOK</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -1747,7 +1725,7 @@ function sort(tour_dat, exist_check){
                         else
                         {
                             text+=`
-                            <div class="single-post-area mb-30" onclick="go_to_detail('`+tour_dat[i].sequence+`')" style="cursor:pointer;">
+                            <div class="single-post-area mb-30" onclick="go_to_detail('`+tour_dat[i].tour_code+`')" style="cursor:pointer;">
                                 <div class="single-destination avail-sd relative">
                                     <div class="thumb relative">
                                         <img class="img-fluid" src="`+img_src+`" alt="Tour">
@@ -1763,7 +1741,7 @@ function sort(tour_dat, exist_check){
                                                 <div class="col-lg-12" style="text-align:right;">
                                                     <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`</span>
                                                     <br/>
-                                                    <button type="button" class="primary-btn" onclick="go_to_detail('`+tour_dat[i].sequence+`')">BOOK</button>
+                                                    <button type="button" class="primary-btn" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">BOOK</button>
                                                 </div>
                                             </div>
                                         </div>

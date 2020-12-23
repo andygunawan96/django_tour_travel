@@ -858,16 +858,16 @@
     get_dept_year();
     tour_filter_render();
 
-    function go_to_detail(sequence){
+    function go_to_detail(tour_code){
         for (i in tour_data)
         {
-            if(tour_data[i].sequence == sequence)
+            if(tour_data[i].tour_code == tour_code)
             {
                 pick = JSON.stringify(tour_data[i]).replace(/'/g,'');
-                document.getElementById(`csrf`+i).innerHTML = `{% csrf_token %}`;
-                document.getElementById(`csrf`+i).innerHTML += `<input type='hidden' value='`+pick+`' name='tour_pick'/>`;
-                document.getElementById('tour_select_form'+i).innerHTML += `<input type='hidden' value='`+time_limit+`' name='time_limit_input'/>`;
-                document.getElementById('tour_select_form'+i).submit();
+                document.getElementById(`csrf`+tour_code).innerHTML = `{% csrf_token %}`;
+                document.getElementById(`csrf`+tour_code).innerHTML += `<input type='hidden' value='`+pick+`' name='tour_pick'/>`;
+                document.getElementById('tour_select_form'+tour_code).innerHTML += `<input type='hidden' value='`+time_limit+`' name='time_limit_input'/>`;
+                document.getElementById('tour_select_form'+tour_code).submit();
             }
         }
     }

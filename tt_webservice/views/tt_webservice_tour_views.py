@@ -267,16 +267,15 @@ def search(request):
 
         for i in res['result']['response']['result']:
             i.update({
-                'sequence': counter,
-                'departure_date_f': i.get('departure_date') and datetime.strptime(str(i['departure_date']),'%Y-%m-%d').strftime("%A, %d-%m-%Y") or '',
-                'arrival_date_f': i.get('arrival_date') and datetime.strptime(str(i['arrival_date']), '%Y-%m-%d').strftime("%A, %d-%m-%Y") or '',
-                'start_period_f': i.get('start_period') and datetime.strptime(str(i['start_period']),'%Y-%m-%d').strftime('%B') or '',
-                'end_period_f': i.get('end_period') and datetime.strptime(str(i['end_period']), '%Y-%m-%d').strftime('%B') or '',
-                'departure_date_str': i.get('departure_date') and datetime.strptime(str(i['departure_date']),'%Y-%m-%d').strftime('%d %b %Y') or '',
-                'arrival_date_str': i.get('arrival_date') and datetime.strptime(str(i['arrival_date']), '%Y-%m-%d').strftime('%d %b %Y') or '',
-                'start_period_str': i.get('start_period') and datetime.strptime(str(i['start_period']),'%Y-%m-%d').strftime('%B') or '',
-                'end_period_str': i.get('end_period') and datetime.strptime(str(i['end_period']), '%Y-%m-%d').strftime('%B') or '',
+                'sequence': counter
             })
+            for j in i['tour_lines']:
+                j.update({
+                    'departure_date_f': j.get('departure_date') and datetime.strptime(str(j['departure_date']),'%Y-%m-%d').strftime("%A, %d-%m-%Y") or '',
+                    'arrival_date_f': j.get('arrival_date') and datetime.strptime(str(j['arrival_date']), '%Y-%m-%d').strftime("%A, %d-%m-%Y") or '',
+                    'departure_date_str': j.get('departure_date') and datetime.strptime(str(j['departure_date']),'%Y-%m-%d').strftime('%d %b %Y') or '',
+                    'arrival_date_str': j.get('arrival_date') and datetime.strptime(str(j['arrival_date']), '%Y-%m-%d').strftime('%d %b %Y') or '',
+                })
             data_tour.append(i)
             counter += 1
 
@@ -315,16 +314,13 @@ def get_details(request):
 
     res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST')
     try:
-        res['result']['response']['selected_tour']['departure_date_str'] = '%s %s %s' % (
-            res['result']['response']['selected_tour']['departure_date'].split('-')[2],
-            month[res['result']['response']['selected_tour']['departure_date'].split('-')[1]],
-            res['result']['response']['selected_tour']['departure_date'].split('-')[0])
-        res['result']['response']['selected_tour']['arrival_date_str'] = '%s %s %s' % (
-            res['result']['response']['selected_tour']['arrival_date'].split('-')[2],
-            month[res['result']['response']['selected_tour']['arrival_date'].split('-')[1]],
-            res['result']['response']['selected_tour']['arrival_date'].split('-')[0])
-        res['result']['response']['selected_tour']['departure_date_f'] = convert_string_to_date_to_string_front_end_with_date(res['result']['response']['selected_tour']['departure_date'])
-        res['result']['response']['selected_tour']['arrival_date_f'] = convert_string_to_date_to_string_front_end_with_date(res['result']['response']['selected_tour']['arrival_date'])
+        for rec in res['result']['response']['selected_tour']['tour_lines']:
+            rec.update({
+                'departure_date_str': '%s %s %s' % (rec['departure_date'].split('-')[2],month[rec['departure_date'].split('-')[1]], rec['departure_date'].split('-')[0]),
+                'arrival_date_str': '%s %s %s' % (rec['arrival_date'].split('-')[2],month[rec['arrival_date'].split('-')[1]], rec['arrival_date'].split('-')[0]),
+                'departure_date_f': convert_string_to_date_to_string_front_end_with_date(rec['departure_date']),
+                'arrival_date_f': convert_string_to_date_to_string_front_end_with_date(rec['arrival_date'])
+            })
         set_session(request, 'tour_pick', res['result']['response']['selected_tour'])
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
@@ -360,24 +356,12 @@ def get_pricing(request):
 
     res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST')
     try:
-        if res.get('result'):
-            res['result'].update({
-                'tour_info': {
-                    'name': request.session['tour_pick']['name'],
-                    'departure_date': request.session['tour_pick']['departure_date'],
-                    'departure_date_f': convert_string_to_date_to_string_front_end_with_date(request.session['tour_pick']['departure_date']),
-                    'departure_date_str': '%s %s %s' % (
-                        request.session['tour_pick']['departure_date'].split('-')[2],
-                        month[request.session['tour_pick']['departure_date'].split('-')[1]],
-                        request.session['tour_pick']['departure_date'].split('-')[0]),
-                    'arrival_date': request.session['tour_pick']['arrival_date'],
-                    'arrival_date_f': convert_string_to_date_to_string_front_end_with_date(request.session['tour_pick']['arrival_date']),
-                    'arrival_date_str': '%s %s %s' % (
-                        request.session['tour_pick']['arrival_date'].split('-')[2],
-                        month[request.session['tour_pick']['arrival_date'].split('-')[1]],
-                        request.session['tour_pick']['arrival_date'].split('-')[0]),
-                }
-            })
+        res['result']['response'].update({
+            'tour_info': {
+                'name': request.session['tour_pick']['name'],
+                'tour_lines': request.session['tour_pick']['tour_lines']
+            }
+        })
         set_session(request, 'tour_price', res)
         _logger.info(json.dumps(request.session['tour_price']))
     except Exception as e:
@@ -388,24 +372,6 @@ def get_pricing(request):
 def get_pricing_cache(request):
     try:
         res = request.session['tour_price']
-        if res.get('result'):
-            res['result'].update({
-                'tour_info': {
-                    'name': request.session['tour_pick']['name'],
-                    'departure_date': request.session['tour_pick']['departure_date'],
-                    'departure_date_f': convert_string_to_date_to_string_front_end_with_date(request.session['tour_pick']['departure_date']),
-                    'departure_date_str': '%s %s %s' % (
-                        request.session['tour_pick']['departure_date'].split('-')[2],
-                        month[request.session['tour_pick']['departure_date'].split('-')[1]],
-                        request.session['tour_pick']['departure_date'].split('-')[0]),
-                    'arrival_date': request.session['tour_pick']['arrival_date'],
-                    'arrival_date_f': convert_string_to_date_to_string_front_end_with_date(request.session['tour_pick']['arrival_date']),
-                    'arrival_date_str': '%s %s %s' % (
-                        request.session['tour_pick']['arrival_date'].split('-')[2],
-                        month[request.session['tour_pick']['arrival_date'].split('-')[1]],
-                        request.session['tour_pick']['arrival_date'].split('-')[0]),
-                }
-            })
     except Exception as e:
         res = {}
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
@@ -426,6 +392,7 @@ def sell_tour(request):
         data = {
             "promotion_codes_booking": [],
             "tour_code": request.session['tour_pick']['tour_code'],
+            "tour_line_code": request.session['tour_line_code'],
             'room_list': final_room_list,
             "adult": request.session['tour_booking_data']['adult'],
             "child": request.session['tour_booking_data']['child'],

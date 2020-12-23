@@ -327,25 +327,32 @@ def passenger(request):
                 print('no infant')
 
             try:
+                set_session(request, 'tour_line_code', request.POST['tour_line_code'])
+            except:
+                set_session(request, 'tour_line_code', request.session['tour_line_code'])
+
+            try:
                 set_session(request, 'tour_data', json.loads(request.POST['tour_data']))
             except:
                 set_session(request, 'tour_data', request.session['tour_data'])
 
             try:
+                tour_dept_date = ''
+                tour_arr_date = ''
+                if request.session.get('tour_pick'):
+                    for line in request.session['tour_pick']['tour_lines']:
+                        if line['tour_line_code'] == request.POST['tour_line_code']:
+                            tour_dept_date = line['departure_date']
+                            tour_arr_date = line['arrival_date']
                 set_session(request, 'tour_dept_return_data', {
-                    'departure': request.POST.get('departure_date_tour2') and request.POST['departure_date_tour2'] or request.session['tour_pick']['departure_date'],
-                    'return': request.POST.get('arrival_date_tour2') and request.POST['arrival_date_tour2'] or request.session['tour_pick']['arrival_date']
+                    'departure': request.POST.get('departure_date_tour2') and request.POST['departure_date_tour2'] or tour_dept_date,
+                    'arrival': request.POST.get('arrival_date_tour2') and request.POST['arrival_date_tour2'] or tour_arr_date
                 })
             except:
                 set_session(request, 'tour_dept_return_data', request.session['tour_dept_return_data'])
 
-            dept = request.session['tour_dept_return_data']['departure']
-            arr = request.session['tour_dept_return_data']['return']
-
-            request.session['tour_pick'].update({
-                'tour_departure_date': dept,
-                'tour_arrival_date': arr,
-            })
+            dept = request.session['tour_dept_return_data'].get('departure') and datetime.strptime(request.session['tour_dept_return_data']['departure'], '%Y-%m-%d').strftime('%d %b %Y') or ''
+            arr = request.session['tour_dept_return_data'].get('arrival') and datetime.strptime(request.session['tour_dept_return_data']['arrival'], '%Y-%m-%d').strftime('%d %b %Y') or ''
 
             try:
                 room_amount = int(request.session['tour_room_mapping']['room_amount'])
@@ -388,6 +395,7 @@ def passenger(request):
                 'adult': request.session['tour_pax_amount']['adult_amt'],
                 'child': request.session['tour_pax_amount']['child_amt'],
                 'infant': request.session['tour_pax_amount']['infant_amt'],
+                'tour_line_code': request.session['tour_line_code'],
                 'tour_data': request.session['tour_pick'],
             })
 
@@ -401,6 +409,8 @@ def passenger(request):
                 'child_title': child_title,
                 'username': request.session['user_account'],
                 'tour_data': request.session['tour_pick'],
+                'departure_date': dept,
+                'arrival_date': arr,
                 'adults': adult,
                 'infants': infant,
                 'childs': child,
@@ -653,12 +663,15 @@ def review(request):
                 "line": [
                     {
                         "resv": "-",
-                        "checkin": request.session['tour_pick']['departure_date'],
-                        "checkout": request.session['tour_pick']['arrival_date'],
+                        "checkin": request.session['tour_dept_return_data'].get('departure') and request.session['tour_dept_return_data']['departure'] or '',
+                        "checkout": request.session['tour_dept_return_data'].get('departure') and request.session['tour_dept_return_data']['arrival'] or '',
                         "tour_name": request.session['tour_pick']['name'],
                     }
                 ],
             }
+
+            dept = request.session['tour_dept_return_data'].get('departure') and datetime.strptime(request.session['tour_dept_return_data']['departure'], '%Y-%m-%d').strftime('%d %b %Y') or ''
+            arr = request.session['tour_dept_return_data'].get('arrival') and datetime.strptime(request.session['tour_dept_return_data']['arrival'], '%Y-%m-%d').strftime('%d %b %Y') or ''
 
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
@@ -667,6 +680,8 @@ def review(request):
                 'countries': airline_country,
                 'phone_code': phone_code,
                 'tour_data': request.session['tour_pick'],
+                'departure_date': dept,
+                'arrival_date': arr,
                 'adult': request.session['tour_booking_data']['adult'],
                 'child': request.session['tour_booking_data']['child'],
                 'infant': request.session['tour_booking_data']['infant'],
