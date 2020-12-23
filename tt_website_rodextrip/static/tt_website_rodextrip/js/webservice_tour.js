@@ -2026,21 +2026,23 @@ function table_price_update(msg,type){
     price_tour_info = msg.result.response.tour_info;
     $test += price_tour_info.name + '\n\n';
 
-    try{
-         if (booker)
-         {
-            $test += 'Booker:\n';
-            $test += booker.title + ' ' + booker.first_name + ' ' + booker.last_name + '\n';
-            $test += booker.email + '\n';
-            $test += booker.mobile + '\n\n';
-         }        
-        for(i in all_pax){
-            if(i == 0)
-                $test += 'Passengers:\n';
-            $test += all_pax[i].title + ' ' + all_pax[i].first_name + ' ' + all_pax[i].last_name + '\n';
-        }
-        $test +='\n';
-    }catch(err){}
+    if(document.URL.split('/')[document.URL.split('/').length-1] == 'review'){
+        try{
+             if (booker)
+             {
+                $test += 'Booker:\n';
+                $test += booker.title + ' ' + booker.first_name + ' ' + booker.last_name + '\n';
+                $test += booker.email + '\n';
+                $test += booker.mobile + '\n\n';
+             }
+            for(i in all_pax){
+                if(i == 0)
+                    $test += 'Passengers:\n';
+                $test += all_pax[i].title + ' ' + all_pax[i].first_name + ' ' + all_pax[i].last_name + '\n';
+            }
+            $test +='\n';
+        }catch(err){}
+    }
 
     price_data = msg.result.response.service_charges;
     price_txt_adt = ``;
