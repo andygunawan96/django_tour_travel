@@ -217,7 +217,7 @@
                                 <hr/>
                                 <h4>{{tour_data.name}}</h4>
                                 <span><i class="fa fa-calendar" aria-hidden="true"></i>
-                                    {{tour_data.departure_date_f}} - {{tour_data.arrival_date_f}}
+                                    {{departure_date}} - {{arrival_date}}
                                 </span>
                                 <br/>
                                 <span><i class="fa fa-clock-o" aria-hidden="true"></i> {{tour_data.duration}} {% trans 'Days' %}</span>
@@ -422,7 +422,7 @@
                             <h4> {% trans 'Price Detail' %} </h4>
                             <hr/>
                             <span id="product_title" style="font-weight: bold;">{{tour_data.name}}</span>
-                            <br/><span id="product_date" style="font-size:13px; font-weight:500;">{{tour_data.departure_date_str}} - {{tour_data.arrival_date_str}}</span>
+                            <br/><span id="product_date" style="font-size:13px; font-weight:500;">{{departure_date}} - {{arrival_date}}</span>
                             <br/><br/>
                             <div id="loading-price-tour" style="margin-bottom:20px;">
                                 <div class="col-lg-12">

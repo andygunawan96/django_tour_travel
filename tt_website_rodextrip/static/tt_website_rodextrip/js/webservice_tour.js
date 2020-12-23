@@ -348,52 +348,19 @@ function tour_search(){
                        img_src = static_path_url_server+`/public/tour_packages/not_found.png`;
                    }
 
-                   dat_content1 = ``+tour_data[i].departure_date_str+` - `+tour_data[i].arrival_date_str;
-                   dat_content2 = ``+tour_data[i].seat+`/`+tour_data[i].quota + ` Available`;
-
+                    dat_content1 = '';
+                    dat_content2 = '';
                    text+=`
 
                    <div class="col-lg-4 col-md-6">
-                        <form action='/tour/detail/`+tour_data[i].tour_code+`' method='POST' id='tour_select_form`+tour_data[i].sequence+`'>
-                            <div id='csrf`+tour_data[i].sequence+`'></div>
+                        <form action='/tour/detail/`+tour_data[i].tour_code+`' method='POST' id='tour_select_form`+tour_data[i].tour_code+`'>
+                            <div id='csrf`+tour_data[i].tour_code+`'></div>
                             <input type='hidden' value='`+JSON.stringify(tour_data[i]).replace(/[']/g, /["]/g)+`'/>
-                            <input id='uuid`+tour_data[i].sequence+`' name='uuid' type='hidden' value='`+tour_data[i].id+`'/>
-                            <input id='sequence`+tour_data[i].sequence+`' name='sequence' type='hidden' value='`+tour_data[i].sequence+`'/>`;
+                            <input id='uuid`+tour_data[i].tour_code+`' name='uuid' type='hidden' value='`+tour_data[i].id+`'/>
+                            <input id='sequence`+tour_data[i].tour_code+`' name='sequence' type='hidden' value='`+tour_data[i].sequence+`'/>`;
                             if(template == 1){
-                                if (tour_data[i].state == 'sold' || tour_data[i].seat <= 0)
-                                {
-                                    text+=`
-                                    <div class="single-recent-blog-post disabled-post item" style="cursor:not-allowed;" onclick="" disabled>
-                                        <div class="single-destination relative">
-                                            <div style="background:red; position:absolute; right:0px; padding:20px; z-index:1;">
-                                                <h5 style="color:`+text_color+`;">SOLD OUT</h5>
-                                            </div>
-                                            <div class="thumb relative" style="margin: auto; width:100%; height:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
-                                                <div class="overlay overlay-bg-disabled"></div>
-                                                <img class="img-fluid" src="`+img_src+`" alt="Tour Sold Out" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: fill;">
-                                            </div>
-                                            <div class="card card-effect-promotion" style="background: rgba(150, 150, 150, 0.5) !important;">
-                                                <div class="card-body">
-                                                    <div class="row details">
-                                                        <div class="col-lg-12" style="text-align:left;">
-                                                            <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color:#616161;" title="`+tour_data[i].name+`">`+tour_data[i].name+`</h6>
-                                                            <span style="font-size:13px; color:#616161;"><i class="fas fa-calendar-alt"></i> `+dat_content1+`</span><br/>
-                                                            <span style="font-size:13px; color:#616161;"><i class="fas fa-users"></i> `+dat_content2+`</span><br/><br/>
-                                                        </div>
-                                                        <div class="col-lg-12" style="text-align:right;">
-                                                            <span style="font-size:13px;font-weight:bold; color:#616161;">IDR `+getrupiah(tour_data[i].adult_sale_price)+`  </span>
-                                                            <button href="#" class="primary-btn-custom" type="button" onclick="" disabled>SOLD OUT</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>`;
-                                }
-                                else
-                                {
-                                    text+=`
-                                    <div class="single-recent-blog-post item" style="cursor:pointer;" onclick="go_to_detail('`+tour_data[i].sequence+`')">
+                                text+=`
+                                    <div class="single-recent-blog-post item" style="cursor:pointer;" onclick="go_to_detail('`+tour_data[i].tour_code+`')">
                                         <div class="single-destination avail-sd relative">
                                             <div class="thumb relative" style="margin: auto; width:100%; height:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
                                                 <div class="overlay overlay-bg"></div>
@@ -404,56 +371,21 @@ function tour_search(){
                                                     <div class="row details">
                                                         <div class="col-lg-12" style="text-align:left;">
                                                             <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_data[i].name+`">`+tour_data[i].name+`</h6>
-                                                            <span style="font-size:13px;"><i class="fas fa-calendar-alt"></i> `+dat_content1+`</span><br/>
-                                                            <span style="font-size:13px;"><i class="fas fa-users"></i> `+dat_content2+`</span><br/><br/>
+                                                            <span style="font-size:13px; color:#616161;">Starting From</span><br/>
+                                                            <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_data[i].adult_sale_price)+`</span><br/><br/>
                                                         </div>
-                                                        <div class="col-lg-12" style="text-align:right;">
-                                                            <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_data[i].adult_sale_price)+`  </span>
-                                                            <button href="#" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_data[i].sequence+`')">BOOK</button>
+                                                        <div class="col-lg-12">
+                                                            <button href="#" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_data[i].tour_code+`')" style="width:100%;">BOOK</button>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>`;
-                                }
 
                             }else if(template == 2){
-                                if (tour_data[i].state == 'sold' || tour_data[i].seat <= 0)
-                                {
-                                    text+=`
-                                    <div class="single-post-area mb-30 disabled-post" onclick="" style="cursor:not-allowed;">
-                                        <div class="single-destination relative">
-                                            <div style="background:red; position:absolute; right:0px; padding:20px; z-index:10;">
-                                                <h5 style="color:`+text_color+`;">SOLD OUT</h5>
-                                            </div>
-                                            <div class="thumb relative" style="margin: auto; width:100%; height:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
-                                                <div class="overlay overlay-bg overlay-bg-disabled"></div>
-                                                <img class="img-fluid" src="`+img_src+`" alt="Tour Sold Out" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: fill;">
-                                            </div>
-                                            <div class="card card-effect-promotion" style="background: rgba(150, 150, 150, 0.5) !important;">
-                                                <div class="card-body" style="padding:15px;">
-                                                    <div class="row details">
-                                                        <div class="col-lg-12" style="text-align:left;">
-                                                            <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color:#616161;" title="`+tour_data[i].name+`">`+tour_data[i].name+`</h6>
-                                                            <span style="font-size:13px; color:#616161;"><i class="fas fa-calendar-alt"></i> `+dat_content1+`</span><br/>
-                                                            <span style="font-size:13px; color:#616161;"><i class="fas fa-users"></i> `+dat_content2+`</span><br/><br/>
-                                                        </div>
-                                                        <div class="col-lg-12" style="text-align:right;">
-                                                            <span style="font-size:13px;font-weight:bold; color:#616161;">IDR `+getrupiah(tour_data[i].adult_sale_price)+`  </span>
-                                                            <br/>
-                                                            <button href="#" class="primary-btn-custom" type="button" onclick="" disabled>SOLD OUT</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>`;
-                                }
-                                else
-                                {
-                                    text+=`
-                                    <div class="single-post-area mb-30" onclick="go_to_detail('`+tour_data[i].sequence+`')" style="cursor:pointer;">
+                                text+=`
+                                    <div class="single-post-area mb-30" onclick="go_to_detail('`+tour_data[i].tour_code+`')" style="cursor:pointer;">
                                         <div class="single-destination avail-sd relative">
                                             <div class="thumb relative" style="margin: auto; width:100%; height:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
                                                 <div class="overlay overlay-bg"></div>
@@ -470,50 +402,16 @@ function tour_search(){
                                                         <div class="col-lg-12" style="text-align:right;">
                                                             <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_data[i].adult_sale_price)+`</span>
                                                             <br/>
-                                                            <button type="button" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_data[i].sequence+`')">BOOK</button>
+                                                            <button type="button" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_data[i].tour_code+`')">BOOK</button>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>`;
-                                }
                             }else if(template == 3){
-                                if (tour_data[i].state == 'sold' || tour_data[i].seat <= 0)
-                                {
-                                    text+=`
-                                    <div class="single-post-area mb-30 disabled-post" onclick="" style="cursor:not-allowed;">
-                                        <div class="single-destination relative">
-                                            <div style="background:red; position:absolute; right:0px; padding:20px; z-index:10;">
-                                                <h5 style="color:`+text_color+`;">SOLD OUT</h5>
-                                            </div>
-                                            <div class="thumb relative" style="margin: auto; width:100%; height:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
-                                                <div class="overlay overlay-bg overlay-bg-disabled"></div>
-                                                <img class="img-fluid" src="`+img_src+`" alt="Tour Sold Out" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: fill;">
-                                            </div>
-                                            <div class="card card-effect-promotion" style="background: rgba(150, 150, 150, 0.5) !important;">
-                                                <div class="card-body" style="padding:15px;">
-                                                    <div class="row details">
-                                                        <div class="col-lg-12" style="text-align:left;">
-                                                            <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color:#616161;" title="`+tour_data[i].name+`">`+tour_data[i].name+`</h6>
-                                                            <span style="font-size:13px; color:#616161;"><i class="fas fa-calendar-alt"></i> `+dat_content1+`</span><br/>
-                                                            <span style="font-size:13px; color:#616161;"><i class="fas fa-users"></i> `+dat_content2+`</span><br/><br/>
-                                                        </div>
-                                                        <div class="col-lg-12" style="text-align:right;">
-                                                            <span style="font-size:13px;font-weight:bold; color:#616161;">IDR `+getrupiah(tour_data[i].adult_sale_price)+`  </span>
-                                                            <br/>
-                                                            <button href="#" class="primary-btn-custom" type="button" onclick="" disabled>SOLD OUT</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>`;
-                                }
-                                else
-                                {
-                                    text+=`
-                                    <div class="single-post-area mb-30" onclick="go_to_detail('`+tour_data[i].sequence+`')" style="cursor:pointer;">
+                                text+=`
+                                    <div class="single-post-area mb-30" onclick="go_to_detail('`+tour_data[i].tour_code+`')" style="cursor:pointer;">
                                         <div class="single-destination avail-sd relative">
                                             <div class="thumb relative" style="margin: auto; width:100%; height:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
                                                 <div class="overlay overlay-bg"></div>
@@ -530,49 +428,16 @@ function tour_search(){
                                                         <div class="col-lg-12" style="text-align:right;">
                                                             <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_data[i].adult_sale_price)+`</span>
                                                             <br/>
-                                                            <button type="button" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_data[i].sequence+`')">BOOK</button>
+                                                            <button type="button" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_data[i].tour_code+`')">BOOK</button>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>`;
-                                }
                             }else if(template == 4){
-                                if (tour_data[i].state == 'sold' || tour_data[i].seat <= 0)
-                                {
-                                    text+=`
-                                    <div class="single-post-area mb-30 disabled-post" onclick="" style="cursor:not-allowed;">
-                                        <div class="single-destination overlay-bg-disabled relative">
-                                            <div style="background:red; position:absolute; padding:20px; z-index:10;">
-                                                <h5 style="color:`+text_color+`;">SOLD OUT</h5>
-                                            </div>
-                                            <div class="thumb relative" style="margin: auto; width:100%; height:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
-                                                <img class="img-fluid" src="`+img_src+`" alt="Tour Sold Out" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: fill;">
-                                            </div>
-                                            <div class="card card-effect-promotion" style="background: rgba(150, 150, 150, 0.5) !important;">
-                                                <div class="card-body" style="padding:15px;">
-                                                    <div class="row details">
-                                                        <div class="col-lg-12" style="text-align:left;">
-                                                            <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color:#616161;" title="`+tour_data[i].name+`">`+tour_data[i].name+`</h6>
-                                                            <span style="font-size:13px; color:#616161;"><i class="fas fa-calendar-alt"></i> `+dat_content1+`</span><br/>
-                                                            <span style="font-size:13px; color:#616161;"><i class="fas fa-users"></i> `+dat_content2+`</span><br/><br/>
-                                                        </div>
-                                                        <div class="col-lg-12" style="text-align:right;">
-                                                            <span style="font-size:13px;font-weight:bold; color:#616161;">IDR `+getrupiah(tour_data[i].adult_sale_price)+`  </span>
-                                                            <br/>
-                                                            <button href="#" class="primary-btn-custom" type="button" onclick="" disabled>SOLD OUT</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>`;
-                                }
-                                else
-                                {
-                                    text+=`
-                                    <div class="single-post-area mb-30" onclick="go_to_detail('`+tour_data[i].sequence+`')" style="cursor:pointer;">
+                                text+=`
+                                    <div class="single-post-area mb-30" onclick="go_to_detail('`+tour_data[i].tour_code+`')" style="cursor:pointer;">
                                         <div class="single-destination avail-sd relative">
                                             <div class="thumb relative" style="margin: auto; width:100%; height:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
                                                 <div class="overlay overlay-bg"></div>
@@ -589,49 +454,16 @@ function tour_search(){
                                                         <div class="col-lg-12" style="text-align:right;">
                                                             <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_data[i].adult_sale_price)+`</span>
                                                             <br/>
-                                                            <button type="button" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_data[i].sequence+`')">BOOK</button>
+                                                            <button type="button" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_data[i].tour_code+`')">BOOK</button>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>`;
-                                }
                             }else if(template == 5){
-                                if (tour_data[i].state == 'sold' || tour_data[i].seat <= 0)
-                                {
-                                    text+=`
-                                    <div class="single-post-area mb-30 disabled-post" onclick="" style="cursor:not-allowed;">
-                                        <div class="single-destination overlay-bg-disabled relative">
-                                            <div style="background:red; position:absolute; padding:20px; z-index:10;">
-                                                <h5 style="color:`+text_color+`;">SOLD OUT</h5>
-                                            </div>
-                                            <div class="thumb relative" style="margin: auto; width:100%; height:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
-                                                <img class="img-fluid" src="`+img_src+`" alt="Tour Sold Out" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: fill;">
-                                            </div>
-                                            <div class="card card-effect-promotion" style="background: rgba(150, 150, 150, 0.5) !important;">
-                                                <div class="card-body" style="padding:15px;">
-                                                    <div class="row details">
-                                                        <div class="col-lg-12" style="text-align:left;">
-                                                            <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color:#616161;" title="`+tour_data[i].name+`">`+tour_data[i].name+`</h6>
-                                                            <span style="font-size:13px; color:#616161;"><i class="fas fa-calendar-alt"></i> `+dat_content1+`</span><br/>
-                                                            <span style="font-size:13px; color:#616161;"><i class="fas fa-users"></i> `+dat_content2+`</span><br/><br/>
-                                                        </div>
-                                                        <div class="col-lg-12" style="text-align:right;">
-                                                            <span style="font-size:13px;font-weight:bold; color:#616161;">IDR `+getrupiah(tour_data[i].adult_sale_price)+`  </span>
-                                                            <br/>
-                                                            <button href="#" class="primary-btn-custom" type="button" onclick="" disabled>SOLD OUT</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>`;
-                                }
-                                else
-                                {
-                                    text+=`
-                                    <div class="single-post-area mb-30" onclick="go_to_detail('`+tour_data[i].sequence+`')" style="cursor:pointer;">
+                                text+=`
+                                    <div class="single-post-area mb-30" onclick="go_to_detail('`+tour_data[i].tour_code+`')" style="cursor:pointer;">
                                         <div class="single-destination avail-sd relative">
                                             <div class="thumb relative" style="margin: auto; width:100%; height:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
                                                 <img class="img-fluid" src="`+img_src+`" alt="Tour" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: fill;">
@@ -647,14 +479,13 @@ function tour_search(){
                                                         <div class="col-lg-12" style="text-align:right;">
                                                             <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_data[i].adult_sale_price)+`</span>
                                                             <br/>
-                                                            <button type="button" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_data[i].sequence+`')">BOOK</button>
+                                                            <button type="button" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_data[i].tour_code+`')">BOOK</button>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>`;
-                                }
                             }
                             text+=`
                         </form>
@@ -738,6 +569,7 @@ function tour_get_details(tour_code){
            var flight_details_text = '';
            var other_info_text = '';
            var room_list_text = '';
+           var date_list_text = '';
            var counter = 0;
            var include_flight = 0;
            var index = 0;
@@ -746,20 +578,16 @@ function tour_get_details(tour_code){
            data=[]
            if(msg.result.error_code == 0){
                tour_data = msg.result.response.selected_tour;
-                prod_date_text += tour_data.departure_date_str + ' - ' + tour_data.arrival_date_str;
+                if (selected_tour_date)
+                {
+                    prod_date_text += selected_tour_date;
+                }
                 country_text += `<br/><span style="font-weight: bold; color: black; font-size: 16px;"> <i class="fa fa-map-marker" aria-hidden="true"></i>`;
                 for (j in tour_data.country_names)
                 {
                     country_text += ` ` + tour_data.country_names[j] + ` |`;
                 }
                 country_text += `</span><br/>`;
-                if (tour_data.tour_category != 'fit')
-                {
-                    country_text += `<span>Available Quota : ` + tour_data.seat + `</span><br/>`;
-                }
-                country_text += `<br/><span style="font-size: 14px;"><i class="fa fa-calendar" aria-hidden="true"></i> `;
-                country_text += tour_data.departure_date_f + ` - ` + tour_data.arrival_date_f;
-                country_text += `</span>`;
                 if (tour_data.duration)
                 {
                     country_text += `<br/><span><i class="fa fa-clock-o" aria-hidden="true"></i> ` + tour_data.duration + ` Days</span>`;
@@ -931,6 +759,20 @@ function tour_get_details(tour_code){
                     `;
                 }
 
+                for (n in tour_data.tour_lines)
+                {
+                    date_list_text += `
+                    <tr>
+                        <td style="width:20%;">`+tour_data.tour_lines[n].departure_date_str+`</td>
+                        <td style="width:20%;">`+tour_data.tour_lines[n].arrival_date_str+`</td>
+                        <td style="width:20%;">`+tour_data.tour_lines[n].seat+`/`+tour_data.tour_lines[n].quota+` Available</td>
+                        <td style="width:20%;">`+tour_data.tour_lines[n].state_str+`</td>`;
+                    date_list_text += `
+                        <td style="width:20%;"><button type="button" class="primary-btn-ticket btn-add-rooms" value="`+tour_data.tour_lines[n].tour_line_code+`" onclick="select_tour_date(`+n+`)">Select</button></td>
+                    </tr>
+                    `;
+                }
+
                document.getElementById('tour_data').value = JSON.stringify(tour_data).replace(/'/g,'');
                document.getElementById('title_search').innerHTML += tour_data.name;
                document.getElementById('main_tour_name').innerHTML += tour_data.name;
@@ -942,6 +784,7 @@ function tour_get_details(tour_code){
                document.getElementById('itinerary').innerHTML += itinerary_text;
                document.getElementById('other_info').innerHTML += other_info_text;
                document.getElementById('tour_hotel_room_list').innerHTML += room_list_text;
+               document.getElementById('tour_available_date_list').innerHTML += date_list_text;
 
                $('.owl-carousel-tour-img').owlCarousel({
                     loop:true,
@@ -1811,7 +1654,7 @@ function tour_get_booking(order_number)
                 type_amount_repricing = ['Repricing'];
                 //repricing
 
-                $text += '\nBooker:\n';
+                $test += '\nBooker:\n';
                 title = '';
                 if(msg.result.response.booker.gender == 'male')
                     title = 'MR';
@@ -1819,10 +1662,10 @@ function tour_get_booking(order_number)
                     title = 'MRS';
                 else if(msg.result.response.booker.gender == 'female')
                     title = 'MS';
-                $text += title + ' ' + msg.result.response.booker.name + '\n';
-                $text += msg.result.response.booker.email + '\n';
+                $test += title + ' ' + msg.result.response.booker.name + '\n';
+                $test += msg.result.response.booker.email + '\n';
                 if(msg.result.response.booker.phones.length > 0)
-                    $text += msg.result.response.booker.phones[0].calling_number + '\n';
+                    $test += msg.result.response.booker.phones[0].calling_number + '\n';
 
                 counter_service_charge = 0;
                 $test += '\nPrice:\n';
@@ -2079,6 +1922,7 @@ function tour_get_booking(order_number)
                    $('#final_issued_btn').remove();
                }
            }catch(err){
+               console.log(err);
                Swal.fire({
                   type: 'error',
                   title: 'Oops!',
@@ -2169,7 +2013,6 @@ function table_price_update(msg,type){
             'provider': provider,
             'price': price_discount
         });
-
     }
     grand_total = 0;
     var grand_commission = 0;
@@ -2180,23 +2023,38 @@ function table_price_update(msg,type){
     temp_copy2 = '';
 
     $('#loading-price-tour').hide();
-    price_tour_info = msg.result.tour_info;
+    price_tour_info = msg.result.response.tour_info;
     $test += price_tour_info.name + '\n';
-    $test += price_tour_info.departure_date_str + ' - ' + price_tour_info.arrival_date_str + '\n\n';
-
-    $text += 'Booker:\n';
-    $text += booker.title + ' ' + booker.first_name + ' ' + booker.last_name + '\n';
-    $text += booker.email + '\n';
-    $text += booker.mobile + '\n\n';
-
     try{
-        for(i in all_pax){
-            if(i == 0)
-                $test += 'Passengers:\n';
-            $test += all_pax[i].title + ' ' + all_pax[i].first_name + ' ' + all_pax[i].last_name + '\n';
+        if (document.getElementById('product_date').innerHTML != ' - ' && document.getElementById('product_date').innerHTML != '')
+        {
+            $test += document.getElementById('product_date').innerHTML + '\n\n';
         }
-        $test +='\n';
-    }catch(err){}
+        else
+        {
+            $test += '\n';
+        }
+    }catch(err){
+        $test += '\n';
+    }
+
+    if(document.URL.split('/')[document.URL.split('/').length-1] == 'review'){
+        try{
+             if (booker)
+             {
+                $test += 'Booker:\n';
+                $test += booker.title + ' ' + booker.first_name + ' ' + booker.last_name + '\n';
+                $test += booker.email + '\n';
+                $test += booker.mobile + '\n\n';
+             }
+            for(i in all_pax){
+                if(i == 0)
+                    $test += 'Passengers:\n';
+                $test += all_pax[i].title + ' ' + all_pax[i].first_name + ' ' + all_pax[i].last_name + '\n';
+            }
+            $test +='\n';
+        }catch(err){}
+    }
 
     price_data = msg.result.response.service_charges;
     price_txt_adt = ``;
