@@ -2024,7 +2024,19 @@ function table_price_update(msg,type){
 
     $('#loading-price-tour').hide();
     price_tour_info = msg.result.response.tour_info;
-    $test += price_tour_info.name + '\n\n';
+    $test += price_tour_info.name + '\n';
+    try{
+        if (document.getElementById('product_date').innerHTML != ' - ' && document.getElementById('product_date').innerHTML != '')
+        {
+            $test += document.getElementById('product_date').innerHTML + '\n\n';
+        }
+        else
+        {
+            $test += '\n';
+        }
+    }catch(err){
+        $test += '\n';
+    }
 
     if(document.URL.split('/')[document.URL.split('/').length-1] == 'review'){
         try{
