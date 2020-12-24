@@ -294,6 +294,27 @@ function select_tour_date(key_change_date){
     document.getElementById('tour_line_display').value = line_data.departure_date_str + ' - ' + line_data.arrival_date_str;
     selected_tour_date = line_data.departure_date_str + ' - ' + line_data.arrival_date_str;
     document.getElementById('product_date').innerHTML = selected_tour_date;
+    if (tour_data.tour_type == 'open')
+    {
+        document.getElementById('open_tour_date').style.display = 'block';
+        $('#open_tour_date_input').daterangepicker({
+          singleDatePicker: false,
+          autoUpdateInput: true,
+          opens: 'center',
+          autoApply: true,
+          startDate: moment(),
+          endDate: moment().subtract(-1, 'days'),
+          minDate: line_data.departure_date,
+          maxDate: line_data.arrival_date,
+          showDropdowns: true,
+          maxSpan: {
+              days: parseInt(tour_data.duration)
+          },
+          locale: {
+              format: 'DD MMM YYYY',
+          }
+      });
+    }
     $('#ChangeDateModal').modal('hide');
 }
 
@@ -469,7 +490,20 @@ function render_child_infant_selection(adult_select) {
 }
 
 function check_detail(){
-    if (document.getElementById('tour_line_code').value != '')
+    error_check = '';
+    if (document.getElementById('tour_line_code').value == '')
+    {
+        error_check += 'Please select Tour Package!\n';
+    }
+    if (tour_data.tour_type == 'open')
+    {
+        if (document.getElementById('open_tour_date_input').value == '')
+        {
+            error_check += 'Please choose your departure and arrival date!\n';
+        }
+    }
+
+    if (error_check == '')
     {
         $('.btn-next').addClass("running");
         $('.btn-next').prop('disabled', true);
@@ -483,7 +517,7 @@ function check_detail(){
         Swal.fire({
           type: 'error',
           title: 'Oops!',
-          html: 'Please select Tour Date!',
+          html: error_check,
         })
     }
 }
@@ -1442,319 +1476,146 @@ function sort(tour_dat, exist_check){
                    img_src = static_path_url_server+`/public/tour_packages/not_found.png`;
                }
 
-               dat_content1 = ``+tour_dat[i].departure_date_str+` - `+tour_dat[i].arrival_date_str;
-               dat_content2 = ``+tour_dat[i].seat+`/`+tour_dat[i].quota + ` Available`;
-
                text+=`
+                   <div class="col-lg-4 col-md-6">
+                        <form action='/tour/detail/`+tour_dat[i].tour_code+`' method='POST' id='tour_select_form`+tour_dat[i].tour_code+`'>
+                            <div id='csrf`+tour_dat[i].tour_code+`'></div>
+                            <input type='hidden' value='`+JSON.stringify(tour_dat[i]).replace(/[']/g, /["]/g)+`'/>
+                            <input id='uuid`+tour_dat[i].tour_code+`' name='uuid' type='hidden' value='`+tour_dat[i].id+`'/>
+                            <input id='sequence`+tour_dat[i].tour_code+`' name='sequence' type='hidden' value='`+tour_dat[i].sequence+`'/>`;
+                            if(template == 1){
+                                text+=`
+                                    <div class="single-recent-blog-post item" style="cursor:pointer;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">
+                                        <div class="single-destination avail-sd relative">
+                                            <div class="thumb relative" style="margin: auto; width:100%; height:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
+                                                <div class="overlay overlay-bg"></div>
+                                                <img class="img-fluid" src="`+img_src+`" alt="Tour" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: fill;">
+                                            </div>
+                                            <div class="card card-effect-promotion">
+                                                <div class="card-body">
+                                                    <div class="row details">
+                                                        <div class="col-lg-12" style="text-align:left;">
+                                                            <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h6>
+                                                            <span style="font-size:13px; color:#616161;">Starting From</span><br/>
+                                                            <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`</span><br/><br/>
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                            <button href="#" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_dat[i].tour_code+`')" style="width:100%;">BOOK</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>`;
 
-               <div class="col-lg-4 col-md-6">
-                    <form action='/tour/detail' method='POST' id='myForm`+tour_dat[i].tour_code+`'>
-                    <div id='csrf`+tour_dat[i].tour_code+`'></div>
-                    <input type='hidden' value='`+JSON.stringify(tour_dat[i]).replace(/[']/g, /["]/g)+`'/>
-                    <input id='uuid' name='uuid' type='hidden' value='`+tour_dat[i].id+`'/>
-                    <input id='sequence' name='sequence' type='hidden' value='`+tour_dat[i].sequence+`'/>`;
-                    if(template == 1){
-                        if (tour_dat[i].state == 'sold' || tour_data[i].seat <= 0)
-                        {
-                            text+=`
-                            <div class="single-recent-blog-post disabled-post item" style="cursor:not-allowed;" onclick="">
-                                <div class="single-destination relative">
-                                    <div style="background:red; position:absolute; right:0px; padding:20px; z-index:1;">
-                                        <h5 style="color:`+text_color+`;">SOLD OUT</h5>
-                                    </div>
-                                    <div class="thumb relative">
-                                        <div class="overlay overlay-bg-disabled"></div>
-                                        <img class="img-fluid" src="`+img_src+`" alt="Tour Sold Out">
-                                    </div>
-                                    <div class="card card-effect-promotion" style="background: rgba(150, 150, 150, 0.5) !important;">
-                                        <div class="card-body">
-                                            <div class="row details">
-                                                <div class="col-lg-12" style="text-align:left;">
-                                                    <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color:#616161;" title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h6>
-                                                    <span style="font-size:13px; color:#616161;"><i class="fas fa-calendar-alt"></i> `+dat_content1+`</span><br/>
-                                                    <span style="font-size:13px; color:#616161;"><i class="fas fa-users"></i> `+dat_content2+`</span><br/><br/>
-                                                </div>
-                                                <div class="col-lg-12" style="text-align:right;">
-                                                    <span style="font-size:13px;font-weight:bold; color:#616161;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`  </span>
-                                                    <button href="#" class="primary-btn-custom" onclick="" disabled>SOLD OUT</button>
+                            }else if(template == 2){
+                                text+=`
+                                    <div class="single-post-area mb-30" onclick="go_to_detail('`+tour_dat[i].tour_code+`')" style="cursor:pointer;">
+                                        <div class="single-destination avail-sd relative">
+                                            <div class="thumb relative" style="margin: auto; width:100%; height:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
+                                                <div class="overlay overlay-bg"></div>
+                                                <img class="img-fluid" src="`+img_src+`" alt="Tour" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: fill;">
+                                            </div>
+                                            <div class="card card-effect-promotion">
+                                                <div class="card-body" style="padding:15px;">
+                                                    <div class="row details">
+                                                        <div class="col-lg-12" style="text-align:left;">
+                                                            <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h6>
+                                                            <span style="font-size:13px;"><i class="fas fa-calendar-alt"></i> `+dat_content1+`</span><br/>
+                                                            <span style="font-size:13px;"><i class="fas fa-users"></i> `+dat_content2+`</span><br/><br/>
+                                                        </div>
+                                                        <div class="col-lg-12" style="text-align:right;">
+                                                            <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`</span>
+                                                            <br/>
+                                                            <button type="button" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">BOOK</button>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>`;
-                        }
-                        else
-                        {
-                            text+=`
-                            <div class="single-recent-blog-post item" style="cursor:pointer;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">
-                                <div class="single-destination avail-sd relative">
-                                    <div class="thumb relative">
-                                        <div class="overlay overlay-bg"></div>
-                                        <img class="img-fluid" src="`+img_src+`" alt="Tour">
-                                    </div>
-                                    <div class="card card-effect-promotion">
-                                        <div class="card-body">
-                                            <div class="row details">
-                                                <div class="col-lg-12" style="text-align:left;">
-                                                    <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h6>
-                                                    <span style="font-size:13px;"><i class="fas fa-calendar-alt"></i> `+dat_content1+`</span><br/>
-                                                    <span style="font-size:13px;"><i class="fas fa-users"></i> `+dat_content2+`</span><br/><br/>
-                                                </div>
-                                                <div class="col-lg-12" style="text-align:right;">
-                                                    <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`  </span>
-                                                    <button type="button" class="primary-btn" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">BOOK</button>
+                                    </div>`;
+                            }else if(template == 3){
+                                text+=`
+                                    <div class="single-post-area mb-30" onclick="go_to_detail('`+tour_dat[i].tour_code+`')" style="cursor:pointer;">
+                                        <div class="single-destination avail-sd relative">
+                                            <div class="thumb relative" style="margin: auto; width:100%; height:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
+                                                <div class="overlay overlay-bg"></div>
+                                                <img class="img-fluid" src="`+img_src+`" alt="Tour" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: fill;">
+                                            </div>
+                                            <div class="card card-effect-promotion">
+                                                <div class="card-body" style="padding:15px;">
+                                                    <div class="row details">
+                                                        <div class="col-lg-12" style="text-align:left;">
+                                                            <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h6>
+                                                            <span style="font-size:13px;"><i class="fas fa-calendar-alt"></i> `+dat_content1+`</span><br/>
+                                                            <span style="font-size:13px;"><i class="fas fa-users"></i> `+dat_content2+`</span><br/><br/>
+                                                        </div>
+                                                        <div class="col-lg-12" style="text-align:right;">
+                                                            <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`</span>
+                                                            <br/>
+                                                            <button type="button" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">BOOK</button>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>`;
-                        }
-                    }else if(template == 2){
-                        if (tour_dat[i].state == 'sold' || tour_data[i].seat <= 0)
-                        {
-                            text+=`
-                            <div class="single-post-area mb-30 disabled-post" onclick="" style="cursor:not-allowed;">
-                                <div class="single-destination relative">
-                                    <div style="background:red; position:absolute; right:0px; padding:20px; z-index:10;">
-                                        <h5 style="color:`+text_color+`;">SOLD OUT</h5>
-                                    </div>
-                                    <div class="thumb relative">
-                                        <div class="overlay overlay-bg overlay-bg-disabled"></div>
-                                        <img class="img-fluid" src="`+img_src+`" alt="Tour">
-                                    </div>
-                                    <div class="card card-effect-promotion" style="background: rgba(150, 150, 150, 0.5) !important;">
-                                        <div class="card-body" style="padding:15px;">
-                                            <div class="row details">
-                                                <div class="col-lg-12" style="text-align:left;">
-                                                    <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color:#616161;" title="`+tour_data[i].name+`">`+tour_data[i].name+`</h6>
-                                                    <span style="font-size:13px; color:#616161;"><i class="fas fa-calendar-alt"></i> `+dat_content1+`</span><br/>
-                                                    <span style="font-size:13px; color:#616161;"><i class="fas fa-users"></i> `+dat_content2+`</span><br/><br/>
-                                                </div>
-                                                <div class="col-lg-12" style="text-align:right;">
-                                                    <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_data[i].adult_sale_price)+`</span>
-                                                    <br/>
-                                                    <button type="button" class="primary-btn-custom" onclick="go_to_detail('`+tour_data[i].tour_code+`')">BOOK</button>
+                                    </div>`;
+                            }else if(template == 4){
+                                text+=`
+                                    <div class="single-post-area mb-30" onclick="go_to_detail('`+tour_dat[i].tour_code+`')" style="cursor:pointer;">
+                                        <div class="single-destination avail-sd relative">
+                                            <div class="thumb relative" style="margin: auto; width:100%; height:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
+                                                <div class="overlay overlay-bg"></div>
+                                                <img class="img-fluid" src="`+img_src+`" alt="Tour" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: fill;">
+                                            </div>
+                                            <div class="card card-effect-promotion">
+                                                <div class="card-body" style="padding:15px;">
+                                                    <div class="row details">
+                                                        <div class="col-lg-12" style="text-align:left;">
+                                                            <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h6>
+                                                            <span style="font-size:13px;"><i class="fas fa-calendar-alt"></i> `+dat_content1+`</span><br/>
+                                                            <span style="font-size:13px;"><i class="fas fa-users"></i> `+dat_content2+`</span><br/><br/>
+                                                        </div>
+                                                        <div class="col-lg-12" style="text-align:right;">
+                                                            <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`</span>
+                                                            <br/>
+                                                            <button type="button" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">BOOK</button>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>`;
-                        }
-                        else
-                        {
-                            text+=`
-                            <div class="single-post-area mb-30" onclick="go_to_detail('`+tour_dat[i].tour_code+`')" style="cursor:pointer;">
-                                <div class="single-destination avail-sd relative">
-                                    <div class="thumb relative">
-                                        <div class="overlay overlay-bg"></div>
-                                        <img class="img-fluid" src="`+img_src+`" alt="Tour">
-                                    </div>
-                                    <div class="card card-effect-promotion">
-                                        <div class="card-body" style="padding:15px;">
-                                            <div class="row details">
-                                                <div class="col-lg-12" style="text-align:left;">
-                                                    <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h6>
-                                                    <span style="font-size:13px;"><i class="fas fa-calendar-alt"></i> `+dat_content1+`</span><br/>
-                                                    <span style="font-size:13px;"><i class="fas fa-users"></i> `+dat_content2+`</span><br/><br/>
-                                                </div>
-                                                <div class="col-lg-12" style="text-align:right;">
-                                                    <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`</span>
-                                                    <br/>
-                                                    <button type="button" class="primary-btn" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">BOOK</button>
+                                    </div>`;
+                            }else if(template == 5){
+                                text+=`
+                                    <div class="single-post-area mb-30" onclick="go_to_detail('`+tour_dat[i].tour_code+`')" style="cursor:pointer;">
+                                        <div class="single-destination avail-sd relative">
+                                            <div class="thumb relative" style="margin: auto; width:100%; height:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
+                                                <img class="img-fluid" src="`+img_src+`" alt="Tour" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: fill;">
+                                            </div>
+                                            <div class="card card-effect-promotion">
+                                                <div class="card-body" style="padding:15px;">
+                                                    <div class="row details">
+                                                        <div class="col-lg-12" style="text-align:left;">
+                                                            <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h6>
+                                                            <span style="font-size:13px;"><i class="fas fa-calendar-alt"></i> `+dat_content1+`</span><br/>
+                                                            <span style="font-size:13px;"><i class="fas fa-users"></i> `+dat_content2+`</span><br/><br/>
+                                                        </div>
+                                                        <div class="col-lg-12" style="text-align:right;">
+                                                            <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`</span>
+                                                            <br/>
+                                                            <button type="button" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">BOOK</button>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>`;
-                        }
-                    }else if(template == 3){
-                        if (tour_dat[i].state == 'sold' || tour_data[i].seat <= 0)
-                        {
+                                    </div>`;
+                            }
                             text+=`
-                            <div class="single-post-area mb-30 disabled-post" onclick="" style="cursor:not-allowed;">
-                                <div class="single-destination relative">
-                                    <div style="background:red; position:absolute; right:0px; padding:20px; z-index:10;">
-                                        <h5 style="color:`+text_color+`;">SOLD OUT</h5>
-                                    </div>
-                                    <div class="thumb relative">
-                                        <div class="overlay overlay-bg overlay-bg-disabled"></div>
-                                        <img class="img-fluid" src="`+img_src+`" alt="Tour">
-                                    </div>
-                                    <div class="card card-effect-promotion" style="background: rgba(150, 150, 150, 0.5) !important;">
-                                        <div class="card-body" style="padding:15px;">
-                                            <div class="row details">
-                                                <div class="col-lg-12" style="text-align:left;">
-                                                    <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color:#616161;" title="`+tour_data[i].name+`">`+tour_data[i].name+`</h6>
-                                                    <span style="font-size:13px; color:#616161;"><i class="fas fa-calendar-alt"></i> `+dat_content1+`</span><br/>
-                                                    <span style="font-size:13px; color:#616161;"><i class="fas fa-users"></i> `+dat_content2+`</span><br/><br/>
-                                                </div>
-                                                <div class="col-lg-12" style="text-align:right;">
-                                                    <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_data[i].adult_sale_price)+`</span>
-                                                    <br/>
-                                                    <button type="button" class="primary-btn-custom" onclick="go_to_detail('`+tour_data[i].tour_code+`')">BOOK</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>`;
-                        }
-                        else
-                        {
-                            text+=`
-                            <div class="single-post-area mb-30" onclick="go_to_detail('`+tour_dat[i].tour_code+`')" style="cursor:pointer;">
-                                <div class="single-destination avail-sd relative">
-                                    <div class="thumb relative">
-                                        <div class="overlay overlay-bg"></div>
-                                        <img class="img-fluid" src="`+img_src+`" alt="Tour">
-                                    </div>
-                                    <div class="card card-effect-promotion">
-                                        <div class="card-body" style="padding:15px;">
-                                            <div class="row details">
-                                                <div class="col-lg-12" style="text-align:left;">
-                                                    <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h6>
-                                                    <span style="font-size:13px;"><i class="fas fa-calendar-alt"></i> `+dat_content1+`</span><br/>
-                                                    <span style="font-size:13px;"><i class="fas fa-users"></i> `+dat_content2+`</span><br/><br/>
-                                                </div>
-                                                <div class="col-lg-12" style="text-align:right;">
-                                                    <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`</span>
-                                                    <br/>
-                                                    <button type="button" class="primary-btn" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">BOOK</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>`;
-                        }
-                    }else if(template == 4){
-                        if (tour_dat[i].state == 'sold' || tour_data[i].seat <= 0)
-                        {
-                            text+=`
-                            <div class="single-post-area mb-30 disabled-post" onclick="" style="cursor:not-allowed;">
-                                <div class="single-destination overlay-bg-disabled relative">
-                                    <div style="background:red; position:absolute; padding:20px; z-index:10;">
-                                        <h5 style="color:`+text_color+`;">SOLD OUT</h5>
-                                    </div>
-                                    <div class="thumb relative">
-
-                                        <img class="img-fluid" src="`+img_src+`" alt="">
-                                    </div>
-                                    <div class="card card-effect-promotion" style="background: rgba(150, 150, 150, 0.5) !important;">
-                                        <div class="card-body" style="padding:15px;">
-                                            <div class="row details">
-                                                <div class="col-lg-12" style="text-align:left;">
-                                                    <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color:#616161;" title="`+tour_data[i].name+`">`+tour_data[i].name+`</h6>
-                                                    <span style="font-size:13px; color:#616161;"><i class="fas fa-calendar-alt"></i> `+dat_content1+`</span><br/>
-                                                    <span style="font-size:13px; color:#616161;"><i class="fas fa-users"></i> `+dat_content2+`</span><br/><br/>
-                                                </div>
-                                                <div class="col-lg-12" style="text-align:right;">
-                                                    <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_data[i].adult_sale_price)+`</span>
-                                                    <br/>
-                                                    <button type="button" class="primary-btn-custom" onclick="go_to_detail('`+tour_data[i].tour_code+`')">BOOK</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>`;
-                        }
-                        else
-                        {
-                            text+=`
-                            <div class="single-post-area mb-30" onclick="go_to_detail('`+tour_dat[i].tour_code+`')" style="cursor:pointer;">
-                                <div class="single-destination avail-sd relative">
-                                    <div class="thumb relative">
-                                        <div class="overlay overlay-bg"></div>
-                                        <img class="img-fluid" src="`+img_src+`" alt="Tour">
-                                    </div>
-                                    <div class="card card-effect-promotion">
-                                        <div class="card-body" style="padding:15px;">
-                                            <div class="row details">
-                                                <div class="col-lg-12" style="text-align:left;">
-                                                    <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h6>
-                                                    <span style="font-size:13px;"><i class="fas fa-calendar-alt"></i> `+dat_content1+`</span><br/>
-                                                    <span style="font-size:13px;"><i class="fas fa-users"></i> `+dat_content2+`</span><br/><br/>
-                                                </div>
-                                                <div class="col-lg-12" style="text-align:right;">
-                                                    <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`</span>
-                                                    <br/>
-                                                    <button type="button" class="primary-btn" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">BOOK</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>`;
-                        }
-                    }else if(template == 5){
-                        if (tour_dat[i].state == 'sold' || tour_data[i].seat <= 0)
-                        {
-                            text+=`
-                            <div class="single-post-area mb-30 disabled-post" onclick="" style="cursor:not-allowed;">
-                                <div class="single-destination overlay-bg-disabled relative">
-                                    <div style="background:red; position:absolute; padding:20px; z-index:10;">
-                                        <h5 style="color:`+text_color+`;">SOLD OUT</h5>
-                                    </div>
-                                    <div class="thumb relative">
-                                        <img class="img-fluid" src="`+img_src+`" alt="Tour Sold Out">
-                                    </div>
-                                    <div class="card card-effect-promotion" style="background: rgba(150, 150, 150, 0.5) !important;">
-                                        <div class="card-body" style="padding:15px;">
-                                            <div class="row details">
-                                                <div class="col-lg-12" style="text-align:left;">
-                                                    <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color:#616161;" title="`+tour_data[i].name+`">`+tour_data[i].name+`</h6>
-                                                    <span style="font-size:13px; color:#616161;"><i class="fas fa-calendar-alt"></i> `+dat_content1+`</span><br/>
-                                                    <span style="font-size:13px; color:#616161;"><i class="fas fa-users"></i> `+dat_content2+`</span><br/><br/>
-                                                </div>
-                                                <div class="col-lg-12" style="text-align:right;">
-                                                    <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_data[i].adult_sale_price)+`</span>
-                                                    <br/>
-                                                    <button type="button" class="primary-btn-custom" onclick="go_to_detail('`+tour_data[i].tour_code+`')">BOOK</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>`;
-                        }
-                        else
-                        {
-                            text+=`
-                            <div class="single-post-area mb-30" onclick="go_to_detail('`+tour_dat[i].tour_code+`')" style="cursor:pointer;">
-                                <div class="single-destination avail-sd relative">
-                                    <div class="thumb relative">
-                                        <img class="img-fluid" src="`+img_src+`" alt="Tour">
-                                    </div>
-                                    <div class="card card-effect-promotion">
-                                        <div class="card-body" style="padding:15px;">
-                                            <div class="row details">
-                                                <div class="col-lg-12" style="text-align:left;">
-                                                    <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h6>
-                                                    <span style="font-size:13px;"><i class="fas fa-calendar-alt"></i> `+dat_content1+`</span><br/>
-                                                    <span style="font-size:13px;"><i class="fas fa-users"></i> `+dat_content2+`</span><br/><br/>
-                                                </div>
-                                                <div class="col-lg-12" style="text-align:right;">
-                                                    <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`</span>
-                                                    <br/>
-                                                    <button type="button" class="primary-btn" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">BOOK</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>`;
-                        }
-                    }
-
-                    text+=`
-                </form>
-                </div>
-               `;
+                        </form>
+                    </div>
+                   `;
            }
         }
         if (text == '' && exist_check != 0)

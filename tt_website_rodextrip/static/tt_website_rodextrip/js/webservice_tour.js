@@ -348,10 +348,7 @@ function tour_search(){
                        img_src = static_path_url_server+`/public/tour_packages/not_found.png`;
                    }
 
-                    dat_content1 = '';
-                    dat_content2 = '';
                    text+=`
-
                    <div class="col-lg-4 col-md-6">
                         <form action='/tour/detail/`+tour_data[i].tour_code+`' method='POST' id='tour_select_form`+tour_data[i].tour_code+`'>
                             <div id='csrf`+tour_data[i].tour_code+`'></div>
@@ -746,6 +743,27 @@ function tour_get_details(tour_code){
 
                 other_info_text += generate_other_info(tour_data.other_infos)
 
+                if (tour_data.tour_type == 'open')
+                {
+                    header_list_text = `
+                    <th style="width:20%;">Available From</th>
+                    <th style="width:20%;">Available Until</th>
+                    <th style="width:20%;">Quota</th>
+                    <th style="width:20%;">Status</th>
+                    <th style="width:20%;">Action</th>
+                    `;
+                }
+                else
+                {
+                    header_list_text = `
+                    <th style="width:20%;">Departure Date</th>
+                    <th style="width:20%;">Arrival Date</th>
+                    <th style="width:20%;">Quota</th>
+                    <th style="width:20%;">Status</th>
+                    <th style="width:20%;">Action</th>
+                    `;
+                }
+
                 for (n in tour_data.accommodations)
                 {
                     room_list_text += `
@@ -784,6 +802,7 @@ function tour_get_details(tour_code){
                document.getElementById('itinerary').innerHTML += itinerary_text;
                document.getElementById('other_info').innerHTML += other_info_text;
                document.getElementById('tour_hotel_room_list').innerHTML += room_list_text;
+               document.getElementById('tour_available_header_list').innerHTML += header_list_text;
                document.getElementById('tour_available_date_list').innerHTML += date_list_text;
 
                $('.owl-carousel-tour-img').owlCarousel({
