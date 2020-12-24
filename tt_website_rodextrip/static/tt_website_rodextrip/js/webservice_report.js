@@ -1714,7 +1714,7 @@ $('#report_form').submit(function(evt){
 
                     //profit
                     // Total over all pages
-                    total3 = api
+                    total4 = api
                         .column( 4 )
                         .data()
                         .reduce( function (a, b) {
