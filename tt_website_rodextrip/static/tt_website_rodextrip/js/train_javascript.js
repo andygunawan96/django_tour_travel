@@ -997,20 +997,23 @@ function train_detail(){
 
     $text += '1x Convenience fee '+price['currency']+' '+ getrupiah(total_tax) + '\n\n';
     try{
-        console.log(passengers);
 
-        $text += 'Booker:\n';
-        $text += passenger_with_booker.booker.title + ' ' + passenger_with_booker.booker.first_name + ' ' + passenger_with_booker.booker.last_name + '\n';
-        $text += passenger_with_booker.booker.email + '\n';
-        $text += passenger_with_booker.booker.mobile + '\n\n';
+        if(document.URL.split('/')[document.URL.split('/').length-1] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
 
-        $text += 'Passengers\n';
-        for(i in passengers){
-            for(j in passengers[i]){
-                $text += passengers[i][j].title + ' ' + passengers[i][j].first_name + ' ' + passengers[i][j].last_name + '\n';
+            $text += 'Contact Person:\n';
+            $text += passenger_with_booker.contact[0].title + ' ' + passenger_with_booker.contact[0].first_name + ' ' + passenger_with_booker.contact[0].last_name + '\n';
+            $text += passenger_with_booker.contact[0].email + '\n';
+            $text += passenger_with_booker.contact[0].calling_code + ' - ' +passenger_with_booker.contact[0].mobile + '\n\n';
+
+
+            $text += 'Passengers\n';
+            for(i in passengers){
+                for(j in passengers[i]){
+                    $text += passengers[i][j].title + ' ' + passengers[i][j].first_name + ' ' + passengers[i][j].last_name + '\n';
+                }
             }
+            $text += '\n';
         }
-        $text += '\n';
     }catch(err){
 
     }

@@ -1959,10 +1959,14 @@ function hotel_detail(old_cancellation_policy){
         </div>`;
         text += `<div class="col-lg-12"><hr/></div>`;
 
-        $text += 'Booker:\n';
-        $text += booker.title + ' ' + booker.first_name + ' ' + booker.last_name + '\n';
-        $text += booker.email + '\n';
-        $text += booker.mobile + '\n\n';
+        if(document.URL.split('/')[document.URL.split('/').length-1] == 'review'){
+
+            $text2 += 'Contact Person:\n';
+            $text2 += contact[0].title + ' ' + contact[0].first_name + ' ' + contact[0].last_name + '\n';
+            $text2 += contact[0].email + '\n';
+            $text2 += contact[0].calling_code + ' - ' +contact[0].mobile + '\n';
+
+        }
 
         try{
             if(adult.length > 0){

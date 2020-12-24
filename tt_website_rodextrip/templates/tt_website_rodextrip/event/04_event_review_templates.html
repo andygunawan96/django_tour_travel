@@ -28,6 +28,12 @@
     booker = booker.replace(/&#39;/g, '"');
     booker = JSON.parse(booker);
 
+    contact = `{{contact}}`;
+    contact = contact.replace(/True/g, 'true');
+    contact = contact.replace(/False/g, 'false');
+    contact = contact.replace(/&#39;/g, '"');
+    contact = JSON.parse(contact);
+
     json_event_option_code = `{{event_option_code}}`;
     json_event_option_code = json_event_option_code.replace(/True/g, 'true');
     json_event_option_code = json_event_option_code.replace(/False/g, 'false');

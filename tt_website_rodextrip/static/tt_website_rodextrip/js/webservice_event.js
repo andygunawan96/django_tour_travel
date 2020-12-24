@@ -391,6 +391,19 @@ function event_get_booking(data){
             //======================= Extra Question =========================
 
             //detail
+
+            title = '';
+            if(msg.result.response.contact.gender == 'male')
+                title = 'MR';
+            else if(msg.result.response.contact.gender == 'female' && msg.result.response.contact.marital_status == true)
+                title = 'MRS';
+            else if(msg.result.response.contact.gender == 'female')
+                title = 'MS';
+            $text += '\nContact Person:\n';
+            $text += msg.result.response.contact.title + ' ' + msg.result.response.contact.name + '\n';
+            $text += msg.result.response.contact.email + '\n';
+            if(msg.result.response.contact.phones.length > 0)
+                $text += msg.result.response.contact.phones[0].calling_number + '\n';
             text = '';
             tax = 0;
             fare = 0;

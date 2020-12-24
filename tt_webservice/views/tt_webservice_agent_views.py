@@ -1089,6 +1089,8 @@ def update_customer(request):
         javascript_version = get_cache_version()
         response = get_cache_data(javascript_version)
         passenger = json.loads(request.POST['data'])
+        passenger['birth_date'] = '%s-%s-%s' % (passenger['birth_date'].split(' ')[2], month[passenger['birth_date'].split(' ')[1]], passenger['birth_date'].split(' ')[0])
+
         if passenger['nationality_name'] != '':
             for country in response['result']['response']['airline']['country']:
                 if passenger['nationality_name'] == country['name']:

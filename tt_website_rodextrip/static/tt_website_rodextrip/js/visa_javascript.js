@@ -459,6 +459,11 @@ function update_table(type){
         $text += passenger.booker.email + '\n';
         $text += passenger.booker.mobile + '\n\n';
 
+        $text += 'Contact Person:\n';
+        $text += passenger.contact[0].title + ' ' + passenger.contact[0].first_name + ' ' + passenger.contact[0].last_name + '\n';
+        $text += passenger.contact[0].email + '\n';
+        $text += passenger.contact[0].calling_code + ' - ' +passenger.contact[0].mobile + '\n\n';
+
         $text += 'Passenger\n';
         for(i in passenger){
             if(i != 'booker' && i != 'contact'){
@@ -575,7 +580,7 @@ function update_table(type){
         $text += visa.journey.country + ' ' + visa.journey.departure_date + ' ' + visa.journey.state_visa + '\n';
         $text += visa.journey.state_visa + '\n'
 
-        $text += '\nBooker:\n';
+        $text += '\nContact Person:\n';
         $text += visa.contact.title + ' ' + visa.contact.name + '\n';
         $text += visa.contact.email + '\n';
         if(visa.contact.phone != '')

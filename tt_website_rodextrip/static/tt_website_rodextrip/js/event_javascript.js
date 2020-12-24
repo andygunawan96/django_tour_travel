@@ -572,6 +572,11 @@ function render_object_from_value(val){
         total_price_provider = [];
         price_provider = 0;
         commission = 0;
+
+        $text += 'Contact Person:\n';
+        $text += contact[0].title + ' ' + contact[0].first_name + ' ' + contact[0].last_name + '\n';
+        $text += contact[0].email + '\n';
+        $text += contact[0].calling_code + ' - ' +contact[0].mobile + '\n\n';
         service_charge = ['FARE', 'RAC', 'ROC', 'TAX', 'SSR', 'DISC'];
         type_amount_repricing = ['Repricing'];
         for(i in adult){

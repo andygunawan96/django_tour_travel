@@ -476,6 +476,7 @@ def review(request):
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'booker': booker,
+                'contact': contact,
                 'adults': adult,
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
