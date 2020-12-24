@@ -3685,34 +3685,38 @@ function airline_detail(type){
                 <hr/>
                 <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
                 try{
-                    $text += 'Booker:\n';
-                    $text += passengers.booker.title + ' ' + passengers.booker.first_name + ' ' + passengers.booker.last_name + '\n';
-                    $text += passengers.booker.email + '\n';
-                    $text += passengers.booker.mobile + '\n\n';
-                    for(i in passengers.adult){
-                        if(i == 0)
-                            $text += 'Passengers:\n';
-                        $text += passengers.adult[i].title + ' ' + passengers.adult[i].first_name + ' ' + passengers.adult[i].last_name + ' ';
-                        for(j in passengers.adult[i].ssr_list){
-                            $text += passengers.adult[i].ssr_list[j].name;
-                            if(parseInt(parseInt(j)+1) != passengers.adult[i].ssr_list.length)
-                                $text += ', ';
+                    if(document.URL.split('/')[document.URL.split('/').length-1] == 'review'){
+
+                        $text += 'Contact:\n';
+                        $text += passengers.contact[0].title + ' ' + passengers.contact[0].first_name + ' ' + passengers.contact[0].last_name + '\n';
+                        $text += passengers.contact[0].email + '\n';
+                        $text += passengers.contact[0].calling_code + ' - ' +passengers.contact[0].mobile + '\n\n';
+
+                        for(i in passengers.adult){
+                            if(i == 0)
+                                $text += 'Passengers:\n';
+                            $text += passengers.adult[i].title + ' ' + passengers.adult[i].first_name + ' ' + passengers.adult[i].last_name + ' ';
+                            for(j in passengers.adult[i].ssr_list){
+                                $text += passengers.adult[i].ssr_list[j].name;
+                                if(parseInt(parseInt(j)+1) != passengers.adult[i].ssr_list.length)
+                                    $text += ', ';
+                            }
+                            for(j in passengers.adult[i].seat_list){
+                                $text += ', ' + passengers.adult[i].seat_list[j].seat_pick;
+                            }
+                            if(passengers.adult[i].birth_date != '')
+                                $text += ' (ADT / ' + passengers.adult[i].birth_date + ')\n';
+                            else
+                                $text += ' (ADT)\n';
                         }
-                        for(j in passengers.adult[i].seat_list){
-                            $text += ', ' + passengers.adult[i].seat_list[j].seat_pick;
+                        for(i in passengers.child){
+                            $text += passengers.child[i].title + ' ' + passengers.child[i].first_name + ' ' + passengers.child[i].last_name + ' (CHD / ' + passengers.child[i].birth_date + ')\n';
                         }
-                        if(passengers.adult[i].birth_date != '')
-                            $text += ' (ADT / ' + passengers.adult[i].birth_date + ')\n';
-                        else
-                            $text += ' (ADT)\n';
+                        for(i in passengers.infant){
+                            $text += passengers.infant[i].title + ' ' + passengers.infant[i].first_name + ' ' + passengers.infant[i].last_name + ' (INF / ' + passengers.infant[i].birth_date + ')\n';
+                        }
+                        $text += '\n';
                     }
-                    for(i in passengers.child){
-                        $text += passengers.child[i].title + ' ' + passengers.child[i].first_name + ' ' + passengers.child[i].last_name + ' (CHD / ' + passengers.child[i].birth_date + ')\n';
-                    }
-                    for(i in passengers.infant){
-                        $text += passengers.infant[i].title + ' ' + passengers.infant[i].first_name + ' ' + passengers.infant[i].last_name + ' (INF / ' + passengers.infant[i].birth_date + ')\n';
-                    }
-                    $text += '\n';
                 }catch(err){
 
                 }

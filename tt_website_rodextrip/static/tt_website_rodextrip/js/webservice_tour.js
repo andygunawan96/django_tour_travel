@@ -1654,18 +1654,10 @@ function tour_get_booking(order_number)
                 type_amount_repricing = ['Repricing'];
                 //repricing
 
-                $test += '\nBooker:\n';
-                title = '';
-                if(msg.result.response.booker.gender == 'male')
-                    title = 'MR';
-                else if(msg.result.response.booker.gender == 'female' && msg.result.response.booker.marital_status == true)
-                    title = 'MRS';
-                else if(msg.result.response.booker.gender == 'female')
-                    title = 'MS';
-                $test += title + ' ' + msg.result.response.booker.name + '\n';
-                $test += msg.result.response.booker.email + '\n';
-                if(msg.result.response.booker.phones.length > 0)
-                    $test += msg.result.response.booker.phones[0].calling_number + '\n';
+                $test += '\nContact Person:\n';
+                $test += msg.result.response.contact.title + ' ' + msg.result.response.contact.name + '\n';
+                $test += msg.result.response.contact.email + '\n';
+                $test += msg.result.response.contact.phone+ '\n';
 
                 counter_service_charge = 0;
                 $test += '\nPrice:\n';

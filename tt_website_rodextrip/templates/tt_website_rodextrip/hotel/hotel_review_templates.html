@@ -32,6 +32,11 @@
     booker = booker.replace(/False/g, 'false');
     booker = booker.replace(/&#39;/g, '"');
     booker = JSON.parse(booker);
+    contact = `{{contact}}`;
+    contact = contact.replace(/True/g, 'true');
+    contact = contact.replace(/False/g, 'false');
+    contact = contact.replace(/&#39;/g, '"');
+    contact = JSON.parse(contact);
     child = `{{childs}}`;
     child = child.replace(/True/g, 'true');
     child = child.replace(/False/g, 'False');

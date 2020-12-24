@@ -197,13 +197,6 @@
                                 <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'EVENT' %} </span>
                             </a>
                         </li>
-                        {% else %}
-                        <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'event');" id="nav_scroll_menu_event">
-                            <a class="nav-link" id="event-tab" data-toggle="tab" href="#event" role="tab" aria-controls="event" aria-selected="false">
-                                <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-event.png" alt="Event Icon"/></i>
-                                <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'EVENT' %} </span>
-                            </a>
-                        </li>
                         {% endif %}
 
                         {% if "activity" in provider and "ticketing_activity" in username.co_agent_frontend_security %}
@@ -1856,8 +1849,6 @@
                         {% endif %}
                         {% if "event" in provider and "ticketing_event" in username.co_agent_frontend_security %}
                         <li class="tab-link" data-tab="tab-event" onclick="scroll_menu_horizontal('tab-link', 'event');" id="nav_scroll_menu_event"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-event.png" alt="Event Icon"/></i><label class="btn-txt-color">{% trans 'EVENT' %}</label></li>
-                        {% else %}
-                        <li class="tab-link" data-tab="tab-event" onclick="scroll_menu_horizontal('tab-link', 'event');" id="nav_scroll_menu_event"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-event.png" alt="Event Icon"/></i><label class="btn-txt-color">{% trans 'EVENT' %}</label></li>
                         {% endif %}
 
                         {% if "activity" in provider and "ticketing_activity" in username.co_agent_frontend_security %}
@@ -3025,8 +3016,6 @@
                                 <li class="tab-link" data-tab="tab-deal" onclick="scroll_menu_horizontal('tab-link', 'deal');" id="nav_scroll_menu_deal"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/coupon.png" alt="Rodexshop Icon"/></i><label class="btn-txt-color">Rodexshop</label></li>
                                 {% endif %}
                                 {% if "event" in provider and "ticketing_event" in username.co_agent_frontend_security %}
-                                <li class="tab-link" data-tab="tab-event" onclick="scroll_menu_horizontal('tab-link', 'event');" id="nav_scroll_menu_event"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/home-event.png" alt="Event Icon"/></i><label class="btn-txt-color">{% trans 'EVENT' %}</label></li>
-                                {% else %}
                                 <li class="tab-link" data-tab="tab-event" onclick="scroll_menu_horizontal('tab-link', 'event');" id="nav_scroll_menu_event"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/home-event.png" alt="Event Icon"/></i><label class="btn-txt-color">{% trans 'EVENT' %}</label></li>
                                 {% endif %}
                                 {% if "activity" in provider and "ticketing_activity" in username.co_agent_frontend_security %}
@@ -4217,8 +4206,6 @@
                                     <li class="tab-link" data-tab="tab-deal" onclick="scroll_menu_horizontal('tab-link', 'deal');" id="nav_scroll_menu_deal"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/coupon.png" alt="Rodexshop Icon"/></i><label class="btn-txt-color">Rodexshop</label></li>
                                     {% endif %}
                                     {% if "event" in provider and "ticketing_event" in username.co_agent_frontend_security %}
-                                    <li class="tab-link" data-tab="tab-event" onclick="scroll_menu_horizontal('tab-link', 'event');" id="nav_scroll_menu_event"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-event.png" alt="Event Icon"/></i><label class="btn-txt-color">{% trans 'EVENT' %}</label></li>
-                                    {% else %}
                                     <li class="tab-link" data-tab="tab-event" onclick="scroll_menu_horizontal('tab-link', 'event');" id="nav_scroll_menu_event"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-event.png" alt="Event Icon"/></i><label class="btn-txt-color">{% trans 'EVENT' %}</label></li>
                                     {% endif %}
                                     {% if "activity" in provider and "ticketing_activity" in username.co_agent_frontend_security %}
@@ -5414,8 +5401,6 @@
                                         <li class="tab-link" data-tab="tab-deal" onclick="scroll_menu_horizontal('tab-link', 'deal');" id="nav_scroll_menu_deal"><img style="width:20px; height:20px" src="{{static_path}}images/icon/coupon.png" alt="Rodexshop Icon"/></i><label class="btn-txt-color">Rodexshop</label></li>
                                         {% endif %}
                                         {% if "event" in provider and "ticketing_event" in username.co_agent_frontend_security %}
-                                        <li class="tab-link" data-tab="tab-event" onclick="scroll_menu_horizontal('tab-link', 'event');" id="nav_scroll_menu_event"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-event.png" alt="Event Icon"/></i><label class="btn-txt-color">{% trans 'EVENT' %}</label></li>
-                                        {% else %}
                                         <li class="tab-link" data-tab="tab-event" onclick="scroll_menu_horizontal('tab-link', 'event');" id="nav_scroll_menu_event"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-event.png" alt="Event Icon"/></i><label class="btn-txt-color">{% trans 'EVENT' %}</label></li>
                                         {% endif %}
 

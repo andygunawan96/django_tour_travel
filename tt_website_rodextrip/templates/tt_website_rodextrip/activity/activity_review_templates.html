@@ -56,6 +56,13 @@
     booker = booker.replace(/None/g,'""');
     booker = JSON.parse(booker);
 
+    contact = `{{contact_person}}`;
+    contact = contact.replace(/&#39;/g,'"');
+    contact = contact.replace(/True/g,'true');
+    contact = contact.replace(/False/g,'false');
+    contact = contact.replace(/None/g,'""');
+    contact = JSON.parse(contact);
+
     all_pax = `{{all_pax}}`;
     all_pax = all_pax.replace(/&#39;/g,'"');
     all_pax = all_pax.replace(/True/g,'true');
