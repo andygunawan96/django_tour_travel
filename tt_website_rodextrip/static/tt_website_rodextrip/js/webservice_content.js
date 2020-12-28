@@ -1,4 +1,5 @@
 function update_banner(){
+    document.getElementById('update_banner_btn').disabled = true;
     var formData = new FormData($('#form_admin').get(0));
     formData.append('signature', signature)
     getToken();
@@ -13,12 +14,15 @@ function update_banner(){
             if(msg.result.error_code == 0){
                 set_inactive_delete_banner();
                 //document.getElementById('form_admin').submit();
+            }else{
+                document.getElementById('update_banner_btn').disabled = false;
             }
        },
        contentType:false,
        processData:false,
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error update banner');
+            document.getElementById('update_banner_btn').disabled = false;
        }
     });
 }
@@ -99,9 +103,12 @@ function set_inactive_delete_banner(){
             console.log(msg);
             if(msg.result.error_code == 0){
                 document.getElementById('form_admin').submit();
+            }else{
+                document.getElementById('update_banner_btn').disabled = false;
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            document.getElementById('update_banner_btn').disabled = false;
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error inactive delete banner');
        }
     });

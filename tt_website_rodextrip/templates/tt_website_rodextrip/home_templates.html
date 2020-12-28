@@ -6731,12 +6731,12 @@
                 try{
                     document.getElementById('origin_id_flight').value = cache.airline.origin;
                 }catch(err){
-                    document.getElementById('origin_id_flight').value = 'SUB - Juanda International Airport - Surabaya - Indonesia';
+                    document.getElementById('origin_id_flight').value = '{{airline_origin}}';
                 }
                 try{
                     document.getElementById('destination_id_flight').value = cache.airline.destination;
                 }catch(err){
-                    document.getElementById('destination_id_flight').value = 'SIN - Changi Intl - Singapore - Singapore';
+                    document.getElementById('destination_id_flight').value = '{{airline_destination}}';
                 }
                 try{
                     airline_date = cache.airline.departure;
@@ -6761,12 +6761,12 @@
                 try{
                     document.getElementById('train_origin').value = cache.train.origin;
                 }catch(err){
-                    document.getElementById('train_origin').value = 'GMR - Gambir - Jakarta - Indonesia';
+                    document.getElementById('train_origin').value = '{{train_origin}}';
                 }
                 try{
                     document.getElementById('train_destination').value = cache.train.destination;
                 }catch(err){
-                    document.getElementById('train_destination').value = 'BD - Bandung - Bandung - Indonesia';
+                    document.getElementById('train_destination').value = '{{train_destination}}';
                 }
                 try{
                     train_date = cache.train.departure;

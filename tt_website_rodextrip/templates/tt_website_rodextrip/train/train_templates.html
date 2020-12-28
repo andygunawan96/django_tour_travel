@@ -2468,12 +2468,12 @@
             try{
                 document.getElementById('train_origin').value = cache.train.origin;
             }catch(err){
-                document.getElementById('train_origin').value = 'GMR - Gambir - Jakarta - Indonesia';
+                document.getElementById('train_origin').value = '{{train_origin}}';
             }
             try{
                 document.getElementById('train_destination').value = cache.train.destination;
             }catch(err){
-                document.getElementById('train_destination').value = 'BD - Bandung - Bandung - Indonesia';
+                document.getElementById('train_destination').value = '{{train_destination}}';
             }
             try{
                 train_date = cache.train.departure;

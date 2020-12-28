@@ -6,8 +6,12 @@
 <script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_airline.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_train.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/airline_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/train_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_content.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/payment_partner_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/highlight_javascript.js?version={{javascript_version}}"></script>
@@ -294,8 +298,52 @@
                                         </div>
                                         <span id="size_fileRegistrationBanner"></span>
                                     </div>
+                                    <div class="col-lg-12 mt-2">
+                                        <h5 style="margin-bottom:10px;color:{{text_color}};">Product</h5>
+                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Airline</h6>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Origin</h6>
+                                        <div class="input-container-search-ticket">
+                                            <div class="form-select">
+                                                <input id="airline_origin" name="airline_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{airline_origin}}" onclick="set_airline_search_value_to_false();">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Destination</h6>
+                                        <div class="input-container-search-ticket">
+                                            <div class="form-select">
+                                                <input id="airline_destination" name="airline_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{airline_destination}}" onclick="set_airline_search_value_to_false();">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 mt-2">
+                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Train</h6>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Origin</h6>
+                                        <div class="input-container-search-ticket">
+                                            <div class="form-select">
+                                                <input id="train_origin" name="train_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{train_origin}}">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Destination</h6>
+                                        <div class="input-container-search-ticket">
+                                            <div class="form-select">
+                                                <input id="train_destination" name="train_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{train_destination}}" onclick="set_airline_search_value_to_false();">
+
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <div class="col-lg-12 mt-3" style="text-align:center;">
-                                        <button type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
+                                        <button id="update_banner_btn" type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
                                     </div>
                                 </div>
                             </div>
@@ -404,7 +452,7 @@
                                         <hr/>
                                     </div>
                                     <div class="col-lg-12" style="text-align:center;">
-                                        <button type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
+                                        <button id="update_banner_btn" type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
                                     </div>
                                 </div>
                             </div>
@@ -651,7 +699,7 @@
                                     </div>
                                     {% endif %}
                                     <div class="col-lg-12" style="text-align:center;">
-                                        <button type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
+                                        <button id="update_banner_btn" type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
                                     </div>
                                 </div>
                             </div>
@@ -778,7 +826,7 @@
                                         <input type="text" class="form-control" name="google_analytics" id="google_analytics" placeholder="MEASUREMENT ID " onfocus="this.placeholder = ''" onblur="this.placeholder = 'MEASUREMENT ID '" value="{{google_analytics}}">
                                     </div>
                                     <div class="col-lg-12" style="text-align:center;">
-                                        <button type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
+                                        <button id="update_banner_btn" type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
                                     </div>
                                 </div>
                             </div>
@@ -1245,8 +1293,51 @@
                                     </div>
                                     <span id="size_fileRegistrationBanner"></span>
                                 </div>
+                                <div class="col-lg-12 mt-2">
+                                    <h5 style="margin-bottom:10px;color:{{text_color}};">Product</h5>
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Airline</h6>
+                                </div>
+                                <div class="col-lg-6">
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Origin</h6>
+                                    <div class="input-container-search-ticket">
+                                        <div class="form-select">
+                                            <input id="airline_origin" name="airline_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{airline_origin}}" onclick="set_airline_search_value_to_false();">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Destination</h6>
+                                    <div class="input-container-search-ticket">
+                                        <div class="form-select">
+                                            <input id="airline_destination" name="airline_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{airline_destination}}" onclick="set_airline_search_value_to_false();">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 mt-2">
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Train</h6>
+                                </div>
+                                <div class="col-lg-6">
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Origin</h6>
+                                    <div class="input-container-search-ticket">
+                                        <div class="form-select">
+                                            <input id="train_origin" name="train_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{train_origin}}">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Destination</h6>
+                                    <div class="input-container-search-ticket">
+                                        <div class="form-select">
+                                            <input id="train_destination" name="train_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{train_destination}}" onclick="set_airline_search_value_to_false();">
+
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="col-lg-12 mt-3" style="text-align:center;">
-                                    <button type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
+                                    <button id="update_banner_btn" type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
                                 </div>
                             </div>
                         </div>
@@ -1354,7 +1445,7 @@
                                     <hr/>
                                 </div>
                                 <div class="col-lg-12" style="text-align:center;">
-                                    <button type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
+                                    <button id="update_banner_btn" type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
                                 </div>
                             </div>
                         </div>
@@ -1591,7 +1682,7 @@
                                 <hr/>
                                 {% endif %}
                                 <div class="col-lg-12" style="text-align:center;">
-                                    <button type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
+                                    <button id="update_banner_btn" type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
                                 </div>
                             </div>
                         </div>
@@ -1732,7 +1823,7 @@
                                     <input type="text" class="form-control" name="google_analytics" id="google_analytics" placeholder="MEASUREMENT ID " onfocus="this.placeholder = ''" onblur="this.placeholder = 'MEASUREMENT ID '" value="{{google_analytics}}">
                                 </div>
                                 <div class="col-lg-12" style="text-align:center;">
-                                    <button type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
+                                    <button id="update_banner_btn" type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
                                 </div>
                             </div>
                         </div>
@@ -2197,8 +2288,51 @@
                                     </div>
                                     <span id="size_fileRegistrationBanner"></span>
                                 </div>
+                                <div class="col-lg-12 mt-2">
+                                    <h5 style="margin-bottom:10px;color:{{text_color}};">Product</h5>
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Airline</h6>
+                                </div>
+                                <div class="col-lg-6">
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Origin</h6>
+                                    <div class="input-container-search-ticket">
+                                        <div class="form-select">
+                                            <input id="airline_origin" name="airline_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{airline_origin}}" onclick="set_airline_search_value_to_false();">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Destination</h6>
+                                    <div class="input-container-search-ticket">
+                                        <div class="form-select">
+                                            <input id="airline_destination" name="airline_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{airline_destination}}" onclick="set_airline_search_value_to_false();">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 mt-2">
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Train</h6>
+                                </div>
+                                <div class="col-lg-6">
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Origin</h6>
+                                    <div class="input-container-search-ticket">
+                                        <div class="form-select">
+                                            <input id="train_origin" name="train_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{train_origin}}">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Destination</h6>
+                                    <div class="input-container-search-ticket">
+                                        <div class="form-select">
+                                            <input id="train_destination" name="train_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{train_destination}}" onclick="set_airline_search_value_to_false();">
+
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="col-lg-12 mt-3" style="text-align:center;">
-                                    <button type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
+                                    <button id="update_banner_btn" type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
                                 </div>
                             </div>
                         </div>
@@ -2308,7 +2442,7 @@
                                     <hr/>
                                 </div>
                                 <div class="col-lg-12" style="text-align:center;">
-                                    <button type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
+                                    <button id="update_banner_btn" type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
                                 </div>
                             </div>
                         </div>
@@ -2545,7 +2679,7 @@
                                 <hr/>
                                 {% endif %}
                                 <div class="col-lg-12" style="text-align:center;">
-                                    <button type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
+                                    <button id="update_banner_btn" type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
                                 </div>
                             </div>
                         </div>
@@ -3157,8 +3291,51 @@
                                 </div>
                                 <span id="size_fileRegistrationBanner"></span>
                             </div>
+                            <div class="col-lg-12 mt-2">
+                                <h5 style="margin-bottom:10px;color:{{text_color}};">Product</h5>
+                                <h6 style="margin-bottom:10px;color:{{text_color}};">Airline</h6>
+                            </div>
+                            <div class="col-lg-6">
+                                <h6 style="margin-bottom:10px;color:{{text_color}};">Origin</h6>
+                                <div class="input-container-search-ticket">
+                                    <div class="form-select">
+                                        <input id="airline_origin" name="airline_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{airline_origin}}" onclick="set_airline_search_value_to_false();">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <h6 style="margin-bottom:10px;color:{{text_color}};">Destination</h6>
+                                <div class="input-container-search-ticket">
+                                    <div class="form-select">
+                                        <input id="airline_destination" name="airline_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{airline_destination}}" onclick="set_airline_search_value_to_false();">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 mt-2">
+                                <h6 style="margin-bottom:10px;color:{{text_color}};">Train</h6>
+                            </div>
+                            <div class="col-lg-6">
+                                <h6 style="margin-bottom:10px;color:{{text_color}};">Origin</h6>
+                                <div class="input-container-search-ticket">
+                                    <div class="form-select">
+                                        <input id="train_origin" name="train_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{train_origin}}">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <h6 style="margin-bottom:10px;color:{{text_color}};">Destination</h6>
+                                <div class="input-container-search-ticket">
+                                    <div class="form-select">
+                                        <input id="train_destination" name="train_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{train_destination}}" onclick="set_airline_search_value_to_false();">
+
+                                    </div>
+                                </div>
+                            </div>
                             <div class="col-lg-12 mt-3" style="text-align:center;">
-                                <button type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
+                                <button id="update_banner_btn" type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
                             </div>
                         </div>
                     </div>
@@ -3267,7 +3444,7 @@
                                 <hr/>
                             </div>
                             <div class="col-lg-12" style="text-align:center;">
-                                <button type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
+                                <button id="update_banner_btn" type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
                             </div>
                         </div>
                     </div>
@@ -3510,7 +3687,7 @@
                             <hr/>
                             {% endif %}
                             <div class="col-lg-12" style="text-align:center;">
-                                <button type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
+                                <button id="update_banner_btn" type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
                             </div>
                         </div>
                     </div>
@@ -4121,8 +4298,51 @@
                                     </div>
                                     <span id="size_fileRegistrationBanner"></span>
                                 </div>
+                                <div class="col-lg-12 mt-2">
+                                    <h5 style="margin-bottom:10px;color:{{text_color}};">Product</h5>
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Airline</h6>
+                                </div>
+                                <div class="col-lg-6">
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Origin</h6>
+                                    <div class="input-container-search-ticket">
+                                        <div class="form-select">
+                                            <input id="airline_origin" name="airline_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{airline_origin}}" onclick="set_airline_search_value_to_false();">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Destination</h6>
+                                    <div class="input-container-search-ticket">
+                                        <div class="form-select">
+                                            <input id="airline_destination" name="airline_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{airline_destination}}" onclick="set_airline_search_value_to_false();">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 mt-2">
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Train</h6>
+                                </div>
+                                <div class="col-lg-6">
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Origin</h6>
+                                    <div class="input-container-search-ticket">
+                                        <div class="form-select">
+                                            <input id="train_origin" name="train_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{train_origin}}">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Destination</h6>
+                                    <div class="input-container-search-ticket">
+                                        <div class="form-select">
+                                            <input id="train_destination" name="train_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{train_destination}}" onclick="set_airline_search_value_to_false();">
+
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="col-lg-12 mt-3" style="text-align:center;">
-                                    <button type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
+                                    <button id="update_banner_btn" type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
                                 </div>
                             </div>
                         </div>
@@ -4231,7 +4451,7 @@
                                     <hr/>
                                 </div>
                                 <div class="col-lg-12" style="text-align:center;">
-                                    <button type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
+                                    <button id="update_banner_btn" type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
                                 </div>
                             </div>
                         </div>
@@ -4474,7 +4694,7 @@
                                 <hr/>
                                 {% endif %}
                                 <div class="col-lg-12" style="text-align:center;">
-                                    <button type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
+                                    <button id="update_banner_btn" type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
                                 </div>
                             </div>
                         </div>
@@ -4622,7 +4842,7 @@
                                     <input type="text" class="form-control" name="google_analytics" id="google_analytics" placeholder="MEASUREMENT ID " onfocus="this.placeholder = ''" onblur="this.placeholder = 'MEASUREMENT ID '" value="{{google_analytics}}">
                                 </div>
                                 <div class="col-lg-12" style="text-align:center;">
-                                    <button type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
+                                    <button id="update_banner_btn" type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
                                 </div>
                             </div>
                         </div>
@@ -4848,6 +5068,74 @@
 {% include 'tt_website_rodextrip/footer.html' %}
 
 <script>
+    get_airline_config('home');
+    var airline_origin = new autoComplete({
+        selector: '#airline_origin',
+        minChars: 1,
+        cache: false,
+        delay:0,
+        source: function(term, suggest){
+            if(term.split(' - ').length == 4)
+                    term = ''
+            if(term.length > 1)
+                suggest(airline_search_autocomplete(term));
+        },
+        onSelect: function(e, term, item){
+            $("#origin_id_flight").trigger("blur");
+            set_airline_search_value_to_true();
+        }
+    });
+    var airline_destination = new autoComplete({
+        selector: '#airline_destination',
+        minChars: 0,
+        cache: false,
+        delay:0,
+        source: function(term, suggest){
+            if(term.split(' - ').length == 4)
+                term = ''
+            if(term.length > 1)
+                suggest(airline_search_autocomplete(term));
+        },
+        onSelect: function(e, term, item){
+            $("#destination_id_flight").trigger("blur");
+            set_airline_search_value_to_true();
+        }
+    });
+
+    get_train_config('home');
+
+    var train_origin = new autoComplete({
+        selector: '#train_origin',
+        minChars: 1,
+        cache: false,
+        delay:0,
+        source: function(term, suggest){
+            if(term.split(' - ').length == 2)
+                    term = ''
+            if(term.length > 1)
+                suggest(train_search_autocomplete(term));
+        },
+        onSelect: function(e, term, item){
+            $("#train_origin").trigger("blur");
+            set_train_search_value_to_true();
+        }
+    });
+    var train_destination = new autoComplete({
+        selector: '#train_destination',
+        minChars: 0,
+        cache: false,
+        delay:0,
+        source: function(term, suggest){
+            if(term.split(' - ').length == 4)
+                term = ''
+            if(term.length > 1)
+                suggest(train_search_autocomplete(term));
+        },
+        onSelect: function(e, term, item){
+            $("#train_destination").trigger("blur");
+            set_train_search_value_to_true();
+        }
+    });
 
 	var selDiv_bigbanner = "";
 	var selDiv_smallbanner = "";
@@ -4890,7 +5178,7 @@
     function file_validation(id_file){
         var fi = document.getElementById(''+id_file);
         if (fi.files.length > 0) {
-            for (const i = 0; i <= fi.files.length - 1; i++) {
+            for (var i = 0; i <= fi.files.length - 1; i++) {
 
                 var fsize = fi.files.item(i).size;
                 var file = Math.round((fsize / 1024));
@@ -4920,6 +5208,7 @@
     }
 
     $( document ).ready(function() {
+        $('.js-example-basic-single').select2();
         if(`{{bg_tab_color}}` == 'transpa')
             no_fill();
     });
