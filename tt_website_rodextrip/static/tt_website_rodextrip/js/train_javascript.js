@@ -2197,20 +2197,22 @@ function change_date_next_prev(counter){
     flight_date = moment(train_request.departure[counter]);
     var date_format = 'DD MMM YYYY';
     document.getElementById('now_date').innerHTML = `<div style="background:white; border:2px solid `+color+`; padding:15px 0; text-align: center;">`+flight_date.format(date_format)+`</div>`;
-    document.getElementById('prev_date_1').innerHTML = `<div class="button_date_np date_item_p1" onclick="change_date_shortcut(1);">`+flight_date.subtract(+1, 'days').format(date_format)+`</div>`;
-    document.getElementById('prev_date_2').innerHTML = `<div class="button_date_np date_item_p2" onclick="change_date_shortcut(2);">`+flight_date.subtract(+1, 'days').format(date_format)+`</div>`;
-    document.getElementById('next_date_1').innerHTML = `<div class="button_date_np date_item_n1" onclick="change_date_shortcut(-1);">`+flight_date.subtract(-3, 'days').format(date_format)+`</div>`;
-    document.getElementById('next_date_2').innerHTML = `<div class="button_date_np date_item_n2" onclick="change_date_shortcut(-2);">`+flight_date.subtract(-1, 'days').format(date_format)+`</div>`;
+    document.getElementById('prev_date_1').innerHTML = `<div class="button_date_np date_item_p1" id="div_onclick_p1" onclick="change_date_shortcut(1);">`+flight_date.subtract(+1, 'days').format(date_format)+`</div>`;
+    document.getElementById('prev_date_2').innerHTML = `<div class="button_date_np date_item_p2" id="div_onclick_p2" onclick="change_date_shortcut(2);">`+flight_date.subtract(+1, 'days').format(date_format)+`</div>`;
+    document.getElementById('next_date_1').innerHTML = `<div class="button_date_np date_item_n1" id="div_onclick_n1" onclick="change_date_shortcut(-1);">`+flight_date.subtract(-3, 'days').format(date_format)+`</div>`;
+    document.getElementById('next_date_2').innerHTML = `<div class="button_date_np date_item_n2" id="div_onclick_n2" onclick="change_date_shortcut(-2);">`+flight_date.subtract(-1, 'days').format(date_format)+`</div>`;
     flight_date.subtract(+2, 'days') //balikin ke hari ini
 
     if(train_request.direction == 'OW'){
         if(new Date(flight_date.subtract(+1, 'days').format(date_format)).getTime() < new Date(today_date).getTime()){
             $('.date_item_p1').removeClass("button_date_np");
             $('.date_item_p1').addClass("button_date_np_disabled");
+            document.getElementById('div_onclick_p1').onclick = '';
         }
         if(new Date(flight_date.subtract(+1, 'days').format(date_format)).getTime() < new Date(today_date).getTime()){
             $('.date_item_p2').removeClass("button_date_np");
             $('.date_item_p2').addClass("button_date_np_disabled");
+            document.getElementById('div_onclick_p2').onclick = '';
         }
         flight_date.subtract(-2, 'days') //balikin ke hari ini
     }else{
@@ -2220,18 +2222,22 @@ function change_date_next_prev(counter){
             if(new Date(flight_date.subtract(+1, 'days').format(date_format)).getTime() < new Date(today_date).getTime()){
                 $('.date_item_p1').removeClass("button_date_np");
                 $('.date_item_p1').addClass("button_date_np_disabled");
+                document.getElementById('div_onclick_p1').onclick = '';
             }
             if(new Date(flight_date.subtract(+1, 'days').format(date_format)).getTime() < new Date(today_date).getTime()){
                 $('.date_item_p2').removeClass("button_date_np");
                 $('.date_item_p2').addClass("button_date_np_disabled");
+                document.getElementById('div_onclick_p2').onclick = '';;
             }
             if(new Date(flight_date.subtract(-3, 'days').format(date_format)).getTime() >= new Date(nextdept).getTime()){
                 $('.date_item_n1').removeClass("button_date_np");
                 $('.date_item_n1').addClass("button_date_np_disabled");
+                document.getElementById('div_onclick_n1').onclick = '';
             }
             if(new Date(flight_date.subtract(-1, 'days').format(date_format)).getTime() >= new Date(nextdept).getTime()){
                 $('.date_item_n2').removeClass("button_date_np");
                 $('.date_item_n2').addClass("button_date_np_disabled");
+                document.getElementById('div_onclick_n2').onclick = '';
             }
             flight_date.subtract(+2, 'days') //balikin ke hari ini
         }
@@ -2243,10 +2249,12 @@ function change_date_next_prev(counter){
                     if(new Date(flight_date.subtract(-1, 'days').format(date_format)).getTime() >= new Date(nextdept).getTime()){
                         $('.date_item_n1').removeClass("button_date_np");
                         $('.date_item_n1').addClass("button_date_np_disabled");
+                        document.getElementById('div_onclick_n1').onclick = '';
                     }
                     if(new Date(flight_date.subtract(-1, 'days').format(date_format)).getTime() >= new Date(nextdept).getTime()){
                         $('.date_item_n2').removeClass("button_date_np");
                         $('.date_item_n2').addClass("button_date_np_disabled");
+                        document.getElementById('div_onclick_n2').onclick = '';
                     }
                     flight_date.subtract(+2, 'days') //balikin ke hari ini
                 }
@@ -2254,10 +2262,12 @@ function change_date_next_prev(counter){
             if(new Date(flight_date.subtract(+1, 'days').format(date_format)).getTime() <= new Date(prevdept).getTime()){
                 $('.date_item_p1').removeClass("button_date_np");
                 $('.date_item_p1').addClass("button_date_np_disabled");
+                document.getElementById('div_onclick_p1').onclick = '';
             }
             if(new Date(flight_date.subtract(+1, 'days').format(date_format)).getTime() <= new Date(prevdept).getTime()){
                 $('.date_item_p2').removeClass("button_date_np");
                 $('.date_item_p2').addClass("button_date_np_disabled");
+                document.getElementById('div_onclick_p1').onclick = '';
             }
             flight_date.subtract(-2, 'days') //balikin ke hari ini
 
