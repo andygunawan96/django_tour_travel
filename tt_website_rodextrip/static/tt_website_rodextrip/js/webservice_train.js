@@ -212,9 +212,8 @@ function train_get_config_provider(signature){
                 gtag('event', 'train_search', {});
             if(msg.result.error_code == 0){
                 provider_length = msg.result.response.providers.length;
-                for(i in msg.result.response.providers){
-                    train_search(msg.result.response.providers[i].provider, signature);
-                }
+                provider_train = msg.result.response.providers;
+                send_request_search();
             }else{
                Swal.fire({
                   type: 'error',
@@ -234,6 +233,26 @@ function train_get_config_provider(signature){
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error train get  config provider');
        },timeout: 60000
     });
+}
+
+function send_request_search(){
+    text = '';
+    if(train_request.direction == 'OW')
+        text = train_request.departure[0];
+    else
+        text = train_request.departure[0] + ' - ' + train_request.departure[1];
+
+    pax = train_request.adult + ' Adult';
+    pax += ', ' + train_request.infant + ' Infant';
+
+    document.getElementById('date_train').innerHTML = `
+    <span class="copy_span" style="text-transform: capitalize; font-size:13px;">`+text+` </span>
+    <span style="text-transform: capitalize; font-size:12px; margin-left:5px;"><i class="fas fa-users"></i> <span class="copy_span">`+ pax +`</span></span>`;
+
+    change_date_next_prev(train_request_pick);
+    for(i in provider_train){
+        train_search(provider_train[i].provider, signature);
+    }
 }
 
 //signin jadi 1 sama search

@@ -533,6 +533,8 @@ function getrupiah(price){
 
 function choose_train(data,key){
     var x = document.getElementById("show-cart");
+    //ini manual
+    change_date_next_prev(1);
     $("#show-cart").addClass("minus");
     $(".img-plus-ticket").hide();
     $(".img-min-ticket").show();
@@ -578,6 +580,7 @@ function change_train(val){
     document.getElementById("train_ticket").innerHTML = '';
     $('#button_chart_train').hide();
     document.getElementById("badge-train-notif").innerHTML = "0";
+    change_date_next_prev(val);
     train_ticket_pick();
     filtering('filter');
 }
@@ -2163,3 +2166,263 @@ function reset_filter(){
     }
     filtering('filter');
 }
+
+function change_date_shortcut(val){
+    text = '';
+    if(train_request_pick == 0)
+        text = 'departure';
+    else
+        text = 'return';
+    Swal.fire({
+      title: 'Are you sure want change date for '+text+'?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        train_request.departure[train_request_pick] = moment(train_request.departure[train_request_pick]).subtract(val,'days').format('DD MMM YYYY');
+        train_data = [];
+        time_limit = 1200;
+        send_request_search();
+      }
+    })
+
+//    change_date_next_prev(counter_search-1);
+}
+
+function change_date_next_prev(counter){
+    var today_date = moment().format('DD MMM YYYY'); //hari ini
+    flight_date = moment(train_request.departure[counter]);
+    var date_format = 'DD MMM YYYY';
+    document.getElementById('now_date').innerHTML = `<div style="background:white; border:2px solid `+color+`; padding:15px 0; text-align: center;">`+flight_date.format(date_format)+`</div>`;
+    document.getElementById('prev_date_1').innerHTML = `<div class="button_date_np date_item_p1" onclick="change_date_shortcut(1);">`+flight_date.subtract(+1, 'days').format(date_format)+`</div>`;
+    document.getElementById('prev_date_2').innerHTML = `<div class="button_date_np date_item_p2" onclick="change_date_shortcut(2);">`+flight_date.subtract(+1, 'days').format(date_format)+`</div>`;
+    document.getElementById('next_date_1').innerHTML = `<div class="button_date_np date_item_n1" onclick="change_date_shortcut(-1);">`+flight_date.subtract(-3, 'days').format(date_format)+`</div>`;
+    document.getElementById('next_date_2').innerHTML = `<div class="button_date_np date_item_n2" onclick="change_date_shortcut(-2);">`+flight_date.subtract(-1, 'days').format(date_format)+`</div>`;
+    flight_date.subtract(+2, 'days') //balikin ke hari ini
+
+    if(train_request.direction == 'OW'){
+        if(new Date(flight_date.subtract(+1, 'days').format(date_format)).getTime() < new Date(today_date).getTime()){
+            $('.date_item_p1').removeClass("button_date_np");
+            $('.date_item_p1').addClass("button_date_np_disabled");
+        }
+        if(new Date(flight_date.subtract(+1, 'days').format(date_format)).getTime() < new Date(today_date).getTime()){
+            $('.date_item_p2').removeClass("button_date_np");
+            $('.date_item_p2').addClass("button_date_np_disabled");
+        }
+        flight_date.subtract(-2, 'days') //balikin ke hari ini
+    }else{
+        if(counter == 0){
+            //kalo flight pertama, tidak bisa pilih tgl sblm hari ini dan bisa pilih tanggal sebelum flight 2
+            var nextdept = moment(train_request.departure[counter+1]).subtract(-1, 'days').format('DD MMM YYYY'); // tanggal berangkat setelahnya
+            if(new Date(flight_date.subtract(+1, 'days').format(date_format)).getTime() < new Date(today_date).getTime()){
+                $('.date_item_p1').removeClass("button_date_np");
+                $('.date_item_p1').addClass("button_date_np_disabled");
+            }
+            if(new Date(flight_date.subtract(+1, 'days').format(date_format)).getTime() < new Date(today_date).getTime()){
+                $('.date_item_p2').removeClass("button_date_np");
+                $('.date_item_p2').addClass("button_date_np_disabled");
+            }
+            if(new Date(flight_date.subtract(-3, 'days').format(date_format)).getTime() >= new Date(nextdept).getTime()){
+                $('.date_item_n1').removeClass("button_date_np");
+                $('.date_item_n1').addClass("button_date_np_disabled");
+            }
+            if(new Date(flight_date.subtract(-1, 'days').format(date_format)).getTime() >= new Date(nextdept).getTime()){
+                $('.date_item_n2').removeClass("button_date_np");
+                $('.date_item_n2').addClass("button_date_np_disabled");
+            }
+            flight_date.subtract(+2, 'days') //balikin ke hari ini
+        }
+        else{
+            var prevdept = moment(train_request.departure[counter-1]).subtract(+1, 'days').format('DD MMM YYYY'); // tanggal berangkat sebelumnya
+            if(train_request.direction == 'MC'){
+                if(counter_search != train_request.departure.length){
+                    var nextdept = moment(train_request.departure[counter+1]).subtract(-1, 'days').format('DD MMM YYYY'); // tanggal berangkat setelahnya
+                    if(new Date(flight_date.subtract(-1, 'days').format(date_format)).getTime() >= new Date(nextdept).getTime()){
+                        $('.date_item_n1').removeClass("button_date_np");
+                        $('.date_item_n1').addClass("button_date_np_disabled");
+                    }
+                    if(new Date(flight_date.subtract(-1, 'days').format(date_format)).getTime() >= new Date(nextdept).getTime()){
+                        $('.date_item_n2').removeClass("button_date_np");
+                        $('.date_item_n2').addClass("button_date_np_disabled");
+                    }
+                    flight_date.subtract(+2, 'days') //balikin ke hari ini
+                }
+            }
+            if(new Date(flight_date.subtract(+1, 'days').format(date_format)).getTime() <= new Date(prevdept).getTime()){
+                $('.date_item_p1').removeClass("button_date_np");
+                $('.date_item_p1').addClass("button_date_np_disabled");
+            }
+            if(new Date(flight_date.subtract(+1, 'days').format(date_format)).getTime() <= new Date(prevdept).getTime()){
+                $('.date_item_p2').removeClass("button_date_np");
+                $('.date_item_p2').addClass("button_date_np_disabled");
+            }
+            flight_date.subtract(-2, 'days') //balikin ke hari ini
+
+        }
+
+    }
+//    var today_date = moment().format('DD MMM YYYY'); //hari ini
+//    var deptdate = moment(airline_request.departure[counter]).format('DD MMM YYYY'); //tanggal flight skrg
+//    var pdate1 = moment(airline_request.departure[counter]).subtract(+1, 'days').format('DD MMM YYYY'); //1 tanggal sebelumnya
+//    var pdate2 = moment(airline_request.departure[counter]).subtract(+2, 'days').format('DD MMM YYYY'); //2 tanggal sebelumnya
+//    var ndate1 = moment(airline_request.departure[counter]).subtract(-1, 'days').format('DD MMM YYYY'); //1 tanggal setelahnya
+//    var ndate2 = moment(airline_request.departure[counter]).subtract(-2, 'days').format('DD MMM YYYY'); //2 tanggal setelahnya
+//
+//    document.getElementById('prev_date_1').innerHTML = `<div class="button_date_np date_item_p1">`+pdate1+`</div>`;
+//    document.getElementById('prev_date_2').innerHTML = `<div class="button_date_np date_item_p2">`+pdate2+`</div>`;
+//    document.getElementById('next_date_1').innerHTML = `<div class="button_date_np date_item_n1">`+ndate1+`</div>`;
+//    document.getElementById('next_date_2').innerHTML = `<div class="button_date_np date_item_n2">`+ndate2+`</div>`;
+//    document.getElementById('now_date').innerHTML = `<div style="background:white; border:2px solid `+color+`; padding:15px 0; text-align: center;">`+deptdate+`</div>`;
+//
+//    if(airline_request.direction == 'OW'){
+//        if(new Date(pdate1).getTime() < new Date(today_date).getTime()){
+//            $('.date_item_p1').removeClass("button_date_np");
+//            $('.date_item_p1').addClass("button_date_np_disabled");
+//        }
+//        if(new Date(pdate2).getTime() < new Date(today_date).getTime()){
+//            $('.date_item_p2').removeClass("button_date_np");
+//            $('.date_item_p2').addClass("button_date_np_disabled");
+//        }
+//    }else{
+//        if(counter == 0){
+//            //kalo flight pertama, tidak bisa pilih tgl sblm hari ini dan bisa pilih tanggal sebelum flight 2
+//            var nextdept = moment(airline_request.departure[counter+1]).subtract(-1, 'days').format('DD MMM YYYY'); // tanggal berangkat setelahnya
+//            if(new Date(pdate1).getTime() < new Date(today_date).getTime()){
+//                $('.date_item_p1').removeClass("button_date_np");
+//                $('.date_item_p1').addClass("button_date_np_disabled");
+//            }
+//            if(new Date(pdate2).getTime() < new Date(today_date).getTime()){
+//                $('.date_item_p2').removeClass("button_date_np");
+//                $('.date_item_p2').addClass("button_date_np_disabled");
+//            }
+//            if(new Date(ndate1).getTime() >= new Date(nextdept).getTime()){
+//                $('.date_item_n1').removeClass("button_date_np");
+//                $('.date_item_n1').addClass("button_date_np_disabled");
+//            }
+//            if(new Date(ndate2).getTime() >= new Date(nextdept).getTime()){
+//                $('.date_item_n2').removeClass("button_date_np");
+//                $('.date_item_n2').addClass("button_date_np_disabled");
+//            }
+//        }
+//        if(counter == 1){
+//            var prevdept = moment(airline_request.departure[counter-1]).subtract(+1, 'days').format('DD MMM YYYY'); // tanggal berangkat sebelumnya
+//            if(airline_request.direction == 'MC'){
+//                var nextdept = moment(airline_request.departure[counter+1]).subtract(-1, 'days').format('DD MMM YYYY'); // tanggal berangkat setelahnya
+//                if(new Date(ndate1).getTime() >= new Date(nextdept).getTime()){
+//                    $('.date_item_n1').removeClass("button_date_np");
+//                    $('.date_item_n1').addClass("button_date_np_disabled");
+//                }
+//                if(new Date(ndate2).getTime() >= new Date(nextdept).getTime()){
+//                    $('.date_item_n2').removeClass("button_date_np");
+//                    $('.date_item_n2').addClass("button_date_np_disabled");
+//                }
+//            }
+//            if(new Date(pdate1).getTime() <= new Date(prevdept).getTime()){
+//                $('.date_item_p1').removeClass("button_date_np");
+//                $('.date_item_p1').addClass("button_date_np_disabled");
+//            }
+//            if(new Date(pdate2).getTime() <= new Date(prevdept).getTime()){
+//                $('.date_item_p2').removeClass("button_date_np");
+//                $('.date_item_p2').addClass("button_date_np_disabled");
+//            }
+//
+//        }
+//        if(counter == 2){
+//            var prevdept = moment(airline_request.departure[counter-1]).subtract(+1, 'days').format('DD MMM YYYY'); // tanggal berangkat sebelumnya
+//            if(new Date(pdate1).getTime() == new Date(prevdept).getTime()){
+//                $('.date_item_p1').removeClass("button_date_np");
+//                $('.date_item_p1').addClass("button_date_np_disabled");
+//            }
+//            if(new Date(pdate2).getTime() == new Date(prevdept).getTime()){
+//                $('.date_item_p2').removeClass("button_date_np");
+//                $('.date_item_p2').addClass("button_date_np_disabled");
+//            }
+//        }
+//
+//    }
+}
+
+//function change_date_next_prev(counter){
+//    //saat choose masih belum tau pake parameter sg mana, jadi masih di hardcode 1
+//    var today_date = moment().format('DD MMM YYYY'); //hari ini
+//    console.log(train_request);
+//    var deptdate = moment(train_request.departure[counter]).format('DD MMM YYYY'); //tanggal flight skrg
+//    var pdate1 = moment(train_request.departure[counter]).subtract(+1, 'days').format('DD MMM YYYY'); //1 tanggal sebelumnya
+//    var pdate2 = moment(train_request.departure[counter]).subtract(+2, 'days').format('DD MMM YYYY'); //2 tanggal sebelumnya
+//    var ndate1 = moment(train_request.departure[counter]).subtract(-1, 'days').format('DD MMM YYYY'); //1 tanggal setelahnya
+//    var ndate2 = moment(train_request.departure[counter]).subtract(-2, 'days').format('DD MMM YYYY'); //2 tanggal setelahnya
+//
+//    document.getElementById('prev_date_1').innerHTML = `<div class="button_date_np date_item_p1">`+pdate1+`</div>`;
+//    document.getElementById('prev_date_2').innerHTML = `<div class="button_date_np date_item_p2">`+pdate2+`</div>`;
+//    document.getElementById('next_date_1').innerHTML = `<div class="button_date_np date_item_n1">`+ndate1+`</div>`;
+//    document.getElementById('next_date_2').innerHTML = `<div class="button_date_np date_item_n2">`+ndate2+`</div>`;
+//    document.getElementById('now_date').innerHTML = `<div style="background:white; border:2px solid `+color+`; padding:15px 0; text-align: center;">`+deptdate+`</div>`;
+//
+//    if(train_request.direction == 'OW'){
+//        if(new Date(pdate1).getTime() < new Date(today_date).getTime()){
+//            $('.date_item_p1').removeClass("button_date_np");
+//            $('.date_item_p1').addClass("button_date_np_disabled");
+//        }
+//        if(new Date(pdate2).getTime() < new Date(today_date).getTime()){
+//            $('.date_item_p2').removeClass("button_date_np");
+//            $('.date_item_p2').addClass("button_date_np_disabled");
+//        }
+//    }else{
+//        if(counter == 0){
+//            //kalo flight pertama, tidak bisa pilih tgl sblm hari ini dan bisa pilih tanggal sebelum flight 2
+//            var nextdept = moment(train_request.departure[counter+1]).subtract(-1, 'days').format('DD MMM YYYY'); // tanggal berangkat setelahnya
+//            if(new Date(pdate1).getTime() < new Date(today_date).getTime()){
+//                $('.date_item_p1').removeClass("button_date_np");
+//                $('.date_item_p1').addClass("button_date_np_disabled");
+//            }
+//            if(new Date(pdate2).getTime() < new Date(today_date).getTime()){
+//                $('.date_item_p2').removeClass("button_date_np");
+//                $('.date_item_p2').addClass("button_date_np_disabled");
+//            }
+//            if(new Date(ndate1).getTime() >= new Date(nextdept).getTime()){
+//                $('.date_item_n1').removeClass("button_date_np");
+//                $('.date_item_n1').addClass("button_date_np_disabled");
+//            }
+//            if(new Date(ndate2).getTime() >= new Date(nextdept).getTime()){
+//                $('.date_item_n2').removeClass("button_date_np");
+//                $('.date_item_n2').addClass("button_date_np_disabled");
+//            }
+//        }
+//        if(counter == 1){
+//            var prevdept = moment(train_request.departure[counter-1]).subtract(+1, 'days').format('DD MMM YYYY'); // tanggal berangkat sebelumnya
+//            if(train_request.direction == 'MC'){
+//                var nextdept = moment(train_request.departure[counter+1]).subtract(-1, 'days').format('DD MMM YYYY'); // tanggal berangkat setelahnya
+//                if(new Date(ndate1).getTime() >= new Date(nextdept).getTime()){
+//                    $('.date_item_n1').removeClass("button_date_np");
+//                    $('.date_item_n1').addClass("button_date_np_disabled");
+//                }
+//                if(new Date(ndate2).getTime() >= new Date(nextdept).getTime()){
+//                    $('.date_item_n2').removeClass("button_date_np");
+//                    $('.date_item_n2').addClass("button_date_np_disabled");
+//                }
+//            }
+//            if(new Date(pdate1).getTime() <= new Date(prevdept).getTime()){
+//                $('.date_item_p1').removeClass("button_date_np");
+//                $('.date_item_p1').addClass("button_date_np_disabled");
+//            }
+//            if(new Date(pdate2).getTime() <= new Date(prevdept).getTime()){
+//                $('.date_item_p2').removeClass("button_date_np");
+//                $('.date_item_p2').addClass("button_date_np_disabled");
+//            }
+//        }
+//        if(counter == 2){
+//            var prevdept = moment(train_request.departure[counter-1]).subtract(+1, 'days').format('DD MMM YYYY'); // tanggal berangkat sebelumnya
+//            if(new Date(pdate1).getTime() == new Date(prevdept).getTime()){
+//                $('.date_item_p1').removeClass("button_date_np");
+//                $('.date_item_p1').addClass("button_date_np_disabled");
+//            }
+//            if(new Date(pdate2).getTime() == new Date(prevdept).getTime()){
+//                $('.date_item_p2').removeClass("button_date_np");
+//                $('.date_item_p2').addClass("button_date_np_disabled");
+//            }
+//        }
+//    }
+//}

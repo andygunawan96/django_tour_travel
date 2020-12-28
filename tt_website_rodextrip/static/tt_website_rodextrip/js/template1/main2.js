@@ -84,33 +84,32 @@ $(document).ready(function() {
     //------- Owl Carusel  js --------//
 
     $('.owl-carousel').owlCarousel({
-        loop:true,
+        loop:false,
         nav: true,
         margin: 20,
         responsiveClass:true,
         dots: false,
         smartSpeed:500,
-        autoplay: true,
+        autoplay: false,
         autoplayTimeout:5000,
         autoplayHoverPause:false,
         navText: ['<i class="fa fa-caret-left owl-wh"/>', '<i class="fa fa-caret-right owl-wh"/>'],
         responsive:{
             0:{
-                items:2,
+                items:5,
                 nav:true
             },
             480:{
-                items:2,
-                nav:false
+                items:5,
+                nav:true
             },
             768:{
-                items:3,
-                nav:false
+                items:5,
+                nav:true
             },
             961:{
-                items:3,
-                nav:true,
-                loop:true
+                items:5,
+                nav:true
             }
         }
     });
