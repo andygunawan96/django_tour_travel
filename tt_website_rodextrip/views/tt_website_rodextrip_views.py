@@ -600,9 +600,9 @@ def admin(request):
 
                     # file cache origin destination
                     text = ''
-                    text += request.POST.get('airline_origin') or '' + '\n'
-                    text += request.POST.get('airline_destination') or '' + '\n'
-                    text += request.POST.get('train_origin') or '' + '\n'
+                    text += request.POST.get('airline_origin') + '\n' or '' + '\n'
+                    text += request.POST.get('airline_destination') + '\n' or '' + '\n'
+                    text += request.POST.get('train_origin') + '\n' or '' + '\n'
                     text += request.POST.get('train_destination') or ''
                     write_cache_with_folder(text, "data_cache_product")
 
