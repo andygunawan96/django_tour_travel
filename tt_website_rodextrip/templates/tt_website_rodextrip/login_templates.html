@@ -67,18 +67,18 @@
 						<div class="row" style="float:right;">
 							<div class="col-lg-9 col-md-9" style="padding:0px;">
 								<div class="input-container-login">
-									<i class="fas fa-user icon-login" style="color:{{text_color}};"></i>
+									<i class="fas fa-user icon-login" style="color:{{text_color_login}};"></i>
 									<input type="text" class="form-login-control" id="username2" name="username" placeholder="{% trans 'Username' %}"/>
-									<i class="fas fa-lock icon-login" style="color:{{text_color}};"></i>
+									<i class="fas fa-lock icon-login" style="color:{{text_color_login}};"></i>
 									<input type="password" class="form-login-control" id="password2" name="password" placeholder="{% trans 'Password' %}"/>
 								</div>
 								<div class="input-container-login" style="margin-top:10px;">
 									<label class="check_box_custom" style="margin-bottom:0px; margin-right:15px;">
-										<span style="font-size:13px; color:{{text_color}}; font-weight:600;">{% trans 'Keep Me Signin' %}</span>
+										<span style="font-size:13px; color:{{text_color_login}}; font-weight:600;">{% trans 'Keep Me Signin' %}</span>
 										<input type="checkbox" value="" id="keep_me_signin2" name="keep_me_signin" checked="checked">
 										<span class="check_box_span_custom"></span>
 									</label>
-									<span class="forgot-pass-login"><i class="fa fa-lock"></i><a style="cursor:pointer;" onclick="reset_password();"> {% trans 'Forget Password' %}</a></span>
+									<span class="forgot-pass-login"><i class="fa fa-lock" style="color:{{text_color_login}}"></i><a style="cursor:pointer; color:{{text_color_login}};" onclick="reset_password();"> {% trans 'Forget Password' %}</a></span>
 								</div>
 							</div>
 							<div class="col-lg-3 col-md-3" style="text-align:right;">
@@ -88,8 +88,8 @@
 									<div class="ld ld-ring ld-cycle"></div>
 								</button>
 								<div class="input-container-login" style="margin-bottom:2px;margin-top:10px;">
-									<span style="color:{{text_color}}; font-size:15px; font-weight:700;"><i class="fas fa-user-plus"></i><a style="cursor:pointer; color:{{text_color}};" data-toggle="modal" data-target="#myModalb2c"> {% trans 'Sign Up' %}</a></span>
-									<!--<span style="color:{{text_color}}; font-size:15px; font-weight:700;"><i class="fas fa-user-plus"></i><a style="cursor:pointer; color:{{text_color}};" href="{% url 'tt_website_rodextrip:registration' %}"> {% trans 'Sign Up Agent Here' %}</a></span>-->
+									<span style="color:{{text_color_login}}; font-size:15px; font-weight:700;"><i class="fas fa-user-plus"></i><a style="cursor:pointer; color:{{text_color_login}};" data-toggle="modal" data-target="#myModalb2c"> {% trans 'Sign Up' %}</a></span>
+									<!--<span style="color:{{text_color_login}}; font-size:15px; font-weight:700;"><i class="fas fa-user-plus"></i><a style="cursor:pointer; color:{{text_color_login}};" href="{% url 'tt_website_rodextrip:registration' %}"> {% trans 'Sign Up Agent Here' %}</a></span>-->
 								</div>
 								<!--<button type="button" style="width:95%;" class="primary-btn" data-toggle="modal" data-target="#myModalb2c">{% trans 'Register User' %}</button>-->
 							</div>
@@ -105,7 +105,7 @@
 			<span class="login100-form-title">
 				<span class="lamp" style="font-size:50px;">{{name}}</span>
 				<!--<br/>-->
-				<!--<span class="footer-promote" style="color:{{text_color}}; font-weight:500;">-->
+				<!--<span class="footer-promote" style="color:{{text_color_login}}; font-weight:500;">-->
 				<!--Sorry for the inconvenience<br/>-->
 				<!--We will reset your balance<br/> and process the remaining balance<br/>after we are done reconcilling your data-->
 				<!--</span>-->
@@ -138,7 +138,7 @@
 			<span class="login100-form-title" style="padding-bottom:15px;">
 				<span class="lamp lamp-login">{{name}}</span>
 				<!--<br/>-->
-				<!--<span class="footer-promote" style="color:{{text_color}}; font-weight:500;">-->
+				<!--<span class="footer-promote" style="color:{{text_color_login}}; font-weight:500;">-->
 				<!--Sorry for the inconvenience<br/>-->
 				<!--We will reset your balance<br/> and process the remaining balance<br/>after we are done reconcilling your data-->
 				<!--</span>-->
