@@ -236,6 +236,8 @@ function train_get_config_provider(signature){
 }
 
 function send_request_search(){
+    counter_train_provider = 0;
+    document.getElementById('loading-search-train').hidden = false
     text = '';
     if(train_request.direction == 'OW')
         text = train_request.departure[0];
