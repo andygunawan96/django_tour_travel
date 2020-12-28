@@ -597,6 +597,15 @@ def admin(request):
                     for file in os.listdir(fs.location):
                         if not file in temp and file != 'image_dynamic' and file != 'image_payment_partner' and file != 'image_about_us':
                             os.remove(fs.location+'/'+file)
+
+                    # file cache origin destination
+                    text = ''
+                    text += request.POST.get('airline_origin') or '' + '\n'
+                    text += request.POST.get('airline_destination') or '' + '\n'
+                    text += request.POST.get('train_origin') or '' + '\n'
+                    text += request.POST.get('train_destination') or ''
+                    write_cache_with_folder(text, "data_cache_product")
+
             except Exception as e:
                 _logger.error(str(e) + '\n' + traceback.format_exc())
                 raise Exception('Make response code 500!')
@@ -931,6 +940,21 @@ def get_data_template(request, type='home', provider_type = []):
     bg_regis = ''
     google_analytics = ''
     login_background_color = '#333333'
+    airline_origin = 'SUB - Juanda International Airport - Surabaya - Indonesia'
+    airline_destination = 'SIN - Changi Intl - Singapore - Singapore'
+    train_origin = 'BD - Bandung - Bandung - Indonesia'
+    train_destination = 'GMR - Gambir - Jakarta - Indonesia'
+    file = read_cache_with_folder_path("data_cache_product", 90911)
+    if file:
+        for idx, line in enumerate(file.split('\n')):
+            if idx == 0 and line != '':
+                airline_origin = line
+            elif idx == 1 and line != '':
+                airline_destination = line
+            elif idx == 2 and line != '':
+                train_origin = line
+            elif idx == 3 and line != '':
+                train_destination = line
     try:
         if type != 'login':
             if request.session.get('keep_me_signin') == True:
@@ -1105,7 +1129,11 @@ def get_data_template(request, type='home', provider_type = []):
         'bg_search': bg_search,
         'bg_regis': bg_regis,
         'google_analytics': google_analytics,
-        'login_background_color': login_background_color
+        'login_background_color': login_background_color,
+        'airline_origin': airline_origin,
+        'airline_destination': airline_destination,
+        'train_origin': train_origin,
+        'train_destination': train_destination
 
     }
 
