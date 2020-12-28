@@ -1083,11 +1083,11 @@ function carrier_to_provider(){
 }
 
 function send_search_to_api(val){
-    if(airline_request.direction == 'RT' && counter_search == 0){
+    if(airline_request.direction == 'RT'){
         document.getElementById('show_origin_destination').innerHTML = `<span style="font-size:12px;" title="`+airline_request.origin[counter_search]+` > `+airline_request.destination[counter_search]+`"><span class="copy_span"> `+airline_request.origin[counter_search].split(' - ')[2] + ` (`+airline_request.origin[counter_search].split(' - ')[0]+`) </span><i class="fas fa-arrows-alt-h"></i><span class="copy_span"> `+airline_request.destination[counter_search].split(' - ')[2]+` (`+airline_request.destination[counter_search].split(' - ')[0]+`)</span></span>`;
-        date_show = `<i class="fas fa-calendar-alt"></i> `+airline_request.departure[counter_search];
-        if(airline_request.departure[counter_search] != airline_request['return'][counter_search]){
-            date_show += ` - `+airline_request['return'][counter_search];
+        date_show = `<i class="fas fa-calendar-alt"></i> `+airline_request.departure[0];
+        if(airline_request.departure[0] != airline_request['return'][0]){
+            date_show += ` - `+airline_request['return'][0];
         }
         document.getElementById('show_date').innerHTML = date_show;
         document.getElementById('title_search').innerHTML += " From " + airline_request.origin[counter_search].split(' - ')[2] + " To " + airline_request.destination[counter_search].split(' - ')[2];
@@ -1130,6 +1130,10 @@ function send_search_to_api(val){
         }
         else{
             ticket_count = 0;
+            if ((airline_choose/count_progress_bar_airline)*100 == 100){
+                airline_choose = 0;
+                count_progress_bar_airline = 0;
+            }
             for(i in provider_airline){
                 airline_search(provider_airline[i][0],provider_airline[i][1]);
             }
@@ -1144,6 +1148,7 @@ function send_search_to_api(val){
             document.getElementById('waitFlightSearch').style.display = "block";
         }
     }
+    change_date_next_prev(counter_search);
     counter_search++;
 }
 

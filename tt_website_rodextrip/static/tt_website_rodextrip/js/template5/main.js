@@ -241,33 +241,32 @@ $(document).ready(function () {
     //------- Owl Carusel  js --------//
 
     $('.owl-carousel').owlCarousel({
-        loop:true,
-        nav: true,
+        loop:false,
+        nav: false,
         margin: 20,
         responsiveClass:true,
         dots: false,
         smartSpeed:500,
-        autoplay: true,
+        autoplay: false,
         autoplayTimeout:5000,
         autoplayHoverPause:false,
         navText: ['<i class="fa fa-caret-left owl-wh"/>', '<i class="fa fa-caret-right owl-wh"/>'],
         responsive:{
             0:{
-                items:2,
-                nav:true
+                items:5,
+                nav:false
             },
             480:{
-                items:2,
+                items:5,
                 nav:false
             },
             768:{
-                items:3,
+                items:5,
                 nav:false
             },
             961:{
-                items:3,
-                nav:true,
-                loop:true
+                items:5,
+                nav:false,
             }
         }
     });
