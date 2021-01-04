@@ -5079,6 +5079,10 @@ function change_date_shortcut(val){
         document.getElementById('airline_list2').innerHTML = '';
         time_limit = 1200;
         carrier_code = [];
+        counter_search = 0;
+        airline_pick_list = [];
+        journey = [];
+        airline_pick_mc('no_button');
         send_search_to_api();
       }
     })
@@ -5138,7 +5142,7 @@ function change_date_next_prev(counter){
         else{
             var prevdept = moment(airline_request.departure[counter-1]).subtract(+1, 'days').format('DD MMM YYYY'); // tanggal berangkat sebelumnya
             if(airline_request.direction == 'MC'){
-                if(counter_search != airline_request.departure.length){
+                if(counter_search != airline_request.departure.length-1){
                     var nextdept = moment(airline_request.departure[counter+1]).subtract(-1, 'days').format('DD MMM YYYY'); // tanggal berangkat setelahnya
                     if(new Date(flight_date.subtract(-1, 'days').format(date_format)).getTime() >= new Date(nextdept).getTime()){
                         $('.date_item_n1').removeClass("button_date_np");

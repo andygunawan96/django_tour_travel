@@ -1158,6 +1158,7 @@ function get_va_number(){
 
 function change_top_up_method(){
     var top_up_select = '';
+    var get_term = false;
     var radios = document.getElementsByName('top_up_radio');
     for (var j = 0, length = radios.length; j < length; j++) {
         if (radios[j].checked) {
@@ -1728,6 +1729,31 @@ function change_top_up_method(){
                     </div>
                 </div>
             </div>`;
+        get_term = true;
     }
     document.getElementById('top_up_div').innerHTML = text;
+    if(get_term == true){
+        func_get_term();
+    }
+}
+
+function func_get_term(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/content",
+       headers:{
+            'action': 'get_top_up_term',
+       },
+       data: {
+       },
+       success: function(msg) {
+            console.log(msg);
+            msg = msg.replace(/&lt;/g, '<');
+            msg = msg.replace(/&gt;/g, '>');
+            document.getElementById('topup_tac').innerHTML = msg;
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get signature');
+       },timeout: 60000
+    });
 }

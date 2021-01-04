@@ -5350,13 +5350,13 @@ function check_refund_partial_btn(){
                                             text+=`
                                                 <div class="row" style="margin-bottom:5px;">
                                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                                        <span style="font-size:12px;">`+msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].charge_type+` `+msg.result.response.provider_bookings[i].pnr+`</span>
+                                                        <span style="font-size:12px;">`+msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].charge_type+` `+msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].charge_code+` `+msg.result.response.provider_bookings[i].pnr+`</span>
                                                     </div>
                                                     <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1" style="text-align:right;">
                                                         <span style="font-size:13px;">`+currency+`</span>
                                                     </div>
                                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
-                                                        <input type=text id="`+msg.result.response.provider_bookings[i].passengers[j].first_name+`_`+msg.result.response.provider_bookings[i].passengers[j].last_name+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].fee_name+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].charge_type+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].sequence+`" value="`+getrupiah(msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].amount)+`" onchange="change_refund_price('`+msg.result.response.provider_bookings[i].passengers[j].first_name+`_`+msg.result.response.provider_bookings[i].passengers[j].last_name+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].fee_name+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].charge_type+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].sequence+`')" size="13"/>
+                                                        <input type=text id="`+msg.result.response.provider_bookings[i].passengers[j].first_name+`_`+msg.result.response.provider_bookings[i].passengers[j].last_name+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].fee_name+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].charge_type+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].sequence+`" value="`+getrupiah(msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].amount)+`" onchange="change_refund_price('`+msg.result.response.provider_bookings[i].passengers[j].first_name+`_`+msg.result.response.provider_bookings[i].passengers[j].last_name+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].fee_name+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].charge_type+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].sequence+`')" style="width:130%"/>
                                                     </div>
                                                 </div>`;
                                             pnr_refund_list[msg.result.response.provider_bookings[i].pnr].push(msg.result.response.provider_bookings[i].passengers[j].first_name+`_`+msg.result.response.provider_bookings[i].passengers[j].last_name+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].fee_name+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].charge_type+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].sequence)
@@ -5493,8 +5493,10 @@ function cancel_btn(){
             passengers.push($('.refund_pax:checkbox:checked')[0].id);
         });
         var list_price_refund = [];
-
+        var provider = [];
         for(i in airline_refund_response.provider_bookings){
+            if(provider.includes(airline_refund_response.provider_bookings[i].pnr)==false)
+                provider.push(airline_refund_response.provider_bookings[i].provider);
             for(j in airline_refund_response.provider_bookings[i].passengers){
                 for(k in airline_refund_response.provider_bookings[i].passengers[j].fees){
                     if(airline_refund_response.provider_bookings[i].passengers[j].fees[k].fee_type == 'RF'){
@@ -5537,7 +5539,8 @@ function cancel_btn(){
                'order_number': airline_get_detail.result.response.order_number,
                'signature': signature,
                'passengers': JSON.stringify(passengers),
-               'list_price_refund': JSON.stringify(list_price_refund)
+               'list_price_refund': JSON.stringify(list_price_refund),
+               'provider': JSON.stringify(provider)
            },
            success: function(msg) {
                console.log(msg);

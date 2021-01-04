@@ -94,6 +94,8 @@ def api_models(request):
             res = get_dynamic_page_detail(request)
         elif req_data['action'] == 'testing_espay_close':
             res = testing_espay_close(request)
+        elif req_data['action'] == 'get_top_up_term':
+            res = get_top_up_term(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -377,6 +379,25 @@ def create_legder(request):
         }
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
+
+def get_top_up_term(request):
+    text = '''
+<h6>BANK TRANSFER / CASH</h6>
+<li>1. Before you click SUBMIT, please make sure you have inputted the correct amount of TOP UP. If there is a mismatch data, such as the transferred amount/bank account is different from the requested amount/bank account, so the TOP UP will be approved by tomorrow (D+1).<br></li>
+<li>2. Bank Transfer / CASH TOP UP can be used on Monday-Sunday: 8 AM - 8 PM (GMT +7)<br></li>
+<li>3. Bank Transfer (BCA or Mandiri) auto validate in 15 minutes<br></li>
+<h6>National Holiday included</h6>
+<h6>For CASH you have to send money to Rodextrip (Jl. Raya Darmo 177 B Surabaya)</h6><br>
+<h6>VIRTUAL ACCOUNT</h6>
+
+<li>1. Top Up Transaction from ATM / LLG open for 24 hours. Balance will be added automatically (REAL TIME) after payment. Top up fee will be charged to user and if there's other charge for LLG it will be charged to user too. LLG will be added ± 2 hours from payment.<br><br></li>
+<h6>MANDIRI INTERNET BANKING</h6>
+<li>1. Transaction Top up from internet banking mandiri open for 24 hours. Balance will be added automatically (REAL TIME) after payment with additional admin Top Up.<br><br></li>
+    '''
+    file = read_cache_with_folder_path("top_up_term", 90911)
+    if file:
+        text = file
+    return text
 
 def testing_espay_close(request):
     try:

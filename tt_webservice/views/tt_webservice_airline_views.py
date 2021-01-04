@@ -1535,7 +1535,11 @@ def update_refund_booking(request):
     try:
         provider_bookings = request.POST.get('passengers') and compute_pax_js_new(request.POST['passengers']) or []
         fees = json.loads(request.POST['list_price_refund'])
-        for provider_booking in provider_bookings:
+        provider = json.loads(request.POST['provider'])
+        for idx, provider_booking in enumerate(provider_bookings):
+            provider_booking['provider'] = provider[idx]
+            if provider_booking['provider'] == 'amadeus' and len(provider_booking['journeys']) > 1:
+                provider_booking['journeys'].pop()
             for journey in provider_booking['journeys']:
                 journey['passengers'] = []
                 for fee in fees:
