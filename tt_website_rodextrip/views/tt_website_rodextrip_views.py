@@ -606,6 +606,10 @@ def admin(request):
                     text += request.POST.get('train_destination') or ''
                     write_cache_with_folder(text, "data_cache_product")
 
+                    text = ''
+                    text += request.POST.get('top_up_term')
+                    write_cache_with_folder(text, "top_up_term")
+
             except Exception as e:
                 _logger.error(str(e) + '\n' + traceback.format_exc())
                 raise Exception('Make response code 500!')
@@ -649,7 +653,7 @@ def admin(request):
         return no_session_logout(request)
 
 def reservation(request):
-    if 'user_account' in request.session._session:
+    if 'user_account' in request.session._session and request.session['user_account']['co_user_login'] != 'agent_b2c':
         try:
             javascript_version = get_javascript_version()
             cache_version = get_cache_version()
@@ -737,7 +741,7 @@ def highlight_setting(request):
         return no_session_logout(request)
 
 def top_up(request):
-    if 'user_account' in request.session._session:
+    if 'user_account' in request.session._session and 'b2c_limitation' not in request.session['user_account']['co_agent_frontend_security']:
         try:
             javascript_version = get_javascript_version()
             cache_version = get_cache_version()
@@ -771,7 +775,7 @@ def top_up(request):
         return no_session_logout(request)
 
 def top_up_quota_pnr(request):
-    if 'user_account' in request.session._session:
+    if 'user_account' in request.session._session and 'b2c_limitation' not in request.session['user_account']['co_agent_frontend_security']:
         try:
             javascript_version = get_javascript_version()
             cache_version = get_cache_version()
@@ -846,7 +850,7 @@ def payment(request):
         return no_session_logout(request)
 
 def top_up_history(request):
-    if 'user_account' in request.session._session:
+    if 'user_account' in request.session._session and 'b2c_limitation' not in request.session['user_account']['co_agent_frontend_security']:
         try:
             javascript_version = get_javascript_version()
             cache_version = get_cache_version()
@@ -944,6 +948,19 @@ def get_data_template(request, type='home', provider_type = []):
     airline_destination = 'SIN - Changi Intl - Singapore - Singapore'
     train_origin = 'BD - Bandung - Bandung - Indonesia'
     train_destination = 'GMR - Gambir - Jakarta - Indonesia'
+    top_up_term = '''
+<h6>BANK TRANSFER / CASH</h6>
+<li>1. Before you click SUBMIT, please make sure you have inputted the correct amount of TOP UP. If there is a mismatch data, such as the transferred amount/bank account is different from the requested amount/bank account, so the TOP UP will be approved by tomorrow (D+1).<br></li>
+<li>2. Bank Transfer / CASH TOP UP can be used on Monday-Sunday: 8 AM - 8 PM (GMT +7)<br></li>
+<li>3. Bank Transfer (BCA or Mandiri) auto validate in 15 minutes<br></li>
+<h6>National Holiday included</h6>
+<h6>For CASH you have to send money to Rodextrip (Jl. Raya Darmo 177 B Surabaya)</h6><br>
+<h6>VIRTUAL ACCOUNT</h6>
+
+<li>1. Top Up Transaction from ATM / LLG open for 24 hours. Balance will be added automatically (REAL TIME) after payment. Top up fee will be charged to user and if there's other charge for LLG it will be charged to user too. LLG will be added ± 2 hours from payment.<br><br></li>
+<h6>MANDIRI INTERNET BANKING</h6>
+<li>1. Transaction Top up from internet banking mandiri open for 24 hours. Balance will be added automatically (REAL TIME) after payment with additional admin Top Up.<br><br></li>
+    '''
     file = read_cache_with_folder_path("data_cache_product", 90911)
     if file:
         for idx, line in enumerate(file.split('\n')):
@@ -955,6 +972,9 @@ def get_data_template(request, type='home', provider_type = []):
                 train_origin = line
             elif idx == 3 and line != '':
                 train_destination = line
+    file = read_cache_with_folder_path("top_up_term", 90911)
+    if file:
+        top_up_term = file
     try:
         if type != 'login':
             if request.session.get('keep_me_signin') == True:
@@ -1133,7 +1153,8 @@ def get_data_template(request, type='home', provider_type = []):
         'airline_origin': airline_origin,
         'airline_destination': airline_destination,
         'train_origin': train_origin,
-        'train_destination': train_destination
+        'train_destination': train_destination,
+        'top_up_term': top_up_term
 
     }
 

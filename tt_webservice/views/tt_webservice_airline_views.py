@@ -121,6 +121,8 @@ def api_models(request):
             res = issued(request)
         elif req_data['action'] == 'cancel':
             res = cancel(request)
+        elif req_data['action'] == 'update_refund_booking':
+            res = update_refund_booking(request)
         elif req_data['action'] == 'reissue':
             res = reissue(request)
         elif req_data['action'] == 'sell_journey_reissue_construct':
@@ -531,8 +533,6 @@ def search2(request):
             # "provider": 'amadeus',
             "carrier_codes": json.loads(request.POST['carrier_codes']),
         }
-        if 'airline_search' not in request.session._session:
-            set_session(request, 'airline_search', data)
 
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -554,6 +554,8 @@ def search2(request):
     res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST', timeout=120)
     try:
         if res['result']['error_code'] == 0:
+            if 'airline_search' not in request.session._session:
+                set_session(request, 'airline_search', data)
             for journey_list in res['result']['response']['schedules']:
                 for journey in journey_list['journeys']:
                     journey['is_combo_price'] = False
@@ -1528,13 +1530,52 @@ def update_service_charge(request):
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
+def update_refund_booking(request):
+    # nanti ganti ke get_ssr_availability
+    try:
+        provider_bookings = request.POST.get('passengers') and compute_pax_js_new(request.POST['passengers']) or []
+        fees = json.loads(request.POST['list_price_refund'])
+        provider = json.loads(request.POST['provider'])
+        for idx, provider_booking in enumerate(provider_bookings):
+            provider_booking['provider'] = provider[idx]
+            if provider_booking['provider'] == 'amadeus' and len(provider_booking['journeys']) > 1:
+                provider_booking['journeys'].pop()
+            for journey in provider_booking['journeys']:
+                journey['passengers'] = []
+                for fee in fees:
+                    if provider_booking['pnr'] == fee['pnr']:
+                        journey['passengers'].append(fee)
+        data = {
+            'order_number': request.POST['order_number'],
+            'passengers': request.POST.get('passengers') and compute_pax_js(request.POST['passengers']) or [],
+            'provider_bookings': provider_bookings
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "update_refund_booking",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST', timeout=300)
+    try:
+        if res['result']['error_code'] == 0:
+            _logger.info("SUCCESS cancel AIRLINE SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("ERROR cancel_airline AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
 def cancel(request):
     # nanti ganti ke get_ssr_availability
     try:
         data = {
             'order_number': request.POST['order_number'],
             'passengers': request.POST.get('passengers') and compute_pax_js(request.POST['passengers']) or [],
-            'provider_bookings': [],
+            'provider_bookings': request.POST.get('passengers') and compute_pax_js_new(request.POST['passengers']) or []
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -1934,37 +1975,38 @@ def compute_pax_js_new(paxs):
     #  }]
     # }
     journeys = []
-    for rec in json.loads(paxs):
-        rec_pax = rec.split('~')
-        check = True
-        for pnr in journeys:
-            if pnr['pnr'] == rec_pax[1]:
-                for journey in pnr['journeys']:
-                    if rec_pax[3] == journey['destination'] and rec_pax[4] == journey['origin'] and convert_frontend_datetime_to_server_format(rec_pax[5]) == journey['departure_date'] and rec_pax[2] not in journey['pax']:
-                        journey['pax'].append(int(rec_pax[2]))
-                        check = False
-                if check == True:
-                    pnr['journeys'].append({
-                        'destination': rec_pax[3],
-                        'origin': rec_pax[4],
-                        'departure_date': convert_frontend_datetime_to_server_format(rec_pax[5]),
-                        'pax': []
-                    })
-                    journeys[len(journeys) - 1]['journeys'][len(journeys[len(journeys) - 1]['journeys']) - 1]['pax'].append(int(rec_pax[2]))
-                check = False
+    for journey in json.loads(paxs):
+        for rec in journey.split(' - '):
+            rec_pax = rec.split('~')
+            check = True
+            for pnr in journeys:
+                if pnr['pnr'] == rec_pax[1]:
+                    for journey in pnr['journeys']:
+                        if rec_pax[3] == journey['destination'] and rec_pax[4] == journey['origin'] and convert_frontend_datetime_to_server_format(rec_pax[5]) == journey['departure_date'] and rec_pax[2] not in journey['pax']:
+                            journey['pax'].append(int(rec_pax[2]))
+                            check = False
+                    if check == True:
+                        pnr['journeys'].append({
+                            'destination': rec_pax[3],
+                            'origin': rec_pax[4],
+                            'departure_date': convert_frontend_datetime_to_server_format(rec_pax[5]),
+                            'pax': []
+                        })
+                        journeys[len(journeys) - 1]['journeys'][len(journeys[len(journeys) - 1]['journeys']) - 1]['pax'].append(int(rec_pax[2]))
+                    check = False
 
-        if check == True:
-            journeys.append({
-                'pnr': rec_pax[1],
-                'journeys': []
-            })
-            journeys[len(journeys)-1]['journeys'].append({
-                'destination': rec_pax[3],
-                'origin': rec_pax[4],
-                'departure_date': convert_frontend_datetime_to_server_format(rec_pax[5]),
-                'pax': []
-            })
-            journeys[len(journeys) - 1]['journeys'][len(journeys[len(journeys) - 1]['journeys']) -1]['pax'].append(int(rec_pax[2]))
+            if check == True:
+                journeys.append({
+                    'pnr': rec_pax[1],
+                    'journeys': []
+                })
+                journeys[len(journeys)-1]['journeys'].append({
+                    'destination': rec_pax[3],
+                    'origin': rec_pax[4],
+                    'departure_date': convert_frontend_datetime_to_server_format(rec_pax[5]),
+                    'pax': []
+                })
+                journeys[len(journeys) - 1]['journeys'][len(journeys[len(journeys) - 1]['journeys']) -1]['pax'].append(int(rec_pax[2]))
 
     return journeys
 

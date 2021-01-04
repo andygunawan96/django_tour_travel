@@ -1020,9 +1020,9 @@ function get_customer_list(passenger, number, product){
                                             response+=`<br/><span><i class="fas fa-envelope"></i> `+msg.result.response[i].email+`</span>`;
                                         if(msg.result.response[i].identities.hasOwnProperty('passport') == true)
                                             response+=`<br/> <span><i class="fas fa-passport"></i> Passport - `+msg.result.response[i].identities.passport.identity_number+`</span>`;
-                                        else if(msg.result.response[i].identities.hasOwnProperty('ktp') == true)
+                                        if(msg.result.response[i].identities.hasOwnProperty('ktp') == true)
                                             response+=`<br/> <span><i class="fas fa-id-card"></i> KTP - `+msg.result.response[i].identities.ktp.identity_number+`</span>`;
-                                        else if(msg.result.response[i].identities.hasOwnProperty('sim') == true)
+                                        if(msg.result.response[i].identities.hasOwnProperty('sim') == true)
                                             response+=`<br/> <span><i class="fas fa-id-badge"></i> SIM - `+msg.result.response[i].identities.sim.identity_number+`</span>`;
                                         if(msg.result.response[i].customer_parents.length != 0){
                                             response += `<div class="tooltip-inner" style="text-align:left;" data-tooltip="`;

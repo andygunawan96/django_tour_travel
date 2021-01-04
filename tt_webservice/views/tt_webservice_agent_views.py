@@ -652,6 +652,21 @@ def get_new_cache(signature, type='all'):
             write_cache_with_folder(res, "version" + str(cache_version))
             write_cache_with_folder(cache_version, "cache_version")
 
+            # cache tanggal libur
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
+                "action": "get_public_holiday",
+                "signature": signature,
+            }
+            data = {
+                'country_id': 100,
+                'start_date': datetime.now().strftime('%Y-%m-%d'),
+                'end_date': (datetime.now() + timedelta(days=365)).strftime('%Y-%m-%d'),
+            }
+            res = util.send_request(url=url + "content", data=data, headers=headers, method='POST')
+            write_cache_with_folder(res, "get_holiday_cache")
+
         if type == 'all' or type == 'image':
             #banner
             headers = {
