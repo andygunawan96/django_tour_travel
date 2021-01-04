@@ -7,7 +7,7 @@
 */
 // Following the UMD template https://github.com/umdjs/umd/blob/master/templates/returnExportsGlobal.js
 
-var date_api = {};
+date_api = {};
 
 function get_public_holiday(start_date, end_date, country_id){
     getToken();
