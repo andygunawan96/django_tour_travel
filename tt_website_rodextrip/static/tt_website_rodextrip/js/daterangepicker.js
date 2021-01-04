@@ -26,7 +26,10 @@ function get_public_holiday(start_date, end_date, country_id){
        success: function(msg) {
             console.log(msg);
             if(msg.result.error_code == 0){
+                console.log('testing_masuk sini')
                 date_api = msg;
+            }else{console.log('testing error code salah sini')
+
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
