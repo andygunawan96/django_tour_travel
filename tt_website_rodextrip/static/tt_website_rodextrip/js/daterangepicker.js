@@ -7,7 +7,6 @@
 */
 // Following the UMD template https://github.com/umdjs/umd/blob/master/templates/returnExportsGlobal.js
 
-date_api = {};
 
 function get_public_holiday(start_date, end_date, country_id){
     getToken();
@@ -26,13 +25,11 @@ function get_public_holiday(start_date, end_date, country_id){
        success: function(msg) {
             console.log(msg);
             if(msg.result.error_code == 0){
-                console.log('testing_masuk sini')
                 date_api = msg;
-            }else{console.log('testing error code salah sini')
-
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            date_api = {}
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get public holiday');
        }
     });
