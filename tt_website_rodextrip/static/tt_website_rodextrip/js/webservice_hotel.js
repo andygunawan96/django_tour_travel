@@ -724,12 +724,16 @@ function hotel_detail_request(checkin_date, checkout_date){
                         }
 
                         text+=`<div class="col-lg-9 col-md-9"><div class="row">`;
+                        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true)
+                            provider_htl = '';
+                        else
+                            provider_htl = result.prices[i].provider + ' - ';
                         for(j in result.prices[i].rooms){
                             if(idx == 0){
                                 document.getElementById("name_room_htl"+j).value = show_name_room;
                                 text+=`<div class="col-lg-12">`;
                                 //<span>' + result.prices[i].rooms[j].category + '</span><br/>
-                                text+= '<h5 class="name_room" style="margin-bottom:5px;" + title=' + title_name_room + '>' + show_name_room + '</h5><span class="qty_room">Total Room(s): '+ result.prices[i].rooms.length +'</span>';
+                                text+= '<h5 class="name_room" style="margin-bottom:5px;" + title=' + title_name_room + '>' + show_name_room +'</h5><span class="qty_room">Total Room(s): '+ result.prices[i].rooms.length + '</span>';
                                 text+=`<span style="color:`+color+`; float:right; font-weight:700; cursor:pointer;" onclick="create_detail_room(`+i+`, result_room_detail);">See Detail</span><hr style="margin:5px 0px;"/>`;
                                 text+=`</div>`;
 
@@ -746,9 +750,9 @@ function hotel_detail_request(checkin_date, checkout_date){
                                     var total_room = document.getElementById("hotel_room").value;
                                     var total_night = document.getElementById("total_night_search").textContent;
                                     if(result.prices[i].currency != 'IDR')
-                                        text+= '<span class="price_room" style="font-weight: bold; font-size:14px;"> '+ result.prices[i].currency + ' ' + result.prices[i].price_total +'</span><br/><span class="copy_total_rn carrier_code_template" style="font-size:12px;">(for '+total_room+' room, '+total_night+' night)</span><br/>';
+                                        text+= '<span class="price_room" style="font-weight: bold; font-size:14px;"> '+ provider_htl + result.prices[i].currency + ' ' + result.prices[i].price_total +'</span><br/><span class="copy_total_rn carrier_code_template" style="font-size:12px;">(for '+total_room+' room, '+total_night+' night)</span><br/>';
                                     else
-                                        text+= '<span class="price_room" style="font-weight: bold; font-size:14px;"> '+ result.prices[i].currency + ' ' + getrupiah(result.prices[i].price_total)+'</span><br/><span class="copy_total_rn carrier_code_template" style="font-size:12px;">(for '+total_room+' room, '+total_night+' night)</span><br/>';
+                                        text+= '<span class="price_room" style="font-weight: bold; font-size:14px;"> '+ provider_htl + result.prices[i].currency + ' ' + getrupiah(result.prices[i].price_total)+'</span><br/><span class="copy_total_rn carrier_code_template" style="font-size:12px;">(for '+total_room+' room, '+total_night+' night)</span><br/>';
 
                                     if (result.prices[i].availability == 'available'){
                                         text+=`<button class="primary-btn-custom" type="button" onclick="hotel_room_pick(`+i+`,`+j+`);" id="button`+i+`">Choose</button>`;
