@@ -1544,10 +1544,21 @@ def update_refund_booking(request):
                 journey['passengers'] = []
                 for fee in fees:
                     if provider_booking['pnr'] == fee['pnr']:
-                        journey['passengers'].append(fee)
+                        add_fee = True
+                        for pax_obj in journey['passengers']:
+                            if pax_obj['sequence'] == fee['sequence']:
+                                add_fee = False
+                                pax_obj['fees'].append(fee)
+
+                        if add_fee == True:
+                            journey['passengers'].append({
+                                'first_name': fee['first_name'],
+                                'last_name': fee['last_name'],
+                                'sequence': fee['sequence'],
+                                'fees': [fee]
+                            })
         data = {
             'order_number': request.POST['order_number'],
-            'passengers': request.POST.get('passengers') and compute_pax_js(request.POST['passengers']) or [],
             'provider_bookings': provider_bookings
         }
         headers = {

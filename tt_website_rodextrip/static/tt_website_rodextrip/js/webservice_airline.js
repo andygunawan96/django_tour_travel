@@ -4050,6 +4050,7 @@ function airline_get_booking(data, sync=false){
                                     col = 3;
                             }
                        }
+                       document.getElementById('ssr_request_after_sales').innerHTML = '';
                        if(check_reschedule){
                             document.getElementById('reissued').hidden = false;
                             document.getElementById('reissued').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="reissued_btn();" value="Reissued">`;
@@ -5327,6 +5328,7 @@ function check_refund_partial_btn(){
                    total = 0;
                    pinalty_amount_with_admin_fee = 0;
                    pnr_refund_list = {};
+                   total_hitung_frontend = 0;
                    for (i in msg.result.response.provider_bookings){
                        currency = msg.result.response.provider_bookings[i].currency;
                        if(msg.result.response.provider_bookings[i].hasOwnProperty('resv_total_price')){
@@ -5359,6 +5361,7 @@ function check_refund_partial_btn(){
                                                         <input type=text id="`+msg.result.response.provider_bookings[i].passengers[j].first_name+`_`+msg.result.response.provider_bookings[i].passengers[j].last_name+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].fee_name+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].charge_type+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].sequence+`" value="`+getrupiah(msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].amount)+`" onchange="change_refund_price('`+msg.result.response.provider_bookings[i].passengers[j].first_name+`_`+msg.result.response.provider_bookings[i].passengers[j].last_name+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].fee_name+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].charge_type+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].sequence+`')" style="width:130%"/>
                                                     </div>
                                                 </div>`;
+                                            total_hitung_frontend += msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].amount;
                                             pnr_refund_list[msg.result.response.provider_bookings[i].pnr].push(msg.result.response.provider_bookings[i].passengers[j].first_name+`_`+msg.result.response.provider_bookings[i].passengers[j].last_name+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].fee_name+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].charge_type+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].sequence)
                                         }
                                     }
@@ -5370,7 +5373,15 @@ function check_refund_partial_btn(){
                                     <span style="font-size:12px;">Total `+msg.result.response.provider_bookings[i].pnr+`</span>
                                 </div>
                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                    <span style="font-size:13px;" id="total_`+msg.result.response.provider_bookings[i].pnr+`">`+currency+` `+getrupiah(parseInt(msg.result.response.provider_bookings[i].resv_total_price))+`</span>
+                                    <span style="font-size:13px;" id="total_`+msg.result.response.provider_bookings[i].pnr+`">`+currency+` `;
+                                    if(msg.result.response.provider_bookings[i].passengers[0].fees.length == 0){
+                                        text+=getrupiah(parseInt(msg.result.response.provider_bookings[i].resv_total_price))+`</span>`;
+                                        total = total - msg.result.response.provider_bookings[i].penalty_amount - msg.result.response.provider_bookings[i].admin_fee;
+                                    }else{
+                                        text+=getrupiah(parseInt(total_hitung_frontend))+`</span>`;
+                                        total = total_hitung_frontend - msg.result.response.provider_bookings[i].penalty_amount - msg.result.response.provider_bookings[i].admin_fee;
+                                    }
+                                    text+=`
                                 </div>
                             </div>`;
                             text+=`
@@ -5391,8 +5402,6 @@ function check_refund_partial_btn(){
                                     <span style="font-size:13px;">`+currency+` -`+getrupiah(parseInt(msg.result.response.provider_bookings[i].admin_fee))+`</span>
                                 </div>
                             </div>`;
-                            total = total - msg.result.response.provider_bookings[i].penalty_amount - msg.result.response.provider_bookings[i].admin_fee;
-                            console.log(total);
                             pinalty_amount_with_admin_fee -= msg.result.response.provider_bookings[i].penalty_amount - msg.result.response.provider_bookings[i].admin_fee;
                         }
                     }
@@ -5427,7 +5436,7 @@ function check_refund_partial_btn(){
                     $('.hold-seat-booking-train').prop('disabled', false);
                     $('.hold-seat-booking-train').removeClass("running");
                     document.getElementById('captcha').innerHTML = `
-                        <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" id="request_captcha" style="width:100%;" type="button" value="Next" onclick="next_disabled();pre_refund_login();">
+                        <button class="btn-next primary-btn next-passenger-train ld-ext-right" id="request_captcha" style="width:100%;" type="button" value="Next" onclick="next_disabled();pre_refund_login();">
                             Check Refund Price
                             <div class="ld ld-ring ld-cycle"></div>
                         </button>`;
@@ -5457,14 +5466,13 @@ function check_refund_partial_btn(){
 
 function change_refund_price(id){
     document.getElementById(id).value = getrupiah(document.getElementById(id).value.split(',').join(''));
-    grand_total = pinalty_amount_with_admin_fee;
+    grand_total = -pinalty_amount_with_admin_fee;
     for(i in pnr_refund_list){
-        console.log(i);
         total = 0;
         for(j in pnr_refund_list[i]){
-            total += parseInt(document.getElementById(id).value.split(',').join(''))
+            total += parseInt(document.getElementById(pnr_refund_list[i][j]).value.split(',').join(''))
         }
-        console.log(total);
+
         grand_total += total;
         document.getElementById('total_'+i).innerHTML = currency + ' ' + getrupiah(total);
     }
@@ -5569,7 +5577,7 @@ function cancel_btn(){
 
                     $('.hold-seat-booking-train').prop('disabled', false);
                     $('.hold-seat-booking-train').removeClass("running");
-                    airline_get_booking(airline_get_detail.result.response.order_number);
+                    airline_get_booking_refund(airline_get_detail.result.response.order_number);
                }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -8235,7 +8243,7 @@ function captcha_time_limit_airline(){
             document.getElementById('elapse_time_captcha').innerHTML += ((captcha_time - time_limit_captcha)%60) +`s`;
         }else{
             document.getElementById('captcha').innerHTML = `
-                <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" id="request_captcha" style="width:100%;" type="button" value="Next" onclick="next_disabled();pre_refund_login();">
+                <button class="btn-next primary-btn next-passenger-train ld-ext-right" id="request_captcha" style="width:100%;" type="button" value="Next" onclick="next_disabled();pre_refund_login();">
                     Check Refund Price
                     <div class="ld ld-ring ld-cycle"></div>
                 </button>`;
@@ -8378,7 +8386,7 @@ function airline_get_booking_refund(data){
                         //document.getElementById('captcha').hidden = false;
 //                        document.getElementById('cancel').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="check_refund_partial_btn();" value="Check Refund Price Partial"><hr/>`;
                         document.getElementById('captcha').innerHTML = `
-                            <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" id="request_captcha" style="width:100%;" type="button" value="Next" onclick="next_disabled();pre_refund_login();">
+                            <button class="btn-next primary-btn next-passenger-train ld-ext-right" id="request_captcha" style="width:100%;" type="button" value="Next" onclick="next_disabled();pre_refund_login();">
                                 Check Refund Price
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>`;
