@@ -1126,7 +1126,6 @@ function get_va_number(){
        },
        success: function(msg) {
             console.log(msg);
-
             text = '';
             text += `
                 <div class="col-lg-12" id="radio_top_up" style="padding:0px; text-align:left;margin-bottom:10px;" onchange="change_top_up_method();">
@@ -1172,13 +1171,23 @@ function change_top_up_method(){
     if(top_up_select == 'online_payment'){
         text = `<div class="col-sm-12" data-id="253" data-token="">`;
         for(i in va_number){
+            if(i != 0)
+                text += `<br/>`;
             text += `
                     <div class="row">
                         <div class="col-sm-3">
                             `+va_number[i].name+`
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-sm-2" style="text-align:right">
                             <strong>`+va_number[i].account_number+`</strong>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            Fee Amount
+                        </div>
+                        <div class="col-sm-2" style="text-align:right">
+                            <strong>`+va_number[i].currency+` `+getrupiah(va_number[i].price_component.fee)+`</strong>
                         </div>
                     </div>
             `;
