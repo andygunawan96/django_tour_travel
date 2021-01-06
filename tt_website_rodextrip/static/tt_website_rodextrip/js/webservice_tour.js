@@ -1465,7 +1465,29 @@ function tour_get_booking(order_number)
                             </div>
                         </div>
                 `;
-                text += `
+
+                if (tour_package.tour_type == 'open')
+                {
+                    text += `
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div id="tour_booking_info" style="padding:10px; margin-top: 15px; background-color:white; border:1px solid #cdcdcd;">
+                                    <h4> Tour Information </h4>
+                                    <hr/>
+                                    <h4>`+tour_package.name+`</h4>
+                                    <span><i class="fa fa-clock-o" aria-hidden="true"></i> `+tour_package.duration+` Days</span>
+                                    <br/>
+                                    <span>Period: `+tour_package.departure_date_str+` - `+tour_package.arrival_date_str+`</span>
+                                    <br/>
+                                    <span>`+tour_package.flight+` Flight, `+tour_package.visa+` Visa</span>
+                                    <br/>
+                                </div>
+                            </div>
+                        </div>`;
+                }
+                else
+                {
+                    text += `
                         <div class="row">
                             <div class="col-lg-12">
                                 <div id="tour_booking_info" style="padding:10px; margin-top: 15px; background-color:white; border:1px solid #cdcdcd;">
@@ -1483,6 +1505,8 @@ function tour_get_booking(order_number)
                                 </div>
                             </div>
                         </div>`;
+                }
+
                 text += `
                        <div class="row" style="margin-top: 15px;">
                             <div class="col-lg-12">
