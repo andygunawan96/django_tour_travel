@@ -1190,13 +1190,22 @@ function change_top_up_method(){
                             <strong>`+va_number[i].currency+` `+getrupiah(va_number[i].price_component.fee)+`</strong>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            Description
+                        </div>
+                        <div class="col-sm-2" style="text-align:right">
+                            `+va_number[i].description_msg+`
+                        </div>
+                    </div>
             `;
         }
 
         text+=`<div>
+            <br/>
             <div id="mandiri_va_acquirer">
                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                    <p><strong>Transfer Instruction</strong></p>
+                    <strong>Transfer Instruction</strong>
                     <div class="panel panel-default">
                         <div class="panel-heading-sgo" role="tab" id="headingFive">
                             <h4 class="panel-title">
