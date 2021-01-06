@@ -340,13 +340,17 @@ def passenger(request):
                 tour_dept_date = ''
                 tour_arr_date = ''
                 if request.session.get('tour_pick'):
-                    for line in request.session['tour_pick']['tour_lines']:
-                        if line['tour_line_code'] == request.POST['tour_line_code']:
-                            tour_dept_date = line['departure_date']
-                            tour_arr_date = line['arrival_date']
+                    if request.session['tour_pick']['tour_type'] == 'open':
+                        tour_dept_date = request.POST.get('open_tour_departure_date') and datetime.strptime(request.POST['open_tour_departure_date'], '%d %b %Y').strftime('%Y-%m-%d') or ''
+                        tour_arr_date = request.POST.get('open_tour_arrival_date') and datetime.strptime(request.POST['open_tour_arrival_date'], '%d %b %Y').strftime('%Y-%m-%d') or ''
+                    else:
+                        for line in request.session['tour_pick']['tour_lines']:
+                            if line['tour_line_code'] == request.POST['tour_line_code']:
+                                tour_dept_date = line['departure_date']
+                                tour_arr_date = line['arrival_date']
                 set_session(request, 'tour_dept_return_data', {
-                    'departure': request.POST.get('departure_date_tour2') and request.POST['departure_date_tour2'] or tour_dept_date,
-                    'arrival': request.POST.get('arrival_date_tour2') and request.POST['arrival_date_tour2'] or tour_arr_date
+                    'departure': tour_dept_date,
+                    'arrival': tour_arr_date
                 })
             except:
                 set_session(request, 'tour_dept_return_data', request.session['tour_dept_return_data'])

@@ -27,6 +27,10 @@ var tour_type_list = [
         real_val: 'city',
         status: false
     },{
+        value:'Open Tour',
+        real_val: 'open',
+        status: false
+    },{
         value:'Private Tour',
         real_val: 'private',
         status: false
@@ -293,29 +297,49 @@ function select_tour_date(key_change_date){
     document.getElementById('tour_line_code').value = line_data.tour_line_code;
     document.getElementById('tour_line_display').value = line_data.departure_date_str + ' - ' + line_data.arrival_date_str;
     selected_tour_date = line_data.departure_date_str + ' - ' + line_data.arrival_date_str;
-    document.getElementById('product_date').innerHTML = selected_tour_date;
     if (tour_data.tour_type == 'open')
     {
-        document.getElementById('open_tour_date').style.display = 'block';
-        $('#open_tour_date_input').daterangepicker({
-          singleDatePicker: false,
-          autoUpdateInput: true,
-          opens: 'center',
-          autoApply: true,
-          startDate: moment(),
-          endDate: moment().subtract(-1, 'days'),
-          minDate: line_data.departure_date,
-          maxDate: line_data.arrival_date,
-          showDropdowns: true,
-          maxSpan: {
-              days: parseInt(tour_data.duration)
-          },
-          locale: {
-              format: 'DD MMM YYYY',
-          }
-      });
+        var open_tour_elements = document.getElementsByClassName('open_tour_date');
+        for (var i = 0; i < open_tour_elements.length; i ++) {
+            open_tour_elements[i].style.display = 'block';
+        }
+        if (moment().format('YYYY-MM-DD') >= line_data.departure_date)
+        {
+            dr_picker_start = moment().format('DD MMM YYYY')
+        }
+        else
+        {
+            dr_picker_start = line_data.departure_date_str
+        }
+
+        $('#open_tour_departure_date').daterangepicker({
+            singleDatePicker: true,
+            autoUpdateInput: true,
+            opens: 'center',
+            autoApply: true,
+            startDate: dr_picker_start,
+            minDate: dr_picker_start,
+            maxDate: line_data.arrival_date_str,
+            showDropdowns: true,
+            opens: 'center',
+            locale: {
+                format: 'DD MMM YYYY',
+            }
+        });
+    }
+    else
+    {
+        document.getElementById('product_date').innerHTML = selected_tour_date;
     }
     $('#ChangeDateModal').modal('hide');
+}
+
+function set_tour_arrival_date(){
+    var tour_dept_date = document.getElementById('open_tour_departure_date').value;
+    var tour_arr_date = moment(tour_dept_date).add(tour_data.duration, 'days').format('DD MMM YYYY');
+    document.getElementById('open_tour_arrival_date').value = tour_arr_date;
+    selected_tour_date = tour_dept_date.toString() + ' - ' + tour_arr_date.toString();
+    document.getElementById('product_date').innerHTML = selected_tour_date;
 }
 
 function add_tour_room(key_accomodation){
@@ -497,9 +521,9 @@ function check_detail(){
     }
     if (tour_data.tour_type == 'open')
     {
-        if (document.getElementById('open_tour_date_input').value == '')
+        if (document.getElementById('open_tour_departure_date').value == '')
         {
-            error_check += 'Please choose your departure and arrival date!\n';
+            error_check += 'Please choose your departure date!\n';
         }
     }
 

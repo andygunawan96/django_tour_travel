@@ -399,6 +399,11 @@ def sell_tour(request):
             "infant": request.session['tour_booking_data']['infant'],
             'provider': request.session['tour_pick']['provider'],
         }
+        if request.session['tour_pick']['tour_type'] == 'open':
+            data.update({
+                'departure_date': request.session['tour_dept_return_data'].get('departure') and request.session['tour_dept_return_data']['departure'] or '',
+                'arrival_date': request.session['tour_dept_return_data'].get('arrival') and request.session['tour_dept_return_data']['arrival'] or ''
+            })
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",

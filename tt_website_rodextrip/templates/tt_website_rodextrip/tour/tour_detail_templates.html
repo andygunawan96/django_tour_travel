@@ -6,9 +6,9 @@
 <!--<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>-->
 <script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/tour_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_tour.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/owl.carousel.min.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
 <script>
@@ -951,9 +951,15 @@
                                                 <button id="btnChangeDate" class="primary-btn-ticket btn-block space" type="button" data-toggle="modal" data-target="#ChangeDateModal"><i class="fas fa-calendar-alt"></i> {% trans 'Change Package' %}</button>
                                             </div>
                                         </div>
-                                        <div class="row mt-3" id="open_tour_date" style="display:none;">
-                                            <div class="col-lg-12">
-                                                <input type="text" id="open_tour_date_input" name="open_tour_date_input" placeholder="Select Tour Departure Date - Arrival Date" class="form-control mb-3" disabled/>
+                                        <h4 class="mb-3 open_tour_date" style="display:none;">{% trans 'Select Tour Departure Date - Arrival Date' %}</h4>
+                                        <div class="open_tour_date" style="display:none;">
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <input type="text" id="open_tour_departure_date" name="open_tour_departure_date" placeholder="Select Tour Departure Date" class="form-control" autocomplete="off" onchange="set_tour_arrival_date()" readonly/>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <input type="text" id="open_tour_arrival_date" name="open_tour_arrival_date" placeholder="Tour Arrival Date" class="form-control" autocomplete="off" style="background: #dddddd; pointer-events: none;" readonly/>
+                                                </div>
                                             </div>
                                         </div>
                                         <br/>
@@ -966,7 +972,7 @@
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                                 <button id="btnShowRooms" class="primary-btn-ticket btn-block space" type="button" data-toggle="modal" data-target="#TourRoomsModal"><i class="fas fa-plus"></i> {% trans 'Add Room' %}</button>
                                             </div>
-                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding-left: 0px;">
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                                 <button id="btnDeleteRooms" class="primary-btn-ticket btn-block space hide" type="button" onclick="delete_tour_room()"><i class="fas fa-trash-alt"></i> {% trans 'Delete' %}</button>
                                             </div>
                                         </div>
