@@ -511,12 +511,15 @@ function activity_table_detail2(pagetype){
 
    document.getElementById('product_visit_date').innerHTML = visit_date_txt;
 
-   $test += 'Contact Person:\n';
-   $test += contact[0].title + ' ' + contact[0].first_name + ' ' + contact[0].last_name + '\n';
-   $test += contact[0].email + '\n';
-   $test += contact[0].calling_code + ' - ' + contact[0].mobile + '\n\n';
+
 
    try{
+        if(document.URL.split('/')[document.URL.split('/').length-1] == 'review'){
+           $test += 'Contact Person:\n';
+           $test += contact[0].title + ' ' + contact[0].first_name + ' ' + contact[0].last_name + '\n';
+           $test += contact[0].email + '\n';
+           $test += contact[0].calling_code + ' - ' + contact[0].mobile + '\n\n';
+        }
         for(i in all_pax){
             if(i == 0)
                 $test += 'Passengers:\n';
