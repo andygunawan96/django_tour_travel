@@ -202,6 +202,10 @@ def set_data_issued_offline(request):
             temp_date[3] = str(datetime.strptime(temp_date[3], '%H:%M:%S') - timedelta(hours=12))
         exp_date = [temp_date[2] + '-' + month[temp_date[1]] + '-' + temp_date[0],temp_date[3].split(':')[0] + ':' + temp_date[3].split(':')[1]]
 
+        quick_validate = True
+        if request.POST['quick_validate'] == 'false':
+            quick_validate = False
+
         data_issued_offline = {
             "type": request.POST['type'],
             "total_sale_price": int(request.POST['total_sale_price']),
@@ -209,7 +213,7 @@ def set_data_issued_offline(request):
             "social_media_id": request.POST['social_media'],
             "expired_date": exp_date[0]+' '+exp_date[1],
             "line_ids": line,
-            "quick_validate": request.POST['quick_validate'],
+            "quick_validate": quick_validate,
             "provider": "rodextrip_issued_offline"
         }
 

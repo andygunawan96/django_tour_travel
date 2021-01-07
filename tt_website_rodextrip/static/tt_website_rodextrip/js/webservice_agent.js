@@ -1987,11 +1987,24 @@ function copy_booker_to_passenger(val,type){
                     })
                 }
             }else{
+                msg = '';
+                if(document.getElementById('booker_title').value == '')
+                    msg += 'Please fill Booker title<br/>';
+                if(document.getElementById('booker_first_name').value == '')
+                    msg += 'Please fill Booker first name<br/>';
+                if(document.getElementById('booker_last_name').value == '' )
+                    msg += 'Please fill Booker last name<br/>';
+                if(document.getElementById('booker_nationality').value == '')
+                    msg += 'Please fill Booker nationality<br/>';
+                if(document.getElementById('booker_email').value == '')
+                    msg += 'Please fill Booker email<br/>';
+                if(document.getElementById('booker_phone').value == '')
+                    msg += 'Please fill Booker booker phone<br/>';
                 document.getElementsByName('myRadios')[1].checked = true;
                 Swal.fire({
                   type: 'error',
                   title: 'Oops!',
-                  text: "Please fill contact person first!",
+                  html: msg,
                 })
             }
         }else if(document.getElementById('adult_id1').value == '' || document.getElementById('adult_id1').value == document.getElementById('booker_id').value){
