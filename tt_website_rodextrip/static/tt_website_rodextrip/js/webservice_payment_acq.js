@@ -41,7 +41,7 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
 }
 function render_payment(){
     try{
-        if(payment_acq2){
+        if(Object.keys(payment_acq2).length != 0){
 //            if(merchant_espay){
 //                for(i in payment_acq2){
 //                    if(i == 'payment_gateway'){
@@ -124,6 +124,16 @@ function render_payment(){
             set_payment(val_render,type_render);
         //            focus_box('payment_acq');
         //            document.getElementById('payment_acq').hidden = false;
+        }else{
+            Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: `There's no `+name+` gateway payment available right now <br/> please use online payment`,
+               })
+            $('.payment_acq_btn').prop('disabled', false);
+            $('.payment_acq_btn').removeClass("running");
+            close_div('payment_acq');
+            $("#loading_payment_acq").hide();
         }
     }catch(err){console.log(err)}
 }

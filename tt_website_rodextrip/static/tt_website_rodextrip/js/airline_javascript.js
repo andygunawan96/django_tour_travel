@@ -5083,7 +5083,16 @@ function change_date_shortcut(val){
         airline_pick_list = [];
         journey = [];
         airline_pick_mc('no_button');
-        send_search_to_api();
+        document.getElementById("badge-flight-notif").innerHTML = "";
+        document.getElementById("badge-flight-notif2").innerHTML = "";
+        $("#badge-flight-notif").removeClass("infinite");
+        $("#badge-flight-notif2").removeClass("infinite");
+        $("#myModalTicketFlight").modal('hide');
+        $('#loading-search-flight').hide();
+        $('#button_chart_airline').hide();
+        $('#choose-ticket-flight').show();
+//        send_search_to_api();
+        airline_signin('');
       }
     })
 

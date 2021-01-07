@@ -1013,10 +1013,10 @@ function get_provider_list(type){
 
 function carrier_to_provider(){
     airline = [];
-    for(i in airline_carriers){
+    for(i in airline_carriers_data_awal){
         airline.push({});
-        for(j in airline_carriers[i]){
-            if(airline_carriers[i][j].code == 'all' && airline_carriers[i][j].bool == true){
+        for(j in airline_carriers_data_awal[i]){
+            if(airline_carriers_data_awal[i][j].code == 'all' && airline_carriers_data_awal[i][j].bool == true){
                 for(k in provider_list){
                     airline[i][k] = [];
                     for(l in provider_list[k]){
@@ -1024,24 +1024,24 @@ function carrier_to_provider(){
                     }
                 }
                 break;
-            }else if(airline_carriers[i][j].bool == true){
+            }else if(airline_carriers_data_awal[i][j].bool == true){
                 try{
-                    if(airline[i].hasOwnProperty(airline_carriers[i][j].code) == false)
-                        for(k in airline_carriers[i][j].provider){
-                            if(provider_list[airline_carriers[i][j].code].includes(airline_carriers[i][j].provider[k]) == true){
-                                if(airline[i].hasOwnProperty(airline_carriers[i][j].code) == true)
-                                    airline[i][airline_carriers[i][j].code].push(airline_carriers[i][j].provider[k]);
+                    if(airline[i].hasOwnProperty(airline_carriers_data_awal[i][j].code) == false)
+                        for(k in airline_carriers_data_awal[i][j].provider){
+                            if(provider_list[airline_carriers_data_awal[i][j].code].includes(airline_carriers_data_awal[i][j].provider[k]) == true){
+                                if(airline[i].hasOwnProperty(airline_carriers_data_awal[i][j].code) == true)
+                                    airline[i][airline_carriers_data_awal[i][j].code].push(airline_carriers_data_awal[i][j].provider[k]);
                                 else
-                                    airline[i][airline_carriers[i][j].code] = [airline_carriers[i][j].provider[k]];
+                                    airline[i][airline_carriers_data_awal[i][j].code] = [airline_carriers_data_awal[i][j].provider[k]];
                             }
                         }
                     else{
-                        for(k in airline_carriers[i][j].provider){
-                            if(airline[i][airline_carriers[i][j].code].includes(airline_carriers[i][j].provider[k]) == false && provider_list[airline_carriers[i][j].code].includes(airline_carriers[i][j].provider[k]))
-                                if(airline[i].hasOwnProperty(airline_carriers[i][j].code) == true)
-                                    airline[i][airline_carriers[i][j].code].push(airline_carriers[i][j].provider[k]);
+                        for(k in airline_carriers_data_awal[i][j].provider){
+                            if(airline[i][airline_carriers_data_awal[i][j].code].includes(airline_carriers_data_awal[i][j].provider[k]) == false && provider_list[airline_carriers_data_awal[i][j].code].includes(airline_carriers_data_awal[i][j].provider[k]))
+                                if(airline[i].hasOwnProperty(airline_carriers_data_awal[i][j].code) == true)
+                                    airline[i][airline_carriers_data_awal[i][j].code].push(airline_carriers_data_awal[i][j].provider[k]);
                                 else
-                                    airline[i][airline_carriers[i][j].code] = [airline_carriers[i][j].provider[k]];
+                                    airline[i][airline_carriers_data_awal[i][j].code] = [airline_carriers_data_awal[i][j].provider[k]];
                         }
                     }
 
@@ -1055,12 +1055,12 @@ function carrier_to_provider(){
     for(i in airline[0]){
         for(j in airline[0][i]){
             try{
-                if(airline_carriers[0][i].is_excluded_from_b2c != true || user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
+                if(airline_carriers_data_awal[0][i].is_excluded_from_b2c != true || user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
                     check = 0;
                     try{
                         for(k in provider_airline){
-                            if(airline_carriers[0][i].is_favorite == true){
-                                provider_airline.push([airline[0][i][j],[i], airline_carriers[0][i].is_favorite])
+                            if(airline_carriers_data_awal[0][i].is_favorite == true){
+                                provider_airline.push([airline[0][i][j],[i], airline_carriers_data_awal[0][i].is_favorite])
                                 check = 1;
                                 break;
                             }else if(provider_airline[k][0] == airline[0][i][j] && provider_airline[k][2] == false){
@@ -1069,7 +1069,7 @@ function carrier_to_provider(){
                                 break;
                             }
                         }if(check == 0){
-                            provider_airline.push([airline[0][i][j],[i], airline_carriers[0][i].is_favorite])
+                            provider_airline.push([airline[0][i][j],[i], airline_carriers_data_awal[0][i].is_favorite])
                         }
                     }catch(err){}
                 }
