@@ -125,10 +125,15 @@ function render_payment(){
         //            focus_box('payment_acq');
         //            document.getElementById('payment_acq').hidden = false;
         }else{
+            text = `There's no `+name+` gateway payment available right now <br/>`;
+            try{
+                if(type_render == 'top_up')
+                    text +=  `please use online payment`;
+            }catch(err){}
             Swal.fire({
                   type: 'error',
                   title: 'Oops!',
-                  html: `There's no `+name+` gateway payment available right now <br/> please use online payment`,
+                  html: text,
                })
             $('.payment_acq_btn').prop('disabled', false);
             $('.payment_acq_btn').removeClass("running");
