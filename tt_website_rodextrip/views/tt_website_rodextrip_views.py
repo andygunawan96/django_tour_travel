@@ -58,12 +58,13 @@ def check_captcha(request):
 
         _logger.info(json.dumps(result_json))
 
-        if not result_json.get('success'):
+        if not result_json.get('success') and request.session.get('airline_recaptcha') == False:
             raise Exception('Make response code 500!')
+        else:
+            request.session['airline_recaptcha'] = True
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-        if request.POST.get('g-recaptcha-response'):
-            raise Exception('Make response code 500!')
+        raise Exception('Make response code 500!')
     # end captcha verification
 
 # Create your views here.
