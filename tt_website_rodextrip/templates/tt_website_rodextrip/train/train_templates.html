@@ -111,6 +111,7 @@
                                 <!--</center>-->
                                 <form action="{% url 'tt_website_rodextrip:train_search'%}" method="POST" class="form-wrap" id="train_searchForm" onsubmit="return search_train_validation()">
                                     {% csrf_token %}
+                                    <input type="hidden" name="g-recaptcha-response" id='recaptcha_train'>
                                     <div class="row">
                                         <div class="col-lg-12" id="radio_train_search" style="padding:0px; text-align:left;margin-bottom:10px;">
                                             <label class="radio-button-custom" style="margin-bottom:0px;">
@@ -207,7 +208,7 @@
 
                                     <input type="hidden" id="train_response" name="response"/>
                                     <center>
-                                        <button class="primary-btn ld-ext-right" id="btn-search-train" type="button" onclick="train_check_search_values();" value="Submit">
+                                        <button class="primary-btn ld-ext-right" id="btn-search-train" type="button" onclick="get_captcha('recaptcha_train','train');" value="Submit">
                                             <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                             {% trans 'Search' %}
                                             <div class="ld ld-ring ld-cycle"></div>
@@ -927,6 +928,7 @@
                         <div id="tab-train" class="tab-content current">
                             <form action="{% url 'tt_website_rodextrip:train_search'%}" method="POST" id="train_searchForm" onsubmit="return search_train_validation()">
                                 {% csrf_token %}
+                                <input type="hidden" name="g-recaptcha-response" id='recaptcha_train'>
                                 <div class="row">
                                     <div class="col-lg-12" id="radio_train_search" style="margin-bottom:10px;">
                                         <label class="radio-button-custom" style="margin-bottom:0px;">
@@ -1021,7 +1023,7 @@
                                 <input type="hidden" id="train_response" name="response"/>
 
                                 <center>
-                                    <button class="primary-btn" id="btn-search-train" type="button" onclick="train_check_search_values();" value="Submit">
+                                    <button class="primary-btn" id="btn-search-train" type="button" onclick="get_captcha('recaptcha_train','train');" value="Submit">
                                         <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                         {% trans 'Search' %}
                                     </button>
@@ -1347,6 +1349,7 @@
                                 <h4 class="pb-30" style="color:{{text_color}};">{% trans 'Book Your Train' %}</h4>
                                 <form action="{% url 'tt_website_rodextrip:train_search'%}" method="POST" class="form-wrap" id="train_searchForm" onsubmit="return search_train_validation()">
                                     {% csrf_token %}
+                                    <input type="hidden" name="g-recaptcha-response" id='recaptcha_train'>
                                     <div class="row">
                                         <div class="col-lg-12" id="radio_train_search" style="text-align:left;margin-bottom:10px;">
                                             <label class="radio-button-custom" style="margin-bottom:0px;">
@@ -1433,7 +1436,7 @@
 
                                         <div class="col-lg-12" style="margin-top:15px;">
                                             <center>
-                                                <button class="primary-btn ld-ext-right" id="btn-search-train" type="button" onclick="train_check_search_values();" value="Submit">
+                                                <button class="primary-btn ld-ext-right" id="btn-search-train" type="button" onclick="get_captcha('recaptcha_train','train');" value="Submit">
                                                     <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                                     {% trans 'Search' %}
                                                     <div class="ld ld-ring ld-cycle"></div>
@@ -1769,6 +1772,7 @@
                                 <div class="form-search-wrap tab-content current" id="tab-train" data-aos="fade-up" data-aos-delay="200">
                                     <form action="{% url 'tt_website_rodextrip:train_search'%}" method="POST" id="train_searchForm" onsubmit="return search_train_validation()">
                                         {% csrf_token %}
+                                        <input type="hidden" name="g-recaptcha-response" id='recaptcha_train'>
                                         <div class="row">
                                             <div class="col-lg-12" id="radio_train_search" style="text-align:left;margin-bottom:10px;">
                                                 <label class="radio-button-custom" style="margin-bottom:0px;">
@@ -1864,7 +1868,7 @@
 
                                         <input type="hidden" id="train_response" name="response"/>
                                         <center>
-                                            <button class="primary-btn ld-ext-right" id="btn-search-train" type="button" onclick="train_check_search_values();" value="Submit">
+                                            <button class="primary-btn ld-ext-right" id="btn-search-train" type="button" onclick="get_captcha('recaptcha_train','train');" value="Submit">
                                                 <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                                 {% trans 'Search' %}
                                                 <div class="ld ld-ring ld-cycle"></div>
@@ -2183,6 +2187,7 @@
                                     <div id="tab-train" class="tab-content current">
                                         <form action="{% url 'tt_website_rodextrip:train_search'%}" method="POST" class="form-wrap" id="train_searchForm" onsubmit="return search_train_validation()">
                                             {% csrf_token %}
+                                            <input type="hidden" name="g-recaptcha-response" id='recaptcha_train'>
                                             <div class="row">
                                                 <div class="col-lg-12" id="radio_train_search" style="text-align:left;margin-bottom:10px;">
                                                     <label class="radio-button-custom" style="margin-bottom:0px;">
@@ -2279,7 +2284,7 @@
 
                                             <input type="hidden" id="train_response" name="response"/>
                                             <center>
-                                                <button class="primary-btn ld-ext-right" id="btn-search-train" type="button" onclick="train_check_search_values();" value="Submit">
+                                                <button class="primary-btn ld-ext-right" id="btn-search-train" type="button" onclick="get_captcha('recaptcha_train','train');" value="Submit">
                                                     <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                                     {% trans 'Search' %}
                                                     <div class="ld ld-ring ld-cycle"></div>
