@@ -57,6 +57,10 @@ Licence URI: http://www.os-templates.com/template-terms
         .login-header{
             background-image: url('{{background}}');
         }
+        .jBox-TooltipBorder .jBox-container, .jBox-TooltipBorder .jBox-pointer:after{
+            border:2px solid {{color}} !important;
+        }
+
         {% if username.co_user_login == 'agent_b2c' %}
 
             .tab_custom_login {
@@ -204,6 +208,13 @@ Licence URI: http://www.os-templates.com/template-terms
     <link rel="stylesheet" href="{{ static_path }}css/template5/main.css?version={{javascript_version}}">
     <link rel="stylesheet" href="{{ static_path }}css/template5/select2.css?version={{javascript_version}}">
     {%endif%}
+    <!--jbox-->
+    <link rel="stylesheet" href="{{ static_path }}css/jbox/jBox.all.css?version={{javascript_version}}">
+<!--    <link rel="stylesheet" href="{{ static_path }}css/jbox/normalize.css?version={{javascript_version}}">-->
+    <link rel="stylesheet" href="{{ static_path }}css/jbox/playground-avatars.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/jbox/playground-inception.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/jbox/playground-login.css?version={{javascript_version}}">
+
     <!--font-->
     <link rel="stylesheet" href="{{ static_path }}css/all.min.css?version={{javascript_version}}">
     <link rel="stylesheet" href="{{ static_path }}css/sweetalert2.min.css?version={{javascript_version}}">
@@ -1144,6 +1155,7 @@ Licence URI: http://www.os-templates.com/template-terms
         ul.tabs li{
             background:{{tab_color}};
             border-bottom: 5px solid {{tab_color}};
+            color: {{text_color}};
         }
         .btn-txt-color{
             color:{{text_color}};
@@ -1347,16 +1359,6 @@ Licence URI: http://www.os-templates.com/template-terms
             opacity: 0.8;
         }
         {% elif template == 4 %}
-        .site-blocks-cover, .site-blocks-cover > .container > .row{
-            min-height: 600px;
-            height: calc(60vh);
-        }
-        @media (max-width: 767px) {
-            .site-blocks-cover, .site-blocks-cover > .container > .row{
-                min-height: 400px;
-                height: calc(40vh);
-            }
-        }
 
         .modal-header{
             background-color: {{color}};
@@ -1617,6 +1619,13 @@ Licence URI: http://www.os-templates.com/template-terms
 <script src="{{ static_path }}js/template5/owl.carousel.min.js"></script>
 <script src="{{ static_path }}js/template5/main.js"></script>
 {% endif %}
+<!--jbox-->
+<script src="{{ static_path }}js/jbox/jBox.all.js"></script>
+<script src="{{ static_path }}js/jbox/jbox.js"></script>
+<script src="{{ static_path }}js/jbox/playground-avatars.js"></script>
+<script src="{{ static_path }}js/jbox/playground-inception.js"></script>
+<script src="{{ static_path }}js/jbox/playground-login.js"></script>
+
 <!--zoom-->
 <script src="{{ static_path }}js/jquery.zoom.min.js?version={{javascript_version}}"></script>
 <!--select2-->

@@ -674,13 +674,13 @@
                             <form action="{% url 'tt_website_rodextrip:activity_search'%}" id="activity_search_form" class="form-wrap" method="post">
                                 {% csrf_token %}
                                 <div class="row">
-                                    <div class="col-lg-10 col-md-9 col-sm-8 col-xs-8" style="padding:0px;">
+                                    <div class="col-lg-10 col-md-9 col-sm-8" style="padding:0px;">
                                         <span class="span-search-ticket"><i class="fas fa-umbrella-beach"></i> {% trans 'Activity' %}</span>
                                         <div class="input-container-search-ticket">
-                                            <input type="text" class="form-control" name="activity_query" id="activity_query" placeholder="{% trans 'Search for Activities, Theme Parks, etc' %}" autocomplete="off"/>
+                                            <input type="text" class="form-control" name="activity_query" id="activity_query" placeholder="{% trans 'Search for Activities, Theme Parks, etc' %}" autocomplete="off" style="margin-bottom:0px;"/>
                                         </div>
                                     </div>
-                                    <div class="col-lg-2 col-md-3 col-sm-4 col-xs-4" style="padding:0px;">
+                                    <div class="col-lg-2 col-md-3 col-sm-4" style="padding:0px;">
                                         <span class="span-search-ticket">&nbsp;</span>
                                         <div class="input-container-search-ticket">
                                             <button type="button" class="form-control activity_btn_advance" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="display:block;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
@@ -762,13 +762,13 @@
                             <form action="{% url 'tt_website_rodextrip:tour_search'%}" id="tour_search_form" class="form-wrap" method="post">
                                 {% csrf_token %}
                                 <div class="row">
-                                    <div class="col-lg-10 col-md-9 col-sm-8 col-xs-8" style="padding:0px;">
+                                    <div class="col-lg-10 col-md-9 col-sm-8" style="padding:0px;">
                                         <span class="span-search-ticket"><i class="fas fa-briefcase"></i> {% trans 'Tour' %}</span>
                                         <div class="input-container-search-ticket">
-                                            <input type="text" class="form-control" name="tour_query" id="tour_query" placeholder="{% trans 'Search for Tour' %}" autocomplete="off"/>
+                                            <input type="text" class="form-control" name="tour_query" id="tour_query" placeholder="{% trans 'Search for Tour' %}" autocomplete="off" style="margin-bottom:0px;"/>
                                         </div>
                                     </div>
-                                    <div class="col-lg-2 col-md-3 col-sm-4 col-xs-4" style="padding:0px;">
+                                    <div class="col-lg-2 col-md-3 col-sm-4" style="padding:0px;">
                                         <span class="span-search-ticket">&nbsp;</span>
                                         <div class="input-container-search-ticket">
                                             <button type="button" class="form-control" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
@@ -4142,945 +4142,946 @@
 
 {% elif template == 4 %}
 <div id="notification_div" style="position:fixed; z-index:9999; top:20px; right:20px;"></div>
-
-<div class="site-blocks-cover overlay" style="background-image: url('{{background}}');" data-aos="fade">
-    <div class="container">
-        <div id="big_banner" style="padding-top:30px; padding-bottom:30px;">
-
-        </div>
-        <div class="row">
-            {% if username.co_user_name != '' %}
-            <div class="col-xl-12" style="text-align:center;">
-                <h2 style="color:{{text_color}}; padding-bottom:20px; font-size:18px;">
-                    {% if username.co_user_login != 'agent_b2c' %}
-                    {% trans 'Hello' %}, {{username.co_user_name}}!<br/>
-                    {% trans 'Grow your business with' %} <span class="lamp">{{name}}</span>
-                    {% else %}
-                    {% trans 'Hello, dear customer, book your trip with us' %}
-                    {% endif %}
-                </h2>
-            </div>
-            {% else %}
-            <div class="col-xl-12" style="text-align:center;">
-                <h3 style="color:{{text_color}};">
-                    Hello, Guest !
-                </h3>
-                <h4 style="padding-top:5px; padding-bottom:15px; color:{{text_color}};">
-                    Enjoy your trip with RODEXTRIP
-                </h4>
-            </div>
-            {% endif %}
-        </div>
-    </div>
-</div>
 <div id="overlay-search-box" onclick="off_overlay()"></div>
-<div id="div-search-overlay" style="position:relative;">
-    <div style="position:relative; background:transparent; top:-50px; z-index:1;">
+<section class="bg-img" style="background-image: url('{{background}}'); background-color: rgba(0,0,0,0.5); z-index:3; position:relative;" data-aos="fade">
+    <div id="overlay-search-box2" onclick="off_overlay()">
         <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-xl-12">
-                    <div class="row">
-                        {% if username.co_user_login != '' %}
-                        <div class="col-xl-12" style="text-align:left;">
-                            <div class="div-tabs style-scrollbar" id="div_scroll_menu">
-                                <input type="hidden" id="country_id"/>
-                                <input type="hidden" id="start"/>
-                                <input type="hidden" id="end"/>
-                                <ul class="tabs">
-                                    {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security %}
-                                    <li class="tab-link current" data-tab="tab-airline" onclick="scroll_menu_horizontal('tab-link', 'airline');" id="nav_scroll_menu_airline"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-airline.png" alt="Airline Icon"/></i><label class="btn-txt-color">{% trans 'AIRLINE' %}</label></li>
-                                    {% endif %}
-                                    {% if "hotel" in provider and "ticketing_hotel" in username.co_agent_frontend_security %}
-                                    <li class="tab-link" data-tab="tab-hotel" onclick="scroll_menu_horizontal('tab-link', 'hotel');" id="nav_scroll_menu_hotel"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-hotel.png" alt="Hotel Icon"/></i> <label class="btn-txt-color">HOTEL</label></li>
-                                    {% endif %}
-                                    {% if "train" in provider and "ticketing_train" in username.co_agent_frontend_security %}
-                                    <li class="tab-link" data-tab="tab-train" onclick="scroll_menu_horizontal('tab-link', 'train');" id="nav_scroll_menu_train"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-train.png" alt="Train Icon"/></i> <label class="btn-txt-color">{% trans 'TRAIN' %}</label></li>
-                                    {% endif %}
-                                    {% if "ppob" in provider and "ticketing_ppob" in username.co_agent_frontend_security %}
-                                    <li class="tab-link" data-tab="tab-bills" onclick="scroll_menu_horizontal('tab-link', 'ppob');" id="nav_scroll_menu_ppob"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/bill.png" alt="PPOB Icon"/></i> <label class="btn-txt-color">{% trans 'BILLS & TOP UP' %}</label></li>
-                                    {% endif %}
-                                    {% if "tour" in provider and "ticketing_tour" in username.co_agent_frontend_security %}
-                                    <li class="tab-link" data-tab="tab-tour" onclick="scroll_menu_horizontal('tab-link', 'tour');" id="nav_scroll_menu_tour"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-tour.png" alt="Tour Icon"/></i> <label class="btn-txt-color">{% trans 'TOUR' %}</label></li>
-                                    {% endif %}
-                                    {% if name == 'Rodextrip' %}
-                                    <li class="tab-link" data-tab="tab-deal" onclick="scroll_menu_horizontal('tab-link', 'deal');" id="nav_scroll_menu_deal"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/coupon.png" alt="Rodexshop Icon"/></i><label class="btn-txt-color">Rodexshop</label></li>
-                                    {% endif %}
-                                    {% if "event" in provider and "ticketing_event" in username.co_agent_frontend_security %}
-                                    <li class="tab-link" data-tab="tab-event" onclick="scroll_menu_horizontal('tab-link', 'event');" id="nav_scroll_menu_event"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-event.png" alt="Event Icon"/></i><label class="btn-txt-color">{% trans 'EVENT' %}</label></li>
-                                    {% endif %}
-                                    {% if "activity" in provider and "ticketing_activity" in username.co_agent_frontend_security %}
-                                    <li class="tab-link" data-tab="tab-activity" onclick="scroll_menu_horizontal('tab-link', 'activity');" id="nav_scroll_menu_activity"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-activity.png" alt="Activity Icon"/></i> <label class="btn-txt-color">{% trans 'ACTIVITY' %}</label></li>
-                                    {% endif %}
-                                    {% if "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_visa" in username.co_agent_frontend_security %}
-                                    <li class="tab-link" data-tab="tab-visa" onclick="scroll_menu_horizontal('tab-link', 'visa');" id="nav_scroll_menu_visa"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-visa.png" alt="Visa Icon"/></i> <label class="btn-txt-color">VISA</label></li>
-                                    {% endif %}
-                                    {% if "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_passport" in username.co_agent_frontend_security %}
-                                    <li class="tab-link" data-tab="tab-passport" onclick="scroll_menu_horizontal('tab-link', 'passport');" id="nav_scroll_menu_passport"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/passport.png" alt="Passport Icon"/></i> <label class="btn-txt-color">{% trans 'PASSPORT' %}</label></li>
-                                    {% endif %}
-                                </ul>
+            <div id="big_banner" style="padding-top:30px;">
+
+            </div>
+        </div>
+        {% if username.co_user_name != '' %}
+        <div style="text-align:center;">
+            <h2 style="color:{{text_color}}; padding-top:20px; padding-bottom:20px; font-size:18px;">
+                {% if username.co_user_login != 'agent_b2c' %}
+                {% trans 'Hello' %}, {{username.co_user_name}}!<br/>
+                {% trans 'Grow your business with' %} <span class="lamp">{{name}}</span>
+                {% else %}
+                {% trans 'Hello, dear customer, book your trip with us' %}
+                {% endif %}
+            </h2>
+        </div>
+        {% else %}
+        <div style="text-align:center;">
+            <h3 style="color:{{text_color}};">
+                Hello, Guest !
+            </h3>
+            <h4 style="padding-top:5px; padding-bottom:15px; color:{{text_color}};">
+                Enjoy your trip with RODEXTRIP
+            </h4>
+        </div>
+        {% endif %}
+    </div>
+    <div id="div-search-overlay" style="position:relative; ">
+        <div style="position:relative; background:transparent; z-index:2;">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-xl-12">
+                        <div class="row">
+                            {% if username.co_user_login != '' %}
+                            <div class="col-xl-12" style="text-align:left;">
+                                <div class="div-tabs style-scrollbar" id="div_scroll_menu">
+                                    <input type="hidden" id="country_id"/>
+                                    <input type="hidden" id="start"/>
+                                    <input type="hidden" id="end"/>
+                                    <ul class="tabs">
+                                        {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security %}
+                                        <li class="tab-link current" data-tab="tab-airline" onclick="scroll_menu_horizontal('tab-link', 'airline');" id="nav_scroll_menu_airline"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-airline.png" alt="Airline Icon"/></i><label class="btn-txt-color">{% trans 'AIRLINE' %}</label></li>
+                                        {% endif %}
+                                        {% if "hotel" in provider and "ticketing_hotel" in username.co_agent_frontend_security %}
+                                        <li class="tab-link" data-tab="tab-hotel" onclick="scroll_menu_horizontal('tab-link', 'hotel');" id="nav_scroll_menu_hotel"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-hotel.png" alt="Hotel Icon"/></i> <label class="btn-txt-color">HOTEL</label></li>
+                                        {% endif %}
+                                        {% if "train" in provider and "ticketing_train" in username.co_agent_frontend_security %}
+                                        <li class="tab-link" data-tab="tab-train" onclick="scroll_menu_horizontal('tab-link', 'train');" id="nav_scroll_menu_train"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-train.png" alt="Train Icon"/></i> <label class="btn-txt-color">{% trans 'TRAIN' %}</label></li>
+                                        {% endif %}
+                                        {% if "ppob" in provider and "ticketing_ppob" in username.co_agent_frontend_security %}
+                                        <li class="tab-link" data-tab="tab-bills" onclick="scroll_menu_horizontal('tab-link', 'ppob');" id="nav_scroll_menu_ppob"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/bill.png" alt="PPOB Icon"/></i> <label class="btn-txt-color">{% trans 'BILLS & TOP UP' %}</label></li>
+                                        {% endif %}
+                                        {% if "tour" in provider and "ticketing_tour" in username.co_agent_frontend_security %}
+                                        <li class="tab-link" data-tab="tab-tour" onclick="scroll_menu_horizontal('tab-link', 'tour');" id="nav_scroll_menu_tour"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-tour.png" alt="Tour Icon"/></i> <label class="btn-txt-color">{% trans 'TOUR' %}</label></li>
+                                        {% endif %}
+                                        {% if name == 'Rodextrip' %}
+                                        <li class="tab-link" data-tab="tab-deal" onclick="scroll_menu_horizontal('tab-link', 'deal');" id="nav_scroll_menu_deal"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/coupon.png" alt="Rodexshop Icon"/></i><label class="btn-txt-color">Rodexshop</label></li>
+                                        {% endif %}
+                                        {% if "event" in provider and "ticketing_event" in username.co_agent_frontend_security %}
+                                        <li class="tab-link" data-tab="tab-event" onclick="scroll_menu_horizontal('tab-link', 'event');" id="nav_scroll_menu_event"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-event.png" alt="Event Icon"/></i><label class="btn-txt-color">{% trans 'EVENT' %}</label></li>
+                                        {% endif %}
+                                        {% if "activity" in provider and "ticketing_activity" in username.co_agent_frontend_security %}
+                                        <li class="tab-link" data-tab="tab-activity" onclick="scroll_menu_horizontal('tab-link', 'activity');" id="nav_scroll_menu_activity"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-activity.png" alt="Activity Icon"/></i> <label class="btn-txt-color">{% trans 'ACTIVITY' %}</label></li>
+                                        {% endif %}
+                                        {% if "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_visa" in username.co_agent_frontend_security %}
+                                        <li class="tab-link" data-tab="tab-visa" onclick="scroll_menu_horizontal('tab-link', 'visa');" id="nav_scroll_menu_visa"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-visa.png" alt="Visa Icon"/></i> <label class="btn-txt-color">VISA</label></li>
+                                        {% endif %}
+                                        {% if "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_passport" in username.co_agent_frontend_security %}
+                                        <li class="tab-link" data-tab="tab-passport" onclick="scroll_menu_horizontal('tab-link', 'passport');" id="nav_scroll_menu_passport"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/passport.png" alt="Passport Icon"/></i> <label class="btn-txt-color">{% trans 'PASSPORT' %}</label></li>
+                                        {% endif %}
+                                    </ul>
+                                </div>
                             </div>
+                            {% endif %}
                         </div>
-                        {% endif %}
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div style="position:relative; background:{{tab_color}}; top:-50px; z-index:1;">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-xl-12">
-                    <div class="row">
-                        {% if username.co_user_name != '' %}
-                        <div class="col-xl-12" style="text-align:left;">
-                            {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security %}
-                            <div class="form-search-wrap tab-content current" id="tab-airline" data-aos="fade-up" data-aos-delay="200">
-                                <form action="{% url 'tt_website_rodextrip:airline_search'%}" method="POST" id="airline_searchForm">
-                                    {% csrf_token %}
-                                    <div class="row">
-                                        <div class="col-lg-12" id="radio_airline_search" style="text-align:left;margin-bottom:10px;">
-                                            <label class="radio-button-custom">
-                                                <span style="font-size:13px; color:{{text_color}};">{% trans 'One Way' %}</span>
-                                                <input type="radio" checked="checked" name="radio_airline_type" value="oneway">
-                                                <span class="checkmark-radio"></span>
-                                            </label>
-                                            <label class="radio-button-custom">
-                                                <span style="font-size:13px; color:{{text_color}};">{% trans 'Round Trip' %}</span>
-                                                <input type="radio" name="radio_airline_type" value="roundtrip">
-                                                <span class="checkmark-radio"></span>
-                                            </label>
-                                            <label class="radio-button-custom">
-                                                <span style="font-size:13px; color:{{text_color}};">{% trans 'Multi City' %}</span>
-                                                <input type="radio" name="radio_airline_type" value="multicity">
-                                                <span class="checkmark-radio"></span>
-                                            </label>
+        <div style="position:relative; background:{{tab_color}}; z-index:2;">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-xl-12">
+                        <div class="row">
+                            {% if username.co_user_name != '' %}
+                            <div class="col-xl-12" style="text-align:left;">
+                                {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security %}
+                                <div class="form-search-wrap tab-content current" id="tab-airline" data-aos="fade-up" data-aos-delay="200">
+                                    <form action="{% url 'tt_website_rodextrip:airline_search'%}" method="POST" id="airline_searchForm">
+                                        {% csrf_token %}
+                                        <div class="row">
+                                            <div class="col-lg-12" id="radio_airline_search" style="text-align:left;margin-bottom:10px;">
+                                                <label class="radio-button-custom">
+                                                    <span style="font-size:13px; color:{{text_color}};">{% trans 'One Way' %}</span>
+                                                    <input type="radio" checked="checked" name="radio_airline_type" value="oneway">
+                                                    <span class="checkmark-radio"></span>
+                                                </label>
+                                                <label class="radio-button-custom">
+                                                    <span style="font-size:13px; color:{{text_color}};">{% trans 'Round Trip' %}</span>
+                                                    <input type="radio" name="radio_airline_type" value="roundtrip">
+                                                    <span class="checkmark-radio"></span>
+                                                </label>
+                                                <label class="radio-button-custom">
+                                                    <span style="font-size:13px; color:{{text_color}};">{% trans 'Multi City' %}</span>
+                                                    <input type="radio" name="radio_airline_type" value="multicity">
+                                                    <span class="checkmark-radio"></span>
+                                                </label>
+                                            </div>
+                                            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                                                <div class="checkbox" style="display:none;" id="checkbox_combo_price">
+                                                    <label class="check_box_custom">
+                                                        <span style="font-size:13px; color:{{text_color}};">{% trans 'Is Combo Price' %}</span>
+                                                        <input type="checkbox" value="" id="is_combo_price" name="is_combo_price" disabled>
+                                                        <span class="check_box_span_custom"></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12" id="ori_airline">
+                                                <div class="row">
+                                                    <div class="col-lg-8">
+                                                        <div class="row">
+                                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 airline-from">
+                                                                <span class="span-search-ticket">{% trans 'From' %}</span>
+                                                                <div class="input-container-search-ticket">
+                                                                    <i class="fas fa-plane-departure" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
+                                                                    <input class="form-control" id="origin_id_flight" name="origin_id_flight" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;outline:0;" autocomplete="off" value="" onfocus="document.getElementById('origin_id_flight').select();" onclick="set_airline_search_value_to_false();">
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 airline-to">
+                                                                <h4 class="image-change-route-vertical"><a href="javascript:airline_switch();" tabindex="-1" style="z-index:5; color:{{text_color}};" id="flight_switch"><span style="margin-left: 2px;" class="icon icon-exchange"></span></a></h4>
+                                                                <h4 class="image-change-route-horizontal"><a href="javascript:airline_switch();" tabindex="-1" style="z-index:5; color:{{text_color}};" id="flight_switch"><span class="icon icon-exchange"></span></a></h4>
+                                                                <span class="span-search-ticket">{% trans 'To' %}</span><br/>
+                                                                <div class="input-container-search-ticket">
+                                                                    <i class="fas fa-plane-arrival" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
+                                                                    <input class="form-control" id="destination_id_flight" name="destination_id_flight" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('destination_id_flight').select();" onclick="set_airline_search_value_to_false();">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-6 col-sm-6" id="airline_date_search"></div>
+                                                    <div class="col-lg-4 col-md-6 col-sm-6">
+                                                        <span class="span-search-ticket">{% trans 'Passenger' %}</span>
+                                                        <div class="input-container-search-ticket btn-group">
+                                                            <i class="fas fa-users" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
+                                                            <button id="show_total_pax_flight" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align:left; cursor:pointer;">
+                                                                1 {% trans 'Adult' %}, 0 {% trans 'Child' %}, 0 {% trans 'Infant' %}
+                                                            </button>
+                                                            <ul class="dropdown-menu" style="overflow-y:unset;" role="menu">
+                                                                <div class="row" style="padding:10px;">
+                                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                                        <div style="float:left;">
+                                                                            <label>
+                                                                                <span style="color:black; font-size:13px;">{% trans 'Adult' %}</span><br/>
+                                                                                <span style="color:gray; font-size:11px;">({% trans 'Age' %} 11+)</span>
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                                        <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                            <button type="button" class="left-minus-adult-flight btn-custom-circle" id="left-minus-adult-flight" data-type="minus" data-field="" disabled>
+                                                                                <i class="fas fa-minus"></i>
+                                                                            </button>
+                                                                            <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="adult_flight" name="adult_flight" value="1" min="1" readonly>
+                                                                            <button type="button" class="right-plus-adult-flight btn-custom-circle" id="right-plus-adult-flight" data-type="plus" data-field="">
+                                                                                <i class="fas fa-plus"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                                        <div style="float:left;">
+                                                                            <label>
+                                                                                <span style="color:black; font-size:13px;">{% trans 'Child' %}<br/></span>
+                                                                                <span style="color:gray; font-size:11px;">({% trans 'Age' %} 2 - 11)</span>
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                                        <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                            <button type="button" class="left-minus-child-flight btn-custom-circle" id="left-minus-child-flight" data-type="minus" data-field="" disabled>
+                                                                                <i class="fas fa-minus"></i>
+                                                                            </button>
+                                                                            <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="child_flight" name="child_flight" value="0" min="0" readonly>
+                                                                            <button type="button" class="right-plus-child-flight btn-custom-circle" id="right-plus-child-flight" data-type="plus" data-field="">
+                                                                                <i class="fas fa-plus"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                                        <div style="float:left;">
+                                                                            <label>
+                                                                                <span style="color:black; font-size:13px;">{% trans 'Infant' %}<br/></span>
+                                                                                <span style="color:gray; font-size:11px;">({% trans 'Age' %} < 2)</span>
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                                        <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                            <button type="button" class="left-minus-infant-flight btn-custom-circle" id="left-minus-infant-flight" data-type="minus" data-field="" disabled>
+                                                                                <i class="fas fa-minus"></i>
+                                                                            </button>
+                                                                            <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="infant_flight" name="infant_flight" value="0" readonly>
+                                                                            <button type="button" class="right-plus-infant-flight btn-custom-circle" id="right-plus-infant-flight" data-type="plus" data-field="">
+                                                                                <i class="fas fa-plus"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-6 col-sm-6">
+                                                        <span class="span-search-ticket">{% trans 'Airline' %}</span>
+                                                        <div class="input-container-search-ticket btn-group">
+                                                            <i class="fas fa-plane" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
+                                                            <button id="show_provider_airline" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="text-align:left; cursor:pointer;">{% trans 'Choose Airline' %}</button>
+                                                            <!--                                                <input id="provider_flight_btn" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"/>-->
+                                                            <ul id="provider_flight_content" class="dropdown-menu" style="padding:10px; z-index:8;">
+
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-6 col-sm-6">
+                                                        <span class="span-search-ticket">{% trans 'Class' %}</span>
+                                                        <div class="input-container-search-ticket btn-group">
+                                                            <div class="form-select" id="default-select">
+                                                                <select class="nice-select-default" id="cabin_class_flight" name="cabin_class_flight">
+                                                                    {% for cabin_class in airline_cabin_class_list %}
+                                                                    <option value="{{cabin_class.value}}" {% if cabin_class.value == "Y" %} selected {% endif %}>{{cabin_class.name}}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12" id="mc_airline_default">
+
+                                            </div>
+                                            <input type="hidden" class="col-lg-12" id="counter" name="counter"/>
                                         </div>
-                                        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
-                                            <div class="checkbox" style="display:none;" id="checkbox_combo_price">
+                                        <br/>
+                                        <center>
+                                            <button class="button-search primary-btn ld-ext-right" type="button" id="airline_button_search" onclick="airline_goto_search();" value="Submit">
+                                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                                {% trans 'Search' %}
+                                                <div class="ld ld-ring ld-cycle"></div>
+                                            </button>
+                                        </center>
+                                    </form>
+                                </div>
+                                {% endif %}
+                                {% if "train" in provider and "ticketing_train" in username.co_agent_frontend_security %}
+                                <div class="form-search-wrap tab-content" id="tab-train" data-aos="fade-up" data-aos-delay="200">
+                                    <form action="{% url 'tt_website_rodextrip:train_search'%}" method="POST" id="train_searchForm" onsubmit="return search_train_validation()">
+                                        {% csrf_token %}
+                                        <div class="row">
+                                            <div class="col-lg-12" id="radio_train_search" style="text-align:left;margin-bottom:10px;">
+                                                <label class="radio-button-custom">
+                                                    <span style="font-size:13px; color:{{text_color}};">{% trans 'One Way' %}</span>
+                                                    <input type="radio" checked="checked" name="radio_train_type" value="oneway">
+                                                    <span class="checkmark-radio"></span>
+                                                </label>
+                                                <label class="radio-button-custom">
+                                                    <span style="font-size:13px; color:{{text_color}};">{% trans 'Round Trip' %}</span>
+                                                    <input type="radio" name="radio_train_type" value="roundtrip">
+                                                    <span class="checkmark-radio"></span>
+                                                </label>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="row">
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 train-from">
+                                                        <span class="span-search-ticket">{% trans 'From' %}</span>
+                                                        <div class="input-container-search-ticket">
+                                                            <i class="fas fa-train" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
+                                                            <input id="train_origin" name="train_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('train_origin').select();" onclick="set_train_search_value_to_false();" value="BD - Bandung">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 train-to" style="z-index:5;">
+                                                        <h4 class="image-change-route-vertical2"><a href="javascript:train_switch();" style="z-index:5; color:{{text_color}};" id="train_switch"><i class="fas fa-exchange-alt"></i></a></h4>
+                                                        <h4 class="image-change-route-horizontal2"><a href="javascript:train_switch();" style="z-index:5; color:{{text_color}};" id="train_switch"><i class="fas fa-exchange-alt"></i></a></h4>
+                                                        <span class="span-search-ticket">{% trans 'To' %}</span>
+                                                        <div class="input-container-search-ticket">
+                                                            <i class="fas fa-map-marked-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
+                                                            <input id="train_destination" name="train_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('train_destination').select();" onclick="set_train_search_value_to_false();" value="GMR - Gambir">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6" id="train_date_search">
+                                                <span class="span-search-ticket">{% trans 'Departure' %}</span>
+                                                <div class="input-container-search-ticket">
+                                                    <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
+                                                    <input type="text" style="background:white;" class="form-control" id="train_departure" name="train_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly/>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                <span class="span-search-ticket">{% trans 'Passenger' %}</span>
+                                                <div class="input-container-search-ticket btn-group">
+                                                    <i class="fas fa-users" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
+                                                    <button id="show_total_pax_train" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
+                                                    <ul class="dropdown-menu" style="overflow-y:unset;" role="menu">
+                                                        <div class="row" style="padding:10px;">
+                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                                <div style="float:left;">
+                                                                    <label>
+                                                                        <span style="color:black; font-size:13px;">{% trans 'Adult' %}<br/></span>
+                                                                        <span style="color:gray; font-size:11px;">({% trans 'Age' %} 3+)</span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                    <button type="button" class="left-minus-adult-train btn-custom-circle" id="left-minus-adult-train" data-type="minus" data-field="" disabled>
+                                                                        <i class="fas fa-minus"></i>
+                                                                    </button>
+                                                                    <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="train_adult" name="train_adult" value="1" min="1" readonly>
+                                                                    <button type="button" class="right-plus-adult-train btn-custom-circle" id="right-plus-adult-train" data-type="plus" data-field="">
+                                                                        <i class="fas fa-plus"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                                <div style="float:left;">
+                                                                    <label>
+                                                                        <span style="color:black; font-size:13px;">{% trans 'Infant' %}<br/></span>
+                                                                        <span style="color:gray; font-size:11px;">({% trans 'Age' %} < 3)</span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                    <button type="button" class="left-minus-infant-train btn-custom-circle" id="left-minus-infant-train" data-type="minus" data-field="" disabled>
+                                                                        <i class="fas fa-minus"></i>
+                                                                    </button>
+                                                                    <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="train_infant" name="train_infant" value="0" readonly>
+                                                                    <button type="button" class="right-plus-infant-train btn-custom-circle" id="right-plus-infant-train" data-type="plus" data-field="">
+                                                                        <i class="fas fa-plus"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br/>
+
+                                        <input type="hidden" id="train_response" name="response"/>
+                                        <center>
+                                            <button class="primary-btn ld-ext-right" id="btn-search-train" type="button" onclick="train_check_search_values();" value="Submit">
+                                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                                {% trans 'Search' %}
+                                                <div class="ld ld-ring ld-cycle"></div>
+                                            </button>
+                                        </center>
+                                    </form>
+                                </div>
+                                {% endif %}
+                                {% if "hotel" in provider and "ticketing_hotel" in username.co_agent_frontend_security %}
+                                <div class="form-search-wrap tab-content" id="tab-hotel" data-aos="fade-up" data-aos-delay="200">
+                                    <form action="{% url 'tt_website_rodextrip:hotel_search'%}" method="POST" id="hotel_searchForm">
+                                        {% csrf_token %}
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6">
+                                                <span class="span-search-ticket">{% trans 'Destination or Hotel' %}</span>
+                                                <div class="input-container-search-ticket">
+                                                    <i class="fas fa-map-marker-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
+                                                    <input id="hotel_id_destination" name="hotel_id_destination" class="form-control" type="text" placeholder="{% trans 'Select Destination City or Hotel Name' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value=""/>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6">
+                                                <span class="span-search-ticket"> {% trans 'Guest Nationality' %}</span>
+                                                <div class="input-container-search-ticket">
+                                                    <i class="fas fa-globe-asia" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
+                                                    <select class="js-example-basic-single" name="hotel_id_nationality_id" style="width:100%;" id="hotel_id_nationality_id" placeholder="Guest Nationality" onchange="auto_complete('hotel_id_nationality_id')" class="nice-select-default">
+                                                        {% for country in countries %}
+                                                        {% if country.name == 'Indonesia'%}
+                                                        <option value="{{country.code}} - {{country.name}}" selected>{{country.code}} - {{country.name}}</option>
+                                                        {% else %}
+                                                        <option value="{{country.code}} - {{country.name}}">{{country.code}} - {{country.name}}</option>
+                                                        {% endif %}
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <input type="hidden" value="ID - Indonesia" id="hotel_id_nationality" class="form-control" name="hotel_id_nationality" />
+                                            </div>
+                                            <div class="col-lg-6 col-md-6">
+                                                <span class="span-search-ticket">{% trans 'Check-In - Check-Out' %}</span>
+                                                <div class="input-container-search-ticket">
+                                                    <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
+                                                    <input class="form-control" style="background:white;" type="text" name="hotel_checkin_checkout" id="hotel_checkin_checkout" placeholder="{% trans 'Check-In - Check-Out Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly/>
+                                                    <i class="fas fa-moon" id="total_night_search" style="padding-left:10px;padding-top:15px; color:{{text_color}};">1</i>
+                                                </div>
+                                                <input class="form-control" type="hidden" name="hotel_checkin" id="hotel_checkin" placeholder="Check-In Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '" autocomplete="off"/>
+                                                <input class="form-control" type="hidden" name="hotel_checkout" id="hotel_checkout"  autocomplete="off" placeholder="Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-out Date '" />
+                                            </div>
+                                            <div class="col-lg-6 col-md-6">
+                                                <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Guest' %}</span>
+                                                <div class="input-container-search-ticket btn-group">
+                                                    <i class="fas fa-users" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
+                                                    <button id="show_total_pax_hotel" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></button>
+                                                    <ul class="dropdown-menu" role="menu" style="z-index:5; overflow-y:unset;">
+                                                        <div class="row" style="padding:10px;">
+                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                                <div style="float:left;">
+                                                                    <label>
+                                                                        <span style="color:black; font-size:13px;">{% trans 'Room' %}<br/></span>
+                                                                        <span style="color:gray; font-size:11px;">(Qty >= 1)</span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                    <button type="button" class="left-minus-room-hotel btn-custom-circle" id="left-minus-room-hotel" data-type="minus" data-field="" disabled>
+                                                                        <i class="fas fa-minus"></i>
+                                                                    </button>
+                                                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; text-align:center; width:25px;" id="hotel_room" name="hotel_room" value="1" min="1" readonly>
+                                                                    <button type="button" class="right-plus-room-hotel btn-custom-circle" id="right-plus-room-hotel" data-type="plus" data-field="">
+                                                                        <i class="fas fa-plus"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                                <div style="float:left;">
+                                                                    <label>
+                                                                        <span style="color:black; font-size:13px;">{% trans 'Adult' %}<br/></span>
+                                                                        <span style="color:gray; font-size:11px;">({% trans 'Age' %} 12+)</span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                    <button type="button" class="left-minus-adult-hotel btn-custom-circle" id="left-minus-adult-hotel" data-type="minus" data-field="">
+                                                                        <i class="fas fa-minus"></i>
+                                                                    </button>
+                                                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; text-align:center; width:25px;" id="hotel_adult" name="hotel_adult" value="2" min="1" readonly>
+                                                                    <button type="button" class="right-plus-adult-hotel btn-custom-circle" id="right-plus-adult-hotel" data-type="plus" data-field="">
+                                                                        <i class="fas fa-plus"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                                <div style="float:left;">
+                                                                    <label>
+                                                                        <span style="color:black; font-size:13px;">{% trans 'Child' %}<br/></span>
+                                                                        <span style="color:gray; font-size:11px;">({% trans 'Age' %} <12)</span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                    <button type="button" class="left-minus-child-hotel btn-custom-circle" id="left-minus-child-hotel" data-type="minus" data-field="" disabled>
+                                                                        <i class="fas fa-minus"></i>
+                                                                    </button>
+                                                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; text-align:center; width:25px;" id="hotel_child" name="hotel_child" value="0" readonly>
+                                                                    <button type="button" class="right-plus-child-hotel btn-custom-circle" id="right-plus-child-hotel" data-type="plus" data-field="">
+                                                                        <i class="fas fa-plus"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-12">
+                                                                <div class="row" id="guest_child_age">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </ul>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-12" style="margin-top:5px; margin-bottom:10px; float:left;">
                                                 <label class="check_box_custom">
-                                                    <span style="font-size:13px; color:{{text_color}};">{% trans 'Is Combo Price' %}</span>
-                                                    <input type="checkbox" value="" id="is_combo_price" name="is_combo_price" disabled>
+                                                    <span class="span-search-ticket" style="font-size:13px;">{% trans 'Business Trip' %}</span>
+                                                    <input type="checkbox" value="true" onclick="business_trip_check();">
+                                                    <input type="hidden" name="business_trip" id="business_trip" value="false"/>
                                                     <span class="check_box_span_custom"></span>
                                                 </label>
                                             </div>
                                         </div>
-                                        <div class="col-lg-12" id="ori_airline">
-                                            <div class="row">
-                                                <div class="col-lg-8">
-                                                    <div class="row">
-                                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 airline-from">
-                                                            <span class="span-search-ticket">{% trans 'From' %}</span>
-                                                            <div class="input-container-search-ticket">
-                                                                <i class="fas fa-plane-departure" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
-                                                                <input class="form-control" id="origin_id_flight" name="origin_id_flight" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;outline:0;" autocomplete="off" value="" onfocus="document.getElementById('origin_id_flight').select();" onclick="set_airline_search_value_to_false();">
-                                                            </div>
-                                                        </div>
+                                        <br/>
+                                        <center>
+                                            <button class="button-search primary-btn ld-ext-right" id="btn-search-hotel" onclick="hotel_search_validation();" type="button" value="Submit">
+                                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                                {% trans 'Search' %}
+                                                <div class="ld ld-ring ld-cycle"></div>
+                                            </button>
+                                        </center>
+                                    </form>
+                                </div>
+                                {% endif %}
+                                {% if "activity" in provider and "ticketing_activity" in username.co_agent_frontend_security %}
+                                <div class="form-search-wrap tab-content" id="tab-activity" data-aos="fade-up" data-aos-delay="200">
+                                    <form action="{% url 'tt_website_rodextrip:activity_search'%}" id="activity_search_form" method="post">
+                                        {% csrf_token %}
+                                        <div class="row justify-content-between align-items-end">
+                                            <div class="col-lg-9 col-md-9 col-sm-8">
+                                                <span class="span-search-ticket">{% trans 'Activity' %}</span>
+                                                <div class="input-container-search-ticket">
+                                                    <i class="fas fa-umbrella-beach" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
+                                                    <input type="text" class="form-control" name="activity_query" id="activity_query" placeholder="{% trans 'Search for Activities, Theme Parks, etc' %}" autocomplete="off"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                                <span class="span-search-ticket">&nbsp;</span>
+                                                <div class="input-container-search-ticket">
+                                                    <button type="button" class="form-control activity_btn_advance" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="display:block;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
+                                                    <button type="button" class="form-control activity_btn_advance" id="activity_advanced_up" onclick="show_hide_advanced('activity');" style="display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
+                                                </div>
+                                            </div>
 
-                                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 airline-to">
-                                                            <h4 class="image-change-route-vertical"><a href="javascript:airline_switch();" tabindex="-1" style="z-index:5; color:{{text_color}};" id="flight_switch"><span style="margin-left: 2px;" class="icon icon-exchange"></span></a></h4>
-                                                            <h4 class="image-change-route-horizontal"><a href="javascript:airline_switch();" tabindex="-1" style="z-index:5; color:{{text_color}};" id="flight_switch"><span class="icon icon-exchange"></span></a></h4>
-                                                            <span class="span-search-ticket">{% trans 'To' %}</span><br/>
-                                                            <div class="input-container-search-ticket">
-                                                                <i class="fas fa-plane-arrival" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
-                                                                <input class="form-control" id="destination_id_flight" name="destination_id_flight" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('destination_id_flight').select();" onclick="set_airline_search_value_to_false();">
+                                            <div class="col-lg-12">
+                                                <div class="row" id="activity_advanced_search" style="display:none;">
+                                                    <div class="col-lg-12">
+                                                        <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Location' %} </span>
+                                                        <div class="row">
+                                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                                <div class="form-select">
+                                                                    <select class="js-example-basic-single" style="width:100%;" id="activity_countries" size="5" data-live-search="true" name="activity_countries">
+                                                                        <option value="" selected="">{% trans 'All Countries' %}</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                                <div class="form-select">
+                                                                    <div id="temp_activity_cities">
+                                                                        <select class="js-example-basic-single" style="width:100%;" id="activity_cities" name="activity_cities" size="5">
+                                                                            <option value="" selected="">{% trans 'All Cities' %}</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="col-lg-4 col-md-6 col-sm-6" id="airline_date_search"></div>
-                                                <div class="col-lg-4 col-md-6 col-sm-6">
-                                                    <span class="span-search-ticket">{% trans 'Passenger' %}</span>
-                                                    <div class="input-container-search-ticket btn-group">
-                                                        <i class="fas fa-users" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
-                                                        <button id="show_total_pax_flight" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align:left; cursor:pointer;">
-                                                            1 {% trans 'Adult' %}, 0 {% trans 'Child' %}, 0 {% trans 'Infant' %}
-                                                        </button>
-                                                        <ul class="dropdown-menu" style="overflow-y:unset;" role="menu">
-                                                            <div class="row" style="padding:10px;">
-                                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                                                    <div style="float:left;">
-                                                                        <label>
-                                                                            <span style="color:black; font-size:13px;">{% trans 'Adult' %}</span><br/>
-                                                                            <span style="color:gray; font-size:11px;">({% trans 'Age' %} 11+)</span>
-                                                                        </label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                                                    <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                                        <button type="button" class="left-minus-adult-flight btn-custom-circle" id="left-minus-adult-flight" data-type="minus" data-field="" disabled>
-                                                                            <i class="fas fa-minus"></i>
-                                                                        </button>
-                                                                        <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="adult_flight" name="adult_flight" value="1" min="1" readonly>
-                                                                        <button type="button" class="right-plus-adult-flight btn-custom-circle" id="right-plus-adult-flight" data-type="plus" data-field="">
-                                                                            <i class="fas fa-plus"></i>
-                                                                        </button>
-                                                                    </div>
-                                                                </div>
 
-                                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                                                    <div style="float:left;">
-                                                                        <label>
-                                                                            <span style="color:black; font-size:13px;">{% trans 'Child' %}<br/></span>
-                                                                            <span style="color:gray; font-size:11px;">({% trans 'Age' %} 2 - 11)</span>
-                                                                        </label>
-                                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <div class="row">
+                                                            <div class="col-lg-12 search_type">
+                                                                <span class="span-search-ticket"><i class="fa fa-folder-open"></i> {% trans 'Category Type' %} </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                                <div class="form-select">
+                                                                    <select class="js-example-basic-single" style="width:100%;" id="activity_type" name="activity_type" data-live-search="true" size="5">
+                                                                        <option value="0" selected="">{% trans 'All Types' %}</option>
+                                                                    </select>
                                                                 </div>
-                                                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                                                    <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                                        <button type="button" class="left-minus-child-flight btn-custom-circle" id="left-minus-child-flight" data-type="minus" data-field="" disabled>
-                                                                            <i class="fas fa-minus"></i>
-                                                                        </button>
-                                                                        <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="child_flight" name="child_flight" value="0" min="0" readonly>
-                                                                        <button type="button" class="right-plus-child-flight btn-custom-circle" id="right-plus-child-flight" data-type="plus" data-field="">
-                                                                            <i class="fas fa-plus"></i>
-                                                                        </button>
-                                                                    </div>
+                                                            </div>
+                                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                                <div class="form-select">
+                                                                    <select class="js-example-basic-single" style="width:100%;" id="activity_category" name="activity_category" size="5">
+                                                                        <option value="0" selected="">{% trans 'All Categories' %}</option>
+                                                                    </select>
                                                                 </div>
-
-                                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                                                    <div style="float:left;">
-                                                                        <label>
-                                                                            <span style="color:black; font-size:13px;">{% trans 'Infant' %}<br/></span>
-                                                                            <span style="color:gray; font-size:11px;">({% trans 'Age' %} < 2)</span>
-                                                                        </label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                                                    <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                                        <button type="button" class="left-minus-infant-flight btn-custom-circle" id="left-minus-infant-flight" data-type="minus" data-field="" disabled>
-                                                                            <i class="fas fa-minus"></i>
-                                                                        </button>
-                                                                        <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="infant_flight" name="infant_flight" value="0" readonly>
-                                                                        <button type="button" class="right-plus-infant-flight btn-custom-circle" id="right-plus-infant-flight" data-type="plus" data-field="">
-                                                                            <i class="fas fa-plus"></i>
-                                                                        </button>
+                                                            </div>
+                                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                                <div class="form-select">
+                                                                    <div id="temp_activity_sub_category">
+                                                                        <select class="js-example-basic-single" style="width:100%;" id="activity_sub_category" name="activity_sub_category" size="5">
+                                                                            <option value="0" selected="">{% trans 'All Sub Categories' %}</option>
+                                                                        </select>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </ul>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-4 col-md-6 col-sm-6">
-                                                    <span class="span-search-ticket">{% trans 'Airline' %}</span>
-                                                    <div class="input-container-search-ticket btn-group">
-                                                        <i class="fas fa-plane" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
-                                                        <button id="show_provider_airline" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="text-align:left; cursor:pointer;">{% trans 'Choose Airline' %}</button>
-                                                        <!--                                                <input id="provider_flight_btn" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"/>-->
-                                                        <ul id="provider_flight_content" class="dropdown-menu" style="padding:10px; z-index:8;">
+                                            </div>
+                                        </div>
+                                        <br/>
+                                        <center>
+                                            <button class="button-search primary-btn ld-ext-right" onclick="activity_search_form_submit();" type="submit" value="Submit">
+                                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                                {% trans 'Search' %}
+                                                <div class="ld ld-ring ld-cycle"></div>
+                                            </button>
+                                        </center>
+                                    </form>
+                                </div>
+                                {% endif %}
+                                {% if "tour" in provider and "ticketing_tour" in username.co_agent_frontend_security %}
+                                <div class="form-search-wrap tab-content" id="tab-tour" data-aos="fade-up" data-aos-delay="200">
+                                    <form action="{% url 'tt_website_rodextrip:tour_search'%}" id="tour_search_form" method="post">
+                                        {% csrf_token %}
+                                        <div class="row">
+                                            <div class="col-lg-9 col-md-9 col-sm-8 col-xs-8">
+                                                <span class="span-search-ticket">{% trans 'Tour' %}</span>
+                                                <div class="input-container-search-ticket">
+                                                    <i class="fas fa-briefcase" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
+                                                    <input type="text" class="form-control" name="tour_query" id="tour_query" placeholder="{% trans 'Search for Tour' %}" autocomplete="off"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4">
+                                                <span class="span-search-ticket">&nbsp;</span>
+                                                <div class="input-container-search-ticket">
+                                                    <button type="button" class="form-control" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
+                                                    <button type="button" class="form-control" id="tour_advanced_up" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:#ffffff; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" id="tour_advanced_search" style="display:none;">
+                                            <div class="col-lg-12">
+                                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Destination' %} </span>
+                                                <div class="row">
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                        <div class="form-select">
+                                                            <select class="js-example-basic-single" style="width:100%;" id="tour_countries" size="5" data-live-search="true" name="tour_countries">
+                                                                <option value="0" selected="">{% trans 'All Countries' %}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                        <div class="form-select">
+                                                            <div id="temp_tour_cities">
+                                                                <select class="js-example-basic-single" style="width:100%;" id="tour_cities" name="tour_cities" size="5">
+                                                                    <option value="0" selected="">{% trans 'All Cities' %}</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
 
-                                                        </ul>
+                                            <div class="col-lg-12">
+                                                <div class="row">
+                                                    <div class="col-lg-12 search_type">
+                                                        <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure Time' %} </span>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-4 col-md-6 col-sm-6">
-                                                    <span class="span-search-ticket">{% trans 'Class' %}</span>
-                                                    <div class="input-container-search-ticket btn-group">
-                                                        <div class="form-select" id="default-select">
-                                                            <select class="nice-select-default" id="cabin_class_flight" name="cabin_class_flight">
-                                                                {% for cabin_class in airline_cabin_class_list %}
-                                                                <option value="{{cabin_class.value}}" {% if cabin_class.value == "Y" %} selected {% endif %}>{{cabin_class.name}}</option>
-                                                                {% endfor %}
+                                                <div class="row">
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                        <div class="form-select">
+                                                            <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_month" id="tour_dest_month" size="5">
+                                                                <option value="00" selected="True">{% trans 'All Months' %}</option>
+                                                                <option value="01">{% trans 'January' %}</option>
+                                                                <option value="02">{% trans 'February' %}</option>
+                                                                <option value="03">{% trans 'March' %}</option>
+                                                                <option value="04">{% trans 'April' %}</option>
+                                                                <option value="05">{% trans 'May' %}</option>
+                                                                <option value="06">{% trans 'June' %}</option>
+                                                                <option value="07">{% trans 'July' %}</option>
+                                                                <option value="08">{% trans 'August' %}</option>
+                                                                <option value="09">{% trans 'September' %}</option>
+                                                                <option value="10">{% trans 'October' %}</option>
+                                                                <option value="11">{% trans 'November' %}</option>
+                                                                <option value="12">{% trans 'December' %}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                        <input id="tour_hidden_year" type="hidden" value=""/>
+                                                        <div class="form-select">
+                                                            <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_year" id="tour_dest_year" size="5">
+
                                                             </select>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-12" id="mc_airline_default">
-
-                                        </div>
-                                        <input type="hidden" class="col-lg-12" id="counter" name="counter"/>
-                                    </div>
-                                    <br/>
-                                    <center>
-                                        <button class="button-search primary-btn ld-ext-right" type="button" id="airline_button_search" onclick="airline_goto_search();" value="Submit">
-                                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                            {% trans 'Search' %}
-                                            <div class="ld ld-ring ld-cycle"></div>
-                                        </button>
-                                    </center>
-                                </form>
-                            </div>
-                            {% endif %}
-                            {% if "train" in provider and "ticketing_train" in username.co_agent_frontend_security %}
-                            <div class="form-search-wrap tab-content" id="tab-train" data-aos="fade-up" data-aos-delay="200">
-                                <form action="{% url 'tt_website_rodextrip:train_search'%}" method="POST" id="train_searchForm" onsubmit="return search_train_validation()">
-                                    {% csrf_token %}
-                                    <div class="row">
-                                        <div class="col-lg-12" id="radio_train_search" style="text-align:left;margin-bottom:10px;">
-                                            <label class="radio-button-custom">
-                                                <span style="font-size:13px; color:{{text_color}};">{% trans 'One Way' %}</span>
-                                                <input type="radio" checked="checked" name="radio_train_type" value="oneway">
-                                                <span class="checkmark-radio"></span>
-                                            </label>
-                                            <label class="radio-button-custom">
-                                                <span style="font-size:13px; color:{{text_color}};">{% trans 'Round Trip' %}</span>
-                                                <input type="radio" name="radio_train_type" value="roundtrip">
-                                                <span class="checkmark-radio"></span>
-                                            </label>
-                                        </div>
-                                        <div class="col-lg-12">
-                                            <div class="row">
-                                                <div class="col-lg-6 col-md-6 col-sm-6 train-from">
-                                                    <span class="span-search-ticket">{% trans 'From' %}</span>
-                                                    <div class="input-container-search-ticket">
-                                                        <i class="fas fa-train" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
-                                                        <input id="train_origin" name="train_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('train_origin').select();" onclick="set_train_search_value_to_false();" value="BD - Bandung">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6 train-to" style="z-index:5;">
-                                                    <h4 class="image-change-route-vertical2"><a href="javascript:train_switch();" style="z-index:5; color:{{text_color}};" id="train_switch"><i class="fas fa-exchange-alt"></i></a></h4>
-                                                    <h4 class="image-change-route-horizontal2"><a href="javascript:train_switch();" style="z-index:5; color:{{text_color}};" id="train_switch"><i class="fas fa-exchange-alt"></i></a></h4>
-                                                    <span class="span-search-ticket">{% trans 'To' %}</span>
-                                                    <div class="input-container-search-ticket">
-                                                        <i class="fas fa-map-marked-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
-                                                        <input id="train_destination" name="train_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('train_destination').select();" onclick="set_train_search_value_to_false();" value="GMR - Gambir">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6" id="train_date_search">
-                                            <span class="span-search-ticket">{% trans 'Departure' %}</span>
-                                            <div class="input-container-search-ticket">
-                                                <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
-                                                <input type="text" style="background:white;" class="form-control" id="train_departure" name="train_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly/>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
-                                            <span class="span-search-ticket">{% trans 'Passenger' %}</span>
-                                            <div class="input-container-search-ticket btn-group">
-                                                <i class="fas fa-users" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
-                                                <button id="show_total_pax_train" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
-                                                <ul class="dropdown-menu" style="overflow-y:unset;" role="menu">
-                                                    <div class="row" style="padding:10px;">
-                                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                                            <div style="float:left;">
-                                                                <label>
-                                                                    <span style="color:black; font-size:13px;">{% trans 'Adult' %}<br/></span>
-                                                                    <span style="color:gray; font-size:11px;">({% trans 'Age' %} 3+)</span>
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                                <button type="button" class="left-minus-adult-train btn-custom-circle" id="left-minus-adult-train" data-type="minus" data-field="" disabled>
-                                                                    <i class="fas fa-minus"></i>
-                                                                </button>
-                                                                <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="train_adult" name="train_adult" value="1" min="1" readonly>
-                                                                <button type="button" class="right-plus-adult-train btn-custom-circle" id="right-plus-adult-train" data-type="plus" data-field="">
-                                                                    <i class="fas fa-plus"></i>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                                            <div style="float:left;">
-                                                                <label>
-                                                                    <span style="color:black; font-size:13px;">{% trans 'Infant' %}<br/></span>
-                                                                    <span style="color:gray; font-size:11px;">({% trans 'Age' %} < 3)</span>
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                                <button type="button" class="left-minus-infant-train btn-custom-circle" id="left-minus-infant-train" data-type="minus" data-field="" disabled>
-                                                                    <i class="fas fa-minus"></i>
-                                                                </button>
-                                                                <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="train_infant" name="train_infant" value="0" readonly>
-                                                                <button type="button" class="right-plus-infant-train btn-custom-circle" id="right-plus-infant-train" data-type="plus" data-field="">
-                                                                    <i class="fas fa-plus"></i>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <br/>
-
-                                    <input type="hidden" id="train_response" name="response"/>
-                                    <center>
-                                        <button class="primary-btn ld-ext-right" id="btn-search-train" type="button" onclick="train_check_search_values();" value="Submit">
-                                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                            {% trans 'Search' %}
-                                            <div class="ld ld-ring ld-cycle"></div>
-                                        </button>
-                                    </center>
-                                </form>
-                            </div>
-                            {% endif %}
-                            {% if "hotel" in provider and "ticketing_hotel" in username.co_agent_frontend_security %}
-                            <div class="form-search-wrap tab-content" id="tab-hotel" data-aos="fade-up" data-aos-delay="200">
-                                <form action="{% url 'tt_website_rodextrip:hotel_search'%}" method="POST" id="hotel_searchForm">
-                                    {% csrf_token %}
-                                    <div class="row">
-                                        <div class="col-lg-6 col-md-6">
-                                            <span class="span-search-ticket">{% trans 'Destination or Hotel' %}</span>
-                                            <div class="input-container-search-ticket">
-                                                <i class="fas fa-map-marker-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
-                                                <input id="hotel_id_destination" name="hotel_id_destination" class="form-control" type="text" placeholder="{% trans 'Select Destination City or Hotel Name' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value=""/>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6">
-                                            <span class="span-search-ticket"> {% trans 'Guest Nationality' %}</span>
-                                            <div class="input-container-search-ticket">
-                                                <i class="fas fa-globe-asia" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
-                                                <select class="js-example-basic-single" name="hotel_id_nationality_id" style="width:100%;" id="hotel_id_nationality_id" placeholder="Guest Nationality" onchange="auto_complete('hotel_id_nationality_id')" class="nice-select-default">
-                                                    {% for country in countries %}
-                                                    {% if country.name == 'Indonesia'%}
-                                                    <option value="{{country.code}} - {{country.name}}" selected>{{country.code}} - {{country.name}}</option>
-                                                    {% else %}
-                                                    <option value="{{country.code}} - {{country.name}}">{{country.code}} - {{country.name}}</option>
-                                                    {% endif %}
-                                                    {% endfor %}
-                                                </select>
-                                            </div>
-                                            <input type="hidden" value="ID - Indonesia" id="hotel_id_nationality" class="form-control" name="hotel_id_nationality" />
-                                        </div>
-                                        <div class="col-lg-6 col-md-6">
-                                            <span class="span-search-ticket">{% trans 'Check-In - Check-Out' %}</span>
-                                            <div class="input-container-search-ticket">
-                                                <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
-                                                <input class="form-control" style="background:white;" type="text" name="hotel_checkin_checkout" id="hotel_checkin_checkout" placeholder="{% trans 'Check-In - Check-Out Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly/>
-                                                <i class="fas fa-moon" id="total_night_search" style="padding-left:10px;padding-top:15px; color:{{text_color}};">1</i>
-                                            </div>
-                                            <input class="form-control" type="hidden" name="hotel_checkin" id="hotel_checkin" placeholder="Check-In Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '" autocomplete="off"/>
-                                            <input class="form-control" type="hidden" name="hotel_checkout" id="hotel_checkout"  autocomplete="off" placeholder="Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-out Date '" />
-                                        </div>
-                                        <div class="col-lg-6 col-md-6">
-                                            <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Guest' %}</span>
-                                            <div class="input-container-search-ticket btn-group">
-                                                <i class="fas fa-users" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
-                                                <button id="show_total_pax_hotel" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></button>
-                                                <ul class="dropdown-menu" role="menu" style="z-index:5; overflow-y:unset;">
-                                                    <div class="row" style="padding:10px;">
-                                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                                            <div style="float:left;">
-                                                                <label>
-                                                                    <span style="color:black; font-size:13px;">{% trans 'Room' %}<br/></span>
-                                                                    <span style="color:gray; font-size:11px;">(Qty >= 1)</span>
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                                <button type="button" class="left-minus-room-hotel btn-custom-circle" id="left-minus-room-hotel" data-type="minus" data-field="" disabled>
-                                                                    <i class="fas fa-minus"></i>
-                                                                </button>
-                                                                <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; text-align:center; width:25px;" id="hotel_room" name="hotel_room" value="1" min="1" readonly>
-                                                                <button type="button" class="right-plus-room-hotel btn-custom-circle" id="right-plus-room-hotel" data-type="plus" data-field="">
-                                                                    <i class="fas fa-plus"></i>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                                            <div style="float:left;">
-                                                                <label>
-                                                                    <span style="color:black; font-size:13px;">{% trans 'Adult' %}<br/></span>
-                                                                    <span style="color:gray; font-size:11px;">({% trans 'Age' %} 12+)</span>
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                                <button type="button" class="left-minus-adult-hotel btn-custom-circle" id="left-minus-adult-hotel" data-type="minus" data-field="">
-                                                                    <i class="fas fa-minus"></i>
-                                                                </button>
-                                                                <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; text-align:center; width:25px;" id="hotel_adult" name="hotel_adult" value="2" min="1" readonly>
-                                                                <button type="button" class="right-plus-adult-hotel btn-custom-circle" id="right-plus-adult-hotel" data-type="plus" data-field="">
-                                                                    <i class="fas fa-plus"></i>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                                            <div style="float:left;">
-                                                                <label>
-                                                                    <span style="color:black; font-size:13px;">{% trans 'Child' %}<br/></span>
-                                                                    <span style="color:gray; font-size:11px;">({% trans 'Age' %} <12)</span>
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                                <button type="button" class="left-minus-child-hotel btn-custom-circle" id="left-minus-child-hotel" data-type="minus" data-field="" disabled>
-                                                                    <i class="fas fa-minus"></i>
-                                                                </button>
-                                                                <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; text-align:center; width:25px;" id="hotel_child" name="hotel_child" value="0" readonly>
-                                                                <button type="button" class="right-plus-child-hotel btn-custom-circle" id="right-plus-child-hotel" data-type="plus" data-field="">
-                                                                    <i class="fas fa-plus"></i>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-12">
-                                                            <div class="row" id="guest_child_age">
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </ul>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-12" style="margin-top:5px; margin-bottom:10px; float:left;">
-                                            <label class="check_box_custom">
-                                                <span class="span-search-ticket" style="font-size:13px;">{% trans 'Business Trip' %}</span>
-                                                <input type="checkbox" value="true" onclick="business_trip_check();">
-                                                <input type="hidden" name="business_trip" id="business_trip" value="false"/>
-                                                <span class="check_box_span_custom"></span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <br/>
-                                    <center>
-                                        <button class="button-search primary-btn ld-ext-right" id="btn-search-hotel" onclick="hotel_search_validation();" type="button" value="Submit">
-                                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                            {% trans 'Search' %}
-                                            <div class="ld ld-ring ld-cycle"></div>
-                                        </button>
-                                    </center>
-                                </form>
-                            </div>
-                            {% endif %}
-                            {% if "activity" in provider and "ticketing_activity" in username.co_agent_frontend_security %}
-                            <div class="form-search-wrap tab-content" id="tab-activity" data-aos="fade-up" data-aos-delay="200">
-                                <form action="{% url 'tt_website_rodextrip:activity_search'%}" id="activity_search_form" method="post">
-                                    {% csrf_token %}
-                                    <div class="row justify-content-between align-items-end">
-                                        <div class="col-lg-9 col-md-9 col-sm-8">
-                                            <span class="span-search-ticket">{% trans 'Activity' %}</span>
-                                            <div class="input-container-search-ticket">
-                                                <i class="fas fa-umbrella-beach" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
-                                                <input type="text" class="form-control" name="activity_query" id="activity_query" placeholder="{% trans 'Search for Activities, Theme Parks, etc' %}" autocomplete="off"/>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3 col-md-3 col-sm-4">
-                                            <span class="span-search-ticket">&nbsp;</span>
-                                            <div class="input-container-search-ticket">
-                                                <button type="button" class="form-control activity_btn_advance" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="display:block;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
-                                                <button type="button" class="form-control activity_btn_advance" id="activity_advanced_up" onclick="show_hide_advanced('activity');" style="display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-12">
-                                            <div class="row" id="activity_advanced_search" style="display:none;">
-                                                <div class="col-lg-12">
-                                                    <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Location' %} </span>
-                                                    <div class="row">
-                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                                            <div class="form-select">
-                                                                <select class="js-example-basic-single" style="width:100%;" id="activity_countries" size="5" data-live-search="true" name="activity_countries">
-                                                                    <option value="" selected="">{% trans 'All Countries' %}</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                                            <div class="form-select">
-                                                                <div id="temp_activity_cities">
-                                                                    <select class="js-example-basic-single" style="width:100%;" id="activity_cities" name="activity_cities" size="5">
-                                                                        <option value="" selected="">{% trans 'All Cities' %}</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-lg-12">
-                                                    <div class="row">
-                                                        <div class="col-lg-12 search_type">
-                                                            <span class="span-search-ticket"><i class="fa fa-folder-open"></i> {% trans 'Category Type' %} </span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                                            <div class="form-select">
-                                                                <select class="js-example-basic-single" style="width:100%;" id="activity_type" name="activity_type" data-live-search="true" size="5">
-                                                                    <option value="0" selected="">{% trans 'All Types' %}</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                                            <div class="form-select">
-                                                                <select class="js-example-basic-single" style="width:100%;" id="activity_category" name="activity_category" size="5">
-                                                                    <option value="0" selected="">{% trans 'All Categories' %}</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                                            <div class="form-select">
-                                                                <div id="temp_activity_sub_category">
-                                                                    <select class="js-example-basic-single" style="width:100%;" id="activity_sub_category" name="activity_sub_category" size="5">
-                                                                        <option value="0" selected="">{% trans 'All Sub Categories' %}</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <br/>
-                                    <center>
-                                        <button class="button-search primary-btn ld-ext-right" onclick="activity_search_form_submit();" type="submit" value="Submit">
-                                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                            {% trans 'Search' %}
-                                            <div class="ld ld-ring ld-cycle"></div>
-                                        </button>
-                                    </center>
-                                </form>
-                            </div>
-                            {% endif %}
-                            {% if "tour" in provider and "ticketing_tour" in username.co_agent_frontend_security %}
-                            <div class="form-search-wrap tab-content" id="tab-tour" data-aos="fade-up" data-aos-delay="200">
-                                <form action="{% url 'tt_website_rodextrip:tour_search'%}" id="tour_search_form" method="post">
-                                    {% csrf_token %}
-                                    <div class="row">
-                                        <div class="col-lg-9 col-md-9 col-sm-8 col-xs-8">
-                                            <span class="span-search-ticket">{% trans 'Tour' %}</span>
-                                            <div class="input-container-search-ticket">
-                                                <i class="fas fa-briefcase" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
-                                                <input type="text" class="form-control" name="tour_query" id="tour_query" placeholder="{% trans 'Search for Tour' %}" autocomplete="off"/>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4">
-                                            <span class="span-search-ticket">&nbsp;</span>
-                                            <div class="input-container-search-ticket">
-                                                <button type="button" class="form-control" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
-                                                <button type="button" class="form-control" id="tour_advanced_up" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:#ffffff; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row" id="tour_advanced_search" style="display:none;">
-                                        <div class="col-lg-12">
-                                            <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Destination' %} </span>
-                                            <div class="row">
-                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                        <br/>
+                                        <center>
+                                            <button class="button-search primary-btn ld-ext-right" onclick="tour_search_form_submit();" type="button" value="Submit">
+                                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                                {% trans 'Search' %}
+                                                <div class="ld ld-ring ld-cycle"></div>
+                                            </button>
+                                        </center>
+                                    </form>
+                                </div>
+                                {% endif %}
+                                {% if "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_visa" in username.co_agent_frontend_security %}
+                                <div class="form-search-wrap tab-content" id="tab-visa" data-aos="fade-up" data-aos-delay="200">
+                                    <form action="{% url 'tt_website_rodextrip:visa_search'%}" class="form-wrap" id="visa_searchForm" method="post">
+                                        {% csrf_token %}
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                                <span class="span-search-ticket">{% trans 'Destination' %}</span>
+                                                <div class="input-container-search-ticket">
+                                                    <i class="fas fa-map-marker-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
                                                     <div class="form-select">
-                                                        <select class="js-example-basic-single" style="width:100%;" id="tour_countries" size="5" data-live-search="true" name="tour_countries">
-                                                            <option value="0" selected="">{% trans 'All Countries' %}</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                                    <div class="form-select">
-                                                        <div id="temp_tour_cities">
-                                                            <select class="js-example-basic-single" style="width:100%;" id="tour_cities" name="tour_cities" size="5">
-                                                                <option value="0" selected="">{% trans 'All Cities' %}</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-12">
-                                            <div class="row">
-                                                <div class="col-lg-12 search_type">
-                                                    <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure Time' %} </span>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                                    <div class="form-select">
-                                                        <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_month" id="tour_dest_month" size="5">
-                                                            <option value="00" selected="True">{% trans 'All Months' %}</option>
-                                                            <option value="01">{% trans 'January' %}</option>
-                                                            <option value="02">{% trans 'February' %}</option>
-                                                            <option value="03">{% trans 'March' %}</option>
-                                                            <option value="04">{% trans 'April' %}</option>
-                                                            <option value="05">{% trans 'May' %}</option>
-                                                            <option value="06">{% trans 'June' %}</option>
-                                                            <option value="07">{% trans 'July' %}</option>
-                                                            <option value="08">{% trans 'August' %}</option>
-                                                            <option value="09">{% trans 'September' %}</option>
-                                                            <option value="10">{% trans 'October' %}</option>
-                                                            <option value="11">{% trans 'November' %}</option>
-                                                            <option value="12">{% trans 'December' %}</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                                    <input id="tour_hidden_year" type="hidden" value=""/>
-                                                    <div class="form-select">
-                                                        <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_year" id="tour_dest_year" size="5">
+                                                        <select class="form-control js-example-basic-single" style="width:100%;" id="visa_destination_id" placeholder="{% trans 'Destination' %}" onchange="visa_autocomplete('destination','home')">
 
                                                         </select>
                                                     </div>
                                                 </div>
+                                                <input type="hidden" name="visa_destination_id" id="visa_destination_id_hidden" />
                                             </div>
-                                        </div>
-                                    </div>
-                                    <br/>
-                                    <center>
-                                        <button class="button-search primary-btn ld-ext-right" onclick="tour_search_form_submit();" type="button" value="Submit">
-                                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                            {% trans 'Search' %}
-                                            <div class="ld ld-ring ld-cycle"></div>
-                                        </button>
-                                    </center>
-                                </form>
-                            </div>
-                            {% endif %}
-                            {% if "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_visa" in username.co_agent_frontend_security %}
-                            <div class="form-search-wrap tab-content" id="tab-visa" data-aos="fade-up" data-aos-delay="200">
-                                <form action="{% url 'tt_website_rodextrip:visa_search'%}" class="form-wrap" id="visa_searchForm" method="post">
-                                    {% csrf_token %}
-                                    <div class="row">
-                                        <div class="col-lg-4 col-md-4 col-sm-4">
-                                            <span class="span-search-ticket">{% trans 'Destination' %}</span>
-                                            <div class="input-container-search-ticket">
-                                                <i class="fas fa-map-marker-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
-                                                <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" style="width:100%;" id="visa_destination_id" placeholder="{% trans 'Destination' %}" onchange="visa_autocomplete('destination','home')">
-
-                                                    </select>
+                                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                                <span class="span-search-ticket">{% trans 'Departure' %}</span>
+                                                <div class="input-container-search-ticket">
+                                                    <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
+                                                    <input type="text" class="form-control" style="cursor:pointer; background:white;" name="visa_departure" id="visa_departure" placeholder="{% trans 'Departure' %} Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
                                                 </div>
                                             </div>
-                                            <input type="hidden" name="visa_destination_id" id="visa_destination_id_hidden" />
-                                        </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-4">
-                                            <span class="span-search-ticket">{% trans 'Departure' %}</span>
-                                            <div class="input-container-search-ticket">
-                                                <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
-                                                <input type="text" class="form-control" style="cursor:pointer; background:white;" name="visa_departure" id="visa_departure" placeholder="{% trans 'Departure' %} Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+                                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                                <span class="span-search-ticket"><i class="fas fa-city"></i> {% trans 'Consulate' %}</span>
+                                                <div class="input-container-search-ticket">
+                                                    <i class="fas fa-city" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
+                                                    <div class="form-select">
+                                                        <select class="form-control js-example-basic-single" style="width:100%;" id="visa_consulate_id" placeholder="{% trans 'Consulate' %}" onchange="visa_autocomplete('consulate','home')">
+
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <input type="hidden" name="visa_consulate_id" id="visa_consulate_id_hidden" />
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-4">
-                                            <span class="span-search-ticket"><i class="fas fa-city"></i> {% trans 'Consulate' %}</span>
-                                            <div class="input-container-search-ticket">
-                                                <i class="fas fa-city" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
-                                                <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" style="width:100%;" id="visa_consulate_id" placeholder="{% trans 'Consulate' %}" onchange="visa_autocomplete('consulate','home')">
+                                        <br/>
+                                        <center>
+                                            <button class="button-search primary-btn ld-ext-right" type="submit" value="Submit">
+                                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                                {% trans 'Search' %}
+                                                <div class="ld ld-ring ld-cycle"></div>
+                                            </button>
+                                        </center>
+                                    </form>
+                                </div>
+                                {% endif %}
+                                {% if "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_passport" in username.co_agent_frontend_security %}
+                                <div class="form-search-wrap tab-content" id="tab-passport" data-aos-delay="200">
+                                    <form action="{% url 'tt_website_rodextrip:passport_search'%}" class="form-wrap" id="passport_searchForm" method="post">
+                                        {% csrf_token %}
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                                <span class="span-search-ticket"> {% trans 'Passport Type' %}</span>
+                                                <div class="input-container-search-ticket">
+                                                    <i class="fas fa-map-marker-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
+                                                    <div class="form-select">
+                                                        <select class="form-control js-example-basic-single" style="width:100%;" id="passport_type_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('passport_type')">
 
-                                                    </select>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <input type="hidden" name="passport_type" id="passport_type" />
+                                            </div>
+                                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                                <span class="span-search-ticket"> {% trans 'Apply Type' %}</span>
+                                                <div class="input-container-search-ticket">
+                                                    <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
+                                                    <div class="form-select">
+                                                        <select class="form-control js-example-basic-single" style="width:100%;" id="passport_apply_type_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('passport_apply_type')">
+
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <input type="hidden" name="passport_apply_type" id="passport_apply_type" />
+                                            </div>
+                                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                                <span class="span-search-ticket"> {% trans 'Consulate' %}</span>
+                                                <div class="input-container-search-ticket">
+                                                    <i class="fas fa-city" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
+                                                    <div class="form-select">
+                                                        <select class="form-control js-example-basic-single" style="width:100%;" id="consulate_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('consulate')">
+
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <input type="hidden" name="consulate" id="consulate" />
+                                            </div>
+                                        </div>
+                                        <br/>
+                                        <center>
+                                            <button class="button-search primary-btn ld-ext-right" type="submit" value="Submit">
+                                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                                {% trans 'Search' %}
+                                                <div class="ld ld-ring ld-cycle"></div>
+                                            </button>
+                                        </center>
+                                    </form>
+                                </div>
+                                {% endif %}
+                                {% if "ppob" in provider and "ticketing_ppob" in username.co_agent_frontend_security %}
+                                <div class="form-search-wrap tab-content" id="tab-bills" data-aos-delay="200">
+                                    <form action="" class="form-wrap" id="bill_searchForm" method="post">
+                                        {% csrf_token %}
+                                        <div class="row">
+                                            <div class="col-lg-12" id="radio_bill_search" style="text-align:left;margin-bottom:10px;" onchange="set_container_bill();">
+                                                <label class="radio-button-custom">
+                                                    <span style="font-size:13px; color:{{text_color}};">BPJS</span>
+                                                    <input type="radio" checked="checked" name="bills_type" value="bpjs">
+                                                    <span class="checkmark-radio"></span>
+                                                </label>
+                                                <label class="radio-button-custom">
+                                                    <span style="font-size:13px; color:{{text_color}};">PLN</span>
+                                                    <input type="radio"  name="bills_type" value="pln">
+                                                    <span class="checkmark-radio"></span>
+                                                </label>
+                                            </div>
+                                            {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                                            <div class="col-lg-12 col-md-12 col-sm-12" style="margin-bottom:15px;">
+                                                <div class="row" id="bill_div">
+
                                                 </div>
                                             </div>
-                                            <input type="hidden" name="visa_consulate_id" id="visa_consulate_id_hidden" />
-                                        </div>
-                                    </div>
-                                    <br/>
-                                    <center>
-                                        <button class="button-search primary-btn ld-ext-right" type="submit" value="Submit">
-                                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                            {% trans 'Search' %}
-                                            <div class="ld ld-ring ld-cycle"></div>
-                                        </button>
-                                    </center>
-                                </form>
-                            </div>
-                            {% endif %}
-                            {% if "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_passport" in username.co_agent_frontend_security %}
-                            <div class="form-search-wrap tab-content" id="tab-passport" data-aos-delay="200">
-                                <form action="{% url 'tt_website_rodextrip:passport_search'%}" class="form-wrap" id="passport_searchForm" method="post">
-                                    {% csrf_token %}
-                                    <div class="row">
-                                        <div class="col-lg-4 col-md-4 col-sm-4">
-                                            <span class="span-search-ticket"> {% trans 'Passport Type' %}</span>
-                                            <div class="input-container-search-ticket">
-                                                <i class="fas fa-map-marker-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
-                                                <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" style="width:100%;" id="passport_type_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('passport_type')">
+                                            {% else %}
+                                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                                <div class="row" id="bill_div">
 
-                                                    </select>
                                                 </div>
                                             </div>
-                                            <input type="hidden" name="passport_type" id="passport_type" />
-                                        </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-4">
-                                            <span class="span-search-ticket"> {% trans 'Apply Type' %}</span>
-                                            <div class="input-container-search-ticket">
-                                                <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
-                                                <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" style="width:100%;" id="passport_apply_type_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('passport_apply_type')">
-
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <input type="hidden" name="passport_apply_type" id="passport_apply_type" />
-                                        </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-4">
-                                            <span class="span-search-ticket"> {% trans 'Consulate' %}</span>
-                                            <div class="input-container-search-ticket">
-                                                <i class="fas fa-city" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
-                                                <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" style="width:100%;" id="consulate_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('consulate')">
-
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <input type="hidden" name="consulate" id="consulate" />
-                                        </div>
-                                    </div>
-                                    <br/>
-                                    <center>
-                                        <button class="button-search primary-btn ld-ext-right" type="submit" value="Submit">
-                                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                            {% trans 'Search' %}
-                                            <div class="ld ld-ring ld-cycle"></div>
-                                        </button>
-                                    </center>
-                                </form>
-                            </div>
-                            {% endif %}
-                            {% if "ppob" in provider and "ticketing_ppob" in username.co_agent_frontend_security %}
-                            <div class="form-search-wrap tab-content" id="tab-bills" data-aos-delay="200">
-                                <form action="" class="form-wrap" id="bill_searchForm" method="post">
-                                    {% csrf_token %}
-                                    <div class="row">
-                                        <div class="col-lg-12" id="radio_bill_search" style="text-align:left;margin-bottom:10px;" onchange="set_container_bill();">
-                                            <label class="radio-button-custom">
-                                                <span style="font-size:13px; color:{{text_color}};">BPJS</span>
-                                                <input type="radio" checked="checked" name="bills_type" value="bpjs">
-                                                <span class="checkmark-radio"></span>
-                                            </label>
-                                            <label class="radio-button-custom">
-                                                <span style="font-size:13px; color:{{text_color}};">PLN</span>
-                                                <input type="radio"  name="bills_type" value="pln">
-                                                <span class="checkmark-radio"></span>
-                                            </label>
-                                        </div>
-                                        {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                        <div class="col-lg-12 col-md-12 col-sm-12" style="margin-bottom:15px;">
-                                            <div class="row" id="bill_div">
-
-                                            </div>
-                                        </div>
-                                        {% else %}
-                                        <div class="col-lg-12 col-md-12 col-sm-12">
-                                            <div class="row" id="bill_div">
-
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-12 col-md-12 col-sm-12" style="margin-bottom:15px;">
-                                            <div class="row">
-                                                <div class="col-lg-12 col-md-12 col-sm-12" style="padding:0px;">
-                                                    <span class="span-search-ticket"><i class="fas fa-mail"></i> Email Address</span>
-                                                    <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" name="customer_email" id="customer_email" placeholder="The email address where we will send your payment information" autocomplete="off"/>
+                                            <div class="col-lg-12 col-md-12 col-sm-12" style="margin-bottom:15px;">
+                                                <div class="row">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12" style="padding:0px;">
+                                                        <span class="span-search-ticket"><i class="fas fa-mail"></i> Email Address</span>
+                                                        <div class="input-container-search-ticket">
+                                                            <input type="text" class="form-control" name="customer_email" id="customer_email" placeholder="The email address where we will send your payment information" autocomplete="off"/>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            {% endif %}
                                         </div>
-                                        {% endif %}
-                                    </div>
-                                    <br/>
-                                    <center>
-                                        {% if 'book_reservation' in username.co_agent_frontend_security or 'issued_reservation' in username.co_agent_frontend_security %}
-                                        <button class="button-search primary-btn ld-ext-right btn-next" type="button" onclick="signin_ppob('');" value="Submit">
-                                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                            {% trans 'Search' %}
-                                            <div class="ld ld-ring ld-cycle"></div>
-                                        </button>
-                                        {% endif %}
-                                    </center>
-                                </form>
-                            </div>
-                            <form method="POST" id="ppob_issued" action="{% url 'tt_website_rodextrip:payment'%}">
-                                {% csrf_token %}
-                                <input type="hidden" id="passengers" name="passengers"/>
-                                <input type="hidden" id="signature" name="signature"/>
-                                <input type="hidden" id="order_number" name="order_number"/>
-                                <input type="hidden" id="provider" name="provider"/>
-                                <input type="hidden" id="discount" name="discount"/>
-                                <input type="hidden" id="voucher_code" name="voucher_code"/>
-                                <input type="hidden" id="type" name="type"/>
-                                <input type="hidden" id="session_time_input" name="session_time_input"/>
-                            </form>
-                            {% else %}
-                            <div class="form-search-wrap tab-content" id="tab-bills" data-aos-delay="200">
-                                <form method="POST" class="form-wrap">
-                                    <div class="row">
-                                        <div class="col-lg-12 col-sm-12 col-md-12">
-                                            <span class="span-search-ticket"> {% trans 'COMINGSOON' %} </span>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                            {% endif %}
-
-                            {% if "event" in provider and "ticketing_event" in username.co_agent_frontend_security %}
-                            <div class="form-search-wrap tab-content" id="tab-event" data-aos-delay="200">
-                                <form action="{% url 'tt_website_rodextrip:event_search'%}" method="POST" class="form-wrap" id="event_searchForm">
+                                        <center>
+                                            {% if 'book_reservation' in username.co_agent_frontend_security or 'issued_reservation' in username.co_agent_frontend_security %}
+                                            <button class="button-search primary-btn ld-ext-right btn-next" type="button" onclick="signin_ppob('');" value="Submit">
+                                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                                {% trans 'Search' %}
+                                                <div class="ld ld-ring ld-cycle"></div>
+                                            </button>
+                                            {% endif %}
+                                        </center>
+                                    </form>
+                                </div>
+                                <form method="POST" id="ppob_issued" action="{% url 'tt_website_rodextrip:payment'%}">
                                     {% csrf_token %}
-                                    <div class="row">
-                                        <div class="col-lg-3">
-                                            <span class="span-search-ticket">{% trans 'Category' %}</span>
-                                            <div class="input-container-search-ticket btn-group">
-                                                <select id="category_event" name="category_event" class="nice-select-default">
-
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-9">
-                                            <span class="span-search-ticket">{% trans 'Event Name' %}</span>
-                                            <div class="input-container-search-ticket">
-                                                <input id="event_name_id" name="event_name_id" class="form-control" type="text" placeholder="{% trans 'Event Name' %}" style="outline:0" autocomplete="off" value=""/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <br/>
-                                    <center>
-                                        <button class="button-search primary-btn ld-ext-right" id="btn-search-event" onclick="event_search_validation();" type="button" value="Submit">
-                                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                            {% trans 'Search' %}
-                                            <div class="ld ld-ring ld-cycle"></div>
-                                        </button>
-                                    </center>
+                                    <input type="hidden" id="passengers" name="passengers"/>
+                                    <input type="hidden" id="signature" name="signature"/>
+                                    <input type="hidden" id="order_number" name="order_number"/>
+                                    <input type="hidden" id="provider" name="provider"/>
+                                    <input type="hidden" id="discount" name="discount"/>
+                                    <input type="hidden" id="voucher_code" name="voucher_code"/>
+                                    <input type="hidden" id="type" name="type"/>
+                                    <input type="hidden" id="session_time_input" name="session_time_input"/>
                                 </form>
+                                {% else %}
+                                <div class="form-search-wrap tab-content" id="tab-bills" data-aos-delay="200">
+                                    <form method="POST" class="form-wrap">
+                                        <div class="row">
+                                            <div class="col-lg-12 col-sm-12 col-md-12">
+                                                <span class="span-search-ticket"> {% trans 'COMINGSOON' %} </span>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                {% endif %}
+
+                                {% if "event" in provider and "ticketing_event" in username.co_agent_frontend_security %}
+                                <div class="form-search-wrap tab-content" id="tab-event" data-aos-delay="200">
+                                    <form action="{% url 'tt_website_rodextrip:event_search'%}" method="POST" class="form-wrap" id="event_searchForm">
+                                        {% csrf_token %}
+                                        <div class="row">
+                                            <div class="col-lg-3">
+                                                <span class="span-search-ticket">{% trans 'Category' %}</span>
+                                                <div class="input-container-search-ticket btn-group">
+                                                    <select id="category_event" name="category_event" class="nice-select-default">
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-9">
+                                                <span class="span-search-ticket">{% trans 'Event Name' %}</span>
+                                                <div class="input-container-search-ticket">
+                                                    <input id="event_name_id" name="event_name_id" class="form-control" type="text" placeholder="{% trans 'Event Name' %}" style="outline:0" autocomplete="off" value=""/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                        <center>
+                                            <button class="button-search primary-btn ld-ext-right" id="btn-search-event" onclick="event_search_validation();" type="button" value="Submit">
+                                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                                {% trans 'Search' %}
+                                                <div class="ld ld-ring ld-cycle"></div>
+                                            </button>
+                                        </center>
+                                    </form>
+                                </div>
+                                {% else %}
+                                <div class="form-search-wrap tab-content" id="tab-event" data-aos-delay="200">
+                                    <form method="POST" class="form-wrap">
+                                        <div class="row">
+                                            <div class="col-lg-12 col-sm-12 col-md-12">
+                                                <span class="span-search-ticket"> {% trans 'COMINGSOON' %} </span>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                {% endif %}
+
+                                {% if name == 'Rodextrip' %}
+                                <div class="form-search-wrap tab-content" id="tab-deal" data-aos-delay="200">
+                                    <form method="POST" class="form-wrap">
+                                        <div class="row">
+                                            <div class="col-lg-12 col-sm-12 col-md-12">
+                                                <center>
+                                                    <button class="button-search primary-btn ld-ext-right" type="button" onclick="window.open('https://rodexshop.id')" value="Submit">
+                                                        Go to Rodexshop
+                                                        <div class="ld ld-ring ld-cycle"></div>
+                                                    </button>
+                                                </center>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                {% endif %}
                             </div>
                             {% else %}
-                            <div class="form-search-wrap tab-content" id="tab-event" data-aos-delay="200">
-                                <form method="POST" class="form-wrap">
-                                    <div class="row">
-                                        <div class="col-lg-12 col-sm-12 col-md-12">
-                                            <span class="span-search-ticket"> {% trans 'COMINGSOON' %} </span>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                            {% endif %}
+                            <div class="col-xl-12" style="text-align:center; box-shadow:0 2px 15px 1px rgba(0, 0, 0, 0.35); padding: 15px 0px;">
+                                <h4>Already a RODEXTRIP member?</h4>
+                                <h5>Sign in to make booking easier!</h5>
 
-                            {% if name == 'Rodextrip' %}
-                            <div class="form-search-wrap tab-content" id="tab-deal" data-aos-delay="200">
-                                <form method="POST" class="form-wrap">
-                                    <div class="row">
-                                        <div class="col-lg-12 col-sm-12 col-md-12">
-                                            <center>
-                                                <button class="button-search primary-btn ld-ext-right" type="button" onclick="window.open('https://rodexshop.id')" value="Submit">
-                                                    Go to Rodexshop
-                                                    <div class="ld ld-ring ld-cycle"></div>
-                                                </button>
-                                            </center>
-                                        </div>
-                                    </div>
-                                </form>
+                                <button class="primary-btn-ticket" type="button" style="margin-top:15px;" onclick="location.href='{% url 'tt_website_rodextrip:login'%}';">
+                                    Sign in <i class="fas fa-sign-in-alt"></i>
+                                </button>
                             </div>
                             {% endif %}
                         </div>
-                        {% else %}
-                        <div class="col-xl-12" style="text-align:center; box-shadow:0 2px 15px 1px rgba(0, 0, 0, 0.35); padding: 15px 0px;">
-                            <h4>Already a RODEXTRIP member?</h4>
-                            <h5>Sign in to make booking easier!</h5>
-
-                            <button class="primary-btn-ticket" type="button" style="margin-top:15px;" onclick="location.href='{% url 'tt_website_rodextrip:login'%}';">
-                                Sign in <i class="fas fa-sign-in-alt"></i>
-                            </button>
-                        </div>
-                        {% endif %}
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>
 
-<div id="small_banner">
+<section>
+    <div id="small_banner">
 
-</div>
+    </div>
+</section>
+
 <div class="modal fade" id="myModalBills" role="dialog" data-keyboard="false">
     <div class="modal-dialog">
         <!-- Modal content-->
@@ -5107,17 +5108,19 @@
     </div>
 </div>
 {% if website_mode == 'btc' or website_mode == 'btc_btb' %}
-<div class="container" style="padding-top:50px; padding-bottom:50px;">
-    <div class="title text-center" id="dynamic_page">
-
-    </div>
-    <br/>
-    <div class="owl-carousel-login owl-theme form-box-login">
-        <div id="owl-login2">
+<section>
+    <div class="container" style="padding-top:50px; padding-bottom:50px;">
+        <div class="title text-center" id="dynamic_page">
 
         </div>
+        <br/>
+        <div class="owl-carousel-login owl-theme form-box-login">
+            <div id="owl-login2">
+
+            </div>
+        </div>
     </div>
-</div>
+</section>
 {% endif %}
 
 <!--    <div class="site-section bg-light">-->
