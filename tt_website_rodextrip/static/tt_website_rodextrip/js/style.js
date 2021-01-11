@@ -152,6 +152,9 @@ $(document).ready(function(){
         div_overlay_checked += 1;
         document.getElementById("overlay-search-box").style.display = "block";
         document.getElementById("div-search-overlay").style.zIndex = "3";
+        if(template == 4){
+            document.getElementById("overlay-search-box2").style.display = "block";
+        }
         if(div_overlay_checked == 1){
             $('html, body').animate({
                 scrollTop: $("#div-search-overlay").offset().top - 110

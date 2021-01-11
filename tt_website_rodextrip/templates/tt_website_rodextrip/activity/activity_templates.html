@@ -107,13 +107,13 @@
                                 <form action="{% url 'tt_website_rodextrip:activity_search'%}" id="activity_search_form" class="form-wrap" method="post">
                                     {% csrf_token %}
                                     <div class="row">
-                                        <div class="col-lg-10 col-md-9 col-sm-8 col-xs-8" style="padding:0px;">
+                                        <div class="col-lg-10 col-md-9 col-sm-8" style="padding:0px;">
                                             <span class="span-search-ticket"><i class="fas fa-umbrella-beach"></i> {% trans 'Activity' %}</span>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" name="activity_query" id="activity_query" placeholder="{% trans 'Search for Activities, Theme Parks, etc' %}" autocomplete="off"/>
+                                                <input type="text" class="form-control" name="activity_query" id="activity_query" placeholder="{% trans 'Search for Activities, Theme Parks, etc' %}" autocomplete="off" style="margin-bottom:0px;"/>
                                             </div>
                                         </div>
-                                        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-4" style="padding:0px;">
+                                        <div class="col-lg-2 col-md-3 col-sm-4" style="padding:0px;">
                                             <span class="span-search-ticket">&nbsp;</span>
                                             <div class="input-container-search-ticket">
                                                 <button type="button" class="form-control activity_btn_advance" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="display:block;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>

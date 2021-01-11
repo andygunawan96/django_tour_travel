@@ -4970,7 +4970,7 @@ display: block;
 	height: 100%;
 	z-index: 999999;
 	/*background: url('/static/tt_website_rodextrip/img/activity_loading.gif') 50% 50% no-repeat rgb(0,0,0,0.9);*/
-	background: rgba(0,0,0,0.9);
+	background: rgba(0,0,0,0.3);
 	background-size:50px auto;
 }
 
@@ -5800,8 +5800,8 @@ ul.btn_tabs li.current .image-rounded-icon{
 }
 .single-destination.avail-sd:hover{
     box-shadow: 0 12px 16px rgba(0, 0, 0, 0.2);
-    z-index:10;
-    cursor:pointer;
+    z-index:3;
+    /*cursor:pointer;*/
 }
 
 .disabled-btn {
@@ -6216,4 +6216,10 @@ ul.btn_tabs li.current .image-rounded-icon{
    border:2px solid #cdcdcd;
    padding:15px 0;
    text-align: center;
+}
+
+.bg-img {
+  background-position: center center !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
 }

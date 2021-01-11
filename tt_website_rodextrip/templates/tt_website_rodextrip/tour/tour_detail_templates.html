@@ -108,13 +108,13 @@
                     <form action="{% url 'tt_website_rodextrip:tour_search'%}" id="tour_search_form" class="form-wrap" method="post">
                         {% csrf_token %}
                         <div class="row">
-                            <div class="col-lg-10 col-md-9 col-sm-8 col-xs-8" style="padding:0px;">
+                            <div class="col-lg-10 col-md-9 col-sm-8" style="padding:0px;">
                                 <span class="span-search-ticket"><i class="fas fa-briefcase"></i> {% trans 'Tour' %}</span>
                                 <div class="input-container-search-ticket">
-                                    <input onClick="this.setSelectionRange(0, this.value.length);" type="text" class="form-control" name="tour_query" id="tour_query" placeholder="{% trans 'Search for Tour' %}" autocomplete="off" value="{{query}}"/>
+                                    <input onClick="this.setSelectionRange(0, this.value.length);" type="text" class="form-control" name="tour_query" id="tour_query" placeholder="{% trans 'Search for Tour' %}" autocomplete="off" value="{{query}}" style="margin-bottom:0px;"/>
                                 </div>
                             </div>
-                            <div class="col-lg-2 col-md-3 col-sm-4 col-xs-4" style="padding:0px;">
+                            <div class="col-lg-2 col-md-3 col-sm-4" style="padding:0px;">
                                 <span class="span-search-ticket">&nbsp;</span>
                                 <div class="input-container-search-ticket">
                                     <button type="button" class="form-control" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
@@ -941,42 +941,45 @@
                                 <input type="hidden" id="tour_data" name="tour_data"/>
                                 <div class="row">
                                     <div class="col-lg-7" style="margin-bottom:15px; padding-top:10px;">
-                                        <h4 class="mb-3">{% trans 'Select Tour Package' %}</h4>
+                                        <h4 class="mb-2">{% trans 'Select Tour Package' %}</h4>
                                         <input type="hidden" id="tour_line_code" name="tour_line_code" value=""/>
                                         <div class="row">
                                             <div class="col-lg-8 col-md-8">
                                                 <input type="text" id="tour_line_display" name="tour_line_display" class="form-control mb-3" disabled/>
                                             </div>
                                             <div class="col-lg-4 col-md-4">
-                                                <button id="btnChangeDate" class="primary-btn-ticket btn-block space" type="button" data-toggle="modal" data-target="#ChangeDateModal"><i class="fas fa-calendar-alt"></i> {% trans 'Change Package' %}</button>
+                                                <button id="btnChangeDate" class="primary-btn-ticket btn-block space" type="button" data-toggle="modal" data-target="#ChangeDateModal"><i class="fas fa-calendar-alt"></i> {% trans 'Choose Package' %}</button>
                                             </div>
                                         </div>
-                                        <h4 class="mb-3 open_tour_date" style="display:none;">{% trans 'Select Tour Departure Date - Arrival Date' %}</h4>
+                                        <h4 class="mb-2 open_tour_date" style="display:none;">{% trans 'Tour Date' %}</h4>
                                         <div class="open_tour_date" style="display:none;">
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <h6>{% trans 'Select Departure Date' %}</h6>
                                                     <input type="text" id="open_tour_departure_date" name="open_tour_departure_date" placeholder="Select Tour Departure Date" class="form-control" autocomplete="off" onchange="set_tour_arrival_date()" readonly/>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <h6>{% trans 'Arrival Date' %}</h6>
                                                     <input type="text" id="open_tour_arrival_date" name="open_tour_arrival_date" placeholder="Tour Arrival Date" class="form-control" autocomplete="off" style="background: #dddddd; pointer-events: none;" readonly/>
                                                 </div>
                                             </div>
                                         </div>
                                         <br/>
-                                        <h4 class="mb-3">{% trans 'Room Settings' %}</h4>
-                                        <input type="hidden" id="room_amount" name="room_amount"/>
-                                        <div id="tour_room_input">
+                                        <div id="tour_room_input_show" style="display:none;">
+                                            <h4 class="mb-3">{% trans 'Room Settings' %}</h4>
+                                            <input type="hidden" id="room_amount" name="room_amount"/>
+                                            <div id="tour_room_input">
 
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                                <button id="btnShowRooms" class="primary-btn-ticket btn-block space" type="button" data-toggle="modal" data-target="#TourRoomsModal"><i class="fas fa-plus"></i> {% trans 'Add Room' %}</button>
                                             </div>
-                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                                <button id="btnDeleteRooms" class="primary-btn-ticket btn-block space hide" type="button" onclick="delete_tour_room()"><i class="fas fa-trash-alt"></i> {% trans 'Delete' %}</button>
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <button id="btnShowRooms" class="primary-btn-ticket btn-block space" type="button" data-toggle="modal" data-target="#TourRoomsModal"><i class="fas fa-plus"></i> {% trans 'Add Room' %}</button>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <button id="btnDeleteRooms" class="primary-btn-ticket btn-block space hide" type="button" onclick="delete_tour_room()"><i class="fas fa-trash-alt"></i> {% trans 'Delete' %}</button>
+                                                </div>
                                             </div>
                                         </div>
-
                                     </div>
                                     <div class="col-lg-5 hide" id="total-price-container" style="margin-top:10px;">
                                         <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="tour_detail">

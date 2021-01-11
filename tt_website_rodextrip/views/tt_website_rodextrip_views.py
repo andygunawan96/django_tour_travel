@@ -944,10 +944,10 @@ def get_data_template(request, type='home', provider_type = []):
     bg_regis = ''
     google_analytics = ''
     login_background_color = '#333333'
-    airline_origin = 'SUB - Juanda International Airport - Surabaya - Indonesia'
-    airline_destination = 'SIN - Changi Intl - Singapore - Singapore'
-    train_origin = 'BD - Bandung - Bandung - Indonesia'
-    train_destination = 'GMR - Gambir - Jakarta - Indonesia'
+    airline_origin = ''
+    airline_destination = ''
+    train_origin = ''
+    train_destination = ''
     top_up_term = '''
 <h6>BANK TRANSFER / CASH</h6>
 <li>1. Before you click SUBMIT, please make sure you have inputted the correct amount of TOP UP. If there is a mismatch data, such as the transferred amount/bank account is different from the requested amount/bank account, so the TOP UP will be approved by tomorrow (D+1).<br></li>

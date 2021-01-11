@@ -331,6 +331,7 @@ function select_tour_date(key_change_date){
     {
         document.getElementById('product_date').innerHTML = selected_tour_date;
     }
+    document.getElementById("tour_room_input_show").style.display = "block";
     $('#ChangeDateModal').modal('hide');
 }
 
@@ -1509,22 +1510,44 @@ function sort(tour_dat, exist_check){
                             <input id='sequence`+tour_dat[i].tour_code+`' name='sequence' type='hidden' value='`+tour_dat[i].sequence+`'/>`;
                             if(template == 1){
                                 text+=`
-                                    <div class="single-recent-blog-post item" style="cursor:pointer;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">
+                                    <div class="single-recent-blog-post item">
                                         <div class="single-destination avail-sd relative">
-                                            <div class="thumb relative" style="margin: auto; width:100%; height:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
+                                            <div class="thumb relative" style="margin: auto; width:100%; height:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">
                                                 <div class="overlay overlay-bg"></div>
                                                 <img class="img-fluid" src="`+img_src+`" alt="Tour" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: fill;">
                                             </div>
                                             <div class="card card-effect-promotion">
                                                 <div class="card-body">
                                                     <div class="row details">
-                                                        <div class="col-lg-12" style="text-align:left;">
-                                                            <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h6>
-                                                            <span style="font-size:13px; color:#616161;">Starting From</span><br/>
-                                                            <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`</span><br/><br/>
+                                                        <div class="col-lg-12 mb-2" style="text-align:left;">
+                                                            <h5 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h5>`;
+                                                            if(tour_data[i].tour_line_amount != 0){
+                                                                if(tour_dat[i].tour_type != 'open'){
+                                                                    text+=`<span style="font-size:13px;font-weight:500;">`+tour_dat[i].tour_line_amount+` Available Date</span>`;
+                                                                }else{
+                                                                    text+=`<span style="font-size:13px;font-weight:500;">`+tour_dat[i].tour_line_amount+` Available Period</span>`;
+                                                                }
+                                                                text+=`<span id="pop_date`+i+`" style="float:right; font-size:12px;font-weight:500;color:`+color+`; cursor:pointer;">See Date</span>`;
+                                                            }
+                                                        text+=`
+                                                        </div>
+                                                        <div class="col-lg-12 mb-2">
+                                                        <div style="display:flex;">
+                                                            <div style="border-bottom:1px solid `+color+`; width:max-content; font-size:12px;">`;
+                                                            if(tour_dat[i].tour_type == 'open'){
+                                                                text+=`<span style="border:1px solid `+color+`; background:`+color+`; color:`+text_color+`; font-weight:500; padding:2px 5px;">`+tour_dat[i].tour_type_str+`</span>`;
+                                                            }else{
+                                                                text+=tour_dat[i].tour_type_str;
+                                                            }
+                                                        text+=`
+                                                            </div>
+                                                            <span id="pop_question`+i+`" style="cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
+                                                        </div>
+                                                            <span style="font-size:13px; color:#616161; float:left;">Starting From</span>
+                                                            <span style="font-size:14px;font-weight:bold; float:right;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`</span><br/>
                                                         </div>
                                                         <div class="col-lg-12">
-                                                            <button href="#" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_dat[i].tour_code+`')" style="width:100%;">BOOK</button>
+                                                            <button href="#" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_dat[i].tour_code+`')" style="width:100%;">BOOK</button><br/>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1534,24 +1557,44 @@ function sort(tour_dat, exist_check){
 
                             }else if(template == 2){
                                 text+=`
-                                    <div class="single-post-area mb-30" onclick="go_to_detail('`+tour_dat[i].tour_code+`')" style="cursor:pointer;">
+                                    <div class="single-post-area mb-30" style="transform:unset;">
                                         <div class="single-destination avail-sd relative">
-                                            <div class="thumb relative" style="margin: auto; width:100%; height:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
+                                            <div class="thumb relative" style="margin: auto; cursor:pointer; width:100%; height:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">
                                                 <div class="overlay overlay-bg"></div>
                                                 <img class="img-fluid" src="`+img_src+`" alt="Tour" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: fill;">
                                             </div>
                                             <div class="card card-effect-promotion">
-                                                <div class="card-body" style="padding:15px;">
+                                                <div class="card-body" style="padding:10px; border:unset;">
                                                     <div class="row details">
-                                                        <div class="col-lg-12" style="text-align:left;">
-                                                            <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h6>
-                                                            <span style="font-size:13px;"><i class="fas fa-calendar-alt"></i> `+dat_content1+`</span><br/>
-                                                            <span style="font-size:13px;"><i class="fas fa-users"></i> `+dat_content2+`</span><br/><br/>
+                                                        <div class="col-lg-12 mb-2" style="text-align:left;">
+                                                            <h5 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h5>`;
+                                                            if(tour_data[i].tour_line_amount != 0){
+                                                                if(tour_dat[i].tour_type != 'open'){
+                                                                    text+=`<span style="font-size:13px;font-weight:500;">`+tour_dat[i].tour_line_amount+` Available Date</span>`;
+                                                                }else{
+                                                                    text+=`<span style="font-size:13px;font-weight:500;">`+tour_dat[i].tour_line_amount+` Available Period</span>`;
+                                                                }
+                                                                text+=`<span id="pop_date`+i+`" style="float:right; font-size:12px;font-weight:500;color:`+color+`; cursor:pointer;">See Date</span>`;
+                                                            }
+                                                        text+=`
                                                         </div>
-                                                        <div class="col-lg-12" style="text-align:right;">
-                                                            <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`</span>
-                                                            <br/>
-                                                            <button type="button" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">BOOK</button>
+                                                        <div class="col-lg-12 mb-2">
+                                                        <div style="display:flex;">
+                                                            <div style="border-bottom:1px solid `+color+`; width:max-content; font-size:12px;">`;
+                                                            if(tour_dat[i].tour_type == 'open'){
+                                                                text+=`<span style="border:1px solid `+color+`; background:`+color+`; color:`+text_color+`; font-weight:500; padding:2px 5px;">`+tour_dat[i].tour_type_str+`</span>`;
+                                                            }else{
+                                                                text+=tour_dat[i].tour_type_str;
+                                                            }
+                                                        text+=`
+                                                            </div>
+                                                            <span id="pop_question`+i+`" style="cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
+                                                        </div>
+                                                            <span style="font-size:13px; color:#616161; float:left;">Starting From</span>
+                                                            <span style="font-size:14px;font-weight:bold; float:right;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`</span><br/>
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                            <button href="#" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_dat[i].tour_code+`')" style="width:100%;">BOOK</button><br/>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1560,24 +1603,44 @@ function sort(tour_dat, exist_check){
                                     </div>`;
                             }else if(template == 3){
                                 text+=`
-                                    <div class="single-post-area mb-30" onclick="go_to_detail('`+tour_dat[i].tour_code+`')" style="cursor:pointer;">
+                                    <div class="single-post-area mb-30">
                                         <div class="single-destination avail-sd relative">
-                                            <div class="thumb relative" style="margin: auto; width:100%; height:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
+                                            <div class="thumb relative" style="margin: auto; width:100%; cursor:pointer; height:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">
                                                 <div class="overlay overlay-bg"></div>
                                                 <img class="img-fluid" src="`+img_src+`" alt="Tour" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: fill;">
                                             </div>
                                             <div class="card card-effect-promotion">
-                                                <div class="card-body" style="padding:15px;">
+                                                <div class="card-body" style="padding:10px; border:unset;">
                                                     <div class="row details">
-                                                        <div class="col-lg-12" style="text-align:left;">
-                                                            <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h6>
-                                                            <span style="font-size:13px;"><i class="fas fa-calendar-alt"></i> `+dat_content1+`</span><br/>
-                                                            <span style="font-size:13px;"><i class="fas fa-users"></i> `+dat_content2+`</span><br/><br/>
+                                                        <div class="col-lg-12 mb-2" style="text-align:left;">
+                                                            <h5 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h5>`;
+                                                            if(tour_data[i].tour_line_amount != 0){
+                                                                if(tour_dat[i].tour_type != 'open'){
+                                                                    text+=`<span style="font-size:13px;font-weight:500;">`+tour_dat[i].tour_line_amount+` Available Date</span>`;
+                                                                }else{
+                                                                    text+=`<span style="font-size:13px;font-weight:500;">`+tour_dat[i].tour_line_amount+` Available Period</span>`;
+                                                                }
+                                                                text+=`<span id="pop_date`+i+`" style="float:right; font-size:12px;font-weight:500;color:`+color+`; cursor:pointer;">See Date</span>`;
+                                                            }
+                                                        text+=`
                                                         </div>
-                                                        <div class="col-lg-12" style="text-align:right;">
-                                                            <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`</span>
-                                                            <br/>
-                                                            <button type="button" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">BOOK</button>
+                                                        <div class="col-lg-12 mb-2">
+                                                        <div style="display:flex;">
+                                                            <div style="border-bottom:1px solid `+color+`; width:max-content; font-size:12px;">`;
+                                                            if(tour_dat[i].tour_type == 'open'){
+                                                                text+=`<span style="border:1px solid `+color+`; background:`+color+`; color:`+text_color+`; font-weight:500; padding:2px 5px;">`+tour_dat[i].tour_type_str+`</span>`;
+                                                            }else{
+                                                                text+=tour_dat[i].tour_type_str;
+                                                            }
+                                                        text+=`
+                                                            </div>
+                                                            <span id="pop_question`+i+`" style="cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
+                                                        </div>
+                                                            <span style="font-size:13px; color:#616161; float:left;">Starting From</span>
+                                                            <span style="font-size:14px;font-weight:bold; float:right;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`</span><br/>
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                            <button href="#" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_dat[i].tour_code+`')" style="width:100%;">BOOK</button><br/>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1586,24 +1649,44 @@ function sort(tour_dat, exist_check){
                                     </div>`;
                             }else if(template == 4){
                                 text+=`
-                                    <div class="single-post-area mb-30" onclick="go_to_detail('`+tour_dat[i].tour_code+`')" style="cursor:pointer;">
+                                    <div class="single-post-area mb-30">
                                         <div class="single-destination avail-sd relative">
-                                            <div class="thumb relative" style="margin: auto; width:100%; height:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
+                                            <div class="thumb relative" style="margin: auto; cursor:pointer; width:100%; height:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">
                                                 <div class="overlay overlay-bg"></div>
                                                 <img class="img-fluid" src="`+img_src+`" alt="Tour" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: fill;">
                                             </div>
                                             <div class="card card-effect-promotion">
-                                                <div class="card-body" style="padding:15px;">
+                                                <div class="card-body" style="padding:10px; border:unset;">
                                                     <div class="row details">
-                                                        <div class="col-lg-12" style="text-align:left;">
-                                                            <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h6>
-                                                            <span style="font-size:13px;"><i class="fas fa-calendar-alt"></i> `+dat_content1+`</span><br/>
-                                                            <span style="font-size:13px;"><i class="fas fa-users"></i> `+dat_content2+`</span><br/><br/>
+                                                        <div class="col-lg-12 mb-2" style="text-align:left;">
+                                                            <h5 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h5>`;
+                                                            if(tour_data[i].tour_line_amount != 0){
+                                                                if(tour_dat[i].tour_type != 'open'){
+                                                                    text+=`<span style="font-size:13px;font-weight:500;">`+tour_dat[i].tour_line_amount+` Available Date</span>`;
+                                                                }else{
+                                                                    text+=`<span style="font-size:13px;font-weight:500;">`+tour_dat[i].tour_line_amount+` Available Period</span>`;
+                                                                }
+                                                                text+=`<span id="pop_date`+i+`" style="float:right; font-size:12px;font-weight:500;color:`+color+`; cursor:pointer;">See Date</span>`;
+                                                            }
+                                                        text+=`
                                                         </div>
-                                                        <div class="col-lg-12" style="text-align:right;">
-                                                            <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`</span>
-                                                            <br/>
-                                                            <button type="button" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">BOOK</button>
+                                                        <div class="col-lg-12 mb-2">
+                                                        <div style="display:flex;">
+                                                            <div style="border-bottom:1px solid `+color+`; width:max-content; font-size:12px;">`;
+                                                            if(tour_dat[i].tour_type == 'open'){
+                                                                text+=`<span style="border:1px solid `+color+`; background:`+color+`; color:`+text_color+`; font-weight:500; padding:2px 5px;">`+tour_dat[i].tour_type_str+`</span>`;
+                                                            }else{
+                                                                text+=tour_dat[i].tour_type_str;
+                                                            }
+                                                        text+=`
+                                                            </div>
+                                                            <span id="pop_question`+i+`" style="cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
+                                                        </div>
+                                                            <span style="font-size:13px; color:#616161; float:left;">Starting From</span>
+                                                            <span style="font-size:14px;font-weight:bold; float:right;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`</span><br/>
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                            <button href="#" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_dat[i].tour_code+`')" style="width:100%;">BOOK</button><br/>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1612,23 +1695,43 @@ function sort(tour_dat, exist_check){
                                     </div>`;
                             }else if(template == 5){
                                 text+=`
-                                    <div class="single-post-area mb-30" onclick="go_to_detail('`+tour_dat[i].tour_code+`')" style="cursor:pointer;">
+                                    <div class="single-post-area mb-30">
                                         <div class="single-destination avail-sd relative">
-                                            <div class="thumb relative" style="margin: auto; width:100%; height:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
+                                            <div class="thumb relative" style="margin: auto; cursor:pointer; width:100%; height:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">
                                                 <img class="img-fluid" src="`+img_src+`" alt="Tour" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: fill;">
                                             </div>
                                             <div class="card card-effect-promotion">
-                                                <div class="card-body" style="padding:15px;">
+                                                <div class="card-body" style="padding:10px; border:unset;">
                                                     <div class="row details">
-                                                        <div class="col-lg-12" style="text-align:left;">
-                                                            <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h6>
-                                                            <span style="font-size:13px;"><i class="fas fa-calendar-alt"></i> `+dat_content1+`</span><br/>
-                                                            <span style="font-size:13px;"><i class="fas fa-users"></i> `+dat_content2+`</span><br/><br/>
+                                                        <div class="col-lg-12 mb-2" style="text-align:left;">
+                                                            <h5 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h5>`;
+                                                            if(tour_data[i].tour_line_amount != 0){
+                                                                if(tour_dat[i].tour_type != 'open'){
+                                                                    text+=`<span style="font-size:13px;font-weight:500;">`+tour_dat[i].tour_line_amount+` Available Date</span>`;
+                                                                }else{
+                                                                    text+=`<span style="font-size:13px;font-weight:500;">`+tour_dat[i].tour_line_amount+` Available Period</span>`;
+                                                                }
+                                                                text+=`<span id="pop_date`+i+`" style="float:right; font-size:12px;font-weight:500;color:`+color+`; cursor:pointer;">See Date</span>`;
+                                                            }
+                                                        text+=`
                                                         </div>
-                                                        <div class="col-lg-12" style="text-align:right;">
-                                                            <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`</span>
-                                                            <br/>
-                                                            <button type="button" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">BOOK</button>
+                                                        <div class="col-lg-12 mb-2">
+                                                        <div style="display:flex;">
+                                                            <div style="border-bottom:1px solid `+color+`; width:max-content; font-size:12px;">`;
+                                                            if(tour_dat[i].tour_type == 'open'){
+                                                                text+=`<span style="border:1px solid `+color+`; background:`+color+`; color:`+text_color+`; font-weight:500; padding:2px 5px;">`+tour_dat[i].tour_type_str+`</span>`;
+                                                            }else{
+                                                                text+=tour_dat[i].tour_type_str;
+                                                            }
+                                                        text+=`
+                                                            </div>
+                                                            <span id="pop_question`+i+`" style="cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
+                                                        </div>
+                                                            <span style="font-size:13px; color:#616161; float:left;">Starting From</span>
+                                                            <span style="font-size:14px;font-weight:bold; float:right;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`</span><br/>
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                            <button href="#" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_dat[i].tour_code+`')" style="width:100%;">BOOK</button><br/>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1655,6 +1758,79 @@ function sort(tour_dat, exist_check){
             check_pagination = 0;
         }
         document.getElementById('tour_ticket').innerHTML += text;
+
+       for(i in tour_dat){
+           content_pop_date = '';
+           content_pop_question = '';
+           title_pop_date = '';
+           if(tour_dat[i].tour_type == 'series'){
+                content_pop_question+=`<b>Series: </b>Organized Public Tour with Tour Leader.`;
+            }
+            else if(tour_dat[i].tour_type == 'sic'){
+                content_pop_question+=`<b>SIC: </b>Organized Public Tour without Tour Leader.`;
+            }
+            else if(tour_dat[i].tour_type == 'land'){
+                content_pop_question+=`<b>Land Only: </b>Organized Tour with its price not including accommodation nor transportation.`;
+            }
+            else if(tour_dat[i].tour_type == 'city'){
+                content_pop_question+=`<b>City Tour: </b>Tour visiting various favorite destinations of a certain city.`;
+            }
+            else if(tour_dat[i].tour_type == 'open'){
+                content_pop_question+=`<b>Open Tour: </b>Unorganized Tour where tour participants can choose their own Departure Date within certain period.`;
+            }
+            else if(tour_dat[i].tour_type == 'private'){
+                content_pop_question+=`<b>Private Tour: </b>Private Tour organized according to the participant's request.`;
+            }
+
+            new jBox('Tooltip', {
+                attach: '#pop_question'+i,
+                width: 280,
+                closeOnMouseleave: true,
+                animation: 'zoomIn',
+                content: content_pop_question
+            });
+
+            if(tour_data[i].tour_line_amount != 0){
+                for (j in tour_dat[i].tour_lines){
+                    sch_count = parseInt(j)+1;
+                    if(tour_dat[i].tour_type != 'open'){
+                        content_pop_date += `<h6>Schedule - `+sch_count+`</h6>`;
+                        title_pop_date += 'Available Date';
+                    }else{
+                        content_pop_date += `<h6>Period - `+sch_count+`</h6>`;
+                        title_pop_date += 'Period Date';
+                    }
+                    content_pop_date += `<span>`+tour_dat[i].tour_lines[j].departure_date_str+` - `+tour_dat[i].tour_lines[j].arrival_date_str+`</span><hr/>`;
+                }
+
+                new jBox('Tooltip', {
+                    attach: '#pop_date'+i,
+                    target: '#pop_date'+i,
+                    theme: 'TooltipBorder',
+                    trigger: 'click',
+                    adjustTracker: true,
+                    closeOnClick: 'body',
+                    closeButton: 'box',
+                    animation: 'move',
+                    position: {
+                      x: 'left',
+                      y: 'top'
+                    },
+                    outside: 'y',
+                    pointer: 'left:20',
+                    offset: {
+                      x: 25
+                    },
+                    content: content_pop_date,
+                    onOpen: function () {
+                      this.source.addClass('active').html('Close');
+                    },
+                    onClose: function () {
+                      this.source.removeClass('active').html('See Date');
+                    }
+                });
+            }
+       }
     }
 }
 
