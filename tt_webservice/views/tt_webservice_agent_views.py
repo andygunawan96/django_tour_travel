@@ -258,7 +258,8 @@ def signin_btc(request):
             #     'desc': user_template.desc
             # })
             res_user['result']['response']['signature'] = res['result']['response']['signature']
-            set_session(request, 'user_account', res_user['result']['response'])
+            if "login" in res_user['result']['response']['co_agent_frontend_security']:
+                set_session(request, 'user_account', res_user['result']['response'])
             try:
                 if res['result']['error_code'] == 0:
                     data = {}
