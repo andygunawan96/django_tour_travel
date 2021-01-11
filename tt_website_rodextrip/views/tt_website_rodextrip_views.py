@@ -40,7 +40,12 @@ provider_type = {
 
 def check_captcha(request):
     try:
-        secret_key = settings.RECAPTCHA_SECRET_KEY
+        secret_key = ''
+        file = read_cache_with_folder_path("google_recaptcha", 90911)
+        if file:
+            for idx, line in enumerate(file.split('\n')):
+                if idx == 2 and line != '':
+                    secret_key = line
 
         # captcha verification
         data = {
