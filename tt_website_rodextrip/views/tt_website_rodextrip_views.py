@@ -55,7 +55,7 @@ def check_captcha(request):
         resp = requests.post('https://www.google.com/recaptcha/api/siteverify', data=data)
         result_json = resp.json()
 
-        print(result_json)
+        _logger.info(json.dumps(result_json))
 
         if not result_json.get('success'):
             raise Exception('Make response code 500!')
