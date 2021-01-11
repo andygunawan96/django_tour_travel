@@ -52,6 +52,7 @@ def check_captcha(request):
             'response': request.POST.get('g-recaptcha-response'),
             'secret': secret_key
         }
+        _logger.info(json.dumps(data))
         resp = requests.post('https://www.google.com/recaptcha/api/siteverify', data=data)
         result_json = resp.json()
 
