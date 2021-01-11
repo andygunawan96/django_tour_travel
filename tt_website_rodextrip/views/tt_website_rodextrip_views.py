@@ -21,6 +21,7 @@ from tools.parser import *
 from datetime import *
 import copy
 import math
+import requests
 _logger = logging.getLogger("rodextrip_logger")
 
 MODEL_NAME = 'tt_website_rodextrip'
@@ -36,6 +37,28 @@ provider_type = {
     'BT': 'ppob',
     'VT': 'event'
 }
+
+def check_captcha(request):
+    try:
+        secret_key = settings.RECAPTCHA_SECRET_KEY
+
+        # captcha verification
+        data = {
+            'response': request.POST.get('g-recaptcha-response'),
+            'secret': secret_key
+        }
+        resp = requests.post('https://www.google.com/recaptcha/api/siteverify', data=data)
+        result_json = resp.json()
+
+        print(result_json)
+
+        if not result_json.get('success'):
+            raise Exception('Make response code 500!')
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+        if request.POST.get('g-recaptcha-response'):
+            raise Exception('Make response code 500!')
+    # end captcha verification
 
 # Create your views here.
 def index(request):
@@ -610,6 +633,13 @@ def admin(request):
                     text += request.POST.get('top_up_term')
                     write_cache_with_folder(text, "top_up_term")
 
+                    text = ''
+                    text += request.POST['google_recaptcha'] + '\n'
+                    text += request.POST['site_key'] + '\n'
+                    text += request.POST['secret_key']
+                    write_cache_with_folder(text, "google_recaptcha")
+
+
             except Exception as e:
                 _logger.error(str(e) + '\n' + traceback.format_exc())
                 raise Exception('Make response code 500!')
@@ -948,6 +978,9 @@ def get_data_template(request, type='home', provider_type = []):
     airline_destination = ''
     train_origin = ''
     train_destination = ''
+    google_recaptcha = 0
+    site_key = ''
+    secret_key = ''
     top_up_term = '''
 <h6>BANK TRANSFER / CASH</h6>
 <li>1. Before you click SUBMIT, please make sure you have inputted the correct amount of TOP UP. If there is a mismatch data, such as the transferred amount/bank account is different from the requested amount/bank account, so the TOP UP will be approved by tomorrow (D+1).<br></li>
@@ -972,6 +1005,18 @@ def get_data_template(request, type='home', provider_type = []):
                 train_origin = line
             elif idx == 3 and line != '':
                 train_destination = line
+
+    # google
+    file = read_cache_with_folder_path("google_recaptcha", 90911)
+    if file:
+        for idx, line in enumerate(file.split('\n')):
+            if idx == 0 and line != '':
+                google_recaptcha = line
+            elif idx == 1 and line != '':
+                site_key = line
+            elif idx == 2 and line != '':
+                secret_key = line
+
     file = read_cache_with_folder_path("top_up_term", 90911)
     if file:
         top_up_term = file
@@ -1154,7 +1199,10 @@ def get_data_template(request, type='home', provider_type = []):
         'airline_destination': airline_destination,
         'train_origin': train_origin,
         'train_destination': train_destination,
-        'top_up_term': top_up_term
+        'top_up_term': top_up_term,
+        'google_recaptcha': google_recaptcha,
+        'site_key': site_key,
+        'secret_key': secret_key
 
     }
 

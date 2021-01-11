@@ -106,6 +106,7 @@
                             <div class="tab-pane fade show active" id="activity" role="tabpanel" aria-labelledby="activity-tab">
                                 <form action="{% url 'tt_website_rodextrip:activity_search'%}" id="activity_search_form" class="form-wrap" method="post">
                                     {% csrf_token %}
+                                    <input type="hidden" name="g-recaptcha-response" id='recaptcha_activity'>
                                     <div class="row">
                                         <div class="col-lg-10 col-md-9 col-sm-8" style="padding:0px;">
                                             <span class="span-search-ticket"><i class="fas fa-umbrella-beach"></i> {% trans 'Activity' %}</span>
@@ -181,7 +182,7 @@
                                     </div>
                                     <br/>
                                     <center>
-                                        <button class="button-search primary-btn ld-ext-right" onclick="activity_search_form_submit();" type="submit" value="Submit">
+                                        <button class="button-search primary-btn ld-ext-right" onclick="get_captcha('recaptcha_activity','activity');" type="submit" value="Submit">
                                             <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                             {% trans 'Search' %}
                                             <div class="ld ld-ring ld-cycle"></div>
@@ -901,6 +902,7 @@
                         <div id="tab-activity" class="tab-content current">
                             <form action="{% url 'tt_website_rodextrip:activity_search'%}" id="activity_search_form" method="post">
                                 {% csrf_token %}
+                                <input type="hidden" name="g-recaptcha-response" id='recaptcha_activity'>
                                 <div class="row">
                                     <div class="col-lg-10 col-md-9 col-sm-8 col-xs-8">
                                         <span class="span-search-ticket"><i class="fas fa-umbrella-beach"></i> {% trans 'Activity' %}</span>
@@ -978,7 +980,7 @@
                                 </div>
                                 <br/>
                                 <center>
-                                    <button class="primary-btn ld-ext-right" onclick="activity_search_form_submit();" type="submit" value="Submit">
+                                    <button class="primary-btn ld-ext-right" onclick="get_captcha('recaptcha_activity','activity');" type="submit" value="Submit">
                                         <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                         {% trans 'Search' %}
                                         <div class="ld ld-ring ld-cycle"></div>
@@ -1305,6 +1307,7 @@
                                 <h4 class="pb-30" style="color:{{text_color}};">{% trans 'Book Your Activity' %}</h4>
                                 <form action="{% url 'tt_website_rodextrip:activity_search'%}" id="activity_search_form" class="form-wrap" method="post">
                                     {% csrf_token %}
+                                    <input type="hidden" name="g-recaptcha-response" id='recaptcha_activity'>
                                     <div class="row">
                                         <div class="col-lg-9 col-md-7 col-sm-6 col-xs-6">
                                             <span class="span-search-ticket"><i class="fas fa-umbrella-beach"></i> {% trans 'Activity' %}</span>
@@ -1374,7 +1377,7 @@
                                     </div>
                                     <br/>
                                     <center>
-                                        <button class="button-search primary-btn ld-ext-right" onclick="activity_search_form_submit();" type="submit" value="Submit">
+                                        <button class="button-search primary-btn ld-ext-right" onclick="get_captcha('recaptcha_activity','activity');" type="submit" value="Submit">
                                             <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                             {% trans 'Search' %}
                                             <div class="ld ld-ring ld-cycle"></div>
@@ -1708,6 +1711,7 @@
                                 <div class="form-search-wrap tab-content current" id="tab-activity" data-aos="fade-up" data-aos-delay="200">
                                     <form action="{% url 'tt_website_rodextrip:activity_search'%}" id="activity_search_form" method="post">
                                         {% csrf_token %}
+                                        <input type="hidden" name="g-recaptcha-response" id='recaptcha_activity'>
                                         <div class="row justify-content-between align-items-end">
                                             <div class="col-lg-9 col-md-9 col-sm-8">
                                                 <span class="span-search-ticket">{% trans 'Activity' %}</span>
@@ -1785,7 +1789,7 @@
                                         </div>
                                         <br/>
                                         <center>
-                                            <button class="button-search primary-btn ld-ext-right" onclick="activity_search_form_submit();" type="submit" value="Submit">
+                                            <button class="button-search primary-btn ld-ext-right" onclick="get_captcha('recaptcha_activity','activity');" type="submit" value="Submit">
                                                 <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                                 {% trans 'Search' %}
                                                 <div class="ld ld-ring ld-cycle"></div>
@@ -2104,6 +2108,7 @@
                                     <div id="tab-activity" class="tab-content current">
                                         <form action="{% url 'tt_website_rodextrip:activity_search'%}" id="activity_search_form" class="form-wrap" method="post">
                                             {% csrf_token %}
+                                            <input type="hidden" name="g-recaptcha-response" id='recaptcha_activity'>
                                             <div class="row">
                                                 <div class="col-lg-10 col-md-9 col-sm-8 col-xs-8">
                                                     <span class="span-search-ticket"><i class="fas fa-umbrella-beach"></i> {% trans 'Activity' %}</span>
@@ -2177,7 +2182,7 @@
                                             </div>
                                             <br/>
                                             <center>
-                                                <button class="button-search primary-btn ld-ext-right" onclick="activity_search_form_submit();" type="submit" value="Submit">
+                                                <button class="button-search primary-btn ld-ext-right" onclick="get_captcha('recaptcha_activity','activity');" type="submit" value="Submit">
                                                     <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                                     {% trans 'Search' %}
                                                     <div class="ld ld-ring ld-cycle"></div>
