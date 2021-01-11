@@ -752,7 +752,7 @@
                                 </div>
                                 <br/>
                                 <center>
-                                    <button class="button-search primary-btn ld-ext-right" onclick="get_captcha('recaptcha_activity','activity');" type="submit" value="Submit">
+                                    <button class="button-search primary-btn ld-ext-right" onclick="get_captcha('recaptcha_activity','activity');" type="button" value="Submit">
                                         <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                         {% trans 'Search' %}
                                         <div class="ld ld-ring ld-cycle"></div>
@@ -2360,7 +2360,7 @@
                             </div>
                             <br/>
                             <center>
-                                <button class="primary-btn ld-ext-right" onclick="get_captcha('recaptcha_activity','activity');" type="submit" value="Submit">
+                                <button class="primary-btn ld-ext-right" onclick="get_captcha('recaptcha_activity','activity');" type="button" value="Submit">
                                     <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                     {% trans 'Search' %}
                                     <div class="ld ld-ring ld-cycle"></div>
@@ -3515,7 +3515,7 @@
                                 </div>
                                 <br/>
                                 <center>
-                                    <button class="button-search primary-btn ld-ext-right" onclick="get_captcha('recaptcha_activity','activity');" type="submit" value="Submit">
+                                    <button class="button-search primary-btn ld-ext-right" onclick="get_captcha('recaptcha_activity','activity');" type="button" value="Submit">
                                         <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                         {% trans 'Search' %}
                                         <div class="ld ld-ring ld-cycle"></div>
@@ -4133,33 +4133,30 @@
 
             </div>
         </div>
-        <div class="row">
-            {% if username.co_user_name != '' %}
-            <div class="col-xl-12" style="text-align:center;">
-                <h2 style="color:{{text_color}}; padding-bottom:20px; font-size:18px;">
-                    {% if username.co_user_login != 'agent_b2c' %}
-                    {% trans 'Hello' %}, {{username.co_user_name}}!<br/>
-                    {% trans 'Grow your business with' %} <span class="lamp">{{name}}</span>
-                    {% else %}
-                    {% trans 'Hello, dear customer, book your trip with us' %}
-                    {% endif %}
-                </h2>
-            </div>
-            {% else %}
-            <div class="col-xl-12" style="text-align:center;">
-                <h3 style="color:{{text_color}};">
-                    Hello, Guest !
-                </h3>
-                <h4 style="padding-top:5px; padding-bottom:15px; color:{{text_color}};">
-                    Enjoy your trip with RODEXTRIP
-                </h4>
-            </div>
-            {% endif %}
+        {% if username.co_user_name != '' %}
+        <div style="text-align:center;">
+            <h2 style="color:{{text_color}}; padding-top:20px; padding-bottom:20px; font-size:18px;">
+                {% if username.co_user_login != 'agent_b2c' %}
+                {% trans 'Hello' %}, {{username.co_user_name}}!<br/>
+                {% trans 'Grow your business with' %} <span class="lamp">{{name}}</span>
+                {% else %}
+                {% trans 'Hello, dear customer, book your trip with us' %}
+                {% endif %}
+            </h2>
         </div>
+        {% else %}
+        <div style="text-align:center;">
+            <h3 style="color:{{text_color}};">
+                Hello, Guest !
+            </h3>
+            <h4 style="padding-top:5px; padding-bottom:15px; color:{{text_color}};">
+                Enjoy your trip with RODEXTRIP
+            </h4>
+        </div>
+        {% endif %}
     </div>
-    <div id="overlay-search-box" onclick="off_overlay()"></div>
-    <div id="div-search-overlay" style="position:relative;">
-        <div style="position:relative; background:transparent; top:-50px; z-index:1;">
+    <div id="div-search-overlay" style="position:relative; ">
+        <div style="position:relative; background:transparent; z-index:2;">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-xl-12">
@@ -4713,7 +4710,7 @@
                                         </div>
                                         <br/>
                                         <center>
-                                            <button class="button-search primary-btn ld-ext-right" onclick="get_captcha('recaptcha_activity','activity');" type="submit" value="Submit">
+                                            <button class="button-search primary-btn ld-ext-right" onclick="get_captcha('recaptcha_activity','activity');" type="button" value="Submit">
                                                 <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                                 {% trans 'Search' %}
                                                 <div class="ld ld-ring ld-cycle"></div>
@@ -4980,16 +4977,6 @@
                                     <input type="hidden" id="type" name="type"/>
                                     <input type="hidden" id="session_time_input" name="session_time_input"/>
                                 </form>
-                                {% else %}
-                                <div class="form-search-wrap tab-content" id="tab-bills" data-aos-delay="200">
-                                    <form method="POST" class="form-wrap">
-                                        <div class="row">
-                                            <div class="col-lg-12 col-sm-12 col-md-12">
-                                                <span class="span-search-ticket"> {% trans 'COMINGSOON' %} </span>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
                                 {% endif %}
 
                                 {% if "event" in provider and "ticketing_event" in username.co_agent_frontend_security %}
@@ -5106,6 +5093,8 @@
     </div>
 </section>
 {% endif %}
+
+
 
 <!--    <div class="site-section bg-light">-->
 <!--        <div class="container">-->
@@ -5909,7 +5898,7 @@
                                         </div>
                                         <br/>
                                         <center>
-                                            <button class="button-search primary-btn ld-ext-right" onclick="get_captcha('recaptcha_activity','activity');" type="submit" value="Submit">
+                                            <button class="button-search primary-btn ld-ext-right" onclick="get_captcha('recaptcha_activity','activity');" type="button" value="Submit">
                                                 <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                                 {% trans 'Search' %}
                                                 <div class="ld ld-ring ld-cycle"></div>

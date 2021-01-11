@@ -272,63 +272,73 @@ function signin_btc(){
            success: function(msg) {
             console.log(msg);
             if(msg.result.error_code == 0){
-                try{
-                    if(google_analytics != ''){
-                        if(msg.result.response.co_agent_frontend_security.includes('b2c_limitation') == true)
-                            gtag('event', 'b2c', {'agent_type':'b2c'});
-                        else
-                            gtag('event', 'b2b', {'agent_type':'b2b'});
+                if(msg.result.response.co_agent_frontend_security.includes('login') == true){
+                    try{
+                        if(google_analytics != ''){
+                            if(msg.result.response.co_agent_frontend_security.includes('b2c_limitation') == true)
+                                gtag('event', 'b2c', {'agent_type':'b2c'});
+                            else
+                                gtag('event', 'b2b', {'agent_type':'b2b'});
+                        }
+                    }catch(err){}
+                    try{
+                        document.getElementById('nav-menu-container_no_login').style.display = 'none';
+                        document.getElementById('nav-menu-container_login').style.display = 'block';
+                        document.getElementById('user_login').innerHTML = $('#username').val();
+                        document.getElementById('user_login2').innerHTML = $('#username').val();
+                        user_login = msg.result.response;
+                        signature = msg.result.response.signature;
+                        triggered_balance(false);
+                        //get_balance(false); //firefox error
+                    }catch(err){}
+                    if(window.location.href.split('/')[3] == ''){
+                        window.location.href = '/';
+                    }else if(window.location.href.split('/')[3] == 'airline'){
+                        airline_redirect_signup(last_session);
+                    }else if(window.location.href.split('/')[3] == 'train'){
+                        train_redirect_signup(last_session);
+                    }else if(window.location.href.split('/')[3] == 'activity'){
+                        activity_redirect_signup(last_session);
+                    }else if(window.location.href.split('/')[3] == 'tour'){
+                        tour_redirect_signup(last_session);
+                    }else if(window.location.href.split('/')[3] == 'hotel'){
+                        hotel_redirect_signup(last_session);
+                    }else{
+                        window.location.href = '/';
                     }
-                }catch(err){}
-                try{
-                    document.getElementById('nav-menu-container_no_login').style.display = 'none';
-                    document.getElementById('nav-menu-container_login').style.display = 'block';
-                    document.getElementById('user_login').innerHTML = $('#username').val();
-                    document.getElementById('user_login2').innerHTML = $('#username').val();
-                    user_login = msg.result.response;
-                    signature = msg.result.response.signature;
-                    triggered_balance(false);
-                    //get_balance(false); //firefox error
-                }catch(err){}
-                if(window.location.href.split('/')[3] == ''){
-                    window.location.href = '/';
-                }else if(window.location.href.split('/')[3] == 'airline'){
-                    airline_redirect_signup(last_session);
-                }else if(window.location.href.split('/')[3] == 'train'){
-                    train_redirect_signup(last_session);
-                }else if(window.location.href.split('/')[3] == 'activity'){
-                    activity_redirect_signup(last_session);
-                }else if(window.location.href.split('/')[3] == 'tour'){
-                    tour_redirect_signup(last_session);
-                }else if(window.location.href.split('/')[3] == 'hotel'){
-                    hotel_redirect_signup(last_session);
-                }else{
-                    window.location.href = '/';
-                }
-                let timerInterval;
-                Swal.fire({
-                  type: 'success',
-                  title: 'Login Success!',
-                  html: 'Please Wait ...',
-                  timer: 1000,
-                  onBeforeOpen: () => {
-                    Swal.showLoading()
-                    timerInterval = setInterval(() => {
-                      Swal.getContent().querySelector('strong')
-                        .textContent = Swal.getTimerLeft()
-                    }, 100)
-                  },
-                  onClose: () => {
-                    clearInterval(timerInterval)
-                  }
-                }).then((result) => {
-                  if (
-                    /* Read more about handling dismissals below */
-                    result.dismiss === Swal.DismissReason.timer
-                  ) {
+                    let timerInterval;
+                    Swal.fire({
+                      type: 'success',
+                      title: 'Login Success!',
+                      html: 'Please Wait ...',
+                      timer: 1000,
+                      onBeforeOpen: () => {
+                        Swal.showLoading()
+                        timerInterval = setInterval(() => {
+                          Swal.getContent().querySelector('strong')
+                            .textContent = Swal.getTimerLeft()
+                        }, 100)
+                      },
+                      onClose: () => {
+                        clearInterval(timerInterval)
+                      }
+                    }).then((result) => {
+                      if (
+                        /* Read more about handling dismissals below */
+                        result.dismiss === Swal.DismissReason.timer
+                      ) {
 
-                  }
-                })
+                      }
+                    })
+                }else{
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: "It looks like you don't have permission to login!",
+                   })
+                   $('.loading-button').prop('disabled', false);
+                   $('.loading-button').removeClass("running");
+                }
             }else{
                 $('.loading-button').prop('disabled', false);
                 $('.loading-button').removeClass("running");

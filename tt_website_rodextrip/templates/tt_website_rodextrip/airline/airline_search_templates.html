@@ -979,7 +979,7 @@
                                                 <a class="small" data-value="option1" tabIndex="-1">
                                                     <label class="check_box_custom">
                                                         <span class="span-search-ticket" style="color:black;">{{value.name}}</span>
-                                                        <input type="checkbox" id="provider_box_{{value.code}}" name="provider_box_{{value.code}}" value="{{value.code}}" onclick="check_provider('{{value.code}}')" {%if value.bool == True %} checked {% endif %}/>
+                                                        <input type="checkbox" id="provider_box_{{key}}" name="provider_box_{{key}}" value="{{key}}" onclick="check_provider('{{key}}')" {%if value.bool == True %} checked {% endif %}/>
                                                         <span class="check_box_span_custom"></span>
                                                     </label><br/>
                                                 </a>
@@ -1143,7 +1143,7 @@
                                                             <button type="button" class="left-minus-adult-flight btn-custom-circle" id="left-minus-adult-flight" data-type="minus" data-field="" disabled>
                                                                 <i class="fas fa-minus"></i>
                                                             </button>
-                                                            <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; text-align:center; width:25px;" value="{{airline_request.adult}}" id="adult_flight" name="adult_flight" value="1" min="1" disabled>
+                                                            <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; text-align:center; width:25px;" value="{{airline_request.adult}}" id="adult_flight" name="adult_flight" min="1">
                                                             <button type="button" class="right-plus-adult-flight btn-custom-circle" id="right-plus-adult-flight" data-type="plus" data-field="">
                                                                 <i class="fas fa-plus"></i>
                                                             </button>
@@ -1163,7 +1163,7 @@
                                                             <button type="button" class="left-minus-child-flight btn-custom-circle" id="left-minus-child-flight" data-type="minus" data-field="" disabled>
                                                                 <i class="fas fa-minus"></i>
                                                             </button>
-                                                            <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; text-align:center; width:25px;" value="{{airline_request.child}}" id="child_flight" name="child_flight" value="0" min="0" disabled>
+                                                            <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; text-align:center; width:25px;" value="{{airline_request.child}}" id="child_flight" name="child_flight" min="0">
                                                             <button type="button" class="right-plus-child-flight btn-custom-circle" id="right-plus-child-flight" data-type="plus" data-field="">
                                                                 <i class="fas fa-plus"></i>
                                                             </button>
@@ -1183,7 +1183,7 @@
                                                             <button type="button" class="left-minus-infant-flight btn-custom-circle" id="left-minus-infant-flight" data-type="minus" data-field="" disabled>
                                                                 <i class="fas fa-minus"></i>
                                                             </button>
-                                                            <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; text-align:center; width:25px;" value="{{airline_request.infant}}" id="infant_flight" name="infant_flight" value="0" disabled>
+                                                            <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; text-align:center; width:25px;" value="{{airline_request.infant}}" id="infant_flight" name="infant_flight">
                                                             <button type="button" class="right-plus-infant-flight btn-custom-circle" id="right-plus-infant-flight" data-type="plus" data-field="">
                                                                 <i class="fas fa-plus"></i>
                                                             </button>
