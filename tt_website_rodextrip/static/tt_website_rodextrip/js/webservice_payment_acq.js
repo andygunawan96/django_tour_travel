@@ -1220,7 +1220,7 @@ function change_top_up_method(){
             <br/>
             <div id="mandiri_va_acquirer">
                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                    <strong>Transfer Instruction</strong>
+                    <strong>BCA</strong>
                     <div class="panel panel-default">
                         <div class="panel-heading-sgo" role="tab" id="headingFive">
                             <h4 class="panel-title">
@@ -1437,6 +1437,7 @@ function change_top_up_method(){
                             </div>
                         </div>
                     </div>
+                    <strong>Mandiri</strong>
                     <div class="panel panel-default">
                         <div class="panel-heading-sgo" role="tab" id="headingFour">
                             <h4 class="panel-title">
@@ -1666,8 +1667,141 @@ function change_top_up_method(){
                             </div>
                         </div>
                     </div>
+                    <strong>Other Bank</strong>
+                    <div class="panel panel-default">
+                        <div class="panel-heading-sgo" role="tab" id="headingTesting">
+                            <h4 class="panel-title">
+                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTesting" aria-expanded="false" aria-controls="collapseTesting">
+                                    Other Bank
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseTesting" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTesting" style="height: 0px;">
+                            <div class="panel-body">
+                                <div style="margin:0px auto;max-width:600px;">
+                                    <table role="presentation" cellpadding="0" cellspacing="0" style="font-size:0px;width:100%;" align="center" border="0">
+                                        <tbody>
+                                            <tr>
+                                                <td style="text-align:center;vertical-align:top;direction:ltr;font-size:0px;padding:20px 0px;">
+                                                    <!--[if mso | IE]>
+                                            <table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;width:600px;">
+                                            <![endif]-->
+                                                    <div class="mj-column-per-100 outlook-group-fix" style="vertical-align:top;display:inline-block;direction:ltr;font-size:13px;text-align:left;width:100%;">
+                                                        <table role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+                                                            <tbody>
 
-
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                            1. Simpan 16 nomor kode pembayaran Anda.
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                            2. Pilih transfer antar bank atau transfer online antar bank.
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                            3. Pilih bank mandiri kode (008) atau pilih mandiri.
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                            4. Masukkan 16 nomor kode pembayaran.
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                            5. Masukkan nominal yang ingin di top up.
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                            6. Konfirmasi pembayaran.
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                            7. Simpan bukti transkasi.
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                            8. Dalam 30 - 60 menit, saldo akan masuk secara otomatis jika tidak, dapat menghubungi admin.
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <!--[if mso | IE]>
+                                            </td></tr></table>
+                                            <![endif]-->
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                 <button type="submit" width="100px" class="btn btn-primary pull-right">
 
