@@ -2006,6 +2006,7 @@ function hotel_detail(old_cancellation_policy){
                 grand_total_price += upsell_price;
             }
         }catch(err){console.log(err)}
+    try{
     text += `<div class="col-lg-6">
             <span style="font-weight:bold;font-size:15px;">Grand Total</span>
         </div>
@@ -2013,7 +2014,8 @@ function hotel_detail(old_cancellation_policy){
             <span style="font-weight:bold;font-size:15px;">IDR `+ getrupiah(grand_total_price) +`</span>
         </div>
     </div>`;
-
+    $text2 += 'Grand Total: IDR ' + getrupiah(grand_total_price) + '\n';
+    }catch(err){}
     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
         text+=`<br/>
         <div class="col-lg-12 col-xs-12" style="text-align:center; display:none;" id="show_commission_hotel">
@@ -2022,7 +2024,7 @@ function hotel_detail(old_cancellation_policy){
             </div>
         </div>`;
 
-    $text2 += 'Grand Total: IDR ' + getrupiah(grand_total_price) + '\n';
+
     text += `<div class="row"><div class="col-lg-12" style="padding-bottom:15px;">
         <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
         share_data2();
