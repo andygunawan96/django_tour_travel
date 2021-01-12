@@ -148,8 +148,8 @@ def search(request):
                     'origin': origin,
                     'destination': destination
                 })
-            except:
-                pass
+            except Exception as e:
+                _logger.error(str(e) + '\n' + traceback.format_exc())
 
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
