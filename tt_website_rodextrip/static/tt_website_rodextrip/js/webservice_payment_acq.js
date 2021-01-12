@@ -286,7 +286,7 @@ function set_price(val, type, product_type){
                                                             <tr>
                                                                 <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                     <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                        1. Log In ke Akun Mobile Banking
+                                                                        1. Login into your Mobile Banking account
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -298,7 +298,7 @@ function set_price(val, type, product_type){
                                                             <tr>
                                                                 <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                     <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                        2. Pilih <strong>Pembayaran &gt; Buat Pembayaran Baru &gt; Multipayment &gt; Pilih Espay</strong>
+                                                                        2. Select <strong>Payment &gt; Create New Payment &gt; Multipayment &gt; Espay</strong>
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -310,7 +310,7 @@ function set_price(val, type, product_type){
                                                             <tr>
                                                                 <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                     <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                        3. Masukkan <strong>16 digit Nomor Virtual Account</strong>
+                                                                        3. Input <strong>16 digits Virtual Account Number</strong>
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -322,19 +322,7 @@ function set_price(val, type, product_type){
                                                             <tr>
                                                                 <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                     <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                        4. Masukkan jumlah nominal <strong>TOP UP Minimum Rp. 50.000 dan transaction fee Rp. 5000</strong>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
-                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
-                                                                    </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
-                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                        5. Jika sudah sesuai, masukkan <strong>OTP dan Pin SMS Banking, lalu klik OK</strong>
+                                                                        4. Input the <strong>minimum TOP UP amount of Rp. 50.000 and transaction fee Rp. 5000</strong>
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -346,7 +334,19 @@ function set_price(val, type, product_type){
                                                             <tr>
                                                                 <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                     <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                        6. Saldo SKYTORS akan bertambah secara otomatis (REAL TIME) setelah pembayaran berhasil dilakukan
+                                                                        5. Once everything are set, input <strong>OTP and SMS Banking Pin, then click OK</strong>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                    </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        6. `+name+` balance will be added automatically (REAL TIME) after your payment is complete
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -383,7 +383,7 @@ function set_price(val, type, product_type){
                                                             <tr>
                                                                 <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                     <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                        1. Log In ke Akun Mobile Banking
+                                                                        1. Login into your Mobile Banking account
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -395,7 +395,7 @@ function set_price(val, type, product_type){
                                                             <tr>
                                                                 <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                     <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                        2. Pilih <strong>Transfer &gt; Transfer ke bank lain &gt; Bank Mandiri</strong>
+                                                                        2. Select <strong>Transfer &gt; Transfer to another bank &gt; Mandiri Bank</strong>
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -407,7 +407,7 @@ function set_price(val, type, product_type){
                                                             <tr>
                                                                 <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                     <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                        3. Masukkan <strong>16 digit Nomor Virtual Account</strong>
+                                                                        3. Input <strong>16 digits Virtual Account Number</strong>
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -419,19 +419,7 @@ function set_price(val, type, product_type){
                                                             <tr>
                                                                 <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                     <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                        4. Masukkan jumlah nominal <strong>TOP UP Minimum Rp. 50.000 dan transaction fee Rp. 5000</strong>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
-                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
-                                                                    </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
-                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                        5. Jika sudah sesuai, masukkan <strong>OTP dan Pin SMS Banking, lalu klik OK</strong>
+                                                                        4. Input the <strong>minimum TOP UP amount of Rp. 50.000 and transaction fee Rp. 5000</strong>
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -443,7 +431,19 @@ function set_price(val, type, product_type){
                                                             <tr>
                                                                 <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                     <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                        6. Saldo SKYTORS akan bertambah secara otomatis (REAL TIME) setelah pembayaran berhasil dilakukan
+                                                                        5. Once everything are set, input <strong>OTP and SMS Banking Pin, then click OK</strong>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                    </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        6. `+name+` balance will be added automatically (REAL TIME) after your payment is complete
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -479,7 +479,7 @@ function set_price(val, type, product_type){
                                                             <tr>
                                                                 <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                     <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                        1. Log In ke Akun Mobile Banking
+                                                                        1. Login into your Mobile Banking account
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -491,7 +491,7 @@ function set_price(val, type, product_type){
                                                             <tr>
                                                                 <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                     <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                        2. Pilih <strong>Transfer &gt; Transfer ke bank lain &gt; Bank Mandiri</strong>
+                                                                        2. Select <strong>Transfer &gt; Transfer to another bank &gt; Mandiri Bank</strong>
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -503,7 +503,7 @@ function set_price(val, type, product_type){
                                                             <tr>
                                                                 <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                     <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                        3. Masukkan <strong>16 digit Nomor Virtual Account</strong>
+                                                                        3. Input <strong>16 digits Virtual Account Number</strong>
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -515,19 +515,7 @@ function set_price(val, type, product_type){
                                                             <tr>
                                                                 <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                     <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                        4. Masukkan jumlah nominal <strong>TOP UP Minimum Rp. 50.000 dan transaction fee Rp. 5000</strong>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
-                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
-                                                                    </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
-                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                        5. Jika sudah sesuai, masukkan <strong>OTP dan Pin SMS Banking, lalu klik OK</strong>
+                                                                        4. Input the <strong>minimum TOP UP amount of Rp. 50.000 and transaction fee Rp. 5000</strong>
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -539,7 +527,19 @@ function set_price(val, type, product_type){
                                                             <tr>
                                                                 <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                     <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                        6. Saldo SKYTORS akan bertambah secara otomatis (REAL TIME) setelah pembayaran berhasil dilakukan
+                                                                        5. Once everything are set, input <strong>OTP and SMS Banking Pin, then click OK</strong>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                    </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        6. `+name+` balance will be added automatically (REAL TIME) after your payment is complete
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -576,7 +576,7 @@ function set_price(val, type, product_type){
                                                             <tr>
                                                                 <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                     <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                        1. Masukkan kartu ATM Mandiri dan PIN Anda
+                                                                        1. Enter your Mandiri ATM card, then input your PIN
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -588,7 +588,7 @@ function set_price(val, type, product_type){
                                                             <tr>
                                                                 <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                     <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                        2. Pilih menu <strong>Bayar/Beli &gt; Lainnya &gt; Lainnya,</strong>
+                                                                        2. Select <strong>Pay/Buy &gt; Others &gt; Others,</strong>
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -600,7 +600,7 @@ function set_price(val, type, product_type){
                                                             <tr>
                                                                 <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                     <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                        3. Pilih <strong>Multi Payment &gt; Pilih Espay</strong>
+                                                                        3. Select <strong>Multi Payment &gt; Espay</strong>
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -612,19 +612,7 @@ function set_price(val, type, product_type){
                                                             <tr>
                                                                 <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                     <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                        4. Masukkan <strong>16 digit Nomor Virtual Account</strong>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
-                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
-                                                                    </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
-                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                        5. Masukkan jumlah nominal <strong>TOP UP Minimum Rp. 50.000 dan Transaction fee Rp. 5000</strong>
+                                                                        4. Input <strong>16 digits Virtual Account Number</strong>
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -636,7 +624,7 @@ function set_price(val, type, product_type){
                                                             <tr>
                                                                 <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                     <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                        6. Jika sudah sesuai, tekan 1 dan lanjutkan dengan menekan Ya
+                                                                        5. Input the <strong>minimum TOP UP amount of Rp. 50.000 and transaction fee Rp. 5000</strong>
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -648,7 +636,19 @@ function set_price(val, type, product_type){
                                                             <tr>
                                                                 <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                     <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                        7. Saldo SKYTORS akan bertambah secara otomatis (REAL TIME) setelah pembayaran berhasil dilakukan
+                                                                        6. Once everything are set, press 1 and select Yes
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                    </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        7. `+name+` balance will be added automatically (REAL TIME) after your payment is complete
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -685,7 +685,7 @@ function set_price(val, type, product_type){
                                                             <tr>
                                                                 <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                     <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                        1. Masukkan kartu ATM Mandiri dan PIN Anda
+                                                                        1. Enter your Mandiri ATM card, then input your PIN
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -697,7 +697,7 @@ function set_price(val, type, product_type){
                                                             <tr>
                                                                 <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                     <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                        2. Pilih <strong>Transfer &gt; Transfer ke bank lain &gt; Bank Mandiri</strong>
+                                                                        2. Select <strong>Transfer &gt; Transfer to another bank &gt; Mandiri Bank</strong>
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -709,7 +709,7 @@ function set_price(val, type, product_type){
                                                             <tr>
                                                                 <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                     <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                        3. Masukkan <strong>16 digit Nomor Virtual Account</strong>
+                                                                        3. Input <strong>16 digits Virtual Account Number</strong>
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -721,7 +721,7 @@ function set_price(val, type, product_type){
                                                             <tr>
                                                                 <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                     <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                        4. Masukkan jumlah nominal <strong>TOP UP Minimum Rp. 50.000 dan Transaction fee Rp. 5000</strong>
+                                                                        4. Input the <strong>minimum TOP UP amount of Rp. 50.000 and transaction fee Rp. 5000</strong>
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -745,7 +745,7 @@ function set_price(val, type, product_type){
                                                             <tr>
                                                                 <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                     <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                        6. Saldo SKYTORS akan bertambah secara otomatis (REAL TIME) setelah pembayaran berhasil dilakukan
+                                                                        6. `+name+` balance will be added automatically (REAL TIME) after your payment is complete
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -782,7 +782,7 @@ function set_price(val, type, product_type){
                                                             <tr>
                                                                 <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                     <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                        1. Masukkan kartu ATM Mandiri dan PIN Anda
+                                                                        1. Enter your Mandiri ATM card, then input your PIN
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -794,7 +794,7 @@ function set_price(val, type, product_type){
                                                             <tr>
                                                                 <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                     <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                        2. Pilih <strong>Transfer &gt; Transfer ke bank lain &gt; Bank Mandiri</strong>
+                                                                        2. Select <strong>Transfer &gt; Transfer to another bank &gt; Mandiri Bank</strong>
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -806,7 +806,7 @@ function set_price(val, type, product_type){
                                                             <tr>
                                                                 <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                     <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                        3. Masukkan <strong>16 digit Nomor Virtual Account</strong>
+                                                                        3. Input <strong>16 digits Virtual Account Number</strong>
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -818,7 +818,7 @@ function set_price(val, type, product_type){
                                                             <tr>
                                                                 <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                     <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                        4. Masukkan jumlah nominal <strong>TOP UP Minimum Rp. 50.000 dan transaction fee Rp. 5000</strong>
+                                                                        4. Input the <strong>minimum TOP UP amount of Rp. 50.000 and transaction fee Rp. 5000</strong>
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -842,7 +842,7 @@ function set_price(val, type, product_type){
                                                             <tr>
                                                                 <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                     <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                        6. Saldo SKYTORS akan bertambah secara otomatis (REAL TIME) setelah pembayaran berhasil dilakukan
+                                                                        6. `+name+` balance will be added automatically (REAL TIME) after your payment is complete
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -1246,7 +1246,7 @@ function change_top_up_method(){
                                                                 <tr>
                                                                     <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                         <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            1. Buka Aplikasi&nbsp;<strong>BCA Mobile</strong>.
+                                                                            1. Open&nbsp;<strong>BCA Mobile</strong> Application.
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -1259,7 +1259,7 @@ function change_top_up_method(){
                                                                 <tr>
                                                                     <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                         <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            2. Login ke akun&nbsp;<strong>m-BCA</strong>&nbsp; Anda.
+                                                                            2. Login into your&nbsp;<strong>m-BCA</strong>&nbsp;account.
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -1272,7 +1272,7 @@ function change_top_up_method(){
                                                                 <tr>
                                                                     <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                         <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            3. Pilih&nbsp;<strong>BCA Virtual Account</strong>.
+                                                                            3. Select&nbsp;<strong>BCA Virtual Account</strong>.
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -1285,7 +1285,7 @@ function change_top_up_method(){
                                                                 <tr>
                                                                     <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                         <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            4. Masukkan nomor&nbsp;<strong>Virtual Account</strong> yang tertera.
+                                                                            4. Input the displayed&nbsp;<strong>Virtual Account</strong> number.
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -1298,7 +1298,7 @@ function change_top_up_method(){
                                                                 <tr>
                                                                     <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                         <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            5. Masukkan&nbsp;<strong>Nominal top-up</strong>.
+                                                                            5. Input&nbsp;<strong>top-up amount</strong>.
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -1311,7 +1311,7 @@ function change_top_up_method(){
                                                                 <tr>
                                                                     <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                         <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            6. Ikuti instruksi untuk menyelesaikan transaksi.
+                                                                            6. Follow the instructions to complete transaction.
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -1354,7 +1354,7 @@ function change_top_up_method(){
                                                                 <tr>
                                                                     <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                         <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            1. Login ke akun&nbsp;<strong>Klik BCA</strong> Anda.
+                                                                            1. Login into your&nbsp;<strong>Klik BCA</strong> Account.
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -1367,7 +1367,7 @@ function change_top_up_method(){
                                                                 <tr>
                                                                     <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                         <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            2. Pilih menu&nbsp;<strong>Transfer Dana</strong>&nbsp;.
+                                                                            2. Select&nbsp;<strong>Transfer Funds</strong>&nbsp;menu.
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -1380,7 +1380,7 @@ function change_top_up_method(){
                                                                 <tr>
                                                                     <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                         <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            3. Pilih&nbsp;<strong>Transfer ke BCA Virtual Account</strong>.
+                                                                            3. Select&nbsp;<strong>Transfer to BCA Virtual Account</strong>.
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -1393,7 +1393,7 @@ function change_top_up_method(){
                                                                 <tr>
                                                                     <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                         <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            4. Masukkan nomor&nbsp;<strong>Virtual Account</strong> yang tertera.
+                                                                            4. Input the displayed&nbsp;<strong>Virtual Account</strong> number.
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -1406,7 +1406,7 @@ function change_top_up_method(){
                                                                 <tr>
                                                                     <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                         <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            5. Masukkan&nbsp;<strong>Nominal top-up</strong>.
+                                                                            5. Input&nbsp;<strong>top-up amount</strong>.
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -1419,7 +1419,7 @@ function change_top_up_method(){
                                                                 <tr>
                                                                     <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                         <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            6. Ikuti instruksi untuk menyelesaikan transaksi.
+                                                                            6. Follow the instructions to complete transaction.
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -1463,7 +1463,7 @@ function change_top_up_method(){
                                                                 <tr>
                                                                     <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                         <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            1. Login ke akun&nbsp;<strong>Mandiri Online</strong> Anda.
+                                                                            1. Login into your&nbsp;<strong>Mandiri Online</strong> account.
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -1476,7 +1476,7 @@ function change_top_up_method(){
                                                                 <tr>
                                                                     <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                         <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            2. Pilih menu&nbsp;<strong>Pembayaran</strong>&nbsp;.
+                                                                            2. Select&nbsp;<strong>Payment</strong>&nbsp;menu.
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -1489,7 +1489,7 @@ function change_top_up_method(){
                                                                 <tr>
                                                                     <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                         <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            3. Pilih menu&nbsp;<strong>Buat Pembayaran Baru</strong>.
+                                                                            3. Select&nbsp;<strong>Create New Payment</strong> menu.
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -1502,7 +1502,7 @@ function change_top_up_method(){
                                                                 <tr>
                                                                     <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                         <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            4. Pilih menu&nbsp;<strong>Multipayment</strong>.
+                                                                            4. Select&nbsp;<strong>Multipayment</strong> menu.
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -1515,7 +1515,7 @@ function change_top_up_method(){
                                                                 <tr>
                                                                     <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                         <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            5. Pilih&nbsp;<strong>Espay</strong> dan masukkan nomor &nbsp;<strong>Virtual Account</strong> yang tertera.
+                                                                            5. Select&nbsp;<strong>Espay</strong> and input the displayed&nbsp;<strong>Virtual Account</strong> number.
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -1528,7 +1528,7 @@ function change_top_up_method(){
                                                                 <tr>
                                                                     <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                         <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            6. Masukkan&nbsp;<strong>Nominal top-up</strong>.
+                                                                            6. Input&nbsp;<strong>top-up amount</strong>.
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -1541,7 +1541,7 @@ function change_top_up_method(){
                                                                 <tr>
                                                                     <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                         <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            7. Ikuti instruksi untuk menyelesaikan transaksi.
+                                                                            7. Follow the instructions to complete transaction.
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -1584,7 +1584,7 @@ function change_top_up_method(){
                                                                 <tr>
                                                                     <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                         <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            1. Login ke akun&nbsp;<strong>Mandiri Internet</strong> Anda.
+                                                                            1. Login into your&nbsp;<strong>Mandiri Internet</strong> account.
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -1597,7 +1597,7 @@ function change_top_up_method(){
                                                                 <tr>
                                                                     <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                         <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            2. Pilih menu&nbsp;<strong>Pembayaran</strong>&nbsp;.
+                                                                            2. Select&nbsp;<strong>Payment</strong>&nbsp;menu.
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -1610,7 +1610,7 @@ function change_top_up_method(){
                                                                 <tr>
                                                                     <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                         <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            3. Pilih menu&nbsp;<strong>Multipayment</strong>.
+                                                                            3. Select&nbsp;<strong>Multipayment</strong> menu.
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -1623,7 +1623,7 @@ function change_top_up_method(){
                                                                 <tr>
                                                                     <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                         <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            4. Pilih&nbsp;<strong>Espay</strong> dan masukkan nomor &nbsp;<strong>Virtual Account</strong> yang tertera.
+                                                                            4. Select&nbsp;<strong>Espay</strong> and input the displayed&nbsp;<strong>Virtual Account</strong> number.
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -1636,7 +1636,7 @@ function change_top_up_method(){
                                                                 <tr>
                                                                     <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                         <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            5. Masukkan&nbsp;<strong>Nominal top-up</strong>.
+                                                                            5. Input&nbsp;<strong>top-up amount</strong>.
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -1649,7 +1649,7 @@ function change_top_up_method(){
                                                                 <tr>
                                                                     <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                         <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            6. Ikuti instruksi untuk menyelesaikan transaksi.
+                                                                            6. Follow the instructions to finish transaction.
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -1693,7 +1693,7 @@ function change_top_up_method(){
                                                                 <tr>
                                                                     <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                         <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            1. Simpan 16 nomor kode pembayaran Anda.
+                                                                            1. Save your 16 digits payment code.
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -1706,7 +1706,7 @@ function change_top_up_method(){
                                                                 <tr>
                                                                     <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                         <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            2. Pilih transfer antar bank atau transfer online antar bank.
+                                                                            2. Select Interbank Transfer or Online Transfer Between Banks.
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -1719,7 +1719,7 @@ function change_top_up_method(){
                                                                 <tr>
                                                                     <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                         <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            3. Pilih bank mandiri kode (008) atau pilih mandiri.
+                                                                            3. Select Mandiri bank code (008) or select Mandiri.
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -1732,7 +1732,7 @@ function change_top_up_method(){
                                                                 <tr>
                                                                     <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                         <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            4. Masukkan 16 nomor kode pembayaran.
+                                                                            4. Input the 16 digits payment code.
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -1745,7 +1745,7 @@ function change_top_up_method(){
                                                                 <tr>
                                                                     <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                         <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            5. Masukkan nominal yang ingin di top up.
+                                                                            5. Input the amount you want to top up.
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -1758,7 +1758,7 @@ function change_top_up_method(){
                                                                 <tr>
                                                                     <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                         <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            6. Konfirmasi pembayaran.
+                                                                            6. Payment confirmation.
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -1771,7 +1771,7 @@ function change_top_up_method(){
                                                                 <tr>
                                                                     <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                         <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            7. Simpan bukti transkasi.
+                                                                            7. Save your proof of transaction.
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -1784,7 +1784,7 @@ function change_top_up_method(){
                                                                 <tr>
                                                                     <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                         <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            8. Dalam 30 - 60 menit, saldo akan masuk secara otomatis jika tidak, dapat menghubungi admin.
+                                                                            8. In around 30 - 60 minutes, balance will be automatically added. Otherwise, please contact administrator.
                                                                         </div>
                                                                     </td>
                                                                 </tr>
