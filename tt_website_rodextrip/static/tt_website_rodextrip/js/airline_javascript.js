@@ -5079,6 +5079,7 @@ function change_date_shortcut(val){
         document.getElementById('airline_list2').innerHTML = '';
         time_limit = 1200;
         carrier_code = [];
+        airline_list_count = 0;
         counter_search = 0;
         airline_pick_list = [];
         journey = [];
