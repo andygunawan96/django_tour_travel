@@ -249,28 +249,28 @@
                                 <input type="hidden" name="g-recaptcha-response" id='recaptcha_airline'>
                                 <div class="row">
                                     <div class="col-lg-12" id="radio_airline_search" style="padding:0px; text-align:left;margin-bottom:10px;">
-                                        <label class="radio-button-custom">
+                                        <label class="radio-button-custom crlabel">
                                             <span style="font-size:13px; color:{{text_color}};">{% trans 'One Way' %}</span>
                                             <input type="radio" checked="checked" name="radio_airline_type" value="oneway">
-                                            <span class="checkmark-radio"></span>
+                                            <span class="checkmark-radio crspan"></span>
                                         </label>
-                                        <label class="radio-button-custom">
+                                        <label class="radio-button-custom crlabel">
                                             <span style="font-size:13px; color:{{text_color}};">{% trans 'Round Trip' %}</span>
                                             <input type="radio" name="radio_airline_type" value="roundtrip">
-                                            <span class="checkmark-radio"></span>
+                                            <span class="checkmark-radio crspan"></span>
                                         </label>
-                                        <label class="radio-button-custom">
+                                        <label class="radio-button-custom crlabel">
                                             <span style="font-size:13px; color:{{text_color}};">{% trans 'Multi City' %}</span>
                                             <input type="radio" name="radio_airline_type" value="multicity">
-                                            <span class="checkmark-radio"></span>
+                                            <span class="checkmark-radio crspan"></span>
                                         </label>
                                     </div>
                                     <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
                                         <div class="checkbox" style="display:none;" id="checkbox_combo_price">
-                                            <label class="check_box_custom">
+                                            <label class="check_box_custom cblabel">
                                                 <span style="font-size:13px; color:{{text_color}};">{% trans 'Is Combo Price' %}</span>
                                                 <input type="checkbox" value="" id="is_combo_price" name="is_combo_price" disabled>
-                                                <span class="check_box_span_custom"></span>
+                                                <span class="check_box_span_custom cbspan"></span>
                                             </label>
                                         </div>
                                     </div>
@@ -441,15 +441,15 @@
                                 <input type="hidden" name="g-recaptcha-response" id='recaptcha_train'>
                                 <div class="row">
                                     <div class="col-lg-12" id="radio_train_search" style="padding:0px; text-align:left;margin-bottom:10px;">
-                                        <label class="radio-button-custom">
+                                        <label class="radio-button-custom crlabel">
                                             <span style="font-size:13px; color:{{text_color}};">{% trans 'One Way' %}</span>
                                             <input type="radio" checked="checked" name="radio_train_type" value="oneway">
-                                            <span class="checkmark-radio"></span>
+                                            <span class="checkmark-radio crspan"></span>
                                         </label>
-                                        <label class="radio-button-custom">
+                                        <label class="radio-button-custom crlabel">
                                             <span style="font-size:13px; color:{{text_color}};">{% trans 'Round Trip' %}</span>
                                             <input type="radio" name="radio_train_type" value="roundtrip">
-                                            <span class="checkmark-radio"></span>
+                                            <span class="checkmark-radio crspan"></span>
                                         </label>
                                     </div>
                                     <div class="col-lg-6">
@@ -654,11 +654,11 @@
                                     </div>
 
                                     <div class="col-lg-12" style="padding:0px;margin-top:5px;float:left;">
-                                        <label class="check_box_custom">
+                                        <label class="check_box_custom cblabel">
                                             <span class="span-search-ticket" style="font-size:13px;">{% trans 'Business Trip' %}</span>
                                             <input type="checkbox" value="true" onclick="business_trip_check();">
                                             <input type="hidden" name="business_trip" id="business_trip" value="false"/>
-                                            <span class="check_box_span_custom"></span>
+                                            <span class="check_box_span_custom cbspan"></span>
                                         </label>
                                     </div>
                                 </div>
@@ -959,15 +959,15 @@
                                 {% csrf_token %}
                                 <div class="row">
                                     <div class="col-lg-12" id="radio_bill_search" style="padding:0px; text-align:left;margin-bottom:10px;" onchange="set_container_bill();">
-                                        <label class="radio-button-custom">
+                                        <label class="radio-button-custom crlabel">
                                             <span style="font-size:13px; color:{{text_color}};">BPJS</span>
                                             <input type="radio" checked="checked" name="bills_type" value="bpjs">
-                                            <span class="checkmark-radio"></span>
+                                            <span class="checkmark-radio crspan"></span>
                                         </label>
-                                        <label class="radio-button-custom">
+                                        <label class="radio-button-custom crlabel">
                                             <span style="font-size:13px; color:{{text_color}};">PLN</span>
                                             <input type="radio"  name="bills_type" value="pln">
-                                            <span class="checkmark-radio"></span>
+                                            <span class="checkmark-radio crspan"></span>
                                         </label>
                                     </div>
                                     {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
@@ -1880,28 +1880,28 @@
                             <input type="hidden" name="g-recaptcha-response" id='recaptcha_airline'>
                             <div class="row justify-content-between align-items-end">
                                 <div class="col-lg-12" id="radio_airline_search" style="text-align:left;margin-bottom:10px;">
-                                    <label class="radio-button-custom">
+                                    <label class="radio-button-custom crlabel">
                                         <span style="font-size:13px; color:{{text_color}};">{% trans 'One Way' %}</span>
                                         <input type="radio" checked="checked" name="radio_airline_type" value="oneway">
-                                        <span class="checkmark-radio"></span>
+                                        <span class="checkmark-radio crspan"></span>
                                     </label>
-                                    <label class="radio-button-custom">
+                                    <label class="radio-button-custom crlabel">
                                         <span style="font-size:13px; color:{{text_color}};">{% trans 'Round Trip' %}</span>
                                         <input type="radio" name="radio_airline_type" value="roundtrip">
-                                        <span class="checkmark-radio"></span>
+                                        <span class="checkmark-radio crspan"></span>
                                     </label>
-                                    <label class="radio-button-custom">
+                                    <label class="radio-button-custom crlabel">
                                         <span style="font-size:13px; color:{{text_color}};">{% trans 'Multi City' %}</span>
                                         <input type="radio" name="radio_airline_type" value="multicity">
-                                        <span class="checkmark-radio"></span>
+                                        <span class="checkmark-radio crspan"></span>
                                     </label>
                                 </div>
                                 <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
                                     <div class="checkbox" style="display:none;" id="checkbox_combo_price">
-                                        <label class="check_box_custom">
+                                        <label class="check_box_custom cblabel">
                                             <span style="font-size:13px; color:{{text_color}};">{% trans 'Is Combo Price' %}</span>
                                             <input type="checkbox" value="" id="is_combo_price" name="is_combo_price" disabled>
-                                            <span class="check_box_span_custom"></span>
+                                            <span class="check_box_span_custom cbspan"></span>
                                         </label>
                                     </div>
                                 </div>
@@ -2053,15 +2053,15 @@
                             <input type="hidden" name="g-recaptcha-response" id='recaptcha_train'>
                             <div class="row">
                                 <div class="col-lg-12" id="radio_train_search" style="margin-bottom:10px;">
-                                    <label class="radio-button-custom">
+                                    <label class="radio-button-custom crlabel">
                                         <span style="font-size:13px; font-weight:700; color:{{text_color}}">{% trans 'One Way' %}</span>
                                         <input type="radio" checked="checked" name="radio_train_type" value="oneway">
-                                        <span class="checkmark-radio"></span>
+                                        <span class="checkmark-radio crspan"></span>
                                     </label>
-                                    <label class="radio-button-custom">
+                                    <label class="radio-button-custom crlabel">
                                         <span style="font-size:13px; font-weight:700; color:{{text_color}}">{% trans 'Round Trip' %}</span>
                                         <input type="radio" name="radio_train_type" value="roundtrip">
-                                        <span class="checkmark-radio"></span>
+                                        <span class="checkmark-radio crspan"></span>
                                     </label>
                                 </div>
 
@@ -2261,11 +2261,11 @@
                                 </div>
 
                                 <div class="col-lg-12" style="margin-top:5px;">
-                                    <label class="check_box_custom">
+                                    <label class="check_box_custom cblabel">
                                         <span class="span-search-ticket" style="font-size:13px;">{% trans 'Business Trip' %}</span>
                                         <input type="checkbox" value="true" onclick="business_trip_check();">
                                         <input type="hidden" name="business_trip" id="business_trip" value="false"/>
-                                        <span class="check_box_span_custom"></span>
+                                        <span class="check_box_span_custom cbspan"></span>
                                     </label>
                                 </div>
                             </div>
@@ -2556,15 +2556,15 @@
                             {% csrf_token %}
                             <div class="row">
                                 <div class="col-lg-12" id="radio_bill_search" style="text-align:left;margin-bottom:10px;" onchange="set_container_bill();">
-                                    <label class="radio-button-custom">
+                                    <label class="radio-button-custom crlabel">
                                         <span style="font-size:13px; color:{{text_color}};">BPJS</span>
                                         <input type="radio" checked="checked" name="bills_type" value="bpjs">
-                                        <span class="checkmark-radio"></span>
+                                        <span class="checkmark-radio crspan"></span>
                                     </label>
-                                    <label class="radio-button-custom">
+                                    <label class="radio-button-custom crlabel">
                                         <span style="font-size:13px; color:{{text_color}};">PLN</span>
                                         <input type="radio"  name="bills_type" value="pln">
-                                        <span class="checkmark-radio"></span>
+                                        <span class="checkmark-radio crspan"></span>
                                     </label>
                                 </div>
                                 {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
@@ -3035,28 +3035,28 @@
                                 <input type="hidden" name="g-recaptcha-response" id='recaptcha_airline'>
                                 <div class="row">
                                     <div class="col-lg-12" id="radio_airline_search" style="text-align:left;margin-bottom:10px;">
-                                        <label class="radio-button-custom">
+                                        <label class="radio-button-custom crlabel">
                                             <span style="font-size:13px; color:{{text_color}};">{% trans 'One Way' %}</span>
                                             <input type="radio" checked="checked" name="radio_airline_type" value="oneway">
-                                            <span class="checkmark-radio"></span>
+                                            <span class="checkmark-radio crspan"></span>
                                         </label>
-                                        <label class="radio-button-custom">
+                                        <label class="radio-button-custom crlabel">
                                             <span style="font-size:13px; color:{{text_color}};">{% trans 'Round Trip' %}</span>
                                             <input type="radio" name="radio_airline_type" value="roundtrip">
-                                            <span class="checkmark-radio"></span>
+                                            <span class="checkmark-radio crspan"></span>
                                         </label>
-                                        <label class="radio-button-custom">
+                                        <label class="radio-button-custom crlabel">
                                             <span style="font-size:13px; color:{{text_color}};">{% trans 'Multi City' %}</span>
                                             <input type="radio" name="radio_airline_type" value="multicity">
-                                            <span class="checkmark-radio"></span>
+                                            <span class="checkmark-radio crspan"></span>
                                         </label>
                                     </div>
                                     <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
                                         <div class="checkbox" style="display:none;" id="checkbox_combo_price">
-                                            <label class="check_box_custom">
+                                            <label class="check_box_custom cblabel">
                                                 <span style="font-size:13px; color:{{text_color}};">{% trans 'Is Combo Price' %}</span>
                                                 <input type="checkbox" value="" id="is_combo_price" name="is_combo_price" disabled>
-                                                <span class="check_box_span_custom"></span>
+                                                <span class="check_box_span_custom cbspan"></span>
                                             </label>
                                         </div>
                                     </div>
@@ -3213,15 +3213,15 @@
                                 <input type="hidden" name="g-recaptcha-response" id='recaptcha_train'>
                                 <div class="row">
                                     <div class="col-lg-12" id="radio_train_search" style="text-align:left;margin-bottom:10px;">
-                                        <label class="radio-button-custom">
+                                        <label class="radio-button-custom crlabel">
                                             <span style="font-size:13px; color:{{text_color}};">{% trans 'One Way' %}</span>
                                             <input type="radio" checked="checked" name="radio_train_type" value="oneway">
-                                            <span class="checkmark-radio"></span>
+                                            <span class="checkmark-radio crspan"></span>
                                         </label>
-                                        <label class="radio-button-custom">
+                                        <label class="radio-button-custom crlabel">
                                             <span style="font-size:13px; color:{{text_color}};">{% trans 'Round Trip' %}</span>
                                             <input type="radio" name="radio_train_type" value="roundtrip">
-                                            <span class="checkmark-radio"></span>
+                                            <span class="checkmark-radio crspan"></span>
                                         </label>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6">
@@ -3419,11 +3419,11 @@
 
                                     <div class="col-lg-12">
                                         <div class="form-group">
-                                            <label class="check_box_custom">
+                                            <label class="check_box_custom cblabel">
                                                 <span class="span-search-ticket" style="font-size:13px;">{% trans 'Business Trip' %}</span>
                                                 <input type="checkbox" value="true" onclick="business_trip_check();">
                                                 <input type="hidden" name="business_trip" id="business_trip" value="false"/>
-                                                <span class="check_box_span_custom"></span>
+                                                <span class="check_box_span_custom cbspan"></span>
                                             </label>
                                         </div>
                                     </div>
@@ -3717,15 +3717,15 @@
                                 {% csrf_token %}
                                 <div class="row">
                                     <div class="col-lg-12" id="radio_bill_search" style="text-align:left;margin-bottom:10px;" onchange="set_container_bill();">
-                                        <label class="radio-button-custom">
+                                        <label class="radio-button-custom crlabel">
                                             <span style="font-size:13px; color:{{text_color}};">BPJS</span>
                                             <input type="radio" checked="checked" name="bills_type" value="bpjs">
-                                            <span class="checkmark-radio"></span>
+                                            <span class="checkmark-radio crspan"></span>
                                         </label>
-                                        <label class="radio-button-custom">
+                                        <label class="radio-button-custom crlabel">
                                             <span style="font-size:13px; color:{{text_color}};">PLN</span>
                                             <input type="radio"  name="bills_type" value="pln">
-                                            <span class="checkmark-radio"></span>
+                                            <span class="checkmark-radio crspan"></span>
                                         </label>
                                     </div>
                                     {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
@@ -4222,28 +4222,28 @@
                                         <input type="hidden" name="g-recaptcha-response" id='recaptcha_airline'>
                                         <div class="row">
                                             <div class="col-lg-12" id="radio_airline_search" style="text-align:left;margin-bottom:10px;">
-                                                <label class="radio-button-custom">
+                                                <label class="radio-button-custom crlabel">
                                                     <span style="font-size:13px; color:{{text_color}};">{% trans 'One Way' %}</span>
                                                     <input type="radio" checked="checked" name="radio_airline_type" value="oneway">
-                                                    <span class="checkmark-radio"></span>
+                                                    <span class="checkmark-radio crspan"></span>
                                                 </label>
-                                                <label class="radio-button-custom">
+                                                <label class="radio-button-custom crlabel">
                                                     <span style="font-size:13px; color:{{text_color}};">{% trans 'Round Trip' %}</span>
                                                     <input type="radio" name="radio_airline_type" value="roundtrip">
-                                                    <span class="checkmark-radio"></span>
+                                                    <span class="checkmark-radio crspan"></span>
                                                 </label>
-                                                <label class="radio-button-custom">
+                                                <label class="radio-button-custom crlabel">
                                                     <span style="font-size:13px; color:{{text_color}};">{% trans 'Multi City' %}</span>
                                                     <input type="radio" name="radio_airline_type" value="multicity">
-                                                    <span class="checkmark-radio"></span>
+                                                    <span class="checkmark-radio crspan"></span>
                                                 </label>
                                             </div>
                                             <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
                                                 <div class="checkbox" style="display:none;" id="checkbox_combo_price">
-                                                    <label class="check_box_custom">
+                                                    <label class="check_box_custom cblabel">
                                                         <span style="font-size:13px; color:{{text_color}};">{% trans 'Is Combo Price' %}</span>
                                                         <input type="checkbox" value="" id="is_combo_price" name="is_combo_price" disabled>
-                                                        <span class="check_box_span_custom"></span>
+                                                        <span class="check_box_span_custom cbspan"></span>
                                                     </label>
                                                 </div>
                                             </div>
@@ -4391,15 +4391,15 @@
                                         <input type="hidden" name="g-recaptcha-response" id='recaptcha_train'>
                                         <div class="row">
                                             <div class="col-lg-12" id="radio_train_search" style="text-align:left;margin-bottom:10px;">
-                                                <label class="radio-button-custom">
+                                                <label class="radio-button-custom crlabel">
                                                     <span style="font-size:13px; color:{{text_color}};">{% trans 'One Way' %}</span>
                                                     <input type="radio" checked="checked" name="radio_train_type" value="oneway">
-                                                    <span class="checkmark-radio"></span>
+                                                    <span class="checkmark-radio crspan"></span>
                                                 </label>
-                                                <label class="radio-button-custom">
+                                                <label class="radio-button-custom crlabel">
                                                     <span style="font-size:13px; color:{{text_color}};">{% trans 'Round Trip' %}</span>
                                                     <input type="radio" name="radio_train_type" value="roundtrip">
-                                                    <span class="checkmark-radio"></span>
+                                                    <span class="checkmark-radio crspan"></span>
                                                 </label>
                                             </div>
                                             <div class="col-lg-12">
@@ -4609,11 +4609,11 @@
                                             </div>
 
                                             <div class="col-lg-12" style="margin-top:5px; margin-bottom:10px; float:left;">
-                                                <label class="check_box_custom">
+                                                <label class="check_box_custom cblabel">
                                                     <span class="span-search-ticket" style="font-size:13px;">{% trans 'Business Trip' %}</span>
                                                     <input type="checkbox" value="true" onclick="business_trip_check();">
                                                     <input type="hidden" name="business_trip" id="business_trip" value="false"/>
-                                                    <span class="check_box_span_custom"></span>
+                                                    <span class="check_box_span_custom cbspan"></span>
                                                 </label>
                                             </div>
                                         </div>
@@ -4920,15 +4920,15 @@
                                         {% csrf_token %}
                                         <div class="row">
                                             <div class="col-lg-12" id="radio_bill_search" style="text-align:left;margin-bottom:10px;" onchange="set_container_bill();">
-                                                <label class="radio-button-custom">
+                                                <label class="radio-button-custom crlabel">
                                                     <span style="font-size:13px; color:{{text_color}};">BPJS</span>
                                                     <input type="radio" checked="checked" name="bills_type" value="bpjs">
-                                                    <span class="checkmark-radio"></span>
+                                                    <span class="checkmark-radio crspan"></span>
                                                 </label>
-                                                <label class="radio-button-custom">
+                                                <label class="radio-button-custom crlabel">
                                                     <span style="font-size:13px; color:{{text_color}};">PLN</span>
                                                     <input type="radio"  name="bills_type" value="pln">
-                                                    <span class="checkmark-radio"></span>
+                                                    <span class="checkmark-radio crspan"></span>
                                                 </label>
                                             </div>
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
@@ -5406,28 +5406,28 @@
                                         <input type="hidden" name="g-recaptcha-response" id='recaptcha_airline'>
                                         <div class="row">
                                             <div class="col-lg-12" id="radio_airline_search" style="text-align:left;margin-bottom:10px;">
-                                                <label class="radio-button-custom">
+                                                <label class="radio-button-custom crlabel">
                                                     <span style="font-size:13px; color:{{text_color}};">{% trans 'One Way' %}</span>
                                                     <input type="radio" checked="checked" name="radio_airline_type" value="oneway">
-                                                    <span class="checkmark-radio"></span>
+                                                    <span class="checkmark-radio crspan"></span>
                                                 </label>
-                                                <label class="radio-button-custom">
+                                                <label class="radio-button-custom crlabel">
                                                     <span style="font-size:13px; color:{{text_color}};">{% trans 'Round Trip' %}</span>
                                                     <input type="radio" name="radio_airline_type" value="roundtrip">
-                                                    <span class="checkmark-radio"></span>
+                                                    <span class="checkmark-radio crspan"></span>
                                                 </label>
-                                                <label class="radio-button-custom">
+                                                <label class="radio-button-custom crlabel">
                                                     <span style="font-size:13px; color:{{text_color}};">{% trans 'Multi City' %}</span>
                                                     <input type="radio" name="radio_airline_type" value="multicity">
-                                                    <span class="checkmark-radio"></span>
+                                                    <span class="checkmark-radio crspan"></span>
                                                 </label>
                                             </div>
                                             <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
                                                 <div class="checkbox" style="display:none;" id="checkbox_combo_price">
-                                                    <label class="check_box_custom">
+                                                    <label class="check_box_custom cblabel">
                                                         <span style="font-size:13px; color:{{text_color}};">{% trans 'Is Combo Price' %}</span>
                                                         <input type="checkbox" value="" id="is_combo_price" name="is_combo_price" disabled>
-                                                        <span class="check_box_span_custom"></span>
+                                                        <span class="check_box_span_custom cbspan"></span>
                                                     </label>
                                                 </div>
                                             </div>
@@ -5588,15 +5588,15 @@
                                         <input type="hidden" name="g-recaptcha-response" id='recaptcha_train'>
                                         <div class="row">
                                             <div class="col-lg-12" id="radio_train_search" style="text-align:left;margin-bottom:10px;">
-                                                <label class="radio-button-custom">
+                                                <label class="radio-button-custom crlabel">
                                                     <span style="font-size:13px; color:{{text_color}};">{% trans 'One Way' %}</span>
                                                     <input type="radio" checked="checked" name="radio_train_type" value="oneway">
-                                                    <span class="checkmark-radio"></span>
+                                                    <span class="checkmark-radio crspan"></span>
                                                 </label>
-                                                <label class="radio-button-custom">
+                                                <label class="radio-button-custom crlabel">
                                                     <span style="font-size:13px; color:{{text_color}};">{% trans 'Round Trip' %}</span>
                                                     <input type="radio" name="radio_train_type" value="roundtrip">
-                                                    <span class="checkmark-radio"></span>
+                                                    <span class="checkmark-radio crspan"></span>
                                                 </label>
                                             </div>
                                             <div class="col-lg-6">
@@ -5801,11 +5801,11 @@
                                             </div>
 
                                             <div class="col-lg-12" style="margin-top:5px;float:left;">
-                                                <label class="check_box_custom">
+                                                <label class="check_box_custom cblabel">
                                                     <span class="span-search-ticket" style="font-size:13px;">{% trans 'Business Trip' %}</span>
                                                     <input type="checkbox" value="true" onclick="business_trip_check();">
                                                     <input type="hidden" name="business_trip" id="business_trip" value="false"/>
-                                                    <span class="check_box_span_custom"></span>
+                                                    <span class="check_box_span_custom cbspan"></span>
                                                 </label>
                                             </div>
                                         </div>
@@ -6097,15 +6097,15 @@
                                         {% csrf_token %}
                                         <div class="row">
                                             <div class="col-lg-12" id="radio_bill_search" style="text-align:left;margin-bottom:10px;" onchange="set_container_bill();">
-                                                <label class="radio-button-custom">
+                                                <label class="radio-button-custom crlabel">
                                                     <span style="font-size:13px; color:{{text_color}};">BPJS</span>
                                                     <input type="radio" checked="checked" name="bills_type" value="bpjs">
-                                                    <span class="checkmark-radio"></span>
+                                                    <span class="checkmark-radio crspan"></span>
                                                 </label>
-                                                <label class="radio-button-custom">
+                                                <label class="radio-button-custom crlabel">
                                                     <span style="font-size:13px; color:{{text_color}};">PLN</span>
                                                     <input type="radio"  name="bills_type" value="pln">
-                                                    <span class="checkmark-radio"></span>
+                                                    <span class="checkmark-radio crspan"></span>
                                                 </label>
                                             </div>
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security %}

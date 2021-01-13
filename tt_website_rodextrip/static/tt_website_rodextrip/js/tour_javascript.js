@@ -325,6 +325,8 @@ function select_tour_date(key_change_date){
             locale: {
                 format: 'DD MMM YYYY',
             }
+        },function(start, end, label) {
+
         });
     }
     else

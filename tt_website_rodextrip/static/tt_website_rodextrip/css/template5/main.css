@@ -4044,6 +4044,11 @@ ul.tabs li.current .image-rounded-icon{
   background: #C04B21;
 }
 
+.primary-btn-ticket:disabled{
+    background-color: #cdcdcd !important;
+    cursor: not-allowed;
+}
+
 .primary-btn-ticket {
   background: #f15a22;
   line-height: 35px;

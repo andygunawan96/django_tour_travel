@@ -2,6 +2,15 @@
 {% load i18n %}
 {% load static from staticfiles %}
 {% block content %}
+
+<style>
+    {% if template == 2 or template == 3%}
+    .dropdown-menu.show{
+        transform:unset !important;
+        top:65px !important;
+    }
+    {% endif %}
+</style>
 <!--<script src="{{ static_path }}js/webservice_token.js"></script>-->
 <script src="{{ static_path }}js/daterangepicker.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/moment.min.js?version={{javascript_version}}"></script>
@@ -358,7 +367,7 @@
         </div>
     </div>
 </section>
-<section class="bg-img bg-overlay jarallax" id="change_search_box" style="background-image: url({{background}}); padding-top:40px; padding-bottom:40px; z-index:5; display:none;">
+<section class="bg-img bg-overlay jarallax" id="change_search_box" style="background-image: url('{{background}}'); padding-top:40px; padding-bottom:40px; z-index:995; display:none;">
     <div class="container" id="div-search-overlay">
         <div class="row">
             <div class="col-lg-12">
@@ -590,7 +599,7 @@
         </div>
     </div>
 </section>
-<section class="banner-area relative" id="change_search_box" style="padding-top:40px; padding-bottom:20px; background-color: black; z-index:98; position:relative; display:none;">
+<section class="banner-area relative" id="change_search_box" style="padding-top:40px; padding-bottom:20px; background-color: black; z-index:995; position:relative; display:none;">
     <div class="overlay overlay-bg"></div>
     <div class="container" id="div-search-overlay">
         <div class="row">

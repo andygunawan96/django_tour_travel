@@ -4464,6 +4464,11 @@ ul.tabs li.current{
   background: #C04B21;
 }
 
+.primary-btn-ticket:disabled{
+    background-color: #cdcdcd !important;
+    cursor: not-allowed;
+}
+
 .primary-btn-ticket {
   background: #f15a22;
   line-height: 35px;
@@ -8034,4 +8039,8 @@ display: block;
    border:2px solid #cdcdcd;
    padding:15px 0;
    text-align: center;
+}
+
+.change_search_area{
+    border-top: 1px solid #cdcdcd;
 }

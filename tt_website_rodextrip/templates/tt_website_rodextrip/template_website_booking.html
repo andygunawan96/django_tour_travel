@@ -99,11 +99,24 @@ Licence URI: http://www.os-templates.com/template-terms
             border:2px solid {{color}} !important;
         }
 
+        ul.btn_tabs li{
+            border: 2px solid {{color}} !important;
+        }
+
+        ul.btn_tabs li.current{
+            background: {{color}} !important;
+            color: {{text_color}} !important;
+        }
+
+        ul.btn_tabs li.current .image-rounded-icon{
+            background: {{color}} !important;
+        }
+
+
         {% if username.co_user_login == 'agent_b2c' %}
 
             .tab_custom_login {
                 background-color: {{login_background_color}} !important;
-                border-bottom: unset !important;
             }
             {% if template == 1 or template == 3 or template == 5%}
                 .lnr_color {
@@ -310,19 +323,42 @@ Licence URI: http://www.os-templates.com/template-terms
           background-color: {{color}} !important;
           color: #fff;
         }
-
+        .jBox-Modal .jBox-title{
+            background: {{color}};
+            color: {{text_color}};
+        }
+        .jBox-closeButton path{
+            fill: {{text_color}};
+        }
         .style-scrollbar::-webkit-scrollbar-thumb{
 	        background-color: {{tab_color}};
 	    }
-
+	    .modal-title{
+            color: {{text_color}};
+	    }
+	    ul.btn_tabs li:hover{
+           color: {{color}};
+        }
         .faq-que{
             cursor:pointer;
         }
         .faq-que b:hover{
             color: {{color}} !important;
         }
-        .check_box_custom input:checked ~ .check_box_span_custom {
+        .cbspan{
+            background-color: {{text_color}};
+        }
+        .cblabel:hover input ~ .cbspan{
+            background-color: {{text_color}}B3;
+        }
+        .cblabel input:checked ~ .cbspan {
             background-color: {{color}} !important;
+        }
+        .crspan{
+            background-color: {{text_color}};
+        }
+        .crlabel:hover input ~ .crspan{
+            background-color: {{text_color}}B3 !important;
         }
         .b24-widget-button-inner-block{
             background-color: {{color}} !important;
@@ -344,10 +380,6 @@ Licence URI: http://www.os-templates.com/template-terms
         }
 
         .bx-livechat-head{
-            background-color: {{color}} !important;
-        }
-
-        .radio-button-custom input:checked ~ .checkmark-radio {
             background-color: {{color}} !important;
         }
 
@@ -697,7 +729,7 @@ Licence URI: http://www.os-templates.com/template-terms
             position: fixed;
             top: 85px;
             right: 55px;
-            z-index: 1000;
+            z-index: 1050;
             background-color: {{color}};
             color: white;
             font-size:16px;

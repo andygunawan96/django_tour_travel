@@ -751,33 +751,78 @@ function tour_get_details(tour_code){
            data=[]
            if(msg.result.error_code == 0){
                tour_data = msg.result.response.selected_tour;
+               content_pop_question = '';
                 if (selected_tour_date)
                 {
                     prod_date_text += selected_tour_date;
                 }
-                country_text += `<br/><span style="font-weight: bold; color: black; font-size: 16px;"> <i class="fa fa-map-marker" aria-hidden="true"></i>`;
+                country_text += `
+                <div style="display:flex; margin-top:3px; margin-bottom:3px;">
+                    <div style="border-bottom:1px solid `+color+`; width:max-content; font-size:12px;">`;
+                    if(tour_data.tour_type == 'open'){
+                        country_text+=`<span style="border:1px solid `+color+`; background:`+color+`; color:`+text_color+`; font-weight:500; padding:2px 5px;">`+tour_data.tour_type_str+`</span>`;
+                    }else{
+                        country_text+=tour_data.tour_type_str;
+                    }
+
+               if(tour_data.tour_type == 'series'){
+                    content_pop_question+=`<b>Series: </b>Organized Public Tour with Tour Leader.`;
+                }
+                else if(tour_data.tour_type == 'sic'){
+                    content_pop_question+=`<b>SIC: </b>Organized Public Tour without Tour Leader.`;
+                }
+                else if(tour_data.tour_type == 'land'){
+                    content_pop_question+=`<b>Land Only: </b>Organized Tour with its price not including accommodation nor transportation.`;
+                }
+                else if(tour_data.tour_type == 'city'){
+                    content_pop_question+=`<b>City Tour: </b>Tour visiting various favorite destinations of a certain city.`;
+                }
+                else if(tour_data.tour_type == 'open'){
+                    content_pop_question+=`<b>Open Tour: </b>Unorganized Tour where tour participants can choose their own Departure Date within certain period.`;
+                }
+                else if(tour_data.tour_type == 'private'){
+                    content_pop_question+=`<b>Private Tour: </b>Private Tour organized according to the participant's request.`;
+                }
+
+
+                country_text+=`
+                    </div>
+                    <span id="pop_question" style="cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>`;
+                    if (tour_data.duration)
+                    {
+                        country_text += `<span> | <i class="fa fa-clock-o" aria-hidden="true"></i> ` + tour_data.duration + ` Days</span>`;
+                    }
+                country_text+=`</div>`;
+                country_text += `<span> <i class="fa fa-map-marker-alt" aria-hidden="true"></i>`;
                 for (j in tour_data.country_names)
                 {
-                    country_text += ` ` + tour_data.country_names[j] + ` |`;
+                    country_text += ` ` + tour_data.country_names[j];
+                    if(j != tour_data.country_names.length-1){
+                        country_text += ` |`;
+                    }
                 }
-                country_text += `</span><br/>`;
-                if (tour_data.duration)
-                {
-                    country_text += `<br/><span><i class="fa fa-clock-o" aria-hidden="true"></i> ` + tour_data.duration + ` Days</span>`;
-                }
-                country_text += `<br/><span><i class="fa fa-tag" aria-hidden="true"></i> Adult @ ` + getrupiah(tour_data.adult_sale_price) + `</span>`;
+                country_text += `</span>`;
+
+                country_text += `<div style="background:#dbdbdb; padding:10px;"><span><i class="fa fa-tag" aria-hidden="true"></i> Adult `+tour_data.currency_code+` <b style="color:`+color+`; font-size:14px;"> ` + getrupiah(tour_data.adult_sale_price) + `</b></span>`;
                 if (tour_data.child_sale_price > 0)
                 {
-                    country_text += `<span> | Child @ ` + getrupiah(tour_data.child_sale_price) + `</span>`;
+                    country_text += `<span> | Child `+tour_data.currency_code+` <b style="color:`+color+`; font-size:14px;"> ` + getrupiah(tour_data.child_sale_price) + `</b></span>`;
                 }
                 if (tour_data.infant_sale_price > 0)
                 {
-                    country_text += `<span> | Infant @ ` + getrupiah(tour_data.infant_sale_price) + `</span>`;
+                    country_text += `<span> | Infant `+tour_data.currency_code+` <b style="color:`+color+`; font-size:14px;">` + getrupiah(tour_data.infant_sale_price) + `</b></span>`;
                 }
 
-                country_text += `<br/>`;
+                country_text += `</div>`;
 
-                country_text += `<br/><span><i class="fa fa-hotel" aria-hidden="true"></i> Hotel(s) :</span>`;
+                if (tour_data.description)
+                {
+                    country_text += `<div style="max-height:100px; overflow:auto; padding:15px; margin-top:5px;margin-bottom:5px; border:1px solid #cdcdcd;"><span style="font-weight:600;">Description</span><br/>`;
+                    country_text += `<span>`+tour_data.description+`</span></div>`;
+                }else{
+                    country_text += ``;
+                }
+                country_text += `<span><i class="fa fa-hotel" aria-hidden="true"></i> Hotel(s) :</span>`;
                 idx = 1
                 for (k in tour_data.hotel_names)
                 {
@@ -786,10 +831,10 @@ function tour_get_details(tour_code){
                 }
                 if (tour_data.document_url)
                 {
-                    print_doc_text += `<div style="float:right;">
-                                         <a class="btn btn-tour btn-chgsearch" style="border-radius:6px; border: 1px solid #ddd;" href="`+tour_data.document_url+`" target="_blank">
+                    print_doc_text += `<div class="mb-3" style="text-align:right;">
+                                         <button class="primary-btn btn-tour btn-chgsearch" style="border-radius:6px; border: 1px solid #ddd;" onclick="window.location.href='`+tour_data.document_url+`'" target="_blank">
                                              <i class="fa fa-print" aria-hidden="true"></i> Print Document
-                                         </a>
+                                         </button>
                                      </div>`;
                 }
 
@@ -986,6 +1031,15 @@ function tour_get_details(tour_code){
                document.getElementById('tour_hotel_room_list').innerHTML += room_list_text;
                document.getElementById('tour_available_header_list').innerHTML += header_list_text;
                document.getElementById('tour_available_date_list').innerHTML += date_list_text;
+
+               new jBox('Tooltip', {
+                   attach: '#pop_question',
+                   width: 280,
+                   closeOnMouseleave: true,
+                   animation: 'zoomIn',
+                   content: content_pop_question
+               });
+
 
                $('.owl-carousel-tour-img').owlCarousel({
                     loop:true,
