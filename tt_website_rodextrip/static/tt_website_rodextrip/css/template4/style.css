@@ -2564,6 +2564,11 @@ ul.tabs li.current{
   background: #C04B21;
 }
 
+.primary-btn-ticket:disabled{
+    background-color: #cdcdcd !important;
+    cursor: not-allowed;
+}
+
 .primary-btn-ticket {
   background: #f15a22;
   line-height: 35px;
@@ -6222,4 +6227,8 @@ ul.btn_tabs li.current .image-rounded-icon{
   background-position: center center !important;
   background-size: cover !important;
   background-repeat: no-repeat !important;
+}
+
+.main-menu{
+    border-bottom:1px solid #cdcdcd;
 }

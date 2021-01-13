@@ -35,6 +35,19 @@
             padding-top: 0px;
         }
     }
+
+    ul.tabs{
+        border:1px solid #cdcdcd;
+    }
+    ul.create_tabs{
+        border:1px solid #cdcdcd;
+    }
+    {%if template == 2%}
+    ul.tabs li{
+        background:unset;
+        color:unset;
+    }
+    {% endif %}
 </style>
 {% include 'tt_website_rodextrip/logout.html' %}
 {% include 'tt_website_rodextrip/plugin_passenger.html' %}
@@ -783,7 +796,7 @@
                     </div>
                 </div>
                 <div class="row" id="div-description-tour" style="padding:15px;">
-                    <div class="col-lg-12" style="width:100%; background-color:white; padding:20px; border: 1px solid #ddd;">
+                    <div class="col-lg-12" style="width:100%; background-color:white; padding:20px 20px {% if template == 1 %}0px{% else %} 20px{% endif %} 20px; border: 1px solid #ddd;">
                         <div class="row">
                             <div class="col-lg-4 col-md-4">
                                 <div id="tour_carousel">
@@ -791,18 +804,23 @@
                                 </div>
                             </div>
                             <div class="col-lg-8 col-md-8">
-                                <div id="country_list_tour">
-                                    <span id="main_tour_name" style="font-size:22px; font-weight:bold; color:black;"></span>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div id="country_list_tour">
+                                            <h4 id="main_tour_name" style="font-size:22px; color:black;"></h4>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div id="print_doc_btn_div" style="margin-top: 15px;">
 
-                                </div>
-                                <div id="print_doc_btn_div" style="margin-top: 15px;">
-
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-lg-12 mt-3" style="padding:0px;">
+                    <div class="col-lg-12" style="padding:0px;">
                         {%if template == 1%}
                         <div class="style-scrollbar" style="overflow:auto; white-space:nowrap; background: white; border:1px solid #cdcdcd;">
                             <ul class="create_tabs" id="tour_detail_tabs">
@@ -951,17 +969,20 @@
                                                 <button id="btnChangeDate" class="primary-btn-ticket btn-block space" type="button" data-toggle="modal" data-target="#ChangeDateModal"><i class="fas fa-calendar-alt"></i> {% trans 'Choose Package' %}</button>
                                             </div>
                                         </div>
-                                        <h4 class="mb-2 open_tour_date" style="display:none;">{% trans 'Tour Date' %}</h4>
+                                        <h4 class="mt-3 mb-2 open_tour_date" style="display:none;">{% trans 'Tour Date' %}</h4>
                                         <div class="open_tour_date" style="display:none;">
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                                     <h6>{% trans 'Select Departure Date' %}</h6>
-                                                    <input type="text" id="open_tour_departure_date" name="open_tour_departure_date" placeholder="Select Tour Departure Date" class="form-control" autocomplete="off" onchange="set_tour_arrival_date()" readonly/>
+                                                    <input type="text" id="open_tour_departure_date" style="background:white;" name="open_tour_departure_date" placeholder="Select Tour Departure Date" class="form-control" autocomplete="off" onchange="set_tour_arrival_date()" readonly/>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                                     <h6>{% trans 'Arrival Date' %}</h6>
                                                     <input type="text" id="open_tour_arrival_date" name="open_tour_arrival_date" placeholder="Tour Arrival Date" class="form-control" autocomplete="off" style="background: #dddddd; pointer-events: none;" readonly/>
                                                 </div>
+<!--                                                <div class="col-lg-12 mt-3" >-->
+<!--                                                    <h6 id="show_additional_charge" style="font-weight:500;color:{{color}}; cursor:pointer;">See Additional Charge <i class="fas fa-hand-holding-usd"></i></h6>-->
+<!--                                                </div>-->
                                             </div>
                                         </div>
                                         <br/>
@@ -1092,12 +1113,38 @@
         </div>
     </div>
 </section>
+
 {% include 'tt_website_rodextrip/footer.html' %}
 
 <script>
     get_dept_year();
+    try{
+        get_public_holiday(moment().format('YYYY-MM-DD'), moment().subtract(-1, 'years').format('YYYY-MM-DD'), 100 );
+    }catch(err){
+        console.log(err);
+    }
     $(document).ready(function () {
         breadcrumb_create("tour", 3, 0);
+
+        //cek_test = new jBox('Modal', {
+        //  attach: '#show_additional_charge',
+        //  width: 350,
+        //  height: 200,
+        //  blockScroll: false,
+        //  animation: 'zoomIn',
+        //  draggable: 'title',
+        //  closeButton: true,
+        //  content: 'You can move this modal window',
+        //  title: '<span style="font-size:14px;">Additional Charge</span><br/><span style="font-size:11px;">Click here. You can move this modal window.</span>',
+        //  overlay: false,
+        //  reposition: false,
+        //  repositionOnOpen: false
+        //});
+
+        //$('#show_additional_charge').on('click', function () {
+        //   cek_test.open();
+        //});
+
         $('.js-example-basic-single').select2();
         get_tour_auto_complete('search');
         try{

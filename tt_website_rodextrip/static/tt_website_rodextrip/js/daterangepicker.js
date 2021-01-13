@@ -667,7 +667,7 @@ function get_public_holiday(start_date, end_date, country_id){
             var dayOfWeek = firstDay.day();
 
             //public holiday footer
-            var footer = '<hr/>';
+            var footer = '<hr style="margin-top:unset;"/>';
 
             //initialize a 6 rows x 7 columns array for the calendar
             var calendar = [];
@@ -838,6 +838,12 @@ function get_public_holiday(start_date, end_date, country_id){
                     var tempDateRender = year+'-'+tempMonth+'-'+tempDate;
                     var tempDateRender2 = tempDate;
 
+//                    try{
+//                        if(tempDateRender == "2021-01-14"){
+//                            footer += '<div style="margin-bottom:10px; font-size:12px;"><span class="fa fa-hand-holding-usd" style="font-size:12px;"></span> Additional Charge</div><hr/>';
+//                        }
+//                    }catch(err){}
+
                     try{
                         for (i in date_api.result.response){
                             var stringDateRender="";
@@ -852,7 +858,6 @@ function get_public_holiday(start_date, end_date, country_id){
                         }
                     }
                     catch(err){}
-
 
                     //highlight today's date
                     if (calendar[row][col].isSame(new Date(), "day"))
@@ -912,7 +917,13 @@ function get_public_holiday(start_date, end_date, country_id){
                         cname += 'available';
 
                     html += '<td class="' + cname.replace(/^\s+|\s+$/g, '') + '" data-title="' + 'r' + row + 'c' + col + '">' + calendar[row][col].date() + '</td>';
-//                    html += '<td class="' + cname.replace(/^\s+|\s+$/g, '') + '" data-title="' + 'r' + row + 'c' + col + '"><span style="display:block;">' + calendar[row][col].date() + '</span><span style="font-size:11px;line-height:10px; color:black !important;">999K</span></td>';
+//                    html += '<td class="' + cname.replace(/^\s+|\s+$/g, '') + '" data-title="' + 'r' + row + 'c' + col + '">' + calendar[row][col].date()+'<br/>';
+//                    cname_available = cname.includes("available");
+//                    cname_off = cname.includes("off");
+//                    if(cname_available == true){
+//                        html += '<span class="fa fa-hand-holding-usd span_date available" data-title="' + 'r' + row + 'c' + col + '" style="font-size:12px;"></span>';
+//                    }
+//                    html += '</td>';
                 }
                 html += '</tr>';
             }
@@ -1351,7 +1362,6 @@ function get_public_holiday(start_date, end_date, country_id){
         clickDate: function(e) {
 
             if (!$(e.target).hasClass('available')) return;
-
             var title = $(e.target).attr('data-title');
             var row = title.substr(1, 1);
             var col = title.substr(3, 1);
@@ -1424,7 +1434,6 @@ function get_public_holiday(start_date, end_date, country_id){
 
             //This is to cancel the blur event handler if the mouse was in one of the inputs
             e.stopPropagation();
-
         },
 
         calculateChosenLabel: function () {
