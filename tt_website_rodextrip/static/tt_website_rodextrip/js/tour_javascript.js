@@ -2029,3 +2029,18 @@ function reset_filter(){
     price_update(1, 1);
     price_slider_true(1, 1);
 }
+
+function check_passport_expired_six_month(id){
+    var last_departure_date = arrival_date_last;
+    console.log(document.getElementById(id).value);
+    if(document.getElementById(id).value != '' && document.getElementById(id).value != moment().format('DD MMM YYYY')){
+        var duration = moment.duration(moment(document.getElementById(id).value).diff(last_departure_date));
+        console.log(duration);
+        if(duration._data.months < 6 && duration._data.years == 0)
+            Swal.fire({
+              type: 'warning',
+              title: 'Oops!',
+              html: '<span style="color: #ff9900;">Expired date less then 6 months </span>' ,
+            })
+    }
+}

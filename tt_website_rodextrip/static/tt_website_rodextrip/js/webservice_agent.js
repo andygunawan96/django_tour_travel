@@ -923,8 +923,9 @@ function check_string_length(value){
     return value.length;
 }
 
-function set_passenger_number(val){
+function set_passenger_number(val,pax_type='adult'){
     passenger_number = val;
+    passenger_pick = 'adult';
 }
 
 function get_customer_list(passenger, number, product){
@@ -1214,14 +1215,32 @@ function get_customer_list(passenger, number, product){
                                         }else{
                                             response+=`<br/>`;
                                         }
-                                        if(msg.result.response[i].nationality_name != '')
-                                            response+=`<br/> <span><i class="fas fa-globe-asia"></i> `+msg.result.response[i].nationality_name+`</span>`;
-                                        if(msg.result.response[i].identities.hasOwnProperty('passport') == true)
-                                            response+=`<br/> <span><i class="fas fa-passport"></i> Passport - `+msg.result.response[i].identities.passport.identity_number+`</span>`;
-                                        else if(msg.result.response[i].identities.hasOwnProperty('ktp') == true)
-                                            response+=`<br/> <span><i class="fas fa-id-card"></i> KTP - `+msg.result.response[i].identities.ktp.identity_number+`</span>`;
-                                        else if(msg.result.response[i].identities.hasOwnProperty('sim') == true)
-                                            response+=`<br/> <span><i class="fas fa-id-badge"></i> SIM - `+msg.result.response[i].identities.sim.identity_number+`</span>`;
+                                        check_br = false
+                                        if(msg.result.response[i].email != '' && msg.result.response[i].email != false){
+                                            response+=`<span><i class="fas fa-envelope"></i> `+msg.result.response[i].email+`</span>`;
+                                            check_br = true;
+                                        }if(msg.result.response[i].nationality_name != ''){
+                                            if(check_br == true)
+                                                response += `<br/>`;
+                                            response+=` <span><i class="fas fa-globe-asia"></i> `+msg.result.response[i].nationality_name+`</span>`;
+                                            check_br = true;
+                                        }
+                                        if(msg.result.response[i].identities.hasOwnProperty('passport') == true){
+                                            if(check_br == true)
+                                                response += `<br/>`;
+                                            response+=` <span><i class="fas fa-passport"></i> Passport - `+msg.result.response[i].identities.passport.identity_number+`</span>`;
+                                            check_br = true;
+                                        }
+                                        if(msg.result.response[i].identities.hasOwnProperty('ktp') == true){
+                                            if(check_br == true)
+                                                response += `<br/>`;
+                                            response+=` <span><i class="fas fa-id-card"></i> KTP - `+msg.result.response[i].identities.ktp.identity_number+`</span>`;
+                                        }
+                                        if(msg.result.response[i].identities.hasOwnProperty('sim') == true){
+                                            if(check_br == true)
+                                                response += `<br/>`;
+                                            response+=` <span><i class="fas fa-id-badge"></i> SIM - `+msg.result.response[i].identities.sim.identity_number+`</span>`;
+                                        }
                                         if(msg.result.response[i].customer_parents.length != 0){
                                             response += `<div class="tooltip-inner" style="text-align:left;" data-tooltip="`;
                                             for(j in msg.result.response[i].customer_parents){
@@ -1626,11 +1645,11 @@ function pick_passenger(type, sequence, product){
                     }catch(err){}
                     try{
                         var phone = document.getElementById('phone_chosen'+sequence).value;
-                        document.getElementById(passenger_pick+'_phone_code'+passenger_pick_number).value = phone.split(' - ')[0];
-                        document.getElementById(passenger_pick+'_phone'+passenger_pick_number).value = phone.split(' - ')[1];
-                        document.getElementById('select2-adult_phone_code'+passenger_pick_number+'_id-container').innerHTML = phone.split(' - ')[0];
+                        document.getElementById(passenger_pick+'_phone_code'+passenger_number).value = phone.split(' - ')[0];
+                        document.getElementById(passenger_pick+'_phone'+passenger_number).value = phone.split(' - ')[1];
+                        document.getElementById('select2-adult_phone_code'+passenger_number+'_id-container').innerHTML = phone.split(' - ')[0];
                     }catch(err){
-
+                        console.log(err);
                     }
                     passenger_data_pick.push(passenger_data[sequence]);
                     passenger_data_pick[passenger_data_pick.length-1].sequence = 'adult'+passenger_number;

@@ -280,7 +280,7 @@ function train_search(provider, signature){
                     counter_train_provider++;
                     datasearch2(msg.result.response)
                 }else{
-                    if(counter_train_search == provider_length){
+                    if(counter_train_search == provider_length && train_data.length == 0){
                         loadingTrain();
                         var response = '';
                         response +=`
