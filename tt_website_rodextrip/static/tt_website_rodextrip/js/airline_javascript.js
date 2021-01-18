@@ -2302,9 +2302,9 @@ function sort(){
                                            <div class="col-lg-2">`;
                                        try{
                                        text+=`
-                                           <span style="font-weight: 500; font-size:12px;" class="copy_carrier_provider_details">`+airline_carriers[0][airline[i].segments[j].carrier_code].name+`</span><br/>
+                                           <span style="font-weight: 500; font-size:12px;" class="copy_carrier_provider_details">`+airline_carriers[0][airline[i].segments[j].operating_airline_code].name+`</span><br/>
                                            <span class="carrier_code_template">`+airline[i].segments[j].carrier_name+`</span><br/>
-                                           <img data-toggle="tooltip" alt="`+airline[i].segments[j].carrier_name+`" style="width:50px; height:50px;" title="`+airline_carriers[0][airline[i].segments[j].carrier_code].name+`" src="`+static_path_url_server+`/public/airline_logo/`+airline[i].segments[j].carrier_code+`.png"><br/>`;
+                                           <img data-toggle="tooltip" alt="`+airline[i].segments[j].operating_airline_code+`" style="width:50px; height:50px;" title="`+airline_carriers[0][airline[i].segments[j].operating_airline_code].name+`" src="`+static_path_url_server+`/public/airline_logo/`+airline[i].segments[j].operating_airline_code+`.png"><br/>`;
                                        }catch(err){
                                        text+=`
                                            <span style="font-weight: 500;" class="copy_carrier_provider_details">`+airline[i].segments[j].carrier_code+`</span><br/>
@@ -2722,8 +2722,13 @@ function airline_pick_mc(type){
                                         }
                                     }
                                     text+=`
-                                    <span class="copy_carrier_provider" style="font-weight:500; font-size:12px;">`+airline_carriers[0][airline_pick_list[i].segments[j].carrier_code].name+`</span><br/>
-                                    <img data-toggle="tooltip" style="width:50px; height:50px;margin-bottom:5px;" alt="`+airline_carriers[0][airline_pick_list[i].segments[j].carrier_code].name+`" title="`+airline_carriers[0][airline_pick_list[i].segments[j].carrier_code].name+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+airline_pick_list[i].segments[j].carrier_code+`.png"><br/>
+                                    <span class="copy_carrier_provider" style="font-weight:500; font-size:12px;">`+airline_carriers[0][airline_pick_list[i].segments[j].carrier_code].name+`</span><br/>`;
+                                    try{
+                                    text+=`
+                                    <img data-toggle="tooltip" style="width:50px; height:50px;margin-bottom:5px;" alt="`+airline_carriers[0][airline_pick_list[i].segments[j].operating_airline_code].name+`" title="`+airline_carriers[0][airline_pick_list[i].segments[j].operating_airline_code].name+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+airline_pick_list[i].segments[j].operating_airline_code+`.png"><br/>`;
+                                    }catch(err){
+                                    text+=`<img data-toggle="tooltip" style="width:50px; height:50px;margin-bottom:5px;" alt="`+airline_carriers[0][airline_pick_list[i].segments[j].operating_airline_code].name+`" title="`+airline_carriers[0][airline_pick_list[i].segments[j].operating_airline_code].name+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+airline_pick_list[i].segments[j].carrier_code+`.png"><br/>`;}
+                                    text+=`
                                 </div>
                                 <div class="col-lg-10">
                                     <div class="row">`;
@@ -4734,6 +4739,27 @@ function checkboxCopyBox(id){
         document.getElementById("check_all_copy").checked = false;
     }
     checkboxCopy();
+}
+
+function check_passport_expired_six_month(id){
+    last_departure_date = '';
+    for(i in airline_pick){
+        for(j in airline_pick[i].journeys){
+            last_departure_date = airline_pick[i].journeys[j].departure_date.split(' - ')[0];
+        }
+    }
+    console.log(document.getElementById(id).value);
+    console.log(moment().subtract(-6, 'months').subtract(-1, 'days').format('DD MMM YYYY'));
+    if(document.getElementById(id).value != '' && document.getElementById(id).value != moment().subtract(-6, 'months').subtract(-1, 'days').format('DD MMM YYYY')){
+        var duration = moment.duration(moment(document.getElementById(id).value).diff(last_departure_date));
+        console.log(duration);
+        if(duration._data.months < 6 && duration._data.years == 0)
+            Swal.fire({
+              type: 'warning',
+              title: 'Oops!',
+              html: '<span style="color: #ff9900;">Expired date less then 6 months </span>' ,
+            })
+    }
 }
 
 function check_all_result(){
