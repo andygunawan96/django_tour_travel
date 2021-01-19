@@ -1922,6 +1922,11 @@ function tour_table_detail()
             'tour_code': tour_code,
             'room_list': room_ids_list,
         };
+        if(tour_data.tour_type == 'open')
+        {
+            request['tour_line_code'] = document.getElementById('tour_line_code').value;
+            request['departure_date'] = document.getElementById('open_tour_departure_date').value;
+        }
         get_price_itinerary(JSON.stringify(request),'detail');
     }
 }
