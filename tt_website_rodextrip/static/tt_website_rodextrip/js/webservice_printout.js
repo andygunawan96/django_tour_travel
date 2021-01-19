@@ -58,3 +58,104 @@ function get_printout(order_number,type,provider_type){
         })
     }
 }
+
+function get_list_report_footer(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/printout",
+       headers:{
+            'action': 'get_list_report_footer',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+            console.log(msg);
+            if(msg.result.error_code == 0){
+                text = '';
+                printout = msg.result.response;
+                for(i in printout){
+                    text += `<option value='`+printout[i].code+`'>`+printout[i].name+`<option>`;
+                }
+                document.getElementById('printout_choose').innerHTML = text;
+                $('#printout_choose').niceSelect('update');
+                change_printout();
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error payment');
+       },timeout: 60000
+    });
+}
+
+function change_printout(){
+    for(i in printout){
+        if(printout[i].code == document.getElementById('printout_choose').value){
+            document.getElementById('body_printout').innerHTML = printout[i].html;
+            break;
+        }
+    }
+}
+
+function update_list_report_footer(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/printout",
+       headers:{
+            'action': 'update_list_report_footer_api',
+       },
+       data: {
+            'signature': signature,
+            'html': CKEDITOR.instances['body_printout'].getData(),
+            'code': document.getElementById('printout_choose').value
+       },
+       success: function(msg) {
+            console.log(msg);
+            if(msg.result.error_code == 0){
+                Swal.fire({
+                 type: 'success',
+                 title: 'Report footer!',
+                 html: 'Success update ' + $("#printout_choose").text(),
+                })
+                printout = msg.result.response;
+                change_printout();
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error payment');
+       },timeout: 60000
+    });
+}
+
+function update_printout_color(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/printout",
+       headers:{
+            'action': 'set_color_printout_api',
+       },
+       data: {
+            'signature': signature,
+            'color': '#' + document.getElementById('printout_color_background').value
+       },
+       success: function(msg) {
+            console.log(msg);
+            if(msg.result.error_code == 0){
+                Swal.fire({
+                  type: 'success',
+                  title: 'Updated!',
+                  html: 'printout color',
+                })
+            }else{
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: msg.result.error_msg,
+                })
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error payment');
+       },timeout: 60000
+    });
+}

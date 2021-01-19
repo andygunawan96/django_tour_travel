@@ -37,9 +37,14 @@
 
 </style>
 {%if "get_booking_from_vendor" in username.co_agent_frontend_security%}
-<button type="button" style="background-color:{{color}};" class="mystickybookingvendor" class="primary-btn" data-toggle="modal" data-target="#myModalPluginVendor">
+<button type="button" style="background-color:{{color}};" id="mystickybookingvendor" class="mystickybookingvendor" class="primary-btn" data-toggle="modal" data-target="#myModalPluginVendor">
     <i class="fas fa-plane-departure"></i>
 </button>
+
+<script>
+    document.getElementById('mystickybookingvendor').style.bottom = JSON.parse(JSON.stringify(bottom.toString())) + 'px';
+    bottom+=60;
+</script>
 
 <div class="modal fade" id="myModalPluginVendor" role="dialog" data-keyboard="false">
     <div class="modal-dialog">

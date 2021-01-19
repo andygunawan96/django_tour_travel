@@ -528,8 +528,11 @@ function get_carrier_code_list(type, val){
                }catch(err){
 
                }
-           else
-               document.getElementById('provider_flight_content'+val).innerHTML = text;
+           else{
+               try{
+                document.getElementById('provider_flight_content'+val).innerHTML = text;
+               }catch(err){}
+           }
            first_value_provider();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {

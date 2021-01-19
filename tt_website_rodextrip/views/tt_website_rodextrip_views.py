@@ -616,6 +616,8 @@ def admin(request):
                         opacity = 'B3'
                     text += "#" + request.POST['tab_login_background'] + opacity + '\n'
                     text += "#" + request.POST['text_pick_login'] + '\n'
+                    text += request.POST['wa_chat'] + '\n'
+                    text += request.POST['wa_number'] + '\n'
                     write_cache_with_folder(text, "data_cache_template")
                     temp = text.split('\n')
                     for idx, rec in enumerate(temp):
@@ -966,6 +968,8 @@ def get_data_template(request, type='home', provider_type = []):
     phone_code = []
     website_name = 'Rodextrip'
     tawk_chat = 0
+    wa_chat = 0
+    wa_number = ''
     website_mode = 'btb'
     tawk_code = ''
     tab_color = '#333333'
@@ -988,6 +992,7 @@ def get_data_template(request, type='home', provider_type = []):
     google_recaptcha = 0
     site_key = ''
     secret_key = ''
+    printout_color = '#FF0000'
     top_up_term = '''
 <h6>BANK TRANSFER / CASH</h6>
 <li>1. Before you click SUBMIT, please make sure you have inputted the correct amount of TOP UP. If there is a mismatch data, such as the transferred amount/bank account is different from the requested amount/bank account, so the TOP UP will be approved by tomorrow (D+1).<br></li>
@@ -1012,6 +1017,11 @@ def get_data_template(request, type='home', provider_type = []):
                 train_origin = line
             elif idx == 3 and line != '':
                 train_destination = line
+
+    # printout color
+    file = read_cache_with_folder_path("color_printout", 90911)
+    if file:
+        printout_color = file
 
     # google
     file = read_cache_with_folder_path("google_recaptcha", 90911)
@@ -1166,6 +1176,16 @@ def get_data_template(request, type='home', provider_type = []):
                 elif idx == 21:
                     if line != '':
                         text_color_login = line.split('\n')[0]
+                elif idx == 22:
+                    if line == '':
+                        pass
+                    else:
+                        wa_chat = int(line.split('\n')[0])
+                elif idx == 23:
+                    if line == '':
+                        pass
+                    else:
+                        wa_number = line.split('\n')[0]
             if color == '':
                 color = '#f15a22'
             if len(background.split('\n')) > 1:
@@ -1209,7 +1229,10 @@ def get_data_template(request, type='home', provider_type = []):
         'top_up_term': top_up_term,
         'google_recaptcha': google_recaptcha,
         'site_key': site_key,
-        'secret_key': secret_key
+        'secret_key': secret_key,
+        'wa_chat': wa_chat,
+        'wa_number': wa_number,
+        'printout_color': printout_color
 
     }
 

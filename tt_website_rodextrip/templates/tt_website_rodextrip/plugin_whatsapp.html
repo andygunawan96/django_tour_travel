@@ -1,0 +1,11 @@
+{% if wa_chat == 1 %}
+<button type="button" style="background-color:{{color}};" id="mystickywhatsapp" class="mystickywhatsapp" class="primary-btn" data-toggle="modal" onclick="window.open(`https://wa.me/{{wa_number}}`,'_blank');">
+    <i class="fab fa-whatsapp"></i>
+</button>
+<script>
+    console.log(JSON.parse(JSON.stringify(bottom.toString())) + 'px');
+    console.log('======');
+    document.getElementById('mystickywhatsapp').style.bottom = JSON.parse(JSON.stringify(bottom.toString())) + 'px';
+    bottom+=60;
+</script>
+{% endif %}
