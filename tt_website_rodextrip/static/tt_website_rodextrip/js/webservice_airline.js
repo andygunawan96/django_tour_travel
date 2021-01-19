@@ -8220,7 +8220,6 @@ function pre_refund_login(){
                     document.getElementById('cancel').innerHTML = `<div id="refund_detail" style="display:none;"></div>`;
                     document.getElementById('cancel').innerHTML += `<input class="primary-btn-ticket" style="width:100%;" id="full_refund" type="button" onclick="check_refund_partial_btn();" value="Check Refund Price Booking">`;
                     document.getElementById('cancel').hidden = false;
-                    document.getElementById('request_captcha').hidden = true;
                     check_refund_partial_btn();
                 }
            }else{

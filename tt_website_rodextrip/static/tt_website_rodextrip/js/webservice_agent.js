@@ -1720,16 +1720,21 @@ function pick_passenger(type, sequence, product){
                     document.getElementById('child_birth_date'+passenger_number).value = passenger_data[sequence].birth_date;
                     if(product=='airline' || product == 'activity' || product == 'visa' || product == 'tour'){
                         if(passenger_data[sequence].identities.hasOwnProperty('passport') == true){
-                            document.getElementById('child_passport_number'+passenger_number).value = passenger_data[sequence].identities.passport.identity_number;
-                            document.getElementById('child_passport_number'+passenger_number).readOnly = true;
-                            if(passenger_data[sequence].identities.passport.identity_country_of_issued_name != '' && passenger_data[sequence].identities.passport.identity_country_of_issued_name != undefined){
-                                document.getElementById('select2-child_country_of_issued'+passenger_number+'_id-container').innerHTML = passenger_data[sequence].identities.passport.identity_country_of_issued_name;
-                                document.getElementById('child_country_of_issued'+passenger_number).value = passenger_data[sequence].identities.passport.identity_country_of_issued_name;
-                                auto_complete('child_country_of_issued'+passenger_number);
-                                document.getElementById('child_country_of_issued'+passenger_number).readOnly = true;
-                            }
-                            if(passenger_data[sequence].identities.passport.identity_expdate != '' && passenger_data[sequence].identities.passport.identity_expdate != undefined){
-                                document.getElementById('child_passport_expired_date'+passenger_number).value = passenger_data[sequence].identities.passport.identity_expdate;
+                            var date1 = moment(passenger_data[sequence].identities.passport.identity_expdate);
+                            var date2 = moment();
+                            var expired = date2.diff(date1, 'days');
+                            if(expired < -180){
+                                document.getElementById('child_passport_number'+passenger_number).value = passenger_data[sequence].identities.passport.identity_number;
+                                document.getElementById('child_passport_number'+passenger_number).readOnly = true;
+                                if(passenger_data[sequence].identities.passport.identity_country_of_issued_name != '' && passenger_data[sequence].identities.passport.identity_country_of_issued_name != undefined){
+                                    document.getElementById('select2-child_country_of_issued'+passenger_number+'_id-container').innerHTML = passenger_data[sequence].identities.passport.identity_country_of_issued_name;
+                                    document.getElementById('child_country_of_issued'+passenger_number).value = passenger_data[sequence].identities.passport.identity_country_of_issued_name;
+                                    auto_complete('child_country_of_issued'+passenger_number);
+                                    document.getElementById('child_country_of_issued'+passenger_number).readOnly = true;
+                                }
+                                if(passenger_data[sequence].identities.passport.identity_expdate != '' && passenger_data[sequence].identities.passport.identity_expdate != undefined){
+                                    document.getElementById('child_passport_expired_date'+passenger_number).value = passenger_data[sequence].identities.passport.identity_expdate;
+                                }
                             }
                         }
                         //document.getElementById('adult_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued_id.code;
@@ -1802,16 +1807,21 @@ function pick_passenger(type, sequence, product){
                     document.getElementById('infant_birth_date'+passenger_number).value = passenger_data[sequence].birth_date;
                     if(product=='airline' || product == 'activity' || product == 'visa' || product == 'tour'){
                         if(passenger_data[sequence].identities.hasOwnProperty('passport') == true){
-                            document.getElementById('infant_passport_number'+passenger_number).value = passenger_data[sequence].identities.passport.identity_number;
-                            document.getElementById('infant_passport_number'+passenger_number).readOnly = true;
-                            if(passenger_data[sequence].identities.passport.identity_country_of_issued_name != '' && passenger_data[sequence].identities.passport.identity_country_of_issued_name != undefined){
-                                document.getElementById('select2-infant_country_of_issued'+passenger_number+'_id-container').innerHTML = passenger_data[sequence].identities.passport.identity_country_of_issued_name;
-                                document.getElementById('infant_country_of_issued'+passenger_number).value = passenger_data[sequence].identities.passport.identity_country_of_issued_name;
-                                auto_complete('infant_country_of_issued'+passenger_number);
-                                document.getElementById('infant_country_of_issued'+passenger_number).readOnly = true;
-                            }
-                            if(passenger_data[sequence].identities.passport.identity_expdate != '' && passenger_data[sequence].identities.passport.identity_expdate != undefined){
-                                document.getElementById('infant_passport_expired_date'+passenger_number).value = passenger_data[sequence].identities.passport.identity_expdate;
+                            var date1 = moment(passenger_data[sequence].identities.passport.identity_expdate);
+                            var date2 = moment();
+                            var expired = date2.diff(date1, 'days');
+                            if(expired < -180){
+                                document.getElementById('infant_passport_number'+passenger_number).value = passenger_data[sequence].identities.passport.identity_number;
+                                document.getElementById('infant_passport_number'+passenger_number).readOnly = true;
+                                if(passenger_data[sequence].identities.passport.identity_country_of_issued_name != '' && passenger_data[sequence].identities.passport.identity_country_of_issued_name != undefined){
+                                    document.getElementById('select2-infant_country_of_issued'+passenger_number+'_id-container').innerHTML = passenger_data[sequence].identities.passport.identity_country_of_issued_name;
+                                    document.getElementById('infant_country_of_issued'+passenger_number).value = passenger_data[sequence].identities.passport.identity_country_of_issued_name;
+                                    auto_complete('infant_country_of_issued'+passenger_number);
+                                    document.getElementById('infant_country_of_issued'+passenger_number).readOnly = true;
+                                }
+                                if(passenger_data[sequence].identities.passport.identity_expdate != '' && passenger_data[sequence].identities.passport.identity_expdate != undefined){
+                                    document.getElementById('infant_passport_expired_date'+passenger_number).value = passenger_data[sequence].identities.passport.identity_expdate;
+                                }
                             }
                         }
                         //document.getElementById('adult_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued_id.code;
