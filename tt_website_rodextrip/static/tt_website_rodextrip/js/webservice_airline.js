@@ -1288,7 +1288,7 @@ function airline_search(provider,carrier_codes){
                                <label class="check_box_custom">`;
                                try{
                                carrier_code_airline_checkbox +=`
-                                    <span class="span-search-ticket" style="color:black;">`+airline_carriers[0][obj2.segments[0].carrier_code].name+`</span>`;
+                                    <span class="span-search-ticket" style="color:black;">`+airline_all_carriers[0][obj2.segments[0].carrier_code].name+`</span>`;
                                }catch(err){
                                carrier_code_airline_checkbox +=`
                                     <span class="span-search-ticket" style="color:black;">`+obj2.segments[0].carrier_code+`</span>`;
@@ -5513,15 +5513,24 @@ function cancel_btn(){
                     if(airline_refund_response.provider_bookings[i].passengers[j].fees[k].fee_type == 'RF'){
                         list_price_refund.push(airline_refund_response.provider_bookings[i].passengers[j].fees[k])
                         list_price_refund[list_price_refund.length-1].pnr = airline_refund_response.provider_bookings[i].pnr;
-                        for(l in airline_refund_response.passengers){
-                            if(airline_refund_response.passengers[l].first_name.toLowerCase() == airline_refund_response.provider_bookings[i].passengers[j].first_name.toLowerCase() &&
-                               airline_refund_response.passengers[l].last_name.toLowerCase() == airline_refund_response.provider_bookings[i].passengers[j].last_name.toLowerCase() &&
-                               airline_refund_response.passengers[l].title.toLowerCase() == airline_refund_response.provider_bookings[i].passengers[j].title.toLowerCase()){
-                                list_price_refund[list_price_refund.length-1].sequence = airline_refund_response.passengers[l].sequence;
-                                break;
-                            }
-                        }
-
+//                        for(l in airline_refund_response.passengers){
+//                            console.log(airline_refund_response.passengers[l].first_name.toLowerCase());
+//                            console.log(airline_refund_response.passengers[l].last_name.toLowerCase());
+//                            console.log(airline_refund_response.passengers[l].title.toLowerCase());
+//                            console.log('=========');
+//                            console.log(airline_refund_response.provider_bookings[i].passengers[j].first_name.toLowerCase());
+//                            console.log(airline_refund_response.provider_bookings[i].passengers[j].last_name.toLowerCase());
+//                            console.log(airline_refund_response.provider_bookings[i].passengers[j].title.toLowerCase());
+//                            if(airline_refund_response.passengers[l].first_name.toLowerCase() == airline_refund_response.provider_bookings[i].passengers[j].first_name.toLowerCase() &&
+//                               airline_refund_response.passengers[l].last_name.toLowerCase() == airline_refund_response.provider_bookings[i].passengers[j].last_name.toLowerCase() &&
+//                               airline_refund_response.passengers[l].title.toLowerCase() == airline_refund_response.provider_bookings[i].passengers[j].title.toLowerCase()){
+//                                console.log('set_sequence')
+//                                console.log(airline_refund_response.passengers[l].sequence);
+//
+//                                break;
+//                            }
+//                        }
+                        list_price_refund[list_price_refund.length-1].sequence = airline_refund_response.provider_bookings[i].passengers[j].sequence;
                         list_price_refund[list_price_refund.length-1].first_name = airline_refund_response.provider_bookings[i].passengers[j].first_name;
                         list_price_refund[list_price_refund.length-1].last_name = airline_refund_response.provider_bookings[i].passengers[j].last_name;
                     }
