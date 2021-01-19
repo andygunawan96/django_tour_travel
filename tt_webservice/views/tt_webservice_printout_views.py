@@ -46,6 +46,12 @@ def api_models(request):
         req_data = util.get_api_request_data(request)
         if req_data['action'] == 'get_printout':
             res = get_printout(request)
+        elif req_data['action'] == 'get_list_report_footer':
+            res = get_list_report_footer(request)
+        elif req_data['action'] == 'set_color_printout_api':
+            res = set_color_printout(request)
+        elif req_data['action'] == 'update_list_report_footer_api':
+            res = update_list_report_footer(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -100,4 +106,81 @@ def get_printout(request):
 
     if res['result']['error_code'] == 0:
         pass
+    return res
+
+def get_list_report_footer(request):
+    try:
+        data = {
+
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_list_report_footer_api",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    res = util.send_request(url=url + 'printout', data=data, headers=headers, method='POST')
+    try:
+        if res['result']['error_code'] == 0:
+            _logger.info("SUCCESS get_printout_api_printout " + request.POST['provider_type'] + " SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("ERROR get_printout_api_printout" + request.POST['provider_type'] + " SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    if res['result']['error_code'] == 0:
+        pass
+    return res
+
+def set_color_printout(request):
+    try:
+        data = {
+            'color': request.POST['color']
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "set_color_printout_api",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    res = util.send_request(url=url + 'printout', data=data, headers=headers, method='POST')
+    try:
+        if res['result']['error_code'] == 0:
+            # save color
+            text = request.POST['color']
+            write_cache_with_folder(text, 'color_printout')
+            _logger.info("SUCCESS get_printout_api_printout " + request.POST['provider_type'] + " SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("ERROR get_printout_api_printout" + request.POST['provider_type'] + " SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    if res['result']['error_code'] == 0:
+        pass
+    return res
+
+def update_list_report_footer(request):
+    try:
+        data = {
+            'html': request.POST['html'],
+            'code': request.POST['code']
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "set_report_footer_api",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    res = util.send_request(url=url + 'printout', data=data, headers=headers, method='POST')
+    try:
+        if res['result']['error_code'] == 0:
+            pass
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
     return res

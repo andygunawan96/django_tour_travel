@@ -14,6 +14,7 @@
 <script src="{{ static_path }}js/train_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_content.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/payment_partner_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_printout.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/highlight_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/contact_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/social_javascript.js?version={{javascript_version}}"></script>
@@ -298,56 +299,6 @@
                                         </div>
                                         <span id="size_fileRegistrationBanner"></span>
                                     </div>
-                                    <div class="col-lg-12 mt-2">
-                                        <h5 style="margin-bottom:10px;color:{{text_color}};">Product</h5>
-                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Airline</h6>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Origin</h6>
-                                        <div class="input-container-search-ticket">
-                                            <div class="form-select">
-                                                <input id="airline_origin" name="airline_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{airline_origin}}" onclick="set_airline_search_value_to_false();">
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Destination</h6>
-                                        <div class="input-container-search-ticket">
-                                            <div class="form-select">
-                                                <input id="airline_destination" name="airline_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{airline_destination}}" onclick="set_airline_search_value_to_false();">
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12 mt-2">
-                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Train</h6>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Origin</h6>
-                                        <div class="input-container-search-ticket">
-                                            <div class="form-select">
-                                                <input id="train_origin" name="train_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{train_origin}}">
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Destination</h6>
-                                        <div class="input-container-search-ticket">
-                                            <div class="form-select">
-                                                <input id="train_destination" name="train_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{train_destination}}" onclick="set_airline_search_value_to_false();">
-
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-12 mt-2">
-                                        <h5 style="margin-bottom:10px;color:{{text_color}};">Top up Term n Conditions</h5>
-                                    </div>
-                                    <div class="col-lg-12">
-                                        <textarea class="ckeditor" name="top_up_term" id="top_up_term">{{top_up_term}}</textarea>
-                                    </div>
                                     <div class="col-lg-12 mt-3" style="text-align:center;">
                                         <button id="update_banner_btn" type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
                                     </div>
@@ -471,6 +422,10 @@
                                             <li class="edit_tab-link " data-tab="social-tab_edit"><label style="color:{{text_color}};">{% trans 'Social Media' %} / {% trans 'Follow Us' %}</label></li>
                                             <li class="edit_tab-link " data-tab="payment_partner-tab_edit"><label style="color:{{text_color}};">{% trans 'Payment Partner' %}</label></li>
                                             <li class="edit_tab-link " data-tab="faq-tab_edit"><label style="color:{{text_color}};">{% trans 'FAQ' %}</label></li>
+                                            <li class="edit_tab-link " data-tab="product-tab_edit"><label style="color:{{text_color}};">{% trans 'Product' %}</label></li>
+                                            <li class="edit_tab-link " data-tab="top_up-tab_edit"><label style="color:{{text_color}};">{% trans 'Top up term' %}</label></li>
+                                            <li class="edit_tab-link " data-tab="printout-tab_edit"><label style="color:{{text_color}};">{% trans 'Printout Footer Setting Page' %}</label></li>
+                                            <li class="edit_tab-link " data-tab="printout_color-tab_edit"><label style="color:{{text_color}};">{% trans 'Printout Setting Color' %}</label></li>
                                         </ul>
                                         <div class="banner-right" style="border: 1px solid {{text_color}};">
                                             <div id="about-tab_edit" class="edit_tab-content current" style="padding:20px 0px 10px 0px;">
@@ -678,6 +633,113 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div id="product-tab_edit" class="edit_tab-content" style="padding:20px 0px 15px 0px;">
+                                                <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                    <div class="col-lg-12 mt-2">
+                                                        <h4 style="margin-bottom:10px;color:{{text_color}};">Product</h4>
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Airline</h6>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Origin</h6>
+                                                        <div class="input-container-search-ticket">
+                                                            <div class="form-select">
+                                                                <input id="airline_origin" name="airline_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{airline_origin}}" onclick="set_airline_search_value_to_false();">
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Destination</h6>
+                                                        <div class="input-container-search-ticket">
+                                                            <div class="form-select">
+                                                                <input id="airline_destination" name="airline_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{airline_destination}}" onclick="set_airline_search_value_to_false();">
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12 mt-2">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Train</h6>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Origin</h6>
+                                                        <div class="input-container-search-ticket">
+                                                            <div class="form-select">
+                                                                <input id="train_origin" name="train_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{train_origin}}">
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Destination</h6>
+                                                        <div class="input-container-search-ticket">
+                                                            <div class="form-select">
+                                                                <input id="train_destination" name="train_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{train_destination}}" onclick="set_airline_search_value_to_false();">
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12 mt-3" style="text-align:center;">
+                                                        <button id="update_banner_btn" type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="top_up-tab_edit" class="edit_tab-content" style="padding:20px 0px 15px 0px;">
+                                                <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                    <div class="col-lg-12 mt-2">
+                                                        <h4 style="margin-bottom:10px;color:{{text_color}};">Top up Term n Conditions</h4>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <textarea class="ckeditor" name="top_up_term" id="top_up_term">{{top_up_term}}</textarea>
+                                                    </div>
+                                                    <div class="col-lg-12" style="text-align:center;">
+                                                        <button type="button" class="primary-btn" onclick="update_faq();">{% trans 'Save Change' %}</button>
+                                                    </div>
+                                                    <div class="col-lg-12 mt-3" style="text-align:center;">
+                                                        <button id="update_banner_btn" type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="printout-tab_edit" class="edit_tab-content" style="padding:20px 0px 15px 0px;">
+                                                <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                    <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                        <h3 style="color:white;">{% trans 'Printout Footer' %}</h3>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-xs-12">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Name' %}</h6>
+                                                        <div class="input-container-search-ticket">
+                                                            <div class="form-select">
+                                                                <select class="nice-select-default" style="width:100%;" id="printout_choose" onchange="change_printout();">
+
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Footer' %}</h6>
+                                                        <textarea class="ckeditor" name="body_printout" id="body_printout"></textarea>
+                                                    </div>
+                                                    <div class="col-lg-12" style="text-align:center;">
+                                                        <button type="button" class="primary-btn" onclick="update_list_report_footer();">{% trans 'Save Change' %}</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="printout_color-tab_edit" class="edit_tab-content" style="padding:20px 0px 15px 0px;">
+                                                <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                    <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                        <h3 style="color:white;">{% trans 'Color' %}</h3>
+                                                    </div>
+                                                    <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                        <div class="input-container-search-ticket">
+                                                            <div class="form-select">
+                                                                <input class="jscolor nice-select-default" value="{{printout_color}}" name="printout_color_background" id="printout_color_background">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12" style="text-align:center;">
+                                                        <button type="button" class="primary-btn" onclick="update_printout_color();">{% trans 'Save Change' %}</button>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <!--<div class="col-lg-6">-->
@@ -777,6 +839,24 @@
                             </div>
                             <div id="third_party-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
                                 <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                    <div class="col-lg-12">
+                                        <h5 style="margin-bottom:10px;color:{{text_color}};">Whatsapp</h5>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Visible Chat' %}</h6>
+                                        <div class="form-select" id="default-select">
+                                            <select id="wa_chat" name="wa_chat" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
+                                                <option value="0" {% if wa_chat == 0 %} selected {% endif %}>No</option>
+                                                <option value="1" {% if wa_chat == 1 %} selected {% endif %}>Yes</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Number' %}</h6>
+                                        <div class="form-select">
+                                            <input type="text" class="form-control" name="wa_number" id="wa_number" placeholder="WA Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'WA Number '" value="{{wa_number}}">
+                                        </div>
+                                    </div>
                                     <div class="col-lg-12">
                                         <h5 style="margin-bottom:10px;color:{{text_color}};">Tawk.to</h5>
                                     </div>
@@ -1313,55 +1393,6 @@
                                     </div>
                                     <span id="size_fileRegistrationBanner"></span>
                                 </div>
-                                <div class="col-lg-12 mt-2">
-                                    <h5 style="margin-bottom:10px;color:{{text_color}};">Product</h5>
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Airline</h6>
-                                </div>
-                                <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Origin</h6>
-                                    <div class="input-container-search-ticket">
-                                        <div class="form-select">
-                                            <input id="airline_origin" name="airline_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{airline_origin}}" onclick="set_airline_search_value_to_false();">
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Destination</h6>
-                                    <div class="input-container-search-ticket">
-                                        <div class="form-select">
-                                            <input id="airline_destination" name="airline_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{airline_destination}}" onclick="set_airline_search_value_to_false();">
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12 mt-2">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Train</h6>
-                                </div>
-                                <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Origin</h6>
-                                    <div class="input-container-search-ticket">
-                                        <div class="form-select">
-                                            <input id="train_origin" name="train_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{train_origin}}">
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Destination</h6>
-                                    <div class="input-container-search-ticket">
-                                        <div class="form-select">
-                                            <input id="train_destination" name="train_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{train_destination}}" onclick="set_airline_search_value_to_false();">
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12 mt-2">
-                                    <h5 style="margin-bottom:10px;color:{{text_color}};">Top up Term n Conditions</h5>
-                                </div>
-                                <div class="col-lg-12">
-                                    <textarea class="ckeditor" name="top_up_term" id="top_up_term">{{top_up_term}}</textarea>
-                                </div>
                                 <div class="col-lg-12 mt-3" style="text-align:center;">
                                     <button id="update_banner_btn" type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
                                 </div>
@@ -1484,6 +1515,10 @@
                                             <li class="edit_tab-link " data-tab="social-tab_edit"><label style="color:{{text_color}};">{% trans 'Social Media' %} / {% trans 'Follow Us' %}</label></li>
                                             <li class="edit_tab-link " data-tab="payment_partner-tab_edit"><label style="color:{{text_color}};">{% trans 'Payment Partner' %}</label></li>
                                             <li class="edit_tab-link " data-tab="faq-tab_edit"><label style="color:{{text_color}};">{% trans 'FAQ' %}</label></li>
+                                            <li class="edit_tab-link " data-tab="product-tab_edit"><label style="color:{{text_color}};">{% trans 'Product' %}</label></li>
+                                            <li class="edit_tab-link " data-tab="top_up-tab_edit"><label style="color:{{text_color}};">{% trans 'Top up term' %}</label></li>
+                                            <li class="edit_tab-link " data-tab="printout-tab_edit"><label style="color:{{text_color}};">{% trans 'Printout Footer Setting Page' %}</label></li>
+                                            <li class="edit_tab-link " data-tab="printout_color-tab_edit"><label style="color:{{text_color}};">{% trans 'Printout Setting Color' %}</label></li>
                                         </ul>
                                         <div class="banner-right" style="border: 1px solid {{text_color}};">
                                             <div id="about-tab_edit" class="edit_tab-content current" style="padding:20px 0px 10px 0px;">
@@ -1684,6 +1719,99 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div id="product-tab_edit" class="edit_tab-content" style="padding:20px 0px 15px 0px;">
+                                                <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                    <div class="col-lg-12 mt-2">
+                                                        <h4 style="margin-bottom:10px;color:{{text_color}};">Product</h4>
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Airline</h6>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Origin</h6>
+                                                        <div class="input-container-search-ticket">
+                                                            <div class="form-select" style="width:100%">
+                                                                <input id="airline_origin" name="airline_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{airline_origin}}" onclick="set_airline_search_value_to_false();">
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Destination</h6>
+                                                        <div class="input-container-search-ticket">
+                                                            <div class="form-select" style="width:100%">
+                                                                <input id="airline_destination" name="airline_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{airline_destination}}" onclick="set_airline_search_value_to_false();">
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12 mt-2">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Train</h6>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Origin</h6>
+                                                        <div class="input-container-search-ticket">
+                                                            <div class="form-select" style="width:100%">
+                                                                <input id="train_origin" name="train_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{train_origin}}">
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Destination</h6>
+                                                        <div class="input-container-search-ticket">
+                                                            <div class="form-select" style="width:100%">
+                                                                <input id="train_destination" name="train_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{train_destination}}" onclick="set_airline_search_value_to_false();">
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12 mt-3" style="text-align:center;">
+                                                        <button id="update_banner_btn" type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div id="printout-tab_edit" class="edit_tab-content" style="padding:20px 0px 15px 0px;">
+                                                <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                    <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                        <h3 style="color:white;">{% trans 'Printout Footer' %}</h3>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-xs-12">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Name' %}</h6>
+                                                        <div class="input-container-search-ticket">
+                                                            <div class="form-select">
+                                                                <select class="nice-select-default" style="width:100%;" id="printout_choose" onchange="change_printout();">
+
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Footer' %}</h6>
+                                                        <textarea class="ckeditor" name="body_printout" id="body_printout"></textarea>
+                                                    </div>
+                                                    <div class="col-lg-12" style="text-align:center;">
+                                                        <button type="button" class="primary-btn" onclick="update_list_report_footer();">{% trans 'Save Change' %}</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="printout_color-tab_edit" class="edit_tab-content" style="padding:20px 0px 15px 0px;">
+                                                <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                    <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                        <h3 style="color:white;">{% trans 'Color' %}</h3>
+                                                    </div>
+                                                    <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                        <div class="input-container-search-ticket">
+                                                            <div class="form-select">
+                                                                <input class="jscolor nice-select-default" value="{{printout_color}}" name="printout_color_background" id="printout_color_background">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12" style="text-align:center;">
+                                                        <button type="button" class="primary-btn" onclick="update_printout_color();">{% trans 'Save Change' %}</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
                                     <!--<div class="col-lg-6">-->
@@ -2328,55 +2456,6 @@
                                     </div>
                                     <span id="size_fileRegistrationBanner"></span>
                                 </div>
-                                <div class="col-lg-12 mt-2">
-                                    <h5 style="margin-bottom:10px;color:{{text_color}};">Product</h5>
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Airline</h6>
-                                </div>
-                                <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Origin</h6>
-                                    <div class="input-container-search-ticket">
-                                        <div class="form-select">
-                                            <input id="airline_origin" name="airline_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{airline_origin}}" onclick="set_airline_search_value_to_false();">
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Destination</h6>
-                                    <div class="input-container-search-ticket">
-                                        <div class="form-select">
-                                            <input id="airline_destination" name="airline_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{airline_destination}}" onclick="set_airline_search_value_to_false();">
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12 mt-2">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Train</h6>
-                                </div>
-                                <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Origin</h6>
-                                    <div class="input-container-search-ticket">
-                                        <div class="form-select">
-                                            <input id="train_origin" name="train_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{train_origin}}">
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Destination</h6>
-                                    <div class="input-container-search-ticket">
-                                        <div class="form-select">
-                                            <input id="train_destination" name="train_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{train_destination}}" onclick="set_airline_search_value_to_false();">
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12 mt-2">
-                                    <h5 style="margin-bottom:10px;color:{{text_color}};">Top up Term n Conditions</h5>
-                                </div>
-                                <div class="col-lg-12">
-                                    <textarea class="ckeditor" name="top_up_term" id="top_up_term">{{top_up_term}}</textarea>
-                                </div>
                                 <div class="col-lg-12 mt-3" style="text-align:center;">
                                     <button id="update_banner_btn" type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
                                 </div>
@@ -2501,6 +2580,10 @@
                                         <li class="edit_tab-link " data-tab="social-tab_edit"><label style="color:{{text_color}};">{% trans 'Social Media' %} / {% trans 'Follow Us' %}</label></li>
                                         <li class="edit_tab-link " data-tab="payment_partner-tab_edit"><label style="color:{{text_color}};">{% trans 'Payment Partner' %}</label></li>
                                         <li class="edit_tab-link " data-tab="faq-tab_edit"><label style="color:{{text_color}};">{% trans 'FAQ' %}</label></li>
+                                        <li class="edit_tab-link " data-tab="product-tab_edit"><label style="color:{{text_color}};">{% trans 'Product' %}</label></li>
+                                        <li class="edit_tab-link " data-tab="top_up-tab_edit"><label style="color:{{text_color}};">{% trans 'Top up term' %}</label></li>
+                                        <li class="edit_tab-link " data-tab="printout-tab_edit"><label style="color:{{text_color}};">{% trans 'Printout Footer Setting Page' %}</label></li>
+                                        <li class="edit_tab-link " data-tab="printout_color-tab_edit"><label style="color:{{text_color}};">{% trans 'Printout Setting Color' %}</label></li>
                                     </ul>
                                     <div class="banner-right" style="border: 1px solid {{text_color}};">
                                         <div id="about-tab_edit" class="edit_tab-content current" style="padding:20px 0px 10px 0px;">
@@ -2658,49 +2741,140 @@
                                             </div>
                                         </div>
                                         <div id="faq-tab_edit" class="edit_tab-content" style="padding:20px 0px 15px 0px;">
-                                                <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
-                                                    <div class="col-lg-12" style="margin-bottom:15px;color:white;">
-                                                        <h3 style="color:white;">{% trans 'FAQ' %}</h3>
+                                            <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                    <h3 style="color:white;">{% trans 'FAQ' %}</h3>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-xs-12">
+                                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Choose FAQ' %}</h6>
+                                                    <div class="default-select">
+                                                        <select class="nice-select-default" style="width:100%;" id="faq_choose" onchange="change_faq();">
+
+                                                        </select>
                                                     </div>
-                                                    <div class="col-lg-12 col-md-12 col-xs-12">
-                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Choose FAQ' %}</h6>
-                                                        <div class="default-select">
-                                                            <select class="nice-select-default" style="width:100%;" id="faq_choose" onchange="change_faq();">
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-xs-12 mt-3" style="margin-bottom:15px;">
+                                                    <button id="delete_faq" type="button" class="btn button-seat-pass-cancel" onclick="delete_faq_btn();" style="color:white;" hidden>{% trans 'Delete FAQ' %}</button>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-xs-6">
+                                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'FAQ Number' %}</h6>
+                                                    <div class="form-select">
+                                                        <input type="number" class="form-control" name="sequence_faq" id="sequence_faq" placeholder="{% trans 'Example: 1' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Example: 1 '" value="1">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-xs-6">
+                                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Question' %}</h6>
+                                                    <div class="form-select">
+                                                        <input type="text" class="form-control" name="title_faq" id="title_faq" placeholder="{% trans 'Question' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Question '" value="">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-xs-12 mt-3" style="margin-bottom:15px;">
+                                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Answer' %}</h6>
+                                                    <textarea class="ckeditor" name="body_faq" id="body_faq"></textarea>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                    <label class="check_box_custom">
+                                                        <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Active' %}</span>
+                                                        <input type="checkbox" id="faq_active" />
+                                                        <span class="check_box_span_custom"></span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-lg-12" style="text-align:center;">
+                                                    <button type="button" class="primary-btn" onclick="update_faq();">{% trans 'Save Change' %}</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="product-tab_edit" class="edit_tab-content" style="padding:20px 0px 15px 0px;">
+                                            <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                <div class="col-lg-12 mt-2">
+                                                    <h4 style="margin-bottom:10px;color:{{text_color}};">Product</h4>
+                                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Airline</h6>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Origin</h6>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select" style="width:100%">
+                                                            <input id="airline_origin" name="airline_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{airline_origin}}" onclick="set_airline_search_value_to_false();">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Destination</h6>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select" style="width:100%">
+                                                            <input id="airline_destination" name="airline_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{airline_destination}}" onclick="set_airline_search_value_to_false();">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 mt-2">
+                                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Train</h6>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Origin</h6>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select" style="width:100%">
+                                                            <input id="train_origin" name="train_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{train_origin}}">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Destination</h6>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select" style="width:100%">
+                                                            <input id="train_destination" name="train_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{train_destination}}" onclick="set_airline_search_value_to_false();">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 mt-3" style="text-align:center;">
+                                                    <button id="update_banner_btn" type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="printout-tab_edit" class="edit_tab-content" style="padding:20px 0px 15px 0px;">
+                                            <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                    <h3 style="color:white;">{% trans 'Printout Footer' %}</h3>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-xs-12">
+                                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Name' %}</h6>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select">
+                                                            <select class="nice-select-default" style="width:100%;" id="printout_choose" onchange="change_printout();">
 
                                                             </select>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-12 col-md-12 col-xs-12 mt-3" style="margin-bottom:15px;">
-                                                        <button id="delete_faq" type="button" class="btn button-seat-pass-cancel" onclick="delete_faq_btn();" style="color:white;" hidden>{% trans 'Delete FAQ' %}</button>
-                                                    </div>
-                                                    <div class="col-lg-6 col-md-6 col-xs-6">
-                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'FAQ Number' %}</h6>
-                                                        <div class="form-select">
-                                                            <input type="number" class="form-control" name="sequence_faq" id="sequence_faq" placeholder="{% trans 'Example: 1' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Example: 1 '" value="1">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6 col-md-6 col-xs-6">
-                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Question' %}</h6>
-                                                        <div class="form-select">
-                                                            <input type="text" class="form-control" name="title_faq" id="title_faq" placeholder="{% trans 'Question' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Question '" value="">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-12 col-md-12 col-xs-12 mt-3" style="margin-bottom:15px;">
-                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Answer' %}</h6>
-                                                        <textarea class="ckeditor" name="body_faq" id="body_faq"></textarea>
-                                                    </div>
-                                                    <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
-                                                        <label class="check_box_custom">
-                                                            <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Active' %}</span>
-                                                            <input type="checkbox" id="faq_active" />
-                                                            <span class="check_box_span_custom"></span>
-                                                        </label>
-                                                    </div>
-                                                    <div class="col-lg-12" style="text-align:center;">
-                                                        <button type="button" class="primary-btn" onclick="update_faq();">{% trans 'Save Change' %}</button>
-                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Footer' %}</h6>
+                                                    <textarea class="ckeditor" name="body_printout" id="body_printout"></textarea>
+                                                </div>
+                                                <div class="col-lg-12" style="text-align:center;">
+                                                    <button type="button" class="primary-btn" onclick="update_list_report_footer();">{% trans 'Save Change' %}</button>
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div id="printout_color-tab_edit" class="edit_tab-content" style="padding:20px 0px 15px 0px;">
+                                            <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                    <h3 style="color:white;">{% trans 'Color' %}</h3>
+                                                </div>
+                                                <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select">
+                                                            <input class="jscolor nice-select-default" value="{{printout_color}}" name="printout_color_background" id="printout_color_background">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12" style="text-align:center;">
+                                                    <button type="button" class="primary-btn" onclick="update_printout_color();">{% trans 'Save Change' %}</button>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <!--<div class="col-lg-6">-->
@@ -3351,55 +3525,6 @@
                                 </div>
                                 <span id="size_fileRegistrationBanner"></span>
                             </div>
-                            <div class="col-lg-12 mt-2">
-                                <h5 style="margin-bottom:10px;color:{{text_color}};">Product</h5>
-                                <h6 style="margin-bottom:10px;color:{{text_color}};">Airline</h6>
-                            </div>
-                            <div class="col-lg-6">
-                                <h6 style="margin-bottom:10px;color:{{text_color}};">Origin</h6>
-                                <div class="input-container-search-ticket">
-                                    <div class="form-select">
-                                        <input id="airline_origin" name="airline_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{airline_origin}}" onclick="set_airline_search_value_to_false();">
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <h6 style="margin-bottom:10px;color:{{text_color}};">Destination</h6>
-                                <div class="input-container-search-ticket">
-                                    <div class="form-select">
-                                        <input id="airline_destination" name="airline_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{airline_destination}}" onclick="set_airline_search_value_to_false();">
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-12 mt-2">
-                                <h6 style="margin-bottom:10px;color:{{text_color}};">Train</h6>
-                            </div>
-                            <div class="col-lg-6">
-                                <h6 style="margin-bottom:10px;color:{{text_color}};">Origin</h6>
-                                <div class="input-container-search-ticket">
-                                    <div class="form-select">
-                                        <input id="train_origin" name="train_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{train_origin}}">
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <h6 style="margin-bottom:10px;color:{{text_color}};">Destination</h6>
-                                <div class="input-container-search-ticket">
-                                    <div class="form-select">
-                                        <input id="train_destination" name="train_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{train_destination}}" onclick="set_airline_search_value_to_false();">
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-12 mt-2">
-                                <h5 style="margin-bottom:10px;color:{{text_color}};">Top up Term n Conditions</h5>
-                            </div>
-                            <div class="col-lg-12">
-                                <textarea class="ckeditor" name="top_up_term" id="top_up_term">{{top_up_term}}</textarea>
-                            </div>
                             <div class="col-lg-12 mt-3" style="text-align:center;">
                                 <button id="update_banner_btn" type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
                             </div>
@@ -3522,7 +3647,11 @@
                                     <li class="edit_tab-link" data-tab="contact-tab_edit"><label style="color:{{text_color}};">{% trans 'Contact Us' %}</label></li>
                                     <li class="edit_tab-link " data-tab="social-tab_edit"><label style="color:{{text_color}};">{% trans 'Social Media' %} / {% trans 'Follow Us' %}</label></li>
                                     <li class="edit_tab-link " data-tab="payment_partner-tab_edit"><label style="color:{{text_color}};">{% trans 'Payment Partner' %}</label></li>
-                                    <li class="edit_tab-link " data-tab="faq-tab_edit"><label style="color:{{text_color}};">{% trans 'Payment Partner' %}</label></li>
+                                    <li class="edit_tab-link " data-tab="faq-tab_edit"><label style="color:{{text_color}};">{% trans 'FAQ' %}</label></li>
+                                    <li class="edit_tab-link " data-tab="product-tab_edit"><label style="color:{{text_color}};">{% trans 'Product' %}</label></li>
+                                    <li class="edit_tab-link " data-tab="top_up-tab_edit"><label style="color:{{text_color}};">{% trans 'Top up term' %}</label></li>
+                                    <li class="edit_tab-link " data-tab="printout-tab_edit"><label style="color:{{text_color}};">{% trans 'Printout Footer Setting Page' %}</label></li>
+                                    <li class="edit_tab-link " data-tab="printout_color-tab_edit"><label style="color:{{text_color}};">{% trans 'Printout Setting Color' %}</label></li>
                                 </ul>
                                 <div class="banner-right" style="border: 1px solid {{text_color}};">
                                     <div id="about-tab_edit" class="edit_tab-content current" style="padding:20px 0px 10px 0px;">
@@ -3684,51 +3813,142 @@
                                         </div>
                                     </div>
                                     <div id="faq-tab_edit" class="edit_tab-content" style="padding:20px 0px 15px 0px;">
-                                                <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
-                                                    <div class="col-lg-12" style="margin-bottom:15px;color:white;">
-                                                        <h3 style="color:white;">{% trans 'FAQ' %}</h3>
-                                                    </div>
-                                                    <div class="col-lg-12 col-md-12 col-xs-12">
-                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Choose FAQ' %}</h6>
-                                                        <div class="input-container-search-ticket">
-                                                            <div class="form-select">
-                                                                <select class="nice-select-default" style="width:100%;" id="faq_choose" onchange="change_faq();">
+                                        <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                            <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                <h3 style="color:white;">{% trans 'FAQ' %}</h3>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-xs-12">
+                                                <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Choose FAQ' %}</h6>
+                                                <div class="input-container-search-ticket">
+                                                    <div class="form-select">
+                                                        <select class="nice-select-default" style="width:100%;" id="faq_choose" onchange="change_faq();">
 
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
-                                                        <button id="delete_faq" type="button" class="btn button-seat-pass-cancel" onclick="delete_faq_btn();" style="color:white;" hidden>{% trans 'Delete FAQ' %}</button>
-                                                    </div>
-                                                    <div class="col-lg-6 col-md-6 col-xs-6">
-                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'FAQ Number' %}</h6>
-                                                        <div class="form-select">
-                                                            <input type="number" class="form-control" name="sequence_faq" id="sequence_faq" placeholder="{% trans 'Example: 1' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Example: 1 '" value="1">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6 col-md-6 col-xs-6">
-                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Question' %}</h6>
-                                                        <div class="form-select">
-                                                            <input type="text" class="form-control" name="title_faq" id="title_faq" placeholder="{% trans 'Question' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Question '" value="">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
-                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Answer' %}</h6>
-                                                        <textarea class="ckeditor" name="body_faq" id="body_faq"></textarea>
-                                                    </div>
-                                                    <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
-                                                        <label class="check_box_custom">
-                                                            <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Active' %}</span>
-                                                            <input type="checkbox" id="faq_active" />
-                                                            <span class="check_box_span_custom"></span>
-                                                        </label>
-                                                    </div>
-                                                    <div class="col-lg-12" style="text-align:center;">
-                                                        <button type="button" class="primary-btn" onclick="update_faq();">{% trans 'Save Change' %}</button>
+                                                        </select>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                <button id="delete_faq" type="button" class="btn button-seat-pass-cancel" onclick="delete_faq_btn();" style="color:white;" hidden>{% trans 'Delete FAQ' %}</button>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6">
+                                                <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'FAQ Number' %}</h6>
+                                                <div class="form-select">
+                                                    <input type="number" class="form-control" name="sequence_faq" id="sequence_faq" placeholder="{% trans 'Example: 1' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Example: 1 '" value="1">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6">
+                                                <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Question' %}</h6>
+                                                <div class="form-select">
+                                                    <input type="text" class="form-control" name="title_faq" id="title_faq" placeholder="{% trans 'Question' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Question '" value="">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Answer' %}</h6>
+                                                <textarea class="ckeditor" name="body_faq" id="body_faq"></textarea>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                <label class="check_box_custom">
+                                                    <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Active' %}</span>
+                                                    <input type="checkbox" id="faq_active" />
+                                                    <span class="check_box_span_custom"></span>
+                                                </label>
+                                            </div>
+                                            <div class="col-lg-12" style="text-align:center;">
+                                                <button type="button" class="primary-btn" onclick="update_faq();">{% trans 'Save Change' %}</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="product-tab_edit" class="edit_tab-content" style="padding:20px 0px 15px 0px;">
+                                        <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                            <div class="col-lg-12 mt-2">
+                                                <h4 style="margin-bottom:10px;color:{{text_color}};">Product</h4>
+                                                <h6 style="margin-bottom:10px;color:{{text_color}};">Airline</h6>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <h6 style="margin-bottom:10px;color:{{text_color}};">Origin</h6>
+                                                <div class="input-container-search-ticket">
+                                                    <div class="form-select">
+                                                        <input id="airline_origin" name="airline_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{airline_origin}}" onclick="set_airline_search_value_to_false();">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <h6 style="margin-bottom:10px;color:{{text_color}};">Destination</h6>
+                                                <div class="input-container-search-ticket">
+                                                    <div class="form-select">
+                                                        <input id="airline_destination" name="airline_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{airline_destination}}" onclick="set_airline_search_value_to_false();">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 mt-2">
+                                                <h6 style="margin-bottom:10px;color:{{text_color}};">Train</h6>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <h6 style="margin-bottom:10px;color:{{text_color}};">Origin</h6>
+                                                <div class="input-container-search-ticket">
+                                                    <div class="form-select">
+                                                        <input id="train_origin" name="train_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{train_origin}}">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <h6 style="margin-bottom:10px;color:{{text_color}};">Destination</h6>
+                                                <div class="input-container-search-ticket">
+                                                    <div class="form-select">
+                                                        <input id="train_destination" name="train_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{train_destination}}" onclick="set_airline_search_value_to_false();">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 mt-3" style="text-align:center;">
+                                                <button id="update_banner_btn" type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="printout-tab_edit" class="edit_tab-content" style="padding:20px 0px 15px 0px;">
+                                        <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                            <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                <h3 style="color:white;">{% trans 'Printout Footer' %}</h3>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-xs-12">
+                                                <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Name' %}</h6>
+                                                <div class="input-container-search-ticket">
+                                                    <div class="form-select">
+                                                        <select class="nice-select-default" style="width:100%;" id="printout_choose" onchange="change_printout();">
+
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Footer' %}</h6>
+                                                <textarea class="ckeditor" name="body_printout" id="body_printout"></textarea>
+                                            </div>
+                                            <div class="col-lg-12" style="text-align:center;">
+                                                <button type="button" class="primary-btn" onclick="update_list_report_footer();">{% trans 'Save Change' %}</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="printout_color-tab_edit" class="edit_tab-content" style="padding:20px 0px 15px 0px;">
+                                        <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                            <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                <h3 style="color:white;">{% trans 'Color' %}</h3>
+                                            </div>
+                                            <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                <div class="input-container-search-ticket">
+                                                    <div class="form-select">
+                                                        <input class="jscolor nice-select-default" value="{{printout_color}}" name="printout_color_background" id="printout_color_background">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12" style="text-align:center;">
+                                                <button type="button" class="primary-btn" onclick="update_printout_color();">{% trans 'Save Change' %}</button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <!--<div class="col-lg-6">-->
@@ -4378,55 +4598,6 @@
                                     </div>
                                     <span id="size_fileRegistrationBanner"></span>
                                 </div>
-                                <div class="col-lg-12 mt-2">
-                                    <h5 style="margin-bottom:10px;color:{{text_color}};">Product</h5>
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Airline</h6>
-                                </div>
-                                <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Origin</h6>
-                                    <div class="input-container-search-ticket">
-                                        <div class="form-select">
-                                            <input id="airline_origin" name="airline_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{airline_origin}}" onclick="set_airline_search_value_to_false();">
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Destination</h6>
-                                    <div class="input-container-search-ticket">
-                                        <div class="form-select">
-                                            <input id="airline_destination" name="airline_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{airline_destination}}" onclick="set_airline_search_value_to_false();">
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12 mt-2">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Train</h6>
-                                </div>
-                                <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Origin</h6>
-                                    <div class="input-container-search-ticket">
-                                        <div class="form-select">
-                                            <input id="train_origin" name="train_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{train_origin}}">
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Destination</h6>
-                                    <div class="input-container-search-ticket">
-                                        <div class="form-select">
-                                            <input id="train_destination" name="train_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{train_destination}}" onclick="set_airline_search_value_to_false();">
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12 mt-2">
-                                    <h5 style="margin-bottom:10px;color:{{text_color}};">Top up Term n Conditions</h5>
-                                </div>
-                                <div class="col-lg-12">
-                                    <textarea class="ckeditor" name="top_up_term" id="top_up_term">{{top_up_term}}</textarea>
-                                </div>
                                 <div class="col-lg-12 mt-3" style="text-align:center;">
                                     <button id="update_banner_btn" type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
                                 </div>
@@ -4550,6 +4721,10 @@
                                             <li class="edit_tab-link " data-tab="social-tab_edit"><label style="color:{{text_color}};">{% trans 'Social Media' %} / {% trans 'Follow Us' %}</label></li>
                                             <li class="edit_tab-link " data-tab="payment_partner-tab_edit"><label style="color:{{text_color}};">{% trans 'Payment Partner' %}</label></li>
                                             <li class="edit_tab-link " data-tab="faq-tab_edit"><label style="color:{{text_color}};">{% trans 'FAQ' %}</label></li>
+                                            <li class="edit_tab-link " data-tab="product-tab_edit"><label style="color:{{text_color}};">{% trans 'Product' %}</label></li>
+                                            <li class="edit_tab-link " data-tab="top_up-tab_edit"><label style="color:{{text_color}};">{% trans 'Top up term' %}</label></li>
+                                            <li class="edit_tab-link " data-tab="printout-tab_edit"><label style="color:{{text_color}};">{% trans 'Printout Footer Setting Page' %}</label></li>
+                                            <li class="edit_tab-link " data-tab="printout_color-tab_edit"><label style="color:{{text_color}};">{% trans 'Printout Setting Color' %}</label></li>
                                         </ul>
                                         <div class="banner-right" style="border: 1px solid {{text_color}};">
                                             <div id="about-tab_edit" class="edit_tab-content current" style="padding:20px 0px 10px 0px;">
@@ -4753,6 +4928,97 @@
                                                     </div>
                                                     <div class="col-lg-12" style="text-align:center;">
                                                         <button type="button" class="primary-btn" onclick="update_faq();">{% trans 'Save Change' %}</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="product-tab_edit" class="edit_tab-content" style="padding:20px 0px 15px 0px;">
+                                                <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                    <div class="col-lg-12 mt-2">
+                                                        <h4 style="margin-bottom:10px;color:{{text_color}};">Product</h4>
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Airline</h6>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Origin</h6>
+                                                        <div class="input-container-search-ticket">
+                                                            <div class="form-select">
+                                                                <input id="airline_origin" name="airline_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{airline_origin}}" onclick="set_airline_search_value_to_false();">
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Destination</h6>
+                                                        <div class="input-container-search-ticket">
+                                                            <div class="form-select">
+                                                                <input id="airline_destination" name="airline_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{airline_destination}}" onclick="set_airline_search_value_to_false();">
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12 mt-2">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Train</h6>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Origin</h6>
+                                                        <div class="input-container-search-ticket">
+                                                            <div class="form-select">
+                                                                <input id="train_origin" name="train_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{train_origin}}">
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Destination</h6>
+                                                        <div class="input-container-search-ticket">
+                                                            <div class="form-select">
+                                                                <input id="train_destination" name="train_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{train_destination}}" onclick="set_airline_search_value_to_false();">
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12 mt-3" style="text-align:center;">
+                                                        <button id="update_banner_btn" type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="printout-tab_edit" class="edit_tab-content" style="padding:20px 0px 15px 0px;">
+                                                <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                    <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                        <h3 style="color:white;">{% trans 'Printout Footer' %}</h3>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-xs-12">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Name' %}</h6>
+                                                        <div class="input-container-search-ticket">
+                                                            <div class="form-select">
+                                                                <select class="nice-select-default" style="width:100%;" id="printout_choose" onchange="change_printout();">
+
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Footer' %}</h6>
+                                                        <textarea class="ckeditor" name="body_printout" id="body_printout"></textarea>
+                                                    </div>
+                                                    <div class="col-lg-12" style="text-align:center;">
+                                                        <button type="button" class="primary-btn" onclick="update_list_report_footer();">{% trans 'Save Change' %}</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="printout_color-tab_edit" class="edit_tab-content" style="padding:20px 0px 15px 0px;">
+                                                <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                    <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                        <h3 style="color:white;">{% trans 'Color' %}</h3>
+                                                    </div>
+                                                    <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                        <div class="input-container-search-ticket">
+                                                            <div class="form-select">
+                                                                <input class="jscolor nice-select-default" value="{{printout_color}}" name="printout_color_background" id="printout_color_background">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12" style="text-align:center;">
+                                                        <button type="button" class="primary-btn" onclick="update_printout_color();">{% trans 'Save Change' %}</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -5169,6 +5435,7 @@
 
 <script>
     get_airline_config('home');
+    get_list_report_footer();
     var airline_origin = new autoComplete({
         selector: '#airline_origin',
         minChars: 1,
@@ -5272,6 +5539,9 @@
         }else if(type == 'tab_login'){
             document.getElementById('tab_login_background').value = '';
             document.getElementById('tab_login_background').style.backgroundColor = 'transparent';
+        }else if(type == 'printout_color'){
+            document.getElementById('printout_color_background').value = '';
+            document.getElementById('printout_color_background').style.backgroundColor = 'transparent';
         }
     }
 
