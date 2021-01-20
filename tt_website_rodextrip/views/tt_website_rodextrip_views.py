@@ -648,6 +648,17 @@ def admin(request):
                     text += request.POST['secret_key']
                     write_cache_with_folder(text, "google_recaptcha")
 
+                    text = []
+                    for idx, data in enumerate(request.session.get('provider'), start=1):
+                        try:
+                            text.append({
+                                'sequence': request.POST['product_sequence'+str(idx)],
+                                'name': request.POST['product_name'+str(idx)]
+                            })
+                        except Exception as e:
+                            pass
+                    if len(text) > 0:
+                        write_cache_with_folder(text, "provider_types_sequence")
 
             except Exception as e:
                 _logger.error(str(e) + '\n' + traceback.format_exc())
@@ -1055,11 +1066,28 @@ def get_data_template(request, type='home', provider_type = []):
         phone_code = sorted(phone_code)
         if len(provider_type) != 0:
             provider_type = provider_type
+            provider_types_sequence = provider_type
         else:
             try:
                 provider_type = request.session.get('provider') and request.session.get('provider') or []
+                provider_types_sequence = provider_type
             except:
                 provider_type = []
+                provider_types_sequence = []
+
+        # data awal provider_type_sequence
+        temp_provider_types_sequence = []
+        for idx, rec in enumerate(provider_types_sequence, start=1):
+            temp_provider_types_sequence.append({
+                'name': rec,
+                'sequence': idx
+            })
+        provider_types_sequence = temp_provider_types_sequence
+        file = read_cache_with_folder_path("provider_types_sequence", 90911)
+        if file:
+            provider_types_sequence = file
+
+        provider_types_sequence = sorted(provider_types_sequence, key=lambda k: int(k['sequence']))
 
         file = read_cache_with_folder_path("data_cache_template", 90911)
         if file:
@@ -1232,7 +1260,8 @@ def get_data_template(request, type='home', provider_type = []):
         'secret_key': secret_key,
         'wa_chat': wa_chat,
         'wa_number': wa_number,
-        'printout_color': printout_color
+        'printout_color': printout_color,
+        'provider_types_sequence': provider_types_sequence
 
     }
 

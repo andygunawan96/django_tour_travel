@@ -1574,6 +1574,8 @@ Licence URI: http://www.os-templates.com/template-terms
     color = `{{color}}`;
     text_color = `{{text_color}}`;
     user_login = '{{username}}';
+    user_login = user_login.replace(/False/g, '""');
+    user_login = user_login.replace(/True/g, '""');
     user_login = JSON.parse(user_login.replace(/&#39;/g, '"'));
     name = `{{name}}`;
 </script>

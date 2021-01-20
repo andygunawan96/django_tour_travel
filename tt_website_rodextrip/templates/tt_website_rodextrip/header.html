@@ -4,6 +4,8 @@
 
 <script>
     agent_security = `{{username.co_agent_frontend_security}}`;
+    agent_security = agent_security.replace(/False/g, '""');
+    agent_security = agent_security.replace(/True/g, '""');
     agent_security = JSON.parse(agent_security.replace(/&#39;/g, '"'));
     url = '{{backend_url}}';
 </script>
