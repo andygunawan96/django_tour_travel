@@ -334,6 +334,11 @@ def get_pricing(request):
             'tour_code': request.POST['tour_code'],
             'room_list': json.loads(request.POST['room_list'])
         }
+        if request.POST.get('tour_line_code') and request.POST.get('departure_date'):
+            data.update({
+                'tour_line_code': request.POST['tour_line_code'],
+                'departure_date': datetime.strptime(request.POST['departure_date'], '%d %b %Y').strftime('%Y-%m-%d')
+            })
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",

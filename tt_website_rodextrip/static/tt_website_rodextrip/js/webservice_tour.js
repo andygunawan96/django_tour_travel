@@ -2210,18 +2210,24 @@ function tour_get_booking(order_number)
 }
 
 function get_price_itinerary(request,type) {
-    dict_req = JSON.parse(request)
+    dict_req = JSON.parse(request);
+    get_price_req = {
+       'tour_code': dict_req.tour_code,
+       'room_list': JSON.stringify(dict_req.room_list),
+       'provider': tour_data.provider
+    }
+    if (tour_data.tour_type == 'open')
+    {
+        get_price_req['tour_line_code'] = dict_req.tour_line_code;
+        get_price_req['departure_date'] = dict_req.departure_date;
+    }
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
        headers:{
             'action': 'get_pricing',
        },
-       data: {
-           'tour_code': dict_req.tour_code,
-           'room_list': JSON.stringify(dict_req.room_list),
-           'provider': tour_data.provider
-       },
+       data: get_price_req,
        success: function(msg) {
             console.log(msg);
             last_session = 'sell_journeys'
