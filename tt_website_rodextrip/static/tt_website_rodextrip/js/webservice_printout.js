@@ -75,7 +75,7 @@ function get_list_report_footer(){
                 text = '';
                 printout = msg.result.response;
                 for(i in printout){
-                    text += `<option value='`+printout[i].code+`'>`+printout[i].name+`<option>`;
+                    text += `<option value='`+printout[i].code+`'>`+printout[i].name+`</option>`;
                 }
                 document.getElementById('printout_choose').innerHTML = text;
                 $('#printout_choose').niceSelect('update');
@@ -91,7 +91,8 @@ function get_list_report_footer(){
 function change_printout(){
     for(i in printout){
         if(printout[i].code == document.getElementById('printout_choose').value){
-            document.getElementById('body_printout').innerHTML = printout[i].html;
+            CKEDITOR.instances['body_printout'].setData(printout[i].html)
+//            document.getElementById('body_printout').innerHTML = printout[i].html;
             break;
         }
     }

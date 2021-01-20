@@ -9,5 +9,5 @@ CKEDITOR.editorConfig = function( config ) {
 	// config.uiColor = '#AADC6E';
 	config.enterMode = CKEDITOR.ENTER_DIV;
     config.shiftEnterMode = CKEDITOR.ENTER_BR;
-
+    config.height = 500;     // 500 pixels height RODEX.
 };
