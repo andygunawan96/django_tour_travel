@@ -716,7 +716,7 @@ function sort(response, check_filter){
                     if(response.hotel_ids[i].images.length != 0){
                         text+=`
                         <div class="col-lg-3">
-                            <div class="img-hotel-search" style="cursor:pointer; background-image: url(`+response.hotel_ids[i].images[0].url+`);" onclick="goto_detail('hotel',`+i+`)"></div>
+                            <div class="img-hotel-search" style="cursor:pointer; background-image: url('`+response.hotel_ids[i].images[0].url+`');" onclick="goto_detail('hotel',`+i+`)"></div>
                         </div>`;
                     }
                     else{
@@ -1463,7 +1463,7 @@ function hotel_room_pick(key, key2){
     text += `<br/>
         <div class="col-lg-12" style="text-align:center; display:none;" id="show_commission_hotel">
             <div class="alert alert-success">
-                <span style="font-size:13px; font-weight:bold;">Your Commissioning: IDR `+ getrupiah(parseInt(hotel_room.rooms[i].commission)*-1) +`</span><br>
+                <span style="font-size:13px; font-weight:bold;">Your Commission: IDR `+ getrupiah(parseInt(hotel_room.rooms[i].commission)*-1) +`</span><br>
             </div>
         </div>`;
 
