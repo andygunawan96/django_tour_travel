@@ -2121,7 +2121,7 @@
             try{
                 visa_date = cache.visa.date;
             }catch(err){
-                visa_date = now;
+                visa_date = moment();
             }
             $('input[name="visa_departure"]').daterangepicker({
                 singleDatePicker: true,
@@ -2135,6 +2135,19 @@
                     format: 'DD MMM YYYY',
                 }
             });
+
+            $('input[name="visa_departure"]').on('apply.daterangepicker', function(ev, picker) {
+                setTimeout(function(){
+                    $('#visa_consulate_id').select2('open');
+                }, 200);
+            });
+
+            $('#visa_destination_id').on('select2:close', function (e) {
+                setTimeout(function(){
+                    $('#visa_departure').focus();
+                }, 200);
+            });
+
         {% endif %}
     });
 

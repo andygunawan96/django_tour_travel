@@ -329,9 +329,6 @@ Licence URI: http://www.os-templates.com/template-terms
             background: {{color}};
             color: {{text_color}};
         }
-        .jBox-closeButton path{
-            fill: {{text_color}};
-        }
         .style-scrollbar::-webkit-scrollbar-thumb{
 	        background-color: {{tab_color}};
 	    }
@@ -364,6 +361,16 @@ Licence URI: http://www.os-templates.com/template-terms
         }
         .crlabel input:checked ~ .crspan{
             background-color: {{color}} !important;
+        }
+        .check_box_custom input:checked ~ .check_box_span_custom{
+            background-color: {{color}} !important;
+        }
+        .radio-button-custom input:checked ~ .checkmark-radio{
+            background-color: {{color}} !important;
+        }
+        .button_date_np:hover{
+            background-color: {{color}};
+            color: {{text_color}};
         }
         .b24-widget-button-inner-block{
             background-color: {{color}} !important;

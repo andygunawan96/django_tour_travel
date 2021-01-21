@@ -199,18 +199,23 @@
 
                                                             </div>
                                                         </div>
+                                                        <div class="col-lg-12" style="text-align:right;">
+                                                        <hr/>
+                                                        <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('hotel','passenger');">Done</button>
+                                                    </div>
                                                     </div>
                                                 </ul>
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-12" style="padding:0px;margin-top:5px;float:left;">
+                                        <div class="col-lg-12" style="padding:0px;margin-top:5px;float:left; display:contents;">
                                             <label class="check_box_custom cblabel">
-                                                <span class="span-search-ticket" style="font-size:13px;">{% trans 'Business Trip' %}</span>
+                                                <span class="span-search-ticket" id="business_trip_help_show" style="font-size:13px;">{% trans 'Business Trip' %}</span>
                                                 <input type="checkbox" value="true" onclick="business_trip_check();">
                                                 <input type="hidden" name="business_trip" id="business_trip" value="false"/>
                                                 <span class="check_box_span_custom cbspan"></span>
                                             </label>
+                                            <span id="business_trip_help" style="color:{{text_color}}; cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
                                         </div>
                                     </div>
                                     <br/>
@@ -1033,17 +1038,22 @@
 
                                                     </div>
                                                 </div>
+                                                <div class="col-lg-12" style="text-align:right;">
+                                                        <hr/>
+                                                        <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('hotel','passenger');">Done</button>
+                                                    </div>
                                             </div>
                                         </ul>
                                     </div>
 
                                     <div class="col-lg-12" style="margin-top:5px;">
                                         <label class="check_box_custom cblabel">
-                                            <span class="span-search-ticket" style="font-size:13px;">{% trans 'Business Trip' %}</span>
+                                            <span class="span-search-ticket" id="business_trip_help_show" style="font-size:13px;">{% trans 'Business Trip' %}</span>
                                             <input type="checkbox" value="true" onclick="business_trip_check();">
                                             <input type="hidden" name="business_trip" id="business_trip" value="false"/>
                                             <span class="check_box_span_custom cbspan"></span>
                                         </label>
+                                        <span id="business_trip_help" style="color:{{text_color}}; cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
                                     </div>
                                 </div>
                                 <center>
@@ -1473,6 +1483,10 @@
 
                                                             </div>
                                                         </div>
+                                                        <div class="col-lg-12" style="text-align:right;">
+                                                        <hr/>
+                                                        <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('hotel','passenger');">Done</button>
+                                                    </div>
                                                     </div>
                                                 </ul>
                                             </div>
@@ -1481,11 +1495,12 @@
                                         <div class="col-lg-12">
                                             <div class="form-group">
                                                 <label class="check_box_custom cblabel">
-                                                    <span class="span-search-ticket" style="font-size:13px;">{% trans 'Business Trip' %}</span>
+                                                    <span class="span-search-ticket" id="business_trip_help_show" style="font-size:13px;">{% trans 'Business Trip' %}</span>
                                                     <input type="checkbox" value="true" onclick="business_trip_check();">
                                                     <input type="hidden" name="business_trip" id="business_trip" value="false"/>
                                                     <span class="check_box_span_custom cbspan"></span>
                                                 </label>
+                                                <span id="business_trip_help" style="color:{{text_color}}; cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
                                             </div>
                                         </div>
                                         <div class="col-lg-12">
@@ -1932,6 +1947,10 @@
 
                                                                 </div>
                                                             </div>
+                                                            <div class="col-lg-12" style="text-align:right;">
+                                                        <hr/>
+                                                        <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('hotel','passenger');">Done</button>
+                                                    </div>
                                                         </div>
                                                     </ul>
                                                 </div>
@@ -1939,11 +1958,12 @@
 
                                             <div class="col-lg-12" style="margin-top:5px; margin-bottom:10px; float:left;">
                                                 <label class="check_box_custom cblabel">
-                                                    <span class="span-search-ticket" style="font-size:13px;">{% trans 'Business Trip' %}</span>
+                                                    <span class="span-search-ticket" id="business_trip_help_show" style="font-size:13px;">{% trans 'Business Trip' %}</span>
                                                     <input type="checkbox" value="true" onclick="business_trip_check();">
                                                     <input type="hidden" name="business_trip" id="business_trip" value="false"/>
                                                     <span class="check_box_span_custom cbspan"></span>
                                                 </label>
+                                                <span id="business_trip_help" style="color:{{text_color}}; cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
                                             </div>
                                         </div>
                                         <br/>
@@ -2367,6 +2387,10 @@
 
                                                                     </div>
                                                                 </div>
+                                                                <div class="col-lg-12" style="text-align:right;">
+                                                        <hr/>
+                                                        <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('hotel','passenger');">Done</button>
+                                                    </div>
                                                             </div>
                                                         </ul>
                                                     </div>
@@ -2374,11 +2398,12 @@
 
                                                 <div class="col-lg-12" style="margin-top:5px;float:left;">
                                                     <label class="check_box_custom cblabel">
-                                                        <span class="span-search-ticket" style="font-size:13px;">{% trans 'Business Trip' %}</span>
+                                                        <span class="span-search-ticket" id="business_trip_help_show" style="font-size:13px;">{% trans 'Business Trip' %}</span>
                                                         <input type="checkbox" value="true" onclick="business_trip_check();">
                                                         <input type="hidden" name="business_trip" id="business_trip" value="false"/>
                                                         <span class="check_box_span_custom cbspan"></span>
                                                     </label>
+                                                    <span id="business_trip_help" style="color:{{text_color}}; cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
                                                 </div>
                                             </div>
                                             <br/>
@@ -2534,7 +2559,9 @@
 
                 },
                 onSelect: function(e, term, item){
-                    $("#hotel_id_destination").trigger("blur");
+                    setTimeout(function(){
+                        $('#hotel_id_nationality_id').select2('open');
+                    }, 200);
                 }
             });
             function change_date(type){
@@ -2584,6 +2611,7 @@
                 singleDatePicker: false,
                 autoUpdateInput: true,
                 opens: 'center',
+                autoApply: true,
                 startDate: hotel_checkin,
                 endDate: hotel_checkout,
                 minDate: moment(),
@@ -2605,8 +2633,39 @@
 
                 var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
                 $("#total_night_search").text(diffDays);
+
+                setTimeout(function(){
+                    $("#show_total_pax_hotel").click();
+                }, 200);
             });
         {% endif %}
+
+        $('#hotel_id_nationality_id').on('select2:close', function (e) {
+            setTimeout(function(){
+                $('#hotel_checkin_checkout').focus();
+            }, 200);
+        });
+
+        new jBox('Tooltip', {
+            attach: '#business_trip_help',
+            target: '#business_trip_help_show',
+            theme: 'TooltipBorder',
+            trigger: 'click',
+            adjustTracker: true,
+            closeOnClick: 'body',
+            closeButton: 'box',
+            animation: 'move',
+            position: {
+              x: 'left',
+              y: 'bottom'
+            },
+            outside: 'y',
+            pointer: 'left:20',
+            offset: {
+              x: 25
+            },
+            content: "Check this section if you are doing a hotel search for business purposes",
+        });
 
     });
     {%endif%}

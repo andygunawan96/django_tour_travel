@@ -407,8 +407,9 @@ function get_carrier_code_list(type, val){
        success: function(msg) {
            console.log(msg);
            airline_provider_list = msg;
+           text=`<div class="row"><div class="col-lg-12" style="overflow-y:auto;overflow-x:hidden;height:235px;">`;
            if(type != 'search'){
-               text = `
+               text += `
                     <li>
                         <a class="small" data-value="option1" tabIndex="-1">
                             <label class="check_box_custom">
@@ -522,6 +523,8 @@ function get_carrier_code_list(type, val){
 
                }
            }
+           text+=`</div><div class="col-lg-12" style="text-align:right;"><hr/><button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('airline','airline');">Done</button></div>
+           </div>`;
            if(val == undefined)
                try{
                    document.getElementById('provider_flight_content').innerHTML = text;
@@ -530,7 +533,7 @@ function get_carrier_code_list(type, val){
                }
            else{
                try{
-                document.getElementById('provider_flight_content'+val).innerHTML = text;
+                   document.getElementById('provider_flight_content'+val).innerHTML = text;
                }catch(err){}
            }
            first_value_provider();

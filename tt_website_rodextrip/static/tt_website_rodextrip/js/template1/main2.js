@@ -504,7 +504,11 @@ $(document).ready(function() {
             'id': ''
         });
         $('body .main-menu .container').append($mobile_nav);
-        $('body .main-menu .container').prepend('<button type="button" id="mobile-nav-toggle"><i class="lnr lnr-menu lnr_color"></i></button>');
+        if (user_login.co_user_login != 'agent_b2c'){
+            $('body .main-menu .container').prepend('<button type="button" id="mobile-nav-toggle"><i class="lnr lnr-menu lnr_color"></i></button>');
+        }else{
+            $('body .main-menu .container').prepend('<button type="button" id="mobile-nav-toggle" style="font-size:18px; padding:10px 15px; margin-top:10px; background:'+color+'; color:'+text_color+'"><span style="font-size:14px;">SignIn</span> <i class="fas fa-sign-in-alt" style="color:'+text_color+';font-size:16px;"></i></button>');
+        }
         $('body .main-menu .container').append('<div id="mobile-body-overly"></div>');
         $('#mobile-nav').find('.balance_mobile').replaceWith('<li class="pt5"><a style="color:white;"><span id="balance_mob"></span></a></li>');
         $('#mobile-nav').find('.credit_mobile').replaceWith('<li class="pt5"><a style="color:white;"><span id="credit_mob"></span></a></li>');

@@ -2837,7 +2837,7 @@ tbody.collapse.show {
   min-width: 10rem;
   padding: 0.5rem 0;
   margin: 0.125rem 0 0;
-  max-height: 350px;
+  max-height: 375px;
   overflow-y: auto;
   width:100%;
   font-size: 1rem;

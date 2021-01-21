@@ -147,7 +147,7 @@
             // check browser width in real-time
             function breakpointCheck() {
                 var windoWidth = window.innerWidth;
-                if (windoWidth <= defaultOpt.breakpoint) {
+                if (windoWidth <= defaultOpt.breakpoint || windoWidth <= 1006) {
                     navContainer.removeClass('breakpoint-off').addClass('breakpoint-on');
                 } else {
                     navContainer.removeClass('breakpoint-on').addClass('breakpoint-off');

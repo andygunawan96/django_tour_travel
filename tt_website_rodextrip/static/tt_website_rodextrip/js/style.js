@@ -152,9 +152,6 @@ $(document).ready(function(){
         div_overlay_checked += 1;
         document.getElementById("overlay-search-box").style.display = "block";
         document.getElementById("div-search-overlay").style.zIndex = "3";
-        if(template == 4){
-            document.getElementById("overlay-search-box2").style.display = "block";
-        }
         if(div_overlay_checked == 1){
             $('html, body').animate({
                 scrollTop: $("#div-search-overlay").offset().top - 110
@@ -939,7 +936,7 @@ $(document).ready(function(){
                 node = document.createElement("div");
             }
             $("#train_departure").val(moment().format('DD MMM YYYY'));
-            $("#train_return").val($("#airline_departure").val());
+            $("#train_return").val($("#train_departure").val());
 
             $('input[name="train_departure"]').daterangepicker({
               singleDatePicker: true,
@@ -1028,14 +1025,16 @@ $(document).ready(function(){
               locale: {
                   format: 'DD MMM YYYY',
               }
-
             });
 
             $('input[name="train_departure_return"]').on('apply.daterangepicker', function(ev, picker) {
               $(this).val(picker.startDate.format('DD MMM YYYY') + ' - ' + picker.endDate.format('DD MMM YYYY'));
                 $("#train_departure").val(picker.startDate.format('DD MMM YYYY'));
                 $("#train_return").val(picker.endDate.format('DD MMM YYYY'));
-            });
+                setTimeout(function(){
+                    $("#show_total_pax_train").click();
+                }, 200);
+        });
         }
     });
 
@@ -1119,6 +1118,12 @@ $(document).ready(function(){
               locale: {
                   format: 'DD MMM YYYY',
               }
+            });
+
+            $('input[name="airline_departure"]').on('apply.daterangepicker', function(ev, picker) {
+                setTimeout(function(){
+                    $("#show_total_pax_flight").click();
+                }, 200);
             });
         }
         else if(selected_value == "roundtrip"){
@@ -1220,13 +1225,16 @@ $(document).ready(function(){
               locale: {
                   format: 'DD MMM YYYY',
               }
-
             });
 
             $('input[name="airline_departure_return"]').on('apply.daterangepicker', function(ev, picker) {
               $(this).val(picker.startDate.format('DD MMM YYYY') + ' - ' + picker.endDate.format('DD MMM YYYY'));
                 $("#airline_departure").val(picker.startDate.format('DD MMM YYYY'));
                 $("#airline_return").val(picker.endDate.format('DD MMM YYYY'));
+
+                setTimeout(function(){
+                    $("#show_total_pax_flight").click();
+                }, 200);
             });
         }
         else if (selected_value == "multicity"){
@@ -1389,6 +1397,12 @@ $(document).ready(function(){
                   format: 'DD MMM YYYY',
               }
             });
+
+            $('input[name="airline_departure"]').on('apply.daterangepicker', function(ev, picker) {
+                setTimeout(function(){
+                    $("#show_total_pax_flight").click();
+                }, 200);
+            });
         }
         else if(selected_value == "roundtrip"){
             document.getElementById("airline_date_search").innerHTML = '';
@@ -1492,6 +1506,10 @@ $(document).ready(function(){
                     $("#airline_departure").val(picker.startDate.format('DD MMM YYYY'));
                     $("#airline_return").val(picker.endDate.format('DD MMM YYYY'));
                     $("#airline_departure_return").val(picker.startDate.format('DD MMM YYYY') +' - '+picker.endDate.format('DD MMM YYYY'));
+
+                    setTimeout(function(){
+                        $("#show_total_pax_flight").click();
+                    }, 200);
                 });
 
             }
@@ -1504,6 +1522,7 @@ $(document).ready(function(){
                   singleDatePicker: false,
                   autoUpdateInput: true,
                   opens: 'center',
+                  autoApply: true,
                   startDate: $('#airline_departure').val(),
                   endDate: $('#airline_return').val(),
                   minDate: moment(),
@@ -1519,6 +1538,11 @@ $(document).ready(function(){
                     $("#airline_departure").val(picker.startDate.format('DD MMM YYYY'));
                     $("#airline_return").val(picker.endDate.format('DD MMM YYYY'));
                     $("#airline_departure_return").val(picker.startDate.format('DD MMM YYYY') +' - '+picker.endDate.format('DD MMM YYYY'));
+
+                    setTimeout(function(){
+                        $("#show_total_pax_flight").click();
+                    }, 200);
+
                 });
             }
 
@@ -2592,5 +2616,36 @@ function div_dropdown(type){
         general_up.style.display = "inline-block";
         general_down.style.display = "none";
         general_show.style.display = "block";
+    }
+}
+
+function next_focus_element(product, from){
+    if(product == 'airline'){
+        if(from == 'passenger'){
+            setTimeout(function(){
+                $("#show_provider_airline").click();
+            }, 200);
+        }else if(from == 'airline'){
+            setTimeout(function(){
+                $("#show_provider_airline").click();
+                $('.nice-select').addClass("open");
+            }, 200);
+        }else if(from == 'passenger1'){
+            setTimeout(function(){
+                $("#show_provider_airline1").click();
+            }, 200);
+        }
+    }else if(product == 'hotel'){
+        if(from == 'passenger'){
+            setTimeout(function(){
+                $("#business_trip_help").click();
+            }, 200);
+        }
+    }else if(product == 'train'){
+        if(from == 'passenger'){
+            setTimeout(function(){
+                $("#show_total_pax_train").click();
+            }, 200);
+        }
     }
 }

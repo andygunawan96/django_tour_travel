@@ -250,6 +250,10 @@
                                                                         </button>
                                                                     </div>
                                                                 </div>
+                                                                <div class="col-lg-12" style="text-align:right;">
+                                                                    <hr/>
+                                                                    <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('airline','passenger');">Done</button>
+                                                                </div>
                                                             </div>
                                                         </ul>
                                                     </div>
@@ -1138,6 +1142,10 @@
                                                                 </button>
                                                             </div>
                                                         </div>
+                                                        <div class="col-lg-12" style="text-align:right;">
+                                                                <hr/>
+                                                                <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('airline','passenger');">Done</button>
+                                                            </div>
                                                     </div>
                                                 </ul>
                                             </div>
@@ -1623,6 +1631,10 @@
                                                                         </button>
                                                                     </div>
                                                                 </div>
+                                                                <div class="col-lg-12" style="text-align:right;">
+                                                                <hr/>
+                                                                <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('airline','passenger');">Done</button>
+                                                            </div>
                                                             </div>
                                                         </ul>
                                                     </div>
@@ -2111,6 +2123,10 @@
                                                                             </button>
                                                                         </div>
                                                                     </div>
+                                                                    <div class="col-lg-12" style="text-align:right;">
+                                                                <hr/>
+                                                                <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('airline','passenger');">Done</button>
+                                                            </div>
                                                                 </div>
                                                             </ul>
                                                         </div>
@@ -2599,6 +2615,10 @@
                                                                                 </button>
                                                                             </div>
                                                                         </div>
+                                                                        <div class="col-lg-12" style="text-align:right;">
+                                                                <hr/>
+                                                                <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('airline','passenger');">Done</button>
+                                                            </div>
                                                                     </div>
                                                                 </ul>
                                                             </div>
@@ -2792,7 +2812,9 @@
                         suggest(airline_search_autocomplete(term));
                 },
                 onSelect: function(e, term, item){
-                    $("#origin_id_flight").trigger("blur");
+                    setTimeout(function(){
+                        $("#destination_id_flight").focus();
+                    }, 200);
                     set_airline_search_value_to_true();
                 }
             });
@@ -2808,7 +2830,10 @@
                         suggest(airline_search_autocomplete(term));
                 },
                 onSelect: function(e, term, item){
-                    $("#destination_id_flight").trigger("blur");
+                    setTimeout(function(){
+                        $("#airline_departure").focus();
+                        $("#airline_departure_return").focus();
+                    }, 200);
                     set_airline_search_value_to_true();
                 }
             });
@@ -2926,6 +2951,12 @@
                 locale: {
                     format: 'DD MMM YYYY',
                 }
+            });
+
+            $('input[name="airline_departure"]').on('apply.daterangepicker', function(ev, picker) {
+                setTimeout(function(){
+                    $("#show_total_pax_flight").click();
+                }, 200);
             });
 
         {% endif %}
