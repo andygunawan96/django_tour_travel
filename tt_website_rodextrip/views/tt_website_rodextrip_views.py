@@ -1077,10 +1077,21 @@ def get_data_template(request, type='home', provider_type = []):
 
         # data awal provider_type_sequence
         temp_provider_types_sequence = []
+        sequence = {
+            "airline": 1,
+            "hotel": 2,
+            "train": 3,
+            "ppob": 4,
+            "activity": 5,
+            "tour": 6,
+            "event": 7,
+            "visa": 8,
+            "passport": 9
+        }
         for idx, rec in enumerate(provider_types_sequence, start=1):
             temp_provider_types_sequence.append({
                 'name': rec,
-                'sequence': idx
+                'sequence': sequence.get(rec) or idx
             })
         provider_types_sequence = temp_provider_types_sequence
         file = read_cache_with_folder_path("provider_types_sequence", 90911)

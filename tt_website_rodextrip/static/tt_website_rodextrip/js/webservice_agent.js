@@ -4262,6 +4262,7 @@ function update_cache_version_func(type){
                      title: 'Success!',
                      html: 'Success update cache ' + type
                })
+               document.getElementById('form_admin').submit();
            }else{
                 Swal.fire({
                   type: 'error',

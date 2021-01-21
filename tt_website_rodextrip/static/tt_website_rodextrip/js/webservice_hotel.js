@@ -194,7 +194,7 @@ function hotel_redirect_signup(type){
     }
 }
 
-function hotel_signin(data){
+function hotel_signin(data, need_signin=false){
     getToken();
     $.ajax({
        type: "POST",
@@ -208,8 +208,11 @@ function hotel_signin(data){
            if(msg.result.error_code == 0){
                signature = msg.result.response.signature;
                get_carriers_hotel();
-               if(data == ''){
+               if(data == '' && need_signin == false){
                     get_top_facility();
+
+               }else if(data == '' && need_signin == true){
+                    hotel_search_in_detail();
 
                }else if(data != ''){
                     hotel_get_booking(data);
@@ -234,6 +237,13 @@ function hotel_signin(data){
     });
 }
 
+function hotel_wizard_onclick(){
+    $('.loader-rodextrip').fadeIn();
+    document.getElementById('btn-search-hotel_wizard').disabled = true;
+    hotel_signin('',true);
+}
+
+
 function get_carriers_hotel(){
     $.ajax({
        type: "POST",
@@ -254,6 +264,75 @@ function get_carriers_hotel(){
     });
 }
 
+function hotel_search_in_detail(){
+    getToken();
+    //document.getElementById('hotel_ticket').innerHTML = ``;
+    child_age = '';
+    for(i=0; i<parseInt($('#hotel_child_wizard').val());i++){
+       child_age+=parseInt($('#hotel_child_age_wizard'+(i+1).toString()).val());
+       if(i != parseInt($('#hotel_child_wizard').val())-1)
+           child_age+=',';
+    }
+    temp_id = document.getElementById('hotel_searchForm_wizard').action;
+    temp_id = temp_id.split('/')[temp_id.split('/').length-1]
+    $.ajax({
+       type: "POST",
+       url: "/webservice/hotel",
+       headers:{
+            'action': 'search',
+       },
+       data: {
+        'id': temp_id,
+        'nationality': $('#hotel_id_nationality_wizard').val(),
+        'checkin': $('#hotel_checkin_wizard').val(),
+        'checkout': $('#hotel_checkout_wizard').val(),
+        'room': $('#hotel_room_wizard').val(),
+        'adult': $('#hotel_adult_wizard').val(),
+        'child': $('#hotel_child_wizard').val(),
+        'child_age': child_age,
+        'business_trip': $('#business_trip_wizard').val(),
+        'signature': signature
+       },
+       success: function(msg) {
+           $('#loading-search-hotel').hide();
+           msg = {
+                "result":{
+                    "error_code": 0,
+                    "response": {
+                        "hotel_ids":[{"sequence":0,"id":"WSASSGSIN000336","name":"Marina Bay Sands","location":{"latitude":"1.28500878810882","longitude":"103.859754502773","address":"","city":"","state":"","country":""},"rating":5,"phone":"","fax":"","ribbon":"","description":"","images":[],"facilities":[],"prices":{"A12":{"last_cache":false,"meal_type":"RO","meal_category":"room","price":5022600}},"hotel_code":"WSASSGSIN000336~CL002~~True","notes":"","state":"unconfirmed","counter":0}]
+                    }
+                }
+           }
+           console.log(msg);
+           if(google_analytics != '')
+               gtag('event', 'hotel_search', {});
+           try{
+                if(msg.result.error_code==0){
+//                    redirect
+                    document.getElementById('hotel_detail').value = JSON.stringify(msg.result.response.hotel_ids[0]);
+                    document.getElementById('hotel_searchForm_wizard').submit();
+                }else{
+                    //kalau error belum
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: #ff9900;">Error hotel search </span>' + msg.result.error_msg,
+                    })
+                }
+           }catch(err){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error hotel search </span>' + msg.result.error_msg,
+                })
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error hotel search');
+            $('#loading-search-hotel').hide();
+       },timeout: 180000
+   });
+}
 //signin jadi 1 sama search
 function hotel_search(){
     getToken();
