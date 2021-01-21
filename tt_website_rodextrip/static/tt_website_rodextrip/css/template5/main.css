@@ -8013,7 +8013,7 @@ ul.btn_tabs li.current .image-rounded-icon{
 .button_date_np{
     background:white;
     border:2px solid #cdcdcd;
-    padding:15px 0;
+    padding:15px;
     text-align: center;
 }
 
@@ -8028,6 +8028,6 @@ ul.btn_tabs li.current .image-rounded-icon{
    color:black !important;
    cursor: not-allowed !important;
    border:2px solid #cdcdcd;
-   padding:15px 0;
+   padding:15px;
    text-align: center;
 }

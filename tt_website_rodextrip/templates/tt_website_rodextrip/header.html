@@ -224,7 +224,15 @@
                         <i class="fas fa-bell notification-mobile" data-toggle="modal" data-target="#myModalNotification" style="font-size:20px; cursor:pointer; padding-right:15px; padding-top:5px; display:none; color:{{color}};"></i>
                         {% endif %}
                         <div class="classy-navbar-toggler">
+                            {% if username.co_user_login != 'agent_b2c' %}
                             <span class="navbarToggler"><span></span><span></span><span></span></span>
+                            {% else %}
+                            <span>
+                                <button type="button" style="font-size:18px; padding:10px 15px; background:{{color}}; color:{{text_color}}">
+                                    <span style="font-size:14px;">SignIn</span> <i class="fas fa-sign-in-alt" style="color:'+text_color+';font-size:16px;"></i>
+                                </button>
+                            </span>
+                            {% endif %}
                         </div>
                     </div>
 
@@ -722,13 +730,21 @@
                     </nav>
                 </div>
 
-                <div class="d-inline-block d-xl-none ml-auto py-3 col-6 text-right" style="position: relative; top: 3px; padding-right:15px;">
+                <div class="d-inline-block d-xl-none ml-auto py-3 col-6 text-right" style="position: relative; padding-right:15px;">
                     {% if username.co_user_login != 'agent_b2c' %}
                     <div class="dropdown-custom" style="bottom:3px;">
                         <button class="dropbtn-custom" style="color:{{color}};padding-top:7px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell" style="font-size:20px;"></i></button>
                     </div>
                     {% endif %}
+                    {% if username.co_user_login != 'agent_b2c' %}
                     <a href="#" class="site-menu-toggle js-menu-toggle" style="color:{{text_color_login}};"><span class="icon-menu h3"></span></a>
+                    {% else %}
+                    <a href="#" class="site-menu-toggle js-menu-toggle" style="color:{{text_color_login}};">
+                        <button type="button" style="font-size:18px; padding:10px 15px; background:{{color}}; color:{{text_color}}">
+                            <span style="font-size:14px;">SignIn</span> <i class="fas fa-sign-in-alt" style="color:'+text_color+';font-size:16px;"></i>
+                        </button>
+                    </a>
+                    {% endif %}
                 </div>
             </div>
         </div>

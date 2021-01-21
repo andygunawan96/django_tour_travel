@@ -179,18 +179,23 @@
 
                                                     </div>
                                                 </div>
+                                                <div class="col-lg-12" style="text-align:right;">
+                                                    <hr/>
+                                                    <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('hotel','passenger');">Done</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </ul>
                                 </div>
                             </div>
 
-                            <div class="col-lg-12" style="padding:0px;margin-top:5px;float:left;">
+                            <div class="col-lg-12" style="display:contents;padding:0px;margin-top:5px;float:left;">
                                 <label class="check_box_custom">
-                                    <span class="span-search-ticket" style="font-size:13px;">{% trans 'Business Trip' %}</span>
+                                    <span class="span-search-ticket" id="business_trip_help_show" style="font-size:13px;">{% trans 'Business Trip' %}</span>
                                     <input type="checkbox" name="business_trip" id="business_trip" {% if hotel_search.business_trip == true %} value="true" checked {% else %} value="false" {% endif %}/>
                                     <span class="check_box_span_custom"></span>
                                 </label>
+                                <span id="business_trip_help" style="color:{{text_color}}; cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
                             </div>
                         </div>
 
@@ -334,6 +339,10 @@
 
                                                         </div>
                                                     </div>
+                                                    <div class="col-lg-12" style="text-align:right;">
+                                                        <hr/>
+                                                        <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('hotel','passenger');">Done</button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </ul>
@@ -342,10 +351,11 @@
 
                                 <div class="col-lg-12">
                                     <label class="check_box_custom">
-                                        <span class="span-search-ticket" style="font-size:13px; color:{{text_color}};">{% trans 'Business Trip' %}</span>
+                                        <span class="span-search-ticket" id="business_trip_help_show" style="font-size:13px; color:{{text_color}};">{% trans 'Business Trip' %}</span>
                                         <input type="checkbox" name="business_trip" id="business_trip" {% if hotel_search.business_trip == true %} value="true" checked {% else %} value="false" {% endif %}/>
                                         <span class="check_box_span_custom"></span>
                                     </label>
+                                    <span id="business_trip_help" style="color:{{text_color}}; cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
                                 </div>
                             </div>
                             <center>
@@ -413,7 +423,7 @@
                             <div class="col-lg-6 col-md-6">
                                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Check-In - Check-Out' %}</span>
                                 <div class="input-container-search-ticket">
-                                    <input class="form-control" type="text" name="hotel_checkin_checkout" id="hotel_checkin_checkout" value="{{hotel_search.checkin_date}} - {{hotel_search.checkout_date}}" placeholder="{% trans 'Check-In - Check-Out Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly/>
+                                    <input class="form-control" style="background:white;" type="text" name="hotel_checkin_checkout" id="hotel_checkin_checkout" value="{{hotel_search.checkin_date}} - {{hotel_search.checkout_date}}" placeholder="{% trans 'Check-In - Check-Out Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly/>
                                     <i class="fas fa-moon icon-search-ticket" id="total_night_search" style="padding-right:40px; border-right:1px solid #F0F0F0;">1</i>
                                 </div>
                                 <input type="hidden" class="form-control" id="hotel_checkout" name="hotel_checkout" placeholder="Check-out Date " placeholder="Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-out Date '" autocomplete="off" value="{{hotel_search.checkout_date}}" onchange="change_date_hotel('checkout');" />
@@ -490,6 +500,10 @@
 
                                                     </div>
                                                 </div>
+                                                <div class="col-lg-12" style="text-align:right;">
+                                                    <hr/>
+                                                    <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('hotel','passenger');">Done</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </ul>
@@ -498,10 +512,11 @@
 
                             <div class="col-lg-12" style="margin-top:5px;float:left;">
                                 <label class="check_box_custom">
-                                    <span class="span-search-ticket" style="font-size:13px;">{% trans 'Business Trip' %}</span>
+                                    <span class="span-search-ticket" id="business_trip_help_show" style="font-size:13px;">{% trans 'Business Trip' %}</span>
                                     <input type="checkbox" name="business_trip" id="business_trip" {% if hotel_search.business_trip == true %} value="true" checked {% else %} value="false" {% endif %}/>
                                     <span class="check_box_span_custom"></span>
                                 </label>
+                                <span id="business_trip_help" style="color:{{text_color}}; cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
                             </div>
                         </div>
                         <br/>
@@ -648,6 +663,10 @@
 
                                                 </div>
                                             </div>
+                                            <div class="col-lg-12" style="text-align:right;">
+                                                <hr/>
+                                                <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('hotel','passenger');">Done</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </ul>
@@ -656,10 +675,11 @@
 
                         <div class="col-lg-12" style="margin-top:5px;float:left;">
                             <label class="check_box_custom">
-                                <span class="span-search-ticket" style="font-size:13px;">{% trans 'Business Trip' %}</span>
+                                <span class="span-search-ticket" id="business_trip_help_show" style="font-size:13px;">{% trans 'Business Trip' %}</span>
                                 <input type="checkbox" name="business_trip" id="business_trip" {% if hotel_search.business_trip == true %} value="true" checked {% else %} value="false" {% endif %}/>
                                 <span class="check_box_span_custom"></span>
                             </label>
+                            <span id="business_trip_help" style="color:{{text_color}}; cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
                         </div>
 
                         <div class="col-lg-12" style="text-align:center; margin-top:15px;">
@@ -803,6 +823,10 @@
 
                                                     </div>
                                                 </div>
+                                                <div class="col-lg-12" style="text-align:right;">
+                                                    <hr/>
+                                                    <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('hotel','passenger');">Done</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </ul>
@@ -811,10 +835,11 @@
 
                             <div class="col-lg-12" style="margin-top:5px;float:left;">
                                 <label class="check_box_custom">
-                                    <span class="span-search-ticket" style="font-size:13px;">{% trans 'Business Trip' %}</span>
+                                    <span class="span-search-ticket" id="business_trip_help_show" style="font-size:13px;">{% trans 'Business Trip' %}</span>
                                     <input type="checkbox" name="business_trip" id="business_trip" {% if hotel_search.business_trip == true %} value="true" checked {% else %} value="false" {% endif %}/>
                                     <span class="check_box_span_custom"></span>
                                 </label>
+                                <span id="business_trip_help" style="color:{{text_color}}; cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
                             </div>
                         </div>
                         <center>
@@ -1294,8 +1319,6 @@
 </div>
 {% include 'tt_website_rodextrip/footer.html' %}
 
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 {% if response.lat != '' and response.long != '' %}
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB0B4gWu6auyPm91HyHd55huvqFX9-0kr4&libraries=&v=weekly"></script>
 <script>
@@ -1395,7 +1418,9 @@
             get_auto_complete(term,suggest);
         },
         onSelect: function(e, term, item){
-            $("#hotel_id_destination").trigger("blur");
+            setTimeout(function(){
+                $('#hotel_id_nationality_id').select2('open');
+            }, 200);
         }
     });
 
@@ -1424,6 +1449,10 @@
             var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
             $("#total_night_search").text(diffDays);
             //change_date('checkin');
+
+            setTimeout(function(){
+                $("#show_total_pax_hotel").click();
+            }, 200);
         });
 
       $("#total_night_search2").text(diffDays);
@@ -1451,6 +1480,37 @@
             $("#total_night_search2").text(diffDays);
             hotel_detail_request(moment(firstDate).format('DD MMM YYYY'), moment(secondDate).format('DD MMM YYYY'));
             change_date('checkin');
+
+            setTimeout(function(){
+                $("#show_total_pax_hotel").click();
+            }, 200);
+        });
+
+        $('#hotel_id_nationality_id').on('select2:close', function (e) {
+            setTimeout(function(){
+                $('#hotel_checkin_checkout').focus();
+            }, 200);
+        });
+
+        new jBox('Tooltip', {
+            attach: '#business_trip_help',
+            target: '#business_trip_help_show',
+            theme: 'TooltipBorder',
+            trigger: 'click',
+            adjustTracker: true,
+            closeOnClick: 'body',
+            closeButton: 'box',
+            animation: 'move',
+            position: {
+              x: 'left',
+              y: 'bottom'
+            },
+            outside: 'y',
+            pointer: 'left:20',
+            offset: {
+              x: 25
+            },
+            content: "Check this section if you are doing a hotel search for business purposes",
         });
     });
 
