@@ -1259,6 +1259,7 @@
     function goto_detail(type, counter){
        document.getElementById('hotel'+counter).innerHTML += `{% csrf_token %}`;
        document.getElementById('hotel'+counter).innerHTML += `<input type='hidden' value='`+time_limit+`' name='time_limit_input'/>`;
+       document.getElementById('hotel'+counter).action += '/' + hotel_data.hotel_ids[counter].id;
        document.getElementById('hotel'+counter).submit();
     }
     try{

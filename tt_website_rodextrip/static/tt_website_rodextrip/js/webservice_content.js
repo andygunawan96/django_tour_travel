@@ -1,3 +1,4 @@
+banner_list = {};
 function update_banner(){
     document.getElementById('update_banner_btn').disabled = true;
     var formData = new FormData($('#form_admin').get(0));
@@ -32,18 +33,34 @@ function set_inactive_delete_banner(){
     //big banner
     try{
         for(i=0; i<1000; i++){
-            if(document.getElementById('big_banner'+i+'_active').checked == false)
+            update = 0;
+            if(document.getElementById('big_banner'+i+'_active').checked == false){
                 img.push({
                     'seq_id': document.getElementById('big_banner'+i+'_image').getAttribute('value'),
                     'action': 'active',
                     'type': 'big_banner'
                 })
-            if(document.getElementById('big_banner'+i+'_delete').checked == true)
+                update = 1
+            }if(document.getElementById('big_banner'+i+'_delete').checked == true){
                 img.push({
                     'seq_id': document.getElementById('big_banner'+i+'_image').getAttribute('value'),
                     'action': 'delete',
                     'type': 'big_banner'
                 })
+                update = 1
+            }
+            if(update == 1){
+                img[img.length-1]['url'] = document.getElementById('big_banner'+i+'_image_url_page').value;
+                img[img.length-1]['provider_type'] = document.getElementById('big_banner'+i+'_provider_type').value;
+            }else{
+                img.push({
+                    'seq_id': document.getElementById('big_banner'+i+'_image').getAttribute('value'),
+                    'action': '',
+                    'type': 'big_banner',
+                    'url': document.getElementById('big_banner'+i+'_image_url_page').value,
+                    'provider_type': document.getElementById('big_banner'+i+'_provider_type').value
+                })
+            }
         }
     }catch(err){
 
@@ -51,18 +68,34 @@ function set_inactive_delete_banner(){
     //small banner
     try{
         for(i=0; i<1000; i++){
-            if(document.getElementById('small_banner'+i+'_active').checked == false)
+            update = 0;
+            if(document.getElementById('small_banner'+i+'_active').checked == false){
                 img.push({
                     'seq_id': document.getElementById('small_banner'+i+'_image').getAttribute('value'),
                     'action': 'active',
                     'type': 'small_banner'
                 })
-            if(document.getElementById('small_banner'+i+'_delete').checked == true)
+                update = 1;
+            }if(document.getElementById('small_banner'+i+'_delete').checked == true){
                 img.push({
                     'seq_id': document.getElementById('small_banner'+i+'_image').getAttribute('value'),
                     'action': 'delete',
                     'type': 'small_banner'
                 })
+                update = 1;
+            }
+            if(update == 1){
+                img[img.length-1]['url'] = document.getElementById('small_banner'+i+'_image_url_page').value;
+                img[img.length-1]['provider_type'] = document.getElementById('small_banner'+i+'_provider_type').value;
+            }else{
+                img.push({
+                    'seq_id': document.getElementById('small_banner'+i+'_image').getAttribute('value'),
+                    'action': '',
+                    'type': 'small_banner',
+                    'url': document.getElementById('small_banner'+i+'_image_url_page').value,
+                    'provider_type': document.getElementById('small_banner'+i+'_provider_type').value
+                })
+            }
         }
     }catch(err){
 
@@ -70,18 +103,34 @@ function set_inactive_delete_banner(){
     //promotion banner
     try{
         for(i=0; i<1000; i++){
-            if(document.getElementById('promotion'+i+'_active').checked == false)
+            update = 0;
+            if(document.getElementById('promotion'+i+'_active').checked == false){
                 img.push({
                     'seq_id': document.getElementById('promotion'+i+'_image').getAttribute('value'),
                     'action': 'active',
                     'type': 'promotion_banner'
                 })
-            if(document.getElementById('promotion'+i+'_delete').checked == true)
+                update=1;
+            }if(document.getElementById('promotion'+i+'_delete').checked == true){
                 img.push({
                     'seq_id': document.getElementById('promotion'+i+'_image').getAttribute('value'),
                     'action': 'delete',
                     'type': 'promotion_banner'
                 })
+                update=1;
+            }
+            if(update == 1){
+                img[img.length-1]['url'] = document.getElementById('promotion'+i+'_image_url_page').value;
+                img[img.length-1]['provider_type'] = document.getElementById('promotion'+i+'_provider_type').value;
+            }else{
+                img.push({
+                    'seq_id': document.getElementById('promotion'+i+'_image').getAttribute('value'),
+                    'action': '',
+                    'type': 'promotion_banner',
+                    'url': document.getElementById('promotion'+i+'_image_url_page').value,
+                    'provider_type': document.getElementById('promotion'+i+'_provider_type').value
+                })
+            }
         }
     }catch(err){
 
@@ -102,7 +151,7 @@ function set_inactive_delete_banner(){
        success: function(msg) {
             console.log(msg);
             if(msg.result.error_code == 0){
-                document.getElementById('form_admin').submit();
+                update_cache_version_func('image');
             }else{
                 document.getElementById('update_banner_btn').disabled = false;
             }
@@ -114,6 +163,22 @@ function set_inactive_delete_banner(){
     });
 }
 
+function banner_click(type, seq_id){
+    console.log(seq_id);
+    for(i in banner_list){
+        for(j in banner_list[i]){
+            if(seq_id == banner_list[i][j].seq_id){
+                if(banner_list[i][j].provider_type == 'hotel'){
+//                    $('#myModalWizardHotel').modal('show');
+//                    document.getElementById('hotel_searchForm_wizard').action = banner_list[i][j].url_page;
+                }else if(banner_list[i][j].provider_type == 'tour' || banner_list[i][j].provider_type == 'activity'){
+                    window.location = banner_list[i][j].url_page;
+                }
+            }
+
+        }
+    }
+}
 
 function get_banner(type,page){
     $.ajax({
@@ -134,17 +199,19 @@ function get_banner(type,page){
                     if(msg.result.response.length == 0)
                         document.getElementById(type).style.display = 'none';
                     if(type == 'big_banner'){
+                        banner_list['big_banner'] = msg.result.response;
                         text+=`<div class="owl-carousel-banner owl-theme">`;
                         for(i in msg.result.response){
                             text+=`
                             <div class="item">
                                 <center>
-                                    <img src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image"/>
+                                    <img src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('big_banner','`+msg.result.response[i].seq_id+`')"/>
                                 </center>
                             </div>`;
                         }
                         text+=`</div>`;
                     }else if(type == 'small_banner'){
+                        banner_list['small_banner'] = msg.result.response;
                         if(template == 1){
                             text+=`
                             <section class="popular-destination-area section-gap" style="z-index:0; position:relative;">
@@ -166,7 +233,7 @@ function get_banner(type,page){
                                                 <div class="item">
                                                     <div class="single-destination relative">
                                                         <div class="thumb relative">
-                                                            <img src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image"/>
+                                                            <img src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
                                                         </div>
                                                     </div>
                                                 </div>`;
@@ -194,7 +261,7 @@ function get_banner(type,page){
                                                 <div class="item">
                                                     <div class="single-destination relative">
                                                         <div class="thumb relative">
-                                                            <img src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image"/>
+                                                            <img src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
                                                         </div>
                                                     </div>
                                                 </div>`;
@@ -224,7 +291,7 @@ function get_banner(type,page){
                                                 <div class="item">
                                                     <div class="single-destination relative">
                                                         <div class="thumb relative">
-                                                            <img src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image"/>
+                                                            <img src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
                                                         </div>
                                                     </div>
                                                 </div>`;
@@ -254,7 +321,7 @@ function get_banner(type,page){
                                                 <div class="item">
                                                     <div class="single-destination relative">
                                                         <div class="thumb relative">
-                                                            <img src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image"/>
+                                                            <img src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
                                                         </div>
                                                     </div>
                                                 </div>`;
@@ -285,7 +352,7 @@ function get_banner(type,page){
                                                 <div class="item">
                                                     <div class="single-destination relative">
                                                         <div class="thumb relative">
-                                                            <img src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image"/>
+                                                            <img src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
                                                         </div>
                                                     </div>
                                                 </div>`;
@@ -297,6 +364,7 @@ function get_banner(type,page){
                             </section>`;
                         }
                     }else if(type == 'promotion'){
+                        banner_list['promotion'] = msg.result.response;
 //                    <div class="col-lg-12">
 //                                            <center>
 //                                                <h2 class="modal-title animated pulse infinite" style="color:#ffffff;"> PROMOTIONS! </h2>
@@ -319,7 +387,7 @@ function get_banner(type,page){
                                                 text+=`
                                                 <div class="item">
                                                     <center>
-                                                        <img src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" style="max-width:500px; max-height:500px;"/>
+                                                        <img src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" style="max-width:500px; max-height:500px;" onclick="banner_click('promotion','`+msg.result.response[i].seq_id+`')"/>
                                                     </center>
                                                 </div>`;
                                             }
@@ -333,11 +401,49 @@ function get_banner(type,page){
                     }
                 }else if(page == 'admin'){
                     //<img src="`+msg.result.response[i].url+`" id="`+msg.result.response[i].seq_id+`" alt="" style="height:220px;width:auto"/>
-                    text+=`<div class="row">`;
                     for(i in msg.result.response){
                         text += `
-                        <div class="col-lg-6" style="margin-bottom:25px;">
+                        <div class="col-lg-6" style="margin-bottom:25px;border: 1px solid `+text_color+`">
                             <img src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" style="height:220px;width:auto;"/>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <h6 style="color:`+text_color+`;margin-bottom:10px;">URL</h6>
+                                    <div class="form-select">
+                                        <input type="text" style="width:100%;height:100%;" id="`+type+i+`_image_url_page" name="`+type+i+`_image_url_page" placeholder="Url"`;
+                                        if(msg.result.response[i].url_page != false)
+                                            text+=` value="`+msg.result.response[i].url_page+`"/>`;
+                                        else
+                                            text+=` value=""/>`;
+                                text+=`
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <h6 style="color:`+text_color+`;margin-bottom:10px;">Provider Type</h6>
+                                    <div class="form-select">
+                                        <select id="`+type+i+`_provider_type" style="width:100%" name="`+type+i+`_provider_type" class="nice-select-default">
+                                            <option value=""></option>`;
+                                        for(j in provider_list_template){
+                                            if(provider_list_template[j] != "offline" &&
+                                               provider_list_template[j] != "bank" &&
+                                               provider_list_template[j] != "issued_offline" &&
+                                               provider_list_template[j] != "payment" &&
+                                               provider_list_template[j] != "issued_offline"){
+                                               if(msg.result.response[i].provider_type != provider_list_template[j]){
+                                                text+=`
+                                                    <option value="`+provider_list_template[j]+`">`+provider_list_template[j]+`</option>`;
+                                               }else{
+                                                text+=`
+                                                    <option value="`+provider_list_template[j]+`" selected>`+provider_list_template[j]+`</option>`;
+                                               }
+
+                                            }
+                                        }
+                                            text+=`
+                                        </select>
+                                    </div>
+
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="col-lg-6">
                                     <label class="check_box_custom">
@@ -360,9 +466,13 @@ function get_banner(type,page){
                         </div>
                         `;
                     }
-                    text+=`</div>`;
                 }
                 document.getElementById(type).innerHTML = text;
+                if(page == 'admin'){
+                    for(i in msg.result.response){
+                        $("#"+type+i+`_provider_type`).niceSelect();
+                    }
+                }
                 if(page == 'home'){
                     if(msg.result.response.length > 0){
                         if(type == 'big_banner'){

@@ -87,6 +87,141 @@
 <meta name="twitter:card" content="Twitter" />
 <meta name="twitter:site" content="@rodextrip" />
 <meta name="twitter:creator" content="@rodextrip" />
+
+<!--wizard hotel testing-->
+<div class="modal fade" id="myModalWizardHotel" role="dialog" data-keyboard="false">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Hotel' %}</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form action="{% url 'tt_website_rodextrip:hotel_search'%}" method="POST" class="form-wrap" id="hotel_searchForm_wizard">
+                    {% csrf_token %}
+                    <input type="hidden" name="hotel_detail" id='hotel_detail'>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12" style="padding:0px;">
+                            <span><i class="fas fa-calendar-alt"></i> {% trans 'Check-in - Check-out' %}</span>
+                            <div class="input-container-search-ticket">
+                                <input class="form-control" type="text" name="hotel_checkin_checkout_wizard" id="hotel_checkin_checkout_wizard" placeholder="{% trans 'Check-in - Check-out Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly/>
+                                <i class="fas fa-moon icon-search-ticket" id="total_night_search_wizard" style="padding-right:40px;">1</i>
+                            </div>
+                            <input class="form-control" type="hidden" name="hotel_checkin_wizard" id="hotel_checkin_wizard" placeholder="Check-In Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '" autocomplete="off"/>
+                            <input class="form-control" type="hidden" name="hotel_checkout_wizard" id="hotel_checkout_wizard"  autocomplete="off" placeholder="Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-out Date '" />
+                        </div>
+                        <div class="col-lg-6 col-md-6" style="padding:0px;">
+                            <span><i class="fas fa-globe-asia"></i> {% trans 'Guest Nationality' %}</span>
+                            <select class="js-example-basic-single" name="hotel_id_nationality_wizard_id" style="width:100%;" id="hotel_id_nationality_wizard_id" placeholder="{% trans 'Guest Nationality' %}" onchange="auto_complete('hotel_id_nationality')" class="nice-select-default">
+                                {% for country in countries %}
+                                {% if country.name == 'Indonesia'%}
+                                <option value="{{country.code}} - {{country.name}}" selected>{{country.code}} - {{country.name}}</option>
+                                {% else %}
+                                <option value="{{country.code}} - {{country.name}}">{{country.code}} - {{country.name}}</option>
+                                {% endif %}
+                                {% endfor %}
+                            </select>
+                            <input type="hidden" value="ID - Indonesia" id="hotel_id_nationality_wizard" class="form-control" name="hotel_id_nationality_wizard" />
+                        </div>
+                        <div class="col-lg-6 col-md-6" style="padding:0px;">
+                            <span><i class="fas fa-users"></i> {% trans 'Guest' %}</span>
+                            <div class="input-container-search-ticket btn-group">
+                                <button id="show_total_pax_hotel_wizard" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></button>
+                                <ul class="dropdown-menu" role="menu" style="z-index:5;">
+                                    <div class="row" style="padding:10px;">
+                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                            <div style="float:left;">
+                                                <label>
+                                                    <span style="color:black; font-size:13px;">{% trans 'Room' %}<br/></span>
+                                                    <span style="color:gray; font-size:11px;">(Qty >= 1)</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                <button type="button" class="left-minus-room-hotel btn-custom-circle" id="left-minus-room-hotel_wizard" data-type="minus" data-field="" disabled>
+                                                    <i class="fas fa-minus"></i>
+                                                </button>
+                                                <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; text-align:center; width:25px;" id="hotel_room_wizard" name="hotel_room_wizard" value="1" min="1" readonly>
+                                                <button type="button" class="right-plus-room-hotel btn-custom-circle" id="right-plus-room-hotel_wizard" data-type="plus" data-field="">
+                                                    <i class="fas fa-plus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                            <div style="float:left;">
+                                                <label>
+                                                    <span style="color:black; font-size:13px;">{% trans 'Adult' %}<br/></span>
+                                                    <span style="color:gray; font-size:11px;">({% trans 'Age' %} 12+)</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                <button type="button" class="left-minus-adult-hotel btn-custom-circle" id="left-minus-adult-hotel_wizard" data-type="minus" data-field="">
+                                                    <i class="fas fa-minus"></i>
+                                                </button>
+                                                <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; text-align:center; width:25px;" id="hotel_adult_wizard" name="hotel_adult_wizard" value="2" min="1" readonly>
+                                                <button type="button" class="right-plus-adult-hotel btn-custom-circle" id="right-plus-adult-hotel_wizard" data-type="plus" data-field="">
+                                                    <i class="fas fa-plus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                            <div style="float:left;">
+                                                <label>
+                                                    <span style="color:black; font-size:13px;">{% trans 'Child' %}<br/></span>
+                                                    <span style="color:gray; font-size:11px;">({% trans 'Age' %} <12)</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                <button type="button" class="left-minus-child-hotel btn-custom-circle" id="left-minus-child-hotel_wizard" data-type="minus" data-field="" disabled>
+                                                    <i class="fas fa-minus"></i>
+                                                </button>
+                                                <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; text-align:center; width:25px;" id="hotel_child_wizard" name="hotel_child_wizard" value="0" readonly>
+                                                <button type="button" class="right-plus-child-hotel btn-custom-circle" id="right-plus-child-hotel_wizard" data-type="plus" data-field="">
+                                                    <i class="fas fa-plus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <div class="row" id="guest_child_age_wizard">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12" style="padding:0px;margin-top:5px;float:left;">
+                            <label class="check_box_custom cblabel">
+                                <span style="font-size:13px;">{% trans 'Business Trip' %}</span>
+                                <input type="checkbox" value="true" onclick="business_trip_check();">
+                                <input type="hidden" name="business_trip_wizard" id="business_trip_wizard" value="false"/>
+                                <span class="check_box_span_custom cbspan" style="border:1px {{color}} solid"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <br/>
+
+                    <button class="button-search primary-btn ld-ext-right" id="btn-search-hotel_wizard" onclick="hotel_wizard_onclick();" type="button" value="Submit">
+                        <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                        {% trans 'Search' %}
+                        <div class="ld ld-ring ld-cycle"></div>
+                    </button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!--wizard hotel testing-->
 {%if template == 1%}
 <div id="notification_div" style="position:fixed; z-index:999; top:20px; right:20px;"></div>
 
@@ -6826,6 +6961,40 @@
                         $("#show_total_pax_hotel").click();
                     }, 200);
                 });
+
+                //wizard
+                $('input[name="hotel_checkin_checkout_wizard"]').daterangepicker({
+                    singleDatePicker: false,
+                    autoUpdateInput: true,
+                    opens: 'center',
+                    autoApply: true,
+                    startDate: hotel_checkin,
+                    endDate: hotel_checkout,
+                    minDate: moment(),
+                    maxDate: moment().subtract(-366, 'days'),
+                    showDropdowns: true,
+                    locale: {
+                        format: 'DD MMM YYYY',
+                    }
+                });
+
+                $('input[name="hotel_checkin_checkout_wizard"]').on('apply.daterangepicker', function(ev, picker) {
+                    $(this).val(picker.startDate.format('DD MMM YYYY') + ' - ' + picker.endDate.format('DD MMM YYYY'));
+                    $("#hotel_checkin_wizard").val(picker.startDate.format('DD MMM YYYY'));
+                    $("#hotel_checkout_wizard").val(picker.endDate.format('DD MMM YYYY'));
+
+                    var oneDay = 24*60*60*1000;
+                    var firstDate = new Date($("#hotel_checkin_wizard").val());
+                    var secondDate = new Date($("#hotel_checkout_wizard").val());
+
+                    var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
+                    $("#total_night_search_wizard").text(diffDays);
+
+                    setTimeout(function(){
+                        $("#show_total_pax_hotel_wizard").click();
+                    }, 200);
+                });
+                //wizard
             {% endif %}
             {% if "visa" in provider and "ticketing_visa" in username.co_agent_frontend_security %}
                 try{

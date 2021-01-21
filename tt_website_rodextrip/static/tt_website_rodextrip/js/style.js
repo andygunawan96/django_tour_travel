@@ -621,7 +621,7 @@ $(document).ready(function(){
     var quantity_adult_hotel = parseInt($('#hotel_adult').val());
     var quantity_child_hotel = parseInt($('#hotel_child').val());
     $('#show_total_pax_hotel').text(quantity_room_hotel + " Room, " + quantity_adult_hotel + " Adult, " +quantity_child_hotel + " Child");
-
+    $('#show_total_pax_hotel_wizard').text(quantity_room_hotel + " Room, " + quantity_adult_hotel + " Adult, " +quantity_child_hotel + " Child");
     $('.right-plus-room-hotel').click(function(e){
         // Stop acting like a button
         e.preventDefault();

@@ -1323,9 +1323,9 @@
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB0B4gWu6auyPm91HyHd55huvqFX9-0kr4&libraries=&v=weekly"></script>
 <script>
     var map;
-    var myLatlng = { lat: {{response.lat}}, lng: {{response.long}} };
+    var myLatlng = { lat: {{response.location.latitude}}, lng: {{response.location.longitude}} };
     function initMap() {
-        var myLatlng = { lat: {{response.lat}}, lng: {{response.long}} };
+        var myLatlng = { lat: {{response.location.latitude}}, lng: {{response.location.longitude}} };
         map = new google.maps.Map(document.getElementById("map"), {
             center: myLatlng,
             zoom: 18

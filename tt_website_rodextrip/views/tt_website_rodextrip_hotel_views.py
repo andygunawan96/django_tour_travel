@@ -147,6 +147,80 @@ def search(request):
         return no_session_logout(request)
 
 
+def detail_with_path(request, id):
+    if 'user_account' in request.session._session:
+        try:
+            javascript_version = get_javascript_version()
+            cache_version = get_cache_version()
+            response = get_cache_data(cache_version)
+            values = get_data_template(request, 'search')
+            airline_country = response['result']['response']['airline']['country']
+            phone_code = []
+            for i in airline_country:
+                if i['phone_code'] not in phone_code:
+                    phone_code.append(i['phone_code'])
+            phone_code = sorted(phone_code)
+            try:
+                set_session(request, 'time_limit', int(request.POST['time_limit_input']))
+            except:
+                set_session(request, 'time_limit', int(1200))
+            try:
+                if translation.LANGUAGE_SESSION_KEY in request.session:
+                    del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
+                set_session(request, 'hotel_detail', json.loads(request.POST['hotel_detail']))
+            except:
+                pass
+            data = request.session.get('hotel_request') or {}
+            if data != {}:
+                need_signin = False
+            else:
+                need_signin = True
+                try:
+                    child_age = []
+                    for i in range(int(request.POST['hotel_child_wizard'])):
+                        child_age.append(int(request.POST['hotel_child_age_wizard' + str(i + 1)]))
+                    set_session(request, 'hotel_request', {
+                        'destination': '',
+                        'guest_nationality': request.POST['hotel_id_nationality_wizard'],
+                        'nationality': request.POST['hotel_id_nationality_wizard'].split(' - ')[0],
+                        'business_trip': request.POST.get('business_trip_wizard') and 'T' or 'F',
+                    # Checkbox klo disi baru di POST
+                        'checkin_date': request.POST['hotel_checkin_checkout_wizard'].split(' - ')[0],
+                        'checkout_date': request.POST['hotel_checkin_checkout_wizard'].split(' - ')[1],
+                        # 'checkin_date': request.POST['hotel_checkin'],
+                        # 'checkout_date': request.POST['hotel_checkout'],
+                        'room': int(request.POST['hotel_room_wizard']),
+                        'adult': int(request.POST['hotel_adult_wizard']),
+                        'child': int(request.POST['hotel_child_wizard']),
+                        'child_ages': child_age
+                    })
+                except:
+                    pass
+                data = request.session.get('hotel_request')
+            values.update({
+                'static_path': path_util.get_static_path(MODEL_NAME),
+                'hotel_search': data,
+                'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+                'countries': airline_country,
+                'phone_code': phone_code,
+                'check_in': data['checkin_date'],
+                'check_out': data['checkout_date'],
+                'response': request.session['hotel_detail'],
+                'username': request.session['user_account'],
+                'signature': request.session['hotel_signature'],
+                'static_path_url_server': get_url_static_path(),
+                'javascript_version': javascript_version,
+                'time_limit': request.session['time_limit'],
+                'rating': range(int(request.session['hotel_detail']['rating'])),
+                'need_signin': need_signin
+            })
+        except Exception as e:
+            _logger.error(str(e) + '\n' + traceback.format_exc())
+            raise Exception('Make response code 500!')
+        return render(request, MODEL_NAME+'/hotel/hotel_detail_templates.html', values)
+    else:
+        return no_session_logout(request)
+
 def detail(request):
     if 'user_account' in request.session._session:
         try:
