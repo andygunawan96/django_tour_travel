@@ -277,7 +277,6 @@ def get_banner(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    date_time = datetime.now()
     if request.POST['type'] == 'big_banner':
         file = read_cache_with_folder_path("big_banner_cache", 86400)
     elif request.POST['type'] == 'small_banner':
