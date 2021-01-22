@@ -52,13 +52,15 @@ function set_inactive_delete_banner(){
             if(update == 1){
                 img[img.length-1]['url'] = document.getElementById('big_banner'+i+'_image_url_page').value;
                 img[img.length-1]['provider_type'] = document.getElementById('big_banner'+i+'_provider_type').value;
+                img[img.length-1]['sequence'] = document.getElementById('big_banner'+i+'_sequence').value;
             }else{
                 img.push({
                     'seq_id': document.getElementById('big_banner'+i+'_image').getAttribute('value'),
                     'action': '',
                     'type': 'big_banner',
                     'url': document.getElementById('big_banner'+i+'_image_url_page').value,
-                    'provider_type': document.getElementById('big_banner'+i+'_provider_type').value
+                    'provider_type': document.getElementById('big_banner'+i+'_provider_type').value,
+                    'sequence': document.getElementById('big_banner'+i+'_sequence').value
                 })
             }
         }
@@ -87,13 +89,15 @@ function set_inactive_delete_banner(){
             if(update == 1){
                 img[img.length-1]['url'] = document.getElementById('small_banner'+i+'_image_url_page').value;
                 img[img.length-1]['provider_type'] = document.getElementById('small_banner'+i+'_provider_type').value;
+                img[img.length-1]['sequence'] = document.getElementById('small_banner'+i+'_sequence').value;
             }else{
                 img.push({
                     'seq_id': document.getElementById('small_banner'+i+'_image').getAttribute('value'),
                     'action': '',
                     'type': 'small_banner',
                     'url': document.getElementById('small_banner'+i+'_image_url_page').value,
-                    'provider_type': document.getElementById('small_banner'+i+'_provider_type').value
+                    'provider_type': document.getElementById('small_banner'+i+'_provider_type').value,
+                    'sequence': document.getElementById('small_banner'+i+'_sequence').value
                 })
             }
         }
@@ -122,13 +126,15 @@ function set_inactive_delete_banner(){
             if(update == 1){
                 img[img.length-1]['url'] = document.getElementById('promotion'+i+'_image_url_page').value;
                 img[img.length-1]['provider_type'] = document.getElementById('promotion'+i+'_provider_type').value;
+                img[img.length-1]['sequence'] = document.getElementById('promotion'+i+'_sequence').value;
             }else{
                 img.push({
                     'seq_id': document.getElementById('promotion'+i+'_image').getAttribute('value'),
                     'action': '',
                     'type': 'promotion_banner',
                     'url': document.getElementById('promotion'+i+'_image_url_page').value,
-                    'provider_type': document.getElementById('promotion'+i+'_provider_type').value
+                    'provider_type': document.getElementById('promotion'+i+'_provider_type').value,
+                    'sequence': document.getElementById('promotion'+i+'_sequence').value
                 })
             }
         }
@@ -401,21 +407,43 @@ function get_banner(type,page){
                     }
                 }else if(page == 'admin'){
                     //<img src="`+msg.result.response[i].url+`" id="`+msg.result.response[i].seq_id+`" alt="" style="height:220px;width:auto"/>
+                    text += `<div class="row">`;
                     for(i in msg.result.response){
                         text += `
-                        <div class="col-lg-6" style="margin-bottom:25px;border: 1px solid `+text_color+`">
-                            <img src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" style="height:220px;width:auto;"/>
+                        <div class="col-lg-6" style="margin-bottom:25px;border: 1px solid `+text_color+`;justify-content:center">
+                            <div class="row" style="flex:1;justify-content:center;align-items:center;height:50vh;">
+                            <img src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" style="max-width:50vh;"/>
+                            </div>
                             <div class="row">
-                                <div class="col-lg-6">
+                                <div class="col-lg-12">
                                     <h6 style="color:`+text_color+`;margin-bottom:10px;">URL</h6>
                                     <div class="form-select">
                                         <input type="text" style="width:100%;height:100%;" id="`+type+i+`_image_url_page" name="`+type+i+`_image_url_page" placeholder="Url"`;
-                                        if(msg.result.response[i].url_page != false)
+                                        if(msg.result.response[i].url_page != false && msg.result.response[i].url_page != undefined)
                                             text+=` value="`+msg.result.response[i].url_page+`"/>`;
                                         else
                                             text+=` value=""/>`;
                                 text+=`
                                     </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <h6 style="color:`+text_color+`;margin-bottom:10px;">Sequence</h6>
+                                    <div class="form-select">
+                                        <input type="text" style="width:100%;height:100%;" id="`+type+i+`_sequence" name="`+type+i+`sequence" placeholder="Sequence"`;
+                                        if(msg.result.response[i].sequence != false && msg.result.response[i].sequence != undefined)
+                                            text+=` value="`+msg.result.response[i].sequence+`"/>`;
+                                        else
+                                            text+=` value=""/>`;
+                                text+=`
+                                    </div>
+                                    <label class="check_box_custom">
+                                        <span style="font-size:13px;color:`+text_color+`;">Active</span>
+                                        <input type="checkbox" value="" id="`+type+i+`_active" name="`+type+i+`_active"`;
+                                        if(msg.result.response[i].active == true)
+                                            text+=` checked`;
+                                        text+=`>
+                                        <span class="check_box_span_custom"></span>
+                                    </label>
                                 </div>
                                 <div class="col-lg-6">
                                     <h6 style="color:`+text_color+`;margin-bottom:10px;">Provider Type</h6>
@@ -441,21 +469,6 @@ function get_banner(type,page){
                                             text+=`
                                         </select>
                                     </div>
-
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <label class="check_box_custom">
-                                        <span style="font-size:13px;color:`+text_color+`;">Active</span>
-                                        <input type="checkbox" value="" id="`+type+i+`_active" name="`+type+i+`_active"`;
-                                        if(msg.result.response[i].active == true)
-                                            text+=` checked`;
-                                        text+=`>
-                                        <span class="check_box_span_custom"></span>
-                                    </label>
-                                </div>
-                                <div class="col-lg-6">
                                     <label class="check_box_custom">
                                         <span style="font-size:13px;color:`+text_color+`;">Delete</span>
                                         <input type="checkbox" value="" id="`+type+i+`_delete" name="`+type+i+`_delete">
@@ -466,6 +479,7 @@ function get_banner(type,page){
                         </div>
                         `;
                     }
+                    text += `</div>`;
                 }
                 document.getElementById(type).innerHTML = text;
                 if(page == 'admin'){
