@@ -5054,7 +5054,7 @@
                                 </div>
                                 {% endif %}
                                 {% if "ppob" in provider and "ticketing_ppob" in username.co_agent_frontend_security %}
-                                <div class="form-search-wrap tab-conten {%if provider_types_sequence.0.name == 'ppob' %}current{% endif %}t" id="tab-bills" data-aos-delay="200">
+                                <div class="form-search-wrap tab-content {%if provider_types_sequence.0.name == 'ppob' %}current{% endif %}" id="tab-bills" data-aos-delay="200">
                                     <form action="" class="form-wrap" id="bill_searchForm" method="post">
                                         {% csrf_token %}
                                         <div class="row">
