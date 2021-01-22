@@ -295,14 +295,6 @@ function hotel_search_in_detail(){
        },
        success: function(msg) {
            $('#loading-search-hotel').hide();
-           msg = {
-                "result":{
-                    "error_code": 0,
-                    "response": {
-                        "hotel_ids":[{"sequence":0,"id":"WSASSGSIN000336","name":"Marina Bay Sands","location":{"latitude":"1.28500878810882","longitude":"103.859754502773","address":"","city":"","state":"","country":""},"rating":5,"phone":"","fax":"","ribbon":"","description":"","images":[],"facilities":[],"prices":{"A12":{"last_cache":false,"meal_type":"RO","meal_category":"room","price":5022600}},"hotel_code":"WSASSGSIN000336~CL002~~True","notes":"","state":"unconfirmed","counter":0}]
-                    }
-                }
-           }
            console.log(msg);
            if(google_analytics != '')
                gtag('event', 'hotel_search', {});
@@ -318,6 +310,8 @@ function hotel_search_in_detail(){
                       title: 'Oops!',
                       html: '<span style="color: #ff9900;">Error hotel search </span>' + msg.result.error_msg,
                     })
+                    $('.loader-rodextrip').fadeOut();
+                    document.getElementById('btn-search-hotel_wizard').disabled = false;
                 }
            }catch(err){
                 Swal.fire({
