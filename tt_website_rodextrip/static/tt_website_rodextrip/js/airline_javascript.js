@@ -2720,7 +2720,7 @@ function delete_mc_journey(val){
     value_pick.splice(val-1,1);
     airline_pick_list.splice(val-1,1);
     temp = parseInt(airline_request.counter) - 1;
-    counter_search = val -1;
+    counter_search = temp;
     airline_request.counter = temp.toString();
     airline_request['departure'].splice(val-1,1);
     airline_request['destination'].splice(val-1,1);
