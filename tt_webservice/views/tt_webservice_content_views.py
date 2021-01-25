@@ -290,6 +290,7 @@ def get_banner(request):
                 if request.POST['type'] == 'big_banner':
                     try:
                         #tambah datetime
+                        res['result']['response'] = sorted(res['result']['response'], key=lambda k: int(k['sequence']))
                         write_cache_with_folder(res, "big_banner_cache")
                         _logger.info("big_banner RENEW SUCCESS SIGNATURE " + request.POST['signature'])
                     except Exception as e:
