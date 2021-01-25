@@ -53,15 +53,16 @@ def check_captcha(request):
             'secret': secret_key
         }
         _logger.info(json.dumps(data))
-        resp = requests.post('https://www.google.com/recaptcha/api/siteverify', data=data)
-        result_json = resp.json()
+        if secret_key != '':
+            resp = requests.post('https://www.google.com/recaptcha/api/siteverify', data=data)
+            result_json = resp.json()
 
-        _logger.info(json.dumps(result_json))
+            _logger.info(json.dumps(result_json))
 
-        if not result_json.get('success') and request.session.get('airline_recaptcha') == False:
-            raise Exception('Make response code 500!')
-        else:
-            request.session['airline_recaptcha'] = True
+            if not result_json.get('success') and request.session.get('airline_recaptcha') == False:
+                raise Exception('Make response code 500!')
+            else:
+                request.session['airline_recaptcha'] = True
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
         raise Exception('Make response code 500!')
