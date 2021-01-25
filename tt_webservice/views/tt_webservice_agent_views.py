@@ -682,6 +682,7 @@ def get_new_cache(signature, type='all'):
             res = util.send_request(url=url + "content", data=data, headers=headers, method='POST')
             if res['result']['error_code'] == 0:
                 try:
+                    res['result']['response'] = sorted(res['result']['response'], key=lambda k: int(k['sequence']))
                     write_cache_with_folder(res, "big_banner_cache")
                     _logger.info("big_banner RENEW SUCCESS SIGNATURE " + signature)
                 except Exception as e:
@@ -699,6 +700,7 @@ def get_new_cache(signature, type='all'):
             res = util.send_request(url=url + "content", data=data, headers=headers, method='POST')
             if res['result']['error_code'] == 0:
                 try:
+                    res['result']['response'] = sorted(res['result']['response'], key=lambda k: int(k['sequence']))
                     write_cache_with_folder(res, "small_banner_cache")
                     _logger.info("small_banner RENEW SUCCESS SIGNATURE " + signature)
                 except Exception as e:
@@ -716,6 +718,7 @@ def get_new_cache(signature, type='all'):
             res = util.send_request(url=url + "content", data=data, headers=headers, method='POST')
             if res['result']['error_code'] == 0:
                 try:
+                    res['result']['response'] = sorted(res['result']['response'], key=lambda k: int(k['sequence']))
                     write_cache_with_folder(res, "promotion_banner_cache")
                     _logger.info("promotion_banner RENEW SUCCESS SIGNATURE " + signature)
                 except Exception as e:
