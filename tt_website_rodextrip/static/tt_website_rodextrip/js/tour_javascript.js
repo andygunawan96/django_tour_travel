@@ -2045,7 +2045,7 @@ function check_passport_expired_six_month(id){
             Swal.fire({
               type: 'warning',
               title: 'Oops!',
-              html: '<span style="color: #ff9900;">Expired date less then 6 months </span>' ,
+              html: '<span style="color: #ff9900;">Passport expired date less then 6 months </span>' ,
             })
     }
 }

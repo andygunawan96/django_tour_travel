@@ -496,7 +496,7 @@ function add_multi_city(type){
                                                 }
                                             }else if(counter_airline_search==1)
                                                 text+=`
-                                                <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="SUB - Juanda International Airport - Surabaya - Indonesia" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                                <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+airline_origin+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
                                             else{
                                                 temp = document.getElementById('destination_id_flight'+(counter_airline_search-1).toString()).value;
                                                 text+=`
@@ -529,7 +529,7 @@ function add_multi_city(type){
 
                                     }else if(counter_airline_search == 1)
                                     text+=`
-                                        <input id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Destination" style="width:100%;outline:0" autocomplete="off" value="SIN - Changi Intl - Singapore - Singapore" onfocus="document.getElementById('destination_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                        <input id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Destination" style="width:100%;outline:0" autocomplete="off" value="`+airline_destination+`" onfocus="document.getElementById('destination_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
                                     else{
                                         temp = document.getElementById('origin_id_flight'+(counter_airline_search-1).toString()).value;
                                     text+=`
@@ -572,7 +572,7 @@ function add_multi_city(type){
                                             }
                                         }else if(counter_airline_search==1)
                                             text+=`
-                                            <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="SUB - Juanda International Airport - Surabaya - Indonesia" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                            <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+airline_origin+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
                                         else{
                                             temp = document.getElementById('destination_id_flight'+(counter_airline_search-1).toString()).value;
                                             text+=`
@@ -603,7 +603,7 @@ function add_multi_city(type){
 
                                 }else if(counter_airline_search == 1)
                                 text+=`
-                                    <input id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Destination" style="width:100%;outline:0" autocomplete="off" value="SIN - Changi Intl - Singapore - Singapore" onfocus="document.getElementById('destination_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                    <input id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Destination" style="width:100%;outline:0" autocomplete="off" value="`+airline_destination+`" onfocus="document.getElementById('destination_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
                                 else{
                                     temp = document.getElementById('origin_id_flight'+(counter_airline_search-1).toString()).value;
                                 text+=`
@@ -645,7 +645,7 @@ function add_multi_city(type){
                                             }
                                         }else if(counter_airline_search==1)
                                             text+=`
-                                            <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="SUB - Juanda International Airport - Surabaya - Indonesia" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                            <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+airline_origin+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
                                         else{
                                             temp = document.getElementById('destination_id_flight'+(counter_airline_search-1).toString()).value;
                                             text+=`
@@ -672,7 +672,7 @@ function add_multi_city(type){
 
                                 }else if(counter_airline_search == 1)
                                 text+=`
-                                    <input id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Destination" style="width:100%;outline:0" autocomplete="off" value="SIN - Changi Intl - Singapore - Singapore" onfocus="document.getElementById('destination_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                    <input id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Destination" style="width:100%;outline:0" autocomplete="off" value="`+airline_destination+`" onfocus="document.getElementById('destination_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
                                 else{
                                     temp = document.getElementById('origin_id_flight'+(counter_airline_search-1).toString()).value;
                                 text+=`
@@ -715,7 +715,7 @@ function add_multi_city(type){
                                             }
                                         }else if(counter_airline_search==1)
                                             text+=`
-                                            <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="SUB - Juanda International Airport - Surabaya - Indonesia" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                            <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+airline_origin+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
                                         else{
                                             temp = document.getElementById('destination_id_flight'+(counter_airline_search-1).toString()).value;
                                             text+=`
@@ -743,7 +743,7 @@ function add_multi_city(type){
 
                                 }else if(counter_airline_search == 1)
                                 text+=`
-                                    <input id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Destination" style="width:100%;outline:0" autocomplete="off" value="SIN - Changi Intl - Singapore - Singapore" onfocus="document.getElementById('destination_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                    <input id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Destination" style="width:100%;outline:0" autocomplete="off" value="`+airline_destination+`" onfocus="document.getElementById('destination_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
                                 else{
                                     temp = document.getElementById('origin_id_flight'+(counter_airline_search-1).toString()).value;
                                 text+=`
@@ -786,7 +786,7 @@ function add_multi_city(type){
                                             }
                                         }else if(counter_airline_search==1)
                                             text+=`
-                                            <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="SUB - Juanda International Airport - Surabaya - Indonesia" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                            <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+airline_origin+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
                                         else{
                                             temp = document.getElementById('destination_id_flight'+(counter_airline_search-1).toString()).value;
                                             text+=`
@@ -813,7 +813,7 @@ function add_multi_city(type){
 
                                 }else if(counter_airline_search == 1)
                                 text+=`
-                                    <input id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Destination" style="width:100%;outline:0" autocomplete="off" value="SIN - Changi Intl - Singapore - Singapore" onfocus="document.getElementById('destination_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                    <input id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Destination" style="width:100%;outline:0" autocomplete="off" value="`+airline_destination+`" onfocus="document.getElementById('destination_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
                                 else{
                                     temp = document.getElementById('origin_id_flight'+(counter_airline_search-1).toString()).value;
                                 text+=`
@@ -1018,6 +1018,12 @@ function add_multi_city(type){
 //            $('#destination_id_flight'+(i+1)).select2();
 //        }
 
+    }else{
+        Swal.fire({
+          type: 'warning',
+          title: 'Oops!',
+          html: '3 Flight maximum in 1 search!',
+       })
     }
 }
 
@@ -2714,7 +2720,13 @@ function delete_mc_journey(val){
     value_pick.splice(val-1,1);
     airline_pick_list.splice(val-1,1);
     temp = parseInt(airline_request.counter) - 1;
+    counter_search = val -1;
     airline_request.counter = temp.toString();
+    airline_request['departure'].splice(val-1,1);
+    airline_request['destination'].splice(val-1,1);
+    airline_request['origin'].splice(val-1,1);
+    airline_request['return'].splice(val-1,1);
+
     airline_pick_mc('all');
     if(parseInt(airline_request.counter) == journey.length){
         document.getElementById('airline_detail').innerHTML = '';
@@ -4816,7 +4828,7 @@ function check_passport_expired_six_month(id){
             Swal.fire({
               type: 'warning',
               title: 'Oops!',
-              html: '<span style="color: #ff9900;">Expired date less then 6 months </span>' ,
+              html: '<span style="color: #ff9900;">Passport expired date less then 6 months </span>' ,
             })
     }
 }
@@ -5167,6 +5179,7 @@ function change_date_shortcut(val){
         airline_list_count = 0;
         counter_search = 0;
         airline_pick_list = [];
+        check_airline_pick = 0;
         journey = [];
         airline_pick_mc('no_button');
         document.getElementById("badge-flight-notif").innerHTML = "";
