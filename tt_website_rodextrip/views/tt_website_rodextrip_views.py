@@ -1098,6 +1098,23 @@ def get_data_template(request, type='home', provider_type = []):
         file = read_cache_with_folder_path("provider_types_sequence", 90911)
         if file:
             provider_types_sequence = file
+        #check sequence
+        last_sequence = 0
+        empty_sequence = False
+        for provider_obj in provider_types_sequence:
+            try:
+                if provider_obj['sequence'] == '':
+                    empty_sequence = True
+                elif isinstance(int(provider_obj['sequence']), int) and last_sequence < int(provider_obj['sequence']): #check isi int atau tidak
+                    last_sequence = int(provider_obj['sequence'])
+            except:
+                provider_obj['sequence'] = ''
+                empty_sequence = True
+        if empty_sequence:
+            for provider_obj in provider_types_sequence:
+                if provider_obj['sequence'] == '' :
+                    last_sequence += 1
+                    provider_obj['sequence'] = str(last_sequence)
 
         provider_types_sequence = sorted(provider_types_sequence, key=lambda k: int(k['sequence']))
 

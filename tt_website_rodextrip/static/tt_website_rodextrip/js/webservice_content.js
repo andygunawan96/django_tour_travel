@@ -34,7 +34,7 @@ function set_inactive_delete_banner(){
     try{
         for(i=0; i<1000; i++){
             update = 0;
-            if(document.getElementById('big_banner'+i+'_active').checked == false){
+            if(document.getElementById('big_banner'+i+'_active').checked != banner_list['big_banner'][i].active){
                 img.push({
                     'seq_id': document.getElementById('big_banner'+i+'_image').getAttribute('value'),
                     'action': 'active',
@@ -71,7 +71,7 @@ function set_inactive_delete_banner(){
     try{
         for(i=0; i<1000; i++){
             update = 0;
-            if(document.getElementById('small_banner'+i+'_active').checked == false){
+            if(document.getElementById('small_banner'+i+'_active').checked != banner_list['small_banner'][i].active){
                 img.push({
                     'seq_id': document.getElementById('small_banner'+i+'_image').getAttribute('value'),
                     'action': 'active',
@@ -108,7 +108,7 @@ function set_inactive_delete_banner(){
     try{
         for(i=0; i<1000; i++){
             update = 0;
-            if(document.getElementById('promotion'+i+'_active').checked == false){
+            if(document.getElementById('promotion'+i+'_active').checked == banner_list['promotion'][i].active){
                 img.push({
                     'seq_id': document.getElementById('promotion'+i+'_image').getAttribute('value'),
                     'action': 'active',
@@ -480,6 +480,7 @@ function get_banner(type,page){
                         `;
                     }
                     text += `</div>`;
+                    banner_list[type] = msg.result.response;
                 }
                 document.getElementById(type).innerHTML = text;
                 if(page == 'admin'){
