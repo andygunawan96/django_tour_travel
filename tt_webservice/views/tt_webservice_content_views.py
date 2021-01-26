@@ -289,7 +289,18 @@ def get_banner(request):
             if res['result']['error_code'] == 0:
                 if request.POST['type'] == 'big_banner':
                     try:
-                        #tambah datetime
+                        empty_sequence = False
+                        last_sequence = 0
+                        for rec in res['result']['response']:
+                            if rec['sequence'] == '':
+                                empty_sequence = True
+                            elif isinstance(int(rec['sequence']), int) and last_sequence < int(rec['sequence']):  # check isi int atau tidak
+                                last_sequence = int(rec['sequence'])
+                        if empty_sequence:
+                            for rec in res['result']['response']:
+                                if rec['sequence'] == '':
+                                    last_sequence += 1
+                                    rec['sequence'] = last_sequence
                         res['result']['response'] = sorted(res['result']['response'], key=lambda k: int(k['sequence']))
                         write_cache_with_folder(res, "big_banner_cache")
                         _logger.info("big_banner RENEW SUCCESS SIGNATURE " + request.POST['signature'])
@@ -298,7 +309,19 @@ def get_banner(request):
                             'ERROR big banner file \n' + str(e) + '\n' + traceback.format_exc())
                 elif request.POST['type'] == 'small_banner':
                     try:
-                        #tambah datetime
+                        empty_sequence = False
+                        last_sequence = 0
+                        for rec in res['result']['response']:
+                            if rec['sequence'] == '':
+                                empty_sequence = True
+                            elif isinstance(int(rec['sequence']), int) and last_sequence < int(rec['sequence']):  # check isi int atau tidak
+                                last_sequence = int(rec['sequence'])
+                        if empty_sequence:
+                            for rec in res['result']['response']:
+                                if rec['sequence'] == '':
+                                    last_sequence += 1
+                                    rec['sequence'] = last_sequence
+                        res['result']['response'] = sorted(res['result']['response'], key=lambda k: int(k['sequence']))
                         write_cache_with_folder(res, "small_banner_cache")
                         _logger.info("small_banner RENEW SUCCESS SIGNATURE " + request.POST['signature'])
                     except Exception as e:
@@ -306,7 +329,19 @@ def get_banner(request):
                             'ERROR small banner file \n' + str(e) + '\n' + traceback.format_exc())
                 elif request.POST['type'] == 'promotion':
                     try:
-                        #tambah datetime
+                        empty_sequence = False
+                        last_sequence = 0
+                        for rec in res['result']['response']:
+                            if rec['sequence'] == '':
+                                empty_sequence = True
+                            elif isinstance(int(rec['sequence']), int) and last_sequence < int(rec['sequence']):  # check isi int atau tidak
+                                last_sequence = int(rec['sequence'])
+                        if empty_sequence:
+                            for rec in res['result']['response']:
+                                if rec['sequence'] == '':
+                                    last_sequence += 1
+                                    rec['sequence'] = last_sequence
+                        res['result']['response'] = sorted(res['result']['response'],key=lambda k: int(k['sequence']))
                         write_cache_with_folder(res, "promotion_banner_cache")
                         _logger.info("promotion_banner RENEW SUCCESS SIGNATURE " + request.POST['signature'])
                     except Exception as e:

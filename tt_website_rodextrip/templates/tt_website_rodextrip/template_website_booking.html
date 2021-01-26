@@ -282,8 +282,17 @@ Licence URI: http://www.os-templates.com/template-terms
     <!--other-->
     <script src="{{ static_path }}js/vendor/jquery-2.2.4.min.js?version={{javascript_version}}"></script>
     <script>
-        bottom = 120;
+        bottom = 60;
     </script>
+    {% if username.co_user_login != ''  and name == 'Rodextrip'%}
+    <script data-skip-moving="true">
+        (function(w,d,u){
+        var s=d.createElement('script');s.async=1;s.src=u+'?'+(Date.now()/60000|0);
+        var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);
+        })(window,document,'https://bitrix.skytors.id/upload/crm/site_button/loader_1_gvnv97.js');
+        bottom += 60;
+    </script>
+    {% endif %}
     <style media="screen" type="text/css">
         .bx-imopenlines-config-sidebar{
             height: 65% !important;
@@ -1602,6 +1611,10 @@ Licence URI: http://www.os-templates.com/template-terms
     user_login = user_login.replace(/True/g, '""');
     user_login = JSON.parse(user_login.replace(/&#39;/g, '"'));
     name = `{{name}}`;
+    provider_list_template = `{{provider}}`;
+    provider_list_template = provider_list_template.replace(/False/g, '""');
+    provider_list_template = provider_list_template.replace(/True/g, '""');
+    provider_list_template = JSON.parse(provider_list_template.replace(/&#39;/g, '"'));
 </script>
 <script type="text/javascript">
     // Broad cast that your're opening a page.
@@ -1754,14 +1767,7 @@ Licence URI: http://www.os-templates.com/template-terms
 <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>-->
 <!--<script src="https://unpkg.com/aos@2.3.1/dist/aos.js?version={{javascript_version}}"></script>-->
 
-{% if username.co_user_login != ''  and name == 'Rodextrip'%}
-<script data-skip-moving="true">
-    (function(w,d,u){
-    var s=d.createElement('script');s.async=1;s.src=u+'?'+(Date.now()/60000|0);
-    var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);
-    })(window,document,'https://bitrix.skytors.id/upload/crm/site_button/loader_1_gvnv97.js');
-</script>
-{% endif %}
+
 <!--Start of Tawk.to Script-->
 {% if tawk_code != '' and username.co_user_login != '' %}
 <script type="text/javascript">
