@@ -2005,7 +2005,7 @@ def compute_pax_js_new(paxs):
             for pnr in journeys:
                 if pnr['pnr'] == rec_pax[1]:
                     for journey in pnr['journeys']:
-                        if rec_pax[3] == journey['destination'] and rec_pax[4] == journey['origin'] and convert_frontend_datetime_to_server_format(rec_pax[5]) == journey['departure_date'] and rec_pax[2] not in journey['pax']:
+                        if rec_pax[3] == journey['origin'] and rec_pax[4] == journey['destination'] and convert_frontend_datetime_to_server_format(rec_pax[5]) == journey['departure_date'] and rec_pax[2] not in journey['pax']:
                             journey['pax'].append(int(rec_pax[2]))
                             check = False
                     if check == True:
