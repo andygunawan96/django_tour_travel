@@ -5506,6 +5506,14 @@ function cancel_btn(){
             //console.log( index + ": " + $('.refund_pax:checkbox:checked')[0].id );
             passengers.push($('.refund_pax:checkbox:checked')[index].id);
         });
+        var passengers_remarks = []
+        $('.refund_remarks:input').each(function( index ) {
+            console.log(index);
+            passengers_remarks.push({
+                "value": $('.refund_remarks:input')[index].value,
+                "id": $('.refund_remarks:input')[index].id
+            });
+        });
         var list_price_refund = [];
         var provider = [];
         for(i in airline_refund_response.provider_bookings){
@@ -5570,7 +5578,8 @@ function cancel_btn(){
                'signature': signature,
                'passengers': JSON.stringify(passengers),
                'list_price_refund': JSON.stringify(list_price_refund),
-               'provider': JSON.stringify(provider)
+               'provider': JSON.stringify(provider),
+               'remarks': JSON.stringify(passengers_remarks)
            },
            success: function(msg) {
                console.log(msg);
@@ -8588,6 +8597,7 @@ function airline_get_booking_refund(data){
                                         <th style="width:5%;" class="list-of-passenger-left">Refund</th>
                                         <th style="width:30%;">Name</th>
                                         <th style="width:20%;">Birth Date</th>
+                                        <th style="width:45%;">Remarks</th>
                                     </tr>`;
                                     for(pax in msg.result.response.provider_bookings[i].tickets){
                                         ticket = '';
@@ -8608,7 +8618,7 @@ function airline_get_booking_refund(data){
                                                     text+=`
                                                     <td>`+msg.result.response.passengers[pax].title+` `+msg.result.response.passengers[pax].first_name+` `+msg.result.response.passengers[pax].last_name+`</td>
                                                     <td>`+msg.result.response.passengers[pax].birth_date+`</td>
-
+                                                    <td><input type="text" class="refund_remarks" style="width:100%" id="remarks~`+msg.result.response.provider_bookings[provider].pnr+`~`+pax+`~`+msg.result.response.provider_bookings[provider].journeys[journey].origin+`~`+msg.result.response.provider_bookings[provider].journeys[journey].destination+`~`+msg.result.response.provider_bookings[provider].journeys[journey].departure_date+`" name="remarks~`+msg.result.response.provider_bookings[provider].pnr+`~`+pax+`~`+msg.result.response.provider_bookings[provider].journeys[journey].origin+`~`+msg.result.response.provider_bookings[provider].journeys[journey].destination+`~`+msg.result.response.provider_bookings[provider].journeys[journey].departure_date+`"/></td>
                                                 </tr>`;
 
                                                 }
@@ -8626,15 +8636,18 @@ function airline_get_booking_refund(data){
                                     <th style="width:5%;" class="list-of-passenger-left">Refund</th>
                                     <th style="width:30%;">Name</th>
                                     <th style="width:20%;">Birth Date</th>
+                                    <th style="width:45%;">Remarks</th>
                                 </tr>`;
                                 for(pax in msg.result.response.provider_bookings[i].tickets){
                                     ticket = '';
                                     for(provider in msg.result.response.provider_bookings){
                                         pnr_refund = '';
+                                        remark_refund = '';
                                         for(journey in msg.result.response.provider_bookings[provider].journeys){
                                             if(msg.result.response.provider_bookings[i].pnr == msg.result.response.provider_bookings[provider].pnr){
                                                 if((parseInt(journey)+1) == msg.result.response.provider_bookings[provider].journeys.length){
                                                     pnr_refund += `pnr~`+msg.result.response.provider_bookings[provider].pnr+`~`+pax+`~`+msg.result.response.provider_bookings[provider].journeys[journey].origin+`~`+msg.result.response.provider_bookings[provider].journeys[journey].destination+`~`+msg.result.response.provider_bookings[provider].journeys[journey].departure_date;
+                                                    remark_refund += `remarks~`+msg.result.response.provider_bookings[provider].pnr+`~`+pax+`~`+msg.result.response.provider_bookings[provider].journeys[journey].origin+`~`+msg.result.response.provider_bookings[provider].journeys[journey].destination+`~`+msg.result.response.provider_bookings[provider].journeys[journey].departure_date;
                                                     text+=`<tr>`;
                                                     if(moment().format('YYYY-MM-DD HH:mm:ss') < msg.result.response.provider_bookings[i].departure_date){
                                                         text+=`
@@ -8646,10 +8659,11 @@ function airline_get_booking_refund(data){
                                                     text+=`
                                                     <td>`+msg.result.response.passengers[pax].title+` `+msg.result.response.passengers[pax].first_name+` `+msg.result.response.passengers[pax].last_name+`</td>
                                                     <td>`+msg.result.response.passengers[pax].birth_date+`</td>
-
+                                                    <td><input type="text" class="refund_remarks" style="width:100%" id="`+remark_refund+`" name="`+remark_refund+`"/></td>
                                                 </tr>`;
                                                 }else{
                                                     pnr_refund += `pnr~`+msg.result.response.provider_bookings[provider].pnr+`~`+pax+`~`+msg.result.response.provider_bookings[provider].journeys[journey].origin+`~`+msg.result.response.provider_bookings[provider].journeys[journey].destination+`~`+msg.result.response.provider_bookings[provider].journeys[journey].departure_date+` - `;
+                                                    remark_refund += `remarks~`+msg.result.response.provider_bookings[provider].pnr+`~`+pax+`~`+msg.result.response.provider_bookings[provider].journeys[journey].origin+`~`+msg.result.response.provider_bookings[provider].journeys[journey].destination+`~`+msg.result.response.provider_bookings[provider].journeys[journey].departure_date+` - `;
                                                 }
 
                                             }
