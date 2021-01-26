@@ -854,12 +854,12 @@ function sort(response, check_filter){
                                                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">`;
                                                 if(j == 0){
                                                     text += `<i class="fas fa-thumbs-up" style="color:`+color+`;"></i>`;
-                                                    text += `<span class="price_hotel" hidden>IDR ` + getrupiah(arr[j][1]['price']) + `</span>`;
+                                                    text += `<span class="price_hotel" hidden>`+arr[j][1]['currency']+` ` + getrupiah(arr[j][1]['price']) + `</span>`;
                                                 }
                                                 text +=`
                                                 </div>
                                                 <div class="col-lg-10 col-md-10 col-sm-11 col-xs-11 search_hotel_vendor" style="padding-left:5px; padding-right:5px;">
-                                                    <span style="font-size:13px; font-weight: 700;">IDR ` + getrupiah(arr[j][1]['price']) + `</span>
+                                                    <span style="font-size:13px; font-weight: 700;">`+arr[j][1]['currency']+` ` + getrupiah(arr[j][1]['price']) + `</span>
                                                     <span style="font-size:13px; font-weight: 500; float:right;">` + arr[j][0] +`</span>
                                                 </div>`;
                                             }

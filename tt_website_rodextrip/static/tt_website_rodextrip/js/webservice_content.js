@@ -175,8 +175,8 @@ function banner_click(type, seq_id){
         for(j in banner_list[i]){
             if(seq_id == banner_list[i][j].seq_id){
                 if(banner_list[i][j].provider_type == 'hotel'){
-//                    $('#myModalWizardHotel').modal('show');
-//                    document.getElementById('hotel_searchForm_wizard').action = banner_list[i][j].url_page;
+                    $('#myModalWizardHotel').modal('show');
+                    document.getElementById('hotel_searchForm_wizard').action = banner_list[i][j].url_page;
                 }else if(banner_list[i][j].provider_type == 'tour' || banner_list[i][j].provider_type == 'activity'){
                     window.location = banner_list[i][j].url_page;
                 }
