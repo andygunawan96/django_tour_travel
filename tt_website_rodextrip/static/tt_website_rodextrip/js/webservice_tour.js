@@ -784,7 +784,6 @@ function tour_get_details(tour_code){
                     content_pop_question+=`<b>Private Tour: </b>Private Tour organized according to the participant's request.`;
                 }
 
-
                 country_text+=`
                     </div>
                     <span id="pop_question" style="cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>`;

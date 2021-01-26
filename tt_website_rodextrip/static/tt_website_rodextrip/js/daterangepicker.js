@@ -7,7 +7,6 @@
 */
 // Following the UMD template https://github.com/umdjs/umd/blob/master/templates/returnExportsGlobal.js
 
-
 function get_public_holiday(start_date, end_date, country_id){
     getToken();
     $.ajax({
@@ -99,6 +98,9 @@ function get_public_holiday(start_date, end_date, country_id){
         this.cancelButtonClasses = 'btn-default';
 
         this.locale = {
+            productDate: 'noProduct',
+            styleDate: 'noStyle',
+            footerAdd: 'noStyle',
             direction: 'ltr',
             format: moment.localeData().longDateFormat('L'),
             separator: ' - ',
@@ -154,6 +156,18 @@ function get_public_holiday(start_date, end_date, country_id){
         //
 
         if (typeof options.locale === 'object') {
+
+            if (typeof options.locale.productDate === 'string')
+              this.locale.productDate = options.locale.productDate;
+
+            if (typeof options.locale.styleDate === 'string')
+              this.locale.styleDate = options.locale.styleDate;
+
+            if (typeof options.locale.footerAdd === 'string')
+              this.locale.footerAdd = options.locale.footerAdd;
+
+            if (typeof options.locale.dataDate === 'object')
+                this.locale.dataDate = options.locale.dataDate.slice();
 
             if (typeof options.locale.direction === 'string')
                 this.locale.direction = options.locale.direction;
@@ -667,7 +681,7 @@ function get_public_holiday(start_date, end_date, country_id){
             var dayOfWeek = firstDay.day();
 
             //public holiday footer
-            var footer = '<hr style="margin-top:unset;"/>';
+            var footer = '<hr style="margin-top:10px;margin-bottom:10px;"/>';
 
             //initialize a 6 rows x 7 columns array for the calendar
             var calendar = [];
@@ -838,12 +852,6 @@ function get_public_holiday(start_date, end_date, country_id){
                     var tempDateRender = year+'-'+tempMonth+'-'+tempDate;
                     var tempDateRender2 = tempDate;
 
-//                    try{
-//                        if(tempDateRender == "2021-01-14"){
-//                            footer += '<div style="margin-bottom:10px; font-size:12px;"><span class="fa fa-hand-holding-usd" style="font-size:12px;"></span> Additional Charge</div><hr/>';
-//                        }
-//                    }catch(err){}
-
                     try{
                         for (i in date_api.result.response){
                             var stringDateRender="";
@@ -916,21 +924,31 @@ function get_public_holiday(start_date, end_date, country_id){
                     if (!disabled)
                         cname += 'available';
 
-                    html += '<td class="' + cname.replace(/^\s+|\s+$/g, '') + '" data-title="' + 'r' + row + 'c' + col + '">' + calendar[row][col].date() + '</td>';
-//                    html += '<td class="' + cname.replace(/^\s+|\s+$/g, '') + '" data-title="' + 'r' + row + 'c' + col + '">' + calendar[row][col].date()+'<br/>';
-//                    cname_available = cname.includes("available");
-//                    cname_off = cname.includes("off");
-//                    if(cname_available == true){
-//                        html += '<span class="fa fa-hand-holding-usd span_date available" data-title="' + 'r' + row + 'c' + col + '" style="font-size:12px;"></span>';
-//                    }
-//                    html += '</td>';
+//                    html += '<td class="' + cname.replace(/^\s+|\s+$/g, '') + '" data-title="' + 'r' + row + 'c' + col + '">' + calendar[row][col].date() + '</td>';
+                    html += '<td class="' + cname.replace(/^\s+|\s+$/g, '') + '" data-title="' + 'r' + row + 'c' + col + '">' + calendar[row][col].date()+'<br/>';
+                    if(this.locale.productDate == 'tour'){
+                        if(this.locale.dataDate.length != 0){
+                            for (data_rg in this.locale.dataDate){
+                                if(this.locale.dataDate[data_rg] == tempDateRender){
+                                    cname_available = cname.includes("available");
+                                    cname_off = cname.includes("off");
+                                    if(cname_available == true){
+                                        html += '<span class="fa fa-hand-holding-usd span_date available" data-title="' + 'r' + row + 'c' + col + '" style="font-size:12px;"></span>';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    html += '</td>';
                 }
                 html += '</tr>';
             }
             html += '</tbody>';
             html += '</table>';
-
-            html += footer
+            if(this.locale.footerAdd != 'noStyle'){
+                html += this.locale.footerAdd;
+            }
+            html += footer;
 
             this.container.find('.drp-calendar.' + side + ' .calendar-table').html(html);
 
