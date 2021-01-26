@@ -211,7 +211,7 @@ function get_banner(type,page){
                             text+=`
                             <div class="item">
                                 <center>
-                                    <img src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('big_banner','`+msg.result.response[i].seq_id+`')"/>
+                                    <img style="cursor:pointer;" src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('big_banner','`+msg.result.response[i].seq_id+`')"/>
                                 </center>
                             </div>`;
                         }
@@ -239,7 +239,7 @@ function get_banner(type,page){
                                                 <div class="item">
                                                     <div class="single-destination relative">
                                                         <div class="thumb relative">
-                                                            <img src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
+                                                            <img style="cursor:pointer;" src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
                                                         </div>
                                                     </div>
                                                 </div>`;
@@ -267,7 +267,7 @@ function get_banner(type,page){
                                                 <div class="item">
                                                     <div class="single-destination relative">
                                                         <div class="thumb relative">
-                                                            <img src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
+                                                            <img style="cursor:pointer;" src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
                                                         </div>
                                                     </div>
                                                 </div>`;
@@ -297,7 +297,7 @@ function get_banner(type,page){
                                                 <div class="item">
                                                     <div class="single-destination relative">
                                                         <div class="thumb relative">
-                                                            <img src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
+                                                            <img style="cursor:pointer;" src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
                                                         </div>
                                                     </div>
                                                 </div>`;
@@ -327,7 +327,7 @@ function get_banner(type,page){
                                                 <div class="item">
                                                     <div class="single-destination relative">
                                                         <div class="thumb relative">
-                                                            <img src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
+                                                            <img style="cursor:pointer;" src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
                                                         </div>
                                                     </div>
                                                 </div>`;
@@ -358,7 +358,7 @@ function get_banner(type,page){
                                                 <div class="item">
                                                     <div class="single-destination relative">
                                                         <div class="thumb relative">
-                                                            <img src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
+                                                            <img style="cursor:pointer;" src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
                                                         </div>
                                                     </div>
                                                 </div>`;
@@ -393,7 +393,7 @@ function get_banner(type,page){
                                                 text+=`
                                                 <div class="item">
                                                     <center>
-                                                        <img src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" style="max-width:500px; max-height:500px;" onclick="banner_click('promotion','`+msg.result.response[i].seq_id+`')"/>
+                                                        <img style="cursor:pointer;" src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" style="max-width:500px; max-height:500px;" onclick="banner_click('promotion','`+msg.result.response[i].seq_id+`')"/>
                                                     </center>
                                                 </div>`;
                                             }

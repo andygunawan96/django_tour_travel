@@ -1534,6 +1534,7 @@ def update_refund_booking(request):
     # nanti ganti ke get_ssr_availability
     try:
         provider_bookings = request.POST.get('passengers') and compute_pax_js_new(request.POST['passengers']) or []
+        remarks = json.loads(request.POST['remarks'])
         fees = json.loads(request.POST['list_price_refund'])
         provider = json.loads(request.POST['provider'])
         for idx, provider_booking in enumerate(provider_bookings):
@@ -1555,8 +1556,19 @@ def update_refund_booking(request):
                                 'first_name': fee['first_name'],
                                 'last_name': fee['last_name'],
                                 'sequence': fee['sequence'],
-                                'fees': [fee]
+                                'fees': [fee],
+                                'remark': ''
                             })
+        for remark in remarks:
+            if remark['value'] != '':
+                remark['id'] = remark['id'].split(' - ')[0].split('~')
+                for provider_booking in provider_bookings:
+                    if remark['id'][1] == provider_booking['pnr']:
+                        for journey in provider_booking['journeys']:
+                            if remark['id'][3] == journey['origin'] and remark['id'][4] == journey['destination'] and convert_frontend_datetime_to_server_format(remark['id'][5]) == journey['departure_date']:
+                                for pax in journey['passengers']:
+                                    if pax['sequence'] == int(remark['id'][2]):
+                                        pax['remark'] = remark['value']
         data = {
             'order_number': request.POST['order_number'],
             'provider_bookings': provider_bookings
@@ -1998,8 +2010,8 @@ def compute_pax_js_new(paxs):
                             check = False
                     if check == True:
                         pnr['journeys'].append({
-                            'destination': rec_pax[3],
-                            'origin': rec_pax[4],
+                            'destination': rec_pax[4],
+                            'origin': rec_pax[3],
                             'departure_date': convert_frontend_datetime_to_server_format(rec_pax[5]),
                             'pax': []
                         })
@@ -2012,8 +2024,8 @@ def compute_pax_js_new(paxs):
                     'journeys': []
                 })
                 journeys[len(journeys)-1]['journeys'].append({
-                    'destination': rec_pax[3],
-                    'origin': rec_pax[4],
+                    'destination': rec_pax[4],
+                    'origin': rec_pax[3],
                     'departure_date': convert_frontend_datetime_to_server_format(rec_pax[5]),
                     'pax': []
                 })
