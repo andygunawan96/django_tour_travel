@@ -963,14 +963,14 @@
                                         <input type="hidden" id="tour_line_code" name="tour_line_code" value=""/>
                                         <div class="row">
                                             <div class="col-lg-8 col-md-8">
-                                                <input type="text" id="tour_line_display" name="tour_line_display" class="form-control mb-3" disabled/>
+                                                <input type="text" id="tour_line_display" name="tour_line_display" class="form-control mb-3" style="margin-bottom:5px !important;" disabled/>
                                             </div>
                                             <div class="col-lg-4 col-md-4">
                                                 <button id="btnChangeDate" class="primary-btn-ticket btn-block space" type="button" data-toggle="modal" data-target="#ChangeDateModal"><i class="fas fa-calendar-alt"></i> {% trans 'Choose Package' %}</button>
                                             </div>
                                         </div>
                                         <h4 class="mt-3 mb-2 open_tour_date" style="display:none;">{% trans 'Tour Date' %}</h4>
-                                        <div class="open_tour_date" style="display:none;">
+                                        <div class="open_tour_date" id="open_tour_div" style="display:none;">
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                                     <h6>{% trans 'Select Departure Date' %}</h6>
@@ -980,9 +980,9 @@
                                                     <h6>{% trans 'Arrival Date' %}</h6>
                                                     <input type="text" id="open_tour_arrival_date" name="open_tour_arrival_date" placeholder="Tour Arrival Date" class="form-control" autocomplete="off" style="background: #dddddd; pointer-events: none;" readonly/>
                                                 </div>
-<!--                                                <div class="col-lg-12 mt-3" >-->
-<!--                                                    <h6 id="show_additional_charge" style="font-weight:500;color:{{color}}; cursor:pointer;">See Additional Charge <i class="fas fa-hand-holding-usd"></i></h6>-->
-<!--                                                </div>-->
+                                                <div class="col-lg-12 mt-3">
+                                                    <button id="show_additional_charge" type="button" class="primary-btn">Show Additional Charge <i class="fas fa-hand-holding-usd"></i></button>
+                                                </div>
                                             </div>
                                         </div>
                                         <br/>
@@ -1126,24 +1126,23 @@
     $(document).ready(function () {
         breadcrumb_create("tour", 3, 0);
 
-        //cek_test = new jBox('Modal', {
-        //  attach: '#show_additional_charge',
-        //  width: 350,
-        //  height: 200,
-        //  blockScroll: false,
-        //  animation: 'zoomIn',
-        //  draggable: 'title',
-        //  closeButton: true,
-        //  content: 'You can move this modal window',
-        //  title: '<span style="font-size:14px;">Additional Charge</span><br/><span style="font-size:11px;">Click here. You can move this modal window.</span>',
-        //  overlay: false,
-        //  reposition: false,
-        //  repositionOnOpen: false
-        //});
+        modal_special_date = new jBox('Modal', {
+          attach: '#show_additional_charge',
+          width: 500,
+          minHeight:100,
+          blockScroll: false,
+          animation: 'zoomIn',
+          draggable: 'title',
+          closeButton: true,
+          title: '<h6 style="color:{{text_color}};">Additional Charge</h6><span style="font-size:13px;">You can move this modal window.</span>',
+          overlay: false,
+          reposition: false,
+          repositionOnOpen: false
+        });
 
-        //$('#show_additional_charge').on('click', function () {
-        //   cek_test.open();
-        //});
+        $('#show_additional_charge').on('click', function () {
+           modal_special_date.open();
+        });
 
         $('.js-example-basic-single').select2();
         get_tour_auto_complete('search');

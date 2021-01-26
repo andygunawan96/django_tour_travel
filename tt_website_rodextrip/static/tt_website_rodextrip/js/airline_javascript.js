@@ -3084,22 +3084,24 @@ function airline_pick_mc(type){
                             <div class="timeline-wrapper">
                                 <ul class="StepProgress">
                                     <li class="StepProgress-item is-done">
-                                        <div class="bold">
-                                            `+airline_pick_list[i].segments[j].departure_date.split(' - ')[0]+` - `+airline_pick_list[i].segments[j].departure_date.split(' - ')[1]+`
-                                        </div>
-                                        <div>
-                                            <span style="font-weight:500;">`+airline_pick_list[i].segments[j].origin_city+` - `+airline_pick_list[i].segments[j].origin_name+` (`+airline_pick_list[i].segments[j].origin+`)</span></br>
-                                            <span>Terminal: `+airline_pick_list[i].segments[j].origin_terminal+`</span>
-                                        </div>
+                                       <div>
+                                           <span style="font-weight:600; font-size:16px;">`+airline_pick_list[i].segments[j].departure_date.split(' - ')[1]+`</span><br/>
+                                           <span>`+airline_pick_list[i].segments[j].departure_date.split(' - ')[0]+`</span>
+                                       </div>
+                                       <div style="width:84%;">
+                                           <span style="font-weight:500;">`+airline_pick_list[i].segments[j].origin_city+` - `+airline_pick_list[i].segments[j].origin_name+` (`+airline_pick_list[i].segments[j].origin+`)</span></br>
+                                           <span>Terminal: `+airline_pick_list[i].segments[j].origin_terminal+`</span>
+                                       </div>
                                     </li>
                                     <li class="StepProgress-item is-end">
-                                        <div class="bold">
-                                            `+airline_pick_list[i].segments[j].arrival_date.split(' - ')[0]+` - `+airline_pick_list[i].segments[j].arrival_date.split(' - ')[1]+`
-                                        </div>
-                                        <div>
-                                            <span style="font-weight:500;">`+airline_pick_list[i].segments[j].destination_city+`</span> - <span>`+airline_pick_list[i].segments[j].destination_name+` (`+airline_pick_list[i].segments[j].destination+`)</span><br/>
-                                            <span>Terminal: `+airline_pick_list[i].segments[j].destination_terminal+`</span>
-                                        </div>
+                                       <div>
+                                           <span style="font-weight:600; font-size:16px;">`+airline_pick_list[i].segments[j].arrival_date.split(' - ')[1]+`</span><br/>
+                                           <span>`+airline_pick_list[i].segments[j].arrival_date.split(' - ')[0]+`</span>
+                                       </div>
+                                       <div style="width:84%;">
+                                           <span style="font-weight:500;">`+airline_pick_list[i].segments[j].destination_city+`</span> - <span>`+airline_pick_list[i].segments[j].destination_name+` (`+airline_pick_list[i].segments[j].destination+`)</span><br/>
+                                           <span>Terminal: `+airline_pick_list[i].segments[j].destination_terminal+`</span>
+                                       </div>
                                     </li>
                                 </ul>
                             </div>

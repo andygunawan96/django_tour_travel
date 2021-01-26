@@ -282,17 +282,8 @@ Licence URI: http://www.os-templates.com/template-terms
     <!--other-->
     <script src="{{ static_path }}js/vendor/jquery-2.2.4.min.js?version={{javascript_version}}"></script>
     <script>
-        bottom = 60;
+        bottom = 120;
     </script>
-    {% if username.co_user_login != ''  and name == 'Rodextrip'%}
-    <script data-skip-moving="true">
-        (function(w,d,u){
-        var s=d.createElement('script');s.async=1;s.src=u+'?'+(Date.now()/60000|0);
-        var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);
-        })(window,document,'https://bitrix.skytors.id/upload/crm/site_button/loader_1_gvnv97.js');
-        bottom += 60;
-    </script>
-    {% endif %}
     <style media="screen" type="text/css">
         .bx-imopenlines-config-sidebar{
             height: 65% !important;
@@ -305,6 +296,45 @@ Licence URI: http://www.os-templates.com/template-terms
         }
         .connector-icon{
             background-size: 60% auto !important;
+        }
+        .b24-widget-button-position-bottom-right{
+            right:-5px !important;
+            bottom: 52px !important;
+        }
+        .b24-widget-button-inner-mask{
+            height:unset !important;
+            width:unset !important;
+            min-width:unset !important;
+            -webkit-width:unset !important;
+            background: {{color}} !important;
+            border-radius: unset !important;
+        }
+        .b24-widget-button-pulse-animate{
+            -webkit-animation: unset !important;
+            animation: unset !important;
+        }
+        .b24-widget-button-block{
+            border-radius: unset !important;
+            height:65px !important;
+            width:65px !important;
+        }
+        .b24-widget-button-inner-block{
+            background-color: {{color}} !important;
+            border-radius: unset !important;
+        }
+        .b24-widget-button-openline_livechat{
+            background-color: {{color}} !important;
+        }
+        .b24-widget-button-popup{
+            border-color: {{color}} !important;
+            border-radius: unset !important;
+        }
+        .b24-widget-button-popup-triangle{
+            border-color: {{color}} !important;
+        }
+        .b24-widget-button-pulse{
+            border-color: {{color}} !important;
+            border-radius: unset !important;
         }
     </style>
     <style>
@@ -337,6 +367,15 @@ Licence URI: http://www.os-templates.com/template-terms
         .jBox-Modal .jBox-title{
             background: {{color}};
             color: {{text_color}};
+        }
+        .jBox-TooltipBorder.jBox-closeButton-box:before{
+            background: {{color}} !important;
+        }
+        .jBox-closeButton-box .jBox-closeButton{
+            background: {{color}};
+        }
+        .jBox-closeButton path{
+            fill: {{text_color}} !important;
         }
         .style-scrollbar::-webkit-scrollbar-thumb{
 	        background-color: {{tab_color}};
@@ -380,24 +419,6 @@ Licence URI: http://www.os-templates.com/template-terms
         .button_date_np:hover{
             background-color: {{color}};
             color: {{text_color}};
-        }
-        .b24-widget-button-inner-block{
-            background-color: {{color}} !important;
-        }
-        .b24-widget-button-openline_livechat{
-            background-color: {{color}} !important;
-        }
-        .b24-widget-button-popup{
-            border-color: {{color}} !important;
-        }
-        .b24-widget-button-popup-triangle{
-            border-color: {{color}} !important;
-        }
-        .b24-widget-button-inner-mask{
-            background: {{color}} !important;
-        }
-        .b24-widget-button-pulse{
-            border-color: {{color}} !important;
         }
 
         .bx-livechat-head{
@@ -729,7 +750,7 @@ Licence URI: http://www.os-templates.com/template-terms
         .mystickycopybot {
             position: fixed;
             bottom: 180px;
-            right: 58px;
+            right: 0px;
             z-index: 99;
             border: 1px solid gray;
             outline: none;
@@ -738,7 +759,7 @@ Licence URI: http://www.os-templates.com/template-terms
             cursor: pointer;
             height: 55px;
             width: 55px;
-            border-radius: 30px;
+            border-radius: 0px;
             padding-left: 0px !important;
             padding-right: 0px !important;
         }
@@ -748,8 +769,8 @@ Licence URI: http://www.os-templates.com/template-terms
         }
         .myticket {
             position: fixed;
-            top: 85px;
-            right: 55px;
+            top: 75px;
+            right: 0px;
             z-index: 1050;
             background-color: {{color}};
             color: white;
@@ -757,7 +778,7 @@ Licence URI: http://www.os-templates.com/template-terms
             height: 55px;
             width: 55px;
             border: 1px solid #cdcdcd;
-            border-radius: 28px;
+            border-radius: 0px;
             cursor: pointer;
             outline: none;
             cursor: pointer;
@@ -1132,20 +1153,7 @@ Licence URI: http://www.os-templates.com/template-terms
             color: {{color}};
         }
         #myBtnBTP {
-            display: none;
-            position: fixed;
-            bottom: 55px;
-            left: 55px;
-            z-index: 999;
-            font-size: 20px;
-            border: 1px solid gray;
-            outline: none;
             background-color: {{color}};
-            color: white;
-            cursor: pointer;
-            height: 55px;
-            width: 55px;
-            border-radius: 28px;
         }
         #myBtnBTP:hover {
             background-color: {{color}};
@@ -1594,10 +1602,6 @@ Licence URI: http://www.os-templates.com/template-terms
     user_login = user_login.replace(/True/g, '""');
     user_login = JSON.parse(user_login.replace(/&#39;/g, '"'));
     name = `{{name}}`;
-    provider_list_template = `{{provider}}`;
-    provider_list_template = provider_list_template.replace(/False/g, '""');
-    provider_list_template = provider_list_template.replace(/True/g, '""');
-    provider_list_template = JSON.parse(provider_list_template.replace(/&#39;/g, '"'));
 </script>
 <script type="text/javascript">
     // Broad cast that your're opening a page.
@@ -1750,7 +1754,14 @@ Licence URI: http://www.os-templates.com/template-terms
 <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>-->
 <!--<script src="https://unpkg.com/aos@2.3.1/dist/aos.js?version={{javascript_version}}"></script>-->
 
-
+{% if username.co_user_login != ''  and name == 'Rodextrip'%}
+<script data-skip-moving="true">
+    (function(w,d,u){
+    var s=d.createElement('script');s.async=1;s.src=u+'?'+(Date.now()/60000|0);
+    var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);
+    })(window,document,'https://bitrix.skytors.id/upload/crm/site_button/loader_1_gvnv97.js');
+</script>
+{% endif %}
 <!--Start of Tawk.to Script-->
 {% if tawk_code != '' and username.co_user_login != '' %}
 <script type="text/javascript">

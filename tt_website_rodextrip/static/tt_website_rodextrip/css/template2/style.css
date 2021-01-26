@@ -3357,8 +3357,8 @@ ul.btn_tabs li.current .image-rounded-icon{
 
 .badge-notif {
   position: absolute;
-  top: -10px;
-  right: -25px;
+  top: -20px;
+  right: 35px;
   font-size:14px;
   padding: 6px 12px;
   border-radius: 50%;
@@ -3543,7 +3543,7 @@ ul.btn_tabs li.current .image-rounded-icon{
   }
 
   .mystickypaxs{
-    right: 22px !important;
+    right: 0px !important;
   }
 
   .b24-widget-button-wrapper.b24-widget-button-position-bottom-right, .b24-widget-button-wrapper.b24-widget-button-position-bottom-middle, .b24-widget-button-wrapper.b24-widget-button-position-bottom-left{
@@ -3638,18 +3638,18 @@ ul.btn_tabs li.current .image-rounded-icon{
 
 @media (max-width: 575px) {
   .b24-widget-button-wrapper.b24-widget-button-position-bottom-right, .b24-widget-button-wrapper.b24-widget-button-position-bottom-middle, .b24-widget-button-wrapper.b24-widget-button-position-bottom-left{
-    right: 18px !important;
+    right: -5px !important;
     font-size: 14px !important;
   }
   #scrollUp{
     left: 18px !important;
   }
   .mystickypaxs{
-    right: 22px !important;
+    right: 0px !important;
   }
 
   .mystickycopybot{
-    right: 22px !important;
+    right: 0px !important;
   }
 
 }
@@ -6286,7 +6286,7 @@ display: block;
 .mystickywhatsapp {
     position: fixed;
     bottom: 240px;
-    right: 58px;
+    right: 0px;
     z-index: 999;
     font-size: 20px;
     border: 1px solid gray;
@@ -6296,7 +6296,7 @@ display: block;
     cursor: pointer;
     height: 55px;
     width: 55px;
-    border-radius: 30px;
+    border-radius: 0px;
     padding-left: 0px !important;
     padding-right: 0px !important;
 }
@@ -6308,7 +6308,7 @@ display: block;
 .mystickypaxs {
     position: fixed;
     bottom: 120px;
-    right: 58px;
+    right: 0px;
     z-index: 999;
     font-size: 20px;
     border: 1px solid gray;
@@ -6318,7 +6318,7 @@ display: block;
     cursor: pointer;
     height: 55px;
     width: 55px;
-    border-radius: 30px;
+    border-radius: 0px;
     padding-left: 0px !important;
     padding-right: 0px !important;
 }
@@ -6330,7 +6330,7 @@ display: block;
 .mystickybookingvendor {
     position: fixed;
     bottom: 180px;
-    right: 58px;
+    right: 0px;
     z-index: 99;
     font-size: 20px;
     border: 1px solid gray;
@@ -6340,7 +6340,7 @@ display: block;
     cursor: pointer;
     height: 55px;
     width: 55px;
-    border-radius: 30px;
+    border-radius: 0px;
     padding-left: 0px !important;
     padding-right: 0px !important;
 }
@@ -6387,7 +6387,7 @@ display: block;
 .mystickycopybot {
     position: fixed;
     bottom: 180px;
-    right: 58px;
+    right: 0px;
     z-index: 99;
     font-size: 16px;
     border: 1px solid gray;
@@ -6397,7 +6397,7 @@ display: block;
     cursor: pointer;
     height: 55px;
     width: 55px;
-    border-radius: 30px;
+    border-radius: 0px;
     padding-left: 0px !important;
     padding-right: 0px !important;
 }
