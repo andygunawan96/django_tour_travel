@@ -649,6 +649,14 @@ def admin(request):
                     text += request.POST['secret_key']
                     write_cache_with_folder(text, "google_recaptcha")
 
+                    text = {}
+                    text.update({
+                        'name': request.POST['font'].split('.')[0],
+                        'font': request.POST['font'],
+                    })
+                    if text != {}:
+                        write_cache_with_folder(text, "font")
+
                     text = []
                     for idx, data in enumerate(request.session.get('provider'), start=1):
                         try:
@@ -674,6 +682,18 @@ def admin(request):
                     phone_code.append(i['phone_code'])
             phone_code = sorted(phone_code)
 
+            # get font
+            fs = FileSystemStorage()
+            directory = fs.location.split('/')
+            directory.pop()
+            directory = '/'.join(directory)
+            directory += '/tt_website_rodextrip/static/tt_website_rodextrip/custom_font/'
+            data_font = []
+            for font in os.listdir(directory):
+                data_font.append({
+                    'name': font.split('.')[0],
+                    'font': font
+                })
             values = get_data_template(request,'admin')
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -693,6 +713,7 @@ def admin(request):
                     'static_path_url_server': get_url_static_path(),
                     'javascript_version': javascript_version,
                     'signature': request.session['signature'],
+                    'data_font': data_font
                 })
             except Exception as e:
                 _logger.error(str(e) + '\n' + traceback.format_exc())
@@ -1005,6 +1026,7 @@ def get_data_template(request, type='home', provider_type = []):
     site_key = ''
     secret_key = ''
     printout_color = '#FF0000'
+    font = ''
     top_up_term = '''
 <h6>BANK TRANSFER / CASH</h6>
 <li>1. Before you click SUBMIT, please make sure you have inputted the correct amount of TOP UP. If there is a mismatch data, such as the transferred amount/bank account is different from the requested amount/bank account, so the TOP UP will be approved by tomorrow (D+1).<br></li>
@@ -1045,6 +1067,11 @@ def get_data_template(request, type='home', provider_type = []):
                 site_key = line
             elif idx == 2 and line != '':
                 secret_key = line
+
+    # font
+    file = read_cache_with_folder_path("font", 90911)
+    if file:
+        font = file
 
     file = read_cache_with_folder_path("top_up_term", 90911)
     if file:
@@ -1290,7 +1317,8 @@ def get_data_template(request, type='home', provider_type = []):
         'wa_chat': wa_chat,
         'wa_number': wa_number,
         'printout_color': printout_color,
-        'provider_types_sequence': provider_types_sequence
+        'provider_types_sequence': provider_types_sequence,
+        'font': font
 
     }
 
