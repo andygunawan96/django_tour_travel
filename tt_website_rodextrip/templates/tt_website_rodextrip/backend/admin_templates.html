@@ -133,7 +133,7 @@
                                         <h6 style="margin-bottom:10px;color:{{text_color}};">Font</h6>
                                         <div class="form-select" id="default-select">
                                             <select id="font" name="font" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
-                                                <option value=""></option>
+                                                <option value="">{% trans 'Default' %}</option>
                                                 {% for data in data_font %}
                                                 <option value="{{data.font}}" {% if data.font == font.font %} selected {% endif %}>{{data.name}}</option>
                                                 {% endfor %}
@@ -1247,7 +1247,7 @@
                                     <h6 style="margin-bottom:10px;color:{{text_color}};">Font</h6>
                                     <div class="form-select" id="default-select">
                                         <select id="font" name="font" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
-                                            <option value=""></option>
+                                            <option value="">{% trans 'Default' %}</option>
                                             {% for data in data_font %}
                                             <option value="{{data.font}}" {% if data.font == font.font %} selected {% endif %}>{{data.name}}</option>
                                             {% endfor %}
@@ -2360,7 +2360,7 @@
                                     <h6 style="margin-bottom:10px;color:{{text_color}};">Font</h6>
                                     <div class="form-select" id="default-select">
                                         <select id="font" name="font" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
-                                            <option value=""></option>
+                                            <option value="">{% trans 'Default' %}</option>
                                             {% for data in data_font %}
                                             <option value="{{data.font}}" {% if data.font == font.font %} selected {% endif %}>{{data.name}}</option>
                                             {% endfor %}
@@ -3484,7 +3484,7 @@
                                 <h6 style="margin-bottom:10px;color:{{text_color}};">Font</h6>
                                 <div class="form-select" id="default-select">
                                     <select id="font" name="font" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
-                                        <option value=""></option>
+                                        <option value="">{% trans 'Default' %}</option>
                                         {% for data in data_font %}
                                         <option value="{{data.font}}" {% if data.font == font.font %} selected {% endif %}>{{data.name}}</option>
                                         {% endfor %}
@@ -4610,7 +4610,7 @@
                                     <h6 style="margin-bottom:10px;color:{{text_color}};">Font</h6>
                                     <div class="form-select" id="default-select">
                                         <select id="font" name="font" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
-                                            <option value=""></option>
+                                            <option value="">{% trans 'Default' %}</option>
                                             {% for data in data_font %}
                                             <option value="{{data.font}}" {% if data.font == font.font %} selected {% endif %}>{{data.name}}</option>
                                             {% endfor %}

@@ -1026,7 +1026,10 @@ def get_data_template(request, type='home', provider_type = []):
     site_key = ''
     secret_key = ''
     printout_color = '#FF0000'
-    font = ''
+    font = {
+        "name": '',
+        "font": ''
+    }
     top_up_term = '''
 <h6>BANK TRANSFER / CASH</h6>
 <li>1. Before you click SUBMIT, please make sure you have inputted the correct amount of TOP UP. If there is a mismatch data, such as the transferred amount/bank account is different from the requested amount/bank account, so the TOP UP will be approved by tomorrow (D+1).<br></li>

@@ -5654,7 +5654,7 @@ div.scrollmenu li {
     right: 0px;
     z-index: 99;
     font-size: 20px;
-    border: 1px solid #cdcdcd;
+    border-color: transparent;
     outline: none;
     background-color: #f15a22;
     color: white;
@@ -5676,7 +5676,7 @@ div.scrollmenu li {
     right: 0px;
     z-index: 99;
     font-size: 20px;
-    border: 1px solid gray;
+    border-color: transparent;
     outline: none;
     background-color: #f15a22;
     color: white;
@@ -5698,7 +5698,7 @@ div.scrollmenu li {
     right: 0px;
     z-index: 99;
     font-size: 20px;
-    border: 1px solid gray;
+    border-color: transparent;
     outline: none;
     background-color: #f15a22;
     color: white;

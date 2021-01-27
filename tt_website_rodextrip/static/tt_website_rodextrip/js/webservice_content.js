@@ -211,7 +211,7 @@ function get_banner(type,page){
                             text+=`
                             <div class="item">
                                 <center>
-                                    <img style="cursor:pointer;" src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('big_banner','`+msg.result.response[i].seq_id+`')"/>
+                                    <img style="cursor:pointer" src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('big_banner','`+msg.result.response[i].seq_id+`')" />
                                 </center>
                             </div>`;
                         }
@@ -504,7 +504,7 @@ function get_banner(type,page){
                                 center: true,
                                 autoHeight: false,
                                 autoWidth: false,
-                                autoplay: false,
+                                autoplay: true,
                                 autoplayTimeout:8000,
                                 autoplayHoverPause:false,
                                 navText: ['<i class="fas fa-chevron-left owl-wh"/>', '<i class="fas fa-chevron-right owl-wh"/>'],
