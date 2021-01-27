@@ -232,8 +232,8 @@ def search(request):
 
         data = {
             'child': int(request.POST['child']),
-            'hotel_id': hotel_id,
-            'search_name': ' - '.join(request.POST['destination'].split(' - ')[:-1]),
+            'hotel_id': request.POST.get('id') or '',
+            'search_name': request.POST.get('destination') and ' - '.join(request.POST.get('destination').split(' - ')[:-1]) or '',
             'room': int(request.POST['room']),
             'checkout_date': str(datetime.strptime(request.POST['checkout'], '%d %b %Y'))[:10],
             'checkin_date': str(datetime.strptime(request.POST['checkin'], '%d %b %Y'))[:10],
@@ -245,7 +245,7 @@ def search(request):
         }
         try:
             hotel_request_data = request.session['hotel_request_data']
-            hotel_request_data['hotel_id'] = ''
+            hotel_request_data['hotel_id'] = request.POST.get('id') or ''
             set_session(request, 'hotel_request_data', hotel_request_data)
             try:
                 del request.session['hotel_request_data']['pax_country']
