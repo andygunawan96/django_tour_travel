@@ -298,53 +298,56 @@ function select_tour_date(key_change_date){
     content_modal_special = '';
     footer_add = '';
     check_available_date = 0;
-    if (line_data.special_date_list.length != 0){
-        for (dt in line_data.special_date_list){
-            special_date_data.push(line_data.special_date_list[dt].date);
-            if(moment().format('YYYY-MM-DD') == line_data.special_date_list[dt].date){
-                content_modal_special += `
-                    <h6>`+moment(line_data.special_date_list[dt].date).format('DD MMMM YYYY')+`</h6>
-                    <span>`+line_data.special_date_list[dt].name+`</span>
-                    <hr/>
-                    <div class="row">
-                        <div class="col-lg-4 col-md-4">
-                            <span style="font-weight:500; font-size:14px;">Adult: </span>
-                            <span style="font-weight:500; font-size:14px;">`+line_data.special_date_list[dt].currency_code+` `+getrupiah(line_data.special_date_list[dt].additional_adult_price)+`</span>
+    if (tour_data.tour_type == 'open')
+    {
+        if (line_data.special_date_list.length != 0){
+            for (dt in line_data.special_date_list){
+                special_date_data.push(line_data.special_date_list[dt].date);
+                if(moment().format('YYYY-MM-DD') == line_data.special_date_list[dt].date){
+                    content_modal_special += `
+                        <h6>`+moment(line_data.special_date_list[dt].date).format('DD MMMM YYYY')+`</h6>
+                        <span>`+line_data.special_date_list[dt].name+`</span>
+                        <hr/>
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4">
+                                <span style="font-weight:500; font-size:14px;">Adult: </span>
+                                <span style="font-weight:500; font-size:14px;">`+line_data.special_date_list[dt].currency_code+` `+getrupiah(line_data.special_date_list[dt].additional_adult_price)+`</span>
+                            </div>
+                            <div class="col-lg-4 col-md-4">
+                                <span style="font-weight:500; font-size:14px;">Child: </span>
+                                <span style="font-weight:500; font-size:14px;">`+line_data.special_date_list[dt].currency_code+` `+getrupiah(line_data.special_date_list[dt].additional_child_price)+`</span>
+                            </div>
+                            <div class="col-lg-4 col-md-4">
+                                <span style="font-weight:500; font-size:14px;">Infant: </span>
+                                <span style="font-weight:500; font-size:14px;">`+line_data.special_date_list[dt].currency_code+` `+getrupiah(line_data.special_date_list[dt].additional_infant_price)+`</span>
+                            </div>
                         </div>
-                        <div class="col-lg-4 col-md-4">
-                            <span style="font-weight:500; font-size:14px;">Child: </span>
-                            <span style="font-weight:500; font-size:14px;">`+line_data.special_date_list[dt].currency_code+` `+getrupiah(line_data.special_date_list[dt].additional_child_price)+`</span>
-                        </div>
-                        <div class="col-lg-4 col-md-4">
-                            <span style="font-weight:500; font-size:14px;">Infant: </span>
-                            <span style="font-weight:500; font-size:14px;">`+line_data.special_date_list[dt].currency_code+` `+getrupiah(line_data.special_date_list[dt].additional_infant_price)+`</span>
-                        </div>
-                    </div>
-                `;
+                    `;
 
-                modal_special_date.setContent(content_modal_special);
-                modal_special_date.open();
-                $("#show_additional_charge").show();
-                setTimeout(function(){
-                    $('html, body').animate({
-                        scrollTop: $("#open_tour_div").offset().top - 250
+                    modal_special_date.setContent(content_modal_special);
+                    modal_special_date.open();
+                    $("#show_additional_charge").show();
+                    setTimeout(function(){
+                        $('html, body').animate({
+                            scrollTop: $("#open_tour_div").offset().top - 250
+                        }, 500);
                     }, 500);
-                }, 500);
 
-                check_available_date = 1;
-            }else{
-                if(check_available_date == 0){
-                    modal_special_date.setContent("No Additional Charge on this Date");
-                    modal_special_date.close();
-                    $("#show_additional_charge").hide();
+                    check_available_date = 1;
+                }else{
+                    if(check_available_date == 0){
+                        modal_special_date.setContent("No Additional Charge on this Date");
+                        modal_special_date.close();
+                        $("#show_additional_charge").hide();
+                    }
                 }
             }
+            footer_add += '<hr style="margin-top:10px;margin-bottom:10px;/><div style="margin-bottom:10px; font-size:12px;"><span class="fa fa-hand-holding-usd" style="font-size:12px;"></span> Additional Charge</div>';
+        }else{
+            modal_special_date.setContent("No Additional Charge on this Date");
+            modal_special_date.close();
+            $("#show_additional_charge").hide();
         }
-        footer_add += '<hr style="margin-top:10px;margin-bottom:10px;/><div style="margin-bottom:10px; font-size:12px;"><span class="fa fa-hand-holding-usd" style="font-size:12px;"></span> Additional Charge</div>';
-    }else{
-        modal_special_date.setContent("No Additional Charge on this Date");
-        modal_special_date.close();
-        $("#show_additional_charge").hide();
     }
 
     document.getElementById('tour_line_code').value = line_data.tour_line_code;
