@@ -1,0 +1,501 @@
+{% load i18n %}
+
+<style>
+    [data-tooltip]:before {
+        /* needed - do not touch */
+        content: attr(data-tooltip);
+        position: absolute;
+        opacity: 0;
+
+        /* customizable */
+        transition: all 0.15s ease;
+        padding: 10px;
+        color: #333;
+        border-radius: 10px;
+        box-shadow: 2px 2px 1px #cdcdcd;
+    }
+
+    [data-tooltip]:hover:before {
+        /* needed - do not touch */
+        opacity: 1;
+
+        /* customizable */
+        background: {{color}};
+        color: {{text_color}};
+        margin-top: -50px;
+        margin-left: 20px;
+        text-align:left;
+        z-index:10000;
+    }
+
+    [data-tooltip]:not([data-tooltip-persistent]):before {
+        pointer-events: none;
+    }
+    .tooltip-inner {
+        white-space: pre-line;
+    }
+
+</style>
+{%if "get_booking_b2c" in username.co_agent_frontend_security%}
+<div class="modal fade" id="waitingTransaction" role="dialog" style="background:rgba(20,20,20,0.8);">
+    <div class="modal-dialog" style="margin: 0; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+        <!-- Modal content-->
+        <div class="modal-content" style="background-color:transparent; border:unset;">
+            <div class="modal-body">
+                <div class="col-lg-12" id="viewWaitingTransaction">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<button type="button" style="background-color:{{color}};" id="get_booking_b2c" class="mystickybookingvendor" class="primary-btn" data-toggle="modal" data-target="#myModalPluginGetBookingB2C">
+    <i class="fas fa-file"></i>
+</button>
+
+<script>
+    document.getElementById('get_booking_b2c').style.bottom = JSON.parse(JSON.stringify(bottom.toString())) + 'px';
+    bottom+=60;
+    var_toggle_forget_booking = false;
+</script>
+
+
+<div class="modal fade" id="myModalPluginGetBookingB2C" role="dialog" data-keyboard="false">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Get Booking' %} </h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                {%if template == 1%}
+                <div class="col-lg-12 banner-right" id="passenger_input" style="overflow:auto;height:70vh;background-color:white; padding:10px; border:1px solid #cdcdcd;">
+                    <form action="" class="form-wrap" style="padding:15px; text-align:left;" method="POST" id="form_identity_passenger" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <label style="color:red">*</label>
+                                <label>{% trans 'Product' %}</label>
+                                <div class="form-select">
+                                    <select class="form-control js-example-basic-single" name="product" style="width:100%;" id="product" onchange="change_product();" class="nice-select-default">
+                                        {% for rec in provider_types_sequence %}
+                                        {% if rec.name == 'airline' or rec.name == 'hotel' or rec.name == 'train' %}
+                                        <option value="{{rec.name}}" {%if rec.name == 'airline'%} selected{% endif %}>{{rec.name}}</option>
+                                        {% endif %}
+                                        {% endfor%}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <label style="color:red">*</label>
+                                <label>{% trans 'Phone Number' %}</label>
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <div class="form-select">
+                                            <select class="form-control js-example-basic-single" name="phone_code_id" style="width:100%;" id="phone_code_id" onchange="auto_complete('phone_code');" class="nice-select-default">
+                                                {% for phone in phone_code %}
+                                                <option value="{{phone}}" {% if phone == 62%} selected {%endif%}>{{phone}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <input type="hidden" name="phone_code" id="phone_code" />
+                                    </div>
+                                    <div class="col-lg-9">
+                                        <input type="text" class="form-control" name="phone" id="phone" placeholder="{% trans 'Phone Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" onchange="change_booker_value('airline');">
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-lg-6" id="booking_id">
+
+                            </div>
+                            <div class="col-lg-6">
+                                <div id="departure_get_booking_b2c"></div>
+                            </div>
+                            <div class="col-lg-6" id="booking_id_hidden">
+                            </div>
+                            <div class="col-lg-6" style="text-align:right;">
+                                <a id="toggle_forget" style="cursor:pointer" onclick="toggle_forget_booking();">{% trans 'Forget Booking ID'%}</a>
+                            </div>
+
+                            <div class="col-lg-12" style="text-align:right;">
+                                <input type="button" id="get_booking" class="primary-btn btn-next ld-ext-right" onclick="check_booking();" value="Check Booking"/>
+                            </div>
+                            <div class="col-lg-12" style="margin-top:5px;" hidden id="result_get_booking">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                {% elif template == 2 %}
+
+                {% elif template == 3 %}
+
+                {% elif template == 4 %}
+
+                {% elif template == 5 %}
+
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function() {
+        $('.mystickypaxs').click(function(){
+            $('#myModalPlugin').modal({
+                backdrop: 'static'
+            });
+        });
+    });
+
+    function toggle_forget_booking(){
+        var_toggle_forget_booking = !var_toggle_forget_booking;
+        toggle_forget_view();
+    }
+
+    function toggle_forget_view(){
+        var product = document.getElementById('product').value;
+        if(var_toggle_forget_booking == false){
+            document.getElementById('toggle_forget').innerHTML = 'Forget Booking ID?';
+            document.getElementById('booking_id').innerHTML = `
+                <label style="color:red">*</label>
+                <label>{% trans 'Booking ID' %}</label>
+                <div class="input-container-search-ticket">
+                    <input type="text" class="form-control" name="order_number_b2c" id="order_number_b2c" placeholder="{% trans 'Booking ID' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Booking ID '">
+                </div>`;
+            document.getElementById('booking_id_hidden').innerHTML = '';
+            if(product == 'airline' || product == 'train'){
+                document.getElementById('departure_get_booking_b2c').innerHTML = `<label style="color:red">*</label>
+                                        <label>{% trans 'Departure Date' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" class="form-control" name="departure" id="departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+                                        </div>`;
+                $('input[name="departure"]').daterangepicker({
+                    singleDatePicker: true,
+                    autoUpdateInput: true,
+                    startDate: moment(),
+                    minDate: moment().subtract(1, 'years'), // buat testing
+                    maxDate: moment().subtract(-1, 'years'),
+                    showDropdowns: true,
+                    opens: 'center',
+                    locale: {
+                        format: 'DD MMM YYYY',
+                    }
+                });
+                $('input[name="departure"]').val("");
+            }else if(product == 'hotel'){
+                document.getElementById('departure_get_booking_b2c').innerHTML = `<label style="color:red">*</label>
+                                        <label>{% trans 'Check In' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" class="form-control" name="departure" id="departure" placeholder="{% trans 'Check in date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check in date '" autocomplete="off" readonly>
+                                        </div>`;
+                $('input[name="departure"]').daterangepicker({
+                    singleDatePicker: true,
+                    autoUpdateInput: true,
+                    startDate: moment(),
+                    minDate: moment().subtract(1, 'years'), //buat testing
+                    maxDate: moment().subtract(-1, 'years'),
+                    showDropdowns: true,
+                    opens: 'center',
+                    locale: {
+                        format: 'DD MMM YYYY',
+                    }
+                });
+                $('input[name="departure"]').val("");
+            }else{
+                document.getElementById('departure_get_booking_b2c').innerHTML = '';
+            }
+        }else{
+            document.getElementById('toggle_forget').innerHTML = 'Remember Booking ID?';
+            if(product == 'airline' || product == 'train'){
+                document.getElementById('booking_id').innerHTML = `
+                <label style="color:red">*</label>
+                <label>{% trans 'Origin' %}</label>
+                <div class="input-container-search-ticket">
+                    <div class="form-select">
+                        <input id="origin_b2c" name="origin_b2c" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('origin_b2c').select();" onclick="set_airline_search_value_to_false();" autocomplete="off">
+                    </div>
+                </div>`;
+                document.getElementById('booking_id_hidden').innerHTML = `
+                <label style="color:red">*</label>
+                <label>{% trans 'Destination' %}</label>
+                <div class="input-container-search-ticket">
+                    <div class="form-select">
+                        <input id="destination_b2c" name="destination_b2c" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('destination_b2c').select();" onclick="set_airline_search_value_to_false();">
+                    </div>
+                </div>`;
+                if(product == 'airline'){
+                    var b2c_origin = new autoComplete({
+                        selector: '#origin_b2c',
+                        minChars: 1,
+                        cache: false,
+                        delay:0,
+                        source: function(term, suggest){
+                            if(term.split(' - ').length == 4)
+                                    term = ''
+                            if(term.length > 1)
+                                suggest(airline_search_autocomplete(term));
+                        },
+                        onSelect: function(e, term, item){
+                            set_airline_search_value_to_true();
+                        }
+                    });
+                    var b2c_destination = new autoComplete({
+                        selector: '#destination_b2c',
+                        minChars: 0,
+                        cache: false,
+                        delay:0,
+                        source: function(term, suggest){
+                            if(term.split(' - ').length == 4)
+                                term = ''
+                            if(term.length > 1)
+                                suggest(airline_search_autocomplete(term));
+                        },
+                        onSelect: function(e, term, item){
+                            set_airline_search_value_to_true();
+                        }
+                    });
+                }else{
+                    var b2c_origin = new autoComplete({
+                        selector: '#origin_b2c',
+                        minChars: 1,
+                        cache: false,
+                        delay:0,
+                        source: function(term, suggest){
+                            if(term.split(' - ').length == 2)
+                                    term = ''
+                            if(term.length > 1)
+                                suggest(train_search_autocomplete(term));
+                        },
+                        onSelect: function(e, term, item){
+                            set_train_search_value_to_true();
+                        }
+                    });
+                    var b2c_destination = new autoComplete({
+                        selector: '#destination_b2c',
+                        minChars: 0,
+                        cache: false,
+                        delay:0,
+                        source: function(term, suggest){
+                            if(term.split(' - ').length == 4)
+                                term = ''
+                            if(term.length > 1)
+                                suggest(train_search_autocomplete(term));
+                        },
+                        onSelect: function(e, term, item){
+                            set_train_search_value_to_true();
+                        }
+                    });
+                }
+            }else if(product == 'hotel'){
+                document.getElementById('booking_id').innerHTML = `
+                <label style="color:red">*</label>
+                <label>{% trans 'City' %}</label>
+                <div class="input-container-search-ticket">
+                    <div class="form-select">
+                        <input id="city_b2c" name="city_b2c" class="form-control" type="text" placeholder="{% trans 'City' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" >
+                    </div>
+                </div>`;
+            }
+        }
+    }
+
+    function change_product(){
+        var_toggle_forget_booking = false;
+        toggle_forget_view();
+    }
+
+    function check_booking(){
+        if(var_toggle_forget_booking == false &&
+           document.getElementById('product').value != '' &&
+           document.getElementById('phone').value != '' &&
+           document.getElementById('order_number_b2c').value != '' &&
+           document.getElementById('order_number_b2c').value != '' &&
+           document.getElementById('departure').value != ''
+            ||
+           var_toggle_forget_booking == true &&
+           document.getElementById('product').value == 'airline' &&
+           document.getElementById('phone').value != '' &&
+           document.getElementById('origin_b2c').value != '' &&
+           document.getElementById('destination_b2c').value != '' &&
+           document.getElementById('departure').value != ''
+            ||
+           var_toggle_forget_booking == true &&
+           document.getElementById('product').value == 'train' &&
+           document.getElementById('phone').value != '' &&
+           document.getElementById('origin_b2c').value != '' &&
+           document.getElementById('destination_b2c').value != '' &&
+           document.getElementById('departure').value != ''
+            ||
+           var_toggle_forget_booking == true &&
+           document.getElementById('product').value == 'hotel' &&
+           document.getElementById('phone').value != '' &&
+           document.getElementById('city_b2c').value != '' &&
+           document.getElementById('departure').value != ''){
+            var product = document.getElementById('product').value;
+            get_booking_product(product);
+        }else{
+            error_log = '';
+            if(document.getElementById('product').value == '')
+                error_log += 'Please choose product<br/>';
+            if(document.getElementById('phone').value == '')
+                error_log += 'Please input phone number<br/>';
+
+            if(var_toggle_forget_booking == false){
+                if(document.getElementById('order_number_b2c').value == '')
+                    error_log += 'Please input booking id<br/>';
+                if(product == 'airline' || product == 'train'){
+                    if(document.getElementById('departure').value == '')
+                        error_log += 'Please input departure date<br/>';
+                }else if(product == 'hotel'){
+                    if(document.getElementById('departure').value == '')
+                        error_log += 'Please input check in date<br/>';
+                }
+            }else{
+                var product = document.getElementById('product').value;
+                if(product == 'airline' || product == 'train'){
+                    if(document.getElementById('origin_b2c').value == '')
+                        error_log += 'Please input Origin<br/>';
+                    if(document.getElementById('destination_b2c').value == '')
+                        error_log += 'Please input Destination<br/>';
+                    if(document.getElementById('departure').value == '')
+                        error_log += 'Please input departure date<br/>';
+                }else if(product == 'hotel'){
+                    if(document.getElementById('city_b2c').value == '')
+                        error_log += 'Please input City<br/>';
+                    if(document.getElementById('departure').value == '')
+                        error_log += 'Please input check in date<br/>';
+                }
+            }
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: error_log,
+            })
+        }
+    }
+
+    function get_booking_product(product){
+        getToken();
+        show_loading();
+        document.getElementById('get_booking').disabled = true;
+        document.getElementById('result_get_booking').innerHTML = '';
+        document.getElementById('result_get_booking').hidden = true;
+        data = {
+            'product': document.getElementById('product').value,
+            'date': document.getElementById('departure').value,
+            'phone_number': document.getElementById('phone_code_id').value + ' - ' + document.getElementById('phone').value,
+            'signature': signature,
+            'forget_booking': var_toggle_forget_booking
+        }
+        if(var_toggle_forget_booking == false){
+            data['order_number'] =  document.getElementById('order_number_b2c').value
+        }else{
+            if(product == 'airline' || product == 'train'){
+                data['origin'] = document.getElementById('origin_b2c').value;
+                data['destination'] = document.getElementById('destination_b2c').value;
+            }else if(product == 'hotel'){
+                data['city'] = document.getElementById('city_b2c').value;
+            }
+        }
+        $.ajax({
+           type: "POST",
+           url: "/webservice/content",
+           headers:{
+                'action': 'get_booking',
+           },
+           data: {
+                data: JSON.stringify(data)
+           },
+           success: function(msg) {
+               console.log(msg);
+               if(msg.result.error_code == 0 && msg.result.response != ''){
+                    if(data['forget_booking'] == false)
+                        window.location.href = '/'+data['product']+'/booking/'+btoa(document.getElementById('order_number_b2c').value);
+                    else{
+                        if(msg.result.response.length != 0){
+                            //bikin table
+                            text = '';
+                            if(data['product'] == 'airline' || data['product'] == 'train'){
+                                text += `
+                                <table class="table list-of-reservation" style="width:100%">
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Order Number</th>
+                                        <th>Departure Date</th>
+                                        <th>Passenger</th>
+                                        <th>Action</th>
+                                    </tr>`;
+                                for(i in msg.result.response){
+                                    text+=`
+                                    <tr>
+                                        <td>`+parseInt(parseInt(i)+1)+`</td>
+                                        <td>`+msg.result.response[i].order_number+`</td>
+                                        <td>`+msg.result.response[i].departure_date+`</td>
+                                        <td>`;
+                                    for(j in msg.result.response[i].passengers){
+                                        text+= msg.result.response[i].passengers[j].title + ' ' + msg.result.response[i].passengers[j].name + '<br/>';
+                                    }
+                                    text+=`
+                                        </td>
+                                        <td><input type='button' value='See detail' class="primary-btn-custom" onclick="goto_product('`+data['product']+`','`+msg.result.response[i].order_number+`')" /></td>
+                                    </tr>
+                                    `;
+                                }
+                                text+=`
+                                </table>`;
+                            }else if(data['product'] == 'hotel'){
+                                text += `
+                                <table class="table list-of-reservation" style="width:100%">
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Order Number</th>
+                                        <th>Hotel Name</th>
+                                        <th>Check in Date</th>
+                                        <th>Check out Date</th>
+                                        <th>Action</th>
+                                    </tr>`;
+                                for(i in msg.result.response){
+                                    text+=`
+                                    <tr>
+                                        <td>`+parseInt(parseInt(i)+1)+`</td>
+                                        <td>`+msg.result.response[i].order_number+`</td>
+                                        <td>`+msg.result.response[i].hotel_name+`</td>
+                                        <td>`+msg.result.response[i].checkin_date+`</td>
+                                        <td>`+msg.result.response[i].checkout_date+`</td>
+                                        <td><input type='button' value='See detail' class="primary-btn-custom" onclick="goto_product('`+data['product']+`','`+msg.result.response[i].order_number+`')" /></td>
+                                    </tr>
+                                    `;
+                                }
+                                text+=`
+                                </table>`;
+                            }
+
+                            document.getElementById('result_get_booking').innerHTML = text;
+                            document.getElementById('result_get_booking').hidden = false;
+                        }
+                    }
+               }else{
+                   Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: "Booking not found",
+                   })
+               }
+               document.getElementById('get_booking').disabled = false;
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                document.getElementById('get_booking').disabled = false;
+           },timeout: 60000
+        });
+    }
+
+    function goto_product(product_name,order_number){
+        window.location.href = '/'+product_name+'/booking/'+btoa(order_number);
+    }
+    change_product();
+</script>
+
+{% endif %}

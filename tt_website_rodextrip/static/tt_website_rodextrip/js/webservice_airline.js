@@ -337,14 +337,14 @@ function airline_signin(data,type=''){
                airline_signature = msg.result.response.signature;
                signature = msg.result.response.signature;
                if(data == ''){
-                   get_provider_list('search');
+                   airline_get_provider_list('search');
                    get_carrier_providers();
 
                }else if(data != '' && type == ''){
-                   get_provider_list();
+                   airline_get_provider_list();
                    airline_get_booking(data);
                }else if(data != '' && type == 'refund'){
-                   get_provider_list();
+                   airline_get_provider_list();
                    airline_get_booking_refund(data);
                }
            }else{
@@ -907,7 +907,7 @@ function save_retrieve_booking_from_vendor(){
 }
 
 
-function get_provider_list(type){
+function airline_get_provider_list(type){
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
