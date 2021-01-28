@@ -294,7 +294,7 @@
                                                             <a class="small" data-value="option1" tabIndex="-1">
                                                                 <label class="check_box_custom">
                                                                     <span class="span-search-ticket" style="color:black;">{{value.name}}</span>
-                                                                    <input type="checkbox" id="provider_box_All" name="provider_box_All" value="{{value.code}}" onclick="check_provider('{{value.code}}')" {%if value.bool == True %} checked {% endif %}/>
+                                                                    <input type="checkbox" id="provider_box_All" name="provider_box_All" value="{{value.code}}" onclick="func_check_provider('{{value.code}}')" {%if value.bool == True %} checked {% endif %}/>
                                                                     <span class="check_box_span_custom"></span>
                                                                 </label><br/>
                                                             </a>
@@ -304,7 +304,7 @@
                                                             <a class="small" data-value="option1" tabIndex="-1">
                                                                 <label class="check_box_custom">
                                                                     <span class="span-search-ticket" style="color:black;">{{value.display_name}}</span>
-                                                                    <input type="checkbox" id="provider_box_{{key}}" name="provider_box_{{key}}" value="{{key}}" onclick="check_provider('{{key}}')" {%if value.bool == True %} checked {% endif %}/>
+                                                                    <input type="checkbox" id="provider_box_{{key}}" name="provider_box_{{key}}" value="{{key}}" onclick="func_check_provider('{{key}}')" {%if value.bool == True %} checked {% endif %}/>
                                                                     <span class="check_box_span_custom"></span>
                                                                 </label><br/>
                                                             </a>
@@ -538,7 +538,7 @@
                                                                 <a class="small" data-value="option1" tabIndex="-1">
                                                                     <label class="check_box_custom">
                                                                         <span class="span-search-ticket" style="color:black;">{{value.name}}</span>
-                                                                        <input type="checkbox" id="provider_box_All" name="provider_box_All" value="{{value.code}}" onclick="check_provider('{{value.code}}')" {%if value.bool == True %} checked {% endif %}/>
+                                                                        <input type="checkbox" id="provider_box_All" name="provider_box_All" value="{{value.code}}" onclick="func_check_provider('{{value.code}}')" {%if value.bool == True %} checked {% endif %}/>
                                                                         <span class="check_box_span_custom"></span>
                                                                     </label><br/>
                                                                 </a>
@@ -548,7 +548,7 @@
                                                                 <a class="small" data-value="option1" tabIndex="-1">
                                                                     <label class="check_box_custom">
                                                                         <span class="span-search-ticket" style="color:black;">{{value.display_name}}</span>
-                                                                        <input type="checkbox" id="provider_box_{{key}}" name="provider_box_{{key}}" value="{{key}}" onclick="check_provider('{{key}}')" {%if value.bool == True %} checked {% endif %}/>
+                                                                        <input type="checkbox" id="provider_box_{{key}}" name="provider_box_{{key}}" value="{{key}}" onclick="func_check_provider('{{key}}')" {%if value.bool == True %} checked {% endif %}/>
                                                                         <span class="check_box_span_custom"></span>
                                                                     </label><br/>
                                                                 </a>
@@ -787,7 +787,7 @@
                                                             <a class="small" data-value="option1" tabIndex="-1">
                                                                 <label class="check_box_custom">
                                                                     <span class="span-search-ticket" style="color:black;">{{value.name}}</span>
-                                                                    <input type="checkbox" id="provider_box_All" name="provider_box_All" value="{{value.code}}" onclick="check_provider('{{value.code}}')" {%if value.bool == True %} checked {% endif %}/>
+                                                                    <input type="checkbox" id="provider_box_All" name="provider_box_All" value="{{value.code}}" onclick="func_check_provider('{{value.code}}')" {%if value.bool == True %} checked {% endif %}/>
                                                                     <span class="check_box_span_custom"></span>
                                                                 </label><br/>
                                                             </a>
@@ -797,7 +797,7 @@
                                                             <a class="small" data-value="option1" tabIndex="-1">
                                                                 <label class="check_box_custom">
                                                                     <span class="span-search-ticket" style="color:black;">{{value.display_name}}</span>
-                                                                    <input type="checkbox" id="provider_box_{{key}}" name="provider_box_{{key}}" value="{{key}}" onclick="check_provider('{{key}}')" {%if value.bool == True %} checked {% endif %}/>
+                                                                    <input type="checkbox" id="provider_box_{{key}}" name="provider_box_{{key}}" value="{{key}}" onclick="func_check_provider('{{key}}')" {%if value.bool == True %} checked {% endif %}/>
                                                                     <span class="check_box_span_custom"></span>
                                                                 </label><br/>
                                                             </a>
@@ -1021,7 +1021,7 @@
                                                         <a class="small" data-value="option1" tabIndex="-1">
                                                             <label class="check_box_custom">
                                                                 <span class="span-search-ticket" style="color:black;">{{value.name}}</span>
-                                                                <input type="checkbox" id="provider_box_All" name="provider_box_All" value="{{value.code}}" onclick="check_provider('{{value.code}}')" {%if value.bool == True %} checked {% endif %}/>
+                                                                <input type="checkbox" id="provider_box_All" name="provider_box_All" value="{{value.code}}" onclick="func_check_provider('{{value.code}}')" {%if value.bool == True %} checked {% endif %}/>
                                                                 <span class="check_box_span_custom"></span>
                                                             </label><br/>
                                                         </a>
@@ -1031,7 +1031,7 @@
                                                         <a class="small" data-value="option1" tabIndex="-1">
                                                             <label class="check_box_custom">
                                                                 <span class="span-search-ticket" style="color:black;">{{value.name}}</span>
-                                                                <input type="checkbox" id="provider_box_{{key}}" name="provider_box_{{key}}" value="{{key}}" onclick="check_provider('{{key}}')" {%if value.bool == True %} checked {% endif %}/>
+                                                                <input type="checkbox" id="provider_box_{{key}}" name="provider_box_{{key}}" value="{{key}}" onclick="func_check_provider('{{key}}')" {%if value.bool == True %} checked {% endif %}/>
                                                                 <span class="check_box_span_custom"></span>
                                                             </label><br/>
                                                         </a>
@@ -1268,7 +1268,7 @@
                                                             <a class="small" data-value="option1" tabIndex="-1">
                                                                 <label class="check_box_custom">
                                                                     <span class="span-search-ticket" style="color:black;">{{value.name}}</span>
-                                                                    <input type="checkbox" id="provider_box_All" name="provider_box_All" value="{{value.code}}" onclick="check_provider('{{value.code}}')" {%if value.bool == True %} checked {% endif %}/>
+                                                                    <input type="checkbox" id="provider_box_All" name="provider_box_All" value="{{value.code}}" onclick="func_check_provider('{{value.code}}')" {%if value.bool == True %} checked {% endif %}/>
                                                                     <span class="check_box_span_custom"></span>
                                                                 </label><br/>
                                                             </a>
@@ -1278,7 +1278,7 @@
                                                             <a class="small" data-value="option1" tabIndex="-1">
                                                                 <label class="check_box_custom">
                                                                     <span class="span-search-ticket" style="color:black;">{{value.display_name}}</span>
-                                                                    <input type="checkbox" id="provider_box_{{key}}" name="provider_box_{{key}}" value="{{key}}" onclick="check_provider('{{key}}')" {%if value.bool == True %} checked {% endif %}/>
+                                                                    <input type="checkbox" id="provider_box_{{key}}" name="provider_box_{{key}}" value="{{key}}" onclick="func_check_provider('{{key}}')" {%if value.bool == True %} checked {% endif %}/>
                                                                     <span class="check_box_span_custom"></span>
                                                                 </label><br/>
                                                             </a>
