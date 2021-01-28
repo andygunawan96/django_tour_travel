@@ -1055,6 +1055,7 @@ function get_customer_list(passenger, number, product){
                             document.getElementById('search_result_booker_vendor').innerHTML = response;
                             document.getElementById('search_result_booker_vendor').hidden = false;
                             document.getElementById('search_btn_click').disabled=false;
+                            document.getElementById('hide_btn_click').hidden = false;
                         }else if(passenger == 'passenger')
                             document.getElementById('search_result_passenger').innerHTML = response;
                         else
