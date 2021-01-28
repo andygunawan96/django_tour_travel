@@ -240,7 +240,7 @@ def get_booking(request):
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
-            "action": "get_booking_api",
+            "action": "get_booking_b2c_api",
             "signature": data['signature'],
         }
     except Exception as e:
