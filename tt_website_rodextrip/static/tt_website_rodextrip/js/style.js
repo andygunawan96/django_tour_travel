@@ -1649,7 +1649,7 @@ $(document).ready(function(){
                 add_multi_city('home');
             }
             $('#show_total_pax_flight1').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
-            //check_provider()
+            //func_check_provider()
         }
     });
 

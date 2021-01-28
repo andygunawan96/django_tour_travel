@@ -416,14 +416,14 @@ function get_carrier_code_list(type, val){
                                 <span class="span-search-ticket" style="color:black;">All</span>`;
                                 if(val == undefined)
                                 text+=`
-                                    <input type="checkbox" id="provider_box_All" name="provider_box_All" value="all" checked="checked" onclick="check_provider('all')"/>`;
+                                    <input type="checkbox" id="provider_box_All" name="provider_box_All" value="all" checked="checked" onclick="func_check_provider('all')"/>`;
                                 else{
                                     if(document.getElementById('provider_box_All').checked == false)
                                         text+=`
-                                            <input type="checkbox" id="provider_box_All_`+val+`" name="provider_box_All_`+val+`" value="all" onclick="check_provider('all',`+val+`)"/>`;
+                                            <input type="checkbox" id="provider_box_All_`+val+`" name="provider_box_All_`+val+`" value="all" onclick="func_check_provider('all',`+val+`)"/>`;
                                     else
                                         text+=`
-                                            <input type="checkbox" id="provider_box_All_`+val+`" name="provider_box_All_`+val+`" value="all" checked="checked" onclick="check_provider('all',`+val+`)"/>`;
+                                            <input type="checkbox" id="provider_box_All_`+val+`" name="provider_box_All_`+val+`" value="all" checked="checked" onclick="func_check_provider('all',`+val+`)"/>`;
                                 }
                                 text+=`
                                 <span class="check_box_span_custom"></span>
@@ -441,14 +441,14 @@ function get_carrier_code_list(type, val){
                                         <span class="span-search-ticket" style="color:black;">`+msg[i].display_name+`</span>`;
                                         if(val == undefined)
                                         text+=`
-                                            <input type="checkbox" id="provider_box_`+i+`" name="provider_box_`+i+`" value="`+i+`" onclick="check_provider('`+i+`')"/>`;
+                                            <input type="checkbox" id="provider_box_`+i+`" name="provider_box_`+i+`" value="`+i+`" onclick="func_check_provider('`+i+`')"/>`;
                                         else{
                                             if(document.getElementById('provider_box_'+i).checked == false)
                                                 text+=`
-                                                    <input type="checkbox" id="provider_box_`+i+`_`+val+`" name="provider_box_`+i+`_`+val+`" value="`+i+`" onclick="check_provider('`+i+`',`+val+`)"/>`;
+                                                    <input type="checkbox" id="provider_box_`+i+`_`+val+`" name="provider_box_`+i+`_`+val+`" value="`+i+`" onclick="func_check_provider('`+i+`',`+val+`)"/>`;
                                             else
                                                 text+=`
-                                                    <input type="checkbox" id="provider_box_`+i+`_`+val+`" name="provider_box_`+i+`_`+val+`" value="`+i+`" checked="checked" onclick="check_provider('`+i+`',`+val+`)"/>`;
+                                                    <input type="checkbox" id="provider_box_`+i+`_`+val+`" name="provider_box_`+i+`_`+val+`" value="`+i+`" checked="checked" onclick="func_check_provider('`+i+`',`+val+`)"/>`;
                                         }
                                         text+=`
                                         <span class="check_box_span_custom"></span>
@@ -467,14 +467,14 @@ function get_carrier_code_list(type, val){
                                 <span class="span-search-ticket" style="color:black;">All</span>`;
                                 if(val == undefined)
                                 text+=`
-                                    <input type="checkbox" id="provider_box_All" name="provider_box_All" value="all" checked="checked" onclick="check_provider('all')"/>`;
+                                    <input type="checkbox" id="provider_box_All" name="provider_box_All" value="all" checked="checked" onclick="func_check_provider('all')"/>`;
                                 else{
                                     if(airline_carriers[val-1]['All'].bool == true){
                                         text+=`
-                                            <input type="checkbox" id="provider_box_All_`+val+`" name="provider_box_All_`+val+`" value="all" checked="checked" onclick="check_provider('all',`+val+`)"/>`;
+                                            <input type="checkbox" id="provider_box_All_`+val+`" name="provider_box_All_`+val+`" value="all" checked="checked" onclick="func_check_provider('all',`+val+`)"/>`;
                                     }else
                                         text+=`
-                                            <input type="checkbox" id="provider_box_All_`+val+`" name="provider_box_All_`+val+`" value="all" onclick="check_provider('all',`+val+`)"/>`;
+                                            <input type="checkbox" id="provider_box_All_`+val+`" name="provider_box_All_`+val+`" value="all" onclick="func_check_provider('all',`+val+`)"/>`;
                                 }
                                 text+=`
                                 <span class="check_box_span_custom"></span>
@@ -492,22 +492,22 @@ function get_carrier_code_list(type, val){
                                                 <span class="span-search-ticket" style="color:black;">`+airline_carriers[0][i].display_name+`</span>`;
                                                 if(val == undefined)
                                                 text+=`
-                                                    <input type="checkbox" id="provider_box_`+i+`" name="provider_box_`+i+`" value="`+i+`" onclick="check_provider('`+i+`')"/>`;
+                                                    <input type="checkbox" id="provider_box_`+i+`" name="provider_box_`+i+`" value="`+i+`" onclick="func_check_provider('`+i+`')"/>`;
                                                 else{
                                                     try{
                                                         if(document.getElementById('provider_box_'+i).checked == true)
                                                             text+=`
-                                                                <input type="checkbox" id="provider_box_`+i+`_`+val+`" name="provider_box_`+i+`_`+val+`" value="`+i+`" onclick="check_provider('`+i+`',`+val+`)" checked="checked"/>`;
+                                                                <input type="checkbox" id="provider_box_`+i+`_`+val+`" name="provider_box_`+i+`_`+val+`" value="`+i+`" onclick="func_check_provider('`+i+`',`+val+`)" checked="checked"/>`;
                                                         else
                                                             text+=`
-                                                                <input type="checkbox" id="provider_box_`+i+`_`+val+`" name="provider_box_`+i+`_`+val+`" value="`+i+`" onclick="check_provider('`+i+`',`+val+`)"/>`;
+                                                                <input type="checkbox" id="provider_box_`+i+`_`+val+`" name="provider_box_`+i+`_`+val+`" value="`+i+`" onclick="func_check_provider('`+i+`',`+val+`)"/>`;
                                                     }catch(err){
                                                         if(airline_carriers[val-1][i].bool == true)
                                                             text+=`
-                                                                <input type="checkbox" id="provider_box_`+i+`_`+val+`" name="provider_box_`+i+`_`+val+`" value="`+i+`" onclick="check_provider('`+i+`',`+val+`)" checked="checked"/>`;
+                                                                <input type="checkbox" id="provider_box_`+i+`_`+val+`" name="provider_box_`+i+`_`+val+`" value="`+i+`" onclick="func_check_provider('`+i+`',`+val+`)" checked="checked"/>`;
                                                         else
                                                             text+=`
-                                                                <input type="checkbox" id="provider_box_`+i+`_`+val+`" name="provider_box_`+i+`_`+val+`" value="`+i+`" onclick="check_provider('`+i+`',`+val+`)"/>`;
+                                                                <input type="checkbox" id="provider_box_`+i+`_`+val+`" name="provider_box_`+i+`_`+val+`" value="`+i+`" onclick="func_check_provider('`+i+`',`+val+`)"/>`;
                                                     }
                                                 }
                                                 text+=`

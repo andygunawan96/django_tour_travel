@@ -3253,7 +3253,7 @@ function first_value_provider(){
     }
 }
 
-function check_provider(carrier_code,val){
+function func_check_provider(carrier_code,val){
     if(val == undefined){
         if(carrier_code == 'all'){
             for(i in airline_provider_list){
