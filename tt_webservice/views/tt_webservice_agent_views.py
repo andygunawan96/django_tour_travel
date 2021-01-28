@@ -667,7 +667,23 @@ def get_new_cache(signature, type='all'):
             }
             res = util.send_request(url=url + "content", data=data, headers=headers, method='POST')
             write_cache_with_folder(res, "get_holiday_cache")
-
+            # remove cache airline
+            try:
+                os.remove("/var/log/django/file_cache/get_list_provider.txt")
+            except:
+                pass
+            try:
+                os.remove("/var/log/django/file_cache/get_list_provider_data.txt")
+            except:
+                pass
+            try:
+                os.remove("/var/log/django/file_cache/get_airline_carriers.txt")
+            except:
+                pass
+            try:
+                os.remove("/var/log/django/file_cache/get_airline_active_carriers.txt")
+            except:
+                pass
         if type == 'all' or type == 'image':
             #banner
             headers = {
