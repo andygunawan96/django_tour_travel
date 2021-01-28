@@ -21,7 +21,7 @@ function signin_ppob(data){
                 }
                 else
                 {
-                    get_provider_list();
+                    ppob_get_provider_list();
                     ppob_get_booking(data);
                 }
             }
@@ -134,7 +134,7 @@ function get_carrier_providers_ppob(){
     });
 }
 
-function get_provider_list(type){
+function ppob_get_provider_list(type){
     $.ajax({
        type: "POST",
        url: "/webservice/ppob",

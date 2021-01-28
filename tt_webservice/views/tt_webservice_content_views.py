@@ -96,6 +96,8 @@ def api_models(request):
             res = testing_espay_close(request)
         elif req_data['action'] == 'get_top_up_term':
             res = get_top_up_term(request)
+        elif req_data['action'] == 'get_booking':
+            res = get_booking(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -220,6 +222,46 @@ def get_country():
                 'response': ''
             }
         }
+    return res
+
+def parser_get_booking_product(data):
+    data_send = {}
+    for rec in data:
+        data_send[rec] = data[rec]
+    data_send['date'] = parse_date_time_to_server(data_send['date'])
+    if data_send['product'] == 'airline' and data_send['forget_booking'] == True:
+        data_send['origin'] = data_send['origin'].split(' - ')[0]
+        data_send['destination'] = data_send['destination'].split(' - ')[0]
+    return data_send
+
+def get_booking(request):
+    try:
+        data = parser_get_booking_product(json.loads(request.POST['data']))
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_booking_api",
+            "signature": data['signature'],
+        }
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    res = util.send_request(url=url+"content", data=data, headers=headers, method='POST')
+    try:
+        if res['result']['error_code'] == 0:
+            if data['product'] == 'airline' or data['product'] == 'train':
+                if type(res['result']['response']) == list:
+                    for rec in res['result']['response']:
+                        rec['departure_date'] = convert_string_to_date_to_string_front_end(rec['departure_date'])
+            if data['product'] == 'hotel':
+                if type(res['result']['response']) == list:
+                    for rec in res['result']['response']:
+                        rec['checkin_date'] = convert_string_to_date_to_string_front_end(rec['checkin_date'])
+                        rec['checkout_date'] = convert_string_to_date_to_string_front_end(rec['checkout_date'])
+            _logger.info("SUCCESS get booking b2c SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("ERROR get booking b2c SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def add_banner(request):
