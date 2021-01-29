@@ -105,7 +105,7 @@
     airline_request = `{{airline_request}}`;
     airline_request = JSON.parse(airline_request.replace(/&#39;/g, '"'));
     signature = `{{signature}}`;
-    get_provider_list('review');
+    airline_get_provider_list('review');
     time_limit = {{time_limit}};
     session_time_limit();
     ssr = {{ssr}};
