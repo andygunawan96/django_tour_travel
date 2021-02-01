@@ -123,6 +123,14 @@ $(document).ready(function(){
 //            document.getElementById("mybuttonfiltersort").style.display = "block";
         }
 
+        if ($(window).width() >= 576) {
+            $('.step_itinerary_tour').show();
+            $('.row_itinerary_tour').hide();
+        }else{
+            $('.step_itinerary_tour').hide();
+            $('.row_itinerary_tour').show();
+        }
+
         if ($(window).width() >= 768) {
             if($temp_target != '' && $temp_target != ''){
                 scroll_menu_horizontal($temp_type, $temp_target);
@@ -2492,15 +2500,21 @@ function show_hide_itinerary_tour(index){
 
 function showImageItinerary(index, idx){
     var show_image = document.getElementById('show_image_itinerary'+index+idx);
+    var show_image2 = document.getElementById('show_image_itinerary2'+index+idx);
     var image_itinerary = document.getElementById('image_itinerary'+index+idx);
+    var image_itinerary2 = document.getElementById('image_itinerary2'+index+idx);
 
     if (image_itinerary.style.display === "none") {
         show_image.innerHTML = "Hide image";
+        show_image2.innerHTML = "Hide image";
         image_itinerary.style.display = "block";
+        image_itinerary2.style.display = "block";
     }
     else {
         show_image.innerHTML = "Show image";
+        show_image2.innerHTML = "Show image";
         image_itinerary.style.display = "none";
+        image_itinerary2.style.display = "none";
     }
 }
 
@@ -2638,7 +2652,18 @@ function next_focus_element(product, from){
     }else if(product == 'hotel'){
         if(from == 'passenger'){
             setTimeout(function(){
-                $("#business_trip_help").click();
+                $("#show_total_pax_hotel").click();
+            }, 200);
+            setTimeout(function(){
+                $('#hotel_id_nationality_id').select2('open');
+            }, 200);
+        }
+        if(from == 'passenger_wizard'){
+            setTimeout(function(){
+                $("#show_total_pax_hotel_wizard").click();
+            }, 200);
+            setTimeout(function(){
+                $('#hotel_id_nationality_wizard_id').select2('open');
             }, 200);
         }
     }else if(product == 'train'){

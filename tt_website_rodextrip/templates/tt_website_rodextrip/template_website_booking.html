@@ -285,6 +285,23 @@ Licence URI: http://www.os-templates.com/template-terms
         bottom = 60;
     </script>
     {% if username.co_user_login != ''  and name == 'Rodextrip'%}
+    <script>
+    $(function() {
+        new jBox('Tooltip', {
+            attach: '.b24-widget-button-inner-container',
+            theme: 'TooltipBorder',
+            width: 200,
+            position: {
+              x: 'left',
+              y: 'center'
+            },
+            outside: 'x',
+            pointer: 'top:15',
+            content: 'Livechat<br/><b>Bitrix, Telegram</b>',
+            animation: 'move'
+        });
+    });
+    </script>
     <script data-skip-moving="true">
         (function(w,d,u){
         var s=d.createElement('script');s.async=1;s.src=u+'?'+(Date.now()/60000|0);
@@ -786,7 +803,7 @@ Licence URI: http://www.os-templates.com/template-terms
             font-size:16px;
             height: 55px;
             width: 55px;
-            border: 1px solid #cdcdcd;
+            border: 1px solid transparent;
             border-radius: 0px;
             cursor: pointer;
             outline: none;
@@ -889,7 +906,7 @@ Licence URI: http://www.os-templates.com/template-terms
             color: white;
             height: 32px;
             width: 160px;
-            border: 1px solid gray;
+            border: 1px solid transparent;
             border-radius: 3px;
             cursor: pointer;
             outline: none;
@@ -911,7 +928,7 @@ Licence URI: http://www.os-templates.com/template-terms
             color: white;
             height: 32px;
             width: 160px;
-            border: 1px solid gray;
+            border: 1px solid transparent;
             border-radius: 3px;
             cursor: pointer;
             outline: none;
@@ -1247,6 +1264,10 @@ Licence URI: http://www.os-templates.com/template-terms
             color: {{color}} !important;
         }
         {% elif template == 2%}
+
+        .form-control{
+            height: 43px;
+        }
 
         {% if username.co_user_login == 'agent_b2c' %}
         .classy-navbar-toggler .navbarToggler span{

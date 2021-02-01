@@ -989,27 +989,28 @@
                                         <div id="tour_room_input_show" style="display:none;">
                                             <h4 class="mb-3">{% trans 'Room Settings' %}</h4>
                                             <input type="hidden" id="room_amount" name="room_amount"/>
+                                            <div class="row mb-3">
+                                                <div class="col-lg-12">
+                                                    <button id="btnShowRooms" class="primary-btn-ticket space" type="button" data-toggle="modal" data-target="#TourRoomsModal"><i class="fas fa-plus"></i> {% trans 'Add Room' %}</button>
+                                                    <button id="btnDeleteRooms" class="primary-btn-ticket space" type="button" onclick="delete_tour_room()"><i class="fas fa-trash-alt"></i> {% trans 'Delete' %}</button>
+                                                </div>
+                                            </div>
                                             <div id="tour_room_input">
 
                                             </div>
-                                            <div class="row">
-                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                                    <button id="btnShowRooms" class="primary-btn-ticket btn-block space" type="button" data-toggle="modal" data-target="#TourRoomsModal"><i class="fas fa-plus"></i> {% trans 'Add Room' %}</button>
-                                                </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                                    <button id="btnDeleteRooms" class="primary-btn-ticket btn-block space hide" type="button" onclick="delete_tour_room()"><i class="fas fa-trash-alt"></i> {% trans 'Delete' %}</button>
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-5 hide" id="total-price-container" style="margin-top:10px;">
+                                    <div class="col-lg-5" id="total-price-container" style="margin-top:10px;">
                                         <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="tour_detail">
                                             <h4> {% trans 'Price Detail' %} </h4>
                                             <hr/>
                                             <span id="product_title" style="font-weight: bold;"></span>
                                             <br/><span id="product_date" style="font-size:13px; font-weight:500;"></span>
                                             <br/><br/>
-                                            <div id="loading-price-tour" style="margin-bottom:20px;">
+                                            <center>
+                                                <h6 id="add_room_first">Please Choose Package, Select Departure Date and Add Room First</h6>
+                                            </center>
+                                            <div id="loading-price-tour" style="margin-bottom:20px; display:none;">
                                                 <div class="col-lg-12">
                                                     <div class="sk-circle">
                                                         <div class="sk-circle1 sk-child"></div>

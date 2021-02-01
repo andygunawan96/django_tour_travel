@@ -427,6 +427,9 @@ function select_tour_date(key_change_date){
                      }
                 }
             }
+            room_amount = 0;
+            document.getElementById("tour_room_input").innerHTML = "";
+            tour_table_detail();
         });
     }
     else
@@ -435,6 +438,9 @@ function select_tour_date(key_change_date){
     }
     document.getElementById("tour_room_input_show").style.display = "block";
     $('#ChangeDateModal').modal('hide');
+    room_amount = 0;
+    document.getElementById("tour_room_input").innerHTML = "";
+    tour_table_detail();
 }
 
 function set_tour_arrival_date(){
@@ -464,24 +470,63 @@ function render_room_tour_field(idx, room_data, key_accomodation) {
     var template_txt = '';
         template_txt += '<div id="room_field_' + idx + '" style="margin-bottom:20px; padding:15px; border: 1px solid #cdcdcd;"><div class="banner-right"><div class="form-wrap" style="padding:0px !important; text-align:left;">';
         template_txt += '<input type="hidden" id="room_code_' + idx + '" name="room_code_' + idx + '" value="'+ room_data.room_code + '"/>';
-        template_txt += '<h6 style="margin: 0px;"><i class="fa fa-building" style="font-size:18px;"></i> ' + room_data.hotel + ' (' + room_data.star + ')</h6>';
+        template_txt += '<h6 style="margin: 0px; padding-bottom:5px;"><i class="fa fa-building" style="font-size:18px;"></i> ' + room_data.hotel;
+        if (room_data.star != 0){
+            template_txt +=` ( <i class="fas fa-star" style="color:#FFC44D;"></i>` + room_data.star + `)</h6>`;
+        }else{
+            template_txt +=` ( Unrated )</h6>`;
+        }
         if(room_data.address != ''){
             template_txt += `<span>`+room_data.address+`</span>`;
         }
-        template_txt += '<br/><h6 title="'+ room_data.hotel + ' (' + room_data.star + ') - ' + room_data.address + '">Room #' +  idx +  ' - ' + room_data.name + ' ' + room_lib[room_data.bed_type] + '</h6>';
+        template_txt += '<h6 title="'+ room_data.hotel + ' (' + room_data.star + ') - ' + room_data.address + '"><span style="color:'+color+';">Room #' +  idx +  ' </span> - ' + room_data.name + ' ' + room_lib[room_data.bed_type] + '</h6>';
         template_txt += '<span style="font-size:12px;">' + room_data.description +'</span><br/>';
-        template_txt += '<div class="row" style="margin-top:15px;">';
+
+        template_txt+=`
+        <div class="row" onclick="room_choose_sh(`+idx+`);" style="cursor:pointer;padding:15px 0px; margin:0px; border:1px solid `+color+`;">
+            <div class="col-xs-8">
+                <h6>
+                    <span id="room_choose_adult`+idx+`">1 Adult</span>
+                    <span id="room_choose_child`+idx+`"></span>
+                    <span id="room_choose_infant`+idx+`"></span>
+                </h6>`;
+                if (room_data.bed_type=="double"){
+                    template_txt+=`<span id="room_choose_special`+idx+`">Special Request: <span>Not Request</span></span>`;
+                }else{
+                    template_txt+=`<span id="room_choose_special`+idx+`">Special Request: <span style="color:#f23548">Can't Request <i class="fas fa-times"></i></span></span>`;
+                }
+            template_txt+=`
+            </div>
+            <div class="col-xs-4" style="text-align:right;">`;
+                if(idx == 1){
+                    template_txt+=`
+                    <h6 class="center_vh" id="room_choose_open`+idx+`" style="display:none; color:`+color+`;">Open <i class="fas fa-caret-down"></i></h6>
+                    <h6 class="center_vh" id="room_choose_close`+idx+`" style="display:block; color:`+color+`;">Close <i class="fas fa-caret-up"></i></h6>`;
+                }else{
+                    template_txt+=`
+                    <h6 class="center_vh" id="room_choose_open`+idx+`" style="display:block; color:`+color+`;">Open <i class="fas fa-caret-down"></i></h6>
+                    <h6 class="center_vh" id="room_choose_close`+idx+`" style="display:none; color:`+color+`;">Close <i class="fas fa-caret-up"></i></h6>`;
+                }
+        template_txt+=`
+            </div>
+        </div>`;
+
+        if(idx == 1){
+            template_txt += `<div class="row" style="margin-top:15px;" id="room_choose_div`+idx+`">`;
+        }else{
+            template_txt += `<div class="row" style="margin-top:15px; display:none;" id="room_choose_div`+idx+`">`;
+        }
         template_txt += '<div class="col-lg-4 col-md-4 col-sm-4">';
         template_txt += '<span>Adult</span>';
         if(template == 1){
             template_txt += '<div class="input-container-search-ticket btn-group">';
         }
         if(template == 3){
-            template_txt += '<div class="default-select" id="default-select" style="margin-bottom:5px;"><select class="adult_tour_room" id="adult_tour_room_' + idx + '" name="adult_tour_room_' + idx + '" data-index="' + idx + '" data-pax-limit="' + room_data.pax_limit + '" onchange="render_child_infant_selection(this)">';
+            template_txt += '<div class="default-select" id="default-select" style="margin-bottom:5px;"><select class="adult_tour_room" id="adult_tour_room_' + idx + '" name="adult_tour_room_' + idx + '" data-index="' + idx + '" data-pax-limit="' + room_data.pax_limit + '" onchange="render_child_infant_selection(this); room_chose_render(this,'+idx+',1);">';
         }else if(template == 4){
-            template_txt += '<div class="form-select" style="margin-bottom:5px;"><select class="nice-select-default rounded adult_tour_room" id="adult_tour_room_' + idx + '" name="adult_tour_room_' + idx + '" data-index="' + idx + '" data-pax-limit="' + room_data.pax_limit + '" onchange="render_child_infant_selection(this)">';
+            template_txt += '<div class="form-select" style="margin-bottom:5px;"><select class="nice-select-default rounded adult_tour_room" id="adult_tour_room_' + idx + '" name="adult_tour_room_' + idx + '" data-index="' + idx + '" data-pax-limit="' + room_data.pax_limit + '" onchange="render_child_infant_selection(this); room_chose_render(this,'+idx+',1);">';
         }else{
-            template_txt += '<div class="form-select" id="default-select" style="margin-bottom:5px;"><select class="adult_tour_room" id="adult_tour_room_' + idx + '" name="adult_tour_room_' + idx + '" data-index="' + idx + '" data-pax-limit="' + room_data.pax_limit + '" onchange="render_child_infant_selection(this)">';
+            template_txt += '<div class="form-select" id="default-select" style="margin-bottom:5px;"><select class="adult_tour_room" id="adult_tour_room_' + idx + '" name="adult_tour_room_' + idx + '" data-index="' + idx + '" data-pax-limit="' + room_data.pax_limit + '" onchange="render_child_infant_selection(this); room_chose_render(this,'+idx+',1);">';
         }
         for (var i=1; i<=parseInt(room_data.adult_limit); i++)
         {
@@ -500,11 +545,11 @@ function render_room_tour_field(idx, room_data, key_accomodation) {
             template_txt += '<div class="input-container-search-ticket btn-group">';
         }
         if(template == 3){
-            template_txt += '<div class="default-select" style="margin-bottom:5px;"><select class="child_tour_room" id="child_tour_room_' + idx + '" name="child_tour_room_' + idx + '" data-index="' + idx + '" onchange="tour_table_detail();">';
+            template_txt += '<div class="default-select" style="margin-bottom:5px;"><select class="child_tour_room" id="child_tour_room_' + idx + '" name="child_tour_room_' + idx + '" data-index="' + idx + '" onchange="tour_table_detail(); room_chose_render(this,'+idx+',2)">';
         }else if(template == 4){
-            template_txt += '<div class="form-select" style="margin-bottom:5px;"><select class="nice-select-default rounded child_tour_room" id="child_tour_room_' + idx + '" name="child_tour_room_' + idx + '" data-index="' + idx + '" onchange="tour_table_detail();">';
+            template_txt += '<div class="form-select" style="margin-bottom:5px;"><select class="nice-select-default rounded child_tour_room" id="child_tour_room_' + idx + '" name="child_tour_room_' + idx + '" data-index="' + idx + '" onchange="tour_table_detail(); room_chose_render(this,'+idx+',2)">';
         }else{
-            template_txt += '<div class="form-select" style="margin-bottom:5px;"><select class="child_tour_room" id="child_tour_room_' + idx + '" name="child_tour_room_' + idx + '" data-index="' + idx + '" onchange="tour_table_detail();">';
+            template_txt += '<div class="form-select" style="margin-bottom:5px;"><select class="child_tour_room" id="child_tour_room_' + idx + '" name="child_tour_room_' + idx + '" data-index="' + idx + '" onchange="tour_table_detail(); room_chose_render(this,'+idx+',2)">';
         }
 
         for (var i=0; i<=parseInt(room_data.pax_limit)-1; i++)
@@ -524,11 +569,11 @@ function render_room_tour_field(idx, room_data, key_accomodation) {
             template_txt += '<div class="input-container-search-ticket btn-group">';
         }
         if(template == 3){
-            template_txt += '<div class="default-select" style="margin-bottom:5px;"><select class="infant_tour_room" id="infant_tour_room_' + idx + '" name="infant_tour_room_' + idx + '" data-index="' + idx + '" onchange="tour_table_detail();">';
+            template_txt += '<div class="default-select" style="margin-bottom:5px;"><select class="infant_tour_room" id="infant_tour_room_' + idx + '" name="infant_tour_room_' + idx + '" data-index="' + idx + '" onchange="tour_table_detail(); room_chose_render(this,'+idx+',3)">';
         }else if(template == 4){
-            template_txt += '<div class="form-select" style="margin-bottom:5px;"><select class="nice-select-default rounded infant_tour_room" id="infant_tour_room_' + idx + '" name="infant_tour_room_' + idx + '" data-index="' + idx + '" onchange="tour_table_detail();">';
+            template_txt += '<div class="form-select" style="margin-bottom:5px;"><select class="nice-select-default rounded infant_tour_room" id="infant_tour_room_' + idx + '" name="infant_tour_room_' + idx + '" data-index="' + idx + '" onchange="tour_table_detail(); room_chose_render(this,'+idx+',3)">';
         }else{
-            template_txt += '<div class="form-select" style="margin-bottom:5px;"><select class="infant_tour_room" id="infant_tour_room_' + idx + '" name="infant_tour_room_' + idx + '" data-index="' + idx + '" onchange="tour_table_detail();">';
+            template_txt += '<div class="form-select" style="margin-bottom:5px;"><select class="infant_tour_room" id="infant_tour_room_' + idx + '" name="infant_tour_room_' + idx + '" data-index="' + idx + '" onchange="tour_table_detail(); room_chose_render(this,'+idx+',3)">';
         }
 
         template_txt += '<option selected value="0">0</option>';
@@ -543,7 +588,7 @@ function render_room_tour_field(idx, room_data, key_accomodation) {
         if (room_data.bed_type=="double")
         {
             template_txt += '<div class="col-lg-12" style="margin-bottom:15px; margin-top:10px;">';
-            template_txt += '<textarea class="form-control" rows="3" cols="100%" id="notes_' + idx + '" name="notes_' + idx + '" placeholder="Special Request" style="margin-bottom:5px; resize:none; height:unset;"/>';
+            template_txt += '<textarea class="form-control" rows="3" cols="100%" id="notes_' + idx + '" name="notes_' + idx + '" placeholder="Special Request" onkeyup="room_chose_render(this,'+idx+',4)" style="margin-bottom:5px; resize:none; height:unset;"/>';
             template_txt += '<small style="color: #787878; margin-left: 2px;">Ex: king size, twin, non smoking, etc.</small>';
             template_txt += '</div>';
         }
@@ -613,6 +658,8 @@ function render_child_infant_selection(adult_select) {
     $infant.value = 0;
     $('#'+temp).niceSelect('update');
     $('#'+temp2).niceSelect('update');
+    document.getElementById("room_choose_child"+id).innerText = "";
+    document.getElementById("room_choose_infant"+id).innerText = "";
     tour_table_detail();
 }
 
@@ -2000,13 +2047,15 @@ function tour_table_detail()
     $('#loading-price-tour').show();
     if (room_amount <= 0)
     {
-        $('#btnDeleteRooms').addClass("hide");
-        $('#total-price-container').addClass("hide");
+        $('#btnDeleteRooms').hide();
+        $('#add_room_first').show();
+        $('#loading-price-tour').hide();
     }
     else
     {
         room_ids_list = [];
-        $('#btnDeleteRooms').removeClass("hide");
+        $('#btnDeleteRooms').show();
+        $('#add_room_first').hide();
         $('#total-price-container').removeClass("hide");
         for (i=0; i < room_amount; i++)
         {
@@ -2147,5 +2196,57 @@ function check_passport_expired_six_month(id){
               title: 'Oops!',
               html: '<span style="color: #ff9900;">Passport expired date less then 6 months </span>' ,
             })
+    }
+}
+
+function room_choose_sh(id){
+    var r_choose_div = document.getElementById("room_choose_div"+id);
+    var r_choose_open = document.getElementById("room_choose_open"+id);
+    var r_choose_close = document.getElementById("room_choose_close"+id);
+
+    if (r_choose_open.style.display === "none") {
+        r_choose_close.style.display = "none";
+        r_choose_div.style.display = "none";
+        r_choose_open.style.display = "block";
+    }
+    else {
+        r_choose_close.style.display = "block";
+        r_choose_div.style.display = "flex";
+        r_choose_open.style.display = "none";
+    }
+}
+
+function room_chose_render(data_ren, id, type_ren){
+    var r_choose_adult = document.getElementById("room_choose_adult"+id);
+    var r_choose_child = document.getElementById("room_choose_child"+id);
+    var r_choose_infant = document.getElementById("room_choose_infant"+id);
+    var r_choose_special = document.getElementById("room_choose_special"+id);
+    var r_choose_input = document.getElementById("notes_"+id);
+    if (type_ren == 1){
+        r_choose_adult.innerText = data_ren.value + " Adult";
+    }
+
+    if (type_ren == 2){
+        if(data_ren.value != 0){
+            r_choose_child.innerText = ", "+ data_ren.value + " Child";
+        }else{
+            r_choose_child.innerText = "";
+        }
+    }
+
+    if (type_ren == 3){
+        if(data_ren.value != 0){
+            r_choose_infant.innerText = ", "+ data_ren.value + " Infant";
+        }else{
+            r_choose_infant.innerText = "";
+        }
+    }
+
+    if (type_ren == 4){
+       if(r_choose_input.value != ""){
+            r_choose_special.innerHTML = `Special Request: <span style="color:#41b83b">Requested <i class="fas fa-check"></i></span>`;
+       }else{
+            r_choose_special.innerHTML = `Special Request: <span>Not Request</span>`;
+       }
     }
 }

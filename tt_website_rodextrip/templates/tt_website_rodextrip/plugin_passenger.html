@@ -3915,6 +3915,19 @@
             });
         });
 
+        new jBox('Tooltip', {
+            attach: '#mystickypaxs',
+            theme: 'TooltipBorder',
+            width: 200,
+            position: {
+              x: 'left',
+              y: 'center'
+            },
+            outside: 'x',
+            pointer: 'top:15',
+            content: 'Fitur<br/><b>Passenger Database</b>',
+            animation: 'move'
+        });
 
         $('.js-example-basic-single').select2();
         $('input[name="passenger_edit_birth_date"]').daterangepicker({

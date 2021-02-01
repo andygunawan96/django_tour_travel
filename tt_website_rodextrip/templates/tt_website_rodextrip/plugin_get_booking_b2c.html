@@ -71,10 +71,10 @@
             </div>
             <div class="modal-body">
                 {%if template == 1%}
-                <div class="col-lg-12 banner-right" id="passenger_input" style="overflow:auto;height:70vh;background-color:white; padding:10px; border:1px solid #cdcdcd;">
+                <div class="col-lg-12 banner-right" id="passenger_input" style="overflow:auto;background-color:white; padding:10px; border:1px solid #cdcdcd;">
                     <form action="" class="form-wrap" style="padding:15px; text-align:left;" method="POST" id="form_identity_passenger" enctype="multipart/form-data">
                         <div class="row">
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 col-md-6">
                                 <label style="color:red">*</label>
                                 <label>{% trans 'Product' %}</label>
                                 <div class="form-select">
@@ -87,7 +87,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 col-md-6">
                                 <label style="color:red">*</label>
                                 <label>{% trans 'Phone Number' %}</label>
                                 <div class="row">
@@ -107,15 +107,16 @@
 
                                 </div>
                             </div>
-                            <div class="col-lg-6" id="booking_id">
+                            <div class="col-lg-6 col-md-6" id="booking_id">
 
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 col-md-6" id="booking_id_hidden" style="display:none;">
+
+                            </div>
+                            <div class="col-lg-6 col-md-6">
                                 <div id="departure_get_booking_b2c"></div>
                             </div>
-                            <div class="col-lg-6" id="booking_id_hidden">
-                            </div>
-                            <div class="col-lg-6" style="text-align:right;">
+                            <div class="col-lg-12 mb-2" style="text-align:right;">
                                 <a id="toggle_forget" style="cursor:pointer" onclick="toggle_forget_booking();">{% trans 'Forget Booking ID'%}</a>
                             </div>
 
@@ -128,13 +129,234 @@
                     </form>
                 </div>
                 {% elif template == 2 %}
+                <div class="col-lg-12" id="passenger_input" style="overflow:auto;background-color:white; padding:10px; border:1px solid #cdcdcd;">
+                    <form action="" class="form-wrap" style="padding:15px; text-align:left;" method="POST" id="form_identity_passenger" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 mb-2">
+                                <label style="color:red">*</label>
+                                <label>{% trans 'Product' %}</label>
+                                <div class="form-select">
+                                    <select class="form-control js-example-basic-single" name="product" style="width:100%;" id="product" onchange="change_product();" class="nice-select-default">
+                                        {% for rec in provider_types_sequence %}
+                                        {% if rec.name == 'airline' or rec.name == 'hotel' or rec.name == 'train' %}
+                                        <option value="{{rec.name}}" {%if rec.name == 'airline'%} selected{% endif %}>{{rec.name}}</option>
+                                        {% endif %}
+                                        {% endfor%}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 mb-2">
+                                <label style="color:red">*</label>
+                                <label>{% trans 'Phone Number' %}</label>
+                                <div class="row">
+                                    <div class="col-lg-3 mb-2">
+                                        <div class="form-select">
+                                            <select class="form-control js-example-basic-single" name="phone_code_id" style="width:100%;" id="phone_code_id" onchange="auto_complete('phone_code');" class="nice-select-default">
+                                                {% for phone in phone_code %}
+                                                <option value="{{phone}}" {% if phone == 62%} selected {%endif%}>{{phone}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <input type="hidden" name="phone_code" id="phone_code" />
+                                    </div>
+                                    <div class="col-lg-9">
+                                        <input type="text" class="form-control" name="phone" id="phone" placeholder="{% trans 'Phone Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" onchange="change_booker_value('airline');">
+                                    </div>
 
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 mb-2" id="booking_id">
+
+                            </div>
+                            <div class="col-lg-6 col-md-6 mb-2" id="booking_id_hidden">
+
+                            </div>
+                            <div class="col-lg-6 col-md-6 mb-2 mt-1">
+                                <div id="departure_get_booking_b2c"></div>
+                            </div>
+                            <div class="col-lg-12 mb-2" style="text-align:right;">
+                                <a id="toggle_forget" style="cursor:pointer" onclick="toggle_forget_booking();">{% trans 'Forget Booking ID'%}</a>
+                            </div>
+
+                            <div class="col-lg-12" style="text-align:right;">
+                                <input type="button" id="get_booking" class="primary-btn btn-next ld-ext-right" onclick="check_booking();" value="Check Booking"/>
+                            </div>
+                            <div class="col-lg-12" style="margin-top:5px;" hidden id="result_get_booking">
+                            </div>
+                        </div>
+                    </form>
+                </div>
                 {% elif template == 3 %}
+                <div class="col-lg-12" id="passenger_input" style="overflow:auto;background-color:white; padding:10px; border:1px solid #cdcdcd;">
+                    <form action="" class="form-wrap" style="padding:15px; text-align:left;" method="POST" id="form_identity_passenger" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 mb-2">
+                                <label style="color:red">*</label>
+                                <label>{% trans 'Product' %}</label>
+                                <div class="form-select">
+                                    <select class="form-control js-example-basic-single" name="product" style="width:100%;" id="product" onchange="change_product();" class="nice-select-default">
+                                        {% for rec in provider_types_sequence %}
+                                        {% if rec.name == 'airline' or rec.name == 'hotel' or rec.name == 'train' %}
+                                        <option value="{{rec.name}}" {%if rec.name == 'airline'%} selected{% endif %}>{{rec.name}}</option>
+                                        {% endif %}
+                                        {% endfor%}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 mb-2">
+                                <label style="color:red">*</label>
+                                <label>{% trans 'Phone Number' %}</label>
+                                <div class="row">
+                                    <div class="col-lg-3 mb-2">
+                                        <div class="form-select">
+                                            <select class="form-control js-example-basic-single" name="phone_code_id" style="width:100%;" id="phone_code_id" onchange="auto_complete('phone_code');" class="nice-select-default">
+                                                {% for phone in phone_code %}
+                                                <option value="{{phone}}" {% if phone == 62%} selected {%endif%}>{{phone}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <input type="hidden" name="phone_code" id="phone_code" />
+                                    </div>
+                                    <div class="col-lg-9">
+                                        <input type="text" class="form-control" name="phone" id="phone" placeholder="{% trans 'Phone Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" onchange="change_booker_value('airline');">
+                                    </div>
 
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 mb-2" id="booking_id">
+
+                            </div>
+                            <div class="col-lg-6 col-md-6 mb-2" id="booking_id_hidden">
+                            </div>
+                            <div class="col-lg-6 col-md-6 mb-2 mt-1">
+                                <div id="departure_get_booking_b2c"></div>
+                            </div>
+                            <div class="col-lg-12 mb-2" style="text-align:right;">
+                                <a id="toggle_forget" style="cursor:pointer" onclick="toggle_forget_booking();">{% trans 'Forget Booking ID'%}</a>
+                            </div>
+
+                            <div class="col-lg-12" style="text-align:right;">
+                                <input type="button" id="get_booking" class="primary-btn btn-next ld-ext-right" onclick="check_booking();" value="Check Booking"/>
+                            </div>
+                            <div class="col-lg-12" style="margin-top:5px;" hidden id="result_get_booking">
+                            </div>
+                        </div>
+                    </form>
+                </div>
                 {% elif template == 4 %}
+                <div class="col-lg-12" id="passenger_input" style="overflow:auto;background-color:white; padding:10px; border:1px solid #cdcdcd;">
+                    <form action="" class="form-wrap" style="padding:15px; text-align:left;" method="POST" id="form_identity_passenger" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6">
+                                <label style="color:red">*</label>
+                                <label>{% trans 'Product' %}</label>
+                                <div class="form-select">
+                                    <select class="form-control js-example-basic-single" name="product" style="width:100%;" id="product" onchange="change_product();" class="nice-select-default">
+                                        {% for rec in provider_types_sequence %}
+                                        {% if rec.name == 'airline' or rec.name == 'hotel' or rec.name == 'train' %}
+                                        <option value="{{rec.name}}" {%if rec.name == 'airline'%} selected{% endif %}>{{rec.name}}</option>
+                                        {% endif %}
+                                        {% endfor%}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6">
+                                <label style="color:red">*</label>
+                                <label>{% trans 'Phone Number' %}</label>
+                                <div class="row">
+                                    <div class="col-lg-3 mb-2">
+                                        <div class="form-select">
+                                            <select class="form-control js-example-basic-single" name="phone_code_id" style="width:100%;" id="phone_code_id" onchange="auto_complete('phone_code');" class="nice-select-default">
+                                                {% for phone in phone_code %}
+                                                <option value="{{phone}}" {% if phone == 62%} selected {%endif%}>{{phone}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <input type="hidden" name="phone_code" id="phone_code" />
+                                    </div>
+                                    <div class="col-lg-9">
+                                        <input type="text" class="form-control" name="phone" id="phone" placeholder="{% trans 'Phone Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" onchange="change_booker_value('airline');">
+                                    </div>
 
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6" id="booking_id">
+
+                            </div>
+                            <div class="col-lg-6 col-md-6 mb-2" id="booking_id_hidden">
+                            </div>
+                            <div class="col-lg-6 col-md-6 mt-1">
+                                <div id="departure_get_booking_b2c"></div>
+                            </div>
+                            <div class="col-lg-12" style="text-align:right;">
+                                <a id="toggle_forget" style="cursor:pointer" onclick="toggle_forget_booking();">{% trans 'Forget Booking ID'%}</a>
+                            </div>
+
+                            <div class="col-lg-12" style="text-align:right;">
+                                <input type="button" id="get_booking" class="primary-btn btn-next ld-ext-right" onclick="check_booking();" value="Check Booking"/>
+                            </div>
+                            <div class="col-lg-12" style="margin-top:5px;" hidden id="result_get_booking">
+                            </div>
+                        </div>
+                    </form>
+                </div>
                 {% elif template == 5 %}
+                <div class="col-lg-12" id="passenger_input" style="overflow:auto;background-color:white; padding:10px; border:1px solid #cdcdcd;">
+                    <form action="" class="form-wrap" style="padding:15px; text-align:left;" method="POST" id="form_identity_passenger" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6">
+                                <label style="color:red">*</label>
+                                <label>{% trans 'Product' %}</label>
+                                <div class="form-select">
+                                    <select class="form-control js-example-basic-single" name="product" style="width:100%;" id="product" onchange="change_product();" class="nice-select-default">
+                                        {% for rec in provider_types_sequence %}
+                                        {% if rec.name == 'airline' or rec.name == 'hotel' or rec.name == 'train' %}
+                                        <option value="{{rec.name}}" {%if rec.name == 'airline'%} selected{% endif %}>{{rec.name}}</option>
+                                        {% endif %}
+                                        {% endfor%}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6">
+                                <label style="color:red">*</label>
+                                <label>{% trans 'Phone Number' %}</label>
+                                <div class="row">
+                                    <div class="col-lg-3 mb-2">
+                                        <div class="form-select">
+                                            <select class="form-control js-example-basic-single" name="phone_code_id" style="width:100%;" id="phone_code_id" onchange="auto_complete('phone_code');" class="nice-select-default">
+                                                {% for phone in phone_code %}
+                                                <option value="{{phone}}" {% if phone == 62%} selected {%endif%}>{{phone}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <input type="hidden" name="phone_code" id="phone_code" />
+                                    </div>
+                                    <div class="col-lg-9">
+                                        <input type="text" class="form-control" name="phone" id="phone" placeholder="{% trans 'Phone Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" onchange="change_booker_value('airline');">
+                                    </div>
 
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6" id="booking_id">
+
+                            </div>
+                            <div class="col-lg-6 col-md-6" id="booking_id_hidden">
+                            </div>
+                            <div class="col-lg-6 col-md-6 mt-2">
+                                <div id="departure_get_booking_b2c"></div>
+                            </div>
+                            <div class="col-lg-12" style="text-align:right;">
+                                <a id="toggle_forget" style="cursor:pointer" onclick="toggle_forget_booking();">{% trans 'Forget Booking ID'%}</a>
+                            </div>
+
+                            <div class="col-lg-12" style="text-align:right;">
+                                <input type="button" id="get_booking" class="primary-btn btn-next ld-ext-right" onclick="check_booking();" value="Check Booking"/>
+                            </div>
+                            <div class="col-lg-12" style="margin-top:5px;" hidden id="result_get_booking">
+                            </div>
+                        </div>
+                    </form>
+                </div>
                 {% endif %}
             </div>
         </div>
@@ -147,6 +369,20 @@
             $('#myModalPlugin').modal({
                 backdrop: 'static'
             });
+        });
+
+        new jBox('Tooltip', {
+            attach: '#get_booking_b2c',
+            theme: 'TooltipBorder',
+            width: 200,
+            position: {
+              x: 'left',
+              y: 'center'
+            },
+            outside: 'x',
+            pointer: 'top:15',
+            content: 'Retrieve Booking<br/><b>Get Booking</b>',
+            animation: 'move'
         });
     });
 
@@ -166,11 +402,12 @@
                     <input type="text" class="form-control" name="order_number_b2c" id="order_number_b2c" placeholder="{% trans 'Booking ID' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Booking ID '">
                 </div>`;
             document.getElementById('booking_id_hidden').innerHTML = '';
+            document.getElementById('booking_id_hidden').style.display = "none";
             if(product == 'airline' || product == 'train'){
                 document.getElementById('departure_get_booking_b2c').innerHTML = `<label style="color:red">*</label>
                                         <label>{% trans 'Departure Date' %}</label>
                                         <div class="input-container-search-ticket">
-                                            <input type="text" class="form-control" name="departure" id="departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+                                            <input type="text" class="form-control" style="background:white;" name="departure" id="departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
                                         </div>`;
                 $('input[name="departure"]').daterangepicker({
                     singleDatePicker: true,
@@ -213,19 +450,16 @@
                 document.getElementById('booking_id').innerHTML = `
                 <label style="color:red">*</label>
                 <label>{% trans 'Origin' %}</label>
-                <div class="input-container-search-ticket">
-                    <div class="form-select">
-                        <input id="origin_b2c" name="origin_b2c" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('origin_b2c').select();" onclick="set_airline_search_value_to_false();" autocomplete="off">
-                    </div>
+                <div class="form-select">
+                    <input id="origin_b2c" name="origin_b2c" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('origin_b2c').select();" onclick="set_airline_search_value_to_false();" autocomplete="off">
                 </div>`;
                 document.getElementById('booking_id_hidden').innerHTML = `
                 <label style="color:red">*</label>
                 <label>{% trans 'Destination' %}</label>
-                <div class="input-container-search-ticket">
-                    <div class="form-select">
-                        <input id="destination_b2c" name="destination_b2c" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('destination_b2c').select();" onclick="set_airline_search_value_to_false();">
-                    </div>
+                <div class="form-select">
+                    <input id="destination_b2c" name="destination_b2c" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('destination_b2c').select();" onclick="set_airline_search_value_to_false();">
                 </div>`;
+                document.getElementById('booking_id_hidden').style.display = "block";
                 if(product == 'airline'){
                     var b2c_origin = new autoComplete({
                         selector: '#origin_b2c',

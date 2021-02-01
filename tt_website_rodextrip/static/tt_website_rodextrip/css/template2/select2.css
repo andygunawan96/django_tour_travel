@@ -135,8 +135,7 @@
   display:grid;
   background-color: #fff;
   border: 1px solid #cdcdcd;
-  outline: unset;
-  border-radius:.25rem; }
+  outline: unset; }
   .select2-container--default .select2-selection--single .select2-selection__rendered {
     color: #444;
     outline: unset;

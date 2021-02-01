@@ -1517,9 +1517,12 @@
     <span class="badge-notif animated bounceIn" id="badge-copy-notif">0</span>
 </button>
 
-
 <script>
-
+    document.getElementById('button_copy_train').style.bottom = JSON.parse(JSON.stringify(bottom.toString())) + 'px';
+    console.log(bottom.toString() + 'px');
+    bottom+=60;
+</script>
+<script>
     document.getElementById('train_origin').value = '{{train_request.origin.0}}';
     document.getElementById('train_destination').value = '{{train_request.destination.0}}';
     departure_date = '';
@@ -1530,6 +1533,20 @@
     {% endfor %}
 
     $(document).ready(function () {
+        new jBox('Tooltip', {
+            attach: '#button_copy_train',
+            theme: 'TooltipBorder',
+            width: 200,
+            position: {
+              x: 'left',
+              y: 'center'
+            },
+            outside: 'x',
+            pointer: 'top:15',
+            content: 'Fitur<br/><b>List Copy</b>',
+            animation: 'move'
+        });
+
         try{
             document.getElementById("balance_search").innerHTML = document.getElementById("balance").innerHTML;
         }catch(err){}
