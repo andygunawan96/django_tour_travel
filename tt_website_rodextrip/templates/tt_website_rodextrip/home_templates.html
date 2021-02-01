@@ -103,29 +103,17 @@
                     {% csrf_token %}
                     <input type="hidden" name="hotel_detail" id='hotel_detail'>
                     <div class="row">
-                        <div class="col-lg-12 col-md-12" style="padding:0px;">
+                        <div class="col-lg-12 col-md-12" style="margin-bottom:5px;">
                             <span><i class="fas fa-calendar-alt"></i> {% trans 'Check-in - Check-out' %}</span>
                             <div class="input-container-search-ticket">
-                                <input class="form-control" type="text" name="hotel_checkin_checkout_wizard" id="hotel_checkin_checkout_wizard" placeholder="{% trans 'Check-in - Check-out Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly/>
+                                <input class="form-control" type="text" name="hotel_checkin_checkout_wizard" id="hotel_checkin_checkout_wizard" placeholder="{% trans 'Check-in - Check-out Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" style="background:white; height:43px;" readonly/>
                                 <i class="fas fa-moon icon-search-ticket" id="total_night_search_wizard" style="padding-right:40px;">1</i>
                             </div>
                             <input class="form-control" type="hidden" name="hotel_checkin_wizard" id="hotel_checkin_wizard" placeholder="Check-In Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '" autocomplete="off"/>
                             <input class="form-control" type="hidden" name="hotel_checkout_wizard" id="hotel_checkout_wizard"  autocomplete="off" placeholder="Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-out Date '" />
                         </div>
-                        <div class="col-lg-6 col-md-6" style="padding:0px;">
-                            <span><i class="fas fa-globe-asia"></i> {% trans 'Guest Nationality' %}</span>
-                            <select class="js-example-basic-single" name="hotel_id_nationality_wizard_id" style="width:100%;" id="hotel_id_nationality_wizard_id" placeholder="{% trans 'Guest Nationality' %}" onchange="auto_complete('hotel_id_nationality')" class="nice-select-default">
-                                {% for country in countries %}
-                                {% if country.name == 'Indonesia'%}
-                                <option value="{{country.code}} - {{country.name}}" selected>{{country.code}} - {{country.name}}</option>
-                                {% else %}
-                                <option value="{{country.code}} - {{country.name}}">{{country.code}} - {{country.name}}</option>
-                                {% endif %}
-                                {% endfor %}
-                            </select>
-                            <input type="hidden" value="ID - Indonesia" id="hotel_id_nationality_wizard" class="form-control" name="hotel_id_nationality_wizard" />
-                        </div>
-                        <div class="col-lg-6 col-md-6" style="padding:0px;">
+
+                        <div class="col-lg-6 col-md-6" style="margin-bottom:5px;">
                             <span><i class="fas fa-users"></i> {% trans 'Guest' %}</span>
                             <div class="input-container-search-ticket btn-group">
                                 <button id="show_total_pax_hotel_wizard" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></button>
@@ -195,27 +183,48 @@
 
                                             </div>
                                         </div>
+
+                                        <div class="col-lg-12" style="text-align:right;">
+                                            <hr/>
+                                            <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('hotel','passenger_wizard');">Done</button>
+                                        </div>
                                     </div>
                                 </ul>
                             </div>
                         </div>
 
-                        <div class="col-lg-12" style="padding:0px;margin-top:5px;float:left;">
+                        <div class="col-lg-6 col-md-6" style="margin-bottom:5px;">
+                            <span><i class="fas fa-globe-asia"></i> {% trans 'Guest Nationality' %}</span>
+                            <select class="js-example-basic-single" name="hotel_id_nationality_wizard_id" style="width:100%;" id="hotel_id_nationality_wizard_id" placeholder="{% trans 'Guest Nationality' %}" onchange="auto_complete('hotel_id_nationality')" class="nice-select-default">
+                                {% for country in countries %}
+                                {% if country.name == 'Indonesia'%}
+                                <option value="{{country.code}} - {{country.name}}" selected>{{country.code}} - {{country.name}}</option>
+                                {% else %}
+                                <option value="{{country.code}} - {{country.name}}">{{country.code}} - {{country.name}}</option>
+                                {% endif %}
+                                {% endfor %}
+                            </select>
+                            <input type="hidden" value="ID - Indonesia" id="hotel_id_nationality_wizard" class="form-control" name="hotel_id_nationality_wizard" />
+                        </div>
+
+                        <div class="col-lg-12" style="margin-top:5px;float:left; display:flex;">
                             <label class="check_box_custom cblabel">
-                                <span style="font-size:13px;">{% trans 'Business Trip' %}</span>
+                                <span style="font-size:13px;" id="business_trip_help_show_wizard">{% trans 'Business Trip' %}</span>
                                 <input type="checkbox" value="true" onclick="business_trip_check();">
                                 <input type="hidden" name="business_trip_wizard" id="business_trip_wizard" value="false"/>
                                 <span class="check_box_span_custom cbspan" style="border:1px {{color}} solid"></span>
                             </label>
+                            <span id="business_trip_help_wizard" style="cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
                         </div>
                     </div>
-                    <br/>
 
-                    <button class="button-search primary-btn ld-ext-right" id="btn-search-hotel_wizard" onclick="hotel_wizard_onclick();" type="button" value="Submit">
-                        <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                        {% trans 'Search' %}
-                        <div class="ld ld-ring ld-cycle"></div>
-                    </button>
+                    <center>
+                        <button class="button-search primary-btn ld-ext-right" id="btn-search-hotel_wizard" onclick="hotel_wizard_onclick();" type="button" value="Submit">
+                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                            {% trans 'Search' %}
+                            <div class="ld ld-ring ld-cycle"></div>
+                        </button>
+                    </center>
                 </form>
 
             </div>
@@ -692,19 +701,7 @@
                                             <input id="hotel_id_destination" name="hotel_id_destination" class="form-control" type="text" placeholder="{% trans 'Select Destination City or Hotel Name' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value=""/>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-6" style="padding:0px;">
-                                        <span class="span-search-ticket"><i class="fas fa-globe-asia"></i> {% trans 'Guest Nationality' %}</span>
-                                        <select class="js-example-basic-single" name="hotel_id_nationality_id" style="width:100%;" id="hotel_id_nationality_id" placeholder="{% trans 'Guest Nationality' %}" onchange="auto_complete('hotel_id_nationality')" class="nice-select-default">
-                                            {% for country in countries %}
-                                            {% if country.name == 'Indonesia'%}
-                                            <option value="{{country.code}} - {{country.name}}" selected>{{country.code}} - {{country.name}}</option>
-                                            {% else %}
-                                            <option value="{{country.code}} - {{country.name}}">{{country.code}} - {{country.name}}</option>
-                                            {% endif %}
-                                            {% endfor %}
-                                        </select>
-                                        <input type="hidden" value="ID - Indonesia" id="hotel_id_nationality" class="form-control" name="hotel_id_nationality" />
-                                    </div>
+
                                     <div class="col-lg-6 col-md-6" style="padding:0px;">
                                         <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Check-in - Check-out' %}</span>
                                         <div class="input-container-search-ticket">
@@ -791,6 +788,19 @@
                                                 </div>
                                             </ul>
                                         </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6" style="padding:0px;">
+                                        <span class="span-search-ticket"><i class="fas fa-globe-asia"></i> {% trans 'Guest Nationality' %}</span>
+                                        <select class="js-example-basic-single" name="hotel_id_nationality_id" style="width:100%;" id="hotel_id_nationality_id" placeholder="{% trans 'Guest Nationality' %}" onchange="auto_complete('hotel_id_nationality')" class="nice-select-default">
+                                            {% for country in countries %}
+                                            {% if country.name == 'Indonesia'%}
+                                            <option value="{{country.code}} - {{country.name}}" selected>{{country.code}} - {{country.name}}</option>
+                                            {% else %}
+                                            <option value="{{country.code}} - {{country.name}}">{{country.code}} - {{country.name}}</option>
+                                            {% endif %}
+                                            {% endfor %}
+                                        </select>
+                                        <input type="hidden" value="ID - Indonesia" id="hotel_id_nationality" class="form-control" name="hotel_id_nationality" />
                                     </div>
 
                                     <div class="col-lg-12" style="padding:0px;margin-top:5px;float:left; display:contents;">
@@ -2285,20 +2295,6 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-6 col-sm-6">
-                                    <span class="span-search-ticket"><i class="fas fa-globe-asia"></i> {% trans 'Guest Nationality' %}</span>
-                                    <select class="js-example-basic-single" name="hotel_id_nationality_id" style="width:100%;" id="hotel_id_nationality_id" placeholder="{% trans 'Guest Nationality' %}" onchange="auto_complete('hotel_id_nationality')" class="nice-select-default">
-                                        {% for country in countries %}
-                                        {% if country.name == 'Indonesia'%}
-                                        <option value="{{country.code}} - {{country.name}}" selected>{{country.code}} - {{country.name}}</option>
-                                        {% else %}
-                                        <option value="{{country.code}} - {{country.name}}">{{country.code}} - {{country.name}}</option>
-                                        {% endif %}
-                                        {% endfor %}
-                                    </select>
-
-                                    <input type="hidden" value="ID - Indonesia" id="hotel_id_nationality" class="form-control" name="hotel_id_nationality" />
-                                </div>
-                                <div class="col-lg-3 col-md-6 col-sm-6">
                                     <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Check-In - Check-Out' %}</span>
                                     <div class="input-container-search-ticket">
                                         <input class="form-control" type="text" name="hotel_checkin_checkout" id="hotel_checkin_checkout" placeholder="{% trans 'Check-In - Check-Out Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly style="background:white !important;"/>
@@ -2383,7 +2379,19 @@
                                         </div>
                                     </ul>
                                 </div>
-
+                                <div class="col-lg-3 col-md-6 col-sm-6">
+                                    <span class="span-search-ticket"><i class="fas fa-globe-asia"></i> {% trans 'Guest Nationality' %}</span>
+                                    <select class="js-example-basic-single" name="hotel_id_nationality_id" style="width:100%;" id="hotel_id_nationality_id" placeholder="{% trans 'Guest Nationality' %}" onchange="auto_complete('hotel_id_nationality')" class="nice-select-default">
+                                        {% for country in countries %}
+                                        {% if country.name == 'Indonesia'%}
+                                        <option value="{{country.code}} - {{country.name}}" selected>{{country.code}} - {{country.name}}</option>
+                                        {% else %}
+                                        <option value="{{country.code}} - {{country.name}}">{{country.code}} - {{country.name}}</option>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                    <input type="hidden" value="ID - Indonesia" id="hotel_id_nationality" class="form-control" name="hotel_id_nationality" />
+                                </div>
                                 <div class="col-lg-12" style="margin-top:5px;">
                                     <label class="check_box_custom cblabel">
                                         <span class="span-search-ticket" id="business_trip_help_show" style="font-size:13px;">{% trans 'Business Trip' %}</span>
@@ -3448,19 +3456,6 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6">
-                                        <span class="span-search-ticket"><i class="fas fa-globe-asia"></i> {% trans 'Guest Nationality' %}</span>
-                                        <select class="js-example-basic-single" name="hotel_id_nationality_id" style="width:100%;" id="hotel_id_nationality_id" placeholder="{% trans 'Guest Nationality' %}" onchange="auto_complete('hotel_id_nationality')" class="nice-select-default">
-                                            {% for country in countries %}
-                                            {% if country.name == 'Indonesia'%}
-                                            <option value="{{country.code}} - {{country.name}}" selected>{{country.code}} - {{country.name}}</option>
-                                            {% else %}
-                                            <option value="{{country.code}} - {{country.name}}">{{country.code}} - {{country.name}}</option>
-                                            {% endif %}
-                                            {% endfor %}
-                                        </select>
-                                        <input type="hidden" value="ID - Indonesia" id="hotel_id_nationality" class="form-control" name="hotel_id_nationality" />
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6">
                                         <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Check-In - Check-Out' %}</span>
                                         <div class="input-container-search-ticket">
                                             <input class="form-control" type="text" style="background:white;" name="hotel_checkin_checkout" id="hotel_checkin_checkout" placeholder="{% trans 'Check-In - Check-Out Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly/>
@@ -3546,6 +3541,19 @@
                                                 </div>
                                             </ul>
                                         </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <span class="span-search-ticket"><i class="fas fa-globe-asia"></i> {% trans 'Guest Nationality' %}</span>
+                                        <select class="js-example-basic-single" name="hotel_id_nationality_id" style="width:100%;" id="hotel_id_nationality_id" placeholder="{% trans 'Guest Nationality' %}" onchange="auto_complete('hotel_id_nationality')" class="nice-select-default">
+                                            {% for country in countries %}
+                                            {% if country.name == 'Indonesia'%}
+                                            <option value="{{country.code}} - {{country.name}}" selected>{{country.code}} - {{country.name}}</option>
+                                            {% else %}
+                                            <option value="{{country.code}} - {{country.name}}">{{country.code}} - {{country.name}}</option>
+                                            {% endif %}
+                                            {% endfor %}
+                                        </select>
+                                        <input type="hidden" value="ID - Indonesia" id="hotel_id_nationality" class="form-control" name="hotel_id_nationality" />
                                     </div>
 
                                     <div class="col-lg-12">
@@ -4641,22 +4649,6 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-6">
-                                                <span class="span-search-ticket"> {% trans 'Guest Nationality' %}</span>
-                                                <div class="input-container-search-ticket">
-                                                    <i class="fas fa-globe-asia" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
-                                                    <select class="js-example-basic-single" name="hotel_id_nationality_id" style="width:100%;" id="hotel_id_nationality_id" placeholder="Guest Nationality" onchange="auto_complete('hotel_id_nationality')" class="nice-select-default">
-                                                        {% for country in countries %}
-                                                        {% if country.name == 'Indonesia'%}
-                                                        <option value="{{country.code}} - {{country.name}}" selected>{{country.code}} - {{country.name}}</option>
-                                                        {% else %}
-                                                        <option value="{{country.code}} - {{country.name}}">{{country.code}} - {{country.name}}</option>
-                                                        {% endif %}
-                                                        {% endfor %}
-                                                    </select>
-                                                </div>
-                                                <input type="hidden" value="ID - Indonesia" id="hotel_id_nationality" class="form-control" name="hotel_id_nationality" />
-                                            </div>
-                                            <div class="col-lg-6 col-md-6">
                                                 <span class="span-search-ticket">{% trans 'Check-In - Check-Out' %}</span>
                                                 <div class="input-container-search-ticket">
                                                     <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
@@ -4744,6 +4736,22 @@
                                                         </div>
                                                     </ul>
                                                 </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6">
+                                                <span class="span-search-ticket"> {% trans 'Guest Nationality' %}</span>
+                                                <div class="input-container-search-ticket">
+                                                    <i class="fas fa-globe-asia" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
+                                                    <select class="js-example-basic-single" name="hotel_id_nationality_id" style="width:100%;" id="hotel_id_nationality_id" placeholder="Guest Nationality" onchange="auto_complete('hotel_id_nationality')" class="nice-select-default">
+                                                        {% for country in countries %}
+                                                        {% if country.name == 'Indonesia'%}
+                                                        <option value="{{country.code}} - {{country.name}}" selected>{{country.code}} - {{country.name}}</option>
+                                                        {% else %}
+                                                        <option value="{{country.code}} - {{country.name}}">{{country.code}} - {{country.name}}</option>
+                                                        {% endif %}
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <input type="hidden" value="ID - Indonesia" id="hotel_id_nationality" class="form-control" name="hotel_id_nationality" />
                                             </div>
 
                                             <div class="col-lg-12" style="margin-top:5px; margin-bottom:10px; float:left;">
@@ -5843,19 +5851,7 @@
                                                     <input id="hotel_id_destination" name="hotel_id_destination" class="form-control" type="text" placeholder="{% trans 'Select Destination City or Hotel Name' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value=""/>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 col-md-6">
-                                                <span class="span-search-ticket"><i class="fas fa-globe-asia"></i> {% trans 'Guest Nationality' %}</span>
-                                                <select class="js-example-basic-single" name="hotel_id_nationality_id" style="width:100%;" id="hotel_id_nationality_id" placeholder="{% trans 'Guest Nationality' %}" onchange="auto_complete('hotel_id_nationality')" class="nice-select-default">
-                                                    {% for country in countries %}
-                                                    {% if country.name == 'Indonesia'%}
-                                                    <option value="{{country.code}} - {{country.name}}" selected>{{country.code}} - {{country.name}}</option>
-                                                    {% else %}
-                                                    <option value="{{country.code}} - {{country.name}}">{{country.code}} - {{country.name}}</option>
-                                                    {% endif %}
-                                                    {% endfor %}
-                                                </select>
-                                                <input type="hidden" value="ID - Indonesia" id="hotel_id_nationality" class="form-control" name="hotel_id_nationality" />
-                                            </div>
+
                                             <div class="col-lg-6 col-md-6">
                                                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Check-In - Check-Out' %}</span>
                                                 <div class="input-container-search-ticket">
@@ -5943,7 +5939,19 @@
                                                     </ul>
                                                 </div>
                                             </div>
-
+                                            <div class="col-lg-6 col-md-6">
+                                                <span class="span-search-ticket"><i class="fas fa-globe-asia"></i> {% trans 'Guest Nationality' %}</span>
+                                                <select class="js-example-basic-single" name="hotel_id_nationality_id" style="width:100%;" id="hotel_id_nationality_id" placeholder="{% trans 'Guest Nationality' %}" onchange="auto_complete('hotel_id_nationality')" class="nice-select-default">
+                                                    {% for country in countries %}
+                                                    {% if country.name == 'Indonesia'%}
+                                                    <option value="{{country.code}} - {{country.name}}" selected>{{country.code}} - {{country.name}}</option>
+                                                    {% else %}
+                                                    <option value="{{country.code}} - {{country.name}}">{{country.code}} - {{country.name}}</option>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                </select>
+                                                <input type="hidden" value="ID - Indonesia" id="hotel_id_nationality" class="form-control" name="hotel_id_nationality" />
+                                            </div>
                                             <div class="col-lg-12" style="margin-top:5px;float:left;">
                                                 <label class="check_box_custom cblabel">
                                                     <span class="span-search-ticket" id="business_trip_help_show" style="font-size:13px;">{% trans 'Business Trip' %}</span>
@@ -6655,7 +6663,7 @@
                 },
                 onSelect: function(e, term, item){
                     setTimeout(function(){
-                        $('#hotel_id_nationality_id').select2('open');
+                        $('#hotel_checkin_checkout').focus();
                     }, 200);
                 }
             });
@@ -6840,6 +6848,8 @@
           {% if "hotel" in provider and "ticketing_hotel" in username.co_agent_frontend_security %}
           $("#hotel_checkin").val(moment().subtract(-1, 'days').format('DD MMM YYYY'));
           $("#hotel_checkout").val(moment().subtract(-2, 'days').format('DD MMM YYYY'));
+          $("#hotel_checkin_wizard").val(moment().subtract(-1, 'days').format('DD MMM YYYY'));
+          $("#hotel_checkout_wizard").val(moment().subtract(-2, 'days').format('DD MMM YYYY'));
           {% endif %}
           get_banner('big_banner','home');
           get_banner('small_banner','home');
@@ -7060,7 +7070,13 @@
 
             $('#hotel_id_nationality_id').on('select2:close', function (e) {
                 setTimeout(function(){
-                    $('#hotel_checkin_checkout').focus();
+                    $("#business_trip_help").click();
+                }, 200);
+            });
+
+            $('#hotel_id_nationality_wizard_id').on('select2:close', function (e) {
+                setTimeout(function(){
+                    $("#business_trip_help_wizard").click();
                 }, 200);
             });
 
@@ -7073,6 +7089,27 @@
             new jBox('Tooltip', {
                 attach: '#business_trip_help',
                 target: '#business_trip_help_show',
+                theme: 'TooltipBorder',
+                trigger: 'click',
+                adjustTracker: true,
+                closeOnClick: 'body',
+                closeButton: 'box',
+                animation: 'move',
+                position: {
+                  x: 'left',
+                  y: 'bottom'
+                },
+                outside: 'y',
+                pointer: 'left:20',
+                offset: {
+                  x: 25
+                },
+                content: "Check this section if you are doing a hotel search for business purposes",
+            });
+
+            new jBox('Tooltip', {
+                attach: '#business_trip_help_wizard',
+                target: '#business_trip_help_show_wizard',
                 theme: 'TooltipBorder',
                 trigger: 'click',
                 adjustTracker: true,

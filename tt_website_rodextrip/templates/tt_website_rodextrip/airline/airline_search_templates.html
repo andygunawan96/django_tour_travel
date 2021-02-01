@@ -1581,7 +1581,11 @@
 </button>
 {% include 'tt_website_rodextrip/footer.html' %}
 
-
+<script>
+    document.getElementById('button_copy_airline').style.bottom = JSON.parse(JSON.stringify(bottom.toString())) + 'px';
+    console.log(bottom.toString() + 'px');
+    bottom+=60;
+</script>
 <script>
     //test
     document.getElementById('show_provider_airline').innerHTML = `<i class="fas fa-plane"></i> ` + airline_check;
@@ -1626,6 +1630,20 @@
     $( document ).ready(function() {
         breadcrumb_create("airline", 2, 0);
         //$('.js-example-basic-single').select2();
+
+        new jBox('Tooltip', {
+            attach: '#button_copy_airline',
+            theme: 'TooltipBorder',
+            width: 200,
+            position: {
+              x: 'left',
+              y: 'center'
+            },
+            outside: 'x',
+            pointer: 'top:15',
+            content: 'Fitur<br/><b>List Copy</b>',
+            animation: 'move'
+        });
 
         //show hide balance
         try{

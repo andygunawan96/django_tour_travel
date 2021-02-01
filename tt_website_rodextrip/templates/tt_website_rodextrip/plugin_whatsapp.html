@@ -3,6 +3,22 @@
     <i class="fab fa-whatsapp" style="font-size:32px;"></i>
 </button>
 <script>
+    $(function() {
+        new jBox('Tooltip', {
+            attach: '#mystickywhatsapp',
+            theme: 'TooltipBorder',
+            width: 200,
+            position: {
+              x: 'left',
+              y: 'center'
+            },
+            outside: 'x',
+            pointer: 'top:15',
+            content: 'Livechat<br/><b>Whatsapp</b>',
+            animation: 'move'
+        });
+    });
+
     console.log(JSON.parse(JSON.stringify(bottom.toString())) + 'px');
     console.log('======');
     document.getElementById('mystickywhatsapp').style.bottom = JSON.parse(JSON.stringify(bottom.toString())) + 'px';

@@ -395,18 +395,17 @@ input:focus {
 #scrollUp {
   position: fixed;
   font-size: 24px;
-  line-height: 50px;
+  line-height: 55px;
   height:55px;
   width:55px;
   bottom: 55px;
-  left: 55px;
+  left: 0px;
   background-color: #f15a22;
   color: #ffffff;
   text-align: center;
   -webkit-transition-duration: 500ms;
   -o-transition-duration: 500ms;
   transition-duration: 500ms;
-  border-radius: 50%;
   -webkit-box-shadow: 0 2px 40px 8px rgba(15, 15, 15, 0.15);
   box-shadow: 0 2px 40px 8px rgba(15, 15, 15, 0.15);
   z-index: 15962536; }
@@ -3642,7 +3641,7 @@ ul.btn_tabs li.current .image-rounded-icon{
     font-size: 14px !important;
   }
   #scrollUp{
-    left: 18px !important;
+    left: 0px !important;
   }
   .mystickypaxs{
     right: 0px !important;
@@ -6897,4 +6896,74 @@ display: block;
    border:2px solid #cdcdcd;
    padding:15px;
    text-align: center;
+}
+
+.eventstep li {
+  display: flex;
+}
+
+.eventstep time {
+  position: relative;
+  width:230px;
+  font-weight:600;
+  font-size:14px;
+  padding: 0 1.5em;  }
+
+.eventstep time::after {
+   content: "";
+   position: absolute;
+   z-index: 2;
+   right: 0;
+   top: 0;
+   transform: translateX(50%);
+   border-radius: 50%;
+   background: #fff;
+   border: 1px #ccc solid;
+   width: .8em;
+   height: .8em;
+}
+
+
+.eventstep span {
+  padding: 0 1.5em 1.5em 1.5em;
+  position: relative;
+  width: 100%;
+}
+
+.eventstep span::before {
+   content: "";
+   position: absolute;
+   z-index: 1;
+   left: 0;
+   height: 100%;
+   border-left: 1px #ccc solid;
+}
+
+.eventstep strong {
+   display: block;
+   font-size:15px;
+   font-weight: bold;
+}
+
+.eventstep { margin: 1em; width: 100%; }
+.eventstep,
+.eventstep *::before,
+.eventstep *::after { box-sizing: border-box; font-family: arial; }
+
+@media (min-width: 576px) {
+  .step_itinerary_tour {
+    display: block !important;
+  }
+  .row_itinerary_tour {
+    display: none !important;
+  }
+}
+
+@media (max-width: 575px) {
+  .step_itinerary_tour {
+    display: none !important;
+  }
+  .row_itinerary_tour {
+    display: block !important;
+  }
 }
