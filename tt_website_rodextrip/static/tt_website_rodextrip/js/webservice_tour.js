@@ -946,7 +946,7 @@ function tour_get_details(tour_code){
                         }
                         flight_details_text += `</td>`;
 
-                        flight_details_text += `<td colspan="2">`+tour_data.flight_segments[k].destination_id+`<br/>`+tour_data.flight_segments[k]._date_fmt;
+                        flight_details_text += `<td colspan="2">`+tour_data.flight_segments[k].destination_id+`<br/>`+tour_data.flight_segments[k].arrival_date_fmt;
                         if(tour_data.flight_segments[k].destination_terminal)
                         {
                             flight_details_text += `<br/>Terminal : ` + tour_data.flight_segments[k].destination_terminal;
