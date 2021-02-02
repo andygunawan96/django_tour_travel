@@ -338,14 +338,10 @@ function airline_signin(data,type=''){
                signature = msg.result.response.signature;
                if(data == ''){
                    airline_get_provider_list('search');
-                   get_carrier_providers();
-
                }else if(data != '' && type == ''){
-                   airline_get_provider_list();
-                   airline_get_booking(data);
+                   airline_get_provider_list('get_booking', data); //get booking pindah di dalem get provider list karena jika get booking balik dulu provider error tidak ada
                }else if(data != '' && type == 'refund'){
-                   airline_get_provider_list();
-                   airline_get_booking_refund(data);
+                   airline_get_provider_list('refund', data); //get booking pindah di dalem get provider list karena jika get booking balik dulu provider error tidak ada
                }
            }else{
                Swal.fire({
@@ -907,7 +903,7 @@ function save_retrieve_booking_from_vendor(){
 }
 
 
-function airline_get_provider_list(type){
+function airline_get_provider_list(type, data=''){
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -993,6 +989,12 @@ function airline_get_provider_list(type){
                         }
                     }
                 }
+           }else if(type == 'search'){
+                get_carrier_providers('search');
+           }else if(type == 'get_booking'){
+                airline_get_booking(data);
+           }else if(type == 'refund'){
+                airline_get_booking_refund(data);
            }
            //carrier_to_provider();
        },
@@ -5655,7 +5657,7 @@ function cancel_reservation_airline(){
            console.log(msg);
            if(msg.result.error_code == 0){
                //update ticket
-               window.location = "/airline/booking/" + airline_get_detail.result.response.order_number;
+               window.location = "/airline/booking/" + btoa(airline_get_detail.result.response.order_number);
                document.getElementById('airline_reissue_div').innerHTML = '';
                price_arr_repricing = {};
                pax_type_repricing = [];
