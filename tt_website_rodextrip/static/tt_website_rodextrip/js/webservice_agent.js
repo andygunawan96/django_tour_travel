@@ -2278,7 +2278,7 @@ function clear_passenger(type, sequence){
             document.getElementById('infant_nationality'+sequence).value = 'Indonesia';
             document.getElementById('select2-infant_nationality'+sequence+'_id-container').value = 'Indonesia';
             //testing
-            initial_date = moment().subtract(1, 'years');
+            initial_date = moment().subtract(1, 'years').format('DD MMM YYYY');
             document.getElementById('infant_birth_date'+sequence).value = initial_date;
             document.getElementById('infant_passport_number'+sequence).value = '';
             document.getElementById('infant_passport_number'+sequence).readOnly = false;
