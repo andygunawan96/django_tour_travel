@@ -4968,33 +4968,35 @@ function airline_get_booking(data, sync=false){
                                     <h5> Refund</h5>
                                 <hr/>`;
                         for(i in msg.result.response.refund_list){
-                            text += `
-                                    <div class="row" style="margin-bottom:5px;">
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                            <span style="font-weight:500;font-size:15px;">`+msg.result.response.refund_list[i].reschedule_number+`</span></div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                            <span style="font-weight:500;font-size:15px;">State: `+msg.result.response.refund_list[i].state+`</span>
-                                        </div>
-                                     </div>
+                                if(msg.result.response.refund_list[i].state != 'cancel'){
+                                text += `
+                                        <div class="row" style="margin-bottom:5px;">
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                                                <span style="font-weight:500;font-size:15px;">`+msg.result.response.refund_list[i].reschedule_number+`</span></div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+                                                <span style="font-weight:500;font-size:15px;">State: `+msg.result.response.refund_list[i].state+`</span>
+                                            </div>
+                                         </div>
 
-                                     <div style="text-align:left">
-                                        <span style="font-weight:500; font-size:14px;">PNR: `+msg.result.response.refund_list[i].pnr+` </span>
-                                     </div>
-                                     <div class="row" style="margin-bottom:5px;">
-                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                            <span style="font-size:12px;">Refund Amount</span></div>
-                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(msg.result.response.refund_list[i].refund_amount)+`</span>
-                                        </div>
-                                     </div>
-                                     <div class="row" style="margin-bottom:5px;">
-                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                            <span style="font-size:12px;">Admin Fee</span></div>
-                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(msg.result.response.refund_list[i].final_admin_fee)+`</span>
-                                        </div>
-                                     </div>`;
-                            total_refund += msg.result.response.refund_list[i].total_amount;
+                                         <div style="text-align:left">
+                                            <span style="font-weight:500; font-size:14px;">PNR: `+msg.result.response.refund_list[i].pnr+` </span>
+                                         </div>
+                                         <div class="row" style="margin-bottom:5px;">
+                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                                <span style="font-size:12px;">Refund Amount</span></div>
+                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                                <span style="font-size:13px;">`+price.currency+` `+getrupiah(msg.result.response.refund_list[i].refund_amount)+`</span>
+                                            </div>
+                                         </div>
+                                         <div class="row" style="margin-bottom:5px;">
+                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                                <span style="font-size:12px;">Admin Fee</span></div>
+                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                                <span style="font-size:13px;">`+price.currency+` `+getrupiah(msg.result.response.refund_list[i].final_admin_fee)+`</span>
+                                            </div>
+                                         </div>`;
+                                total_refund += msg.result.response.refund_list[i].total_amount;
+                            }
                         }
                         text += `<hr/>
                                  <div class="row" style="margin-bottom:5px;">

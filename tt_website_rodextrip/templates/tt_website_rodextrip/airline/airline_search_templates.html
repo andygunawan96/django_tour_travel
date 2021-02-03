@@ -42,7 +42,12 @@
     airline_carriers_data_awal = airline_carriers_data_awal.replace(/True/g, 'true');
     airline_carriers_data_awal = JSON.parse(airline_carriers_data_awal);
     signature = `{{signature}}`;
-    airline_carriers = [{}]
+    airline_carriers = `{{airline_carriers}}`;
+    airline_carriers = airline_carriers.replace(/&#39;/g, '"');
+    airline_carriers = airline_carriers.replace(/&quot;/g, '"');
+    airline_carriers = airline_carriers.replace(/False/g, 'false');
+    airline_carriers = airline_carriers.replace(/True/g, 'true');
+    airline_carriers = JSON.parse(airline_carriers);
     recommendations_airline = [];
     airline_check = 0;
     {% for key,value in airline_carriers.0.items %}
