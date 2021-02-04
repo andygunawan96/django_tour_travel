@@ -492,9 +492,9 @@ function get_banner(type,page){
                     if(msg.result.response.length > 0){
                         if(type == 'big_banner'){
                             $('.owl-carousel-banner').owlCarousel({
-                                loop:false,
+                                loop:true,
                                 nav: true,
-                                rewind: true,
+                                rewind: false,
                                 margin: 20,
                                 responsiveClass:true,
                                 dots: true,
@@ -505,7 +505,7 @@ function get_banner(type,page){
                                 autoHeight: false,
                                 autoWidth: false,
                                 autoplay: true,
-                                autoplayTimeout:8000,
+                                autoplayTimeout:10000,
                                 autoplayHoverPause:false,
                                 navText: ['<i class="fas fa-chevron-left owl-wh"/>', '<i class="fas fa-chevron-right owl-wh"/>'],
                                 responsive:{
@@ -530,7 +530,7 @@ function get_banner(type,page){
                         }
                         else if(type == 'small_banner'){
                             $('.owl-carousel-suggest').owlCarousel({
-                                loop:false,
+                                loop:true,
                                 nav: true,
                                 navRewind:true,
                                 rewind: true,
