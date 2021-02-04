@@ -2190,31 +2190,46 @@ function sort(activity_dat, check){
                         <input type='hidden' value='`+JSON.stringify(activity_dat[i]).replace(/[']/g, /["]/g)+`'/>
                         <input id='uuid' name='uuid' type=hidden value='`+activity_dat[i].uuid+`'/>
                         <input id='sequence' name='sequence' type=hidden value='`+activity_dat[i].sequence+`'/>`;
+
+                   temp_arr_loc = [];
+                   for(j in activity_dat[i].locations){
+                       temp_arr_loc.push(activity_dat[i].locations[j].country_name);
+                   }
+                   temp_arr_loc = get_unique_list_data(temp_arr_loc);
+
                    if(template == 1){
                         text+=`
-                        <div class="single-recent-blog-post item activity_box" style="cursor:pointer;" onclick="go_to_detail('`+activity_dat[i].sequence+`')">
-                            <div class="single-destination relative">
-                                <div class="thumb relative" style="margin: auto; width:100%; height:200px; background-image: url('http://static.rodextrip.com/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
-                                    <div class="overlay overlay-bg"></div>
-                                    <img class="img-fluid" src="`+img_src+`" alt="`+activity_dat[i].name+`" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: cover;">
-                                </div>
-                                <div class="card card-effect-promotion">
+                            <div class="single-recent-blog-post item activity_box" style="border:1px solid #cdcdcd;">
+                                <div class="single-destination relative">`;
+                                    if(img_src){
+                                        text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('`+img_src+`'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+activity_dat[i].sequence+`')">`;
+                                    }else{
+                                        text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+activity_dat[i].sequence+`')">`;
+                                    }
+                                    text+=`
+                                        <div class="overlay overlay-bg"></div>
+                                    </div>
+                                    <div class="card card-effect-promotion" style="border:unset;">
                                     <div class="card-body">
                                         <div class="row details">
                                             <div class="col-lg-12" style="text-align:left;">
-                                                <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+activity_dat[i].name+`">`+activity_dat[i].name+`</h6>`;
-                                                for(j in activity_dat[i].locations) {
-                                                    text+=`
-                                                        <span class="span-activity-desc" style="font-size:13px;"> <i style="color:red !important;" class="fas fa-map-marker-alt"></i> `+activity_dat[i].locations[j].city_name+`, `+activity_dat[i].locations[j].country_name+` </span>
-                                                        <br/>`;
+                                                <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+activity_dat[i].name+`">`+activity_dat[i].name+`</h6>
+                                                <span class="span-activity-desc" style="font-size:13px;"> `+activity_dat[i].reviewAverageScore+` <i style="color:#FFC801 !important;" class="fas fa-star"></i> (`+activity_dat[i].reviewCount+`)</span><br/>`;
+
+                                                text+=`<span style="font-size:12px; font-weight:600; color:`+color+`; cursor:pointer;"> <i style="color:`+color+` !important;" class="fas fa-map-marker-alt"></i>`;
+                                                for(ct in temp_arr_loc){
+                                                    if(ct == 0){
+                                                        text+=`<span id="pop_loc`+i+``+ct+`" class="span-activity-desc" style="color:`+color+`; cursor:pointer;"> `+temp_arr_loc[ct].data_country+` (`+temp_arr_loc[ct].count+`)</span>`;
+                                                    }else{
+                                                        text+=`<span id="pop_loc`+i+``+ct+`" class="span-activity-desc" style="color:`+color+`; cursor:pointer;">, `+temp_arr_loc[ct].data_country+` (`+temp_arr_loc[ct].count+`) </span>`;
+                                                    }
                                                 }
+                                                text+=`</span><br/>`;
                                             text+=`
-                                            <span class="span-activity-desc" style="font-size:13px;"> `+activity_dat[i].reviewAverageScore+` <i style="color:#FFC801 !important;" class="fas fa-star"></i> (`+activity_dat[i].reviewCount+`)</span>
-                                            <br/><br/>
                                             </div>
                                             <div class="col-lg-12" style="text-align:right;">
-                                                <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(activity_dat[i].activity_price)+`  </span>
-                                                <button href="#" class="btn btn-primary" onclick="go_to_detail('`+activity_dat[i].sequence+`')">BUY</button>
+                                                <span style="float:left; font-size:13px;font-weight:bold;">IDR `+getrupiah(activity_dat[i].activity_price)+`</span>
+                                                <button style="float:right; line-height:32px;" type="button" class="primary-btn" onclick="go_to_detail('`+activity_dat[i].sequence+`')">BUY</button>
                                             </div>
                                         </div>
                                     </div>
@@ -2222,33 +2237,43 @@ function sort(activity_dat, check){
                             </div>
                         </div>`;
                    }else{
+                        if(template == 5){
+                            text+=`<div class="single-post-area activity_box" style="margin-bottom:15px; cursor:pointer; border:1px solid #cdcdcd; transform:unset; -webkit-transform:unset;">`;
+                        }else{
+                            text+=`<div class="single-post-area activity_box" style="margin-bottom:15px; cursor:pointer; border:unset; transform:unset; -webkit-transform:unset;">`;
+                        }
                         text+=`
-                        <div class="single-post-area mb-30 activity_box" style="cursor:pointer;" onclick="go_to_detail('`+activity_dat[i].sequence+`')">
-                            <div class="single-destination avail-sd relative">
-                                <div class="thumb relative" style="margin: auto; width:100%; height:200px; background-image: url('http://static.rodextrip.com/public/tour_packages/not_found.png'); background-size: 100%; 100%;">`;
-                                    if(template != 5){
-                                        text+=`<div class="overlay overlay-bg"></div>`;
-                                    }
+                            <div class="single-destination avail-sd relative">`;
+                                if(img_src){
+                                    text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('`+img_src+`'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+activity_dat[i].sequence+`')">`;
+                                }else{
+                                    text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+activity_dat[i].sequence+`')">`;
+                                }
+                                if(template != 5){
+                                    text+=`<div class="overlay overlay-bg"></div>`;
+                                }
                                 text+=`
-                                    <img class="img-fluid" src="`+img_src+`" alt="`+activity_dat[i].name+`" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: cover;">
                                 </div>
-                                <div class="card card-effect-promotion">
-                                    <div class="card-body" style="padding:15px;">
+                                <div class="card card-effect-promotion" style="border:unset;">
+                                    <div class="card-body" style="padding:10px; border:unset;">
                                         <div class="row details">
-                                            <div class="col-lg-12" style="text-align:left;">
-                                                <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+activity_dat[i].name+`">`+activity_dat[i].name+`</h6>`;
-                                                for(j in activity_dat[i].locations) {
-                                                    text+=`
-                                                        <span class="span-activity-desc" style="font-size:13px;"> <i style="color:red !important;" class="fas fa-map-marker-alt"></i> `+activity_dat[i].locations[j].city_name+`, `+activity_dat[i].locations[j].country_name+` </span>
-                                                        <br/>`;
+                                            <div class="col-lg-12" style="text-align:left; height:90px;">
+                                                <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+activity_dat[i].name+`">`+activity_dat[i].name+`</h6>
+                                                <span class="span-activity-desc" style="font-size:13px;"> `+activity_dat[i].reviewAverageScore+` <i style="color:#FFC801 !important;" class="fas fa-star"></i> (`+activity_dat[i].reviewCount+` reviews)</span><br/>`;
+                                                text+=`<span style="font-size:12px; font-weight:600; color:`+color+`; cursor:pointer;"> <i style="color:`+color+` !important;" class="fas fa-map-marker-alt"></i>`;
+                                                for(ct in temp_arr_loc){
+                                                    if(ct == 0){
+                                                        text+=`<span id="pop_loc`+i+``+ct+`" class="span-activity-desc" style="color:`+color+`; cursor:pointer;"> `+temp_arr_loc[ct].data_country+` (`+temp_arr_loc[ct].count+`)</span>`;
+                                                    }else{
+                                                        text+=`<span id="pop_loc`+i+``+ct+`" class="span-activity-desc" style="color:`+color+`; cursor:pointer;">, `+temp_arr_loc[ct].data_country+` (`+temp_arr_loc[ct].count+`) </span>`;
+                                                    }
                                                 }
+                                                text+=`</span><br/>`;
                                             text+=`
-                                            <span class="span-activity-desc" style="font-size:13px;"> `+activity_dat[i].reviewAverageScore+` <i style="color:#FFC801 !important;" class="fas fa-star"></i> (`+activity_dat[i].reviewCount+`)</span>
-                                            <br/><br/>
                                             </div>
-                                            <div class="col-lg-12" style="text-align:right;">
-                                                <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(activity_dat[i].activity_price)+`</span><br/>
-                                                <button href="#" class="primary-btn" onclick="go_to_detail('`+activity_dat[i].sequence+`')">BUY</button>
+                                            <div class="col-lg-12">
+                                                <span style="float:left; font-size:13px;font-weight:bold;">IDR `+getrupiah(activity_dat[i].activity_price)+`  </span>
+                                                <button style="float:right; line-height:32px;" type="button" class="primary-btn" onclick="go_to_detail('`+activity_dat[i].sequence+`')">BUY</button>
                                             </div>
                                         </div>
                                     </div>
@@ -2275,6 +2300,48 @@ function sort(activity_dat, check){
             check_pagination = 0;
         }
         document.getElementById('activity_ticket').innerHTML += text;
+
+        for(i in activity_dat){
+            temp_arr_loc = [];
+            for(j in activity_dat[i].locations){
+                temp_arr_loc.push(activity_dat[i].locations[j].country_name);
+            }
+            temp_arr_loc = get_unique_list_data(temp_arr_loc);
+
+            for(ct in temp_arr_loc){
+                content_pop_loc = '';
+
+                for(j in activity_dat[i].locations){
+                    if(temp_arr_loc[ct].data_country == activity_dat[i].locations[j].country_name)
+                    content_pop_loc+=`
+                    <span class="span-activity-desc" style="font-size:13px;">
+                        <i style="color:`+color+` !important;" class="fas fa-map-marker-alt"></i>
+                        `+activity_dat[i].locations[j].city_name+`, `+activity_dat[i].locations[j].country_name+`
+                    </span><br/>`;
+                }
+
+                new jBox('Tooltip', {
+                    attach: '#pop_loc'+i+ct,
+                    target: '#pop_loc'+i+ct,
+                    theme: 'TooltipBorder',
+                    trigger: 'click',
+                    adjustTracker: true,
+                    closeOnClick: 'body',
+                    closeButton: 'box',
+                    animation: 'move',
+                    position: {
+                      x: 'left',
+                      y: 'top'
+                    },
+                    outside: 'y',
+                    pointer: 'left:20',
+                    offset: {
+                      x: 25
+                    },
+                    content: content_pop_loc,
+                });
+            }
+       }
 
         var items = $(".activity_box");
         var numItems = items.length;

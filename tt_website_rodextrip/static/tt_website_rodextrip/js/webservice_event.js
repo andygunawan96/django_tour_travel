@@ -628,19 +628,35 @@ function event_get_booking(data){
             var print_text = '<div class="col-lg-4" style="padding-bottom:10px;">';
             // === Button 1 ===
             if (msg.result.response.status  == 'issued') {
-                print_text+=`<button class="primary-btn hold-seat-booking-train" type="button" onclick="get_printout('` + msg.result.response.name + `','ticket','event');" style="width:100%;">Print Ticket</button>`;
+                print_text+=`
+                <button class="primary-btn hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="get_printout('` + msg.result.response.name + `','ticket','event');" style="width:100%;">
+                    Print Ticket
+                    <div class="ld ld-ring ld-cycle"></div>
+                </button>`;
             }
             print_text += '</div><div class="col-lg-4" style="padding-bottom:10px;">';
             // === Button 2 ===
             if (msg.result.response.status  == 'booked'){
-                print_text+=`<button class="primary-btn hold-seat-booking-train" type="button" onclick="get_printout('` + msg.result.response.name + `','itinerary','event');" style="width:100%;">Print Itinerary Form</button>`;
+                print_text+=`
+                <button class="primary-btn hold-seat-booking-train ld-ext-right" id="button-print-print" type="button" onclick="get_printout('` + msg.result.response.name + `','itinerary','event');" style="width:100%;">
+                    Print Itinerary Form
+                    <div class="ld ld-ring ld-cycle"></div>
+                </button>`;
             }else{
-                print_text+=`<button class="primary-btn hold-seat-booking-train" type="button" onclick="get_printout('` + msg.result.response.name + `','ticket_price','event');" style="width:100%;">Print Ticket (With Price)</button>`;
+                print_text+=`
+                <button class="primary-btn hold-seat-booking-train ld-ext-right" type="button" id="button-print-print" onclick="get_printout('` + msg.result.response.name + `','ticket_price','event');" style="width:100%;">
+                    Print Ticket (With Price)
+                    <div class="ld ld-ring ld-cycle"></div>
+                </button>`;
             }
             print_text += '</div><div class="col-lg-4" style="padding-bottom:10px;">';
             // === Button 3 ===
             if (msg.result.response.status  == 'issued') {
-                print_text+=`<button class="primary-btn hold-seat-booking-train" type="button" onclick="window.location.href='https://backend.rodextrip.com/rodextrip/report/pdf/tt.agent.invoice/`+msg.result.response.name+`'" style="width:100%;" >Print Invoice</button>`;
+                print_text+=`
+                <button class="primary-btn hold-seat-booking-train ld-ext-right" type="button" onclick="window.location.href='https://backend.rodextrip.com/rodextrip/report/pdf/tt.agent.invoice/`+msg.result.response.name+`'" style="width:100%;" >
+                    Print Invoice
+                    <div class="ld ld-ring ld-cycle"></div>
+                </button>`;
             }
             print_text += '</div>';
             document.getElementById('event_btn_printout').innerHTML = print_text;

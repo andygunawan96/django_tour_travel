@@ -358,10 +358,14 @@ function tour_search(){
                             if(template == 1){
                                 text+=`
                                     <div class="single-recent-blog-post item" style="cursor:unset;">
-                                        <div class="single-destination avail-sd relative">
-                                            <div class="thumb relative" style="cursor:pointer; margin: auto; width:100%; height:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;" onclick="go_to_detail('`+tour_data[i].tour_code+`')">
+                                        <div class="single-destination avail-sd relative">`;
+                                            if(img_src){
+                                                text+=`<div class="thumb relative" style="cursor:pointer; border:1px solid #cdcdcd; height:255px; background: white url('`+img_src+`'); background-size: contain; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_data[i].tour_code+`')">`;
+                                            }else{
+                                                text+=`<div class="thumb relative" style="cursor:pointer; border:1px solid #cdcdcd; height:255px; background: white url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: contain; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_data[i].tour_code+`')">`;
+                                            }
+                                            text+=`
                                                 <div class="overlay overlay-bg"></div>
-                                                <img class="img-fluid" src="`+img_src+`" alt="Tour" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: fill;">
                                             </div>
                                             <div class="card card-effect-promotion">
                                                 <div class="card-body">
@@ -405,10 +409,14 @@ function tour_search(){
                             }else if(template == 2){
                                 text+=`
                                     <div class="single-post-area mb-30" style="transform:unset;">
-                                        <div class="single-destination avail-sd relative">
-                                            <div class="thumb relative" style="margin: auto; cursor:pointer; width:100%; height:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;" onclick="go_to_detail('`+tour_data[i].tour_code+`')">
+                                        <div class="single-destination avail-sd relative" style="border:unset;">`;
+                                            if(img_src){
+                                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:255px; background: white url('`+img_src+`'); background-size: contain; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_data[i].tour_code+`')">`;
+                                            }else{
+                                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:255px; background: white url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: contain; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_data[i].tour_code+`')">`;
+                                            }
+                                            text+=`
                                                 <div class="overlay overlay-bg"></div>
-                                                <img class="img-fluid" src="`+img_src+`" alt="Tour" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: fill;">
                                             </div>
                                             <div class="card card-effect-promotion" style="border:unset;">
                                                 <div class="card-body" style="padding:10px; border:unset;">
@@ -451,10 +459,14 @@ function tour_search(){
                             }else if(template == 3){
                                 text+=`
                                     <div class="single-post-area mb-30">
-                                        <div class="single-destination avail-sd relative">
-                                            <div class="thumb relative" style="margin: auto; width:100%; cursor:pointer; height:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;" onclick="go_to_detail('`+tour_data[i].tour_code+`')">
+                                        <div class="single-destination avail-sd relative">`;
+                                            if(img_src){
+                                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:255px; background: white url('`+img_src+`'); background-size: contain; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_data[i].tour_code+`')">`;
+                                            }else{
+                                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:255px; background: white url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: contain; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_data[i].tour_code+`')">`;
+                                            }
+                                            text+=`
                                                 <div class="overlay overlay-bg"></div>
-                                                <img class="img-fluid" src="`+img_src+`" alt="Tour" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: fill;">
                                             </div>
                                             <div class="card card-effect-promotion" style="border:unset;">
                                                 <div class="card-body" style="padding:10px; border:unset;">
@@ -497,10 +509,14 @@ function tour_search(){
                             }else if(template == 4){
                                 text+=`
                                     <div class="single-post-area mb-30">
-                                        <div class="single-destination avail-sd relative">
-                                            <div class="thumb relative" style="margin: auto; width:100%; height:100%; cursor:pointer; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;" onclick="go_to_detail('`+tour_data[i].tour_code+`')">
+                                        <div class="single-destination avail-sd relative">`;
+                                            if(img_src){
+                                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:255px; background: white url('`+img_src+`'); background-size: contain; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_data[i].tour_code+`')">`;
+                                            }else{
+                                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:255px; background: white url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: contain; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_data[i].tour_code+`')">`;
+                                            }
+                                            text+=`
                                                 <div class="overlay overlay-bg"></div>
-                                                <img class="img-fluid" src="`+img_src+`" alt="Tour" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: fill;">
                                             </div>
                                             <div class="card card-effect-promotion" style="border:unset;">
                                                 <div class="card-body" style="padding:10px; border:unset;">
@@ -543,9 +559,13 @@ function tour_search(){
                             }else if(template == 5){
                                 text+=`
                                     <div class="single-post-area mb-30">
-                                        <div class="single-destination avail-sd relative">
-                                            <div class="thumb relative" style="margin: auto; width:100%; cursor:pointer; height:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;" onclick="go_to_detail('`+tour_data[i].tour_code+`')">
-                                                <img class="img-fluid" src="`+img_src+`" alt="Tour" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: fill;">
+                                        <div class="single-destination avail-sd relative" style="border:1px solid #cdcdcd;">`;
+                                            if(img_src){
+                                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:255px; background: white url('`+img_src+`'); background-size: contain; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_data[i].tour_code+`')">`;
+                                            }else{
+                                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:255px; background: white url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: contain; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_data[i].tour_code+`')">`;
+                                            }
+                                            text+=`
                                             </div>
                                             <div class="card card-effect-promotion" style="border:unset;">
                                                 <div class="card-body" style="padding:10px; border:unset;">
@@ -841,7 +861,7 @@ function tour_get_details(tour_code){
                 for (j in tour_data.images_obj)
                 {
                     image_text +=`
-                    <div class="item">
+                    <div class="item" style="float:none; height:360px; display: flex; justify-content: center; align-items: center;">
                         <div class="single-destination relative">
                             <div class="thumb relative">
                                 <img class="img-fluid zoom-img" src="`+tour_data.images_obj[j].url+`" alt="Tour">
@@ -852,7 +872,7 @@ function tour_get_details(tour_code){
                 if (tour_data.images_obj.length == 0)
                 {
                     image_text += `
-                    <div class="item">
+                    <div class="item" style="float:none; height:360px; display: flex; justify-content: center; align-items: center;">
                         <div class="single-destination relative">
                             <div class="thumb relative">
                                 <img class="img-fluid zoom-img" src="`+static_path_url_server+`/public/tour_packages/not_found.png" alt="Not Found Tour">
@@ -1887,7 +1907,7 @@ function tour_get_booking(order_number)
     //                             </button>`;
                         text+=`
                             <a class="issued-booking-train ld-ext-right" style="color:`+text_color+`;">
-                                <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" data-toggle="modal" data-target="#printInvoice" value="Print Invoice"/>
+                                <input type="button" class="primary-btn" style="width:100%;" data-toggle="modal" data-target="#printInvoice" value="Print Invoice"/>
                                 <div class="ld ld-ring ld-cycle"></div>
                             </a>`;
                             // modal invoice
@@ -1903,22 +1923,22 @@ function tour_get_booking(order_number)
                                             </div>
                                             <div class="modal-body">
                                                 <div class="row">
-                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
                                                         <span class="control-label" for="Name">Name</span>
                                                         <div class="input-container-search-ticket">
                                                             <input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_name" placeholder="Name" required="1"/>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
                                                         <span class="control-label" for="Additional Information">Additional Information</span>
                                                         <div class="input-container-search-ticket">
-                                                            <textarea style="width:100%;" rows="4" id="additional_information" name="additional_information" placeholder="Additional Information"></textarea>
+                                                            <textarea style="width:100%; resize: none;" rows="4" id="additional_information" name="additional_information" placeholder="Additional Information"></textarea>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
                                                         <span class="control-label" for="Address">Address</span>
                                                         <div class="input-container-search-ticket">
-                                                            <textarea style="width:100%;" rows="4" id="bill_address" name="bill_address" placeholder="Address"></textarea>
+                                                            <textarea style="width:100%; resize: none;" rows="4" id="bill_address" name="bill_address" placeholder="Address"></textarea>
                                                             <!--<input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_address" placeholder="Address" required="1"/>-->
                                                         </div>
                                                     </div>
@@ -1927,7 +1947,10 @@ function tour_get_booking(order_number)
                                                 <div style="text-align:right;">
                                                     <span>Don't want to edit? just submit</span>
                                                     <br/>
-                                                    <input type="button" class="primary-btn" id="button-issued-print" style="width:30%;" value="Submit" onclick="get_printout('`+book_obj.order_number+`', 'invoice','tour');"/>
+                                                    <button type="button" id="button-issued-print" class="primary-btn ld-ext-right" onclick="get_printout('`+book_obj.order_number+`', 'invoice','tour');">
+                                                        Submit
+                                                        <div class="ld ld-ring ld-cycle"></div>
+                                                    </button>
                                                 </div>
                                             </div>
                                             <div class="modal-footer">

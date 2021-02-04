@@ -15,6 +15,24 @@ function get_printout(order_number,type,provider_type){
         try{
             additional_information = document.getElementById('additional_information').value;
         }catch(err){}
+
+        if(type == 'ticket'){
+            $('#button-choose-print').prop('disabled', true);
+            $('#button-choose-print').addClass("running");
+        }else if(type == 'itinerary' || type == 'ticket_price'){
+            $('#button-print-print').prop('disabled', true);
+            $('#button-print-print').addClass("running");
+        }else if(type == 'ticket_original'){
+            $('#button-print-ori').prop('disabled', true);
+            $('#button-print-ori').addClass("running");
+        }else if(type == 'invoice'){
+            $('#button-issued-print').prop('disabled', true);
+            $('#button-issued-print').addClass("running");
+        }else if(type == 'passport_cust' || type == 'visa_cust'){
+            $('#button-print-handling').prop('disabled', true);
+            $('#button-print-handling').addClass("running");
+        }
+
         $.ajax({
            type: "POST",
            url: "/webservice/printout",
@@ -45,9 +63,42 @@ function get_printout(order_number,type,provider_type){
                     })
                 }
                 printout_state = 0;
+                if(type == 'ticket'){
+                    $('#button-choose-print').prop('disabled', false);
+                    $('#button-choose-print').removeClass("running");
+                }else if(type == 'itinerary' || type == 'ticket_price'){
+                    $('#button-print-print').prop('disabled', false);
+                    $('#button-print-print').removeClass("running");
+                }else if(type == 'ticket_original'){
+                    $('#button-print-ori').prop('disabled', false);
+                    $('#button-print-ori').removeClass("running");
+                }else if(type == 'passport_cust' || type == 'visa_cust'){
+                    $('#button-print-handling').prop('disabled', false);
+                    $('#button-print-handling').removeClass("running");
+                }else if(type == 'invoice'){
+                    $('#button-issued-print').prop('disabled', false);
+                    $('#button-issued-print').removeClass("running");
+                }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
                 error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error printout');
+
+                if(type == 'ticket'){
+                    $('#button-choose-print').prop('disabled', false);
+                    $('#button-choose-print').removeClass("running");
+                }else if(type == 'itinerary' || type == 'ticket_price'){
+                    $('#button-print-print').prop('disabled', false);
+                    $('#button-print-print').removeClass("running");
+                }else if(type == 'ticket_original'){
+                    $('#button-print-ori').prop('disabled', false);
+                    $('#button-print-ori').removeClass("running");
+                }else if(type == 'passport_cust' || type == 'visa_cust'){
+                    $('#button-print-handling').prop('disabled', false);
+                    $('#button-print-handling').removeClass("running");
+                }else if(type == 'invoice'){
+                    $('#button-issued-print').prop('disabled', false);
+                    $('#button-issued-print').removeClass("running");
+                }
            },timeout: 60000
         });
     }else{

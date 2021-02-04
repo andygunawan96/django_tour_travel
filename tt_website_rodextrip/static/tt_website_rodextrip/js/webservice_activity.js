@@ -576,32 +576,45 @@ function activity_search(){
                             <input type='hidden' value='`+JSON.stringify(activity_data[i]).replace(/[']/g, /["]/g)+`'/>
                             <input id='uuid`+activity_data[i].sequence+`' name='uuid' type=hidden value='`+activity_data[i].uuid+`'/>
                             <input id='sequence`+activity_data[i].sequence+`' name='sequence' type=hidden value='`+activity_data[i].sequence+`'/>`;
+                            temp_arr_loc = [];
+                            for(j in activity_data[i].locations){
+                                temp_arr_loc.push(activity_data[i].locations[j].country_name);
+                            }
+                            temp_arr_loc = get_unique_list_data(temp_arr_loc);
 
                             if(template == 1){
                                 text+=`
-                                <div class="single-recent-blog-post item activity_box" title="`+activity_data[i].name+`" style="cursor:pointer;" onclick="go_to_detail('`+activity_data[i].sequence+`')">
-                                    <div class="single-destination relative">
-                                        <div class="thumb relative" style="margin: auto; width:100%; height:200px; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
+                                <div class="single-recent-blog-post item activity_box" style="border:1px solid #cdcdcd;">
+                                    <div class="single-destination relative">`;
+                                        if(img_src){
+                                            text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('`+img_src+`'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+activity_data[i].sequence+`')">`;
+                                        }else{
+                                            text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+activity_data[i].sequence+`')">`;
+                                        }
+                                        text+=`
                                             <div class="overlay overlay-bg"></div>
-                                            <img class="img-fluid" src="`+img_src+`" alt="`+activity_data[i].name+`" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: cover;">
                                         </div>
-                                        <div class="card card-effect-promotion">
+                                        <div class="card card-effect-promotion" style="border:unset;">
                                             <div class="card-body">
                                                 <div class="row details">
-                                                    <div class="col-lg-12" style="text-align:left;">
-                                                        <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+activity_data[i].name+`">`+activity_data[i].name+`</h6>`;
-                                                        for(j in activity_data[i].locations) {
-                                                            text+=`
-                                                                <span class="span-activity-desc" style="font-size:13px;"> <i style="color:red !important;" class="fas fa-map-marker-alt"></i> `+activity_data[i].locations[j].city_name+`, `+activity_data[i].locations[j].country_name+` </span>
-                                                                <br/>`;
+                                                    <div class="col-lg-12" style="text-align:left; height:90px;">
+                                                        <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+activity_data[i].name+`">`+activity_data[i].name+`</h6>
+                                                        <span class="span-activity-desc" style="font-size:13px;"> `+activity_data[i].reviewAverageScore+` <i style="color:#FFC801 !important;" class="fas fa-star"></i> (`+activity_data[i].reviewCount+` reviews)</span><br/>`;
+
+                                                        text+=`<span style="font-size:12px; font-weight:600; color:`+color+`; cursor:pointer;"> <i style="color:`+color+` !important;" class="fas fa-map-marker-alt"></i>`;
+                                                        for(ct in temp_arr_loc){
+                                                            if(ct == 0){
+                                                                text+=`<span id="pop_loc`+i+``+ct+`" class="span-activity-desc" style="color:`+color+`; cursor:pointer;"> `+temp_arr_loc[ct].data_country+` (`+temp_arr_loc[ct].count+`)</span>`;
+                                                            }else{
+                                                                text+=`<span id="pop_loc`+i+``+ct+`" class="span-activity-desc" style="color:`+color+`; cursor:pointer;">, `+temp_arr_loc[ct].data_country+` (`+temp_arr_loc[ct].count+`) </span>`;
+                                                            }
                                                         }
+                                                        text+=`</span><br/>`;
                                                     text+=`
-                                                    <span class="span-activity-desc" style="font-size:13px;"> `+activity_data[i].reviewAverageScore+` <i style="color:#FFC801 !important;" class="fas fa-star"></i> (`+activity_data[i].reviewCount+` reviews)</span>
-                                                    <br/><br/>
                                                     </div>
-                                                    <div class="col-lg-12" style="text-align:right;">
-                                                        <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(activity_data[i].activity_price)+`  </span>
-                                                        <button type="button" class="primary-btn" onclick="go_to_detail('`+activity_data[i].sequence+`')">BUY</button>
+                                                    <div class="col-lg-12">
+                                                        <span style="float:left; font-size:13px;font-weight:bold;">IDR `+getrupiah(activity_data[i].activity_price)+`  </span>
+                                                        <button style="float:right; line-height:32px;" type="button" class="primary-btn" onclick="go_to_detail('`+activity_data[i].sequence+`')">BUY</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -609,33 +622,43 @@ function activity_search(){
                                     </div>
                                 </div>`;
                             }else{
+                                if(template == 5){
+                                    text+=`<div class="single-post-area activity_box" style="margin-bottom:15px; cursor:pointer; border:1px solid #cdcdcd; transform:unset; -webkit-transform:unset;">`;
+                                }else{
+                                    text+=`<div class="single-post-area activity_box" style="margin-bottom:15px; cursor:pointer; border:unset; transform:unset; -webkit-transform:unset;">`;
+                                }
                                 text+=`
-                                <div class="single-post-area mb-30 activity_box" title="`+activity_data[i].name+`" style="cursor:pointer;" onclick="go_to_detail('`+activity_data[i].sequence+`')">
-                                    <div class="single-destination avail-sd relative">
-                                        <div class="thumb relative" style="margin: auto; width:100%; height:200px; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;">`;
+                                    <div class="single-destination avail-sd relative">`;
+                                        if(img_src){
+                                            text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('`+img_src+`'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+activity_data[i].sequence+`')">`;
+                                        }else{
+                                            text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+activity_data[i].sequence+`')">`;
+                                        }
                                         if(template != 5){
                                             text+=`<div class="overlay overlay-bg"></div>`;
                                         }
                                         text+=`
-                                            <img class="img-fluid" src="`+img_src+`" alt="`+activity_data[i].name+`" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: cover;">
                                         </div>
-                                        <div class="card card-effect-promotion">
-                                            <div class="card-body" style="padding:15px;">
+                                        <div class="card card-effect-promotion" style="border:unset;">
+                                            <div class="card-body" style="padding:10px; border:unset;">
                                                 <div class="row details">
-                                                    <div class="col-lg-12" style="text-align:left;">
-                                                        <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+activity_data[i].name+`">`+activity_data[i].name+`</h6>`;
-                                                        for(j in activity_data[i].locations) {
-                                                            text+=`
-                                                                <span class="span-activity-desc" style="font-size:13px;"> <i style="color:red !important;" class="fas fa-map-marker-alt"></i> `+activity_data[i].locations[j].city_name+`, `+activity_data[i].locations[j].country_name+` </span>
-                                                                <br/>`;
+                                                    <div class="col-lg-12" style="text-align:left; height:90px;">
+                                                        <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+activity_data[i].name+`">`+activity_data[i].name+`</h6>
+                                                        <span class="span-activity-desc" style="font-size:13px;"> `+activity_data[i].reviewAverageScore+` <i style="color:#FFC801 !important;" class="fas fa-star"></i> (`+activity_data[i].reviewCount+` reviews)</span><br/>`;
+                                                        text+=`<span style="font-size:12px; font-weight:600; color:`+color+`; cursor:pointer;"> <i style="color:`+color+` !important;" class="fas fa-map-marker-alt"></i>`;
+                                                        for(ct in temp_arr_loc){
+                                                            if(ct == 0){
+                                                                text+=`<span id="pop_loc`+i+``+ct+`" class="span-activity-desc" style="color:`+color+`; cursor:pointer;"> `+temp_arr_loc[ct].data_country+` (`+temp_arr_loc[ct].count+`)</span>`;
+                                                            }else{
+                                                                text+=`<span id="pop_loc`+i+``+ct+`" class="span-activity-desc" style="color:`+color+`; cursor:pointer;">, `+temp_arr_loc[ct].data_country+` (`+temp_arr_loc[ct].count+`) </span>`;
+                                                            }
                                                         }
+                                                        text+=`</span><br/>`;
                                                     text+=`
-                                                    <span class="span-activity-desc" style="font-size:13px;"> `+activity_data[i].reviewAverageScore+` <i style="color:#FFC801 !important;" class="fas fa-star"></i> (`+activity_data[i].reviewCount+` reviews)</span>
-                                                    <br/><br/>
                                                     </div>
-                                                    <div class="col-lg-12" style="text-align:right;">
-                                                        <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(activity_data[i].activity_price)+`</span><br/>
-                                                        <button href="#" class="primary-btn" onclick="go_to_detail('`+activity_data[i].sequence+`')">BUY</button>
+                                                    <div class="col-lg-12">
+                                                        <span style="float:left; font-size:13px;font-weight:bold;">IDR `+getrupiah(activity_data[i].activity_price)+`  </span>
+                                                        <button style="float:right; line-height:32px;" type="button" class="primary-btn" onclick="go_to_detail('`+activity_data[i].sequence+`')">BUY</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -682,6 +705,48 @@ function activity_search(){
                $(".js-range-slider2").data("ionRangeSlider").reset();
 
                document.getElementById('activity_ticket').innerHTML += text;
+
+               for(i in activity_data){
+                    temp_arr_loc = [];
+                    for(j in activity_data[i].locations){
+                        temp_arr_loc.push(activity_data[i].locations[j].country_name);
+                    }
+                    temp_arr_loc = get_unique_list_data(temp_arr_loc);
+
+                    for(ct in temp_arr_loc){
+                        content_pop_loc = '';
+
+                        for(j in activity_data[i].locations){
+                            if(temp_arr_loc[ct].data_country == activity_data[i].locations[j].country_name)
+                            content_pop_loc+=`
+                            <span class="span-activity-desc" style="font-size:13px;">
+                                <i style="color:`+color+` !important;" class="fas fa-map-marker-alt"></i>
+                                `+activity_data[i].locations[j].city_name+`, `+activity_data[i].locations[j].country_name+`
+                            </span><br/>`;
+                        }
+
+                        new jBox('Tooltip', {
+                            attach: '#pop_loc'+i+ct,
+                            target: '#pop_loc'+i+ct,
+                            theme: 'TooltipBorder',
+                            trigger: 'click',
+                            adjustTracker: true,
+                            closeOnClick: 'body',
+                            closeButton: 'box',
+                            animation: 'move',
+                            position: {
+                              x: 'left',
+                              y: 'top'
+                            },
+                            outside: 'y',
+                            pointer: 'left:20',
+                            offset: {
+                              x: 25
+                            },
+                            content: content_pop_loc,
+                        });
+                    }
+               }
 
                var items = $(".activity_box");
                var numItems = items.length;
@@ -794,7 +859,11 @@ function activity_get_detail(activity_uuid){
                    activity_location_txt = ``;
                    for (i in activity_data.locations)
                    {
-                        activity_location_txt += activity_data.locations[i].city_name + `, ` + activity_data.locations[i].country_name + `;`
+                        if(i == 0){
+                            activity_location_txt += `<i class="fas fa-map-marker-alt" style="color:`+color+`; "></i> `+activity_data.locations[i].city_name + ` ` + activity_data.locations[i].country_name;
+                        }else{
+                            activity_location_txt += `<i class="fas fa-map-marker-alt" style="color:`+color+`; padding-left:10px; "></i> `+activity_data.locations[i].city_name + `, ` + activity_data.locations[i].country_name;
+                        }
                    }
 
                    activity_desc_bar_txt = ``;
@@ -2789,13 +2858,15 @@ function activity_get_booking(data){
                         if (msg.result.response.voucher_url.length > 0)
                         {
                             text += `<button class="primary-btn hold-seat-booking-train next-loading-ticket ld-ext-right" type="button" onclick="window.open('`+msg.result.response.voucher_url[0]+`');" style="width:100%;">
-                                        Print Voucher <div class="ld ld-ring ld-cycle"></div>
+                                        Print Voucher
+                                        <div class="ld ld-ring ld-cycle"></div>
                                      </button>`;
                         }
                         else
                         {
                             text += `<button class="primary-btn hold-seat-booking-train next-loading-ticket ld-ext-right" type="button" onclick="activity_get_voucher('`+msg.result.response.order_number+`');" style="width:100%;">
-                                        Print Voucher <div class="ld ld-ring ld-cycle"></div>
+                                        Print Voucher
+                                        <div class="ld ld-ring ld-cycle"></div>
                                     </button>`;
                         }
                    }
@@ -2808,7 +2879,7 @@ function activity_get_booking(data){
     //                             </button>`;
                         text+=`
                         <a class="issued-booking-train ld-ext-right" style="color:`+text_color+`;">
-                            <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" data-toggle="modal" data-target="#printInvoice" value="Print Invoice"/>
+                            <input type="button" class="primary-btn" style="width:100%;" data-toggle="modal" data-target="#printInvoice" value="Print Invoice"/>
                             <div class="ld ld-ring ld-cycle"></div>
                         </a>`;
                         // modal invoice
@@ -2824,22 +2895,22 @@ function activity_get_booking(data){
                                         </div>
                                         <div class="modal-body">
                                             <div class="row">
-                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
                                                     <span class="control-label" for="Name">Name</span>
                                                     <div class="input-container-search-ticket">
                                                         <input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_name" placeholder="Name" required="1"/>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
                                                     <span class="control-label" for="Additional Information">Additional Information</span>
                                                     <div class="input-container-search-ticket">
-                                                        <textarea style="width:100%;" rows="4" id="additional_information" name="additional_information" placeholder="Additional Information"></textarea>
+                                                        <textarea style="width:100%; resize: none;" rows="4" id="additional_information" name="additional_information" placeholder="Additional Information"></textarea>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
                                                     <span class="control-label" for="Address">Address</span>
                                                     <div class="input-container-search-ticket">
-                                                        <textarea style="width:100%;" rows="4" id="bill_address" name="bill_address" placeholder="Address"></textarea>
+                                                        <textarea style="width:100%; resize: none;" rows="4" id="bill_address" name="bill_address" placeholder="Address"></textarea>
                                                         <!--<input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_address" placeholder="Address" required="1"/>-->
                                                     </div>
                                                 </div>
@@ -2848,7 +2919,10 @@ function activity_get_booking(data){
                                             <div style="text-align:right;">
                                                 <span>Don't want to edit? just submit</span>
                                                 <br/>
-                                                <input type="button" class="primary-btn" id="button-issued-print" style="width:30%;" value="Submit" onclick="get_printout('`+msg.result.response.order_number+`', 'invoice','airline');"/>
+                                                <button type="button" id="button-issued-print" class="primary-btn ld-ext-right" onclick="get_printout('`+msg.result.response.order_number+`', 'invoice','activity');">
+                                                    Submit
+                                                    <div class="ld ld-ring ld-cycle"></div>
+                                                </button>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
@@ -2869,7 +2943,7 @@ function activity_get_booking(data){
     //                             </button>`;
                         text+=`
                         <a class="issued-booking-train ld-ext-right" style="color:`+text_color+`;">
-                            <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" data-toggle="modal" data-target="#printInvoice" value="Print Invoice"/>
+                            <input type="button" class="primary-btn" style="width:100%;" data-toggle="modal" data-target="#printInvoice" value="Print Invoice"/>
                             <div class="ld ld-ring ld-cycle"></div>
                         </a>`;
                         // modal invoice
@@ -2885,22 +2959,22 @@ function activity_get_booking(data){
                                         </div>
                                         <div class="modal-body">
                                             <div class="row">
-                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
                                                     <span class="control-label" for="Name">Name</span>
                                                     <div class="input-container-search-ticket">
                                                         <input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_name" placeholder="Name" required="1"/>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
                                                     <span class="control-label" for="Additional Information">Additional Information</span>
                                                     <div class="input-container-search-ticket">
-                                                        <textarea style="width:100%;" rows="4" id="additional_information" name="additional_information" placeholder="Additional Information"></textarea>
+                                                        <textarea style="width:100%; resize: none;" rows="4" id="additional_information" name="additional_information" placeholder="Additional Information"></textarea>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2 unset">
                                                     <span class="control-label" for="Address">Address</span>
                                                     <div class="input-container-search-ticket">
-                                                        <textarea style="width:100%;" rows="4" id="bill_address" name="bill_address" placeholder="Address"></textarea>
+                                                        <textarea style="width:100%; resize: none;" rows="4" id="bill_address" name="bill_address" placeholder="Address"></textarea>
                                                         <!--<input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_address" placeholder="Address" required="1"/>-->
                                                     </div>
                                                 </div>
@@ -2909,7 +2983,10 @@ function activity_get_booking(data){
                                             <div style="text-align:right;">
                                                 <span>Don't want to edit? just submit</span>
                                                 <br/>
-                                                <input type="button" class="primary-btn" id="button-issued-print" style="width:30%;" value="Submit" onclick="get_printout('`+msg.result.response.order_number+`', 'invoice','activity');"/>
+                                                <button type="button" id="button-issued-print" class="primary-btn ld-ext-right" onclick="get_printout('`+msg.result.response.order_number+`', 'invoice','activity');">
+                                                    Submit
+                                                    <div class="ld ld-ring ld-cycle"></div>
+                                                </button>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
@@ -3302,4 +3379,25 @@ function datepicker(val){
               format: 'YYYY-MM-DD',
           }
      });
+}
+
+function get_unique_list_data(data){
+  unique = [];
+  for(rec in data){
+    check = 0;
+    for(rec1 in unique){
+      if(unique[rec1].data_country == data[rec]){
+        unique[rec1]['count'] += 1
+        check = 1;
+      }
+
+    }
+    if(check == 0){
+      unique.push({
+        'data_country': data[rec],
+        'count': 1
+      })
+    }
+  }
+  return unique;
 }

@@ -1650,6 +1650,20 @@
             animation: 'move'
         });
 
+        new jBox('Tooltip', {
+            attach: '#button_chart_airline',
+            theme: 'TooltipBorder',
+            width: 200,
+            position: {
+              x: 'left',
+              y: 'center'
+            },
+            outside: 'x',
+            pointer: 'top:15',
+            content: 'Airline<br/><b>Chart Airline</b>',
+            animation: 'move'
+        });
+
         //show hide balance
         try{
             document.getElementById("balance_search").innerHTML = document.getElementById("balance").innerHTML;

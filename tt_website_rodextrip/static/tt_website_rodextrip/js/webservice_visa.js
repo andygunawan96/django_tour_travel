@@ -1011,81 +1011,85 @@ function visa_get_data(data){
                                     }
                                     text+=`
                                     </div>
-                                    <div class="row" style="margin-top:10px;">
-                                        <div class="col-lg-4">`;
-                                        if(visa.journey.state == 'booked' || visa.journey.state == 'issued')
-                                        text+=`
-                                            <a class="print-booking-train ld-ext-right" style="color:`+text_color+`;">
-                                                <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Visa Handling" onclick="get_printout('`+msg.result.response.journey.name+`', 'visa_cust','visa');" />
-                                                <div class="ld ld-ring ld-cycle"></div>
-                                            </a>`;
-                                        text+=`</div>
-                                        <div class="col-lg-4">`;
-                                        if(visa.journey.state == 'booked')
-                                        text+=`
-                                            <a class="print-booking-train ld-ext-right" style="color:`+text_color+`;">
-                                                <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Itinerary" onclick="get_printout('`+msg.result.response.journey.name+`', 'itinerary','visa');" />
-                                                <div class="ld ld-ring ld-cycle"></div>
-                                            </a>`;
-                                            text+=`
-                                        </div>
-                                        <div class="col-lg-4">`;
-                                        if(visa.journey.state == 'issued')
-                                            text+=`
-                                            <a class="issued-booking-train ld-ext-right" style="color:`+text_color+`;">
-                                                <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" data-toggle="modal" data-target="#printInvoice" value="Print Invoice"/>
-                                                <div class="ld ld-ring ld-cycle"></div>
-                                            </a>
-                                            <div class="modal fade" id="printInvoice" role="dialog" data-keyboard="false">
-                                                <div class="modal-dialog">
 
-                                                  <!-- Modal content-->
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h4 class="modal-title" style="color:`+text_color+`">Invoice</h4>
-                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div class="row">
-                                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                                    <span class="control-label" for="Name">Name</span>
-                                                                    <div class="input-container-search-ticket">
-                                                                        <input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_name" placeholder="Name" required="1"/>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                                                    <span class="control-label" for="Additional Information">Additional Information</span>
-                                                                    <div class="input-container-search-ticket">
-                                                                        <textarea style="width:100%;" rows="4" id="additional_information" name="additional_information" placeholder="Additional Information"></textarea>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                                                    <span class="control-label" for="Address">Address</span>
-                                                                    <div class="input-container-search-ticket">
-                                                                        <textarea style="width:100%;" rows="4" id="bill_address" name="bill_address" placeholder="Address"></textarea>
-                                                                        <!--<input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_address" placeholder="Address" required="1"/>-->
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <br/>
-                                                            <div style="text-align:right;">
-                                                                <span>Don't want to edit? just submit</span>
-                                                                <br/>
-                                                                <input type="button" class="primary-btn" id="button-issued-print" style="width:30%;" value="Submit" onclick="get_printout('`+msg.result.response.journey.name+`', 'invoice','visa');"/>
-                                                            </div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>`;
-                                            text+=`
-                                        </div>
-                                    </div>
                                 <hr/>`;
                                 }
+                            text+=`
+                            </div>
+                            <div class="row" style="margin-top:10px;">
+                                <div class="col-lg-4">`;
+                                if(visa.journey.state == 'booked' || visa.journey.state == 'issued')
                                 text+=`
+                                    <button type="button" id="button-print-handling" class="primary-btn ld-ext-right" style="width:100%;" onclick="get_printout('`+msg.result.response.journey.name+`', 'visa_cust','visa');">
+                                        Visa Handling
+                                        <div class="ld ld-ring ld-cycle"></div>
+                                    </button>`;
+                                text+=`</div>
+                                <div class="col-lg-4">`;
+                                if(visa.journey.state == 'booked')
+                                text+=`
+                                    <button type="button" id="button-print-print" class="primary-btn ld-ext-right" style="width:100%;" onclick="get_printout('`+msg.result.response.journey.name+`', 'itinerary','visa');">
+                                        Itinerary
+                                        <div class="ld ld-ring ld-cycle"></div>
+                                    </button>`;
+                                    text+=`
+                                </div>
+                                <div class="col-lg-4">`;
+                                if(visa.journey.state == 'issued')
+                                    text+=`
+                                    <a class="issued-booking-train ld-ext-right" style="color:`+text_color+`;">
+                                        <input type="button" class="primary-btn" style="width:100%;" data-toggle="modal" data-target="#printInvoice" value="Print Invoice"/>
+                                        <div class="ld ld-ring ld-cycle"></div>
+                                    </a>
+                                    <div class="modal fade" id="printInvoice" role="dialog" data-keyboard="false">
+                                        <div class="modal-dialog">
+
+                                          <!-- Modal content-->
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title" style="color:`+text_color+`">Invoice</h4>
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                                                            <span class="control-label" for="Name">Name</span>
+                                                            <div class="input-container-search-ticket">
+                                                                <input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_name" placeholder="Name" required="1"/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                                                            <span class="control-label" for="Additional Information">Additional Information</span>
+                                                            <div class="input-container-search-ticket">
+                                                                <textarea style="width:100%; resize: none;" rows="4" id="additional_information" name="additional_information" placeholder="Additional Information"></textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                                                            <span class="control-label" for="Address">Address</span>
+                                                            <div class="input-container-search-ticket">
+                                                                <textarea style="width:100%; resize: none;" rows="4" id="bill_address" name="bill_address" placeholder="Address"></textarea>
+                                                                <!--<input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_address" placeholder="Address" required="1"/>-->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <br/>
+                                                    <div style="text-align:right;">
+                                                        <span>Don't want to edit? just submit</span>
+                                                        <br/>
+                                                        <button type="button" id="button-issued-print" class="primary-btn ld-ext-right" onclick="get_printout('`+msg.result.response.journey.name+`', 'invoice','visa');">
+                                                            Submit
+                                                            <div class="ld ld-ring ld-cycle"></div>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>`;
+                                    text+=`
+                                </div>
                             </div>
                         </div>
                     </div>`;

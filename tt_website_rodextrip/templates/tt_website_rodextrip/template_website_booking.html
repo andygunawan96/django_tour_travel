@@ -166,7 +166,7 @@ Licence URI: http://www.os-templates.com/template-terms
           background: -moz-linear-gradient(0deg,rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)),url("{{background}}") !important;
           background-attachment: fixed !important;
           background-position: center !important;
-          background-size: 100% !important;
+          background-size: cover !important;
           background-repeat: no-repeat !important;
         }
         .price-area {
@@ -811,7 +811,6 @@ Licence URI: http://www.os-templates.com/template-terms
         }
         .myticket:hover {
             background-color: {{color}};
-            opacity: 0.9;
         }
         .passenger_div {
             background-color: {{color}};
@@ -1488,7 +1487,13 @@ Licence URI: http://www.os-templates.com/template-terms
             opacity: 0.8;
         }
         {% elif template == 4 %}
-
+        .owl-theme .owl-nav [class*=owl-]{
+            background: {{color}};
+        }
+        .owl-theme .owl-nav [class*=owl-]:hover{
+            background: {{color}};
+            opacity: 1;
+        }
         .modal-header{
             background-color: {{color}};
         }
