@@ -1696,8 +1696,8 @@ function sort(tour_dat, exist_check){
                                                             </div>
                                                             <span id="pop_question`+i+`" style="cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
                                                         </div>
-                                                            <span style="font-size:13px; color:#616161; float:left;">Starting From</span>
-                                                            <span style="font-size:14px;font-weight:bold; float:right;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`</span><br/>
+                                                            <span style="font-size:13px; color:#616161; float:left; margin-top:10px;">Starting From</span>
+                                                            <span style="font-size:14px;font-weight:bold; float:right; margin-top:10px;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`</span><br/>
                                                         </div>
                                                         <div class="col-lg-12">
                                                             <button href="#" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_dat[i].tour_code+`')" style="width:100%;">BOOK</button><br/>
@@ -1747,8 +1747,8 @@ function sort(tour_dat, exist_check){
                                                             </div>
                                                             <span id="pop_question`+i+`" style="cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
                                                         </div>
-                                                            <span style="font-size:13px; color:#616161; float:left;">Starting From</span>
-                                                            <span style="font-size:14px;font-weight:bold; float:right;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`</span><br/>
+                                                            <span style="font-size:13px; color:#616161; float:left; margin-top:10px;">Starting From</span>
+                                                            <span style="font-size:14px;font-weight:bold; float:right; margin-top:10px;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`</span><br/>
                                                         </div>
                                                         <div class="col-lg-12">
                                                             <button href="#" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_dat[i].tour_code+`')" style="width:100%;">BOOK</button><br/>
@@ -1797,8 +1797,8 @@ function sort(tour_dat, exist_check){
                                                             </div>
                                                             <span id="pop_question`+i+`" style="cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
                                                         </div>
-                                                            <span style="font-size:13px; color:#616161; float:left;">Starting From</span>
-                                                            <span style="font-size:14px;font-weight:bold; float:right;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`</span><br/>
+                                                            <span style="font-size:13px; color:#616161; float:left; margin-top:10px;">Starting From</span>
+                                                            <span style="font-size:14px;font-weight:bold; float:right; margin-top:10px;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`</span><br/>
                                                         </div>
                                                         <div class="col-lg-12">
                                                             <button href="#" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_dat[i].tour_code+`')" style="width:100%;">BOOK</button><br/>
@@ -1847,8 +1847,8 @@ function sort(tour_dat, exist_check){
                                                             </div>
                                                             <span id="pop_question`+i+`" style="cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
                                                         </div>
-                                                            <span style="font-size:13px; color:#616161; float:left;">Starting From</span>
-                                                            <span style="font-size:14px;font-weight:bold; float:right;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`</span><br/>
+                                                            <span style="font-size:13px; color:#616161; float:left; margin-top:10px;">Starting From</span>
+                                                            <span style="font-size:14px;font-weight:bold; float:right; margin-top:10px;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`</span><br/>
                                                         </div>
                                                         <div class="col-lg-12">
                                                             <button href="#" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_dat[i].tour_code+`')" style="width:100%;">BOOK</button><br/>
@@ -1896,8 +1896,8 @@ function sort(tour_dat, exist_check){
                                                             </div>
                                                             <span id="pop_question`+i+`" style="cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
                                                         </div>
-                                                            <span style="font-size:13px; color:#616161; float:left;">Starting From</span>
-                                                            <span style="font-size:14px;font-weight:bold; float:right;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`</span><br/>
+                                                            <span style="font-size:13px; color:#616161; float:left; margin-top:10px;">Starting From</span>
+                                                            <span style="font-size:14px;font-weight:bold; float:right; margin-top:10px;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`</span><br/>
                                                         </div>
                                                         <div class="col-lg-12">
                                                             <button href="#" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_dat[i].tour_code+`')" style="width:100%;">BOOK</button><br/>

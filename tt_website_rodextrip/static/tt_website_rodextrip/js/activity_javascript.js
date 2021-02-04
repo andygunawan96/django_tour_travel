@@ -2212,7 +2212,7 @@ function sort(activity_dat, check){
                                     <div class="card card-effect-promotion" style="border:unset;">
                                     <div class="card-body">
                                         <div class="row details">
-                                            <div class="col-lg-12" style="text-align:left;">
+                                            <div class="col-lg-12" style="text-align:left; height:90px;">
                                                 <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+activity_dat[i].name+`">`+activity_dat[i].name+`</h6>
                                                 <span class="span-activity-desc" style="font-size:13px;"> `+activity_dat[i].reviewAverageScore+` <i style="color:#FFC801 !important;" class="fas fa-star"></i> (`+activity_dat[i].reviewCount+`)</span><br/>`;
 
