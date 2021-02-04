@@ -522,7 +522,7 @@ function update_passenger(){
        success: function(msg) {
             console.log(msg);
             if(msg.result.error_code == 0){
-                update_contact();
+                visa_update_contact();
             }else{
                 hide_modal_waiting_transaction();
                 close_div('payment_acq');
@@ -536,7 +536,7 @@ function update_passenger(){
     });
 }
 
-function update_contact(){
+function visa_update_contact(){
     getToken();
     $.ajax({
        type: "POST",

@@ -5353,15 +5353,28 @@ function check_refund_partial_btn(){
                                                 <div class="row" style="margin-bottom:5px;">
                                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
                                                         <span style="font-size:12px;">`+msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].charge_type+` `+msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].charge_code+` `+msg.result.response.provider_bookings[i].pnr+`</span>
-                                                    </div>
+                                                    </div>`;
+                                            if(msg.result.response.provider_bookings[i].passengers[j].fees[k].fee_code != 'com'){
+                                                text+=`
                                                     <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1" style="text-align:right;">
                                                         <span style="font-size:13px;">`+currency+`</span>
-                                                    </div>
+                                                        <input type="hidden" id="`+msg.result.response.provider_bookings[i].passengers[j].first_name+`_`+msg.result.response.provider_bookings[i].passengers[j].last_name+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].fee_name+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].charge_type+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].sequence+`_type" value="amount"/>
+                                                    </div>`;
+                                                total_hitung_frontend += msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].amount;
+                                            }else{
+                                                text+=`
+                                                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1" style="text-align:right;">
+                                                        <span style="font-size:13px;">%</span>
+                                                        <input type="hidden" id="`+msg.result.response.provider_bookings[i].passengers[j].first_name+`_`+msg.result.response.provider_bookings[i].passengers[j].last_name+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].fee_name+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].charge_type+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].sequence+`_type" value="percentage"/>
+                                                    </div>`;
+                                            }
+                                            text+=`
                                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
-                                                        <input type=text id="`+msg.result.response.provider_bookings[i].passengers[j].first_name+`_`+msg.result.response.provider_bookings[i].passengers[j].last_name+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].fee_name+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].charge_type+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].sequence+`" value="`+getrupiah(msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].amount)+`" onchange="change_refund_price('`+msg.result.response.provider_bookings[i].passengers[j].first_name+`_`+msg.result.response.provider_bookings[i].passengers[j].last_name+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].fee_name+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].charge_type+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].sequence+`')" style="width:130%"/>
+                                                        <input type="text" id="`+msg.result.response.provider_bookings[i].passengers[j].first_name+`_`+msg.result.response.provider_bookings[i].passengers[j].last_name+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].fee_name+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].charge_type+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].sequence+`" value="`+getrupiah(msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].amount)+`" onchange="change_refund_price('`+msg.result.response.provider_bookings[i].passengers[j].first_name+`_`+msg.result.response.provider_bookings[i].passengers[j].last_name+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].fee_name+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].charge_type+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].sequence+`')" style="width:130%"/>
+
                                                     </div>
                                                 </div>`;
-                                            total_hitung_frontend += msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].amount;
+
                                             pnr_refund_list[msg.result.response.provider_bookings[i].pnr].push(msg.result.response.provider_bookings[i].passengers[j].first_name+`_`+msg.result.response.provider_bookings[i].passengers[j].last_name+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].fee_name+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].charge_type+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].sequence)
                                         }
                                     }
@@ -5370,29 +5383,29 @@ function check_refund_partial_btn(){
                            text+=`
                             <div class="row" style="margin-bottom:5px;">
                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                    <span style="font-size:12px;">Total `+msg.result.response.provider_bookings[i].pnr+`</span>
+                                    <span style="font-size:12px;">Receive Amount</span>
                                 </div>
                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
                                     <span style="font-size:13px;" id="total_`+msg.result.response.provider_bookings[i].pnr+`">`+currency+` `;
                                     if(msg.result.response.provider_bookings[i].passengers[0].fees.length == 0){
-                                        text+=getrupiah(parseInt(msg.result.response.provider_bookings[i].resv_total_price))+`</span>`;
+                                        text+=getrupiah(parseInt(msg.result.response.provider_bookings[i].resv_total_price - msg.result.response.provider_bookings[i].penalty_amount))+`</span>`;
                                         total = total - msg.result.response.provider_bookings[i].penalty_amount - msg.result.response.provider_bookings[i].admin_fee;
                                     }else{
-                                        text+=getrupiah(parseInt(total_hitung_frontend))+`</span>`;
+                                        text+=getrupiah(parseInt(total_hitung_frontend) - msg.result.response.provider_bookings[i].penalty_amount)+`</span>`;
                                         total = total_hitung_frontend - msg.result.response.provider_bookings[i].penalty_amount - msg.result.response.provider_bookings[i].admin_fee;
                                     }
                                     text+=`
                                 </div>
                             </div>`;
-                            text+=`
-                            <div class="row" style="margin-bottom:5px;">
-                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                    <span style="font-size:12px;">Refund Fee</span>
-                                </div>
-                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                    <span style="font-size:13px;">`+currency+` -`+getrupiah(parseInt(msg.result.response.provider_bookings[i].penalty_amount))+`</span>
-                                </div>
-                            </div>`;
+//                            text+=`
+//                            <div class="row" style="margin-bottom:5px;">
+//                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+//                                    <span style="font-size:12px;">Refund Fee</span>
+//                                </div>
+//                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+//                                    <span style="font-size:13px;">`+currency+` -`+getrupiah(parseInt(msg.result.response.provider_bookings[i].penalty_amount))+`</span>
+//                                </div>
+//                            </div>`;
                             text+=`
                             <div class="row" style="margin-bottom:5px;">
                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
@@ -5411,8 +5424,14 @@ function check_refund_partial_btn(){
                             <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
                                 <span style="font-size:12px;">Grand Total</span>
                             </div>
-                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                <span style="font-size:13px;" id="grand_total_refund">`+currency+` `+getrupiah(parseInt(total))+`</span>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">`;
+                            if(msg.result.response.provider_bookings[i].passengers[0].fees.length == 0){
+                            text+=`
+                                <span style="font-size:13px;" id="grand_total_refund">`+currency+` `+getrupiah(parseInt(msg.result.response.provider_bookings[i].resv_total_price - msg.result.response.provider_bookings[i].admin_fee - msg.result.response.provider_bookings[i].penalty_amount))+`</span>`;
+                            }else
+                            text+=`
+                                <span style="font-size:13px;" id="grand_total_refund">`+currency+` `+getrupiah(parseInt(total_hitung_frontend - msg.result.response.provider_bookings[i].admin_fee - msg.result.response.provider_bookings[i].penalty_amount))+`</span>`;
+                            text+=`
                             </div>
                         </div>`;
 
@@ -5470,7 +5489,8 @@ function change_refund_price(id){
     for(i in pnr_refund_list){
         total = 0;
         for(j in pnr_refund_list[i]){
-            total += parseInt(document.getElementById(pnr_refund_list[i][j]).value.split(',').join(''))
+            if(document.getElementById(pnr_refund_list[i][j]+'_type').value == 'amount')
+                total += parseInt(document.getElementById(pnr_refund_list[i][j]).value.split(',').join(''))
         }
 
         grand_total += total;
