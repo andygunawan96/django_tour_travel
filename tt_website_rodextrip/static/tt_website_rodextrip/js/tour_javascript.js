@@ -1660,17 +1660,21 @@ function sort(tour_dat, exist_check){
                             if(template == 1){
                                 text+=`
                                     <div class="single-recent-blog-post item">
-                                        <div class="single-destination avail-sd relative">
-                                            <div class="thumb relative" style="margin: auto; width:100%; height:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">
+                                        <div class="single-destination avail-sd relative">`;
+                                            if(img_src){
+                                                text+=`<div class="thumb relative" style="cursor:pointer; border:1px solid #cdcdcd; height:255px; background: white url('`+img_src+`'); background-size: contain; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">`;
+                                            }else{
+                                                text+=`<div class="thumb relative" style="cursor:pointer; border:1px solid #cdcdcd; height:255px; background: white url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: contain; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">`;
+                                            }
+                                            text+=`
                                                 <div class="overlay overlay-bg"></div>
-                                                <img class="img-fluid" src="`+img_src+`" alt="Tour" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: fill;">
                                             </div>
                                             <div class="card card-effect-promotion">
                                                 <div class="card-body">
                                                     <div class="row details">
                                                         <div class="col-lg-12 mb-2" style="text-align:left;">
                                                             <h5 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h5>`;
-                                                            if(tour_data[i].tour_line_amount != 0){
+                                                            if(tour_dat[i].tour_line_amount != 0){
                                                                 if(tour_dat[i].tour_type != 'open'){
                                                                     text+=`<span style="font-size:13px;font-weight:500;">`+tour_dat[i].tour_line_amount+` Available Date</span>`;
                                                                 }else{
@@ -1707,17 +1711,21 @@ function sort(tour_dat, exist_check){
                             }else if(template == 2){
                                 text+=`
                                     <div class="single-post-area mb-30" style="transform:unset;">
-                                        <div class="single-destination avail-sd relative">
-                                            <div class="thumb relative" style="margin: auto; cursor:pointer; width:100%; height:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">
+                                        <div class="single-destination avail-sd relative" style="border:unset;">`;
+                                            if(img_src){
+                                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:255px; background: white url('`+img_src+`'); background-size: contain; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">`;
+                                            }else{
+                                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:255px; background: white url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: contain; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">`;
+                                            }
+                                            text+=`
                                                 <div class="overlay overlay-bg"></div>
-                                                <img class="img-fluid" src="`+img_src+`" alt="Tour" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: fill;">
                                             </div>
                                             <div class="card card-effect-promotion">
                                                 <div class="card-body" style="padding:10px; border:unset;">
                                                     <div class="row details">
                                                         <div class="col-lg-12 mb-2" style="text-align:left;">
                                                             <h5 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h5>`;
-                                                            if(tour_data[i].tour_line_amount != 0){
+                                                            if(tour_dat[i].tour_line_amount != 0){
                                                                 if(tour_dat[i].tour_type != 'open'){
                                                                     text+=`<span style="font-size:13px;font-weight:500;">`+tour_dat[i].tour_line_amount+` Available Date</span>`;
                                                                 }else{
@@ -1753,17 +1761,21 @@ function sort(tour_dat, exist_check){
                             }else if(template == 3){
                                 text+=`
                                     <div class="single-post-area mb-30">
-                                        <div class="single-destination avail-sd relative">
-                                            <div class="thumb relative" style="margin: auto; width:100%; cursor:pointer; height:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">
+                                        <div class="single-destination avail-sd relative">`;
+                                            if(img_src){
+                                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:255px; background: white url('`+img_src+`'); background-size: contain; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">`;
+                                            }else{
+                                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:255px; background: white url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: contain; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">`;
+                                            }
+                                            text+=`
                                                 <div class="overlay overlay-bg"></div>
-                                                <img class="img-fluid" src="`+img_src+`" alt="Tour" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: fill;">
                                             </div>
-                                            <div class="card card-effect-promotion">
+                                            <div class="card card-effect-promotion" style="border:unset;">
                                                 <div class="card-body" style="padding:10px; border:unset;">
                                                     <div class="row details">
                                                         <div class="col-lg-12 mb-2" style="text-align:left;">
                                                             <h5 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h5>`;
-                                                            if(tour_data[i].tour_line_amount != 0){
+                                                            if(tour_dat[i].tour_line_amount != 0){
                                                                 if(tour_dat[i].tour_type != 'open'){
                                                                     text+=`<span style="font-size:13px;font-weight:500;">`+tour_dat[i].tour_line_amount+` Available Date</span>`;
                                                                 }else{
@@ -1799,17 +1811,21 @@ function sort(tour_dat, exist_check){
                             }else if(template == 4){
                                 text+=`
                                     <div class="single-post-area mb-30">
-                                        <div class="single-destination avail-sd relative">
-                                            <div class="thumb relative" style="margin: auto; cursor:pointer; width:100%; height:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">
+                                        <div class="single-destination avail-sd relative">`;
+                                            if(img_src){
+                                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:255px; background: white url('`+img_src+`'); background-size: contain; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">`;
+                                            }else{
+                                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:255px; background: white url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: contain; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">`;
+                                            }
+                                            text+=`
                                                 <div class="overlay overlay-bg"></div>
-                                                <img class="img-fluid" src="`+img_src+`" alt="Tour" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: fill;">
                                             </div>
-                                            <div class="card card-effect-promotion">
+                                            <div class="card card-effect-promotion" style="border:unset;">
                                                 <div class="card-body" style="padding:10px; border:unset;">
                                                     <div class="row details">
                                                         <div class="col-lg-12 mb-2" style="text-align:left;">
                                                             <h5 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h5>`;
-                                                            if(tour_data[i].tour_line_amount != 0){
+                                                            if(tour_dat[i].tour_line_amount != 0){
                                                                 if(tour_dat[i].tour_type != 'open'){
                                                                     text+=`<span style="font-size:13px;font-weight:500;">`+tour_dat[i].tour_line_amount+` Available Date</span>`;
                                                                 }else{
@@ -1845,16 +1861,20 @@ function sort(tour_dat, exist_check){
                             }else if(template == 5){
                                 text+=`
                                     <div class="single-post-area mb-30">
-                                        <div class="single-destination avail-sd relative">
-                                            <div class="thumb relative" style="margin: auto; cursor:pointer; width:100%; height:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">
-                                                <img class="img-fluid" src="`+img_src+`" alt="Tour" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: fill;">
+                                        <div class="single-destination avail-sd relative" style="border:1px solid #cdcdcd;">`;
+                                            if(img_src){
+                                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:255px; background: white url('`+img_src+`'); background-size: contain; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">`;
+                                            }else{
+                                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:255px; background: white url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: contain; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">`;
+                                            }
+                                            text+=`
                                             </div>
-                                            <div class="card card-effect-promotion">
+                                            <div class="card card-effect-promotion" style="border:unset;">
                                                 <div class="card-body" style="padding:10px; border:unset;">
                                                     <div class="row details">
                                                         <div class="col-lg-12 mb-2" style="text-align:left;">
                                                             <h5 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h5>`;
-                                                            if(tour_data[i].tour_line_amount != 0){
+                                                            if(tour_dat[i].tour_line_amount != 0){
                                                                 if(tour_dat[i].tour_type != 'open'){
                                                                     text+=`<span style="font-size:13px;font-weight:500;">`+tour_dat[i].tour_line_amount+` Available Date</span>`;
                                                                 }else{
@@ -1939,7 +1959,7 @@ function sort(tour_dat, exist_check){
                 content: content_pop_question
             });
 
-            if(tour_data[i].tour_line_amount != 0){
+            if(tour_dat[i].tour_line_amount != 0){
                 for (j in tour_dat[i].tour_lines){
                     sch_count = parseInt(j)+1;
                     if(tour_dat[i].tour_type != 'open'){

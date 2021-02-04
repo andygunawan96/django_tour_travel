@@ -687,22 +687,22 @@ function bills_get_booking(data){
                                                 </div>
                                                 <div class="modal-body">
                                                     <div class="row">
-                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
                                                             <span class="control-label" for="Name">Name</span>
                                                             <div class="input-container-search-ticket">
                                                                 <input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_name" placeholder="Name" required="1"/>
                                                             </div>
                                                         </div>
-                                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
                                                             <span class="control-label" for="Additional Information">Additional Information</span>
                                                             <div class="input-container-search-ticket">
-                                                                <textarea style="width:100%;" rows="4" id="additional_information" name="additional_information" placeholder="Additional Information"></textarea>
+                                                                <textarea style="width:100%; resize: none;" rows="4" id="additional_information" name="additional_information" placeholder="Additional Information"></textarea>
                                                             </div>
                                                         </div>
-                                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
                                                             <span class="control-label" for="Address">Address</span>
                                                             <div class="input-container-search-ticket">
-                                                                <textarea style="width:100%;" rows="4" id="bill_address" name="bill_address" placeholder="Address"></textarea>
+                                                                <textarea style="width:100%; resize: none;" rows="4" id="bill_address" name="bill_address" placeholder="Address"></textarea>
                                                                 <!--<input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_address" placeholder="Address" required="1"/>-->
                                                             </div>
                                                         </div>

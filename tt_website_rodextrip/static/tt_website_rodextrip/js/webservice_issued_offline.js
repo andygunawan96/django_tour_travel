@@ -1261,7 +1261,7 @@ function get_booking_offline(data){
                                 if(msg.result.response.attachment.length != 0){
                                     text+=`
                                     <a class="issued-booking-train ld-ext-right" style="color:`+text_color+`;">
-                                        <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" data-toggle="modal" data-target="#printAttachment" value="Attachment"/>
+                                        <input type="button" class="primary-btn" style="width:100%;" data-toggle="modal" data-target="#printAttachment" value="Attachment"/>
                                         <div class="ld ld-ring ld-cycle"></div>
                                     </a>`;
                                     text+=`
@@ -1298,17 +1298,10 @@ function get_booking_offline(data){
                         </div>
                         <div class="col-lg-4" style="padding-bottom:10px;">`;
                             if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
-                                if (msg.result.response.state  == 'booked'){
-                                    text+=`
-                                    <a class="issued-booking-train ld-ext-right" id="print_invoice" style="color:`+text_color+`;" hidden>
-                                        <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" value="Issued" onclick=""/>
-                                        <div class="ld ld-ring ld-cycle"></div>
-                                    </a>`;
-                                }
-                                else if (msg.result.response.state == 'issued'){
+                                if (msg.result.response.state == 'issued'){
                                     text+=`
                                     <a class="issued-booking-train ld-ext-right" style="color:`+text_color+`;">
-                                        <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" data-toggle="modal" data-target="#printInvoice" value="Print Invoice"/>
+                                        <input type="button" class="primary-btn" style="width:100%;" data-toggle="modal" data-target="#printInvoice" value="Print Invoice"/>
                                         <div class="ld ld-ring ld-cycle"></div>
                                     </a>`;
                                     // modal invoice
@@ -1324,22 +1317,22 @@ function get_booking_offline(data){
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="row">
-                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
                                                                 <span class="control-label" for="Name">Name</span>
                                                                 <div class="input-container-search-ticket">
                                                                     <input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_name" placeholder="Name" required="1"/>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
                                                                 <span class="control-label" for="Additional Information">Additional Information</span>
                                                                 <div class="input-container-search-ticket">
-                                                                    <textarea style="width:100%;" rows="4" id="additional_information" name="additional_information" placeholder="Additional Information"></textarea>
+                                                                    <textarea style="width:100%; resize: none;" rows="4" id="additional_information" name="additional_information" placeholder="Additional Information"></textarea>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
                                                                 <span class="control-label" for="Address">Address</span>
                                                                 <div class="input-container-search-ticket">
-                                                                    <textarea style="width:100%;" rows="4" id="bill_address" name="bill_address" placeholder="Address"></textarea>
+                                                                    <textarea style="width:100%; resize: none;" rows="4" id="bill_address" name="bill_address" placeholder="Address"></textarea>
                                                                     <!--<input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_address" placeholder="Address" required="1"/>-->
                                                                 </div>
                                                             </div>
@@ -1348,7 +1341,10 @@ function get_booking_offline(data){
                                                         <div style="text-align:right;">
                                                             <span>Don't want to edit? just submit</span>
                                                             <br/>
-                                                            <input type="button" class="primary-btn" id="button-issued-print" style="width:30%;" value="Submit" onclick="get_printout('`+msg.result.response.order_number+`', 'invoice','offline');"/>
+                                                            <button type="button" id="button-issued-print" class="primary-btn ld-ext-right" onclick="get_printout('`+msg.result.response.order_number+`', 'invoice','offline');">
+                                                                Submit
+                                                                <div class="ld ld-ring ld-cycle"></div>
+                                                            </button>
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">

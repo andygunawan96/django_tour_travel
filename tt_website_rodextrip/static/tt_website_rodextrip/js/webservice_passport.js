@@ -811,19 +811,24 @@ function passport_get_data(data){
                                     document.getElementById('repricing_div').innerHTML = text_repricing;
                                     //repricing
 
-                                    text+=`<div class="row">
+                                    text+=`
+                                    <div class="row">
                                         <div class="col-lg-12" style="margin-bottom:10px;">
                                             <div class="row">
                                                 <div class="col-lg-6">
                                                     <h6>`+parseInt(parseInt(i)+1)+`. `+msg.result.response.passengers[i].title+` `+msg.result.response.passengers[i].first_name+` `+msg.result.response.passengers[i].last_name+`</h6>`;
-                                                    if(parseInt(msg.result.response.passengers[i].age) > 12)
-                                             text+=`<span>Adult - `;
-                                                    else if(parseInt(msg.result.response.passengers[i].age) > 3)
-                                             text+=`<span>Child - `;
-                                                    else
-                                             text+=`<span>Infant - `;
-                                                    text+=`Birth Date: `+msg.result.response.passengers[i].birth_date+`</span>`;
-                                         text+=`</div>
+                                                    if(parseInt(msg.result.response.passengers[i].age) > 12){
+                                                        text+=`<span>Adult - `;
+                                                     }
+                                                    else if(parseInt(msg.result.response.passengers[i].age) > 3){
+                                                        text+=`<span>Child - `;
+                                                     }
+                                                    else{
+                                                        text+=`<span>Infant - `;
+                                                    }
+                                                    text+=`Birth Date: `+moment(msg.result.response.passengers[i].birth_date).format('DD MMM YYYY')+`</span>`;
+                                                text+=`
+                                                </div>
                                                 <div class="col-lg-6" style="text-align:right;">
                                                     <h6>Package</h6>
                                                     <span>`+msg.result.response.passengers[i].passport.passport_type+`/`+msg.result.response.passengers[i].passport.apply_type+`/`+msg.result.response.passengers[i].passport.process_type+`</span>
@@ -845,194 +850,200 @@ function passport_get_data(data){
                                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="margin-bottom:10px;">
                                                         <h6>Copy</h6>
                                                     </div>`;
-                                                for(j in msg.result.response.passengers[i].passport.requirement){
-                                                    if(template == 1){
+                                                    for(j in msg.result.response.passengers[i].passport.requirement){
+                                                        if(template == 1){
+                                                            text+=`<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">`;
+                                                        }else if(template == 2 || template == 3){
+                                                            text+=`<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-bottom:20px;">`;
+                                                        }else if(template == 4 || template == 5){
+                                                            text+=`<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-bottom:15px;">`;
+                                                        }
                                                         text+=`
-                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">`;
-                                                    }else if(template == 2 || template == 3){
+                                                            <label><b>`+parseInt(parseInt(j)+1)+` `+msg.result.response.passengers[i].passport.requirement[j].name+`</b></label><br/>
+                                                        </div>
+                                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">`;
+                                                            if(msg.result.response.passengers[i].passport.requirement[j].is_original == false){
+                                                                text+=`
+                                                                <label class="check_box_custom">
+                                                                    <span style="font-size:13px;"></span>
+                                                                    <input type="checkbox" disabled/>
+                                                                    <span class="check_box_span_custom"></span>
+                                                                </label>`;
+                                                            }else if(msg.result.response.passengers[i].passport.requirement[j].is_original == true){
+                                                                text+=`
+                                                                <label class="check_box_custom">
+                                                                    <span style="font-size:13px;"></span>
+                                                                    <input type="checkbox" disabled checked/>
+                                                                    <span class="check_box_span_custom"></span>
+                                                                </label>`;
+                                                            }
                                                         text+=`
-                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-bottom:20px;">`;
-                                                    }else if(template == 4 || template == 5){
+                                                        </div>
+                                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">`;
+                                                            if(msg.result.response.passengers[i].passport.requirement[j].is_copy == false){
+                                                                text+=`
+                                                                <label class="check_box_custom">
+                                                                    <span style="font-size:13px;"></span>
+                                                                    <input type="checkbox" disabled/>
+                                                                    <span class="check_box_span_custom"></span>
+                                                                </label>`;
+                                                            }else if(msg.result.response.passengers[i].passport.requirement[j].is_copy == true){
+                                                                text+=`
+                                                                <label class="check_box_custom">
+                                                                    <span style="font-size:13px;"></span>
+                                                                    <input type="checkbox" disabled checked/>
+                                                                    <span class="check_box_span_custom"></span>
+                                                                </label>`;
+                                                            }
                                                         text+=`
-                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-bottom:15px;">`;
-                                                    }
-                                                    text+=`
-                                                        <label><b>`+parseInt(parseInt(j)+1)+` `+msg.result.response.passengers[i].passport.requirement[j].name+`</b></label><br/>
-                                                    </div>
-                                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">`;
-                                                        if(msg.result.response.passengers[i].passport.requirement[j].is_original == false){
-                                                            text+=`
-                                                            <label class="check_box_custom">
-                                                                <span style="font-size:13px;"></span>
-                                                                <input type="checkbox" disabled/>
-                                                                <span class="check_box_span_custom"></span>
-                                                            </label>`;
-                                                        }else if(msg.result.response.passengers[i].passport.requirement[j].is_original == true){
-                                                            text+=`
-                                                            <label class="check_box_custom">
-                                                                <span style="font-size:13px;"></span>
-                                                                <input type="checkbox" disabled checked/>
-                                                                <span class="check_box_span_custom"></span>
-                                                            </label>`;
+                                                        </div>`;
                                                         }
                                                     text+=`
                                                     </div>
-                                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">`;
-                                                        if(msg.result.response.passengers[i].passport.requirement[j].is_copy == false){
-                                                            text+=`
-                                                            <label class="check_box_custom">
-                                                                <span style="font-size:13px;"></span>
-                                                                <input type="checkbox" disabled/>
-                                                                <span class="check_box_span_custom"></span>
-                                                            </label>`;
-                                                        }else if(msg.result.response.passengers[i].passport.requirement[j].is_copy == true){
-                                                            text+=`
-                                                            <label class="check_box_custom">
-                                                                <span style="font-size:13px;"></span>
-                                                                <input type="checkbox" disabled checked/>
-                                                                <span class="check_box_span_custom"></span>
-                                                            </label>`;
-                                                        }
-                                                    text+=`
-                                                    </div>`;
-                                                }
-                                                text+=`
                                                 </div>
                                             </div>`;
                                         }
                                         try{
                                             if(msg.result.response.passengers[i].passport.hasOwnProperty('interview') == true && msg.result.response.passengers[i].visa.interview.interview_list.length > 0 ){
-                                            text+=`
-                                            <div class="col-lg-12" style="margin-top:15px;">
-                                                <h6>Interview</h6>
-                                                <table style="width:100%;" id="list-of-passenger">
-                                                    <tr>
-                                                        <th>No</th>
-                                                        <th>Location</th>
-                                                        <th>Meeting Point</th>
-                                                        <th>Employee</th>
-                                                        <th>Date time</th>
-                                                        <th>Required</th>
-                                                    </tr>`;
-                                                    for(j in msg.result.response.passengers[i].passport.interview.interview_list){
-                                                        text+=`
-                                                    <tr>
-                                                        <td>`+parseInt(parseInt(j)+1)+`</td>
-                                                        <td>`+msg.result.response.passengers[i].passport.interview.interview_list[j].location+`</td>
-                                                        <td>`+msg.result.response.passengers[i].passport.interview.interview_list[j].meeting_point+`</td>
-                                                        <td>`+msg.result.response.passengers[i].passport.interview.interview_list[j].ho_employee+`</td>
-                                                        <td>`+msg.result.response.passengers[i].passport.interview.interview_list[j].datetime+`</td>
-                                                        <td>`+msg.result.response.passengers[i].passport.interview.needs+`</td>
-                                                    </tr>`;
-                                                    }
-                                                text+=`</table>
+                                                text+=`
+                                                <div class="row" style="margin-top:10px;">
+                                                    <div class="col-lg-12" style="margin-top:15px;">
+                                                        <h6>Interview</h6>
+                                                        <table style="width:100%;" id="list-of-passenger">
+                                                            <tr>
+                                                                <th>No</th>
+                                                                <th>Location</th>
+                                                                <th>Meeting Point</th>
+                                                                <th>Employee</th>
+                                                                <th>Date time</th>
+                                                                <th>Required</th>
+                                                            </tr>`;
+                                                            for(j in msg.result.response.passengers[i].passport.interview.interview_list){
+                                                                text+=`
+                                                            <tr>
+                                                                <td>`+parseInt(parseInt(j)+1)+`</td>
+                                                                <td>`+msg.result.response.passengers[i].passport.interview.interview_list[j].location+`</td>
+                                                                <td>`+msg.result.response.passengers[i].passport.interview.interview_list[j].meeting_point+`</td>
+                                                                <td>`+msg.result.response.passengers[i].passport.interview.interview_list[j].ho_employee+`</td>
+                                                                <td>`+msg.result.response.passengers[i].passport.interview.interview_list[j].datetime+`</td>
+                                                                <td>`+msg.result.response.passengers[i].passport.interview.needs+`</td>
+                                                            </tr>`;
+                                                            }
+                                                        text+=`</table>
+                                                    </div>
                                                 </div>`;
                                             }
                                         }catch(err){}
-                                        if(msg.result.response.passengers[i].passport.hasOwnProperty('biometrics') == true && msg.result.response.passengers[i].passport.biometrics.biometrics_list.length > 0 ){
-                                        text+=`
-                                        <div class="col-lg-12" style="margin-top:15px;">
-                                            <h6>Biometrics</h6>
-                                            <table style="width:100%;" id="list-of-passenger">
-                                                <tr>
-                                                    <th>No</th>
-                                                    <th>Location</th>
-                                                    <th>Meeting Point</th>
-                                                    <th>Employee</th>
-                                                    <th>Date time</th>
-                                                    <th>Required</th>
-                                                </tr>`;
-                                                for(j in msg.result.response.passengers[i].passport.biometrics.biometrics_list){
-                                                    text+=`
-                                                <tr>
-                                                    <td>`+parseInt(parseInt(j)+1)+`</td>
-                                                    <td>`+msg.result.response.passengers[i].passport.biometrics.biometrics_list[j].location+`</td>
-                                                    <td>`+msg.result.response.passengers[i].passport.biometrics.biometrics_list[j].meeting_point+`</td>
-                                                    <td>`+msg.result.response.passengers[i].passport.biometrics.biometrics_list[j].ho_employee+`</td>
-                                                    <td>`+msg.result.response.passengers[i].passport.biometrics.biometrics_list[j].datetime+`</td>
-                                                    <td>`+msg.result.response.passengers[i].passport.biometrics.needs+`</td>
-                                                </tr>`
-                                                }
-                                            text+=`</table>
-                                        </div>`;
-                                    }
-                                    text+=`
-                                    </div>
-                                    <div class="row" style="margin-top:10px;">
-                                        <div class="col-lg-4">`;
-                                        if(passport.journey.state == 'booked' || passport.journey.state == 'issued')
-                                        text+=`
-                                            <a class="print-booking-train ld-ext-right" style="color:`+text_color+`;">
-                                                <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Passport Handling" onclick="get_printout('`+msg.result.response.journey.name+`', 'passport_cust','passport');" />
-                                                <div class="ld ld-ring ld-cycle"></div>
-                                            </a>`;
-                                        text+=`</div>
-                                        <div class="col-lg-4">`;
-                                        if(passport.journey.state == 'booked')
-                                        text+=`
-                                            <a class="print-booking-train ld-ext-right" style="color:`+text_color+`;">
-                                                <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Itinerary" onclick="get_printout('`+msg.result.response.journey.name+`', 'itinerary','passport');" />
-                                                <div class="ld ld-ring ld-cycle"></div>
-                                            </a>`;
-                                            text+=`
-                                        </div>
-                                        <div class="col-lg-4">`;
-                                        if(passport.journey.state == 'issued')
-                                            text+=`
-                                            <a class="issued-booking-train ld-ext-right" style="color:`+text_color+`;">
-                                                <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" data-toggle="modal" data-target="#printInvoice" value="Print Invoice"/>
-                                                <div class="ld ld-ring ld-cycle"></div>
-                                            </a>
-                                            <div class="modal fade" id="printInvoice" role="dialog" data-keyboard="false">
-                                                <div class="modal-dialog">
 
-                                                  <!-- Modal content-->
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h4 class="modal-title" style="color:`+text_color+`">Invoice</h4>
-                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div class="row">
-                                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                                    <span class="control-label" for="Name">Name</span>
-                                                                    <div class="input-container-search-ticket">
-                                                                        <input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_name" placeholder="Name" required="1"/>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                                                    <span class="control-label" for="Additional Information">Additional Information</span>
-                                                                    <div class="input-container-search-ticket">
-                                                                        <textarea style="width:100%;" rows="4" id="additional_information" name="additional_information" placeholder="Additional Information"></textarea>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                                                    <span class="control-label" for="Address">Address</span>
-                                                                    <div class="input-container-search-ticket">
-                                                                        <textarea style="width:100%;" rows="4" id="bill_address" name="bill_address" placeholder="Address"></textarea>
-                                                                        <!--<input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_address" placeholder="Address" required="1"/>-->
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <br/>
-                                                            <div style="text-align:right;">
-                                                                <span>Don't want to edit? just submit</span>
-                                                                <br/>
-                                                                <input type="button" class="primary-btn" id="button-issued-print" style="width:30%;" value="Submit" onclick="get_printout('`+msg.result.response.journey.name+`', 'invoice','passport');"/>
-                                                            </div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                        </div>
-                                                    </div>
+                                        if(msg.result.response.passengers[i].passport.hasOwnProperty('biometrics') == true && msg.result.response.passengers[i].passport.biometrics.biometrics_list.length > 0 ){
+                                            text+=`
+                                            <div class="row" style="margin-top:10px;">
+                                                <div class="col-lg-12" style="margin-top:15px;">
+                                                    <h6>Biometrics</h6>
+                                                    <table style="width:100%;" id="list-of-passenger">
+                                                        <tr>
+                                                            <th>No</th>
+                                                            <th>Location</th>
+                                                            <th>Meeting Point</th>
+                                                            <th>Employee</th>
+                                                            <th>Date time</th>
+                                                            <th>Required</th>
+                                                        </tr>`;
+                                                        for(j in msg.result.response.passengers[i].passport.biometrics.biometrics_list){
+                                                            text+=`
+                                                        <tr>
+                                                            <td>`+parseInt(parseInt(j)+1)+`</td>
+                                                            <td>`+msg.result.response.passengers[i].passport.biometrics.biometrics_list[j].location+`</td>
+                                                            <td>`+msg.result.response.passengers[i].passport.biometrics.biometrics_list[j].meeting_point+`</td>
+                                                            <td>`+msg.result.response.passengers[i].passport.biometrics.biometrics_list[j].ho_employee+`</td>
+                                                            <td>`+msg.result.response.passengers[i].passport.biometrics.biometrics_list[j].datetime+`</td>
+                                                            <td>`+msg.result.response.passengers[i].passport.biometrics.needs+`</td>
+                                                        </tr>`
+                                                        }
+                                                    text+=`</table>
                                                 </div>
                                             </div>`;
-                                            text+=`
-                                        </div>
+                                        }
+                                    text+=`
+                                    <hr/>`;
+                            }
+                            text+=`
+                                </div>
+                                <div class="row" style="margin-top:10px;">
+                                    <div class="col-lg-4">`;
+                                    if(passport.journey.state == 'booked' || passport.journey.state == 'issued')
+                                    text+=`
+                                        <button type="button" id="button-print-handling" class="primary-btn ld-ext-right" style="width:100%;" onclick="get_printout('`+msg.result.response.journey.name+`', 'passport_cust','passport');">
+                                            Passport Handling
+                                            <div class="ld ld-ring ld-cycle"></div>
+                                        </button>`;
+                                    text+=`</div>
+                                    <div class="col-lg-4">`;
+                                    if(passport.journey.state == 'booked')
+                                    text+=`
+                                        <button type="button" id="button-print-print" class="primary-btn ld-ext-right" style="width:100%;" onclick="get_printout('`+msg.result.response.journey.name+`', 'itinerary','passport');">
+                                            Itinerary
+                                            <div class="ld ld-ring ld-cycle"></div>
+                                        </button>`;
+                                        text+=`
                                     </div>
-                                <hr/>`;
-                                }
-                                text+=`
+                                    <div class="col-lg-4">`;
+                                    if(passport.journey.state == 'issued')
+                                        text+=`
+                                        <a class="issued-booking-train ld-ext-right" style="color:`+text_color+`;">
+                                            <input type="button" class="primary-btn" style="width:100%;" data-toggle="modal" data-target="#printInvoice" value="Print Invoice"/>
+                                            <div class="ld ld-ring ld-cycle"></div>
+                                        </a>
+                                        <div class="modal fade" id="printInvoice" role="dialog" data-keyboard="false">
+                                            <div class="modal-dialog">
+
+                                              <!-- Modal content-->
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title" style="color:`+text_color+`">Invoice</h4>
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="row">
+                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                                                                <span class="control-label" for="Name">Name</span>
+                                                                <div class="input-container-search-ticket">
+                                                                    <input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_name" placeholder="Name" required="1"/>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                                                                <span class="control-label" for="Additional Information">Additional Information</span>
+                                                                <div class="input-container-search-ticket">
+                                                                    <textarea style="width:100%; resize: none;" rows="4" id="additional_information" name="additional_information" placeholder="Additional Information"></textarea>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                                                                <span class="control-label" for="Address">Address</span>
+                                                                <div class="input-container-search-ticket">
+                                                                    <textarea style="width:100%; resize: none;" rows="4" id="bill_address" name="bill_address" placeholder="Address"></textarea>
+                                                                    <!--<input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_address" placeholder="Address" required="1"/>-->
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <br/>
+                                                        <div style="text-align:right;">
+                                                            <span>Don't want to edit? just submit</span>
+                                                            <br/>
+                                                            <button type="button" id="button-issued-print" class="primary-btn ld-ext-right" onclick="get_printout('`+msg.result.response.journey.name+`', 'invoice','passport');">
+                                                                Submit
+                                                                <div class="ld ld-ring ld-cycle"></div>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>`;
+                                        text+=`
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>`;
