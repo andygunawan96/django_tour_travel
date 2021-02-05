@@ -7862,9 +7862,11 @@ function get_price_itinerary_reissue_request(airline_response, total_admin_fee){
             try{//adult
                 if(airline_response[i].segments[j].fares.length > 0){
                     for(k in airline_response[i].segments[j].fares[0].service_charge_summary){
-                        commission += airline_response[i].segments[j].fares[0].service_charge_summary[k].total_commission;
-                        price = airline_response[i].segments[j].fares[0].service_charge_summary[k].total_fare;
-                        currency = airline_response[i].segments[j].fares[0].service_charge_summary[k].service_charges[0].currency;
+                        if(airline_response[i].segments[j].fares[0].service_charge_summary[k].hasOwnProperty('total_commission') == true)
+                            commission += airline_response[i].segments[j].fares[0].service_charge_summary[k].total_commission;
+                        price += airline_response[i].segments[j].fares[0].service_charge_summary[k].total_price;
+                        if(currency == '')
+                            currency = airline_response[i].segments[j].fares[0].service_charge_summary[k].service_charges[0].currency;
 
                     }
 
@@ -8033,6 +8035,7 @@ function sell_journey_reissue_construct(){
                            get_payment_acq('Issued',airline_get_detail.result.response.booker.seq_id, airline_get_detail.result.response.order_number, 'billing',signature,'airline_reissue');
                            document.getElementById('payment_acq').hidden = false;
                        }else{
+                           //harus nya login ulang
                            Swal.fire({
                               type: 'error',
                               title: 'Oops...',
