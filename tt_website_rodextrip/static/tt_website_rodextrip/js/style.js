@@ -1654,7 +1654,7 @@ $(document).ready(function(){
             if(airline_request_counter == 0)
                 airline_request_counter = 2
             for(var airline_counter=0;airline_counter<parseInt(airline_request_counter);airline_counter++){
-                add_multi_city('home');
+                add_multi_city('search');
             }
             $('#show_total_pax_flight1').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
             //func_check_provider()
