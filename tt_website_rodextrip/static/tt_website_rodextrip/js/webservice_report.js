@@ -120,7 +120,8 @@ function get_report_overall(){
         success: function(result){
             console.log("This one sparks joy");
             console.log(result);
-
+            document.getElementById('update_chart_button').disabled = false;
+            filter_agent(result, '');
             $("#get_report_startdate").val(result.start_date);
 //            console.log(data.date.end);
             $("#get_report_enddate").val(result.end_date);
@@ -2802,16 +2803,16 @@ function filter_provider(result, provider_type_text){
 
 function filter_agent(result, agent_type_label){
     document.getElementById('agent').innerHTML = '';
-
     var agent_datalist = ``;
     agent_datalist += `<option value="" selected>All Agent</option>`;
     result.raw_data.result.response.dependencies.agent_list.forEach(function(item){
         var agent_type = parseInt(agent_type_label);
         if(item['agent_type_id'] == agent_type){
             agent_datalist += `<option value="`+ item['seq_id'] +`">`+ item['name'] +`</option>`;
+        }else if(isNaN(agent_type)==true){
+            agent_datalist += `<option value="`+ item['seq_id'] +`">`+ item['name'] +`</option>`;
         }
     });
-
     $('#agent').append(agent_datalist);
     $('#agent').select2();
 }
