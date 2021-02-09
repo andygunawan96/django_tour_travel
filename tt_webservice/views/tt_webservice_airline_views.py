@@ -379,14 +379,17 @@ def get_carriers(request):
 
     return res
 
-def get_carriers_search(request):
+def get_carriers_search(request, signature=''):
     try:
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "get_carriers_search",
-            "signature": request.POST['signature']
         }
+        if signature:
+            headers.update({"signature": signature})
+        else:
+            headers.update({"signature": request.POST['signature']})
         data = {
             "provider_type": 'airline'
         }
@@ -399,7 +402,7 @@ def get_carriers_search(request):
             if res['result']['error_code'] == 0:
                 res = res['result']['response']
                 write_cache_with_folder(res, "get_airline_active_carriers")
-                _logger.info("get_carriers AIRLINE RENEW SUCCESS SIGNATURE " + request.POST['signature'])
+                _logger.info("get_carriers AIRLINE RENEW SUCCESS SIGNATURE " + headers['signature'])
             else:
                 try:
                     file = read_cache_with_folder_path("get_airline_active_carriers")

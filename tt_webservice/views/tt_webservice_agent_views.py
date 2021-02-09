@@ -8,6 +8,7 @@ from dateutil.relativedelta import *
 import json
 from .tt_webservice_views import *
 from .tt_webservice import *
+from ..views import tt_webservice_airline_views as airline
 import logging
 import traceback
 _logger = logging.getLogger("rodextrip_logger")
@@ -682,7 +683,9 @@ def get_new_cache(signature, type='all'):
                 pass
             try:
                 os.remove("/var/log/django/file_cache/get_airline_active_carriers.txt")
+                airline.get_carriers_search('', signature)
             except:
+                airline.get_carriers_search('', signature)
                 pass
         if type == 'all' or type == 'image':
             #banner

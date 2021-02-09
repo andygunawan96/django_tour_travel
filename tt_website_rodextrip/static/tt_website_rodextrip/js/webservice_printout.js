@@ -167,7 +167,7 @@ function update_list_report_footer(){
                 Swal.fire({
                  type: 'success',
                  title: 'Report footer!',
-                 html: 'Success update ' + $("#printout_choose").text(),
+                 html: 'Success update ' + document.getElementById('printout_choose').options[document.getElementById('printout_choose').selectedIndex].text,
                 })
                 printout = msg.result.response;
                 change_printout();
