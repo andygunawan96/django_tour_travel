@@ -4261,7 +4261,7 @@ function update_cache_version_func(type){
                 Swal.fire({
                      type: 'success',
                      title: 'Success!',
-                     html: 'Success update cache ' + type
+                     html: 'Success update cache'
                })
                document.getElementById('form_admin').submit();
            }else{

@@ -740,7 +740,8 @@ def reservation(request):
             file = read_cache_with_folder_path("get_airline_active_carriers", 90911)
             if file:
                 airline_carriers = file
-
+            else:
+                airline_carriers = {}
             values = get_data_template(request)
 
             new_airline_carriers = {}
