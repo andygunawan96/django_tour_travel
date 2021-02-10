@@ -5,6 +5,8 @@ import random
 import os, time
 from tools.parser import *
 from datetime import datetime
+import requests
+from tools import util
 _logger = logging.getLogger("rodextrip_logger")
 
 def get_cache_version():
@@ -112,3 +114,37 @@ def read_cache_with_folder_path(file_name, time=300):
 
     except Exception as e:
         return False
+
+
+def check_captcha(request):
+    try:
+        secret_key = ''
+        file = read_cache_with_folder_path("google_recaptcha", 90911)
+        if file:
+            for idx, line in enumerate(file.split('\n')):
+                if idx == 2 and line != '':
+                    secret_key = line
+
+        # captcha verification
+        data = {
+            'response': request.POST.get('g-recaptcha-response'),
+            'secret': secret_key
+        }
+        _logger.info(json.dumps(data))
+        if secret_key != '':
+            if request.session.get('airline_recaptcha'):
+                result_json = {
+                    'success': True,
+                    'additional': 'use cache'
+                }
+            else:
+                resp = requests.post('https://www.google.com/recaptcha/api/siteverify', data=data)
+                result_json = resp.json()
+            _logger.info(json.dumps(result_json))
+
+            if not result_json.get('success'):
+                raise Exception('Make response code 500!')
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+        raise Exception('we know you scrap our web, please use our web')
+    # end captcha verification

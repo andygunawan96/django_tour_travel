@@ -267,7 +267,8 @@ function signin_btc(){
            data: {
             'username':username,
             'password':password,
-            'keep_me_signin': keep_me_signin
+            'keep_me_signin': keep_me_signin,
+            'g-recaptcha-response': document.getElementById('g-recaptcha-response').value
            },
            success: function(msg) {
             console.log(msg);

@@ -223,7 +223,8 @@ def signin_btc(request):
         }
     except Exception as e:
         _logger.error('ERROR get user or password for btc login\n' + str(e) + '\n' + traceback.format_exc())
-
+    if request.POST.get('g-recaptcha-response'):
+        check_captcha(request)
     res = util.send_request(url=url+'session', data=data, headers=headers, method='POST', timeout=10)
     try:
         if res['result']['error_code'] == 0:
