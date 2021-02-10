@@ -5652,7 +5652,7 @@ function cancel_reservation_airline(){
     var passengers = [];
     $('.refund_pax:checkbox:checked').each(function( index ) {
         //console.log( index + ": " + $('.refund_pax:checkbox:checked')[0].id );
-        passengers.push($('.refund_pax:checkbox:checked')[0].id);
+        passengers.push($('.refund_pax:checkbox:checked')[index].id);
     });
     $.ajax({
            type: "POST",

@@ -799,7 +799,7 @@ function get_dynamic_page(type){
                     for(i in msg.result.response){
                         if(msg.result.response[i].state == true){
                             text+=`
-                            <div class="item" style="text-align:center;" onclick="window.location.href='/page/`+msg.result.response[i].title.split(' ').join('')+`'">
+                            <div class="item" style="text-align:center;" onclick="window.location.href='/page/`+msg.result.response[i].url+`'">
                                 <center>
                                     <img class="img-fluid" alt="`+msg.result.response[i].title+`" style="height:360px; width:auto;" src="`+msg.result.response[i].image_carousel+`">
                                 </center>
@@ -813,7 +813,8 @@ function get_dynamic_page(type){
                         document.getElementById('owl-login').innerHTML = text;
                         document.getElementById('owl-login2').innerHTML = text;
                     }else if(type == 'home'){
-                        document.getElementById('dynamic_page').innerHTML = `<h2>OTHER INFORMATION</h2>`;
+                        if(text != '')
+                            document.getElementById('dynamic_page').innerHTML = `<h2>OTHER INFORMATION</h2>`;
                         document.getElementById('owl-login2').innerHTML = text;
                     }
                     $('.owl-carousel-login').owlCarousel({
@@ -968,21 +969,9 @@ function delete_dynamic_page(){
 //    }
     page_number = parseInt(document.getElementById('page_choose').value) - 1
     error_log = '';
-    if(document.getElementById('title_dynamic_page').value == ''){
-        error_log += 'Please input title\n';
-    }
-    if(document.getElementById("image_carousel").files.length == 0 && page_number == -1){
-        error_log += 'Please input image URL\n';
-    }
-    if(CKEDITOR.instances.editor.getData() == ''){
-        error_log += 'Please HTML\n';
-    }
     if(error_log == ''){
         var formData = new FormData($('#form_admin').get(0));
-        formData.append('state', document.getElementById('page_active').checked);
-        formData.append('title', document.getElementById('title_dynamic_page').value);
         formData.append('page_number', parseInt(page_number));
-        formData.append('body', JSON.stringify(CKEDITOR.instances.editor.getData()));
         getToken();
         $.ajax({
            type: "POST",

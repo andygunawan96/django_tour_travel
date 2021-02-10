@@ -15,6 +15,7 @@ _logger = logging.getLogger("rodextrip_logger")
 
 from django.core.files.storage import FileSystemStorage
 import os
+import uuid
 
 month = {
     'Jan': '01',
@@ -561,7 +562,8 @@ def get_dynamic_page(request):
                     "state": bool(state),
                     "title": title,
                     "body": body,
-                    "image_carousel": image_carousel
+                    "image_carousel": image_carousel,
+                    "url": data.split('.')[0]
                 })
         res = {
             'result': {
@@ -690,23 +692,18 @@ def set_dynamic_page(request):
         #create new
         title = request.POST['title']
         counter = 1
+        generate_uuid = ''
         if int(request.POST['page_number']) == -1:
-
             while True:
-                if counter == 0 and title + '.txt' in data:
-                    counter += 1
-                elif title + str(counter) + '.txt' in data:
-                    counter += 1
-                else:
-                    if counter != 1:
-                        title += str(counter)
+                generate_uuid = str(uuid.uuid4()).replace('-', '')
+                if generate_uuid + '.txt' not in data:
                     break
             text = request.POST['state'] + '\n' + title + '\n' + request.POST['body'] + '\n' + fs.base_url + "image_dynamic/" + filename
-            write_cache(text, "page_dynamic/" + "".join(title.split(' ')))
+            write_cache(text, "page_dynamic/" + generate_uuid)
         #replace
         else:
             if filename == '':
-                file = read_cache_without_folder_path("page_dynamic/" + data[int(request.POST['page_number'])], 90911)
+                file = read_cache_without_folder_path("page_dynamic/" + data[int(request.POST['page_number'])][:-4], 90911)
                 if file:
                     for idx, line in enumerate(file.split('\n')):
                         if idx == 3:
@@ -715,19 +712,9 @@ def set_dynamic_page(request):
                             text.pop(0)
                             text.pop(0)
                             filename = "/".join(text)
-            os.remove('/var/log/django/page_dynamic/' + data[int(request.POST['page_number'])])
-            data = os.listdir('/var/log/django/page_dynamic')
-            while True:
-                if counter == 0 and title + '.txt' in data:
-                    counter += 1
-                elif title + str(counter) + '.txt' in data:
-                    counter += 1
-                else:
-                    if counter != 1:
-                        title += str(counter)
-                    break
+            # os.remove('/var/log/django/page_dynamic/' + data[int(request.POST['page_number'])])
             text = request.POST['state'] + '\n' + title + '\n' + request.POST['body'] + '\n' + fs.base_url + "image_dynamic/" + filename
-            write_cache(text, "page_dynamic/" + "".join(title.split(' ')))
+            write_cache(text, "page_dynamic/" + data[int(request.POST['page_number'])][:-4])
         #check image
         data = os.listdir('/var/log/django/page_dynamic')
         image_list = []
