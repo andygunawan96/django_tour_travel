@@ -143,7 +143,7 @@
 
                         <!--<li class="pt5"><input type="text" placeholder="Username"/><input type="text" placeholder="Password"/></li>-->
                         <li style="font-size:12px;color:{{text_color}}; margin:5px;">
-                            <button onclick="signin_btc();" class="loading-button primary-btn-custom ld-ext-right" style="margin-bottom:10px;">
+                            <button onclick="get_captcha('g-recaptcha-response','signin_btc');" class="loading-button primary-btn-custom ld-ext-right" style="margin-bottom:10px;">
                                 Sign in <i class="fas fa-sign-in-alt"></i>
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button><br/>
@@ -387,7 +387,7 @@
                             </li>
                             <!--<li class="pt5"><input type="text" placeholder="Username"/><input type="text" placeholder="Password"/></li>-->
                             <li style="font-size:12px;color:black; margin:5px;">
-                                <button onclick="signin_btc();" class="loading-button primary-btn-custom ld-ext-right">
+                                <button onclick="get_captcha('g-recaptcha-response','signin_btc');" class="loading-button primary-btn-custom ld-ext-right">
                                     Sign in <i class="fas fa-sign-in-alt"></i>
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
@@ -533,7 +533,7 @@
                             <li class="forget_password_mobile" style="font-size:12px;color:white;"></li>
                             <!--<li class="pt5"><input type="text" placeholder="Username"/><input type="text" placeholder="Password"/></li>-->
                             <li style="font-size:12px;color:{{text_color_login}}; padding-left:5px; margin:20px 0px;">
-                                <button onclick="signin_btc();" class="loading-button primary-btn-custom ld-ext-right">
+                                <button onclick="get_captcha('g-recaptcha-response','signin_btc');" class="loading-button primary-btn-custom ld-ext-right">
                                     Sign in <i class="fas fa-sign-in-alt"></i>
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button><br/>
@@ -706,7 +706,7 @@
                             </li>
 
                             <li style="font-size:12px;color:black; margin:5px; display:inline-table;">
-                                <button onclick="signin_btc();" class="loading-button primary-btn-custom ld-ext-right">
+                                <button onclick="get_captcha('g-recaptcha-response','signin_btc');" class="loading-button primary-btn-custom ld-ext-right">
                                     Sign in <i class="fas fa-sign-in-alt"></i>
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button><br/>
@@ -887,7 +887,7 @@
                         <li class="forget_password_mobile" style="font-size:12px;color:black;"></li>
                         <!--<li class="pt5"><input type="text" placeholder="Username"/><input type="text" placeholder="Password"/></li>-->
                         <li style="font-size:12px;color:black; margin-top:19px; padding-left:5px;">
-                            <button onclick="signin_btc();" class="loading-button primary-btn-custom ld-ext-right" style="padding-bottom:5px;">
+                            <button onclick="get_captcha('g-recaptcha-response','signin_btc');" class="loading-button primary-btn-custom ld-ext-right" style="padding-bottom:5px;">
                                 Sign in <i class="fas fa-sign-in-alt"></i>
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button><br/>
@@ -948,14 +948,14 @@
           // Number 13 is the "Enter" key on the keyboard
           if (event.keyCode === 13) {
                 event.preventDefault();
-                signin_btc();
+                get_captcha('g-recaptcha-response','signin_btc');
           }
         });
         document.getElementById("username").addEventListener("keyup", function(event) {
           // Number 13 is the "Enter" key on the keyboard
           if (event.keyCode === 13) {
                 event.preventDefault();
-                signin_btc();
+                get_captcha('g-recaptcha-response','signin_btc');
           }
         });
     }catch(err){}

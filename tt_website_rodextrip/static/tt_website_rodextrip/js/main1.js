@@ -22,7 +22,7 @@
     var input = $('.validate-input .input100');
 
     $('.validate-form').on('submit',function(){
-        signin();
+        get_captcha('g-recaptcha-response','signin_btb');
 //        var check = true;
 //
 //        for(var i=0; i<input.length; i++) {

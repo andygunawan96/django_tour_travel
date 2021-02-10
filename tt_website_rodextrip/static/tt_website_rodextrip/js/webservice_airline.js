@@ -8655,13 +8655,13 @@ function airline_get_booking_refund(data){
                                     <th style="width:20%;">Birth Date</th>
                                     <th style="width:45%;">Remarks</th>
                                 </tr>`;
-                                for(pax in msg.result.response.provider_bookings[i].tickets){
+                                for(pax in msg.result.response.passengers){
                                     ticket = '';
                                     for(provider in msg.result.response.provider_bookings){
                                         pnr_refund = '';
                                         remark_refund = '';
                                         for(journey in msg.result.response.provider_bookings[provider].journeys){
-                                            if(msg.result.response.provider_bookings[i].pnr == msg.result.response.provider_bookings[provider].pnr){
+                                            if(msg.result.response.provider_bookings[i].pnr == msg.result.response.provider_bookings[provider].pnr && msg.result.response.provider_bookings[provider].pnr in msg.result.response.passengers[pax].sale_service_charges){
                                                 if((parseInt(journey)+1) == msg.result.response.provider_bookings[provider].journeys.length){
                                                     pnr_refund += `pnr~`+msg.result.response.provider_bookings[provider].pnr+`~`+msg.result.response.passengers[pax].sequence+`~`+msg.result.response.provider_bookings[provider].journeys[journey].origin+`~`+msg.result.response.provider_bookings[provider].journeys[journey].destination+`~`+msg.result.response.provider_bookings[provider].journeys[journey].departure_date;
                                                     remark_refund += `remarks~`+msg.result.response.provider_bookings[provider].pnr+`~`+msg.result.response.passengers[pax].sequence+`~`+msg.result.response.provider_bookings[provider].journeys[journey].origin+`~`+msg.result.response.provider_bookings[provider].journeys[journey].destination+`~`+msg.result.response.provider_bookings[provider].journeys[journey].departure_date;
