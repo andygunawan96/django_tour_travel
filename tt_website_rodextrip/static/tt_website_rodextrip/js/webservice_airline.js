@@ -5425,12 +5425,14 @@ function check_refund_partial_btn(){
                                 <span style="font-size:12px;">Grand Total</span>
                             </div>
                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">`;
-                            if(msg.result.response.provider_bookings[i].passengers[0].fees.length == 0){
-                            text+=`
-                                <span style="font-size:13px;" id="grand_total_refund">`+currency+` `+getrupiah(parseInt(msg.result.response.provider_bookings[i].resv_total_price - msg.result.response.provider_bookings[i].admin_fee - msg.result.response.provider_bookings[i].penalty_amount))+`</span>`;
-                            }else
-                            text+=`
-                                <span style="font-size:13px;" id="grand_total_refund">`+currency+` `+getrupiah(parseInt(total_hitung_frontend - msg.result.response.provider_bookings[i].admin_fee - msg.result.response.provider_bookings[i].penalty_amount))+`</span>`;
+                            if(msg.result.response.provider_bookings[i].hasOwnProperty('passengers') == true && msg.result.response.provider_bookings[i].passengers.length != 0){
+                                if(msg.result.response.provider_bookings[i].passengers[0].fees.length == 0){
+                                text+=`
+                                    <span style="font-size:13px;" id="grand_total_refund">`+currency+` `+getrupiah(parseInt(total))+`</span>`;
+                                }else
+                                text+=`
+                                    <span style="font-size:13px;" id="grand_total_refund">`+currency+` `+getrupiah(parseInt(total_hitung_frontend - msg.result.response.provider_bookings[i].admin_fee - msg.result.response.provider_bookings[i].penalty_amount))+`</span>`;
+                            }
                             text+=`
                             </div>
                         </div>`;

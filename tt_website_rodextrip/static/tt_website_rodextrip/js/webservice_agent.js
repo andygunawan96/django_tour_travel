@@ -347,7 +347,7 @@ function signin_btc(){
                 Swal.fire({
                   type: 'error',
                   title: 'Oops!',
-                  text: 'Please input correct username or password',
+                  text: msg.result.error_msg,
                 })
             }
            },
