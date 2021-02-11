@@ -339,14 +339,17 @@ def get_carrier_providers(request):
             _logger.error('ERROR get_list_provider file\n' + str(e) + '\n' + traceback.format_exc())
     return res
 
-def get_carriers(request):
+def get_carriers(request, signature=''):
     try:
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
-            "action": "get_carriers",
-            "signature": request.POST['signature']
+            "action": "get_carriers"
         }
+        if signature:
+            headers.update({"signature": signature})
+        else:
+            headers.update({"signature": request.POST['signature']})
         data = {
             "provider_type": 'airline'
         }

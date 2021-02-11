@@ -680,7 +680,9 @@ def get_new_cache(signature, type='all'):
                 pass
             try:
                 os.remove("/var/log/django/file_cache/get_airline_carriers.txt")
+                airline.get_carriers('', signature)
             except:
+                airline.get_carriers('', signature)
                 pass
             try:
                 os.remove("/var/log/django/file_cache/get_airline_active_carriers.txt")

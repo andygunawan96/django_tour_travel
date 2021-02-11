@@ -2523,21 +2523,31 @@ function sort(){
                                                                }
                                                                text+=`<br/>`;
                                                                var total_price = 0;
-                                                               if(airline_request.origin.length == airline_pick_list.length + 1 && airline_recommendations_list.length != 0){
-                                                                    check = 0;
-                                                                    for(l in airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].journey_flight_refs[airline_pick_list.length].fare_flight_refs){
-                                                                        try{
-                                                                            if(airline[i].segments[l].fares[k].fare_ref_id == airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].journey_flight_refs[airline_pick_list.length].fare_flight_refs[l].fare_ref_id)
-                                                                                check = 1;
-                                                                        }catch(err){}
-                                                                    }
-                                                                    if(check == 1){
-                                                                        for(l in airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary){
-                                                                            if(airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary[l].pax_type == 'ADT')
-                                                                                total_price = airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary[l].total_price / airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary[l].pax_count;
+                                                               if(j == airline[i].segments.length - 1){
+                                                                   if(airline_request.origin.length == airline_pick_list.length + 1 && airline_recommendations_list.length != 0){
+                                                                        check = 0;
+                                                                        for(l in airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].journey_flight_refs[airline_pick_list.length].fare_flight_refs){
+                                                                            try{
+                                                                                if(airline[i].segments[l].fares[k].fare_ref_id == airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].journey_flight_refs[airline_pick_list.length].fare_flight_refs[l].fare_ref_id)
+                                                                                    check = 1;
+                                                                            }catch(err){}
                                                                         }
-                                                                        total_price -= total_price_pick;
-                                                                    }else{
+                                                                        if(check == 1){
+                                                                            for(l in airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary){
+                                                                                if(airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary[l].pax_type == 'ADT')
+                                                                                    total_price = airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary[l].total_price / airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary[l].pax_count;
+                                                                            }
+                                                                            total_price -= total_price_pick;
+                                                                        }else{
+                                                                            for(l in airline[i].segments[j].fares[k].service_charge_summary)
+                                                                                if(airline[i].segments[j].fares[k].service_charge_summary[l].pax_type == 'ADT'){
+                                                                                    for(m in airline[i].segments[j].fares[k].service_charge_summary[l].service_charges)
+                                                                                        if(airline[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'tax' || airline[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'fare' || airline[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'roc')
+                                                                                            total_price+= airline[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].amount;
+                                                                                    break;
+                                                                            }
+                                                                        }
+                                                                   }else{
                                                                         for(l in airline[i].segments[j].fares[k].service_charge_summary)
                                                                             if(airline[i].segments[j].fares[k].service_charge_summary[l].pax_type == 'ADT'){
                                                                                 for(m in airline[i].segments[j].fares[k].service_charge_summary[l].service_charges)
@@ -2545,15 +2555,7 @@ function sort(){
                                                                                         total_price+= airline[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].amount;
                                                                                 break;
                                                                         }
-                                                                    }
-                                                               }else{
-                                                                    for(l in airline[i].segments[j].fares[k].service_charge_summary)
-                                                                        if(airline[i].segments[j].fares[k].service_charge_summary[l].pax_type == 'ADT'){
-                                                                            for(m in airline[i].segments[j].fares[k].service_charge_summary[l].service_charges)
-                                                                                if(airline[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'tax' || airline[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'fare' || airline[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'roc')
-                                                                                    total_price+= airline[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].amount;
-                                                                            break;
-                                                                    }
+                                                                   }
                                                                }
                 //                                               for(l in airline[i].segments[j].fares[k].service_charges){
                 //                                                    total_price += airline[i].segments[j].fares[k].service_charges[l].amount;
@@ -2984,21 +2986,53 @@ function airline_pick_mc(type){
                 <div class="col-lg-8" style="text-align:right;">
                     <span id="fare_detail_pick`+airline_pick_list[i].airline_pick_sequence+`" class="basic_fare_field price_template" style="font-size:16px;font-weight: bold; color:`+color+`; padding:10px 0px;">`;
                     price = 0;
-                    for(j in airline_pick_list[i].segments){
-                        for(k in airline_pick_list[i].segments[j].fares){
-                            if(parseInt(airline_request.child)+parseInt(airline_request.adult) <= airline_pick_list[i].segments[j].fares[k].available_count && k==airline_pick_list[i].segments[j].fare_pick){
-                                for(l in airline_pick_list[i].segments[j].fares[k].service_charge_summary){
-                                    if(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].pax_type == 'ADT')
-                                        for(m in airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges)
-                                            if(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'fare' || airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'tax' || airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'roc'){
-                                                currency = airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].currency;
-                                                price+= airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].amount;
-                                            }
+                    if(i == airline_pick_list.length - 1 && airline_pick_list.length == airline_request.origin.length && airline_recommendations_list.length != 0){
+                        console.log(JSON.parse(JSON.stringify(i)));
+                        console.log('combo here render mc');
+                        total_price = 0;
+                        for(l in airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].service_charge_summary){
+                            if(airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].service_charge_summary[l].pax_type == 'ADT')
+                                price = airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].service_charge_summary[l].total_price / airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].service_charge_summary[l].pax_count;
+                                console.log(airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].service_charge_summary[l].total_price / airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].service_charge_summary[l].pax_count);
+                        }
+                        price -= total_price_pick;
+                        console.log(total_price_pick);
+                        console.log(price);
+                    }else{
+                        for(j in airline_pick_list[i].segments){
+                            for(k in airline_pick_list[i].segments[j].fares){
+                                if(parseInt(airline_request.child)+parseInt(airline_request.adult) <= airline_pick_list[i].segments[j].fares[k].available_count && k==airline_pick_list[i].segments[j].fare_pick){
+                                    for(l in airline_pick_list[i].segments[j].fares[k].service_charge_summary){
+                                        if(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].pax_type == 'ADT')
+                                            for(m in airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges)
+                                                if(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'fare' || airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'tax' || airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'roc'){
+                                                    currency = airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].currency;
+                                                    price+= airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].amount;
+                                                }
+                                    }
+                                    break;
                                 }
-                                break;
                             }
                         }
                     }
+//
+//                    price = 0;
+//                    for(j in airline_pick_list[i].segments){
+//                        for(k in airline_pick_list[i].segments[j].fares){
+//                            if(parseInt(airline_request.child)+parseInt(airline_request.adult) <= airline_pick_list[i].segments[j].fares[k].available_count && k==airline_pick_list[i].segments[j].fare_pick){
+//                                for(l in airline_pick_list[i].segments[j].fares[k].service_charge_summary){
+//                                    if(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].pax_type == 'ADT')
+//                                        for(m in airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges)
+//                                            if(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'fare' || airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'tax' || airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'roc'){
+//                                                currency = airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].currency;
+//                                                price+= airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].amount;
+//                                            }
+//                                }
+//                                break;
+//                            }
+//                        }
+//                    }
+                    console.log('price print ' + getrupiah(price));
                     text+= currency+' '+getrupiah(price) + '</span>';
                     if(provider_list_data[airline_pick_list[i].provider].description != '')
                         text += `<br/><span>`+provider_list_data[airline_pick_list[i].provider].description+`</span><br/>`;
@@ -3178,14 +3212,51 @@ function airline_pick_mc(type){
                                         }
                                         text+=`<br/>`;
                                         var total_price = 0;
-                                        for(l in airline_pick_list[i].segments[j].fares[k].service_charge_summary){
-                                            if(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].pax_type == 'ADT'){
-                                                for(m in airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges)
-                                                    if(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'tax' || airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'fare' || airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'roc')
-                                                        total_price+= airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].amount;
-                                                break;
+                                        if(i == airline_pick_list.length - 1 && airline_recommendations_list.length != 0){
+                                            check = 0;
+                                            for(l in airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].journey_flight_refs[airline_pick_list.length-1].fare_flight_refs){
+                                                try{
+                                                    if(airline_pick_list[i].segments[l].fares[k].fare_ref_id == airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].journey_flight_refs[airline_pick_list.length-1].fare_flight_refs[l].fare_ref_id)
+                                                        check = 1;
+                                                }catch(err){}
+                                            }
+                                            if(check == 1){
+                                                for(l in airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].service_charge_summary){
+                                                    if(airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].service_charge_summary[l].pax_type == 'ADT')
+                                                        total_price = airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].service_charge_summary[l].total_price / airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].service_charge_summary[l].pax_count;
+                                                }
+                                                total_price -= total_price_pick;
+                                            }else{
+                                                for(l in airline_pick_list[i].segments[j].fares[k].service_charge_summary){
+                                                    if(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].pax_type == 'ADT'){
+                                                        for(m in airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges)
+                                                            if(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'tax' || airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'fare' || airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'roc')
+                                                                total_price+= airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].amount;
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                        }else{
+                                            for(l in airline_pick_list[i].segments[j].fares[k].service_charge_summary){
+                                                if(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].pax_type == 'ADT'){
+                                                    for(m in airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges)
+                                                        if(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'tax' || airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'fare' || airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'roc')
+                                                            total_price+= airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].amount;
+                                                    break;
+                                                }
                                             }
                                         }
+
+                                        //
+//                                        var total_price = 0;
+//                                        for(l in airline_pick_list[i].segments[j].fares[k].service_charge_summary){
+//                                            if(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].pax_type == 'ADT'){
+//                                                for(m in airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges)
+//                                                    if(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'tax' || airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'fare' || airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'roc')
+//                                                        total_price+= airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].amount;
+//                                                break;
+//                                            }
+//                                        }
                                         text+=`<span id="journeypick`+airline_pick_list[i].airline_pick_sequence+`segment`+j+`fare`+k+`" class="price_template" style="font-weight:bold;">`+airline_pick_list[i].currency+` `+getrupiah(total_price)+`</span>`;
                                         if(airline_pick_list[i].segments[j].fares[k].fare_name)
                                            text+=`<br/><span>`+airline_pick_list[i].segments[j].fares[k].fare_name+`</span>`;

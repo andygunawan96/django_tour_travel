@@ -1854,7 +1854,7 @@ function set_automatic_combo_price(){
             "segments": segments
         });
         airline_pick_list[i].total_price = total_price_temp;
-        document.getElementById('fare_detail_pick'+airline_pick_list[i].airline_pick_sequence).innerHTML = airline_pick_list[i].currency + ' ' + getrupiah(airline_pick_list[i].total_price);
+        //document.getElementById('fare_detail_pick'+airline_pick_list[i].airline_pick_sequence).innerHTML = airline_pick_list[i].currency + ' ' + getrupiah(airline_pick_list[i].total_price);
     }
     document.getElementById('airline_detail').innerHTML = '';
     check_airline_pick = 1;
