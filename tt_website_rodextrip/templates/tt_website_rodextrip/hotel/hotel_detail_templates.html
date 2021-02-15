@@ -1030,7 +1030,7 @@
                     </span>
                     <br/>
                     <i class="fas fa-map-marker-alt" style="color:{{color}};"></i>
-                    <span class="address_hotel" id="address_hotel">{% if response.location.address != false %}{{response.location.address}}{% endif %}{% if response.location.city != false %}, {{response.location.city}}{% endif %}{% if response.location.kelurahan != false %}, {{response.location.kelurahan}}{% endif %}{% if response.location.state != false %}, {{response.location.state}}{% endif %}{% if response.location.zipcode != false %}, {{response.location.zipcode}}{% endif %}</span>
+                    <span class="address_hotel" id="address_hotel"></span>
                     <!-- - <a href="#" style="color:blue; text-decoration: underline;">Show Map</a><br/>-->
                 </div>
             </div>
@@ -1198,7 +1198,7 @@
                     <h4>Location Info</h4>
                     <hr/>
                     <i class="fas fa-map-marker-alt" style="color:{{color}};"></i>
-                    <span style="font-size:14px; font-weight:500;">{% if response.location.address != false %}{{response.location.address}}{% endif %}{% if response.location.city != false %}, {{response.location.city}}{% endif %}{% if response.location.kelurahan != false %}, {{response.location.kelurahan}}{% endif %}{% if response.location.state != false %}, {{response.location.state}}{% endif %}{% if response.location.zipcode != false %}, {{response.location.zipcode}}{% endif %}</span>
+                    <span style="font-size:14px; font-weight:500;" id="location_info"></span>
                     {% if response.lat != '' and response.long != '' %}
                     <br/><button type="button" class="primary-btn-ticket" id="show_google_map" onclick="initMap();">Show Map</button>
                     <div id="map" style="position:inherit;height:400px;" hidden>
@@ -1463,6 +1463,31 @@
 <script>
     hotel_facility_request(facilities);
     var myIndex = 0;
+    address = '';
+    {% if response.location.address != false %}
+    address += `{{response.location.address}}`;
+    {% endif %}
+    {% if response.location.city != false %}
+    if(address != '')
+        address += ', ';
+    address += `{{response.location.city}}`;
+    {% endif %}
+    {% if response.location.kelurahan != false %}
+    if(address != '')
+        address += ', ';
+    address += `{{response.location.kelurahan}}`;
+    {% endif %}
+    {% if response.location.state != false %}
+    if(address != '')
+        address += ', ';
+    address += `{{response.location.state}}{% endif %}`;
+    {% if response.location.zipcode != false %}
+    if(address != '')
+        address += ', ';
+    address += `{{response.location.zipcode}}`;
+    {% endif %}
+    document.getElementById('address_hotel').innerHTML = address;
+    document.getElementById('location_info').innerHTML = address;
     $(document).ready(function () {
         {% for child_age in hotel_search.child_ages %}
         $('#hotel_child_age{{forloop.counter}}').niceSelect('destroy');

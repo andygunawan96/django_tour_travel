@@ -2162,16 +2162,22 @@ function get_checked_copy_result(){
         var location_hotel = parent_hotel.find('.location_hotel').html();
         var price_hotel = parent_hotel.find('.price_hotel').html();
         var id_hotel = parent_hotel.find('.id_copy_result').html();
+        var room_night = parent_hotel.find('.carrier_code_template').html();
         hotel_number = hotel_number + 1;
         $text += ''+hotel_number+'. '+name_hotel+ ' ' +rating_hotel+'\n';
-        $text += 'Location: '+location_hotel+'\n';
+        if(location_hotel != ' (undefined)')
+            $text += 'Location: '+location_hotel+'\n';
         $text += 'Price start from: '+price_hotel+'\n \n';
         text+=`
             <div class="row" id="div_list`+id_hotel+`">
                 <div class="col-lg-8">
-                    <h6>`+hotel_number+`. `+name_hotel+` `+rating_hotel+ `</h6>
-                    <span>Location: `+location_hotel+`</span><br/>
-                    <span style="font-weight:500;">Best Price: `+price_hotel+`</span>
+                    <h6>`+hotel_number+`. `+name_hotel+` `+rating_hotel+ `</h6>`;
+                    if(location_hotel != ' (undefined)'){
+                        text+=`
+                    <span>Location: `+location_hotel+`</span><br/>`;
+                    }
+                    text+=`
+                    <span style="font-weight:500;">Best Price: `+price_hotel+` `+room_night+`</span>
                 </div>
                 <div class="col-lg-4" style="text-align:right;">
                     <span style="font-weight:500; cursor:pointer;" onclick="delete_checked_copy_result(`+id_hotel+`);">Delete <i class="fas fa-times-circle" style="color:red; font-size:18px;"></i></span>
