@@ -5685,7 +5685,7 @@ function cancel_reservation_airline(){
                document.getElementById('payment_acq').hidden = true;
                document.getElementById("overlay-div-box").style.display = "none";
                $(".issued_booking_btn").remove();
-               airline_get_booking(airline_get_detail.result.response.order_number);
+               //airline_get_booking_refund(airline_get_detail.result.response.order_number);
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 auto_logout();
            }else{
@@ -5709,7 +5709,7 @@ function cancel_reservation_airline(){
 
                 $('.hold-seat-booking-train').prop('disabled', false);
                 $('.hold-seat-booking-train').removeClass("running");
-                airline_get_booking(airline_get_detail.result.response.order_number);
+                airline_get_booking_refund(airline_get_detail.result.response.order_number);
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -5727,7 +5727,7 @@ function cancel_reservation_airline(){
             document.getElementById("overlay-div-box").style.display = "none";
             $('.hold-seat-booking-train').prop('disabled', false);
             $('.hold-seat-booking-train').removeClass("running");
-            airline_get_booking(airline_get_detail.result.response.order_number);
+            airline_get_booking_refund(airline_get_detail.result.response.order_number);
        },timeout: 300000
     });
 }
