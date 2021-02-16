@@ -222,8 +222,6 @@
                                 <br/>
                                 <span><i class="fa fa-clock-o" aria-hidden="true"></i> {{tour_data.duration}} {% trans 'Days' %}</span>
                                 <br/>
-                                <span>{{tour_data.flight}} {% trans 'Flight' %}, {{tour_data.visa}} Visa</span>
-                                <br/>
                             </div>
                         </div>
                     </div>
@@ -565,7 +563,7 @@
     $(document).ready(function () {
         breadcrumb_create("tour", 5, 0);
         get_price_itinerary_cache('review');
-        get_payment_rules('{{tour_data.tour_code}}');
+        get_payment_rules('{{tour_data.tour_code}}', '{{tour_line_code}}');
         //get_payment_acq('Issued','{{booker.booker_seq_id}}', '', 'billing',signature,'tour');
     });
 </script>

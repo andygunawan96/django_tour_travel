@@ -331,12 +331,12 @@ function tour_search(){
                     `;
                }
                for(i in tour_data){
-                   if(high_price_slider < tour_data[i].adult_sale_price){
-                        high_price_slider = tour_data[i].adult_sale_price;
+                   if(high_price_slider < tour_data[i].est_starting_price){
+                        high_price_slider = tour_data[i].est_starting_price;
                    }
 
-                   if(low_price_slider > tour_data[i].adult_sale_price){
-                        low_price_slider = tour_data[i].adult_sale_price;
+                   if(low_price_slider > tour_data[i].est_starting_price){
+                        low_price_slider = tour_data[i].est_starting_price;
                    }
 
                    if (tour_data[i].images_obj.length > 0)
@@ -395,7 +395,7 @@ function tour_search(){
                                                             <span id="pop_question`+i+`" style="cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
                                                         </div>
                                                             <span style="font-size:13px; color:#616161; float:left; margin-top:10px;">Starting From</span>
-                                                            <span style="font-size:14px;font-weight:bold; float:right; margin-top:10px;">IDR `+getrupiah(tour_data[i].adult_sale_price)+`</span><br/>
+                                                            <span style="font-size:14px;font-weight:bold; float:right; margin-top:10px;">IDR `+getrupiah(tour_data[i].est_starting_price)+`</span><br/>
                                                         </div>
                                                         <div class="col-lg-12">
                                                             <button href="#" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_data[i].tour_code+`')" style="width:100%;">BOOK</button><br/>
@@ -446,7 +446,7 @@ function tour_search(){
                                                             <span id="pop_question`+i+`" style="cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
                                                         </div>
                                                             <span style="font-size:13px; color:#616161; float:left; margin-top:10px;">Starting From</span>
-                                                            <span style="font-size:14px;font-weight:bold; float:right; margin-top:10px;">IDR `+getrupiah(tour_data[i].adult_sale_price)+`</span><br/>
+                                                            <span style="font-size:14px;font-weight:bold; float:right; margin-top:10px;">IDR `+getrupiah(tour_data[i].est_starting_price)+`</span><br/>
                                                         </div>
                                                         <div class="col-lg-12">
                                                             <button href="#" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_data[i].tour_code+`')" style="width:100%;">BOOK</button><br/>
@@ -496,7 +496,7 @@ function tour_search(){
                                                             <span id="pop_question`+i+`" style="cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
                                                         </div>
                                                             <span style="font-size:13px; color:#616161; float:left; margin-top:10px;">Starting From</span>
-                                                            <span style="font-size:14px;font-weight:bold; float:right; margin-top:10px;">IDR `+getrupiah(tour_data[i].adult_sale_price)+`</span><br/>
+                                                            <span style="font-size:14px;font-weight:bold; float:right; margin-top:10px;">IDR `+getrupiah(tour_data[i].est_starting_price)+`</span><br/>
                                                         </div>
                                                         <div class="col-lg-12">
                                                             <button href="#" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_data[i].tour_code+`')" style="width:100%;">BOOK</button><br/>
@@ -546,7 +546,7 @@ function tour_search(){
                                                             <span id="pop_question`+i+`" style="cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
                                                         </div>
                                                             <span style="font-size:13px; color:#616161; float:left; margin-top:10px;">Starting From</span>
-                                                            <span style="font-size:14px;font-weight:bold; float:right; margin-top:10px;">IDR `+getrupiah(tour_data[i].adult_sale_price)+`</span><br/>
+                                                            <span style="font-size:14px;font-weight:bold; float:right; margin-top:10px;">IDR `+getrupiah(tour_data[i].est_starting_price)+`</span><br/>
                                                         </div>
                                                         <div class="col-lg-12">
                                                             <button href="#" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_data[i].tour_code+`')" style="width:100%;">BOOK</button><br/>
@@ -595,7 +595,7 @@ function tour_search(){
                                                             <span id="pop_question`+i+`" style="cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
                                                         </div>
                                                             <span style="font-size:13px; color:#616161; float:left; margin-top:10px;">Starting From</span>
-                                                            <span style="font-size:14px;font-weight:bold; float:right; margin-top:10px;">IDR `+getrupiah(tour_data[i].adult_sale_price)+`</span><br/>
+                                                            <span style="font-size:14px;font-weight:bold; float:right; margin-top:10px;">IDR `+getrupiah(tour_data[i].est_starting_price)+`</span><br/>
                                                         </div>
                                                         <div class="col-lg-12">
                                                             <button href="#" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_data[i].tour_code+`')" style="width:100%;">BOOK</button><br/>
@@ -822,7 +822,7 @@ function tour_get_details(tour_code){
                 }
                 country_text += `</span>`;
 
-                country_text += `<div style="background:#dbdbdb; margin-bottom:5px; margin-top:5px; padding:10px;"><span><i class="fa fa-tag" aria-hidden="true"></i> Adult `+tour_data.currency_code+` <b style="color:`+color+`; font-size:14px;"> ` + getrupiah(tour_data.adult_sale_price) + `</b></span>`;
+                country_text += `<div style="background:#dbdbdb; margin-bottom:5px; margin-top:5px; padding:10px;"><span><i class="fa fa-tag" aria-hidden="true"></i> Starting From `+tour_data.currency_code+` <b style="color:`+color+`; font-size:14px;"> ` + getrupiah(tour_data.est_starting_price) + `</b></span>`;
                 if (tour_data.child_sale_price > 0)
                 {
                     country_text += `<span> | Child `+tour_data.currency_code+` <b style="color:`+color+`; font-size:14px;"> ` + getrupiah(tour_data.child_sale_price) + `</b></span>`;
@@ -1389,7 +1389,7 @@ function commit_booking_tour(val)
     });
 }
 
-function get_payment_rules(tour_code)
+function get_payment_rules(tour_code, tour_line_code)
 {
     getToken();
     $.ajax({
@@ -1400,6 +1400,7 @@ function get_payment_rules(tour_code)
        },
        data: {
            'tour_code': tour_code,
+           'tour_line_code': tour_line_code,
            'signature': signature
        },
        success: function(msg) {
@@ -1766,8 +1767,6 @@ function tour_get_booking(order_number)
                                     <br/>
                                     <span>Period: `+tour_package.departure_date_str+` - `+tour_package.arrival_date_str+`</span>
                                     <br/>
-                                    <span>`+tour_package.flight+` Flight, `+tour_package.visa+` Visa</span>
-                                    <br/>
                                 </div>
                             </div>
                         </div>`;
@@ -1786,8 +1785,6 @@ function tour_get_booking(order_number)
                                     </span>
                                     <br/>
                                     <span><i class="fa fa-clock-o" aria-hidden="true"></i> `+tour_package.duration+` Days</span>
-                                    <br/>
-                                    <span>`+tour_package.flight+` Flight, `+tour_package.visa+` Visa</span>
                                     <br/>
                                 </div>
                             </div>

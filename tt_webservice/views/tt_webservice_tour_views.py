@@ -739,7 +739,8 @@ def issued_booking(request):
 def get_payment_rules(request):
     data = {
         'provider': request.session['tour_pick']['provider'],
-        'tour_code': request.POST['tour_code']
+        'tour_code': request.POST['tour_code'],
+        'tour_line_code': request.POST['tour_line_code']
     }
     headers = {
         "Accept": "application/json,text/html,application/xml",
