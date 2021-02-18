@@ -252,7 +252,7 @@
                                         <div id="template-tab_template" class="template_tab-content" style="padding:0px;">
                                             <div class="row">
                                                 <div class="col-lg-12 mb-4">
-                                                    <div style="padding:15px; background:{{tab_color}}">
+                                                    <div style="padding:15px 15px 0px 15px; background:{{tab_color}}">
                                                         <div class="row">
                                                             <div class="col-lg-12 mb-3">
                                                                 <h6 style="margin-bottom:10px;color:{{text_color}};">Template Website</h6>
@@ -266,8 +266,8 @@
                                                                     </select>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-lg-12">
-                                                                <h6 class="mb-4" style="color:{{text_color}}; padding:15px; background:{{color}};">
+                                                            <div class="col-lg-12" style="padding:0px;">
+                                                                <h6 style="color:{{text_color}}; padding:15px; background:{{color}};">
                                                                     Preview <i class="fas fa-eye"></i>
                                                                 </h6>
                                                                 <div id="preview_template_loading" style="display:none; padding-bottom:15px; padding-top:15px;">
@@ -333,7 +333,7 @@
                                                                     <input class="jscolor nice-select-default" value="{{text_color}}" name="text_pick" id="text_pick" onchange="render_preview_color_tab();">
                                                                 </div>
                                                             </div>
-                                                            <div class="col-lg-12 mt-3 mb-3">
+                                                            <div class="col-lg-12 mt-3" style="padding:0px;">
                                                                 <h6 style="color:{{text_color}}; padding:15px; background:{{color}};">
                                                                     Preview <i class="fas fa-eye"></i>
                                                                 </h6>
@@ -417,8 +417,8 @@
                                                                     <input class="jscolor nice-select-default" value="{{text_color_login}}" name="text_pick_login" id="text_pick_login" onchange="render_preview_login_tab();">
                                                                 </div>
                                                             </div>
-                                                            <div class="col-lg-12">
-                                                                <h6 class="mb-3" style="color:{{text_color}}; padding:15px; background:{{color}};">
+                                                            <div class="col-lg-12" style="padding:0px;">
+                                                                <h6 style="color:{{text_color}}; padding:15px; background:{{color}};">
                                                                     Preview <i class="fas fa-eye"></i>
                                                                 </h6>
                                                             </div>
@@ -1312,7 +1312,7 @@
                                     <div id="template-tab_template" class="template_tab-content" style="padding:0px;">
                                         <div class="row">
                                             <div class="col-lg-12 mb-4">
-                                                <div style="padding:15px; background:{{tab_color}}">
+                                                <div style="padding:15px 15px 0px 15px; background:{{tab_color}}">
                                                     <div class="row">
                                                         <div class="col-lg-12 mb-3">
                                                             <h6 style="margin-bottom:10px;color:{{text_color}};">Template Website</h6>
@@ -1326,8 +1326,8 @@
                                                                 </select>
                                                             </div>
                                                         </div>
-                                                        <div class="col-lg-12">
-                                                            <h6 class="mb-4" style="color:{{text_color}}; padding:15px; background:{{color}};">
+                                                        <div class="col-lg-12" style="padding:0px;">
+                                                            <h6 style="color:{{text_color}}; padding:15px; background:{{color}};">
                                                                 Preview <i class="fas fa-eye"></i>
                                                             </h6>
                                                             <div id="preview_template_loading" style="display:none; padding-bottom:15px; padding-top:15px;">
@@ -1391,7 +1391,7 @@
                                                                 <input class="jscolor nice-select-default" value="{{text_color}}" name="text_pick" id="text_pick" onchange="render_preview_color_tab();">
                                                             </div>
                                                         </div>
-                                                        <div class="col-lg-12 mb-3">
+                                                        <div class="col-lg-12" style="padding:0px;">
                                                             <h6 style="color:{{text_color}}; padding:15px; background:{{color}};">
                                                                 Preview <i class="fas fa-eye"></i>
                                                             </h6>
@@ -1399,7 +1399,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-12 mb-4">
+                                            <div class="col-lg-12 mb-4 mt-3">
                                                 <div id="preview_tab_background" style="padding:25px; background:white;">
                                                     <div class="style-scrollbar" style="overflow:auto; white-space:nowrap;" id="div_scroll_menu">
                                                         <ul class="tabs" style="padding:unset;">
@@ -1473,8 +1473,8 @@
                                                                 <input class="jscolor nice-select-default" value="{{text_color_login}}" name="text_pick_login" id="text_pick_login" onchange="render_preview_login_tab();">
                                                             </div>
                                                         </div>
-                                                        <div class="col-lg-12 mb-3">
-                                                            <h6 class="mb-3" style="color:{{text_color}}; padding:15px; background:{{color}};">
+                                                        <div class="col-lg-12" style="padding:0px;">
+                                                            <h6 style="color:{{text_color}}; padding:15px; background:{{color}};">
                                                                 Preview <i class="fas fa-eye"></i>
                                                             </h6>
                                                         </div>
@@ -2208,7 +2208,7 @@
                                                 <input type="text" class="form-control" name="website_name" id="website_name" placeholder="{% trans 'Website Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Website Name '" value="{{name}}">
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6 mt-3">
                                             <h6 style="margin-bottom:10px;color:{{text_color}};">Website Mode</h6>
                                             <div class="default-select" id="default-select">
                                                 <select id="website_mode" name="website_mode" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
@@ -2356,7 +2356,7 @@
                                 <div id="template-tab_template" class="template_tab-content" style="padding:0px;">
                                     <div class="row">
                                         <div class="col-lg-12 mb-4">
-                                            <div style="padding:15px; background:{{tab_color}}">
+                                            <div style="padding:15px 15px 0px 15px; background:{{tab_color}}">
                                                 <div class="row">
                                                     <div class="col-lg-12 mb-3">
                                                         <h6 style="margin-bottom:10px;color:{{text_color}};">Template Website</h6>
@@ -2370,8 +2370,8 @@
                                                             </select>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-12">
-                                                        <h6 class="mb-4" style="color:{{text_color}}; padding:15px; background:{{color}};">
+                                                    <div class="col-lg-12" style="padding:0px;">
+                                                        <h6 style="color:{{text_color}}; padding:15px; background:{{color}};">
                                                             Preview <i class="fas fa-eye"></i>
                                                         </h6>
                                                         <div id="preview_template_loading" style="display:none; padding-bottom:15px; padding-top:15px;">
@@ -2437,7 +2437,7 @@
                                                             <input class="jscolor nice-select-default" value="{{text_color}}" name="text_pick" id="text_pick" onchange="render_preview_color_tab();">
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-12 mt-3 mb-3">
+                                                    <div class="col-lg-12 mt-3" style="padding:0px;">
                                                         <h6 style="color:{{text_color}}; padding:15px; background:{{color}};">
                                                             Preview <i class="fas fa-eye"></i>
                                                         </h6>
@@ -2525,8 +2525,8 @@
                                                             <input class="jscolor nice-select-default" value="{{text_color_login}}" name="text_pick_login" id="text_pick_login" onchange="render_preview_login_tab();">
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-12 mt-3">
-                                                        <h6 class="mb-3" style="color:{{text_color}}; padding:15px; background:{{color}};">
+                                                    <div class="col-lg-12 mt-3" style="padding:0px;">
+                                                        <h6 style="color:{{text_color}}; padding:15px; background:{{color}};">
                                                             Preview <i class="fas fa-eye"></i>
                                                         </h6>
                                                     </div>
@@ -3276,7 +3276,7 @@
                                             <input type="text" class="form-control" name="website_name" id="website_name" placeholder="{% trans 'Website Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Website Name '" value="{{name}}">
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-6 mt-3">
                                         <h6 style="margin-bottom:10px;color:{{text_color}};">Website Mode</h6>
                                         <div class="form-select">
                                             <select id="website_mode" name="website_mode" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
@@ -3424,7 +3424,7 @@
                             <div id="template-tab_template" class="template_tab-content" style="padding:0px;">
                                 <div class="row">
                                     <div class="col-lg-12 mb-4">
-                                        <div style="padding:15px; background:{{tab_color}}">
+                                        <div style="padding:15px 15px 0px 15px; background:{{tab_color}}">
                                             <div class="row">
                                                 <div class="col-lg-12 mb-3">
                                                     <h6 style="margin-bottom:10px;color:{{text_color}};">Template Website</h6>
@@ -3438,8 +3438,8 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-12">
-                                                    <h6 class="mb-4" style="color:{{text_color}}; padding:15px; background:{{color}};">
+                                                <div class="col-lg-12" style="padding:0px;">
+                                                    <h6 style="color:{{text_color}}; padding:15px; background:{{color}};">
                                                         Preview <i class="fas fa-eye"></i>
                                                     </h6>
                                                     <div id="preview_template_loading" style="display:none; padding-bottom:15px; padding-top:15px;">
@@ -3505,7 +3505,7 @@
                                                         <input class="jscolor nice-select-default" value="{{text_color}}" name="text_pick" id="text_pick" onchange="render_preview_color_tab();">
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-12 mb-3">
+                                                <div class="col-lg-12" style="padding:0px;">
                                                     <h6 style="color:{{text_color}}; padding:15px; background:{{color}};">
                                                         Preview <i class="fas fa-eye"></i>
                                                     </h6>
@@ -3590,8 +3590,8 @@
                                                     <input class="jscolor nice-select-default" value="{{text_color_login}}" name="text_pick_login" id="text_pick_login" onchange="render_preview_login_tab();">
                                                 </div>
                                             </div>
-                                            <div class="col-lg-12">
-                                                <h6 class="mb-3" style="color:{{text_color}}; padding:15px; background:{{color}};">
+                                            <div class="col-lg-12" style="padding:0px;">
+                                                <h6 style="color:{{text_color}}; padding:15px; background:{{color}};">
                                                     Preview <i class="fas fa-eye"></i>
                                                 </h6>
                                             </div>
@@ -4473,7 +4473,7 @@
                                     <div id="template-tab_template" class="template_tab-content" style="padding:0px;">
                                         <div class="row">
                                             <div class="col-lg-12 mb-4">
-                                                <div style="padding:15px; background:{{tab_color}}">
+                                                <div style="padding:15px 15px 0px 15px; background:{{tab_color}}">
                                                     <div class="row">
                                                         <div class="col-lg-12 mb-3">
                                                             <h6 style="margin-bottom:10px;color:{{text_color}};">Template Website</h6>
@@ -4487,8 +4487,8 @@
                                                                 </select>
                                                             </div>
                                                         </div>
-                                                        <div class="col-lg-12">
-                                                            <h6 class="mb-4" style="color:{{text_color}}; padding:15px; background:{{color}};">
+                                                        <div class="col-lg-12" style="padding:0px;">
+                                                            <h6 style="color:{{text_color}}; padding:15px; background:{{color}};">
                                                                 Preview <i class="fas fa-eye"></i>
                                                             </h6>
                                                             <div id="preview_template_loading" style="display:none; padding-bottom:15px; padding-top:15px;">
@@ -4554,7 +4554,7 @@
                                                                 <input class="jscolor nice-select-default" value="{{text_color}}" name="text_pick" id="text_pick" onchange="render_preview_color_tab();">
                                                             </div>
                                                         </div>
-                                                        <div class="col-lg-12 mt-3 mb-2">
+                                                        <div class="col-lg-12 mt-3" style="padding:0px;">
                                                             <h6 style="color:{{text_color}}; padding:15px; background:{{color}};">
                                                                 Preview <i class="fas fa-eye"></i>
                                                             </h6>
@@ -4643,8 +4643,8 @@
                                                                 <input class="jscolor nice-select-default" value="{{text_color_login}}" name="text_pick_login" id="text_pick_login" onchange="render_preview_login_tab();">
                                                             </div>
                                                         </div>
-                                                        <div class="col-lg-12 mt-2">
-                                                            <h6 class="mb-3" style="color:{{text_color}}; padding:15px; background:{{color}};">
+                                                        <div class="col-lg-12 mt-2" style="padding:0px;">
+                                                            <h6 style="color:{{text_color}}; padding:15px; background:{{color}};">
                                                                 Preview <i class="fas fa-eye"></i>
                                                             </h6>
                                                         </div>

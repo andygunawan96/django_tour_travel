@@ -1663,7 +1663,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #mobile-nav-toggle i {
-  color: #f15a22;
   font-weight: 900; }
 
 @media (max-width: 991px) {
@@ -1750,7 +1749,7 @@ body.mobile-nav-active #mobile-nav {
   left: 0; }
 
 body.mobile-nav-active #mobile-nav-toggle {
-  color: #fff; }
+  color: #000; }
 
 .section-gap {
   padding: 30px 0px; }
