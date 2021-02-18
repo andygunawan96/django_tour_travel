@@ -104,6 +104,17 @@ function update_faq(){
 //            break;
 //        }
 //    }
+    document.getElementsByClassName("update_banner_btn")[0].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[1].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[2].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[3].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[4].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[5].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[6].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[7].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[8].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[9].disabled = true;
+
     faq_number = parseInt(document.getElementById('faq_choose').value) - 1
     error_log = '';
     if(document.getElementById('sequence_faq').value == ''){
@@ -136,17 +147,38 @@ function update_faq(){
                       html: msg.result.error_msg,
                     })
                     location.reload();
-                }else
+                }else{
                     Swal.fire({
                       type: 'error',
                       title: 'Oops!',
                       html: msg.result.error_msg,
                     })
+                    document.getElementsByClassName("update_banner_btn")[0].disabled = false;
+                    document.getElementsByClassName("update_banner_btn")[1].disabled = false;
+                    document.getElementsByClassName("update_banner_btn")[2].disabled = false;
+                    document.getElementsByClassName("update_banner_btn")[3].disabled = false;
+                    document.getElementsByClassName("update_banner_btn")[4].disabled = false;
+                    document.getElementsByClassName("update_banner_btn")[5].disabled = false;
+                    document.getElementsByClassName("update_banner_btn")[6].disabled = false;
+                    document.getElementsByClassName("update_banner_btn")[7].disabled = false;
+                    document.getElementsByClassName("update_banner_btn")[8].disabled = false;
+                    document.getElementsByClassName("update_banner_btn")[9].disabled = false;
+                }
            },
            contentType:false,
            processData:false,
            error: function(XMLHttpRequest, textStatus, errorThrown) {
                 error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error save faq');
+                document.getElementsByClassName("update_banner_btn")[0].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[1].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[2].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[3].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[4].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[5].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[6].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[7].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[8].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[9].disabled = false;
            }
         });
     }else{
@@ -155,6 +187,16 @@ function update_faq(){
           title: 'Oops!',
           html: error_log,
         })
+        document.getElementsByClassName("update_banner_btn")[0].disabled = false;
+        document.getElementsByClassName("update_banner_btn")[1].disabled = false;
+        document.getElementsByClassName("update_banner_btn")[2].disabled = false;
+        document.getElementsByClassName("update_banner_btn")[3].disabled = false;
+        document.getElementsByClassName("update_banner_btn")[4].disabled = false;
+        document.getElementsByClassName("update_banner_btn")[5].disabled = false;
+        document.getElementsByClassName("update_banner_btn")[6].disabled = false;
+        document.getElementsByClassName("update_banner_btn")[7].disabled = false;
+        document.getElementsByClassName("update_banner_btn")[8].disabled = false;
+        document.getElementsByClassName("update_banner_btn")[9].disabled = false;
     }
 }
 

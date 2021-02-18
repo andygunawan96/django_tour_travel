@@ -197,6 +197,16 @@ $(document).ready(function(){
 		$("#"+tab_id).addClass('current');
 	})
 
+    $('ul.template_tabs li').click(function(){
+		var tab_id = $(this).attr('data-tab');
+
+		$('ul.template_tabs li').removeClass('current');
+		$('.template_tab-content').removeClass('current');
+
+		$(this).addClass('current');
+		$("#"+tab_id).addClass('current');
+	})
+
     $('ul.btn_tabs li').click(function(){
 		var tab_id = $(this).attr('data-tab');
 
@@ -2672,5 +2682,61 @@ function next_focus_element(product, from){
                 $("#show_total_pax_train").click();
             }, 200);
         }
+    }
+}
+
+
+function setCookie(cname, cvalue, cdate) {
+  if (cdate == 'true'){
+    var date_tomorrow = moment().subtract(-1, 'days').format('ddd, DD MMM YYYY');
+  }else{
+    var date_tomorrow = '';
+  }
+  var expires = "expires=" + date_tomorrow;
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+
+  console.log(document.cookie);
+}
+
+function getCookie(variable) {
+    var name = variable + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+
+function checkCookie() {
+    check_exp = getCookie("expires");
+    check_today = moment().format('ddd, DD MMM YYYY');
+
+    if(check_today == check_exp){
+        check_modal = false;
+    }else{
+        check_modal = getCookie("modal");
+    }
+
+    if (check_modal != "" && check_modal == "true") {
+        $("#myModalPromotion").modal('hide');
+    }else {
+        var modal_value = "";
+        if ($('#dont_show_again').is(':checked')) {
+            modal_value = 'true';
+            date_value = 'true';
+        }else{
+            modal_value = 'false';
+            date_value = 'false';
+        }
+        setCookie("modal", modal_value, date_value);
     }
 }

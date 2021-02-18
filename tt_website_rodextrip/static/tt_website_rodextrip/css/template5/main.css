@@ -1753,13 +1753,13 @@ body.mobile-nav-active #mobile-nav-toggle {
   color: #fff; }
 
 .section-gap {
-  padding: 50px 0px; }
+  padding: 30px 0px; }
   @media (max-width: 1024px) {
     .section-gap {
-      padding: 80px 0px; } }
+      padding: 30px 0px; } }
   @media (max-width: 992px) {
     .section-gap {
-      padding: 60px 0px; } }
+      padding: 30px 0px; } }
 
 .section-gap-bottom {
   padding-bottom: 120px; }
@@ -7439,6 +7439,49 @@ ul.create_tabs li.current .image-rounded-icon{
 }
 
 
+/* setting template new */
+ul.template_tabs{
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+}
+ul.template_tabs li{
+    /*background: rgba(0,0,0,0.5);*/
+    color: black;
+    display: inline-block;
+    padding: 10px 15px 5px 15px;
+    cursor: pointer;
+}
+
+ul.template_tabs li:hover{
+   color:#f15a22;
+}
+
+li.template_tab-link label{
+    cursor: pointer;
+    text-align:center;
+}
+
+ul.template_tabs li.current{
+    /*background: rgba(0,0,0,0.5);*/
+    border-bottom: 5px solid #f15a22;
+    color: #f15a22;
+}
+
+ul.template_tabs li.current .image-rounded-icon{
+    background: #f15a22 !important;
+}
+
+.template_tab-content{
+    display: none;
+    /*background: rgba(0,0,0,0.5);*/
+    padding: 20px;
+}
+
+.template_tab-content.current{
+    display: inherit;
+}
+
 
 /* edit new */
 ul.edit_tabs{
@@ -7952,7 +7995,7 @@ ul.btn_tabs li.current .image-rounded-icon{
 
 .primary-btn-white {
   background: #fcfcfc;
-  line-height: 36px;
+  line-height: 40px;
   padding-left: 15px;
   padding-right: 15px;
   border: none;
