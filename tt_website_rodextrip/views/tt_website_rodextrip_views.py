@@ -367,7 +367,7 @@ def payment_method(request, provider, order_number):
     create_date = ''
     bank_name = ''
     va_number = ''
-
+    data_payment = []
     data = get_order_number_frontend(data)
     if data['result']['error_code'] == 0:
         time_limit = convert_string_to_date_to_string_front_end_with_time(to_date_now(data['result']['response']['time_limit']))
@@ -376,6 +376,32 @@ def payment_method(request, provider, order_number):
         va_number = data['result']['response']['va_number']
         bank_name = data['result']['response']['bank_name']
         create_date = convert_string_to_date_to_string_front_end_with_time(to_date_now(data['result']['response']['create_date']))
+        data_payment = []
+        file = read_cache_without_folder_path("/payment_information/" + data['result']['response']['seq_id'], 90911)
+        if file:
+            data_payment.append({
+                "heading": '',
+                "html": '',
+                "seq_id": data['result']['response']['seq_id']
+            })
+            for idx, data_cache in enumerate(file.split('\n')):
+                if idx == 0:
+                    data_payment[len(data_payment)-1]['heading'] = data_cache
+                elif idx == 1:
+                    data_payment[len(data_payment) - 1]['html'] = data_cache.replace('<br>', '\n')
+        read_cache_without_folder_path("/payment_information/other_bank", 90911)
+        if file:
+            data_payment.append({
+                "heading": '',
+                "html": '',
+                "seq_id": 'other_bank'
+            })
+            for idx, data_cache in enumerate(file.split('\n')):
+                if idx == 0:
+                    data_payment[len(data_payment)-1]['heading'] = 'Other'
+                elif idx == 1:
+                    data_payment[len(data_payment) - 1]['html'] = data_cache.replace('<br>', '\n')
+
     values.update({
         'static_path': path_util.get_static_path(MODEL_NAME),
         'javascript_version': javascript_version,
@@ -383,14 +409,15 @@ def payment_method(request, provider, order_number):
         'username': request.session.get('user_account') or {'co_user_login': ''},
         'order_number': order_number,
         'provider_type': provider_type[order_number.split('.')[0]],
-        'provider': provider,
+        'provider_payment': provider,
         'time_limit': time_limit,
         'nomor_rekening': nomor_rekening,
         'amount': amount,
         'create_date': create_date,
         'va_number': va_number,
         'bank_name': bank_name,
-        'signature': request.session['signature']
+        'signature': request.session['signature'],
+        'data_payments': data_payment
     })
     return render(request, MODEL_NAME + '/payment_method_embed.html', values)
 
@@ -957,8 +984,8 @@ def get_cache_data(javascript_version):
 
 def get_data_template(request, type='home', provider_type = []):
     template = 1
-    logo = '/static/tt_website_rodextrip/images/icon/LOGO_RODEXTRIP.png'
-    logo_icon = '/static/tt_website_rodextrip/images/icon/LOGO_RODEXTRIP.png'
+    logo = '/static/tt_website_rodextrip/images/icon/skytors_logo.png'
+    logo_icon = '/static/tt_website_rodextrip/images/icon/skytors.png'
     if type == 'registration':
         background = 'https://www.skytors.id/web/image/28381'
     else:

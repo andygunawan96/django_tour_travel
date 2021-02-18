@@ -1129,6 +1129,71 @@ function check_payment_payment_method(order_number,btn_name,booker,type,provider
 //    });
 }
 
+function get_va_bank(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/account",
+       headers:{
+            'action': 'get_va_bank',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+            console.log(msg);
+            if(msg.result.error_code == 0){
+                text = '';
+                payment_information = msg.result.response;
+                for(i in payment_information){
+                    text += `<option value='`+payment_information[i].seq_id+`'>`+payment_information[i].name+`</option>`;
+                }
+                document.getElementById('payment_information_choose').innerHTML = text;
+                $('#payment_information_choose').niceSelect('update');
+                change_payment_information();
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get va bank');
+       }
+    });
+}
+
+function change_payment_information(){
+    for(i in payment_information){
+        if(payment_information[i].seq_id == document.getElementById('payment_information_choose').value){
+            CKEDITOR.instances['body_payment_information'].setData(payment_information[i].html)
+            document.getElementById('payment_information_heading').value = payment_information[i].heading;
+//            document.getElementById('body_printout').innerHTML = printout[i].html;
+            break;
+        }
+    }
+}
+
+function set_payment_information(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/account",
+       headers:{
+            'action': 'set_payment_information',
+       },
+       data: {
+            'signature': signature,
+            'title': document.getElementById('payment_information_choose').value,
+            'body': CKEDITOR.instances['body_payment_information'].getData(),
+            'heading': document.getElementById('payment_information_heading').value
+       },
+       success: function(msg) {
+            console.log(msg);
+            if(msg.result.error_code == 0){
+                location.reload();
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get va bank');
+       }
+    });
+}
+
 function get_va_number(){
     $.ajax({
        type: "POST",
@@ -1153,11 +1218,12 @@ function get_va_number(){
                         if(msg.result.response.va.length != 0)
                         text+=`
                         <label class="radio-button-custom" style="margin-bottom:0px;">
-                            <span style="font-size:13px; color:`+color+`;"> Online Payment</span>
+                            <span style="font-size:13px; color:`+color+`;"> Top Up real time 24 hours All Bank</span>
                             <input type="radio" name="top_up_radio" value="online_payment">
                             <span class="checkmark-radio"></span>
                         </label>`;
                         va_number = msg.result.response.va;
+                        payment_how_to_obj = msg.result.response;
                     }catch(err){}
                     text+=`
                 </div>`;
@@ -1168,6 +1234,27 @@ function get_va_number(){
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get va number');
        }
     });
+}
+
+function copy_value(val){
+    const el = document.createElement('textarea');
+    el.value = val;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+    $text_share = window.encodeURIComponent(val);
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000
+    })
+
+    Toast.fire({
+      type: 'success',
+      title: 'Copied Successfully'
+    })
 }
 
 function change_top_up_method(){
@@ -1196,20 +1283,26 @@ function change_top_up_method(){
                         <div class="col-sm-2" style="text-align:right">
                             <strong>`+va_number[i].account_number+`</strong>
                         </div>
+                        <div class="col-sm-2" style="text-align:right">
+                            <button type="button" class="payment_acq_btn primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="copy_value('`+va_number[i].account_number+`');" style="width:100%;">
+                                Copy
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-3">
-                            Fee Amount
+                            Fee Top Up (exclude bank charges)
                         </div>
                         <div class="col-sm-2" style="text-align:right">
                             <strong>`+va_number[i].currency+` `+getrupiah(va_number[i].price_component.fee)+`</strong>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-3">
+                        <div class="col-sm-1">
                             Description
                         </div>
-                        <div class="col-sm-2" style="text-align:right">
+                        <div class="col-sm-4" style="text-align:right">
                             `+va_number[i].description_msg+`
                         </div>
                     </div>
@@ -1219,589 +1312,50 @@ function change_top_up_method(){
         text+=`<div>
             <br/>
             <div id="mandiri_va_acquirer">
-                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                    <strong>BCA</strong>
-                    <div class="panel panel-default">
-                        <div class="panel-heading-sgo" role="tab" id="headingFive">
-                            <h4 class="panel-title">
-                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-                                    BCA Mobile Banking
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive" style="height: 0px;">
-                            <div class="panel-body">
-                                <div style="margin:0px auto;max-width:600px;">
-                                    <table role="presentation" cellpadding="0" cellspacing="0" style="font-size:0px;width:100%;" align="center" border="0">
-                                        <tbody>
-                                            <tr>
-                                                <td style="text-align:center;vertical-align:top;direction:ltr;font-size:0px;padding:20px 0px;">
-                                                    <!--[if mso | IE]>
-                                            <table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;width:600px;">
-                                            <![endif]-->
-                                                    <div class="mj-column-per-100 outlook-group-fix" style="vertical-align:top;display:inline-block;direction:ltr;font-size:13px;text-align:left;width:100%;">
-                                                        <table role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
-                                                            <tbody>
-
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
-                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            1. Open&nbsp;<strong>BCA Mobile</strong> Application.
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
-                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
-                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
-                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            2. Login into your&nbsp;<strong>m-BCA</strong>&nbsp;account.
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
-                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
-                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
-                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            3. Select&nbsp;<strong>BCA Virtual Account</strong>.
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
-                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
-                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
-                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            4. Input the displayed&nbsp;<strong>Virtual Account</strong> number.
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
-                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
-                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
-                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            5. Input&nbsp;<strong>top-up amount</strong>.
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
-                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
-                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
-                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            6. Follow the instructions to complete transaction.
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                    <!--[if mso | IE]>
-                                            </td></tr></table>
-                                            <![endif]-->
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel panel-default">
-                        <div class="panel-heading-sgo" role="tab" id="headingThree">
-                            <h4 class="panel-title">
-                                <a class="" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                    Klik BCA
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree" style="height: 0px;">
-                            <div class="panel-body">
-                                <div style="margin:0px auto;max-width:600px;">
-                                    <table role="presentation" cellpadding="0" cellspacing="0" style="font-size:0px;width:100%;" align="center" border="0">
-                                        <tbody>
-                                            <tr>
-                                                <td style="text-align:center;vertical-align:top;direction:ltr;font-size:0px;padding:20px 0px;">
-                                                    <!--[if mso | IE]>
-                                            <table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;width:600px;">
-                                            <![endif]-->
-                                                    <div class="mj-column-per-100 outlook-group-fix" style="vertical-align:top;display:inline-block;direction:ltr;font-size:13px;text-align:left;width:100%;">
-                                                        <table role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
-                                                            <tbody>
-
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
-                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            1. Login into your&nbsp;<strong>Klik BCA</strong> Account.
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
-                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
-                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
-                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            2. Select&nbsp;<strong>Transfer Funds</strong>&nbsp;menu.
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
-                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
-                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
-                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            3. Select&nbsp;<strong>Transfer to BCA Virtual Account</strong>.
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
-                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
-                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
-                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            4. Input the displayed&nbsp;<strong>Virtual Account</strong> number.
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
-                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
-                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
-                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            5. Input&nbsp;<strong>top-up amount</strong>.
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
-                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
-                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
-                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            6. Follow the instructions to complete transaction.
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                    <!--[if mso | IE]>
-                                            </td></tr></table>
-                                            <![endif]-->
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <strong>Mandiri</strong>
-                    <div class="panel panel-default">
-                        <div class="panel-heading-sgo" role="tab" id="headingFour">
-                            <h4 class="panel-title">
-                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                                    MANDIRI Online
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour" style="height: 0px;">
-                            <div class="panel-body">
-                                <div style="margin:0px auto;max-width:600px;">
-                                    <table role="presentation" cellpadding="0" cellspacing="0" style="font-size:0px;width:100%;" align="center" border="0">
-                                        <tbody>
-                                            <tr>
-                                                <td style="text-align:center;vertical-align:top;direction:ltr;font-size:0px;padding:20px 0px;">
-                                                    <!--[if mso | IE]>
-                                            <table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;width:600px;">
-                                            <![endif]-->
-                                                    <div class="mj-column-per-100 outlook-group-fix" style="vertical-align:top;display:inline-block;direction:ltr;font-size:13px;text-align:left;width:100%;">
-                                                        <table role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
-                                                            <tbody>
-
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
-                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            1. Login into your&nbsp;<strong>Mandiri Online</strong> account.
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
-                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
-                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
-                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            2. Select&nbsp;<strong>Payment</strong>&nbsp;menu.
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
-                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
-                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
-                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            3. Select&nbsp;<strong>Create New Payment</strong> menu.
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
-                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
-                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
-                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            4. Select&nbsp;<strong>Multipayment</strong> menu.
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
-                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
-                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
-                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            5. Select&nbsp;<strong>Espay</strong> and input the displayed&nbsp;<strong>Virtual Account</strong> number.
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
-                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
-                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
-                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            6. Input&nbsp;<strong>top-up amount</strong>.
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
-                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
-                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
-                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            7. Follow the instructions to complete transaction.
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                    <!--[if mso | IE]>
-                                            </td></tr></table>
-                                            <![endif]-->
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel panel-default">
-                        <div class="panel-heading-sgo" role="tab" id="headingTwo">
-                            <h4 class="panel-title">
-                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                    MANDIRI Internet
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo" style="height: 0px;">
-                            <div class="panel-body">
-                                <div style="margin:0px auto;max-width:600px;">
-                                    <table role="presentation" cellpadding="0" cellspacing="0" style="font-size:0px;width:100%;" align="center" border="0">
-                                        <tbody>
-                                            <tr>
-                                                <td style="text-align:center;vertical-align:top;direction:ltr;font-size:0px;padding:20px 0px;">
-                                                    <!--[if mso | IE]>
-                                            <table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;width:600px;">
-                                            <![endif]-->
-                                                    <div class="mj-column-per-100 outlook-group-fix" style="vertical-align:top;display:inline-block;direction:ltr;font-size:13px;text-align:left;width:100%;">
-                                                        <table role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
-                                                            <tbody>
-
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
-                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            1. Login into your&nbsp;<strong>Mandiri Internet</strong> account.
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
-                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
-                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
-                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            2. Select&nbsp;<strong>Payment</strong>&nbsp;menu.
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
-                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
-                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
-                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            3. Select&nbsp;<strong>Multipayment</strong> menu.
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
-                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
-                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
-                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            4. Select&nbsp;<strong>Espay</strong> and input the displayed&nbsp;<strong>Virtual Account</strong> number.
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
-                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
-                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
-                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            5. Input&nbsp;<strong>top-up amount</strong>.
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
-                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
-                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
-                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            6. Follow the instructions to finish transaction.
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                    <!--[if mso | IE]>
-                                            </td></tr></table>
-                                            <![endif]-->
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <strong>Other Bank</strong>
-                    <div class="panel panel-default">
-                        <div class="panel-heading-sgo" role="tab" id="headingTesting">
-                            <h4 class="panel-title">
-                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTesting" aria-expanded="false" aria-controls="collapseTesting">
-                                    Other Bank
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="collapseTesting" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTesting" style="height: 0px;">
-                            <div class="panel-body">
-                                <div style="margin:0px auto;max-width:600px;">
-                                    <table role="presentation" cellpadding="0" cellspacing="0" style="font-size:0px;width:100%;" align="center" border="0">
-                                        <tbody>
-                                            <tr>
-                                                <td style="text-align:center;vertical-align:top;direction:ltr;font-size:0px;padding:20px 0px;">
-                                                    <!--[if mso | IE]>
-                                            <table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;width:600px;">
-                                            <![endif]-->
-                                                    <div class="mj-column-per-100 outlook-group-fix" style="vertical-align:top;display:inline-block;direction:ltr;font-size:13px;text-align:left;width:100%;">
-                                                        <table role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
-                                                            <tbody>
-
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
-                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            1. Save your 16 digits payment code.
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
-                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
-                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
-                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            2. Select Interbank Transfer or Online Transfer Between Banks.
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
-                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
-                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
-                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            3. Select Mandiri bank code (008) or select Mandiri.
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
-                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
-                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
-                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            4. Input the 16 digits payment code.
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
-                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
-                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
-                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            5. Input the amount you want to top up.
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
-                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
-                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
-                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            6. Payment confirmation.
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
-                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
-                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
-                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            7. Save your proof of transaction.
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
-                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
-                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
-                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            8. In around 30 - 60 minutes, balance will be automatically added. Otherwise, please contact administrator.
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                    <!--[if mso | IE]>
-                                            </td></tr></table>
-                                            <![endif]-->
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">`;
+                for(i in payment_how_to_obj){
+                    if(i != 'other'){
+                        for(j in payment_how_to_obj[i]){
+                            if(payment_how_to_obj[i][j].heading != '')
+                                text+=`<div class="panel panel-default">
+                                        <div class="panel-heading-sgo" role="tab" id="headingFour">
+                                            <h4 class="panel-title">
+                                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#`+payment_how_to_obj[i][j].seq_id+`" aria-expanded="false" aria-controls="`+payment_how_to_obj[i][j].seq_id+`">
+                                                    `+payment_how_to_obj[i][j].heading+`
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="`+payment_how_to_obj[i][j].seq_id+`" class="panel-collapse collapse" role="tabpanel" aria-labelledby="`+payment_how_to_obj[i][j].seq_id+`" style="height: 0px;">
+                                            <div class="panel-body">
+                                                `+payment_how_to_obj[i][j].html+`
+                                            </div>
+                                        </div>
+                                    </div>`
+                        }
+                    }
+                }
+                for(i in payment_how_to_obj){
+                    if(i == 'other'){
+                        for(j in payment_how_to_obj[i]){
+                            if(payment_how_to_obj[i][j].heading != '')
+                                text+=`<div class="panel panel-default">
+                                        <div class="panel-heading-sgo" role="tab" id="headingFour">
+                                            <h4 class="panel-title">
+                                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#`+payment_how_to_obj[i][j].seq_id+`" aria-expanded="false" aria-controls="`+payment_how_to_obj[i][j].seq_id+`">
+                                                    `+payment_how_to_obj[i][j].heading+`
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="`+payment_how_to_obj[i][j].seq_id+`" class="panel-collapse collapse" role="tabpanel" aria-labelledby="`+payment_how_to_obj[i][j].seq_id+`" style="height: 0px;">
+                                            <div class="panel-body">
+                                                `+payment_how_to_obj[i][j].html+`
+                                            </div>
+                                        </div>
+                                    </div>`
+                        }
+                    }
+                }
+                text+=`
 
                 <button type="submit" width="100px" class="btn btn-primary pull-right">
 
