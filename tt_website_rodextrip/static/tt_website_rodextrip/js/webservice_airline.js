@@ -465,7 +465,7 @@ function get_carrier_code_list(type, val){
                                 text+=`
                                     <input type="checkbox" id="provider_box_All" name="provider_box_All" value="all" checked="checked" onclick="func_check_provider('all')"/>`;
                                 else{
-                                    if(airline_carriers[val-1]['All'].bool == true){
+                                    if(document.getElementById('provider_box_All').checked == true){
                                         text+=`
                                             <input type="checkbox" id="provider_box_All_`+val+`" name="provider_box_All_`+val+`" value="all" checked="checked" onclick="func_check_provider('all',`+val+`)"/>`;
                                     }else
@@ -478,14 +478,14 @@ function get_carrier_code_list(type, val){
                         </a>
                         <br/>
                     </li>`;
-                   for(i in airline_carriers[0]){
-                        if(airline_carriers[0][i].is_excluded_from_b2c != true || user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
+                   for(i in airline_carriers_data_awal[0]){
+                        if(airline_carriers_data_awal[0][i].is_excluded_from_b2c != true || user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
                             if(i != 'All'){
                                 text+=`
                                     <li>
                                         <a class="small" data-value="option1" tabIndex="-1">
                                             <label class="check_box_custom">
-                                                <span class="span-search-ticket" style="color:black;">`+airline_carriers[0][i].display_name+`</span>`;
+                                                <span class="span-search-ticket" style="color:black;">`+airline_carriers_data_awal[0][i].display_name+`</span>`;
                                                 if(val == undefined)
                                                 text+=`
                                                     <input type="checkbox" id="provider_box_`+i+`" name="provider_box_`+i+`" value="`+i+`" onclick="func_check_provider('`+i+`')"/>`;
@@ -498,7 +498,7 @@ function get_carrier_code_list(type, val){
                                                             text+=`
                                                                 <input type="checkbox" id="provider_box_`+i+`_`+val+`" name="provider_box_`+i+`_`+val+`" value="`+i+`" onclick="func_check_provider('`+i+`',`+val+`)"/>`;
                                                     }catch(err){
-                                                        if(airline_carriers[val-1][i].bool == true)
+                                                        if(airline_carriers_data_awal[val-1][i].bool == true)
                                                             text+=`
                                                                 <input type="checkbox" id="provider_box_`+i+`_`+val+`" name="provider_box_`+i+`_`+val+`" value="`+i+`" onclick="func_check_provider('`+i+`',`+val+`)" checked="checked"/>`;
                                                         else

@@ -956,7 +956,33 @@ function change_dynamic_page(){
 }
 
 function run_dynamic_page(){
-    document.getElementById('editor_test').innerHTML = CKEDITOR.instances.editor.getData()
+    document.getElementById('editor_test').innerHTML = CKEDITOR.instances['editor'].getData()
+}
+
+function run_top_up_page(){
+    document.getElementById('editor_top_up_test').innerHTML = CKEDITOR.instances['top_up_term'].getData()
+}
+
+function run_payment_information_page(){
+    document.getElementById('editor_payment_information_test').innerHTML = `
+        <h4 style="margin-bottom:10px;color:`+text_color+`;">Result</h4>
+        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+            <div class="panel panel-default">
+                <div class="instruction-heading" role="tab" id="headingOne">
+                    <h4 class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseFour">
+                            `+document.getElementById('payment_information_heading').value+`
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne" style="">
+                    <div class="panel-body">
+    ` + CKEDITOR.instances['body_payment_information'].getData() + `
+                    </div>
+                </div>
+            </div>
+        </div>`;
+
 }
 
 function update_dynamic_page(){

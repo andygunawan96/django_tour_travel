@@ -100,7 +100,7 @@ def activity(request):
 def search(request):
     if 'user_account' in request.session._session:
         try:
-            check_captcha(request)
+            # check_captcha(request)
             javascript_version = get_javascript_version()
             cache_version = get_cache_version()
             response = get_cache_data(cache_version)

@@ -13,6 +13,7 @@
 <script src="{{ static_path }}js/airline_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/train_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_content.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_payment_acq.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/payment_partner_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_printout.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/highlight_javascript.js?version={{javascript_version}}"></script>
@@ -593,6 +594,7 @@
                                                 <li class="edit_tab-link " data-tab="faq-tab_edit"><label style="color:{{text_color}};">{% trans 'FAQ' %}</label></li>
                                                 <li class="edit_tab-link " data-tab="product-tab_edit"><label style="color:{{text_color}};">{% trans 'Product' %}</label></li>
                                                 <li class="edit_tab-link " data-tab="top_up-tab_edit"><label style="color:{{text_color}};">{% trans 'Top up term' %}</label></li>
+                                                <li class="edit_tab-link " data-tab="payment-tab_edit"><label style="color:{{text_color}};">{% trans 'Payment Information' %}</label></li>
                                                 <li class="edit_tab-link " data-tab="printout-tab_edit"><label style="color:{{text_color}};">{% trans 'Printout Footer Setting Page' %}</label></li>
                                                 <li class="edit_tab-link " data-tab="printout_color-tab_edit"><label style="color:{{text_color}};">{% trans 'Printout Setting Color' %}</label></li>
                                             </ul>
@@ -873,6 +875,41 @@
                                                         </div>
                                                         <div class="col-lg-12 mt-3" style="text-align:center;">
                                                             <button type="button" class="primary-btn update_banner_btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div id="payment-tab_edit" class="edit_tab-content" style="padding:20px 0px 15px 0px;">
+                                                    <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                        <div class="col-lg-8" style="margin-bottom:15px;color:white;">
+                                                            <h3 style="color:white;">{% trans 'Payment Information' %}</h3>
+                                                        </div>
+                                                        <div class="col-lg-4 mt-2" style="text-align:right">
+                                                            <button type="button" class="primary-btn-ticket" onclick="run_payment_information_page();">Run</button>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-xs-12">
+                                                            <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Name' %}</h6>
+                                                            <div class="input-container-search-ticket">
+                                                                <div class="form-select">
+                                                                    <select class="nice-select-default" style="width:100%;" id="payment_information_choose" onchange="change_payment_information();">
+
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-xs-12">
+                                                            <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Heading' %}</h6>
+                                                            <div class="form-select">
+                                                                <input type="text" class="form-control" name="payment_information_heading" id="payment_information_heading" placeholder="{% trans 'Heading' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Heading '" value="">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                            <textarea class="ckeditor" name="body_payment_information" id="body_payment_information"></textarea>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;border-width:1px;" id="editor_payment_information_test">
+
+                                                        </div>
+                                                        <div class="col-lg-12" style="text-align:center;">
+                                                            <button type="button" class="primary-btn" onclick="set_payment_information();">{% trans 'Save Change' %}</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1649,6 +1686,7 @@
                                             <li class="edit_tab-link " data-tab="faq-tab_edit"><label style="color:{{text_color}};">{% trans 'FAQ' %}</label></li>
                                             <li class="edit_tab-link " data-tab="product-tab_edit"><label style="color:{{text_color}};">{% trans 'Product' %}</label></li>
                                             <li class="edit_tab-link " data-tab="top_up-tab_edit"><label style="color:{{text_color}};">{% trans 'Top up term' %}</label></li>
+                                            <li class="edit_tab-link " data-tab="payment-tab_edit"><label style="color:{{text_color}};">{% trans 'Payment Information' %}</label></li>
                                             <li class="edit_tab-link " data-tab="printout-tab_edit"><label style="color:{{text_color}};">{% trans 'Printout Footer Setting Page' %}</label></li>
                                             <li class="edit_tab-link " data-tab="printout_color-tab_edit"><label style="color:{{text_color}};">{% trans 'Printout Setting Color' %}</label></li>
                                         </ul>
@@ -1922,6 +1960,41 @@
                                                     </div>
                                                     <div class="col-lg-12 mt-3" style="text-align:center;">
                                                         <button type="button" class="primary-btn update_banner_btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="payment-tab_edit" class="edit_tab-content" style="padding:20px 0px 15px 0px;">
+                                                <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                    <div class="col-lg-8" style="margin-bottom:15px;color:white;">
+                                                        <h3 style="color:white;">{% trans 'Payment Information' %}</h3>
+                                                    </div>
+                                                    <div class="col-lg-4 mt-2" style="text-align:right">
+                                                        <button type="button" class="primary-btn-ticket" onclick="run_payment_information_page();">Run</button>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-xs-12">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Name' %}</h6>
+                                                        <div class="input-container-search-ticket">
+                                                            <div class="form-select">
+                                                                <select class="nice-select-default" style="width:100%;" id="payment_information_choose" onchange="change_payment_information();">
+
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-xs-12">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Heading' %}</h6>
+                                                        <div class="form-select">
+                                                            <input type="text" class="form-control" name="payment_information_heading" id="payment_information_heading" placeholder="{% trans 'Heading' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Heading '" value="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                        <textarea class="ckeditor" name="body_payment_information" id="body_payment_information"></textarea>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;border-width:1px;" id="editor_payment_information_test">
+
+                                                    </div>
+                                                    <div class="col-lg-12" style="text-align:center;">
+                                                        <button type="button" class="primary-btn" onclick="set_payment_information();">{% trans 'Save Change' %}</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -2699,6 +2772,7 @@
                                     <li class="edit_tab-link " data-tab="faq-tab_edit"><label style="color:{{text_color}};">{% trans 'FAQ' %}</label></li>
                                     <li class="edit_tab-link " data-tab="product-tab_edit"><label style="color:{{text_color}};">{% trans 'Product' %}</label></li>
                                     <li class="edit_tab-link " data-tab="top_up-tab_edit"><label style="color:{{text_color}};">{% trans 'Top up term' %}</label></li>
+                                    <li class="edit_tab-link " data-tab="payment-tab_edit"><label style="color:{{text_color}};">{% trans 'Payment Information' %}</label></li>
                                     <li class="edit_tab-link " data-tab="printout-tab_edit"><label style="color:{{text_color}};">{% trans 'Printout Footer Setting Page' %}</label></li>
                                     <li class="edit_tab-link " data-tab="printout_color-tab_edit"><label style="color:{{text_color}};">{% trans 'Printout Setting Color' %}</label></li>
                                 </ul>
@@ -2972,6 +3046,41 @@
                                             </div>
                                             <div class="col-lg-12 mt-3" style="text-align:center;">
                                                 <button type="button" class="primary-btn update_banner_btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="payment-tab_edit" class="edit_tab-content" style="padding:20px 0px 15px 0px;">
+                                        <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                            <div class="col-lg-8" style="margin-bottom:15px;color:white;">
+                                                <h3 style="color:white;">{% trans 'Payment Information' %}</h3>
+                                            </div>
+                                            <div class="col-lg-4 mt-2" style="text-align:right">
+                                                <button type="button" class="primary-btn-ticket" onclick="run_payment_information_page();">Run</button>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-xs-12">
+                                                <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Name' %}</h6>
+                                                <div class="input-container-search-ticket">
+                                                    <div class="form-select">
+                                                        <select class="nice-select-default" style="width:100%;" id="payment_information_choose" onchange="change_payment_information();">
+
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-xs-12">
+                                                <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Heading' %}</h6>
+                                                <div class="form-select">
+                                                    <input type="text" class="form-control" name="payment_information_heading" id="payment_information_heading" placeholder="{% trans 'Heading' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Heading '" value="">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                <textarea class="ckeditor" name="body_payment_information" id="body_payment_information"></textarea>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;border-width:1px;" id="editor_payment_information_test">
+
+                                            </div>
+                                            <div class="col-lg-12" style="text-align:center;">
+                                                <button type="button" class="primary-btn" onclick="set_payment_information();">{% trans 'Save Change' %}</button>
                                             </div>
                                         </div>
                                     </div>
@@ -3764,6 +3873,7 @@
                                 <li class="edit_tab-link " data-tab="faq-tab_edit"><label style="color:{{text_color}};">{% trans 'FAQ' %}</label></li>
                                 <li class="edit_tab-link " data-tab="product-tab_edit"><label style="color:{{text_color}};">{% trans 'Product' %}</label></li>
                                 <li class="edit_tab-link " data-tab="top_up-tab_edit"><label style="color:{{text_color}};">{% trans 'Top up term' %}</label></li>
+                                <li class="edit_tab-link " data-tab="payment-tab_edit"><label style="color:{{text_color}};">{% trans 'Payment Information' %}</label></li>
                                 <li class="edit_tab-link " data-tab="printout-tab_edit"><label style="color:{{text_color}};">{% trans 'Printout Footer Setting Page' %}</label></li>
                                 <li class="edit_tab-link " data-tab="printout_color-tab_edit"><label style="color:{{text_color}};">{% trans 'Printout Setting Color' %}</label></li>
                             </ul>
@@ -4043,6 +4153,41 @@
                                         </div>
                                         <div class="col-lg-12 mt-3" style="text-align:center;">
                                             <button type="button" class="primary-btn update_banner_btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="payment-tab_edit" class="edit_tab-content" style="padding:20px 0px 15px 0px;">
+                                    <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                        <div class="col-lg-8" style="margin-bottom:15px;color:white;">
+                                            <h3 style="color:white;">{% trans 'Payment Information' %}</h3>
+                                        </div>
+                                        <div class="col-lg-4 mt-2" style="text-align:right">
+                                            <button type="button" class="primary-btn-ticket" onclick="run_payment_information_page();">Run</button>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-xs-12">
+                                            <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Name' %}</h6>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select">
+                                                    <select class="nice-select-default" style="width:100%;" id="payment_information_choose" onchange="change_payment_information();">
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-xs-12">
+                                            <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Heading' %}</h6>
+                                            <div class="form-select">
+                                                <input type="text" class="form-control" name="payment_information_heading" id="payment_information_heading" placeholder="{% trans 'Heading' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Heading '" value="">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                            <textarea class="ckeditor" name="body_payment_information" id="body_payment_information"></textarea>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;border-width:1px;" id="editor_payment_information_test">
+
+                                        </div>
+                                        <div class="col-lg-12" style="text-align:center;">
+                                            <button type="button" class="primary-btn" onclick="set_payment_information();">{% trans 'Save Change' %}</button>
                                         </div>
                                     </div>
                                 </div>
@@ -4818,6 +4963,7 @@
                                         <li class="edit_tab-link " data-tab="faq-tab_edit"><label style="color:{{text_color}};">{% trans 'FAQ' %}</label></li>
                                         <li class="edit_tab-link " data-tab="product-tab_edit"><label style="color:{{text_color}};">{% trans 'Product' %}</label></li>
                                         <li class="edit_tab-link " data-tab="top_up-tab_edit"><label style="color:{{text_color}};">{% trans 'Top up term' %}</label></li>
+                                        <li class="edit_tab-link " data-tab="payment-tab_edit"><label style="color:{{text_color}};">{% trans 'Payment Information' %}</label></li>
                                         <li class="edit_tab-link " data-tab="printout-tab_edit"><label style="color:{{text_color}};">{% trans 'Printout Footer Setting Page' %}</label></li>
                                         <li class="edit_tab-link " data-tab="printout_color-tab_edit"><label style="color:{{text_color}};">{% trans 'Printout Setting Color' %}</label></li>
                                     </ul>
@@ -5097,6 +5243,41 @@
                                                 </div>
                                                 <div class="col-lg-12 mt-3" style="text-align:center;">
                                                     <button type="button" class="primary-btn update_banner_btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="payment-tab_edit" class="edit_tab-content" style="padding:20px 0px 15px 0px;">
+                                            <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                <div class="col-lg-8" style="margin-bottom:15px;color:white;">
+                                                    <h3 style="color:white;">{% trans 'Payment Information' %}</h3>
+                                                </div>
+                                                <div class="col-lg-4 mt-2" style="text-align:right">
+                                                    <button type="button" class="primary-btn-ticket" onclick="run_payment_information_page();">Run</button>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-xs-12">
+                                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Name' %}</h6>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select">
+                                                            <select class="nice-select-default" style="width:100%;" id="payment_information_choose" onchange="change_payment_information();">
+
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-xs-12">
+                                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Heading' %}</h6>
+                                                    <div class="form-select">
+                                                        <input type="text" class="form-control" name="payment_information_heading" id="payment_information_heading" placeholder="{% trans 'Heading' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Heading '" value="">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                    <textarea class="ckeditor" name="body_payment_information" id="body_payment_information"></textarea>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;border-width:1px;" id="editor_payment_information_test">
+
+                                                </div>
+                                                <div class="col-lg-12" style="text-align:center;">
+                                                    <button type="button" class="primary-btn" onclick="set_payment_information();">{% trans 'Save Change' %}</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -5550,6 +5731,7 @@
 <script>
     get_airline_config('home');
     get_list_report_footer();
+    get_va_bank();
     var airline_origin = new autoComplete({
         selector: '#airline_origin',
         minChars: 1,

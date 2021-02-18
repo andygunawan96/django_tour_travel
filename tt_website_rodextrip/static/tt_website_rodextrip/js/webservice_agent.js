@@ -195,7 +195,7 @@ function signin(){
                 Swal.fire({
                   type: 'error',
                   title: 'Oops!',
-                  text: msg.result.error_msg,
+                  text: "Username and Password do not match!",
                 })
             }
            },
@@ -347,7 +347,7 @@ function signin_btc(){
                 Swal.fire({
                   type: 'error',
                   title: 'Oops!',
-                  text: msg.result.error_msg,
+                  text: "Username and Password do not match!",
                 })
             }
            },
