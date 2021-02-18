@@ -131,6 +131,10 @@ def api_models(request):
             res = delete_faq(request)
         elif req_data['action'] == 'get_va_number':
             res = get_va_number(request)
+        elif req_data['action'] == 'get_va_bank':
+            res = get_va_bank(request)
+        elif req_data['action'] == 'set_payment_information':
+            res = set_payment_information(request)
         elif req_data['action'] == 'send_url_booking':
             res = send_url_booking(request)
         else:
@@ -1307,6 +1311,91 @@ def get_va_number(request):
         data = {}
 
         res = util.send_request(url=url + "account", data=data, headers=headers, method='POST')
+        if res['result']['error_code'] == 0:
+            res['result']['response'].update({
+                "other": [{
+                    "seq_id": 'other_bank',
+                    "name": 'Other Bank',
+                    "type": ''
+                }]
+            })
+            for rec in res['result']['response']:
+                for data in res['result']['response'][rec]:
+                    file = read_cache_without_folder_path("payment_information/" + data['seq_id'], 90911)
+                    if file:
+                        for idx, data_cache in enumerate(file.split('\n')):
+                            if idx == 0:
+                                data['heading'] = data_cache
+                            elif idx == 1:
+                                data['html'] = data_cache.replace('<br>', '\n')
+                    else:
+                        data['html'] = ''
+                        data['heading'] = ''
+    except Exception as e:
+        res = {
+            'result': {
+                'error_code': -1,
+                'error_msg': str(e),
+                'response': ''
+            }
+        }
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    return res
+
+def get_va_bank(request):
+    try:
+        if not os.path.exists("/var/log/django/payment_information"):
+            os.mkdir('/var/log/django/payment_information')
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_va_bank",
+            "signature": request.POST['signature'],
+        }
+        data = {}
+
+        res = util.send_request(url=url + "account", data=data, headers=headers, method='POST')
+        if res['result']['error_code'] == 0:
+            res['result']['response'].append({
+                "seq_id": 'other_bank',
+                "name": 'Other Bank',
+                "type": ''
+            })
+            for rec in res['result']['response']:
+                file = read_cache_without_folder_path("payment_information/" + rec['seq_id'], 90911)
+                if file:
+                    for idx, data_cache in enumerate(file.split('\n')):
+                        if idx == 0:
+                            rec['heading'] = data_cache
+                        elif idx == 1:
+                            rec['html'] = data_cache.replace('<br>','\n')
+                else:
+                    rec['html'] = ''
+                    rec['heading'] = ''
+    except Exception as e:
+        res = {
+            'result': {
+                'error_code': -1,
+                'error_msg': str(e),
+                'response': ''
+            }
+        }
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    return res
+
+def set_payment_information(request):
+    try:
+        if not os.path.exists("/var/log/django/payment_information"):
+            os.mkdir('/var/log/django/payment_information')
+        text = request.POST['heading'] + '\n' + request.POST['body'].replace('\n','<br>')
+        write_cache(text, "payment_information/" + request.POST['title'])
+        res = {
+            'result': {
+                'error_code': 0,
+                'error_msg': '',
+                'response': ''
+            }
+        }
     except Exception as e:
         res = {
             'result': {
