@@ -150,6 +150,17 @@ function change_printout(){
 }
 
 function update_list_report_footer(){
+    document.getElementsByClassName("update_banner_btn")[0].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[1].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[2].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[3].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[4].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[5].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[6].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[7].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[8].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[9].disabled = true;
+
     $.ajax({
        type: "POST",
        url: "/webservice/printout",
@@ -171,15 +182,47 @@ function update_list_report_footer(){
                 })
                 printout = msg.result.response;
                 change_printout();
+
+                document.getElementsByClassName("update_banner_btn")[0].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[1].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[2].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[3].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[4].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[5].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[6].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[7].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[8].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[9].disabled = false;
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error payment');
+            document.getElementsByClassName("update_banner_btn")[0].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[1].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[2].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[3].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[4].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[5].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[6].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[7].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[8].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[9].disabled = false;
        },timeout: 60000
     });
 }
 
 function update_printout_color(){
+    document.getElementsByClassName("update_banner_btn")[0].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[1].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[2].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[3].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[4].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[5].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[6].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[7].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[8].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[9].disabled = true;
+
     $.ajax({
        type: "POST",
        url: "/webservice/printout",
@@ -198,16 +241,46 @@ function update_printout_color(){
                   title: 'Updated!',
                   html: 'printout color',
                 })
+                document.getElementsByClassName("update_banner_btn")[0].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[1].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[2].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[3].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[4].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[5].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[6].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[7].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[8].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[9].disabled = false;
             }else{
                 Swal.fire({
                   type: 'error',
                   title: 'Oops!',
                   html: msg.result.error_msg,
                 })
+                document.getElementsByClassName("update_banner_btn")[0].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[1].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[2].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[3].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[4].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[5].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[6].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[7].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[8].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[9].disabled = false;
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error payment');
+            document.getElementsByClassName("update_banner_btn")[0].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[1].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[2].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[3].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[4].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[5].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[6].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[7].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[8].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[9].disabled = false;
        },timeout: 60000
     });
 }

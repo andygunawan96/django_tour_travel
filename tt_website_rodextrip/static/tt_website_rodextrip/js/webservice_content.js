@@ -1,6 +1,17 @@
 banner_list = {};
 function update_banner(){
-    document.getElementById('update_banner_btn').disabled = true;
+//    document.getElementById('update_banner_btn').disabled = true;
+    document.getElementsByClassName("update_banner_btn")[0].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[1].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[2].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[3].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[4].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[5].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[6].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[7].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[8].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[9].disabled = true;
+
     var formData = new FormData($('#form_admin').get(0));
     formData.append('signature', signature)
     getToken();
@@ -16,14 +27,34 @@ function update_banner(){
                 set_inactive_delete_banner();
                 //document.getElementById('form_admin').submit();
             }else{
-                document.getElementById('update_banner_btn').disabled = false;
+//                document.getElementById('update_banner_btn').disabled = false;
+                document.getElementsByClassName("update_banner_btn")[0].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[1].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[2].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[3].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[4].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[5].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[6].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[7].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[8].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[9].disabled = false;
             }
        },
        contentType:false,
        processData:false,
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error update banner');
-            document.getElementById('update_banner_btn').disabled = false;
+//            document.getElementById('update_banner_btn').disabled = false;
+            document.getElementsByClassName("update_banner_btn")[0].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[1].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[2].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[3].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[4].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[5].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[6].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[7].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[8].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[9].disabled = false;
        }
     });
 }
@@ -108,20 +139,20 @@ function set_inactive_delete_banner(){
     try{
         for(i=0; i<1000; i++){
             update = 0;
-            if(document.getElementById('promotion'+i+'_active').checked == banner_list['promotion'][i].active){
+            if(document.getElementById('promotion'+i+'_active').checked != banner_list['promotion'][i].active){
                 img.push({
                     'seq_id': document.getElementById('promotion'+i+'_image').getAttribute('value'),
                     'action': 'active',
                     'type': 'promotion_banner'
                 })
-                update=1;
+                update = 1;
             }if(document.getElementById('promotion'+i+'_delete').checked == true){
                 img.push({
                     'seq_id': document.getElementById('promotion'+i+'_image').getAttribute('value'),
                     'action': 'delete',
                     'type': 'promotion_banner'
                 })
-                update=1;
+                update = 1;
             }
             if(update == 1){
                 img[img.length-1]['url'] = document.getElementById('promotion'+i+'_image_url_page').value;
@@ -159,11 +190,31 @@ function set_inactive_delete_banner(){
             if(msg.result.error_code == 0){
                 update_cache_version_func('image');
             }else{
-                document.getElementById('update_banner_btn').disabled = false;
+//                document.getElementById('update_banner_btn').disabled = false;
+                document.getElementsByClassName("update_banner_btn")[0].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[1].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[2].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[3].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[4].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[5].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[6].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[7].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[8].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[9].disabled = false;
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            document.getElementById('update_banner_btn').disabled = false;
+//            document.getElementById('update_banner_btn').disabled = false;
+            document.getElementsByClassName("update_banner_btn")[0].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[1].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[2].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[3].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[4].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[5].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[6].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[7].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[8].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[9].disabled = false;
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error inactive delete banner');
        }
     });
@@ -378,27 +429,40 @@ function get_banner(type,page){
 //                                        </div>
                         text+=`
                         <div class="modal fade" id="myModalPromotion" role="dialog">
-                            <div class="modal-dialog">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="row">
+                            <div class="modal-dialog" style="width:500px;">
+                                <div class="modal-content" style="width:500px;">
+                                    <div class="row">
                                         <div class="col-lg-12">
-                                            <center>
-                                                <span data-dismiss="modal" style="color:#ffffff;font-weight:bold;">Click everywhere to close! X</span>
-                                            </center>
-                                        </div>
-                                        <div class="col-lg-12">`;
-                                            text+=`<div class="owl-carousel-promotion owl-theme">`;
-                                            for(i in msg.result.response){
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div style="background:#f7f7f7; padding:5px; cursor:pointer;" onclick="checkCookie();">
+                                                        <center>
+                                                            <span data-dismiss="modal" style="font-weight:bold; color:`+color+`;">Close X</span>
+                                                        </center>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12">`;
+                                                    text+=`<div class="owl-carousel-promotion owl-theme">`;
+                                                    for(i in msg.result.response){
+                                                        text+=`
+                                                        <div class="item">
+                                                            <center>
+                                                                <img src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" style="max-width:500px; max-height:500px; cursor:pointer;" onclick="banner_click('promotion','`+msg.result.response[i].seq_id+`')"/>
+                                                            </center>
+                                                        </div>`;
+                                                    }
+                                                    text+=`</div>`;
                                                 text+=`
-                                                <div class="item">
-                                                    <center>
-                                                        <img style="cursor:pointer;" src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" style="max-width:500px; max-height:500px;" onclick="banner_click('promotion','`+msg.result.response[i].seq_id+`')"/>
-                                                    </center>
-                                                </div>`;
-                                            }
-                                            text+=`</div>`;
-                                        text+=`
+                                                <div class="col-lg-12" style="background:#f7f7f7;">
+                                                    <div style="text-align:right; padding:10px 0px 30px 0px;">
+                                                        <label class="check_box_custom" style="float:right;">
+                                                            <span>Don't Show Again this Today</span>
+                                                            <input type="checkbox" id="dont_show_again" name="dont_show_again" value="true"/>
+                                                            <span class="check_box_span_custom"></span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -410,15 +474,15 @@ function get_banner(type,page){
                     text += `<div class="row">`;
                     for(i in msg.result.response){
                         text += `
-                        <div class="col-lg-6" style="margin-bottom:25px;border: 1px solid `+text_color+`;justify-content:center">
-                            <div class="row" style="flex:1;justify-content:center;align-items:center;height:50vh;">
+                        <div class="col-lg-6" style="border: 1px solid `+text_color+`;justify-content:center">
+                            <div class="row" style="flex:1;justify-content:center;align-items:center; padding:20px 0px;">
                             <img src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" style="max-width:50vh;"/>
                             </div>
                             <div class="row">
                                 <div class="col-lg-12">
                                     <h6 style="color:`+text_color+`;margin-bottom:10px;">URL</h6>
                                     <div class="form-select">
-                                        <input type="text" style="width:100%;height:100%;" id="`+type+i+`_image_url_page" name="`+type+i+`_image_url_page" placeholder="Url"`;
+                                        <input type="text" class="form-control" id="`+type+i+`_image_url_page" name="`+type+i+`_image_url_page" placeholder="Url"`;
                                         if(msg.result.response[i].url_page != false && msg.result.response[i].url_page != undefined)
                                             text+=` value="`+msg.result.response[i].url_page+`"/>`;
                                         else
@@ -426,17 +490,17 @@ function get_banner(type,page){
                                 text+=`
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
+                                <div class="col-lg-6 mt-2">
                                     <h6 style="color:`+text_color+`;margin-bottom:10px;">Sequence</h6>
                                     <div class="form-select">
-                                        <input type="text" style="width:100%;height:100%;" id="`+type+i+`_sequence" name="`+type+i+`sequence" placeholder="Sequence"`;
+                                        <input type="text" class="form-control" id="`+type+i+`_sequence" name="`+type+i+`sequence" placeholder="Sequence"`;
                                         if(msg.result.response[i].sequence != false && msg.result.response[i].sequence != undefined)
                                             text+=` value="`+msg.result.response[i].sequence+`"/>`;
                                         else
                                             text+=` value=""/>`;
                                 text+=`
                                     </div>
-                                    <label class="check_box_custom">
+                                    <label class="check_box_custom mt-2">
                                         <span style="font-size:13px;color:`+text_color+`;">Active</span>
                                         <input type="checkbox" value="" id="`+type+i+`_active" name="`+type+i+`_active"`;
                                         if(msg.result.response[i].active == true)
@@ -445,7 +509,7 @@ function get_banner(type,page){
                                         <span class="check_box_span_custom"></span>
                                     </label>
                                 </div>
-                                <div class="col-lg-6">
+                                <div class="col-lg-6 mt-2">
                                     <h6 style="color:`+text_color+`;margin-bottom:10px;">Provider Type</h6>
                                     <div class="form-select">
                                         <select id="`+type+i+`_provider_type" style="width:100%" name="`+type+i+`_provider_type" class="nice-select-default">
@@ -469,7 +533,7 @@ function get_banner(type,page){
                                             text+=`
                                         </select>
                                     </div>
-                                    <label class="check_box_custom">
+                                    <label class="check_box_custom mt-2">
                                         <span style="font-size:13px;color:`+text_color+`;">Delete</span>
                                         <input type="checkbox" value="" id="`+type+i+`_delete" name="`+type+i+`_delete">
                                         <span class="check_box_span_custom"></span>
@@ -490,6 +554,8 @@ function get_banner(type,page){
                 }
                 if(page == 'home'){
                     if(msg.result.response.length > 0){
+                        checkCookie();
+
                         if(type == 'big_banner'){
                             $('.owl-carousel-banner').owlCarousel({
                                 loop:true,
@@ -530,14 +596,14 @@ function get_banner(type,page){
                         }
                         else if(type == 'small_banner'){
                             $('.owl-carousel-suggest').owlCarousel({
-                                loop:true,
+                                loop:false,
                                 nav: true,
                                 navRewind:true,
                                 rewind: true,
                                 margin: 20,
                                 items:4,
                                 responsiveClass:true,
-                                dots: true,
+                                dots: false,
                                 merge: false,
                                 lazyLoad:true,
                                 smartSpeed:500,
@@ -578,6 +644,7 @@ function get_banner(type,page){
                                 merge: false,
                                 lazyLoad:true,
                                 smartSpeed:500,
+                                autoHeight: false,
                                 autoplay: true,
                                 autoplayTimeout:3000,
                                 autoplayHoverPause:false,
@@ -602,11 +669,17 @@ function get_banner(type,page){
                                 }
                             });
 
-                            if(template != 2){
-                                $("#myModalPromotion").modal('show');
-                            }else{
-                                $("#myModalPromotion").modal();
+                            if(check_modal == "false"){
+                                if(template != 2){
+                                    $("#myModalPromotion").modal('show');
+                                }else{
+                                    $("#myModalPromotion").modal();
+                                }
                             }
+
+                            $('#myModalPromotion').on('hidden.bs.modal', function (e) {
+                                checkCookie();
+                            })
                         }
                     }
                 }
@@ -803,7 +876,7 @@ function get_dynamic_page(type){
                                 <center>
                                     <img class="img-fluid" alt="`+msg.result.response[i].title+`" style="height:360px; width:auto;" src="`+msg.result.response[i].image_carousel+`">
                                 </center>
-                                <span style="background-color:`+color+`; padding:5px 15px 15px 15px; width:100%; font-size:16px; color:`+text_color+`">`+msg.result.response[i].title+`</span>
+                                <h4 style="background-color:`+color+`; width:100%; display:inline; padding: 0px 20px; color:`+text_color+`">`+msg.result.response[i].title+`</h4>
                             </div>`;
                         }
                     }
@@ -829,7 +902,7 @@ function get_dynamic_page(type){
                         merge: false,
                         lazyLoad:true,
                         smartSpeed:500,
-                        autoplay: true,
+                        autoplay: false,
                         autoplayTimeout:10000,
                         autoplayHoverPause:false,
                         navText: ['<i class="fa fa-chevron-left owl-wh"/>', '<i class="fa fa-chevron-right owl-wh"/>'],
@@ -856,11 +929,7 @@ function get_dynamic_page(type){
             }
             if(type == 'admin'){
                 document.getElementById('page_choose').innerHTML = text;
-                if(template == 2){
-                    $('#page_choose').niceSelect();
-                }else {
-                    $('#page_choose').niceSelect("update");
-                }
+                $('#page_choose').niceSelect("update");
             }
 
        },
@@ -891,6 +960,17 @@ function run_dynamic_page(){
 }
 
 function update_dynamic_page(){
+    document.getElementsByClassName("update_banner_btn")[0].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[1].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[2].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[3].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[4].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[5].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[6].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[7].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[8].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[9].disabled = true;
+
 //    var radios = document.getElementsByName('page');
 //    for (var j = 0, length = radios.length; j < length; j++) {
 //        if (radios[j].checked) {
@@ -934,17 +1014,38 @@ function update_dynamic_page(){
                       html: msg.result.error_msg,
                     })
                     location.reload();
-                }else
+                }else{
                     Swal.fire({
                       type: 'error',
                       title: 'Oops!',
                       html: msg.result.error_msg,
                     })
+                    document.getElementsByClassName("update_banner_btn")[0].disabled = false;
+                    document.getElementsByClassName("update_banner_btn")[1].disabled = false;
+                    document.getElementsByClassName("update_banner_btn")[2].disabled = false;
+                    document.getElementsByClassName("update_banner_btn")[3].disabled = false;
+                    document.getElementsByClassName("update_banner_btn")[4].disabled = false;
+                    document.getElementsByClassName("update_banner_btn")[5].disabled = false;
+                    document.getElementsByClassName("update_banner_btn")[6].disabled = false;
+                    document.getElementsByClassName("update_banner_btn")[7].disabled = false;
+                    document.getElementsByClassName("update_banner_btn")[8].disabled = false;
+                    document.getElementsByClassName("update_banner_btn")[9].disabled = false;
+                }
            },
            contentType:false,
            processData:false,
            error: function(XMLHttpRequest, textStatus, errorThrown) {
                 error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error update dynamic page');
+                document.getElementsByClassName("update_banner_btn")[0].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[1].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[2].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[3].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[4].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[5].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[6].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[7].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[8].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[9].disabled = false;
            }
         });
     }else{
@@ -953,6 +1054,16 @@ function update_dynamic_page(){
           title: 'Oops!',
           html: error_log,
         })
+        document.getElementsByClassName("update_banner_btn")[0].disabled = false;
+        document.getElementsByClassName("update_banner_btn")[1].disabled = false;
+        document.getElementsByClassName("update_banner_btn")[2].disabled = false;
+        document.getElementsByClassName("update_banner_btn")[3].disabled = false;
+        document.getElementsByClassName("update_banner_btn")[4].disabled = false;
+        document.getElementsByClassName("update_banner_btn")[5].disabled = false;
+        document.getElementsByClassName("update_banner_btn")[6].disabled = false;
+        document.getElementsByClassName("update_banner_btn")[7].disabled = false;
+        document.getElementsByClassName("update_banner_btn")[8].disabled = false;
+        document.getElementsByClassName("update_banner_btn")[9].disabled = false;
     }
 }
 
@@ -1008,4 +1119,200 @@ function delete_dynamic_page(){
           html: error_log,
         })
     }
+}
+
+function render_preview_template(){
+    document.getElementById("preview_template_loading").style.display = "block";
+    value_template = parseInt(document.getElementById("template").value);
+    setTimeout(function(){
+        if(value_template == 1){
+            document.getElementById("preview_template").innerHTML = `<img src="/static/tt_website_rodextrip/img/preview/HomeTemplate1.png" alt="Preview Template" style="height:auto; width:100%;"/>`;
+        }else if(value_template == 2){
+            document.getElementById("preview_template").innerHTML = `<img src="/static/tt_website_rodextrip/img/preview/HomeTemplate2.png" alt="Preview Template" style="height:auto; width:100%;"/>`;
+        }else if(value_template == 3){
+            document.getElementById("preview_template").innerHTML = `<img src="/static/tt_website_rodextrip/img/preview/HomeTemplate3.png" alt="Preview Template" style="height:auto; width:100%;"/>`;
+        }else if(value_template == 4){
+            document.getElementById("preview_template").innerHTML = `<img src="/static/tt_website_rodextrip/img/preview/HomeTemplate4.png" alt="Preview Template" style="height:auto; width:100%;"/>`;
+        }else if(value_template == 5){
+            document.getElementById("preview_template").innerHTML = `<img src="/static/tt_website_rodextrip/img/preview/HomeTemplate5.png" alt="Preview Template" style="height:auto; width:100%;"/>`;
+        }
+        document.getElementById("preview_template_loading").style.display = "none";
+    }, 1000);
+}
+
+function render_preview_login_tab(){
+    login_color = String(document.getElementById("tab_login_background").value);
+    login_txt_color = String(document.getElementById("text_pick_login").value);
+    login_opacity = document.getElementById("tab_login_background_checkbox").checked;
+
+    //tab + product
+    if(login_color != ""){
+        if(login_opacity == true){
+            document.getElementById("preview_login_background").style = "background-color: #"+login_color+"B3 !important; padding:15px; min-width:991px;";
+        }else{
+            document.getElementById("preview_login_background").style = "background-color: #"+login_color+ "!important; padding:15px; min-width:991px;";
+        }
+    }else{
+        document.getElementById("preview_login_background").style = "background-color: unset !important; padding:15px; min-width:991px;";
+    }
+    document.getElementById("preview_text_iconuser").style.color = "#"+login_txt_color;
+    document.getElementById("preview_text_iconpass").style.color = "#"+login_txt_color;
+    document.getElementById("preview_text_keepme").style.color = "#"+login_txt_color;
+    document.getElementById("preview_text_forget").style.color = "#"+login_txt_color;
+    document.getElementById("preview_text_forgetic").style.color = "#"+login_txt_color;
+    document.getElementById("preview_text_sign").style.color = "#"+login_txt_color;
+}
+
+function render_preview_color_tab(){
+    tab_color = String(document.getElementById("bg_tab_pick").value);
+    btn_color = String(document.getElementById("color_pick").value);
+    txt_color = String(document.getElementById("text_pick").value);
+    tab_opacity = document.getElementById("bg_tab_pick_checkbox").checked;
+
+    //tab + product
+    if(tab_color != ""){
+        //kalo opacity di centang
+        if(tab_opacity == true){
+            if(template != 3){
+                if(template != 2){
+                    if(template != 5){
+                        document.getElementById("preview_tab").style = "background-color: #"+tab_color+"B3 !important;";
+                    }else{
+                        document.getElementById("preview_tab").style = "border-bottom: 5px solid #"+txt_color+" !important";
+                    }
+                }else {
+                    document.getElementById("preview_tab").style = "background-color: #"+tab_color+"B3 !important; border-bottom: 5px solid #"+btn_color+" !important";
+                }
+                document.getElementById("preview_tab_body").style = "background-color: #"+tab_color+ "B3 !important;";
+            }else{
+                document.getElementById("preview_tab_background").style = "padding:25px 15px 15px 20px; background-color: #"+tab_color+"B3 !important; border: 1px solid #"+txt_color+" !important";
+                document.getElementById("preview_tab_body").style = "background-color: #"+tab_color+ "B3 !important; padding-left:0px; border: 1px solid #"+txt_color+" !important";
+            }
+        }
+        //kalo opacity ga di centang
+        else{
+            if(template != 3){
+                if(template != 2){
+                    if(template != 5){
+                        document.getElementById("preview_tab").style = "background-color: #"+tab_color+ "!important;";
+                    }else{
+                        document.getElementById("preview_tab").style = "border-bottom: 5px solid #"+txt_color+" !important";
+                    }
+                }else{
+                    document.getElementById("preview_tab").style = "background-color: #"+tab_color+ "!important; border-bottom: 5px solid #"+btn_color+" !important";
+                }
+                document.getElementById("preview_tab_body").style = "background-color: #"+tab_color+ "!important;";
+            }else{
+                document.getElementById("preview_tab_background").style = "padding:25px 15px 15px 20px; background-color: #"+tab_color+" !important; border: 1px solid #"+txt_color+" !important";
+                document.getElementById("preview_tab_body").style = "background-color: #"+tab_color+ "!important; padding-left:0px; border: 1px solid #"+txt_color+" !important";
+            }
+        }
+    }
+    //kalo fillnya kosong
+    else{
+        if(template != 3){
+            if(template != 2){
+                if(template != 5){
+                    document.getElementById("preview_tab").style = "background-color: unset !important;";
+                }else{
+                    document.getElementById("preview_tab").style = "border-bottom: 5px solid #"+txt_color+" !important";
+                }
+            }else{
+                document.getElementById("preview_tab").style = "background-color: unset !important; border-bottom: 5px solid #"+btn_color+" !important";
+            }
+            document.getElementById("preview_tab_body").style = "background-color: unset !important;";
+        }else{
+            document.getElementById("preview_tab_background").style = "background-color: #"+tab_color+"B3 !important; border: 1px solid #"+txt_color+" !important";
+            document.getElementById("preview_tab_body").style = "background-color: unset !important; padding-left:0px; border: 1px solid #"+txt_color+" !important";
+        }
+    }
+
+    if(template != 3){
+        document.getElementById("preview_text_product").style.color = "#"+txt_color;
+        if(template != 5){
+            document.getElementById("preview_button_ictab").style.backgroundColor = "#"+btn_color;
+        }
+    }else{
+        document.getElementById("preview_text_product").style = "color: #"+btn_color+" !important;";
+    }
+
+    //button
+    document.getElementById("preview_button_btn").style = "background-color: #"+btn_color+ "!important; color:#"+txt_color+" !important;";
+    document.getElementById("preview_button_btnlg").style = "background-color: #"+btn_color+ "!important; color:#"+txt_color+" !important; margin-bottom:5px; margin-top:5px;";
+
+    //button white
+    document.getElementById("preview_button_btnwhite").style.border = "1px solid #"+btn_color;
+
+    //icon1st
+    document.getElementById("preview_button_icon").style = "color: #"+btn_color+" !important";
+
+    //checkbox
+    document.getElementById("preview_button_checkbox").style = "background-color: #"+btn_color+ "!important;";
+    document.getElementById("preview_text_checkbox").style = "color: #"+txt_color+ "!important;";
+    document.getElementById("preview_button_checkboxlg").style = "background-color: #"+btn_color+ "!important;";
+
+    //radio
+    document.getElementById("preview_button_radio").style = "background-color: #"+btn_color+ "!important;";
+    document.getElementById("preview_text_radio").style = "color: #"+txt_color+ "!important;";
+
+    //change font + text color
+    value_font = String(document.getElementById("font").value);
+    text_font = String($('#font option:selected').text());
+
+    if(value_font != ""){
+        var junction_font_prev = new FontFace(text_font, 'url(/static/tt_website_rodextrip/custom_font/'+value_font+')');
+        junction_font_prev.load().then(function(loaded_face_prev) {
+            document.fonts.add(loaded_face_prev);
+            document.getElementById("preview_text_extxth1").style = "font-family: "+text_font+ ", Arial !important; color:#"+txt_color+";";
+            document.getElementById("preview_text_extxth2").style = "font-family: "+text_font+ ", Arial !important; color:#"+txt_color+";";
+            document.getElementById("preview_text_extxth3").style = "font-family: "+text_font+ ", Arial !important; color:#"+txt_color+";";
+            document.getElementById("preview_text_extxth4").style = "font-family: "+text_font+ ", Arial !important; color:#"+txt_color+";";
+            document.getElementById("preview_text_extxth5").style = "font-family: "+text_font+ ", Arial !important; color:#"+txt_color+";";
+            document.getElementById("preview_text_extxth6").style = "font-family: "+text_font+ ", Arial !important; color:#"+txt_color+";";
+            document.getElementById("preview_text_extxtlabel").style = "font-family: "+text_font+ ", Arial !important; color:#"+txt_color+";";
+            document.getElementById("preview_text_extxtspan").style = "font-family: "+text_font+ ", Arial !important; color:#"+txt_color+";";
+            document.getElementById("preview_text_extxtp").style = "font-family: "+text_font+ ", Arial !important; color:#"+txt_color+";";
+        }).catch(function(error) {
+            console.log(err);
+        });
+    }else{
+        if(template == 4){
+            text_font = '"Nanum Gothic", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"';
+        }else{
+            text_font = '"Poppins", sans-serif';
+        }
+        document.getElementById("preview_text_extxth1").style = "font-family: "+text_font+ " !important; color:#"+txt_color+";";
+        document.getElementById("preview_text_extxth2").style = "font-family: "+text_font+ " !important; color:#"+txt_color+";";
+        document.getElementById("preview_text_extxth3").style = "font-family: "+text_font+ " !important; color:#"+txt_color+";";
+        document.getElementById("preview_text_extxth4").style = "font-family: "+text_font+ " !important; color:#"+txt_color+";";
+        document.getElementById("preview_text_extxth5").style = "font-family: "+text_font+ " !important; color:#"+txt_color+";";
+        document.getElementById("preview_text_extxth6").style = "font-family: "+text_font+ " !important; color:#"+txt_color+";";
+        document.getElementById("preview_text_extxtlabel").style = "font-family: "+text_font+ " !important; color:#"+txt_color+";";
+        document.getElementById("preview_text_extxtspan").style = "font-family: "+text_font+ " !important; color:#"+txt_color+";";
+        document.getElementById("preview_text_extxtp").style = "font-family: "+text_font+ " !important; color:#"+txt_color+";";
+    }
+
+}
+
+function hover_inmouse(trg){
+    btn_color = String(document.getElementById("color_pick").value);
+    txt_color = String(document.getElementById("text_pick").value);
+    if(trg == 'btnwhite')
+        document.getElementById("preview_button_btnwhite").style = "background-color: #"+btn_color+ "!important; color:#"+txt_color+" !important; border:1px solid #"+btn_color;
+    else if(trg == 'icon')
+        document.getElementById("preview_button_icon").style = "color:#"+btn_color+"B3;";
+    else if(trg == 'iconwhite')
+        document.getElementById("preview_button_iconwhite").style = "color:#"+btn_color;
+}
+
+function hover_outmouse(trg){
+    btn_color = String(document.getElementById("color_pick").value);
+    txt_color = String(document.getElementById("text_pick").value);
+
+    if(trg == 'btnwhite')
+        document.getElementById("preview_button_btnwhite").style = "background-color: white !important; color:black important;border:1px solid #"+btn_color;
+    else if(trg == 'icon')
+        document.getElementById("preview_button_icon").style = "color:#"+btn_color;
+    else if(trg == 'iconwhite')
+        document.getElementById("preview_button_iconwhite").style = "color:"+text_color;
 }

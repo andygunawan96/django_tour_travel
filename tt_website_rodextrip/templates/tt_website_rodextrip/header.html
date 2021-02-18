@@ -121,13 +121,13 @@
                         <li class="username_mobile" style="padding-right:5px;">
                             <div class="input-container-search-ticket">
                                 <i class="fa fa-user" style="font-size: 20px;padding-top: 12px; color:{{text_color_login}};"></i>
-                                <input type="text" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="username" placeholder="Username" tabindex="1" />
+                                <input type="text" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px; width:220px;" id="username" placeholder="Username" tabindex="1" />
                             </div>
                         </li>
                         <li class="password_mobile" style="padding-right:5px;">
                             <div class="input-container-search-ticket">
                                 <i class="fa fa-lock" style="font-size: 20px;padding-top: 12px; color:{{text_color_login}};"></i>
-                                <input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password" placeholder="Password" tabindex="2" />
+                                <input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px; width:220px;" id="password" placeholder="Password" tabindex="2" />
                             </div>
                             <div class="input-container-search-ticket">
                                 <label class="check_box_custom" style="margin-top:5px; margin-right:5px;">
@@ -725,9 +725,9 @@
                     </div>
                     {% endif %}
                     {% if username.co_user_login != 'agent_b2c' %}
-                    <a href="#" class="site-menu-toggle js-menu-toggle" style="color:{{text_color_login}};"><span class="icon-menu h3"></span></a>
+                    <a href="#" class="site-menu-toggle js-menu-toggle"><span class="icon-menu h3"></span></a>
                     {% else %}
-                    <a href="#" class="site-menu-toggle js-menu-toggle" style="color:{{text_color_login}};">
+                    <a href="#" class="site-menu-toggle js-menu-toggle" style="color:{{color}};">
                         <button type="button" style="font-size:18px; padding:10px 15px; background:{{color}}; color:{{text_color}}">
                             <span style="font-size:14px;">SignIn</span> <i class="fas fa-sign-in-alt" style="color:'+text_color+';font-size:16px;"></i>
                         </button>
