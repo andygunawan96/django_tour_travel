@@ -456,7 +456,7 @@ function get_banner(type,page){
                                                 <div class="col-lg-12" style="background:#f7f7f7;">
                                                     <div style="text-align:right; padding:10px 0px 30px 0px;">
                                                         <label class="check_box_custom" style="float:right;">
-                                                            <span>Don't Show Again this Today</span>
+                                                            <span>Don't Show Again Today</span>
                                                             <input type="checkbox" id="dont_show_again" name="dont_show_again" value="true"/>
                                                             <span class="check_box_span_custom"></span>
                                                         </label>
@@ -790,9 +790,10 @@ function get_page(data){
             if(msg.result.error_code == 0){
                 msg.result.response.body = msg.result.response.body.replace(/&lt;/g, '<');
                 msg.result.response.body = msg.result.response.body.replace(/&gt;/g, '>');
+                msg.result.response.body = msg.result.response.body.replace(/&nbsp;/g,' ');
                 document.getElementById('container').innerHTML = msg.result.response.body;
-                document.getElementById('header_page').innerHTML = `<h3 style="text-align:center;color:`+color+`">`+msg.result.response.title+`</h3><img src="`+msg.result.response.image_carousel+`" style="height:30vh;" alt="`+msg.result.response.title+`" title="" />`;
-
+                document.getElementById('title').innerHTML = `<h1 style="text-align:center;color:`+color+`">`+msg.result.response.title+`</h1>`;
+                document.getElementById('header_page').innerHTML = `<img src="`+msg.result.response.image_carousel+`" style="max-height:350px;max-width:100%;" alt="`+msg.result.response.title+`" title="" />`;
             }else{
                 document.getElementById('container').innerHTML = 'Page not found';
             }
