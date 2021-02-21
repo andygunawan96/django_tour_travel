@@ -37,7 +37,7 @@
     console.log(type_payment);
 </script>
 
-<title>{{name}} - Payment {{provider}}</title>
+<title>{{name}} - Payment {{provider_payment}}</title>
 
 {% if username.co_user_login != '' %}
 {% include 'tt_website_rodextrip/logout.html' %}
@@ -146,7 +146,7 @@
         get_payment_acq('Issued',passengers.booker.booker_seq_id, '{{order_number}}', 'billing',signature,'{{type}}');
     }catch(err){}
     $( document ).ready(function() {
-        breadcrumb_create("{{provider}}", 4, 0);
+        breadcrumb_create("{{provider_payment}}", 4, 0);
     });
 </script>
 {% endblock %}

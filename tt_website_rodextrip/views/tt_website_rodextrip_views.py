@@ -897,7 +897,7 @@ def payment(request):
                 'signature': signature,
                 'passengers': passengers,
                 'order_number': request.POST['order_number'] or '',
-                'provider': provider,
+                'provider_payment': provider,
                 'type': type,
                 'payment': payment,
                 'time_limit': request.POST['session_time_input'],
