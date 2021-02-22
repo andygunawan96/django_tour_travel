@@ -860,7 +860,7 @@ function set_price(val, type, product_type){
             </div>
 
 
-                    <button type="submit" width="100px" class="btn btn-primary pull-right">
+                    <button type="button" onclick="window.location.href='/'" width="100px" class="btn btn-primary pull-right">
 
                         <span>Selesai (HOME)<span class="fa fa-long-arrow-right"></span></span>
                     </button>
@@ -1357,7 +1357,7 @@ function change_top_up_method(){
                 }
                 text+=`
 
-                <button type="submit" width="100px" class="btn btn-primary pull-right">
+                <button type="button" onclick="window.location.href='/'" width="100px" class="btn btn-primary pull-right">
 
                     <span>Selesai (HOME) <span class="fas fa-arrow-right"></span></span>
                 </button>
