@@ -4569,7 +4569,7 @@ function airline_get_booking(data, sync=false){
                 <div class="row" style="margin-top:20px;">`;
 
                 text+=`
-                    <div class="col-lg-`+col+`" style="padding-bottom:10px;">`;
+                    <div class="col-lg-6 col-md-6" style="padding-bottom:10px;">`;
                         if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
                             if (msg.result.response.state == 'issued'){
                                 text+=`
@@ -4582,7 +4582,7 @@ function airline_get_booking(data, sync=false){
                         text+=`
                     </div>`;
                     text+=`
-                    <div class="col-lg-`+col+`" style="padding-bottom:10px;">`;
+                    <div class="col-lg-6 col-md-6" style="padding-bottom:10px;">`;
                         if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
                             if (msg.result.response.state  == 'booked'){
                                 text+=`
@@ -4603,7 +4603,7 @@ function airline_get_booking(data, sync=false){
                     </div>`;
                     if(msg.result.response.state == 'issued' && col == 3){
                     text+=`
-                    <div class="col-lg-`+col+`" style="padding-bottom:10px;">`;
+                    <div class="col-lg-6 col-md-6" style="padding-bottom:10px;">`;
                         text+=`
                         <button type="button" id="button-print-ori" class="primary-btn ld-ext-right" style="width:100%;" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket_original','airline');">
                             Print Ori Ticket
@@ -4611,7 +4611,7 @@ function airline_get_booking(data, sync=false){
                         </button>
                     </div>`;
                     }
-                    text+=`<div class="col-lg-`+col+`" style="padding-bottom:10px;">`;
+                    text+=`<div class="col-lg-6 col-md-6" style="padding-bottom:10px;">`;
                         if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
                             if (msg.result.response.state == 'issued'){
                                 text+=`

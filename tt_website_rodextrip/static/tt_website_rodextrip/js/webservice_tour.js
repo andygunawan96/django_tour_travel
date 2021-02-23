@@ -1036,19 +1036,6 @@ function tour_get_details(tour_code){
                     `;
                 }
 
-                for (n in tour_data.accommodations)
-                {
-                    room_list_text += `
-                    <tr>
-                        <td style="width:30%;">`+tour_data.accommodations[n].hotel+`</td>
-                        <td style="width:20%;">`+tour_data.accommodations[n].name+` `+tour_data.accommodations[n].bed_type+`<br/>Max `+tour_data.accommodations[n].pax_limit+` persons</td>
-                        <td style="width:40%;">`+tour_data.accommodations[n].description+`</td>`;
-                    room_list_text += `
-                        <td style="width:10%;"><button type="button" class="primary-btn-ticket btn-add-rooms" value="`+tour_data.accommodations[n].room_code+`" onclick="add_tour_room(`+n+`)">Add</button></td>
-                    </tr>
-                    `;
-                }
-
                 for (n in tour_data.tour_lines)
                 {
                     date_list_text += `
@@ -1068,6 +1055,60 @@ function tour_get_details(tour_code){
                     </tr>
                     `;
                 }
+
+                console.log(tour_data);
+                for (n in tour_data.accommodations){
+                    room_list_text += `<div class="col-lg-12 mb-3" style="border:1px solid #cdcdcd; padding: 15px;">
+                        <b>Hotel: `+tour_data.accommodations[n].hotel+`</b> <br/>
+                        Room: `+tour_data.accommodations[n].name+` `+tour_data.accommodations[n].bed_type+` <br/>
+                        Description: `+tour_data.accommodations[n].description+` <br/>
+                        <div class="row" style="padding:0px 15px;">
+                            <div class="col-xs-6" style="padding:0px;">
+                                <span style="display:none; color:`+color+`; font-weight:bold; cursor:pointer;" id="pricing_detail_modal`+n+`_up" onclick="show_hide_div('pricing_detail_modal`+n+`');">See Price Detail <i class="fas fa-chevron-up"></i></span>
+                                <span style="display:inline-block; color:`+color+`; font-weight:bold; cursor:pointer;" id="pricing_detail_modal`+n+`_down" onclick="show_hide_div('pricing_detail_modal`+n+`');">See Price Detail <i class="fas fa-chevron-down"></i></span>
+                            </div>
+                            <div class="col-xs-6" style="padding:0px; text-align:right;">
+                                <button type="button" class="primary-btn-ticket btn-add-rooms" style="line-height:26px;" value="`+tour_data.accommodations[n].room_code+`" onclick="add_tour_room(`+n+`)">Add</button>
+                            </div>
+                            <div class="col-lg-12" style="display:none;" id="pricing_detail_modal`+n+`_div">
+                                <div class="row">`;
+                                for (prc in tour_data.accommodations[n].pricing){
+                                    room_list_text += `
+                                    <div class="col-lg-12" style="margin-top:10px; border:1px solid #cdcdcd;">
+                                        <span style="font-weight:bold;">Min: `+tour_data.accommodations[n].pricing[prc].min_pax+` guest </span>`;
+
+                                    if(tour_data.accommodations[n].pricing[prc].is_infant_included == false){
+                                        room_list_text+=`<span>(*excluding infant).</span>`;
+                                    }else{
+                                        room_list_text+=`<span>(*including infant).</span>`;
+                                    }
+
+                                    room_list_text+=`
+                                        <br/>
+                                        <span>Pricing (/guest): </span>
+                                        Adult: <span style="color:`+color+`;font-weight:bold;">`+tour_data.accommodations[n].pricing[prc].currency_id+` `+getrupiah(tour_data.accommodations[n].pricing[prc].adult_price)+`</span>,
+                                        Child: <span style="color:`+color+`;font-weight:bold;">`+tour_data.accommodations[n].pricing[prc].currency_id+` `+getrupiah(tour_data.accommodations[n].pricing[prc].child_price)+`</span>,
+                                        Infant: <span style="color:`+color+`;font-weight:bold;">`+tour_data.accommodations[n].pricing[prc].currency_id+` `+getrupiah(tour_data.accommodations[n].pricing[prc].infant_price)+`</span>
+                                    </div>`;
+                                }
+                            room_list_text+=`
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+                }
+//                for (n in tour_data.accommodations)
+//                {
+//                    room_list_text += `
+//                    <tr>
+//                        <td style="width:30%;">`+tour_data.accommodations[n].hotel+`</td>
+//                        <td style="width:20%;">`+tour_data.accommodations[n].name+` `+tour_data.accommodations[n].bed_type+`<br/>Max `+tour_data.accommodations[n].pax_limit+` persons</td>
+//                        <td style="width:40%;">`+tour_data.accommodations[n].description+`</td>`;
+//                    room_list_text += `
+//                        <td style="width:10%;"><button type="button" class="primary-btn-ticket btn-add-rooms" value="`+tour_data.accommodations[n].room_code+`" onclick="add_tour_room(`+n+`)">Add</button></td>
+//                    </tr>
+//                    `;
+//                }
 
                document.getElementById('tour_data').value = JSON.stringify(tour_data).replace(/'/g,'');
                document.getElementById('title_search').innerHTML += tour_data.name;

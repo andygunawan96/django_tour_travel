@@ -4250,8 +4250,8 @@ display: block;
 }
 
 .primary-btn:disabled {
-  border: 1px solid #999999;
-  background-color: #cccccc;
+  border: 1px solid #999999 !important;
+  background-color: #cccccc !important;
   cursor: not-allowed;
 }
 

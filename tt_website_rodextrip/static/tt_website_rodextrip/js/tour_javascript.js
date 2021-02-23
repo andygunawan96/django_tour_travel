@@ -585,6 +585,38 @@ function render_room_tour_field(idx, room_data, key_accomodation) {
         template_txt += '<small id="tour_child_age_range' + i + '" class="hidden">(0-1 years old)</small>';
         template_txt += '</div>';
 
+        console.log(room_data);
+        template_txt +=`
+        <div class="row" style="padding:15px;">
+            <div class="col-xs-12">
+                <span style="display:inline-block; color:`+color+`; font-weight:bold; cursor:pointer;" id="pricing_detail`+n+`_up" onclick="show_hide_div('pricing_detail`+n+`');">See Price Detail <i class="fas fa-chevron-up"></i></span>
+                <span style="display:none; color:`+color+`; font-weight:bold; cursor:pointer;" id="pricing_detail`+n+`_down" onclick="show_hide_div('pricing_detail`+n+`');">See Price Detail <i class="fas fa-chevron-down"></i></span>
+            </div>
+            <div class="col-lg-12" style="display:block;" id="pricing_detail`+n+`_div">
+                <div class="row" style="padding:0px 15px;">`;
+                for (pri in room_data.pricing){
+                    template_txt += `
+                    <div class="col-lg-12" style="margin-top:10px; border:1px solid #cdcdcd;">
+                        <span style="font-weight:bold;">Min: `+room_data.pricing[pri].min_pax+` guest </span>`;
+
+                    if(room_data.pricing[pri].is_infant_included == false){
+                        template_txt+=`<span>(*excluding infant).</span>`;
+                    }else{
+                        template_txt+=`<span>(*including infant).</span>`;
+                    }
+
+                    template_txt+=`
+                        <br/>
+                        <span>Pricing (/guest): </span>
+                        Adult: <span style="color:`+color+`;font-weight:bold;">`+room_data.pricing[pri].currency_id+` `+getrupiah(room_data.pricing[pri].adult_price)+`</span>,
+                        Child: <span style="color:`+color+`;font-weight:bold;">`+room_data.pricing[pri].currency_id+` `+getrupiah(room_data.pricing[pri].child_price)+`</span>,
+                        Infant: <span style="color:`+color+`;font-weight:bold;">`+room_data.pricing[pri].currency_id+` `+getrupiah(room_data.pricing[pri].infant_price)+`</span>
+                    </div>`;
+                }
+            template_txt+=`
+                </div>
+            </div>
+        </div>`;
         if (room_data.bed_type=="double")
         {
             template_txt += '<div class="col-lg-12" style="margin-bottom:15px; margin-top:10px;">';
