@@ -55,6 +55,9 @@
             </div>
         </div>
     </div>
+    {% if username.co_user_login == 'agent_b2c' %}
+    {% include 'tt_website_rodextrip/header_signin_signup.html' %}
+    {% endif %}
 </header>
 <section class="destinations-area" style="padding-top:15px; padding-bottom:40px;">
     <div class="container">
@@ -578,6 +581,9 @@
             </div>
         </div>
     </div>
+    {% if username.co_user_login == 'agent_b2c' %}
+    {% include 'tt_website_rodextrip/header_signin_signup.html' %}
+    {% endif %}
 </header>
 <section style="padding:15px 0px 15px 0px; background:#f7f7f7; border-bottom:2px solid #cdcdcd; position:relative;">
     <div class="container">
@@ -1080,27 +1086,31 @@
 </section>
 
 {% elif template == 3 %}
-
 <header>
-    <div class="container" style="padding-top:15px; padding-bottom:15px;">
-        <div class="row align-items-center justify-content-between d-flex mobile-menu">
-            <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
-                <a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="Logo {{name}}" title="{{name}}" /></a>
-            </div>
-            <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
+    <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:15px 0px 15px 0px;">
+        <div class="container" style="padding-top:15px; padding-bottom:15px;">
+            <div class="row align-items-center justify-content-between d-flex mobile-menu">
+                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                    <a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="Logo {{name}}" title="{{name}}" /></a>
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
 
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
-                <span style="font-size:14px; font-weight:600;">{% trans 'Session Time' %} <span class="count_time" id="session_time"> </span></span>
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
+                    <span style="font-size:14px; font-weight:600;">{% trans 'Session Time' %} <span class="count_time" id="session_time"> </span></span>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
+                    <span style="font-size:14px; font-weight:600;">{% trans 'Elapsed Time' %} <span class="count_time" id="elapse_time"> </span></span>
+                </div>
+                {% include 'tt_website_rodextrip/balance_credit.html' %}
             </div>
-            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
-                <span style="font-size:14px; font-weight:600;">{% trans 'Elapsed Time' %} <span class="count_time" id="elapse_time"> </span></span>
-            </div>
-            {% include 'tt_website_rodextrip/balance_credit.html' %}
         </div>
     </div>
+    {% if username.co_user_login == 'agent_b2c' %}
+    {% include 'tt_website_rodextrip/header_signin_signup.html' %}
+    {% endif %}
 </header>
 <section class="relative" style="padding:15px 0px 15px 0px; background:#f7f7f7;">
     <div class="container">
@@ -1622,6 +1632,9 @@
             </div>
         </div>
     </div>
+    {% if username.co_user_login == 'agent_b2c' %}
+    {% include 'tt_website_rodextrip/header_signin_signup.html' %}
+    {% endif %}
 </header>
 <section class="relative" style="padding:15px 0px 15px 0px; background:#f7f7f7;">
     <div class="container">
@@ -2122,25 +2135,30 @@
 {% elif template == 5 %}
 
 <header class="header_breadcrumb" style="position:sticky; top:0px; z-index:100; border-bottom:1px solid #cdcdcd;">
-    <div class="container">
-        <div class="row align-items-center justify-content-between d-flex mobile-menu">
-            <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
-                <a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="Logo {{name}}" title="{{name}}" /></a>
-            </div>
-            <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
+    <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:15px 0px 15px 0px;">
+        <div class="container">
+            <div class="row align-items-center justify-content-between d-flex mobile-menu">
+                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                    <a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="Logo {{name}}" title="{{name}}" /></a>
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
 
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
-                <span style="font-size:14px; font-weight:600;">{% trans 'Session Time' %} <span class="count_time" id="session_time"> </span></span>
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
+                    <span style="font-size:14px; font-weight:600;">{% trans 'Session Time' %} <span class="count_time" id="session_time"> </span></span>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
+                    <span style="font-size:14px; font-weight:600;">{% trans 'Elapsed Time' %} <span class="count_time" id="elapse_time"> </span></span>
+                </div>
+                {% include 'tt_website_rodextrip/balance_credit.html' %}
             </div>
-            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
-                <span style="font-size:14px; font-weight:600;">{% trans 'Elapsed Time' %} <span class="count_time" id="elapse_time"> </span></span>
-            </div>
-            {% include 'tt_website_rodextrip/balance_credit.html' %}
         </div>
     </div>
+    {% if username.co_user_login == 'agent_b2c' %}
+    {% include 'tt_website_rodextrip/header_signin_signup.html' %}
+    {% endif %}
 </header>
 <section class="destinations-area" style="padding-top:15px; padding-bottom:40px; background:#f7f7f7;">
     <div class="container">
