@@ -5380,14 +5380,17 @@ function check_refund_partial_btn(){
                                             text+=`
                                                 <div class="row" style="margin-bottom:5px;">
                                                     <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                                        <span style="font-size:12px;">`+msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].charge_type+` `+msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].charge_code+` `+msg.result.response.provider_bookings[i].pnr+`</span>
+                                                        <span style="font-size:12px;" id="`+msg.result.response.provider_bookings[i].passengers[j].first_name+`_`+msg.result.response.provider_bookings[i].passengers[j].last_name+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].fee_name+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].charge_type+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].sequence+`">`+msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].charge_type+` `+msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].charge_code+` `+msg.result.response.provider_bookings[i].pnr+`</span>
                                                     </div>
                                                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
                                                         <span style="font-size:13px;">`;
                                             if(msg.result.response.provider_bookings[i].passengers[j].fees[k].fee_code != 'com'){
                                                 text+=currency;
+                                                text+=`<input type="hidden" id="`+msg.result.response.provider_bookings[i].passengers[j].first_name+`_`+msg.result.response.provider_bookings[i].passengers[j].last_name+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].fee_name+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].charge_type+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].sequence+`_type" value="amount"/>`;
+                                                total_hitung_frontend += msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].amount;
                                             }else{
                                                 text+=`%`;
+                                                text+=`<input type="hidden" id="`+msg.result.response.provider_bookings[i].passengers[j].first_name+`_`+msg.result.response.provider_bookings[i].passengers[j].last_name+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].fee_name+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].charge_type+`_`+msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].sequence+`_type" value="percentage"/>`;
                                             }
                                             text+=getrupiah(msg.result.response.provider_bookings[i].passengers[j].fees[k].service_charges[l].amount);
                                             text+=`
