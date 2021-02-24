@@ -5454,7 +5454,7 @@ function check_refund_partial_btn(){
                                 <span style="font-size:13px;" id="grand_total_refund">`+currency+` `+getrupiah(parseInt(total))+`</span>`;
                             }else{
                             text+=`
-                                <span style="font-size:13px;" id="grand_total_refund">`+currency+` `+getrupiah(parseInt(total_hitung_frontend - msg.result.response.provider_bookings[i].admin_fee - msg.result.response.provider_bookings[i].penalty_amount))+`</span>`;
+                                <span style="font-size:13px;" id="grand_total_refund">`+currency+` `+getrupiah(parseInt(total_hitung_frontend - msg.result.response.provider_bookings[i].admin_fee))+`</span>`;
                             }
                             text+=`
                             </div>
