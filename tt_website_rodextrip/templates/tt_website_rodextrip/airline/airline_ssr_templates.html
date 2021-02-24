@@ -76,7 +76,6 @@
         airline_get_booking = airline_get_booking.replace(/&#39;/g, '"');
         airline_get_booking = airline_get_booking.replace(/True/g, 'true');
         airline_get_booking = airline_get_booking.replace(/False/g, 'false');
-        console.log(airline_get_booking);
         airline_get_booking = JSON.parse(airline_get_booking);
         breadcrumb = 2;
     }
@@ -191,7 +190,7 @@
                                             <option value=""></option>
                                             {% for ssr in values.ssrs %}
                                             <option value="{{ssr.ssr_code}}_{{ssr.total_price}}" {% for ssr_list_pax in pax.ssr_list %}
-                                                {% if key == ssr_list_pax.availability_type and ssr_list_pax.journey_code == ssr.journey_code and ssr.name == ssr_list_pax.name%}
+                                                {% if key == ssr_list_pax.availability_type and ssr_list_pax.journey_code == ssr.journey_code and ssr.name == ssr_list_pax.name %}
                                                     selected {% endif %} {% endfor %}
                                             >
                                                 {{ssr.name}} - {{ssr.currency}} {{ssr.total_price}}
