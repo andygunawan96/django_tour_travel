@@ -524,6 +524,21 @@ def ssr(request):
                 #pax
 
                 #CHECK SINI TEMBAK KO SAM
+
+                airline_ssr = request.session['airline_get_ssr']['result']['response']
+                airline_list = []
+                for ssr_provider in airline_ssr['ssr_availability_provider']:
+                    for available in ssr_provider['ssr_availability']:
+                        for journey in ssr_provider['ssr_availability'][available]:
+                            for segment in journey['segments']:
+                                if segment['carrier_code'] not in airline_list:
+                                    airline_list.append(segment['carrier_code'])
+                        break
+                    ssr_provider.update({
+                        'airline_list': airline_list
+                    })
+                    airline_list = []
+
                 adult = []
                 infant = []
                 child = []
@@ -545,6 +560,18 @@ def ssr(request):
                                     "identity_type": pax['identity_type'],
                                     "passenger_id": pax['sequence']
                                 })
+                                if len(pax['fees']):
+                                    adult[len(adult) - 1]['ssr_list'] = []
+                                    for fee in pax['fees']:
+                                        for provider in ssr_provider['ssr_availability']:
+                                            for availability in ssr_provider['ssr_availability'][provider]:
+                                                for ssr in availability['ssrs']:
+                                                    if ssr['fee_code'] == fee['fee_code']:
+                                                        adult[len(adult) - 1]['ssr_list'].append({
+                                                            "name": fee['fee_name'],
+                                                            "journey_code": ssr['journey_code'],
+                                                            "availability_type": ssr['fee_category']
+                                                        })
                             else:
                                 adult.append({
                                     "pax_type": 'ADT',
@@ -559,6 +586,18 @@ def ssr(request):
                                     "identity_type": pax['identity_type'],
                                     "passenger_id": pax['sequence']
                                 })
+                                if len(pax['fees']):
+                                    adult[len(adult) - 1]['ssr_list'] = []
+                                    for fee in pax['fees']:
+                                        for provider in ssr_provider['ssr_availability']:
+                                            for availability in ssr_provider['ssr_availability'][provider]:
+                                                for ssr in availability['ssrs']:
+                                                    if ssr['fee_code'] == fee['fee_code']:
+                                                        adult[len(adult) - 1]['ssr_list'].append({
+                                                            "name": fee['fee_name'],
+                                                            "journey_code": ssr['journey_code'],
+                                                            "availability_type": ssr['fee_category']
+                                                        })
                         else:
                             adult.append({
                                 "pax_type": 'INF',
@@ -573,6 +612,18 @@ def ssr(request):
                                 "identity_type": pax['identity_type'],
                                 "passenger_id": pax['sequence']
                             })
+                            if len(pax['fees']):
+                                adult[len(adult) - 1]['ssr_list'] = []
+                                for fee in pax['fees']:
+                                    for provider in ssr_provider['ssr_availability']:
+                                        for availability in ssr_provider['ssr_availability'][provider]:
+                                            for ssr in availability['ssrs']:
+                                                if ssr['fee_code'] == fee['fee_code']:
+                                                    adult[len(adult) - 1]['ssr_list'].append({
+                                                        "name": fee['fee_name'],
+                                                        "journey_code": ssr['journey_code'],
+                                                        "availability_type": ssr['fee_category']
+                                                    })
                     else:
                         adult.append({
                             "pax_type": 'ADT',
@@ -587,6 +638,18 @@ def ssr(request):
                             "identity_type": pax['identity_type'],
                             "passenger_id": pax['sequence']
                         })
+                        if len(pax['fees']):
+                            adult[len(adult) - 1]['ssr_list'] = []
+                            for fee in pax['fees']:
+                                for provider in ssr_provider['ssr_availability']:
+                                    for availability in ssr_provider['ssr_availability'][provider]:
+                                        for ssr in availability['ssrs']:
+                                            if ssr['fee_code'] == fee['fee_code']:
+                                                adult[len(adult) - 1]['ssr_list'].append({
+                                                    "name": fee['fee_name'],
+                                                    "journey_code": ssr['journey_code'],
+                                                    "availability_type": ssr['fee_category']
+                                                })
                 title_booker = 'MR'
                 title_contact = 'MR'
                 if request.session['airline_get_booking_response']['result']['response']['booker']['gender'] == 'female':
@@ -635,19 +698,6 @@ def ssr(request):
                 for pax in child:
                     passenger.append(pax)
 
-                airline_ssr = request.session['airline_get_ssr']['result']['response']
-                airline_list = []
-                for ssr_provider in airline_ssr['ssr_availability_provider']:
-                    for available in ssr_provider['ssr_availability']:
-                        for journey in ssr_provider['ssr_availability'][available]:
-                            for segment in journey['segments']:
-                                if segment['carrier_code'] not in airline_list:
-                                    airline_list.append(segment['carrier_code'])
-                        break
-                    ssr_provider.update({
-                        'airline_list': airline_list
-                    })
-                    airline_list = []
                 upsell = 0
                 for pax in request.session['airline_get_booking_response']['result']['response']['passengers']:
                     if pax.get('channel_service_charges'):
