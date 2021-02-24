@@ -4137,7 +4137,7 @@ function airline_get_booking(data, sync=false){
                        }
                        if(check_reschedule){
                             document.getElementById('reissued').hidden = false;
-                            document.getElementById('reissued').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="reissued_btn();" value="Reissued">`;
+                            document.getElementById('reissued').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="reissued_btn();" value="Change Booking">`;
                        }
                        document.getElementById('ssr_request_after_sales').innerHTML = '';
                        if(check_ssr){
@@ -5415,7 +5415,7 @@ function check_refund_partial_btn(){
                                         text+=getrupiah(parseInt(msg.result.response.provider_bookings[i].resv_total_price - msg.result.response.provider_bookings[i].penalty_amount))+`</span>`;
                                         total = total - msg.result.response.provider_bookings[i].penalty_amount - msg.result.response.provider_bookings[i].admin_fee;
                                     }else{
-                                        text+=getrupiah(parseInt(total_hitung_frontend) - msg.result.response.provider_bookings[i].penalty_amount)+`</span>`;
+                                        text+=getrupiah(parseInt(total_hitung_frontend))+`</span>`;
                                         total = total_hitung_frontend - msg.result.response.provider_bookings[i].penalty_amount - msg.result.response.provider_bookings[i].admin_fee;
                                     }
                                     text+=`
@@ -5719,7 +5719,7 @@ function cancel_reservation_airline(){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline issued');
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline reissued');
             price_arr_repricing = {};
             pax_type_repricing = [];
             document.getElementById('show_loading_booking_airline').hidden = false;
@@ -6413,8 +6413,13 @@ function reissued_btn(){
     text = '';
     flight = 1;
     cabin_class = 1;
+    if(airline_get_detail.result.response.state == 'booked')
     text += `
-            <h5>Reissue</h5>
+            <h5>Change Booking</h5>`;
+    else
+    text+=`
+            <h5>Reissue</h5>`;
+    text+=`
             <div class="col-lg-12" style="margin-top:10px;">
                 <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="reissued_btn();" value="Reset">
             </div><br/>`;
@@ -7170,7 +7175,7 @@ function get_price_itinerary_reissue(val){
     for(i in airline_data[val].segments){
         segment.push({
             "segment_code": airline_data[val].segments[i].segment_code,
-            'fare_code': airline_data[val].segments[i].fares[0].fare_code,
+            'fare_code': airline_data[val].segments[i].fares[airline_data[val].segments[i].fare_pick].fare_code,
             'carrier_code': airline_data[val].segments[i].carrier_code,
         });
     }
@@ -7508,17 +7513,13 @@ function get_chosen_ticket(type='all'){
                     <span id="fare_detail_pick`+airline_pick_list[i].airline_pick_sequence+`" class="basic_fare_field price_template" style="font-size:16px;font-weight: bold; color:`+color+`; padding:10px 0px;">`;
                     price = 0;
                     for(j in airline_pick_list[i].segments){
-                        for(k in airline_pick_list[i].segments[j].fares){
-
-                            for(l in airline_pick_list[i].segments[j].fares[k].service_charge_summary){
-                                if(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].pax_type == 'ADT')
-                                    for(m in airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges)
-                                        if(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'fare' || airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'tax' || airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'roc'){
-                                            currency = airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].currency;
-                                            price+= airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].amount;
-                                        }
-                            }
-                            break;
+                        for(k in airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary){
+                            if(airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[l].pax_type == 'ADT')
+                                for(m in airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[l].service_charges)
+                                    if(airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[l].service_charges[m].charge_code == 'fare' || airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[l].service_charges[m].charge_code == 'tax' || airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[l].service_charges[m].charge_code == 'roc'){
+                                        currency = airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[l].service_charges[m].currency;
+                                        price+= airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[l].service_charges[m].amount;
+                                    }
                         }
                     }
                     text+= currency+' '+getrupiah(price) + '</span>';
@@ -7873,13 +7874,14 @@ function get_price_itinerary_reissue_request(airline_response, total_admin_fee){
             price_list = {};
             try{//adult
                 if(airline_response[i].segments[j].fares.length > 0){
-                    for(k in airline_response[i].segments[j].fares[0].service_charge_summary){
-                        if(airline_response[i].segments[j].fares[0].service_charge_summary[k].hasOwnProperty('total_commission') == true)
-                            commission += airline_response[i].segments[j].fares[0].service_charge_summary[k].total_commission;
-                        price += airline_response[i].segments[j].fares[0].service_charge_summary[k].total_price;
-                        if(currency == '')
-                            currency = airline_response[i].segments[j].fares[0].service_charge_summary[k].service_charges[0].currency;
-
+                    for(k in airline_response[i].segments[j].fares){
+                        for(l in airline_response[i].segments[j].fares[k].service_charge_summary){
+                            if(airline_response[i].segments[j].fares[k].service_charge_summary[l].hasOwnProperty('total_commission') == true)
+                                commission += airline_response[i].segments[j].fares[k].service_charge_summary[l].total_commission;
+                            price += airline_response[i].segments[j].fares[k].service_charge_summary[l].total_price;
+                            if(currency == '')
+                                currency = airline_response[i].segments[j].fares[k].service_charge_summary[l].service_charges[0].currency;
+                        }
                     }
 
                     if(price != 0){
@@ -7911,7 +7913,22 @@ function get_price_itinerary_reissue_request(airline_response, total_admin_fee){
 
     text+=`
         </div>
-    </div>
+    </div>`;
+    if(airline_get_detail.result.response.state == 'booked' ){
+        text+=`
+    <div class="col-lg-12">
+        <hr/>
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                <span style="font-size:14px; font-weight: bold;"><b>Total</b></span>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+                <span style="font-size:14px; font-weight: bold;"><b>`+currency+` `+getrupiah(Math.ceil(total_price))+`</b></span>
+            </div>
+        </div>
+    </div>`;
+    }else{
+        text+=`
     <div class="col-lg-12">
         <hr/>
         <div class="row">
@@ -7930,7 +7947,9 @@ function get_price_itinerary_reissue_request(airline_response, total_admin_fee){
                 <span style="font-size:14px; font-weight: bold;"><b>`+currency+` `+getrupiah(Math.ceil(total_price) + Math.ceil(total_admin_fee))+`</b></span>
             </div>
         </div>
-    </div>
+    </div>`;
+    }
+    text+=`
     <div class="col-lg-12" style="padding-bottom:10px;">
     <hr/>
     <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
@@ -7988,6 +8007,11 @@ function get_price_itinerary_reissue_request(airline_response, total_admin_fee){
 }
 
 function sell_journey_reissue_construct(){
+    title = '';
+    if(airline_get_detail.result.response.state == 'booked')
+        title = 'Are you sure want to change your booking?';
+    else
+        title = 'Are you sure want to reissue?';
     Swal.fire({
       title: 'Are you sure want to reissue?',
       type: 'warning',
