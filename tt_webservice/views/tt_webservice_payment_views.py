@@ -184,7 +184,8 @@ def set_payment_method(request):
             res['result']['response']['expired'] = convert_string_to_date_to_string_front_end_with_time(res['result']['response']['expired'])
             res['result']['response']['rs_datetime'] = convert_string_to_date_to_string_front_end_with_time(res['result']['response']['rs_datetime'])
     except Exception as e:
-        res = 0
+        res['result']['error_code'] = 100
+        res['result']['error_message'] = 'Error Payment'
     return res
 
 def check_payment_payment_method(request):
