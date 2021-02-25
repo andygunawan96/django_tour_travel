@@ -764,7 +764,6 @@ function tour_get_details(tour_code){
            var room_list_text = '';
            var date_list_text = '';
            var counter = 0;
-           var include_flight = 0;
            var index = 0;
            var total_additional_price = 0;
            var total_additional_amount = 0;
@@ -958,27 +957,24 @@ function tour_get_details(tour_code){
                 }
                 itinerary_text += `</div>`;
 
-                if (tour_data.flight == 'include')
+                flight_details_text += `<div class="row" style="margin:0px;">
+                                            <table class="table table-condensed" style="width:100%;">
+                                                <thead>
+                                                    <th>Airline</th>
+                                                    <th class="hidden-xs">Flight Number</th>
+                                                    <th colspan="2">Origin</th>
+                                                    <th colspan="2">Destination</th>
+                                                    <th class="hidden-xs">Transit Duration</th>
+                                                </thead>`;
+                for (k in tour_data.flight_segments)
                 {
-                    include_flight = 1;
-                    flight_details_text += `<div class="row" style="margin:0px;">
-                                                <table class="table table-condensed" style="width:100%;">
-                                                    <thead>
-                                                        <th>Airline</th>
-                                                        <th class="hidden-xs">Flight Number</th>
-                                                        <th colspan="2">Origin</th>
-                                                        <th colspan="2">Destination</th>
-                                                        <th class="hidden-xs">Transit Duration</th>
-                                                    </thead>`;
-                    for (k in tour_data.flight_segments)
+                    flight_details_text += `
+                        <tr>
+                            <td class="hidden-xs">`;
+                    if (tour_data.flight_segments[k].carrier_code)
                     {
-                        flight_details_text += `
-                            <tr>
-                                <td class="hidden-xs">`;
-                        if (tour_data.flight_segments[k].carrier_code)
-                        {
-                            flight_details_text += `<img src="`+static_path_url_server+`/public/airline_logo/` + tour_data.flight_segments[k].carrier_code + `.png" alt="`+tour_data.flight_segments[k].carrier_id+`" title="`+tour_data.flight_segments[k].carrier_id+`" width="50" height="50"/>`;
-                        }
+                        flight_details_text += `<img src="`+static_path_url_server+`/public/airline_logo/` + tour_data.flight_segments[k].carrier_code + `.png" alt="`+tour_data.flight_segments[k].carrier_id+`" title="`+tour_data.flight_segments[k].carrier_id+`" width="50" height="50"/>`;
+                    }
 
 //                            flight_details_text += `</td><td class="hidden-sm hidden-md hidden-lg hidden-xl">`;
 //                            if (tour_data.flight_segments[k].carrier_code)
@@ -986,32 +982,31 @@ function tour_get_details(tour_code){
 //                                flight_details_text += `<img alt="" src="`+static_path_url_server+`/public/airline_logo/` + tour_data.flight_segments[k].carrier_code + `.png" width="40" height="40"/>`+tour_data.flight_segments[k].carrier_code;
 //                            }
 
-                        flight_details_text += `</td>`;
+                    flight_details_text += `</td>`;
 
-                        flight_details_text += `
-                            <td class="hidden-xs">`+tour_data.flight_segments[k].carrier_number+`</td>
-                        `;
-                        flight_details_text += `<td colspan="2">`+tour_data.flight_segments[k].origin_id+`<br/>`+tour_data.flight_segments[k].departure_date_fmt;
-                        if(tour_data.flight_segments[k].origin_terminal)
-                        {
-                            flight_details_text += `<br/>Terminal : ` + tour_data.flight_segments[k].origin_terminal;
-                        }
-                        flight_details_text += `</td>`;
-
-                        flight_details_text += `<td colspan="2">`+tour_data.flight_segments[k].destination_id+`<br/>`+tour_data.flight_segments[k].arrival_date_fmt;
-                        if(tour_data.flight_segments[k].destination_terminal)
-                        {
-                            flight_details_text += `<br/>Terminal : ` + tour_data.flight_segments[k].destination_terminal;
-                        }
-                        flight_details_text += `</td>`;
-
-                        flight_details_text += `<td class="hidden-xs">`+tour_data.flight_segments[k].delay+`</td>
-                            </tr>
-                        `;
+                    flight_details_text += `
+                        <td class="hidden-xs">`+tour_data.flight_segments[k].carrier_number+`</td>
+                    `;
+                    flight_details_text += `<td colspan="2">`+tour_data.flight_segments[k].origin_id+`<br/>`+tour_data.flight_segments[k].departure_date_fmt;
+                    if(tour_data.flight_segments[k].origin_terminal)
+                    {
+                        flight_details_text += `<br/>Terminal : ` + tour_data.flight_segments[k].origin_terminal;
                     }
-                    flight_details_text += `</table>
-                                         </div>`;
+                    flight_details_text += `</td>`;
+
+                    flight_details_text += `<td colspan="2">`+tour_data.flight_segments[k].destination_id+`<br/>`+tour_data.flight_segments[k].arrival_date_fmt;
+                    if(tour_data.flight_segments[k].destination_terminal)
+                    {
+                        flight_details_text += `<br/>Terminal : ` + tour_data.flight_segments[k].destination_terminal;
+                    }
+                    flight_details_text += `</td>`;
+
+                    flight_details_text += `<td class="hidden-xs">`+tour_data.flight_segments[k].delay+`</td>
+                        </tr>
+                    `;
                 }
+                flight_details_text += `</table>
+                                     </div>`;
 
                 other_info_text += generate_other_info(tour_data.other_infos)
 
@@ -1162,7 +1157,7 @@ function tour_get_details(tour_code){
                         }
                     }
                 });
-               if (include_flight == 1)
+               if (flight_details_text != '')
                {
                    document.getElementById('flight_details').innerHTML += flight_details_text;
                }
