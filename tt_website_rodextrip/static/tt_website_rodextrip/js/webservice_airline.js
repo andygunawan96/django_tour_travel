@@ -4358,15 +4358,13 @@ function airline_get_booking(data, sync=false){
                                             <div class="col-lg-6">`;
                                     text+=`<h5>Reschedule: `+msg.result.response.reschedule_list[i].reschedule_number+`</h5>`;
                                     text+=`</div>
-                                           <div class="col-lg-6">`
+                                           <div class="col-lg-6" style="text-align:right;">`
                                     text+=`<h5>State: `+msg.result.response.reschedule_list[i].state+`</h5>`;
                                     text+=`</div></div>`;
                                     for(j in msg.result.response.reschedule_list[i].new_segments){
-    //                                    $text += 'Booking Code: ' + msg.result.response.provider_bookings[i].pnr+'\n';
 
                                         text+=`<h5>PNR: `+msg.result.response.reschedule_list[i].new_segments[j].pnr+`</h5>`;
                                         text+=`<h6>Flight `+flight_counter+`</h6>`;
-    //                                        $text += 'Flight '+ flight_counter+'\n';
                                         flight_counter++;
                                         var cabin_class = '';
                                         //yang baru harus diganti
@@ -4379,28 +4377,6 @@ function airline_get_booking(data, sync=false){
                                         else if(msg.result.response.reschedule_list[i].new_segments[j].cabin_class == 'F')
                                             cabin_class = 'First Class';
                                         for(k in msg.result.response.reschedule_list[i].new_segments[j].legs){
-    //                                                try{
-    //                                                    $text += airline_carriers[msg.result.response.reschedule_list[i].provider_bookings[j].journeys[k].segments[l].carrier_code].name + ' ' + msg.result.response.reschedule_list[i].provider_bookings[j].journeys[k].segments[l].carrier_number;
-    //                                                }catch(err){
-    //                                                    $text += msg.result.response.reschedule_list[i].provider_bookings[j].journeys[k].segments[l].carrier_code + ' ' + msg.result.response.reschedule_list[i].provider_bookings[j].journeys[k].segments[l].carrier_number;
-    //                                                }
-    //                                                if(cabin_class != '')
-    //                                                    $text += ' ' + cabin_class;
-    //                                                else
-    //                                                    $text += ' ' + cabin_class;
-    //                                                $text += '\n';
-    //                                                if(msg.result.response.reschedule_list[i].provider_bookings[j].journeys[k].segments[l].legs[m].arrival_date.split('  ')[0] == msg.result.response.reschedule_list[i].provider_bookings[j].journeys[k].segments[l].legs[m].departure_date.split('  ')[0]){
-    //                                                    $text += msg.result.response.reschedule_list[i].provider_bookings[j].journeys[k].segments[l].legs[m].departure_date.split('  ')[0]+' ';
-    //                                                    $text += msg.result.response.reschedule_list[i].provider_bookings[j].journeys[k].segments[l].legs[m].departure_date.split('  ')[1]+' - ';
-    //                                                    $text += msg.result.response.reschedule_list[i].provider_bookings[j].journeys[k].segments[l].legs[m].arrival_date.split('  ')[1]+'\n';
-    //                                                }else{
-    //                                                    $text += msg.result.response.reschedule_list[i].provider_bookings[j].journeys[k].segments[l].legs[m].departure_date.split('  ')[0]+' ';
-    //                                                    $text += msg.result.response.reschedule_list[i].provider_bookings[j].journeys[k].segments[l].legs[m].departure_date.split('  ')[1]+' - ';
-    //                                                    $text += msg.result.response.reschedule_list[i].provider_bookings[j].journeys[k].segments[l].legs[m].arrival_date.split('  ')[0]+' ';
-    //                                                    $text += msg.result.response.reschedule_list[i].provider_bookings[j].journeys[k].segments[l].legs[m].arrival_date.split('  ')[1]+'\n';
-    //                                                }
-    //                                                $text += msg.result.response.reschedule_list[i].provider_bookings[j].journeys[k].segments[l].legs[m].origin_name +' ('+msg.result.response.reschedule_list[i].provider_bookings[j].journeys[k].segments[l].legs[m].origin_city+') - '+msg.result.response.reschedule_list[i].provider_bookings[j].journeys[k].segments[l].legs[m].destination_name +' ('+msg.result.response.reschedule_list[i].provider_bookings[j].journeys[k].segments[l].legs[m].destination_city+')\n\n';
-
                                             text+= `
                                             <div class="row">
                                                 <div class="col-lg-4">`;
@@ -4449,7 +4425,8 @@ function airline_get_booking(data, sync=false){
                                                 </div>
                                             </div>`;
                                         }
-                                        text += `
+                                    }
+                                    text += `
                                             <div class="row">
                                                 <div class="col-lg-6 col-xs-6">
                                                 </div>
@@ -4457,7 +4434,6 @@ function airline_get_booking(data, sync=false){
                                                     <span style="font-weight:500;color:#f15a22">`+currency+` `+getrupiah(msg.result.response.reschedule_list[i].total_amount)+`</span><br/>
                                                 </div>
                                             </div>`;
-                                    }
                                 }
                                 text+=`
                                     </div>
@@ -6515,18 +6491,27 @@ function reissued_btn(){
     document.getElementById('reissued').innerHTML = text;
     $('.reissued-class-airline').niceSelect();
     airline_date = airline_get_detail.result.response.provider_bookings[0].departure_date.split(' ')[0];
-    $('input[name="airline_departure"]').daterangepicker({
-          singleDatePicker: true,
-          autoUpdateInput: true,
-          startDate: airline_date,
-          minDate: moment(),
-          maxDate: moment().subtract(-1, 'years'),
-          showDropdowns: true,
-          opens: 'center',
-          locale: {
-              format: 'DD MMM YYYY',
-          }
-    });
+    counter_airline = 1;
+    for(i in airline_get_detail.result.response.provider_bookings){
+        for(j in airline_get_detail.result.response.provider_bookings[i].journeys){
+            for(k in airline_get_detail.result.response.provider_bookings[i].journeys[j].segments){
+                $('input[id="airline_departure'+counter_airline+'"]').daterangepicker({
+                      singleDatePicker: true,
+                      autoUpdateInput: true,
+                      startDate: airline_date,
+                      startDate: moment(airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].departure_date.split('  ')[0]),
+                      minDate: moment(),
+                      maxDate: moment().subtract(-1, 'years'),
+                      showDropdowns: true,
+                      opens: 'center',
+                      locale: {
+                          format: 'DD MMM YYYY',
+                      }
+                });
+                counter_airline++;
+            }
+        }
+    }
 }
 
 function airline_reissued(){
@@ -6561,7 +6546,8 @@ function airline_reissued(){
     }
     document.getElementById('voucher_discount').hidden = true;
     document.getElementById('reissued').hidden = true;
-    document.getElementById('issued_btn_airline').hidden = true;
+    if(airline_get_detail.result.response.state == 'booked')
+        document.getElementById('issued_btn_airline').hidden = true;
 
     getToken();
     show_loading();
@@ -8048,6 +8034,12 @@ function sell_journey_reissue_construct(){
                        hide_modal_waiting_transaction();
                        document.getElementById('show_loading_booking_airline').hidden = false;
                        if(msg.result.error_code == 0){
+                           for(i in journey){
+                               try{
+                                   document.getElementById('changejourney_pick'+parseInt(1+parseInt(i))).disabled = true;
+                                   document.getElementById('changejourney_pick'+parseInt(1+parseInt(i))).onclick = '';
+                               }catch(err){}
+                           }
                            airline_response = [];
                            for(i in msg.result.response.sell_reschedule_provider){
                                for(j in msg.result.response.sell_reschedule_provider[i].journeys){

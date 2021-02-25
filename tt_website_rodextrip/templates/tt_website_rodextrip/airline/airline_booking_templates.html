@@ -200,25 +200,26 @@
                     </div>
                     {% endif %}
 
-                    <div class="alert alert-danger" style="border:1px solid #cdcdcd;" id="cancel" hidden>
-
-                    </div>
-
                     {% if 'issued_reservation' in username.co_agent_frontend_security %}
                     <button class="primary-btn issued_booking_btn" id="issued_btn_airline" type="button" style="width:100%; display:none;" onclick="focus_box('payment_acq');">
                          {% trans 'Issued Booking' %}
                     </button>
                     {% endif %}
+                    <div style="background-color:white; padding:10px; border:1px solid {{color}};margin-top:15px; position:relative;" id="payment_acq" hidden>
+
+                    </div>
+
+                    <div class="alert alert-danger" style="border:1px solid #cdcdcd;margin-top:15px;" id="cancel" hidden>
+
+                    </div>
+
                     <div id="total_refund_div" style="display:none;">
 
                     </div>
-                    <div style="background-color:white; padding:10px; border:1px solid {{color}};margin-top:10px; position:relative;" id="payment_acq" hidden>
+                    <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;margin-top:15px;" id="ssr_request_after_sales" hidden>
 
                     </div>
-                    <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;margin-top:10px;" id="ssr_request_after_sales" hidden>
-
-                    </div>
-                    <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;margin-top:10px;" id="reissued" hidden>
+                    <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;margin-top:15px;" id="reissued" hidden>
 
                     </div>
                     <button type="button" class="primary-btn" id="button-home" style="width:100%;margin-top:15px;" onclick="window.location.href='/'" hidden>
