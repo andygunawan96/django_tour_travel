@@ -296,8 +296,8 @@ def index(request):
                         'javascript_version': javascript_version,
                         'static_path_url_server': get_url_static_path(),
                     })
-    except:
-        pass
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     if translation.LANGUAGE_SESSION_KEY in request.session:
         del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
