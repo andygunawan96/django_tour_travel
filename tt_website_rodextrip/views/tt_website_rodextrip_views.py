@@ -879,7 +879,7 @@ def mobile_live(request, data):
             'username': {},
             'static_path_url_server': get_url_static_path(),
             'javascript_version': javascript_version,
-            'signature': request.session['signature'],
+            'signature': request.session.get('signature') or '',
             'embed_id': data
         })
     except Exception as e:
