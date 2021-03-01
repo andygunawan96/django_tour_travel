@@ -99,8 +99,6 @@ def api_models(request):
             res = get_top_up_term(request)
         elif req_data['action'] == 'get_booking':
             res = get_booking(request)
-        elif req_data['action'] == 'youtube_api':
-            res = youtube_api_check(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -266,25 +264,6 @@ def get_booking(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
-
-def youtube_api_check(request):
-    api_key_youtube = ''
-    channel_id_youtube = ''
-    file = read_cache_with_folder_path("youtube", 90911)
-    if file:
-        for idx, line in enumerate(file.split('\n')):
-            if idx == 0 and line != '':
-                api_key_youtube = line
-            elif idx == 1 and line != '':
-                channel_id_youtube = line
-    if api_key_youtube != '' and channel_id_youtube != '':
-        url = "https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=" + channel_id_youtube + "&eventType=live&type=video&key=" + api_key_youtube
-        res = util.send_request(url=url, method='GET')
-        res = ERR.get_no_error_api(data={'url': '' if len(res['items']) == 0 else res['items'][0]['id']['videoId']})
-    else:
-        res = ERR.get_no_error_api(data={'url': ''})
-    return res
-    # https://www.youtube.com/watch?v=2FYm3GOonhk
 
 def add_banner(request):
     try:
