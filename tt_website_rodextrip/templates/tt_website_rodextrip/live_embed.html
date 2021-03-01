@@ -1,0 +1,29 @@
+{% extends 'tt_website_rodextrip/template_website_booking.html' %}
+{% load i18n %}
+{% load static from staticfiles %}
+{% block content %}
+{% include 'tt_website_rodextrip/header.html' %}
+<div class="row" >
+    <div class="col-lg-8 col-md-8  col-xs-12" style="padding-left:10px;">
+        <iframe width="100%" height="400" src="https://www.youtube.com/embed/{{embed_id}}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <div class="col-lg-3 col-md-3 col-xs-12" style="margin-right:10px;" id="chat-embed-wrapper">
+
+    </div>
+</div>
+{% include 'tt_website_rodextrip/footer.html' %}
+<script>
+ let frame = document.createElement("iframe");
+ frame.referrerPolicy = "origin";
+ frame.src = "https://www.youtube.com/live_chat?v={{embed_id}}&embed_domain=" + window.location.hostname;
+ frame.frameBorder = "0";
+ frame.id = "chat-embed";
+ frame.width = '100%';
+ frame.height = '400';
+
+ let wrapper = document.getElementById("chat-embed-wrapper");
+ wrapper.innerHTML = '';
+ wrapper.appendChild(frame);
+</script>
+
+{% endblock %}

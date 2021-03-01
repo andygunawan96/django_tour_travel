@@ -1,0 +1,32 @@
+{% load i18n %}
+
+<script>
+    $.ajax({
+       type: "POST",
+       url: "/webservice/content",
+       headers:{
+            'action': 'youtube_api',
+       },
+       data: {
+       },
+       success: function(msg) {
+            console.log(msg);
+            if(msg.error_code == 0 && msg.url != ''){
+                document.body.innerHTML += `
+                    <button type="button" style="background-color:{{color}};" id="live" class="mystickybookingvendor" class="primary-btn" onclick="goto_live_page('`+msg.url+`');">
+                        Live
+                    </button>`;
+                document.getElementById('live').style.bottom = JSON.parse(JSON.stringify(bottom.toString())) + 'px';
+                bottom+=60;
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error youtube');
+       },timeout: 60000
+    });
+
+    function goto_live_page(value){
+        window.location.href="/live/"+value;
+    }
+
+</script>

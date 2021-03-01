@@ -5,6 +5,8 @@ from ..views import tt_website_rodextrip_activity_views as viewActivity
 urlpatterns.append(path(r'page/<str:data>', view.page, name="dynamic_page"))
 urlpatterns.append(path('payment', view.payment, name="payment"))
 urlpatterns.append(path('payment/<str:provider>/<str:order_number>', view.payment_method, name="payment_embed_espay"))
+urlpatterns.append(path('live_mobile/<str:data>', view.mobile_live, name="mobile_live"))
+urlpatterns.append(path('live/<str:data>', view.live, name="live"))
 urlpatterns.append(re_path('reservation', view.reservation, name="reservation"))
 urlpatterns.append(re_path('page_admin', view.admin, name="admin"))
 urlpatterns.append(re_path('testing_chat', view.testing_chat, name="testing_chat"))
