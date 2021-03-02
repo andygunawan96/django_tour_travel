@@ -8142,3 +8142,14 @@ ul.btn_tabs li.current .image-rounded-icon{
     display: block !important;
   }
 }
+
+.bg-img {
+  background-position: center center !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  background-attachment: fixed !important;
+}
+
+.footer-social li{
+    padding-bottom:10px;
+}

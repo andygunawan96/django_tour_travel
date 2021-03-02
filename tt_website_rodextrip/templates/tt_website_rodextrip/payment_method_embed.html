@@ -92,7 +92,7 @@ SGOSignature.receiveForm();
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <span><a href="{% url 'tt_website_rodextrip:index'%}" style="color:{{color}} !important; font-size:14px;"><i class="fas fa-home"></i> Back to Home</a></span>
+                    <span><a href="{% url 'tt_website_rodextrip:index'%}" style="color:{{color}} !important; font-size:14px;"><i class="fas fa-home"></i> {% trans 'Back to Home' %}</a></span>
                 </div>
             </div>
         </div>
@@ -104,7 +104,7 @@ SGOSignature.receiveForm();
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
                 <div id="logo" class="col-lg-12">
-                    <span><a href="{% url 'tt_website_rodextrip:index'%}" style="color:{{color}} !important; font-size:14px;"><i class="fas fa-home"></i> Back to Home</a></span>
+                    <span><a href="{% url 'tt_website_rodextrip:index'%}" style="color:{{color}} !important; font-size:14px;"><i class="fas fa-home"></i> {% trans 'Back to Home' %}</a></span>
                 </div>
             </div>
         </div>
@@ -340,7 +340,7 @@ SGOSignature.receiveForm();
     <div class="container">
         <div class="row" style="background: white; border:1px solid #cdcdcd; padding:15px;">
             <div class="col-lg-12" style="padding:0px;">
-                <h3>Transfer Guide</h3><br/>
+                <h3>{% trans 'Transfer Guide' %}</h3><br/>
             </div>
             {% for data_payment in data_payments%}
             <div class="col-lg-12 div_dropdown" style="padding:0px;" onclick="div_dropdown('{{data_payment.seq_id}}');">
@@ -348,7 +348,6 @@ SGOSignature.receiveForm();
                     <span><b>{{data_payment.heading}}</b></span>
                     <span class="ion-ios-arrow-down" id="down_{{data_payment.seq_id}}" style="float: right; cursor: pointer; display: inline-block;"><i class="fas fa-caret-down" style="color:{{color}};"></i></span>
                     <span class="ion-ios-arrow-up" id="up_{{data_payment.seq_id}}" style="float: right; cursor: pointer; display: none;"><i class="fas fa-caret-up" style="color:{{color}};"></i></span>
-
                 </div>
             </div>
             <div class="col-lg-12 mb-3 mt-3" id="div_{{data_payment.seq_id}}" style="padding:0px; display: none;">
@@ -378,7 +377,7 @@ try{
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <span><a href="{% url 'tt_website_rodextrip:index'%}" style="color:{{color}} !important; font-size:14px;"><i class="fas fa-home"></i> Back to Home</a></span>
+                    <span><a href="{% url 'tt_website_rodextrip:index'%}" style="color:{{color}} !important; font-size:14px;"><i class="fas fa-home"></i> {% trans 'Back to Home' %}</a></span>
                 </div>
             </div>
         </div>
@@ -390,7 +389,7 @@ try{
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
                 <div id="logo" class="col-lg-12">
-                    <span><a href="{% url 'tt_website_rodextrip:index'%}" style="color:{{color}} !important; font-size:14px;"><i class="fas fa-home"></i> Back to Home</a></span>
+                    <span><a href="{% url 'tt_website_rodextrip:index'%}" style="color:{{color}} !important; font-size:14px;"><i class="fas fa-home"></i> {% trans 'Back to Home' %}</a></span>
                 </div>
             </div>
         </div>
@@ -528,7 +527,7 @@ try{
     <div class="container">
         <div class="row" style="background: white; border:1px solid #cdcdcd; padding:15px;">
             <div class="col-lg-12" style="padding:0px;">
-                <h3>Transfer Guide</h3><br/>
+                <h3>{% trans 'Transfer Guide' %}</h3><br/>
             </div>
             {% for data_payment in data_payments%}
             <div class="col-lg-12 div_dropdown" style="padding:0px;" onclick="div_dropdown('{{data_payment.seq_id}}');">

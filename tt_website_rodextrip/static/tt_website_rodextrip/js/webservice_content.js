@@ -873,11 +873,11 @@ function get_dynamic_page(type){
                     for(i in msg.result.response){
                         if(msg.result.response[i].state == true){
                             text+=`
-                            <div class="item" style="text-align:center;" onclick="window.location.href='/page/`+msg.result.response[i].url+`'">
+                            <div class="item" style="cursor:pointer; float:none; height:400px; display: flex; justify-content: center; align-items: center;" onclick="window.location.href='/page/`+msg.result.response[i].url+`'">
                                 <center>
-                                    <img class="img-fluid" alt="`+msg.result.response[i].title+`" style="height:360px; width:auto;" src="`+msg.result.response[i].image_carousel+`">
+                                    <h3 style="width:fit-content; margin-bottom:15px; border-bottom:4px solid `+color+`;">`+msg.result.response[i].title+`</h3>
+                                    <img class="img-fluid" alt="`+msg.result.response[i].title+`" style="max-height:360px; width:auto;" src="`+msg.result.response[i].image_carousel+`">
                                 </center>
-                                <h4 style="background-color:`+color+`; width:100%; display:inline; padding: 0px 20px; color:`+text_color+`">`+msg.result.response[i].title+`</h4>
                             </div>`;
                         }
                     }
