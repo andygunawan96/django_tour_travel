@@ -12,6 +12,7 @@
  * Demos: https://stephanwagner.me/jBox/demos
  */
 
+
 function jBoxWrapper(jQuery) {
 
 

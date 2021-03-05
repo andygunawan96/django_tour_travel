@@ -80,7 +80,7 @@
 {% include 'tt_website_rodextrip/plugin_passenger.html' %}
 {% include 'tt_website_rodextrip/booking_from_vendor_airline.html' %}
 {% include 'tt_website_rodextrip/plugin_get_booking_b2c.html' %}
-{% include 'tt_website_rodextrip/loading_screen.html' %}
+<!--{% include 'tt_website_rodextrip/loading_screen.html' %}-->
 {% include 'tt_website_rodextrip/logout.html' %}
 {% endif %}
 {% include 'tt_website_rodextrip/header.html' %}
@@ -232,6 +232,7 @@
     </div>
 </div>
 <input type="hidden" id="g-recaptcha-response" />
+
 <!--wizard hotel testing-->
 {%if template == 1%}
 <div id="notification_div" style="position:fixed; z-index:999; top:20px; right:20px;"></div>
@@ -6584,6 +6585,7 @@
 <div id="promotion">
 
 </div>
+
 {% include 'tt_website_rodextrip/footer.html' %}
 {% include 'tt_website_rodextrip/plugin_live_youtube.html' %}
 <script>
@@ -6917,6 +6919,7 @@
           $("#hotel_checkin_wizard").val(moment().subtract(-1, 'days').format('DD MMM YYYY'));
           $("#hotel_checkout_wizard").val(moment().subtract(-2, 'days').format('DD MMM YYYY'));
           {% endif %}
+
           get_banner('big_banner','home');
           get_banner('small_banner','home');
           {% if website_mode == 'btc' or website_mode == 'btc_btb' %}

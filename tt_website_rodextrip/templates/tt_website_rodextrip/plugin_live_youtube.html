@@ -1,4 +1,5 @@
 {% load i18n %}
+<div id="plugin_live_youtube"></div>
 
 <script>
     $.ajax({
@@ -12,12 +13,45 @@
        success: function(msg) {
             console.log(msg);
             if(msg.error_code == 0 && msg.url != ''){
-                document.body.innerHTML += `
-                    <button type="button" style="background-color:{{color}};" id="live" class="mystickybookingvendor" class="primary-btn" onclick="goto_live_page('`+msg.url+`');">
-                        Live
-                    </button>`;
+                document.getElementById("plugin_live_youtube").innerHTML += `
+                <div id="live_show" class="target-click" style="display:none;"></div>
+                <button type="button" style="background-color:white;" id="live" class="mystickybookingvendor notif-btn" onclick="goto_live_page('`+msg.url+`');">
+                    <img src="/static/tt_website_rodextrip/images/youtubelive.png" style="width:auto; height:50px;">
+                </button>`;
                 document.getElementById('live').style.bottom = JSON.parse(JSON.stringify(bottom.toString())) + 'px';
                 bottom+=60;
+
+                if (user_login.co_user_login != 'agent_b2c'){
+                    content_notice = `Hello <b>`+user_login.co_user_name+`</b>, <br/><b style="color:`+color+`;">`+web_name+` is Live now!</b>`;
+                }else{
+                    content_notice = `Hello <b>Customer</b>, <br/><b style="color:`+color+`;">`+web_name+` is Live now!</b>`;
+                }
+
+                setTimeout(function(){
+                    new jBox('Tooltip', {
+                        attach: '#live_show',
+                        target: '#live',
+                        theme: 'TooltipBorder',
+                        trigger: 'click',
+                        adjustTracker: true,
+                        closeOnClick: 'body',
+                        closeButton: 'box',
+                        animation: 'move',
+                        position: {
+                          x: 'left',
+                          y: 'center'
+                        },
+                        outside: 'x',
+                        pointer: 'top:15',
+                        offset: {
+                          x: 0
+                        },
+                        content: content_notice,
+                    });
+
+                    $("#live_show").click();
+                }, 5000);
+
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -28,5 +62,4 @@
     function goto_live_page(value){
         window.location.href="/live/"+value;
     }
-
 </script>
