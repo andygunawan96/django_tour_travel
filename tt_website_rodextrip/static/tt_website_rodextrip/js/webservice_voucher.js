@@ -100,7 +100,9 @@ function check_voucher(){
                 order_number = airline_get_detail.result.response.order_number;
             }catch(err){}
         }else if(provider_type_id == 'train'){
-            provider_id = ['kai'];
+            for(i in train_get_detail.result.response.provider_bookings){
+                provider_id.push(train_get_detail.result.response.provider_bookings[i].provider)
+            }
             try{
                 order_number = train_get_detail.result.response.order_number;
             }catch(err){}

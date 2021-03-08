@@ -8153,3 +8153,65 @@ ul.btn_tabs li.current .image-rounded-icon{
 .footer-social li{
     padding-bottom:10px;
 }
+
+.notif-btn {
+  background: #C30F42;
+  cursor: pointer;
+  outline: 0;
+  border: none;
+
+  -webkit-transition: all .3s ease;
+  -o-transition: all .3s ease;
+  transition: all .3s ease;
+
+  -webkit-animation: pulse 1.6s infinite;
+  animation: pulse 1.6s infinite;
+}
+
+.notif-btn:hover,
+.notif-btn:active {
+  background: rgba(238, 46, 45, 1);
+
+  -webkit-animation: none;
+  animation: none;
+}
+
+/* Animations */
+
+@-webkit-keyframes pulse {
+
+  0% {
+    -webkit-box-shadow: 0 0 0 0 rgba(238, 46, 45, .85);
+    box-shadow: 0 0 0 0 rgba(238, 46, 45, .85);
+  }
+
+  70% {
+    -webkit-box-shadow: 0 0 0 2em rgba(238, 46, 45, 0);
+    box-shadow: 0 0 0 2em rgba(238, 46, 45, 0);
+  }
+
+  100% {
+    -webkit-box-shadow: 0 0 0 0 rgba(238, 46, 45, 0);
+    box-shadow: 0 0 0 0 rgba(238, 46, 45, 0);
+  }
+
+}
+
+@keyframes pulse {
+
+  0% {
+    -webkit-box-shadow: 0 0 0 0 rgba(238, 46, 45, .85);
+    box-shadow: 0 0 0 0 rgba(238, 46, 45, .85);
+  }
+
+  70% {
+    -webkit-box-shadow: 0 0 0 2em rgba(238, 46, 45, 0);
+    box-shadow: 0 0 0 2em rgba(238, 46, 45, 0);
+  }
+
+  100% {
+    -webkit-box-shadow: 0 0 0 0 rgba(238, 46, 45, 0);
+    box-shadow: 0 0 0 0 rgba(238, 46, 45, 0);
+  }
+
+}

@@ -1469,9 +1469,11 @@ function pick_passenger(type, sequence, product){
                 document.getElementById('booker_email').value = passenger_data[sequence].email;
                 try{
                     var phone = document.getElementById('phone_chosen'+sequence).value;
-                    document.getElementById('booker_phone_code').value = phone.split(' - ')[0];
-                    document.getElementById('select2-booker_phone_code_id-container').innerHTML = phone.split(' - ')[0];
-                    document.getElementById('booker_phone').value = phone.split(' - ')[1];
+                    if(phone != false){
+                        document.getElementById('booker_phone_code').value = phone.split(' - ')[0];
+                        document.getElementById('select2-booker_phone_code_id-container').innerHTML = phone.split(' - ')[0];
+                        document.getElementById('booker_phone').value = phone.split(' - ')[1];
+                    }
                 }catch(err){
 
                 }
