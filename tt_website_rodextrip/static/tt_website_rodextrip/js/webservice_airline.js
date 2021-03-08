@@ -7763,7 +7763,7 @@ function get_chosen_ticket(type='all'){
     document.getElementById('airline_reissue_div').innerHTML = text;
 }
 
-function get_price_itinerary_reissue_request(airline_response, total_admin_fee){
+function get_price_itinerary_reissue_request(airline_response, total_admin_fee, msg){
     //ganti dari response
     text = '';
     total_price = 0;
@@ -7944,6 +7944,22 @@ function get_price_itinerary_reissue_request(airline_response, total_admin_fee){
     text+=`
         </div>
     </div>`;
+    text_err = '';
+    for(i in msg){
+        for(j in msg[i]['messages']){
+            if(i == 0 && j == 0){
+                text_err += `<div class="col-lg-12">
+                                <div class="row">`;
+            }
+            text_err += `
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:left;">
+                <span style="font-size:14px;color:red;">`+msg[i]['messages'][j]+`</span>
+            </div>`
+        }
+    }
+    if(text_err != '')
+        text_err += `</div></div>`;
+    text += text_err;
     if(airline_get_detail.result.response.state == 'booked' ){
         text+=`
     <div class="col-lg-12">
@@ -8103,7 +8119,7 @@ function sell_journey_reissue_construct(){
                            for(i=0;i<airline_response.length;i++){
 
                            }
-                           get_price_itinerary_reissue_request(airline_response, msg.result.response.total_admin_fee);
+                           get_price_itinerary_reissue_request(airline_response, msg.result.response.total_admin_fee, msg.result.response.sell_reschedule_provider);
                            if(airline_get_detail.result.response.state == 'issued'){
                                get_payment_acq('Issued',airline_get_detail.result.response.booker.seq_id, airline_get_detail.result.response.order_number, 'billing',signature,'airline_reissue');
                                document.getElementById('payment_acq').hidden = false;
