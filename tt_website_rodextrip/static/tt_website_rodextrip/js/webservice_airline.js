@@ -3932,8 +3932,10 @@ function airline_get_booking(data, sync=false){
            //get booking view edit here
            try{
                if(msg.result.error_code == 0){
-                if(msg.result.response.state == 'booked' || msg.result.response.state == 'partial_booked' || msg.result.response.state == 'partial_issued' || msg.result.response.state == 'fail_issued')
+                if(msg.result.response.state == 'booked' || msg.result.response.state == 'partial_booked' || msg.result.response.state == 'partial_issued' || msg.result.response.state == 'fail_issued'){
                     document.getElementById('div_sync_status').hidden = false;
+                    document.getElementById('issued_btn_airline').hidden = false;
+                }
                 for(i in msg.result.response.passengers[0].sale_service_charges){
                     for(j in msg.result.response.passengers[0].sale_service_charges[i]){
                         currency = msg.result.response.passengers[0].sale_service_charges[i][j].currency
@@ -6466,8 +6468,8 @@ function reissued_btn(){
             </div>
         </div>`;
             flight++;
-        text+=`</div>`;
         }
+        text+=`</div>`;
         text+=`
             <div class="row">
                 <div class="col-lg-12">
@@ -6498,7 +6500,7 @@ function reissued_btn(){
                 $('input[id="airline_departure'+counter_airline+'"]').daterangepicker({
                       singleDatePicker: true,
                       autoUpdateInput: true,
-                      startDate: airline_date,
+                      autoApply: true,
                       startDate: moment(airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].departure_date.split('  ')[0]),
                       minDate: moment(),
                       maxDate: moment().subtract(-1, 'years'),
@@ -6507,7 +6509,47 @@ function reissued_btn(){
                       locale: {
                           format: 'DD MMM YYYY',
                       }
+                }, function(start, end, label) {
+                    document.getElementById(this.element.context.id).value = moment(start._d).format('DD MMM YYYY');
+                    check_next_date_journey_reissue();
                 });
+
+                counter_airline++;
+            }
+        }
+    }
+}
+
+function check_next_date_journey_reissue(){
+    counter_airline = 1;
+    min_date = '';
+    for(i in airline_get_detail.result.response.provider_bookings){
+        for(j in airline_get_detail.result.response.provider_bookings[i].journeys){
+            for(k in airline_get_detail.result.response.provider_bookings[i].journeys[j].segments){
+                if(min_date == '')
+                    min_date = moment();
+                if(moment(min_date) > moment($('input[id="airline_departure'+counter_airline+'"]').val()))
+                    select_date = min_date;
+                else
+                    select_date = moment($('input[id="airline_departure'+counter_airline+'"]').val());
+                console.log(select_date);
+                console.log(min_date);
+                $('input[id="airline_departure'+counter_airline+'"]').daterangepicker({
+                      singleDatePicker: true,
+                      autoUpdateInput: true,
+                      startDate: select_date,
+                      minDate: min_date,
+                      maxDate: moment().subtract(-1, 'years'),
+                      showDropdowns: true,
+                      opens: 'center',
+                      locale: {
+                          format: 'DD MMM YYYY',
+                      }
+                }, function(start, end, label) {
+                    document.getElementById(this.element.context.id).value = moment(start._d).format('DD MMM YYYY');
+                    check_next_date_journey_reissue();
+                });
+                min_date = $('input[id="airline_departure'+counter_airline+'"]').val();
                 counter_airline++;
             }
         }
@@ -6544,7 +6586,9 @@ function airline_reissued(){
         cabin_class++;
         journey_list = [];
     }
-    document.getElementById('voucher_discount').hidden = true;
+    try{
+        document.getElementById('voucher_discount').hidden = true;
+    }catch(err){}
     document.getElementById('reissued').hidden = true;
     if(airline_get_detail.result.response.state == 'booked')
         document.getElementById('issued_btn_airline').hidden = true;
