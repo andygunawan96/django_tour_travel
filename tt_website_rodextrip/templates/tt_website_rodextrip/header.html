@@ -79,7 +79,9 @@
                             {% if "report" in username.co_agent_frontend_security %}
                             <li><a href="{% url 'tt_website_rodextrip:report'%}">Report</a></li>
                             {% endif %}
+                            {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                             <li><a href="" id="backend_btn">Backend</a></li>
+                            {% endif %}
                             <!--<li><a href="javascript:test_ledger(10);">Test Ledger</a></li>-->
 
                             <li>
@@ -98,7 +100,9 @@
                             {% if "report" in username.co_agent_frontend_security %}
                             <li><a href="{% url 'tt_website_rodextrip:report'%}">Report</a></li>
                             {% endif %}
+                            {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                             <li><a href="" id="backend_btn2">Backend</a></li>
+                            {% endif %}
                             <!--<li><a href="javascript:test_ledger(10);">Test Ledger</a></li>-->
                             <li>
                                 <a>
@@ -304,7 +308,9 @@
                                     {% if "report" in username.co_agent_frontend_security %}
                                     <li><a href="{% url 'tt_website_rodextrip:report'%}">Report</a></li>
                                     {% endif %}
+                                    {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                     <li><a href="" id="backend_btn">Backend</a></li>
+                                    {% endif %}
                                     <li style="z-index:5;">
                                         <a>
                                             <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Logout' %}</button>
@@ -323,7 +329,9 @@
                                     {% if "report" in username.co_agent_frontend_security %}
                                     <li><a href="{% url 'tt_website_rodextrip:report'%}">Report</a></li>
                                     {% endif %}
+                                    {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                     <li class="pt5"><a href="" id="backend_btn2">Backend</a></li>
+                                    {% endif %}
                                     <li style="z-index:5;">
                                         <a>
                                             <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Logout' %}</button>
@@ -477,7 +485,9 @@
                                 {% if "report" in username.co_agent_frontend_security %}
                                 <li><a href="{% url 'tt_website_rodextrip:report'%}">Report</a></li>
                                 {% endif %}
+                                {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                 <li><a href="" id="backend_btn">Backend</a></li>
+                                {% endif %}
                                 <li>
                                     <center>
                                         <a>
@@ -496,7 +506,9 @@
                                 {% if "report" in username.co_agent_frontend_security %}
                                 <li><a href="{% url 'tt_website_rodextrip:report'%}">Report</a></li>
                                 {% endif %}
+                                {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                 <li><a href="" id="backend_btn2">Backend</a></li>
+                                {% endif %}
                                 <li>
                                     <a>
                                         <button type="button" onclick="logout();" class="primary-btn-ticket" style="color:{{text_color}};">{% trans 'Logout' %}</button>
@@ -653,7 +665,9 @@
                                 {% if "report" in username.co_agent_frontend_security %}
                                 <li><a href="{% url 'tt_website_rodextrip:report'%}">Report</a></li>
                                 {% endif %}
+                                {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                 <li><a href="" id="backend_btn">Backend</a></li>
+                                {% endif %}
                                 <li>
                                     <a>
                                         <button type="button" onclick="logout();" class="primary-btn-ticket" style="color:{{text_color}};">{% trans 'Logout' %}</button>
@@ -670,7 +684,9 @@
                                 {% if "report" in username.co_agent_frontend_security %}
                                 <li><a href="{% url 'tt_website_rodextrip:report'%}">Report</a></li>
                                 {% endif %}
+                                {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                 <li><a href="" id="backend_btn2">Backend</a></li>
+                                {% endif %}
                                 <li>
                                     <a>
                                         <button type="button" onclick="logout();" class="primary-btn-ticket" style="color:{{text_color}};">{% trans 'Logout' %}</button>
@@ -833,7 +849,9 @@
                             {% if "report" in username.co_agent_frontend_security %}
                             <li><a href="{% url 'tt_website_rodextrip:report'%}">Report</a></li>
                             {% endif %}
+                            {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                             <li><a href="" id="backend_btn">Backend</a></li>
+                            {% endif %}
                             <li>
                                 <a>
                                     <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Logout' %}</button>
@@ -850,7 +868,9 @@
                             {% if "report" in username.co_agent_frontend_security %}
                             <li><a href="{% url 'tt_website_rodextrip:report'%}">Report</a></li>
                             {% endif %}
+                            {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                             <li><a href="" id="backend_btn2">Backend</a></li>
+                            {% endif %}
                             <li>
                                 <a>
                                     <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Logout' %}</button>
@@ -920,9 +940,10 @@
     //$('head').append( '<meta property="og:title" content="{{name}}" />' );
     //$('head').append( '<meta property="og:type" content="website" />' );
     //$('head').append( '<meta property="og:url" content="https://rodextrip.com" />' );
-
+    {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
     document.getElementById('backend_btn').href = url;
     document.getElementById('backend_btn2').href = url;
+    {% endif %}
     {% if username.co_user_login != '' %}
         get_highlight('header');
         if(document.URL.split('/')[document.URL.split('/').length-1] != 'ssr' || document.URL.split('/')[document.URL.split('/').length-1] != 'seat'){

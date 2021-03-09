@@ -64,23 +64,6 @@
     order_number_full = `{{order_number}}`;
 </script>
 {% if provider_payment == 'espay'%}
-<script type="text/javascript" src="{{espay_script}}"></script>
-<script type="text/javascript">
-/*
-window.onload = function () {
-var data = {
-    paymentId: '{{order_number}}',
-    key: '{{espay_api_key}}',
-    backUrl: encodeURIComponent ('{{espay_api_key_callback_url}}{{provider_type}}/booking/'+btoa(order_number)),
-    display : 'tab'
-},
-sgoPlusIframe = document.getElementById("sgoplus-iframe");
-if (sgoPlusIframe !== null) {
-    sgoPlusIframe.src = SGOSignature.getIframeURL(data);
-}
-SGOSignature.receiveForm();
-};*/
-</script>
 
 <link href="{{ static_path }}css/espay/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
 <link href="{{ static_path }}css/espay/stylev3.min.css" media="screen" rel="stylesheet" type="text/css">
@@ -362,7 +345,6 @@ SGOSignature.receiveForm();
 
 <script>
 try{
-    url_callback = '{{espay_api_key_callback_url}}'+'{{provider_type}}'+'/booking/'+btoa(order_number);
     document.getElementById("btn_done").onclick = function() {window.location='/{{provider_type}}'+'/booking/'+btoa(order_number); }
 }catch(err){}
 </script>
@@ -548,7 +530,6 @@ try{
     </div>
 </section>
 <script>
-url_callback = '{{espay_api_key_callback_url}}'+'{{provider_type}}'+'/booking/'+btoa(order_number);
 document.getElementById("btn_done").onclick = function() {window.location='/{{provider_type}}'+'/booking/'+btoa(order_number); }
 </script>
 

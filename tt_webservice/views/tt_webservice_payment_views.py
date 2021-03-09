@@ -179,7 +179,7 @@ def set_payment_method(request):
             "action": "set_invoice",
             "signature": request.POST['signature']
         }
-        res = util.send_request(url=url + 'payment', data=data, headers=headers, method='POST')
+        res = util.send_request(url=url + 'payment', data=data, headers=headers, method='POST',timeout=120)
         if res['result']['error_code'] == 0:
             res['result']['response']['expired'] = convert_string_to_date_to_string_front_end_with_time(res['result']['response']['expired'])
             res['result']['response']['rs_datetime'] = convert_string_to_date_to_string_front_end_with_time(res['result']['response']['rs_datetime'])

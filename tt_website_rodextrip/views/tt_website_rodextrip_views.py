@@ -632,11 +632,11 @@ def admin(request):
                                 text += '\n'
                         except:
                             pass
-                    text += request.POST['espay_key'] + '\n'
-                    text += request.POST['espay_key_callback_url'] + '\n'
+                    text += '\n'
+                    text += '\n'
                     text += request.POST['backend_url'] + '\n'
                     text += request.POST['website_mode'] + '\n'
-                    text += request.POST['espay_script'] + '\n'
+                    text += '\n'
                     text += request.POST['google_analytics'] + '\n'
                     text += '<br>'.join(''.join(request.POST['contact_us'].split('\r')).split('\n')) + '\n'
                     opacity = 'FF'
