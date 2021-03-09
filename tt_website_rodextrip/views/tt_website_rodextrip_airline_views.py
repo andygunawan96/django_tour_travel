@@ -392,6 +392,10 @@ def passenger(request):
             #CHECK INI
             set_session(request, 'airline_price_itinerary', json.loads(request.POST['airline_price_itinerary']))
             set_session(request, 'airline_get_price_request', json.loads(request.POST['airline_price_itinerary_request']))
+            try:
+                set_session(request, 'airline_sell_journey', json.loads(request.POST['airline_sell_journey_response']))
+            except:
+                _logger.info('no sell journey input')
             set_session(request, 'time_limit', int(request.POST['time_limit_input']))
             set_session(request, 'signature', request.POST['signature'])
             set_session(request, 'airline_signature', request.POST['signature'])
@@ -401,7 +405,8 @@ def passenger(request):
 
         is_lionair = False
         is_international = False
-        for airline in request.session['airline_price_itinerary']['price_itinerary_provider']:
+        airline_price_provider_temp = request.session['airline_sell_journey']['sell_journey_provider'] if request.session.get('airline_sell_journey') else request.session['airline_price_itinerary']['price_itinerary_provider']
+        for airline in airline_price_provider_temp:
             for journey in airline['journeys']:
                 for segment in journey['segments']:
                     for leg in segment['legs']:
@@ -427,10 +432,10 @@ def passenger(request):
                 'countries': airline_country,
                 'phone_code': phone_code,
                 'airline_request': request.session['airline_request'],
-                'price': request.session['airline_price_itinerary'],
+                'price': request.session['airline_sell_journey'] if request.session.get('airline_sell_journey') else request.session['airline_price_itinerary'],
                 'airline_get_price_request': request.session['airline_get_price_request'],
                 'airline_carriers': carrier,
-                'airline_pick': request.session['airline_price_itinerary']['price_itinerary_provider'],
+                'airline_pick': request.session['airline_sell_journey']['sell_journey_provider'] if request.session.get('airline_sell_journey') else request.session['airline_price_itinerary']['price_itinerary_provider'],
                 'adults': adult,
                 'childs': child,
                 'infants': infant,
@@ -500,7 +505,7 @@ def ssr(request):
                 values.update({
                     'static_path': path_util.get_static_path(MODEL_NAME),
                     'airline_request': request.session['airline_request'],
-                    'price': request.session['airline_price_itinerary'],
+                    'price': request.session['airline_sell_journey'] if request.session.get('airline_sell_journey') else request.session['airline_price_itinerary'],
                     'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                     'countries': airline_country,
                     'phone_code': phone_code,
@@ -508,7 +513,7 @@ def ssr(request):
                     'additional_price': float(additional_price_input),
                     'airline_carriers': carrier,
                     # 'airline_destinations': airline_destinations,
-                    'airline_pick': request.session['airline_price_itinerary']['price_itinerary_provider'],
+                    'airline_pick': request.session['airline_sell_journey']['sell_journey_provider'] if request.session.get('airline_sell_journey') else request.session['airline_price_itinerary']['price_itinerary_provider'],
                     'upsell': request.session.get('airline_upsell_'+request.session['airline_signature']) and request.session.get('airline_upsell_'+request.session['airline_signature']) or 0,
                     'signature': request.session['airline_signature'],
                     'airline_ssrs': airline_ssr,
@@ -901,7 +906,7 @@ def seat_map(request):
                     'after_sales': 0,
                     'upsell': request.session.get('airline_upsell_'+request.session['airline_signature']) and request.session.get('airline_upsell_'+request.session['airline_signature']) or 0,
                     'airline_request': request.session['airline_request'],
-                    'price': request.session['airline_price_itinerary'],
+                    'price': request.session['airline_sell_journey'] if request.session.get('airline_sell_journey') else request.session['airline_price_itinerary'],
                     'additional_price': float(additional_price_input),
                     'passengers': passenger,
                     'username': request.session['user_account'],
@@ -1280,7 +1285,8 @@ def review(request):
             for i in additional_price:
                 additional_price_input += i
             force_issued = True
-            for airline in request.session['airline_price_itinerary']['price_itinerary_provider']:
+            airline_price_temp = request.session['airline_sell_journey']['sell_journey_provider'] if request.session.get('airline_sell_journey') else request.session['airline_price_itinerary']['price_itinerary_provider']
+            for airline in airline_price_temp:
                 if airline['provider'] == 'traveloka':
                     force_issued = False
 
@@ -1293,10 +1299,10 @@ def review(request):
                 'ssr': request.session.get('airline_get_ssr')['result']['error_code'] if request.session.get('airline_get_ssr') else 1,
                 'seat': request.session.get('airline_get_seat_availability')['result']['error_code'] if request.session.get('airline_get_seat_availability') else 1,
                 'airline_request': request.session['airline_request'],
-                'price': request.session['airline_price_itinerary'],
-                'airline_pick': request.session['airline_price_itinerary']['price_itinerary_provider'],
+                'price': request.session['airline_sell_journey'] if request.session.get('airline_sell_journey') else request.session['airline_price_itinerary'],
+                'airline_pick': request.session['airline_sell_journey']['sell_journey_provider'] if request.session.get('airline_sell_journey') else request.session['airline_price_itinerary']['price_itinerary_provider'],
                 'back_page': request.META.get('HTTP_REFERER'),
-                'json_airline_pick': request.session['airline_price_itinerary']['price_itinerary_provider'],
+                'json_airline_pick': request.session['airline_sell_journey']['sell_journey_provider'] if request.session.get('airline_sell_journey') else request.session['airline_price_itinerary']['price_itinerary_provider'],
                 'airline_carriers': airline_carriers,
                 'additional_price': float(additional_price_input.split(' ')[len(additional_price_input.split(' '))-1]),
                 'username': request.session['user_account'],
@@ -1307,7 +1313,7 @@ def review(request):
                 'static_path_url_server': get_url_static_path(),
                 'signature': request.session['airline_signature'],
                 'time_limit': int(request.POST['time_limit_input']),
-                'airline_get_price_request': request.session['airline_get_price_request'],
+                'airline_get_price_request': request.session['airline_sell_journey'] if request.session.get('airline_sell_journey') else request.session['airline_price_itinerary'],
                 # 'co_uid': request.session['co_uid'],
                 # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
             })

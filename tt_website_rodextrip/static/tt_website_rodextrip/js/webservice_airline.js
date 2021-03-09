@@ -2784,6 +2784,7 @@ function airline_sell_journeys(){
        success: function(msg) {
            console.log(msg);
            if(msg.result.error_code == 0){
+               document.getElementById('airline_sell_journey_response').value = JSON.stringify(msg.result.response);
                get_seat_availability('');
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 auto_logout();
