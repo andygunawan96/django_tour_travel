@@ -1395,7 +1395,7 @@ function hotel_room_pick(key, key2){
     $text2 += 'Address: '+ get_address_hotel +'\n';
     $text2 += get_date_hotel +'\n\n';
     total_price_hotel = 0;
-    room_name = document.getElementById("name_room_htl"+key2).value;
+    room_name = document.getElementById("name_room_htl"+key).value;
 
     text += `<h5 class="mb-2">`+room_name+`</h5>`;
     text += '<h6>Cancellation: </h6><div id="cancellation_policy_choose" class="mb-3">';
@@ -1439,7 +1439,7 @@ function hotel_room_pick(key, key2){
         text += `<div class="col-lg-12"><hr/></div></div>`;
         total_price_hotel += hotel_room.rooms[i].price_total;
         $text2 += 'Total: IDR '+getrupiah(hotel_room.rooms[i].price_total) + ' ';
-        $text2 += '(for 1 room, ' +total_night+ 'night) \n\n';
+        $text2 += '(for 1 room, ' +total_night+ ' night) \n\n';
     }
     text += `</div>`;
 
@@ -1849,13 +1849,14 @@ function hotel_detail(old_cancellation_policy){
     //console.log(old_cancellation_policy);
     old_cancellation_text = ``;
     for(i in old_cancellation_policy){
-        if (old_cancellation_policy[i].received_amount != 0){
-            old_cancellation_text += '<li style="list-style: unset;">Cancellation Before: ' + old_cancellation_policy[i].date + ' will be Refunded: ' + old_cancellation_policy[i].received_amount + '</li>';
+        //if (old_cancellation_policy[i].received_amount != 0){
+            //old_cancellation_text += '<li style="list-style: unset;">Cancellation Before: ' + old_cancellation_policy[i].date + ' will be Refunded: ' + old_cancellation_policy[i].received_amount + '</li>';
             //$text2 += 'Cancellation Before: ' + result.policies[i].date + ' will be Refunded: ' + result.policies[i].received_amount + '\n';
-        } else {
-            old_cancellation_text += '<li style="list-style: unset;">No Cancellation after: ' + old_cancellation_policy[i].date;
+        //} else {
+            //old_cancellation_text += '<li style="list-style: unset;">No Cancellation after: ' + old_cancellation_policy[i].date + '</li>';
             //$text2 += 'No Cancellation after: ' + result.policies[i].date + '\n';
-        }
+        //}
+        old_cancellation_text += '<li style="list-style: unset;">' + old_cancellation_policy[i].cancellation_string + '</li>';
     }
     if (old_cancellation_text == ''){
         old_cancellation_text += '<li style="list-style: unset;">No Cancellation Policy Provided</li>';
@@ -1863,13 +1864,10 @@ function hotel_detail(old_cancellation_policy){
     }
 
     new_cancellation_text = ``;
-    for(i in old_cancellation_policy){
-        if (old_cancellation_policy[i].received_amount != 0){
-            new_cancellation_text += '<li style="list-style: unset;">Cancellation Before: ' + old_cancellation_policy[i].date + ' will be Refunded: ' + old_cancellation_policy[i].received_amount + '</li>';
-        } else {
-            new_cancellation_text += '<li style="list-style: unset;">No Cancellation after: ' + old_cancellation_policy[i].date;
-        }
-    }
+    // Vin 2021/03/08 Notes: new_cancellation_policy blum dipassing di sini
+    //for(i in new_cancellation_policy){
+        //new_cancellation_text += '<li style="list-style: unset;">' + new_cancellation_policy[i].cancellation_string + '</li>';
+    //}
     if (new_cancellation_text == ''){
         new_cancellation_text = old_cancellation_text;
     }
@@ -2003,18 +2001,18 @@ function hotel_detail(old_cancellation_policy){
                 text+=`
                     <span style="font-size:13px; font-weight:500;">IDR `+getrupiah(upsell_price)+`</span><br/>`;
                 text+=`</div>`;
-                grand_total_price += upsell_price;
+                total_price_hotel += upsell_price;
             }
         }catch(err){console.log(err)}
     try{
     text += `<div class="col-lg-6">
-            <span style="font-weight:bold;font-size:15px;">Grand Total</span>
+            <span style="font-weight:bold;font-size:15px;">Grand Total 2</span>
         </div>
         <div class="col-lg-6" style="text-align:right;">
-            <span style="font-weight:bold;font-size:15px;">IDR `+ getrupiah(grand_total_price) +`</span>
+            <span style="font-weight:bold;font-size:15px;">IDR `+ getrupiah(total_price_hotel) +`</span>
         </div>
     </div>`;
-    $text2 += 'Grand Total: IDR ' + getrupiah(grand_total_price) + '\n';
+    $text2 += 'Grand Total: IDR ' + getrupiah(total_price_hotel) + '\n';
     }catch(err){}
     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
         text+=`<br/>
