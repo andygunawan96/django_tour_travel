@@ -1919,6 +1919,23 @@ function show_attachment_details(key){
     }
 }
 
+function show_visa_details(key){
+    var flight = document.getElementById('detail_visa'+key);
+    var flight_down = document.getElementById('visa_details_down'+key);
+    var flight_up = document.getElementById('visa_details_up'+key);
+
+    if (flight.style.display === "none") {
+        flight_up.style.display = "block";
+        flight_down.style.display = "none";
+        flight.style.display = "block";
+    }
+    else {
+        flight_up.style.display = "none";
+        flight_down.style.display = "block";
+        flight.style.display = "none";
+    }
+}
+
 function show_flight_details(key){
     var journey = document.getElementById('journey'+key);
     var flight = document.getElementById('detail_departjourney'+key);
