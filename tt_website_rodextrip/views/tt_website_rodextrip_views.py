@@ -1247,7 +1247,7 @@ def get_data_template(request, type='home', provider_type = []):
             for idx, line in enumerate(file.split('\n')):
                 if idx == 0:
                     if line == '':
-                        logo = '/static/tt_website_rodextrip/images/icon/LOGO_RODEXTRIP.png'
+                        pass
                     else:
                         logo = line.split('\n')[0]
                 elif idx == 1:
@@ -1291,7 +1291,7 @@ def get_data_template(request, type='home', provider_type = []):
                             tab_color = line.split('\n')[0]
                 elif idx == 11:
                     if line == '':
-                        logo_icon = '/static/tt_website_rodextrip/images/icon/LOGO_RODEXTRIP.png'
+                        pass
                     else:
                         logo_icon = line.split('\n')[0]
                 elif idx == 12 and type == 'registration' or type == 'admin' and idx == 12:
