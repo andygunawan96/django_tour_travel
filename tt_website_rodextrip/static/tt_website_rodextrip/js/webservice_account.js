@@ -501,17 +501,32 @@ function get_transactions(type){
                         if(msg.result.response[i][j].hold_date != '' && msg.result.response[i][j].hold_date != false){
                             date = moment.utc(msg.result.response[i][j].hold_date, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
                             localTime  = moment.utc(date).toDate();
-                            msg.result.response[i][j].hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
+                            data_gmt = moment(msg.result.response[i][j].hold_date)._d.toString().split(' ')[5];
+                            gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, '');
+                            timezone = data_gmt.replace (/[^\d.]/g, '');
+                            timezone = timezone.split('')
+                            timezone = timezone.filter(item => item !== '0')
+                            msg.result.response[i][j].hold_date = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
                         }
                         if(msg.result.response[i][j].booked_date != '' && msg.result.response[i][j].booked_date != false){
                             date = moment.utc(msg.result.response[i][j].booked_date, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
                             localTime  = moment.utc(date).toDate();
-                            msg.result.response[i][j].booked_date = moment(localTime).format('DD MMM YYYY HH:mm');
+                            data_gmt = moment(msg.result.response[i][j].booked_date)._d.toString().split(' ')[5];
+                            gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, '');
+                            timezone = data_gmt.replace (/[^\d.]/g, '');
+                            timezone = timezone.split('')
+                            timezone = timezone.filter(item => item !== '0')
+                            msg.result.response[i][j].booked_date = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
                         }
                         if(msg.result.response[i][j].issued_date != '' && msg.result.response[i][j].issued_date != false){
                             date = moment.utc(msg.result.response[i][j].issued_date, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
                             localTime  = moment.utc(date).toDate();
-                            msg.result.response[i][j].issued_date = moment(localTime).format('DD MMM YYYY HH:mm');
+                            data_gmt = moment(msg.result.response[i][j].issued_date)._d.toString().split(' ')[5];
+                            gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, '');
+                            timezone = data_gmt.replace (/[^\d.]/g, '');
+                            timezone = timezone.split('')
+                            timezone = timezone.filter(item => item !== '0')
+                            msg.result.response[i][j].issued_date = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
                         }
                     }
                 }

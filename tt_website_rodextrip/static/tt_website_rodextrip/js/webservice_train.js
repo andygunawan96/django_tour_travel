@@ -562,6 +562,12 @@ function train_get_booking(data){
                     msg.result.response.hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
                     var now = moment();
                     var hold_date_time = moment(msg.result.response.hold_date, "DD MMM YYYY HH:mm");
+                    data_gmt = moment(msg.result.response.hold_date)._d.toString().split(' ')[5];
+                    gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, '');
+                    timezone = data_gmt.replace (/[^\d.]/g, '');
+                    timezone = timezone.split('')
+                    timezone = timezone.filter(item => item !== '0')
+                    msg.result.response.hold_date = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
                 }
                 if(msg.result.response.state != 'issued' && msg.result.response.state != 'fail_booked'  && msg.result.response.state != 'fail_issued' && msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
                     try{
@@ -606,7 +612,12 @@ function train_get_booking(data){
                             if(msg.result.response.provider_bookings[i].hold_date != false || msg.result.response.provider_bookings[i].hold_date != ''){
                                 tes = moment.utc(msg.result.response.provider_bookings[i].hold_date).format('YYYY-MM-DD HH:mm:ss')
                                 var localTime  = moment.utc(tes).toDate();
-                                msg.result.response.provider_bookings[i].hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
+                                data_gmt = moment(msg.result.response.provider_bookings[i].hold_date)._d.toString().split(' ')[5];
+                                gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, '');
+                                timezone = data_gmt.replace (/[^\d.]/g, '');
+                                timezone = timezone.split('')
+                                timezone = timezone.filter(item => item !== '0')
+                                msg.result.response.provider_bookings[i].hold_date = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
                             }
                             //
                             $text += msg.result.response.provider_bookings[i].pnr;

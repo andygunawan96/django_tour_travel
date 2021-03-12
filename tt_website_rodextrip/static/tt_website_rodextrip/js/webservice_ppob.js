@@ -593,6 +593,12 @@ function ppob_get_booking(data){
                     msg.result.response.hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
                     var now = moment();
                     var hold_date_time = moment(msg.result.response.hold_date, "DD MMM YYYY HH:mm");
+                    data_gmt = moment(msg.result.response.hold_date)._d.toString().split(' ')[5];
+                    gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, '');
+                    timezone = data_gmt.replace (/[^\d.]/g, '');
+                    timezone = timezone.split('')
+                    timezone = timezone.filter(item => item !== '0')
+                    msg.result.response.hold_date = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
                 }
                 if(msg.result.response.state == 'cancel'){
                    document.getElementById('issued-breadcrumb').classList.remove("br-active");

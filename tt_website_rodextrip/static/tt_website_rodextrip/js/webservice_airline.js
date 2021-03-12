@@ -3953,6 +3953,12 @@ function airline_get_booking(data, sync=false){
                     msg.result.response.hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
                     var now = moment();
                     var hold_date_time = moment(msg.result.response.hold_date, "DD MMM YYYY HH:mm");
+                    data_gmt = moment(msg.result.response.hold_date)._d.toString().split(' ')[5];
+                    gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, ''); //ambil gmt
+                    timezone = data_gmt.replace (/[^\d.]/g, ''); //ambil timezone
+                    timezone = timezone.split('') //split per char
+                    timezone = timezone.filter(item => item !== '0') //hapus angka 0 di timezone
+                    msg.result.response.hold_date = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
                 }
                 if(msg.result.response.state == 'cancel'){
                    document.getElementById('issued-breadcrumb').classList.remove("br-active");

@@ -2006,7 +2006,7 @@ function hotel_detail(old_cancellation_policy){
         }catch(err){console.log(err)}
     try{
     text += `<div class="col-lg-6">
-            <span style="font-weight:bold;font-size:15px;">Grand Total 2</span>
+            <span style="font-weight:bold;font-size:15px;">Grand Total</span>
         </div>
         <div class="col-lg-6" style="text-align:right;">
             <span style="font-weight:bold;font-size:15px;">IDR `+ getrupiah(total_price_hotel) +`</span>

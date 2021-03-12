@@ -2560,6 +2560,11 @@ function activity_get_booking(data){
             if(msg.result.error_code == 0){
                 tes = moment.utc(msg.result.response.hold_date).format('YYYY-MM-DD HH:mm:ss')
                 localTime  = moment.utc(tes).toDate();
+                data_gmt = moment(msg.result.response.hold_date)._d.toString().split(' ')[5];
+                gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, '');
+                timezone = data_gmt.replace (/[^\d.]/g, '');
+                timezone = timezone.split('')
+                timezone = timezone.filter(item => item !== '0')
                 var now = moment();
                 var hold_date_time = moment(localTime, "DD MMM YYYY HH:mm");
                 if(msg.result.response.no_order_number){
@@ -2702,7 +2707,7 @@ function activity_get_booking(data){
                                             else
                                                 text+=`<td> - </td>`;
                                             text+=`
-                                                <td>`+moment(localTime).format('DD MMM YYYY HH:mm')+`</td>
+                                                <td>`+moment(localTime).format('DD MMM YYYY HH:mm')+` `+gmt+timezone+`</td>
                                                 <td>`+conv_status+`</td>
                                             </tr>
                                          </table>

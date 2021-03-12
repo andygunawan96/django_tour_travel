@@ -178,12 +178,18 @@ function event_get_booking(data){
                             </tr>`;
                             for(i in msg.result.response.providers){
                                 hold_date_event = new Date(msg.result.response.hold_date).toString().split(' ');
+                                data_gmt = moment(msg.result.response.hold_date)._d.toString().split(' ')[5];
+                                gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, '');
+                                timezone = data_gmt.replace (/[^\d.]/g, '');
+                                timezone = timezone.split('')
+                                timezone = timezone.filter(item => item !== '0')
+                                msg.result.response.hold_date = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
                                 text+=`
                                     <tr>`;
 
                                 text+=`
                                     <td>`+msg.result.response.providers[i].pnr+`</td>
-                                    <td>`+hold_date_event[2]+` `+hold_date_event[1]+` `+hold_date_event[3]+`</td>`;
+                                    <td>`+msg.result.response.hold_date+`</td>`;
                                 text+=`
                                         <td>`+msg.result.response.status.charAt(0).toUpperCase()+msg.result.response.status.slice(1).toLowerCase()+`</td>
                                     </tr>
