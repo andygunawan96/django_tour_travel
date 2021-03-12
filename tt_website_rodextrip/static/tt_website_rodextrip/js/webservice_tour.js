@@ -1705,6 +1705,11 @@ function tour_get_booking(order_number)
                localTime  = moment.utc(tes).toDate();
                var now = moment();
                var hold_date_time = moment(localTime, "DD MMM YYYY HH:mm");
+               data_gmt = moment(msg.result.response.hold_date)._d.toString().split(' ')[5];
+               gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, '');
+               timezone = data_gmt.replace (/[^\d.]/g, '');
+               timezone = timezone.split('')
+               timezone = timezone.filter(item => item !== '0')
                if(cur_state == 'booked'){
                     conv_status = 'Booked';
                     document.getElementById('voucher_discount').style.display = '';
@@ -1781,7 +1786,7 @@ function tour_get_booking(order_number)
                                         else
                                             text+=`<td> - </td>`;
                                         text+=`
-                                            <td>`+moment(localTime).format('DD MMM YYYY HH:mm')+`</td>
+                                            <td>`+moment(localTime).format('DD MMM YYYY HH:mm')+` `+gmt+timezone`</td>
                                             <td>`+conv_status+`</td>
                                         </tr>
                                      </table>
