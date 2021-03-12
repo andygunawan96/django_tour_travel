@@ -339,7 +339,8 @@ def passengers(request):
                 'childs': child,
                 'adults': adult,
                 'rooms': [rec + 1 for rec in range(request.session['hotel_request']['room'])],
-                'room_qty': int(request.session['hotel_request']['room']) + 1,
+                # 'room_qty': int(request.session['hotel_request']['room']) + 1, #Unremark jika ingin minim 1 kamar 1 nama pax
+                'room_qty': 2, #Unremark jika ingin 1 nama pax saja yg required
                 'adult_count': int(request.session['hotel_request']['adult']),
                 'child_count': int(request.session['hotel_request']['child']),
                 'adult_title': adult_title,
