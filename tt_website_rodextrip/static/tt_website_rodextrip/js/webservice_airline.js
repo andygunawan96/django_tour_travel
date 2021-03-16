@@ -4170,6 +4170,7 @@ function airline_get_booking(data, sync=false){
                     }
                 }
                 else{
+                    $(".issued_booking_btn").hide();
                     //$(".issued_booking_btn").remove();
                     $('.loader-rodextrip').fadeOut();
                     hide_modal_waiting_transaction();
