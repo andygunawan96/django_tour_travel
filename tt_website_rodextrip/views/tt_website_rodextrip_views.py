@@ -1213,7 +1213,7 @@ def get_data_template(request, type='home', provider_type = []):
             "visa": 8,
             "passport": 9
         }
-        for idx, rec in enumerate(provider_types_sequence, start=1):
+        for idx, rec in enumerate(sequence, start=1):
             temp_provider_types_sequence.append({
                 'name': rec,
                 'sequence': sequence.get(rec) or idx
@@ -1221,7 +1221,13 @@ def get_data_template(request, type='home', provider_type = []):
         provider_types_sequence = temp_provider_types_sequence
         file = read_cache_with_folder_path("provider_types_sequence", 90911)
         if file:
-            provider_types_sequence = file
+            provider_types_sequence_file = file
+            for rec in provider_types_sequence:
+                if rec['name'] not in [x['name'] for x in provider_types_sequence_file]:
+                    provider_types_sequence_file.append({
+                        'name': rec['name'],
+                        'sequence': rec['sequence']
+                    })
         #check sequence
         last_sequence = 0
         empty_sequence = False
@@ -1246,9 +1252,7 @@ def get_data_template(request, type='home', provider_type = []):
         if file:
             for idx, line in enumerate(file.split('\n')):
                 if idx == 0:
-                    if line == '':
-                        pass
-                    else:
+                    if line != '':
                         logo = line.split('\n')[0]
                 elif idx == 1:
                     if line != '':
@@ -1290,9 +1294,7 @@ def get_data_template(request, type='home', provider_type = []):
                         else:
                             tab_color = line.split('\n')[0]
                 elif idx == 11:
-                    if line == '':
-                        pass
-                    else:
+                    if line != '':
                         logo_icon = line.split('\n')[0]
                 elif idx == 12 and type == 'registration' or type == 'admin' and idx == 12:
                     if line != '':
@@ -1306,34 +1308,22 @@ def get_data_template(request, type='home', provider_type = []):
                         else:
                             background = 'https://www.skytors.id/web/image/28381'
                 elif idx == 13:
-                    if line == '':
-                        espay_api_key = ''
-                    else:
+                    if line != '':
                         espay_api_key = line.split('\n')[0]
                 elif idx == 14:
-                    if line == '':
-                        espay_api_key_callback_url = ''
-                    else:
+                    if line != '':
                         espay_api_key_callback_url = line.split('\n')[0]
                 elif idx == 15:
-                    if line == '':
-                        backend_url = ''
-                    else:
+                    if line != '':
                         backend_url = line.split('\n')[0]
                 elif idx == 16:
-                    if line == '':
-                        pass
-                    else:
+                    if line != '':
                         website_mode = line.split('\n')[0]
                 elif idx == 17:
-                    if line == '':
-                        pass
-                    else:
+                    if line != '':
                         script_espay = line.split('\n')[0]
                 elif idx == 18:
-                    if line == '':
-                        pass
-                    else:
+                    if line != '':
                         google_analytics = line.split('\n')[0]
                 elif idx == 19:
                     if line.split('<br>')[len(line.split('<br>'))-1] == '\n':
@@ -1358,14 +1348,10 @@ def get_data_template(request, type='home', provider_type = []):
                     if line != '':
                         text_color_login = line.split('\n')[0]
                 elif idx == 22:
-                    if line == '':
-                        pass
-                    else:
+                    if line != '':
                         wa_chat = int(line.split('\n')[0])
                 elif idx == 23:
-                    if line == '':
-                        pass
-                    else:
+                    if line != '':
                         wa_number = line.split('\n')[0]
             if color == '':
                 color = '#f15a22'
