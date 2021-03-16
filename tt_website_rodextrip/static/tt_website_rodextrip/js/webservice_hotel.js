@@ -872,7 +872,7 @@ function hotel_detail_request(checkin_date, checkout_date){
                             },
                             1000:{
                                 items:1,
-                                nav:false,
+                                nav:true,
                             }
                         }
                     });
@@ -1061,7 +1061,7 @@ function create_detail_room(i, data){
             },
             1000:{
                 items:1,
-                nav:false,
+                nav:true,
             }
         }
     });

@@ -1343,3 +1343,31 @@ function hover_outmouse(trg){
     else if(trg == 'iconwhite')
         document.getElementById("preview_button_iconwhite").style = "color:"+text_color;
 }
+
+function preview_show_hide(prev){
+    if(prev == "preview_login_background"){
+        var preview = document.getElementById(prev+'_temp');
+    }else if(prev == "preview_tab_background"){
+        if(template == 3 || template == 4){
+            var preview = document.getElementById(prev+'_temp');
+        }else{
+            var preview = document.getElementById(prev);
+        }
+    }
+    else{
+        var preview = document.getElementById(prev);
+    }
+    var preview_title = document.getElementById(prev+'_title');
+    var preview_btn = document.getElementById(prev+'_btn');
+
+    if (preview.style.display === "none") {
+        preview.style.display = "block";
+        preview_title.style.display = "block";
+        preview_btn.innerHTML = 'Hide Preview <i class="fas fa-eye-slash"></i>';
+    }
+    else {
+        preview.style.display = "none";
+        preview_title.style.display = "none";
+        preview_btn.innerHTML = 'Preview Your Changes <i class="fas fa-eye"></i>';
+    }
+}
