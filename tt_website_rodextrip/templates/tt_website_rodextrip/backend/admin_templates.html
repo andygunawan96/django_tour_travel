@@ -69,18 +69,18 @@
                     <div class="style-scrollbar" style="overflow:auto; white-space:nowrap; background:{{tab_color}};">
                         <ul class="create_tabs" id="identity">
                             {% if "edit_appearance" in username.co_agent_frontend_security %}
-                            <li class="create_tab-link" data-tab="website-tab"><label style="color:white; font-size:15px;">Website Template</label></li>
-                            <li class="create_tab-link" data-tab="web_information-tab"><label style="color:white; font-size:15px;">{% trans 'Website Information' %}</label></li>
+                            <li class="create_tab-link" data-tab="website-tab"><label style="color:{{text_color}}; font-size:15px;">Website Template</label></li>
+                            <li class="create_tab-link" data-tab="web_information-tab"><label style="color:{{text_color}}; font-size:15px;">{% trans 'Website Information' %}</label></li>
                             {% endif %}
                             {% if "cache_version" in username.co_agent_frontend_security %}
-                            <li class="create_tab-link" data-tab="testing-tab"><label style="color:white; font-size:15px;">Update Cache</label></li>
+                            <li class="create_tab-link" data-tab="testing-tab"><label style="color:{{text_color}}; font-size:15px;">Update Cache</label></li>
                             {% endif %}
                             {% if "create_page" in username.co_agent_frontend_security %}
-                            <li class="create_tab-link" data-tab="dynamic_page-tab"><label style="color:white; font-size:15px;">{% trans 'Dynamic Page' %}</label></li>
-                            <li class="create_tab-link" data-tab="highlight_setting-tab"><label style="color:white; font-size:15px;">{% trans 'Highlight Setting' %}</label></li>
+                            <li class="create_tab-link" data-tab="dynamic_page-tab"><label style="color:{{text_color}}; font-size:15px;">{% trans 'Dynamic Page' %}</label></li>
+                            <li class="create_tab-link" data-tab="highlight_setting-tab"><label style="color:{{text_color}}; font-size:15px;">{% trans 'Highlight Setting' %}</label></li>
                             {% endif %}
                             {% if "cache_version" in username.co_agent_frontend_security %}
-                            <li class="create_tab-link" data-tab="third_party-tab"><label style="color:white; font-size:15px;">{% trans 'Third Party Key Setting' %}</label></li>
+                            <li class="create_tab-link" data-tab="third_party-tab"><label style="color:{{text_color}}; font-size:15px;">{% trans 'Third Party Key Setting' %}</label></li>
                             {% endif %}
                         </ul>
                     </div>
@@ -444,7 +444,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-12 mb-3" style="overflow:auto;">
+                                                <div class="col-lg-12 mb-3" style="overflow:auto; display:none" id="preview_login_background_temp">
                                                     <div id="preview_login_background_title" style="display:none;">
                                                         <h6 style="color:{{text_color}}; background:{{tab_color}}; padding:15px;">
                                                             <center>
@@ -452,7 +452,7 @@
                                                             </center>
                                                         </h6>
                                                     </div>
-                                                    <div id="preview_login_background" style="background:{{login_background_color}}; padding:15px; min-width:991px; display:none;">
+                                                    <div id="preview_login_background" style="background:{{login_background_color}}; padding:15px; min-width:991px;">
                                                         <div class="row">
                                                             <div class="col-xs-3">
                                                                 <img src="{{logo}}" style="{% if username.co_user_login != 'agent_b2c' %} max-height:60px;max-width:150px;{%else%} max-height:60px;max-width:225px; {%endif%}" alt="Logo {{name}}" title="{{name}}"/>
@@ -1194,18 +1194,18 @@
                         <div class="style-scrollbar" style="overflow:auto; white-space:nowrap; background:{{tab_color}}">
                             <ul class="create_tabs" id="identity" style="text-align:center;">
                                 {% if "edit_appearance" in username.co_agent_frontend_security %}
-                                <li class="create_tab-link" data-tab="website-tab"><label style="color:white; font-size:15px;">Website Template</label></li>
-                                <li class="create_tab-link" data-tab="web_information-tab"><label style="color:white; font-size:15px;">{% trans 'Website Information' %}</label></li>
+                                <li class="create_tab-link" data-tab="website-tab"><label style="color:{{text_color}}; font-size:15px;">Website Template</label></li>
+                                <li class="create_tab-link" data-tab="web_information-tab"><label style="color:{{text_color}}; font-size:15px;">{% trans 'Website Information' %}</label></li>
                                 {% endif %}
                                 {% if "cache_version" in username.co_agent_frontend_security %}
-                                <li class="create_tab-link" data-tab="testing-tab"><label style="color:white; font-size:15px;">Update Cache</label></li>
+                                <li class="create_tab-link" data-tab="testing-tab"><label style="color:{{text_color}}; font-size:15px;">Update Cache</label></li>
                                 {% endif %}
                                 {% if "create_page" in username.co_agent_frontend_security %}
-                                <li class="create_tab-link" data-tab="dynamic_page-tab"><label style="color:white; font-size:15px;">{% trans 'Dynamic Page' %}</label></li>
-                                <li class="create_tab-link" data-tab="highlight_setting-tab"><label style="color:white; font-size:15px;">{% trans 'Highlight Setting' %}</label></li>
+                                <li class="create_tab-link" data-tab="dynamic_page-tab"><label style="color:{{text_color}}; font-size:15px;">{% trans 'Dynamic Page' %}</label></li>
+                                <li class="create_tab-link" data-tab="highlight_setting-tab"><label style="color:{{text_color}}; font-size:15px;">{% trans 'Highlight Setting' %}</label></li>
                                 {% endif %}
                                 {% if "cache_version" in username.co_agent_frontend_security %}
-                                <li class="create_tab-link" data-tab="third_party-tab"><label style="color:white; font-size:15px;">{% trans 'Third Party Key Setting' %}</label></li>
+                                <li class="create_tab-link" data-tab="third_party-tab"><label style="color:{{text_color}}; font-size:15px;">{% trans 'Third Party Key Setting' %}</label></li>
                                 {% endif %}
                             </ul>
                         </div>
@@ -1562,7 +1562,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-12 mb-3" style="overflow:auto;">
+                                            <div class="col-lg-12 mb-3" style="overflow:auto; display:none" id="preview_login_background_temp">
                                                 <div id="preview_login_background_title" style="display:none;">
                                                     <h6 style="color:{{text_color}}; background:{{tab_color}}; padding:15px; margin-bottom:unset;">
                                                         <center>
@@ -1570,7 +1570,7 @@
                                                         </center>
                                                     </h6>
                                                 </div>
-                                                <div id="preview_login_background" style="background:{{login_background_color}}; padding:15px; min-width:991px; display:none;">
+                                                <div id="preview_login_background" style="background:{{login_background_color}}; padding:15px; min-width:991px;">
                                                     <div class="row">
                                                         <div class="col-xs-3">
                                                             <img src="{{logo}}" style="{% if username.co_user_login != 'agent_b2c' %} max-height:60px;max-width:150px;{%else%} max-height:60px;max-width:225px; {%endif%}" alt="Logo {{name}}" title="{{name}}"/>
@@ -2298,18 +2298,18 @@
                     <div class="style-scrollbar" style="overflow:auto; white-space:nowrap; background:{{tab_color}}">
                         <ul class="create_tabs" id="identity" style="text-align:center;">
                             {% if "edit_appearance" in username.co_agent_frontend_security %}
-                            <li class="create_tab-link" data-tab="website-tab"><label style="color:white; font-size:15px;">Website Template</label></li>
-                            <li class="create_tab-link" data-tab="web_information-tab"><label style="color:white; font-size:15px;">{% trans 'Website Information' %}</label></li>
+                            <li class="create_tab-link" data-tab="website-tab"><label style="color:{{text_color}}; font-size:15px;">Website Template</label></li>
+                            <li class="create_tab-link" data-tab="web_information-tab"><label style="color:{{text_color}}; font-size:15px;">{% trans 'Website Information' %}</label></li>
                             {% endif %}
                             {% if "cache_version" in username.co_agent_frontend_security %}
-                            <li class="create_tab-link" data-tab="testing-tab"><label style="color:white; font-size:15px;">Update Cache</label></li>
+                            <li class="create_tab-link" data-tab="testing-tab"><label style="color:{{text_color}}; font-size:15px;">Update Cache</label></li>
                             {% endif %}
                             {% if "create_page" in username.co_agent_frontend_security %}
-                            <li class="create_tab-link" data-tab="dynamic_page-tab"><label style="color:white; font-size:15px;">{% trans 'Dynamic Page' %}</label></li>
-                            <li class="create_tab-link" data-tab="highlight_setting-tab"><label style="color:white; font-size:15px;">{% trans 'Highlight Setting' %}</label></li>
+                            <li class="create_tab-link" data-tab="dynamic_page-tab"><label style="color:{{text_color}}; font-size:15px;">{% trans 'Dynamic Page' %}</label></li>
+                            <li class="create_tab-link" data-tab="highlight_setting-tab"><label style="color:{{text_color}}; font-size:15px;">{% trans 'Highlight Setting' %}</label></li>
                             {% endif %}
                             {% if "cache_version" in username.co_agent_frontend_security %}
-                            <li class="create_tab-link" data-tab="third_party-tab"><label style="color:white; font-size:15px;">{% trans 'Third Party Key Setting' %}</label></li>
+                            <li class="create_tab-link" data-tab="third_party-tab"><label style="color:{{text_color}}; font-size:15px;">{% trans 'Third Party Key Setting' %}</label></li>
                             {% endif %}
                         </ul>
                     </div>
@@ -2512,7 +2512,7 @@
                                                     <div style="text-align:center;"><h5 style="color:{{text_color}};">{% trans 'PLEASE WAIT' %} ...</h5></div>
                                                 </div>
                                             </div>
-                                            <div id="preview_template_temp3" style="display:none">
+                                            <div id="preview_template" style="display:none">
                                                 {% if template == 1%}
                                                 <img src="{{static_path}}img/preview/HomeTemplate1.png" alt="Preview Template" style="height:auto; width:100%;"/>
                                                 {% elif template == 2%}
@@ -2587,7 +2587,7 @@
                                                     </center>
                                                 </h6>
                                             </div>
-                                            <div id="preview_tab_background_temp3" style="display:none;">
+                                            <div id="preview_tab_background_temp" style="display:none;">
                                                 <div class="row fullscreen d-flex" style="position:relative; padding:0px 15px;">
                                                     <div class="banner-content col-xl-4 col-lg-4 col-md-4" style="padding:25px 15px 15px 20px; background-color: {{tab_color}}; border:1px solid #cdcdcd;" id="preview_tab_background">
                                                         <div class="div-tabs style-scrollbar" style="margin-top:10px;" id="div_scroll_menu">
@@ -2674,7 +2674,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-12 mb-3" style="overflow:auto; display:none;" id="preview_login_background_temp3">
+                                        <div class="col-lg-12 mb-3" style="overflow:auto; display:none;" id="preview_login_background_temp">
                                             <div id="preview_login_background_title" style="display:none;">
                                                 <h6 style="color:{{text_color}}; background:{{tab_color}}; padding:15px;">
                                                     <center>
@@ -3429,18 +3429,18 @@
                 <div class="style-scrollbar" style="overflow:auto; white-space:nowrap; background:{{tab_color}} !important;">
                     <ul class="create_tabs" id="identity" style="text-align:center;">
                         {% if "edit_appearance" in username.co_agent_frontend_security %}
-                        <li class="create_tab-link" data-tab="website-tab"><label style="color:white; font-size:15px;">Website Template</label></li>
-                        <li class="create_tab-link" data-tab="web_information-tab"><label style="color:white; font-size:15px;">{% trans 'Website Information' %}</label></li>
+                        <li class="create_tab-link" data-tab="website-tab"><label style="color:{{text_color}}; font-size:15px;">Website Template</label></li>
+                        <li class="create_tab-link" data-tab="web_information-tab"><label style="color:{{text_color}}; font-size:15px;">{% trans 'Website Information' %}</label></li>
                         {% endif %}
                         {% if "cache_version" in username.co_agent_frontend_security %}
-                        <li class="create_tab-link" data-tab="testing-tab"><label style="color:white; font-size:15px;">Update Cache</label></li>
+                        <li class="create_tab-link" data-tab="testing-tab"><label style="color:{{text_color}}; font-size:15px;">Update Cache</label></li>
                         {% endif %}
                         {% if "create_page" in username.co_agent_frontend_security %}
-                        <li class="create_tab-link" data-tab="dynamic_page-tab"><label style="color:white; font-size:15px;">{% trans 'Dynamic Page' %}</label></li>
-                        <li class="create_tab-link" data-tab="highlight_setting-tab"><label style="color:white; font-size:15px;">{% trans 'Highlight Setting' %}</label></li>
+                        <li class="create_tab-link" data-tab="dynamic_page-tab"><label style="color:{{text_color}}; font-size:15px;">{% trans 'Dynamic Page' %}</label></li>
+                        <li class="create_tab-link" data-tab="highlight_setting-tab"><label style="color:{{text_color}}; font-size:15px;">{% trans 'Highlight Setting' %}</label></li>
                         {% endif %}
                         {% if "cache_version" in username.co_agent_frontend_security %}
-                        <li class="create_tab-link" data-tab="third_party-tab"><label style="color:white; font-size:15px;">{% trans 'Third Party Key Setting' %}</label></li>
+                        <li class="create_tab-link" data-tab="third_party-tab"><label style="color:{{text_color}}; font-size:15px;">{% trans 'Third Party Key Setting' %}</label></li>
                         {% endif %}
                     </ul>
                 </div>
@@ -3642,7 +3642,7 @@
                                                 <div style="text-align:center;"><h5 style="color:{{text_color}};">{% trans 'PLEASE WAIT' %} ...</h5></div>
                                             </div>
                                         </div>
-                                        <div id="preview_template_temp4" style="display:none;">
+                                        <div id="preview_template" style="display:none;">
                                             {% if template == 1%}
                                             <img src="{{static_path}}img/preview/HomeTemplate1.png" alt="Preview Template" style="height:auto; width:100%;"/>
                                             {% elif template == 2%}
@@ -3717,7 +3717,7 @@
                                                 </center>
                                             </h6>
                                         </div>
-                                        <div id="preview_tab_background_temp4" class="mt-3" style="display:none;">
+                                        <div id="preview_tab_background_temp" class="mt-3" style="display:none;">
                                             <div id="preview_tab_background" style="padding: 0px;">
                                                 <div class="style-scrollbar" style="overflow:auto; white-space:nowrap;" id="div_scroll_menu">
                                                     <ul class="tabs" style="padding:unset;">
@@ -3803,7 +3803,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-12 mb-3" id="preview_login_background_temp4" style="overflow:auto; padding:0px; display:none;">
+                                <div class="col-lg-12 mb-3" id="preview_login_background_temp" style="overflow:auto; padding:0px; display:none;">
                                     <div id="preview_login_background_title" style="display:none;">
                                         <h6 style="color:{{text_color}}; background:{{tab_color}}; padding:15px;">
                                             <center>
@@ -4540,17 +4540,17 @@
                         <div class="style-scrollbar" style="overflow:auto; white-space:nowrap;">
                             <ul class="create_tabs" id="identity" style="background: {{tab_color}} !important;">
                                 {% if "edit_appearance" in username.co_agent_frontend_security %}
-                                <li class="create_tab-link" data-tab="website-tab"><label style="color:white; font-size:15px;">Website Template</label></li>
-                                <li class="create_tab-link" data-tab="web_information-tab"><label style="color:white; font-size:15px;">{% trans 'Website Information' %}</label></li>                                {% endif %}
+                                <li class="create_tab-link" data-tab="website-tab"><label style="color:{{text_color}}; font-size:15px;">Website Template</label></li>
+                                <li class="create_tab-link" data-tab="web_information-tab"><label style="color:{{text_color}}; font-size:15px;">{% trans 'Website Information' %}</label></li>                                {% endif %}
                                 {% if "cache_version" in username.co_agent_frontend_security %}
-                                <li class="create_tab-link" data-tab="testing-tab"><label style="color:white; font-size:15px;">Update Cache</label></li>
+                                <li class="create_tab-link" data-tab="testing-tab"><label style="color:{{text_color}}; font-size:15px;">Update Cache</label></li>
                                 {% endif %}
                                 {% if "create_page" in username.co_agent_frontend_security %}
-                                <li class="create_tab-link" data-tab="dynamic_page-tab"><label style="color:white; font-size:15px;">{% trans 'Dynamic Page' %}</label></li>
-                                <li class="create_tab-link" data-tab="highlight_setting-tab"><label style="color:white; font-size:15px;">{% trans 'Highlight Setting' %}</label></li>
+                                <li class="create_tab-link" data-tab="dynamic_page-tab"><label style="color:{{text_color}}; font-size:15px;">{% trans 'Dynamic Page' %}</label></li>
+                                <li class="create_tab-link" data-tab="highlight_setting-tab"><label style="color:{{text_color}}; font-size:15px;">{% trans 'Highlight Setting' %}</label></li>
                                 {% endif %}
                                 {% if "cache_version" in username.co_agent_frontend_security %}
-                                <li class="create_tab-link" data-tab="third_party-tab"><label style="color:white; font-size:15px;">{% trans 'Third Party Key Setting' %}</label></li>
+                                <li class="create_tab-link" data-tab="third_party-tab"><label style="color:{{text_color}}; font-size:15px;">{% trans 'Third Party Key Setting' %}</label></li>
                                 {% endif %}
                             </ul>
                         </div>
@@ -4917,7 +4917,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-12 mb-3" style="overflow:auto;">
+                                            <div class="col-lg-12 mb-3" style="overflow:auto; display:none;" id="preview_login_background_temp">
                                                 <div id="preview_login_background_title" style="display:none;">
                                                     <h6 style="color:{{text_color}}; background:{{tab_color}}; padding:15px;">
                                                         <center>
@@ -4925,7 +4925,7 @@
                                                         </center>
                                                     </h6>
                                                 </div>
-                                                <div id="preview_login_background" style="background:{{login_background_color}}; padding:15px; min-width:991px; display:none;">
+                                                <div id="preview_login_background" style="background:{{login_background_color}}; padding:15px; min-width:991px;">
                                                     <div class="row">
                                                         <div class="col-xs-3">
                                                             <img src="{{logo}}" style="{% if username.co_user_login != 'agent_b2c' %} max-height:60px;max-width:150px;{%else%} max-height:60px;max-width:225px; {%endif%}" alt="Logo {{name}}" title="{{name}}"/>
@@ -5073,7 +5073,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-12" style="text-align:center;">
+                                <div class="col-lg-12 mt-3" style="text-align:center;">
                                     <div style="background:{{tab_color}}; padding:15px 0px;">
                                         <button type="button" class="primary-btn update_banner_btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
                                     </div>
