@@ -1152,16 +1152,24 @@ function render_preview_template(){
     document.getElementById("preview_template_loading").style.display = "block";
     value_template = parseInt(document.getElementById("template").value);
     setTimeout(function(){
+        var template_view_var = "";
+        if (template == 3) {
+            template_view_var = "preview_template_temp3";
+        }else if(template == 4){
+            template_view_var = "preview_template_temp4";
+        }else{
+            template_view_var = "preview_template";
+        }
         if(value_template == 1){
-            document.getElementById("preview_template").innerHTML = `<img src="/static/tt_website_rodextrip/img/preview/HomeTemplate1.png" alt="Preview Template" style="height:auto; width:100%;"/>`;
+            document.getElementById(""+template_view_var).innerHTML = `<img src="/static/tt_website_rodextrip/img/preview/HomeTemplate1.png" alt="Preview Template" style="height:auto; width:100%;"/>`;
         }else if(value_template == 2){
-            document.getElementById("preview_template").innerHTML = `<img src="/static/tt_website_rodextrip/img/preview/HomeTemplate2.png" alt="Preview Template" style="height:auto; width:100%;"/>`;
+            document.getElementById(""+template_view_var).innerHTML = `<img src="/static/tt_website_rodextrip/img/preview/HomeTemplate2.png" alt="Preview Template" style="height:auto; width:100%;"/>`;
         }else if(value_template == 3){
-            document.getElementById("preview_template").innerHTML = `<img src="/static/tt_website_rodextrip/img/preview/HomeTemplate3.png" alt="Preview Template" style="height:auto; width:100%;"/>`;
+            document.getElementById(""+template_view_var).innerHTML = `<img src="/static/tt_website_rodextrip/img/preview/HomeTemplate3.png" alt="Preview Template" style="height:auto; width:100%;"/>`;
         }else if(value_template == 4){
-            document.getElementById("preview_template").innerHTML = `<img src="/static/tt_website_rodextrip/img/preview/HomeTemplate4.png" alt="Preview Template" style="height:auto; width:100%;"/>`;
+            document.getElementById(""+template_view_var).innerHTML = `<img src="/static/tt_website_rodextrip/img/preview/HomeTemplate4.png" alt="Preview Template" style="height:auto; width:100%;"/>`;
         }else if(value_template == 5){
-            document.getElementById("preview_template").innerHTML = `<img src="/static/tt_website_rodextrip/img/preview/HomeTemplate5.png" alt="Preview Template" style="height:auto; width:100%;"/>`;
+            document.getElementById(""+template_view_var).innerHTML = `<img src="/static/tt_website_rodextrip/img/preview/HomeTemplate5.png" alt="Preview Template" style="height:auto; width:100%;"/>`;
         }
         document.getElementById("preview_template_loading").style.display = "none";
     }, 1000);
@@ -1342,4 +1350,27 @@ function hover_outmouse(trg){
         document.getElementById("preview_button_icon").style = "color:#"+btn_color;
     else if(trg == 'iconwhite')
         document.getElementById("preview_button_iconwhite").style = "color:"+text_color;
+}
+
+function preview_show_hide(prev){
+    if(template == 3){
+        var preview = document.getElementById(prev+'_temp3');
+    }else if (template == 4){
+        var preview = document.getElementById(prev+'_temp4');
+    }else{
+        var preview = document.getElementById(prev);
+    }
+    var preview_title = document.getElementById(prev+'_title');
+    var preview_btn = document.getElementById(prev+'_btn');
+
+    if (preview.style.display === "none") {
+        preview.style.display = "block";
+        preview_title.style.display = "block";
+        preview_btn.innerHTML = 'Hide Preview <i class="fas fa-eye-slash"></i>';
+    }
+    else {
+        preview.style.display = "none";
+        preview_title.style.display = "none";
+        preview_btn.innerHTML = 'Preview Your Changes <i class="fas fa-eye"></i>';
+    }
 }
