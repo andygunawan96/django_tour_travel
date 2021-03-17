@@ -3935,7 +3935,9 @@ function airline_get_booking(data, sync=false){
                if(msg.result.error_code == 0){
                 if(msg.result.response.state == 'booked' || msg.result.response.state == 'partial_booked' || msg.result.response.state == 'partial_issued' || msg.result.response.state == 'fail_issued'){
                     document.getElementById('div_sync_status').hidden = false;
-                    document.getElementById('issued_btn_airline').hidden = false;
+                    try{
+                        document.getElementById('issued_btn_airline').hidden = false;
+                    }catch(err){}
                 }
                 for(i in msg.result.response.passengers[0].sale_service_charges){
                     for(j in msg.result.response.passengers[0].sale_service_charges[i]){
@@ -6599,7 +6601,9 @@ function airline_reissued(){
     }catch(err){}
     document.getElementById('reissued').hidden = true;
     if(airline_get_detail.result.response.state == 'booked')
-        document.getElementById('issued_btn_airline').hidden = true;
+        try{
+            document.getElementById('issued_btn_airline').hidden = true;
+        }catch(err){}
 
     getToken();
     show_loading();
