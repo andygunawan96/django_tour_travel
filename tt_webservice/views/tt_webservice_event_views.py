@@ -130,13 +130,13 @@ def get_carriers(request):
             if res['result']['error_code'] == 0:
                 res = res['result']['response']
                 write_cache_with_folder(res, "get_event_carriers")
-                _logger.info("get_carriers HOTEL RENEW SUCCESS SIGNATURE " + request.POST['signature'])
+                _logger.info("get_carriers EVENT RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
                 try:
                     file = read_cache_with_folder_path("get_event_carriers", 90911)
                     if file:
                         res = file
-                    _logger.info("get_carriers HOTEL ERROR USE CACHE SIGNATURE " + request.POST['signature'])
+                    _logger.info("get_carriers EVENT ERROR USE CACHE SIGNATURE " + request.POST['signature'])
                 except Exception as e:
                     _logger.error('ERROR get_carriers file\n' + str(e) + '\n' + traceback.format_exc())
         except Exception as e:
@@ -146,7 +146,7 @@ def get_carriers(request):
             file = read_cache_with_folder_path("get_event_carriers", 90911)
             res = file
         except Exception as e:
-            _logger.error('ERROR get_hotel_carriers file\n' + str(e) + '\n' + traceback.format_exc())
+            _logger.error('ERROR get_event_carriers file\n' + str(e) + '\n' + traceback.format_exc())
 
     return res
 
@@ -236,7 +236,7 @@ def get_auto_complete(request):
         # res = search2(request)
         # logging.getLogger("error_info").error("SUCCESS get_autocomplete HOTEL SIGNATURE " + request.POST['signature'])
     except Exception as e:
-        _logger.error('ERROR get hotel cache data file\n' + str(e) + '\n' + traceback.format_exc())
+        _logger.error('ERROR get event cache data file\n' + str(e) + '\n' + traceback.format_exc())
 
     return record_json
 
@@ -435,24 +435,19 @@ def get_booking(request):
     res = util.send_request(url=url + "booking/event", data=data, headers=headers, method='POST')
 
     try:
-        _logger.info(json.dumps(request.session['hotel_provision']))
         if res['result']['error_code'] == 0:
             set_session(request, 'event_get_booking_response', res)
-            res['result']['response'].update({
-                'from_date': convert_string_to_date_to_string_front_end_with_date(res['result']['response']['from_date']),
-                'to_date': convert_string_to_date_to_string_front_end_with_date(res['result']['response']['to_date'])
-            })
-            for room in res['result']['response']['hotel_rooms']:
-                room.update({
-                    'date': convert_string_to_date_to_string_front_end_with_date(room['date'].split(' ')[0])
-                })
-            for pax in res['result']['response']['passengers']:
-                pax.update({
-                    'birth_date': convert_string_to_date_to_string_front_end(pax['birth_date'])
-                })
-            _logger.info("get_booking_hotel HOTEL SUCCESS SIGNATURE " + res['result']['response']['signature'])
+            # res['result']['response'].update({
+            #     'from_date': convert_string_to_date_to_string_front_end_with_date(res['result']['response']['from_date']),
+            #     'to_date': convert_string_to_date_to_string_front_end_with_date(res['result']['response']['to_date'])
+            # })
+            # for pax in res['result']['response']['passengers']:
+            #     pax.update({
+            #         'birth_date': convert_string_to_date_to_string_front_end(pax['birth_date'])
+            #     })
+            # _logger.info("get_booking_event EVENT SUCCESS SIGNATURE " + res['result']['response']['signature'])
         else:
-            _logger.error("get_booking_hotel HOTEL ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("get_booking_event EVENT ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 

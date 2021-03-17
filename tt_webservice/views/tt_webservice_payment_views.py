@@ -98,10 +98,6 @@ def get_payment_acquirer(request):
         url_post = 'booking/ppob'
     elif request.POST['type'] == 'hotel_review' or request.POST['type'] == 'hotel':
         url_post = 'booking/hotel'
-        # data.update({
-        #     # 'agent_seq_id': request.POST['agent_seq_id'],
-        #     'top_up_name': request.POST['top_up_name']
-        # })
     elif request.POST['type'] == 'tour':
         url_post = 'booking/tour'
     elif request.POST['type'] == 'event':

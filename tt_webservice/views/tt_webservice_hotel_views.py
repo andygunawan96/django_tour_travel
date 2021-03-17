@@ -579,7 +579,9 @@ def create_booking(request):
             'special_request': request.session['hotel_request']['special_request'],
             'resv_name': '',
             'os_res_no': '',
-            'journeys_booking': ''
+            'journeys_booking': '',
+            'seq_id': request.POST['seq_id'],
+            'member': request.POST['member'],
         }
 
         # payment
