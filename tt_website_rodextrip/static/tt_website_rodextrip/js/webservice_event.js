@@ -172,30 +172,29 @@ function event_get_booking(data){
                         <h6 class="carrier_code_template">Order Number : </h6><h6>`+msg.result.response.order_number+`</h6><br/>
                         <table style="width:100%;">
                             <tr>
-                                <th style="font-weight:600;">Booking Code</th>
-                                <th style="font-weight:600;">Hold Date</th>
-                                <th style="font-weight:600;">Status</th>
+                                <th>Booking Code</th>
+                                <th>Hold Date</th>
+                                <th>Status</th>
                             </tr>`;
                             for(i in msg.result.response.providers){
-                                hold_date_event = new Date(msg.result.response.hold_date).toString().split(' ');
+                                tes = moment.utc(msg.result.response.hold_date).format('YYYY-MM-DD HH:mm:ss')
+                                localTime  = moment.utc(tes).toDate();
+
                                 data_gmt = moment(msg.result.response.hold_date)._d.toString().split(' ')[5];
                                 gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, '');
                                 timezone = data_gmt.replace (/[^\d.]/g, '');
                                 timezone = timezone.split('')
                                 timezone = timezone.filter(item => item !== '0')
                                 msg.result.response.hold_date = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
-                                text+=`
-                                    <tr>`;
 
                                 text+=`
-                                    <td>`+msg.result.response.providers[i].pnr+`</td>
-                                    <td>`+msg.result.response.hold_date+`</td>`;
-                                text+=`
+                                    <tr>
+                                        <td>`+msg.result.response.providers[i].pnr+`</td>
+                                        <td>`+msg.result.response.hold_date+`</td>
                                         <td>`+msg.result.response.status.charAt(0).toUpperCase()+msg.result.response.status.slice(1).toLowerCase()+`</td>
-                                    </tr>
-                                `;
+                                    </tr>`;
                             }
-                        text+=`
+                    text+=`
                         </table>
                         <hr/>
                    `;
@@ -312,19 +311,19 @@ function event_get_booking(data){
                     for(i in msg.result.response.options){
                         var b = parseInt(i) + 1;
                         //console.log(msg.result.response.options);
-                        if(temp_name_option != msg.result.response.options[i].name){
+                        if(temp_name_option != msg.result.response.options[i].option.event_option_id.grade){
                             temp_numb_option = 0;
                         }
-                        temp_name_option = msg.result.response.options[i].name;
+                        temp_name_option = msg.result.response.options[i].option.event_option_id.grade;
                         temp_numb_option = temp_numb_option + 1;
                         text+=`
                             <div class="col-lg-12" style="margin-bottom:15px;">
-                                <h6>`+msg.result.response.options[i].name+` - `+ temp_numb_option +`</h6>
+                                <h6>`+msg.result.response.options[i].option.event_option_id.grade+` - `+ temp_numb_option +`</h6>
                                 <span>Ticket Number : </span>`;
-                                if(msg.result.response.options[i].ticket_number == false)
+                                if(msg.result.response.options[i].option.ticket_number == false)
                                     text+=`<span>-</span>`;
                                 else
-                                    text+=`<span style="font-weight:500;">`+msg.result.response.options[i].ticket_number+`</span>`;
+                                    text+=`<span style="font-weight:500;">`+msg.result.response.options[i].option.ticket_number+`</span>`;
 
                             text+=`
                                 <br/>
@@ -339,15 +338,15 @@ function event_get_booking(data){
                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                             </div>
                                             <div class="modal-body">
-                                            <h6>Your Answer on `+msg.result.response.options[i].name+` - `+ temp_numb_option +`</h6>
+                                            <h6>Your Answer on `+msg.result.response.options[i].option.event_option_id.grade+` - `+ temp_numb_option +`</h6>
                                                 <div class="row" style="overflow-y:auto; max-height:450px;">`;
-                                                for(j in msg.result.response.options[i].answers){
+                                                for(j in msg.result.response.options[i].option.extra_question){
                                                     var ans_index = (parseInt(j))+1;
                                                     text+=`<div class="col-lg-12" style="margin-top:15px;">
                                                         <div style="padding:15px; border: 1px solid #cdcdcd; background: #f7f7f7;">
-                                                            <h6>Question #`+ans_index+` - <i>`+ msg.result.response.options[i].answers[j].question +`</i></h6>
+                                                            <h6>Question #`+ans_index+` - <i>`+ msg.result.response.options[i].option.extra_question[j].question +`</i></h6>
                                                             <span>Answer:</span>
-                                                            <span style="font-weight:500;">`+ msg.result.response.options[i].answers[j].answer +`</span>
+                                                            <span style="font-weight:500;">`+ msg.result.response.options[i].option.extra_question[j].answer +`</span>
                                                         </div>
                                                     </div>`;
                                                 }
@@ -361,19 +360,28 @@ function event_get_booking(data){
                                 </div>
                             </div>
                             <div class="col-lg-3" style="margin-bottom:10px;">`;
-                            console.log(msg.result.response);
-                                if(msg.result.response.options[i].image_url.length != 0)
-                                    text+=`<div class="border-event"><div class="img-event-detail" style="background-size:contain; background-repeat: no-repeat; background-image: url('`+msg.result.response.options[i].image_url+`');"></div></div>`;
+                                if(msg.result.response.options[i].option.event_option_id.option_image_ids.length != 0)
+                                    text+=`<div class="border-event"><div class="img-event-detail" style="background-size:contain; background-repeat: no-repeat; background-image: url('`+msg.result.response.options[i].option.event_option_id.option_image_ids[0]+`');"></div></div>`;
                                 else
                                     text+=`<div class="border-event"><div class="img-event-detail" style="background-size:contain; background-repeat: no-repeat; background-image: url('/static/tt_website_rodextrip/images/no pic/no-ticket.png');"></div></div>`;
                             text+=`
                             </div>
                             <div class="col-lg-9">
                                 <h6>Description</h6>`;
-                            if(msg.result.response.options[i].description != false){
-                                text+=`<span>`+msg.result.response.options[i].description+`</span><hr/>`;
+                            if(msg.result.response.options[i].option.event_option_id.description != false){
+                                text+=`<span>`+msg.result.response.options[i].option.event_option_id.description+`</span><hr/>`;
                             }else{
                                 text+='<span>No Description for this Ticket</span><hr/>';
+                            }
+                            js_total_price = 0;
+                            js_currency = 'IDR';
+                            for(ssc_idx in msg.result.response.options[i].sale_service_charges){
+                                for(ssc_idx2 in msg.result.response.options[i].sale_service_charges[ssc_idx].FARE){
+                                    js_total_price += msg.result.response.options[i].sale_service_charges[ssc_idx].FARE[ssc_idx2].amount
+                                }
+                                for(ssc_idx2 in msg.result.response.options[i].sale_service_charges[ssc_idx].ROC){
+                                    js_total_price += msg.result.response.options[i].sale_service_charges[ssc_idx].ROC[ssc_idx2].amount
+                                }
                             }
                             text+=`
                                 <table style="width:100%;">
@@ -383,9 +391,9 @@ function event_get_booking(data){
                                         <th style="width:40%;">Sub Total</th>
                                     </tr>
                                     <tr>
-                                        <td>`+msg.result.response.options[i].currency+` `+getrupiah(msg.result.response.options[i].price)+`</td>
-                                        <td>`+msg.result.response.options[i].qty+`</td>
-                                        <td>`+msg.result.response.options[i].currency+` `+getrupiah(msg.result.response.options[i].price * msg.result.response.options[i].qty)+`</td>
+                                        <td>`+js_currency+` `+getrupiah(js_total_price)+`</td>
+                                        <td>1</td>
+                                        <td>`+js_currency+` `+getrupiah(js_total_price)+`</td>
                                     </tr>
                                 </table>
                             </div>`;
@@ -622,11 +630,11 @@ function event_get_booking(data){
                     </center>
                 </div>`;
                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
-                text_detail+=`
-                <div style="margin-bottom:5px;">
-                    <input class="primary-btn-white" id="show_commission_button_event" style="width:100%;" type="button" onclick="show_commission_event();" value="Show Commission"/>
-                </div>
-            </div>`;
+                    text_detail+=`
+                        <div style="margin-bottom:5px;">
+                            <input class="primary-btn-white" id="show_commission_button_event" style="width:100%;" type="button" onclick="show_commission_event();" value="Show Commission"/>
+                        </div>
+                    </div>`;
             }catch(err){console.log(err);}
             document.getElementById('event_detail').innerHTML = text_detail;
 
@@ -971,6 +979,71 @@ function event_options(id){
                         node.className = 'detail-event-box';
                     }
 
+                    else if (parseInt(msg.result.response[i].qty_available) == -1)
+                        {
+                            text += `
+                            <div class="col-lg-12" style="padding:0px;">
+                                <div style="background: gray; padding:10px; border-top-left-radius:7px; border-top-right-radius:7px;">
+                                    <span id="option_name_`+i+`" style="font-weight: bold; color:`+text_color+`; font-size:16px;"> `+ msg.result.response[i].grade + `</span>
+                                    <span style="border:2px solid `+text_color+`; padding:0px 7px; color: `+text_color+`; background: `+color+`; border-radius:7px;">Coming Soon</span>
+                                </div>
+                            </div>`;
+                            //console.log(msg.result);
+                            if(msg.result.response[i].images.length != 0)
+                                text+=`<div class="col-lg-3 col-md-3 border-event-sold" style="padding-top:20px;"><div class="img-event-detail" style="background-image: url(`+msg.result.response[i].images[0].url+`);"><div class="overlay overlay-bg-sold"></div></div><hr/></div>`;
+                            else
+                                text+=`<div class="col-lg-3 col-md-3 border-event-sold" style="padding-top:20px;"><div class="img-event-detail" style="background-image: url('/static/tt_website_rodextrip/images/no pic/no-ticket.png');"><div class="overlay overlay-bg-sold"></div></div></div>`;
+
+                            text+=`<div class="col-lg-9 col-md-9">
+                            <div class="overlay overlay-bg-sold"></div>
+                            <div class="row">
+                                <div class="col-lg-12" style="margin-top:10px; margin-bottom:5px;">`;
+                                if(msg.result.response[i].description != false)
+                                    text+=`<span style="color: #6e6e6e;">` + msg.result.response[i].description + `</span>`;
+                                else
+                                    text+=`<span>Description not Available</span>`;
+                                text+=`
+                                </div>`;
+
+                                for (j in msg.result.response[i].timeslot){
+                                    if(msg.result.response[i].timeslot[j].start_date != ""){
+                                        text+=`<div class="col-lg-6">
+                                            <span style="color: #6e6e6e; font-size:14px;"><i class="fas fa-calendar-alt" style="color:{{color}};"></i> ` + msg.result.response[i].timeslot[j].start_date + `</span>
+                                        </div>`;
+                                    }
+
+                                    if(msg.result.response[i].timeslot[j].start_hour +`- `+ msg.result.response[i].timeslot[j].end_hour != ""){
+                                        text+=`<div class="col-lg-6">
+                                            <span style="color: #6e6e6e; font-size:14px;"><i class="fas fa-clock" style="color:{{color}};"></i> ` +  msg.result.response[i].timeslot[j].start_hour +`- `+ msg.result.response[i].timeslot[j].end_hour + `</span>
+                                        </div>`;
+                                    }
+                                }
+
+                                text+=`<div class="col-lg-12"><hr/></div>
+                                <div class="col-lg-6 col-md-6">`
+                                if (msg.result.response[i].ticket_sale_start_day != '')
+                                    text+=`<span style="font-weight:500; color: `+color+`;">Available On:<br/> <span class="option_expired">`+ msg.result.response[i].ticket_sale_start_day +` - `+ msg.result.response[i].ticket_sale_start_hour +`</span></span>`
+                                text+=`
+                                </div>
+                            <div class="col-lg-6 col-md-6" style="margin-bottom:10px; padding-top:5px;">
+                                <div style="float:right; display:flex;">
+                                    <input id="option_currency_`+i+`" type="hidden" value="`+msg.result.response[i].currency+`"/>
+                                    <input id="option_price_`+i+`" type="hidden" value="`+msg.result.response[i].price+`"/>
+                                    <input id="option_commission_`+i+`" type="hidden" value="`+msg.result.response[i].commission+`"/>`;
+                                    price_start.push(msg.result.response[i].price);
+                                    if(msg.result.response[i].currency != 'IDR')
+                                        text+= '<span class="option_price" style="font-weight: bold; font-size:15px; padding-right:10px; padding-top:5px; color:`+color+`"> '+ msg.result.response[i].currency + ' ' + parseInt(msg.result.response[i].price) +'</span><br/>';
+                                    else
+                                        text+= '<span class="option_price" style="font-weight: bold; font-size:15px; padding-right:10px; padding-top:5px; color:`+color+`"> '+ msg.result.response[i].currency + ' ' + getrupiah(parseInt(msg.result.response[i].price))+'</span><br/>';
+                                    //text+=`<span style="font-weight: bold; font-size:15px; padding-right:10px; padding-top:5px; color:`+color+`"> COMING SOON </span><br/>`;
+                                text+=`
+                                </div>
+                            </div>`;
+
+                            //text+='<button class="primary-btn-custom" type="button" onclick="hotel_room_pick(`'+msg.result.response[i].option_id+'`);" id="button'+msg.result.response[i].option_id+'">Choose</button>';
+                            text+='</div></div>';
+                            node.className = 'detail-event-box-sold';
+                        }
                     else{
                         text += `
                         <div class="col-lg-12" style="padding:0px;">

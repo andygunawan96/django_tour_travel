@@ -689,6 +689,11 @@ function render_object_from_value(val){
                 </div>
             </div>
         </div>`;
+        text+=`
+        <div style="margin-bottom:5px;">
+            <input class="primary-btn-white" id="show_commission_button_event" style="width:100%;" type="button" onclick="show_commission_event();" value="Show Commission"/>
+        </div>`;
+
     text+=`<center>
 
     <div style="padding-bottom:10px;">
@@ -696,12 +701,6 @@ function render_object_from_value(val){
             <input type="button" class="primary-btn-white" style="width:100%;" onclick="copy_data();" value="Copy"/>
         </center>
     </div>`;
-    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
-        text+=`
-        <div style="margin-bottom:5px;">
-            <input class="primary-btn-white" id="show_commission_button_event" style="width:100%;" type="button" onclick="show_commission_event();" value="Show Commission"/>
-        </div>`;
-
     document.getElementById("event_detail_table").innerHTML = text;
 }
 
@@ -742,8 +741,8 @@ function hotel_room_pick_button(total_commission){
             <div class="alert alert-success">
                 <span id="commission_val" style="font-size:13px; font-weight:bold;">Your Commission: ` + getrupiah(parseInt(total_commission)) + `</span><br>
             </div>
-        </div>`;
-        text += `<div class="col-lg-12">
+        </div>
+        <div class="col-lg-12">
             <input class="primary-btn-white" id="show_commission_button_event" style="width:100%;" type="button" onclick="show_commission_event();" value="Show Commission"/>
         </div>`;
     text += `

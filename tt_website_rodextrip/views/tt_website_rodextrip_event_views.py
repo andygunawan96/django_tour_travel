@@ -272,21 +272,36 @@ def contact_passengers(request):
             phone_code = sorted(phone_code)
 
             opt_code = []
-            i = 1
-            while i:
-                if request.POST.get('option_qty_'+str(i-1)):
-                    if int(request.POST['option_qty_' + str(i-1)]) != 0:
+            # i = 1
+            # while i:
+            #     if request.POST.get('option_qty_'+str(i-1)):
+            #         if int(request.POST['option_qty_' + str(i-1)]) != 0:
+            #             opt_code.append({
+            #                 'name': request.session['event_detail']['result']['response'][i-1]['grade'],
+            #                 'code': request.session['event_detail']['result']['response'][i-1]['option_id'],
+            #                 'qty': request.POST['option_qty_' + str(i-1)],
+            #                 'currency': request.session['event_detail']['result']['response'][i-1]['currency'],
+            #                 'price': request.session['event_detail']['result']['response'][i-1]['price'],
+            #                 'comm': request.session['event_detail']['result']['response'][i-1].get('commission',0),
+            #             })
+            #         i += 1
+            #     else:
+            #         break
+
+            # Vin 2021/03/16: Update mekanisme read selected option
+            # Rule yg lama bisa error jika option awal tidk dibeli
+            for key in sorted(request.POST.keys()):
+                if 'option_qty_' in key:
+                    if int(request.POST[key]) != 0:
+                        i = int(key.split('_')[-1])
                         opt_code.append({
-                            'name': request.session['event_detail']['result']['response'][i-1]['grade'],
-                            'code': request.session['event_detail']['result']['response'][i-1]['option_id'],
-                            'qty': request.POST['option_qty_' + str(i-1)],
-                            'currency': request.session['event_detail']['result']['response'][i-1]['currency'],
-                            'price': request.session['event_detail']['result']['response'][i-1]['price'],
-                            'comm': request.session['event_detail']['result']['response'][i-1].get('commission',0),
+                            'name': request.session['event_detail']['result']['response'][i]['grade'],
+                            'code': request.session['event_detail']['result']['response'][i]['option_id'],
+                            'qty': request.POST[key],
+                            'currency': request.session['event_detail']['result']['response'][i]['currency'],
+                            'price': request.session['event_detail']['result']['response'][i]['price'],
+                            'comm': request.session['event_detail']['result']['response'][i].get('commission',0),
                         })
-                    i += 1
-                else:
-                    break
 
             set_session(request, 'event_option_code' + request.session['event_signature'], opt_code)
             values.update({
