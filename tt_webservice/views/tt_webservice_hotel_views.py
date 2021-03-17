@@ -581,7 +581,7 @@ def create_booking(request):
             'os_res_no': '',
             'journeys_booking': '',
             'seq_id': request.POST['seq_id'],
-            'member': request.POST['member'],
+            'member': request.POST['member'] == 'member',
         }
 
         # payment
