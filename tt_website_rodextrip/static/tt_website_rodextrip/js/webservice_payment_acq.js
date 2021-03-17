@@ -1405,7 +1405,7 @@ function change_top_up_method(){
             <div class="col-lg-12" style="margin-top:15px;">
                 <div id="footer-info" class="footer-info">
                     <label class="check_box_custom">
-                        <span class="span-search-ticket" style="color:black;margin-bottom:20px;">I've read and accept the <a class="highlight" data-toggle="modal" data-target="#tacModal" style="text-decoration: underline; color:blue;">Terms &amp; Conditions</a> of Rodextrip top up</span>
+                        <span class="span-search-ticket" style="color:black;margin-bottom:20px;">I've read and accept the <a class="highlight" data-toggle="modal" data-target="#tacModal" style="text-decoration: underline; color:blue;">Terms &amp; Conditions</a> of `+web_name+` top up</span>
                         <input type="checkbox" name="tac_checkbox" id="tac_checkbox" required="required">
                         <span class="check_box_span_custom"></span>
                     </label>
