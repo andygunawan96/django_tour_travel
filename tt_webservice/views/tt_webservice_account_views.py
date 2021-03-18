@@ -137,6 +137,8 @@ def api_models(request):
             res = set_payment_information(request)
         elif req_data['action'] == 'send_url_booking':
             res = send_url_booking(request)
+        elif req_data['action'] == 'get_vendor_balance':
+            res = get_vendor_balance(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -1424,6 +1426,49 @@ def send_url_booking(request):
         }
 
         res = util.send_request(url=url + "account", data=data, headers=headers, method='POST')
+    except Exception as e:
+        res = {
+            'result': {
+                'error_code': -1,
+                'error_msg': str(e),
+                'response': ''
+            }
+        }
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    return res
+
+def get_vendor_balance(request):
+    if request.POST['using_cache'] == 'false':
+        res = get_vendor_balance_request(request)
+    else:
+        file = read_cache_with_folder_path("get_vendor_balance")
+        if not file:
+            res = get_vendor_balance_request(request)
+        else:
+            res = file
+    try:
+        if res['result']['error_code'] == 0 or res['result']['error_code'] == 500:
+            _logger.info("get_balance_account SUCCESS SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("get_balance_account ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def get_vendor_balance_request(request):
+    try:
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_vendor_balance",
+            "signature": request.POST['signature'],
+        }
+        data = {
+        }
+
+        res = util.send_request(url=url + "account", data=data, headers=headers, method='POST')
+        if res['result']['error_code'] == 0:
+            write_cache_with_folder(res, "get_vendor_balance")
     except Exception as e:
         res = {
             'result': {

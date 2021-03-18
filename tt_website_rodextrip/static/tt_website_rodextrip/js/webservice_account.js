@@ -73,6 +73,7 @@ function get_balance(val){
                         }catch(err){}
                     }catch(err){}
                     get_transactions_notification(val);
+                    get_vendor_balance(val);
                     //document.getElementById('balance').value = msg.result.response.balance + msg.result.response.credit_limit;
                 }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                     clearTimeout(timeInterval); //clear get balance no session
@@ -1248,4 +1249,29 @@ function check_top_up(){
 function get_payment_acquirer_top_up(val){
     top_up_value = val;
     get_payment_acq('Confirm','', '', 'top_up', signature, 'top_up','HO.1636001', '');
+}
+
+function get_vendor_balance(val){
+    if(val != undefined)
+        using_cache = val;
+    $.ajax({
+       type: "POST",
+       url: "/webservice/account",
+       headers:{
+            'action': 'get_vendor_balance',
+       },
+       data: {
+            'signature': signature,
+            'using_cache': using_cache
+       },
+       success: function(msg) {
+        console.log(msg);
+        if(msg.result.error_code == 0){
+            // bikin tampilan disini
+        }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get vendor balance');
+       },timeout: 60000
+    });
 }
