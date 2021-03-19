@@ -2874,7 +2874,10 @@ function get_payment_espay(order_number_full){
        success: function(msg) {
             console.log(msg);
             if(msg.result.error_code == 0){
-                window.location.href = '/payment/espay/' + order_number_full;
+                if(payment_acq2[payment_method][selected].name == 'OVO')
+                    window.location.reload();
+                else
+                    window.location.href = '/payment/espay/' + order_number_full;
             }else{
                 Swal.fire({
                   type: 'error',
