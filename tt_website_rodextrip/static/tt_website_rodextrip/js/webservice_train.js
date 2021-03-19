@@ -682,7 +682,7 @@ function train_get_booking(data){
                                 text+= `
                                 <div class="row">
                                     <div class="col-lg-4">
-                                        <img data-toggle="tooltip" style="width:auto; height:50px;" title="`+msg.result.response.provider_bookings[i].journeys[j].carrier_code+`" class="airline-logo" src="/static/tt_website_rodextrip/img/icon/kai.png" alt="KAI"/>`;
+                                        <img data-toggle="tooltip" style="width:auto; height:50px;" title="`+msg.result.response.provider_bookings[i].journeys[j].carrier_code+`" class="airline-logo" src="/static/tt_website_rodextrip/images/KAI_Logo01.png" alt="KAI"/>`;
                                 text+=`<h6>`+msg.result.response.provider_bookings[i].journeys[j].carrier_name+' '+msg.result.response.provider_bookings[i].journeys[j].carrier_number+`</h5>
                                 <span>Class : `+msg.result.response.provider_bookings[i].journeys[j].cabin_class[1];
                                 if(msg.result.response.provider_bookings[i].journeys[j].class_of_service != '')

@@ -211,7 +211,17 @@ function set_price(val, type, product_type){
     if(+payment_acq2[payment_method][selected].hasOwnProperty('description_msg') == true)
         document.getElementById('set_detail').innerHTML = `<i>`+payment_acq2[payment_method][selected].description_msg +'</i>';
     text += ` <h6 style="padding-bottom:10px;">2. Payment Detail: </h6>`;
-    if(payment_method != 'credit_limit')
+    if(payment_method != 'credit_limit'){
+        if(payment_method == 'payment_gateway' && payment_acq2[payment_method][selected].online_wallet == true){
+            text+=`<div class='row'>
+                <div class="col-sm-5" style='text-align:left;'>
+                <span style="font-size:13px;"> Phone Number: </span>
+
+                </div>
+                <div class="col-sm-7" style='text-align:right;'>
+                    <input type='text' id="phone_number"/>
+                </div>`;
+        }else{
         text+=`<div class='row'>
                 <div class="col-sm-5" style='text-align:left;'>
                 <span style="font-size:13px;"> Account: </span><br>
@@ -222,7 +232,8 @@ function set_price(val, type, product_type){
                     <span style="font-size:14px; font-weight:500;">`+payment_acq2[payment_method][selected].account_number+`<br/>
                     <span style="font-size:14px; font-weight:500;">`+payment_acq2[payment_method][selected].account_name+`<br>
                 </div>`;
-    else if(payment_method == 'credit_limit'){
+        }
+    }else if(payment_method == 'credit_limit'){
         text+=`<div class='row'>
                 <div class="col-sm-5" style='text-align:left;'>
                 <span style="font-size:13px;;"> Account Name: </span>

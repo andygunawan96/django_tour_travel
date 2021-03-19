@@ -1438,21 +1438,30 @@ def send_url_booking(request):
     return res
 
 def get_vendor_balance(request):
-    if request.POST['using_cache'] == 'false':
-        res = get_vendor_balance_request(request)
-    else:
-        file = read_cache_with_folder_path("get_vendor_balance")
-        if not file:
+    if 'user_account' in request.session._session and 'agent_ho' in request.session['user_account']['co_agent_frontend_security']:
+        if request.POST['using_cache'] == 'false':
             res = get_vendor_balance_request(request)
         else:
-            res = file
-    try:
-        if res['result']['error_code'] == 0 or res['result']['error_code'] == 500:
-            _logger.info("get_balance_account SUCCESS SIGNATURE " + request.POST['signature'])
-        else:
-            _logger.error("get_balance_account ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
-    except Exception as e:
-        _logger.error(str(e) + '\n' + traceback.format_exc())
+            file = read_cache_with_folder_path("get_vendor_balance")
+            if not file:
+                res = get_vendor_balance_request(request)
+            else:
+                res = file
+        try:
+            if res['result']['error_code'] == 0 or res['result']['error_code'] == 500:
+                _logger.info("get_balance_account SUCCESS SIGNATURE " + request.POST['signature'])
+            else:
+                _logger.error("get_balance_account ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+        except Exception as e:
+            _logger.error(str(e) + '\n' + traceback.format_exc())
+    else:
+        res = {
+            'result': {
+                'error_code': 500,
+                'error_msg': '',
+                'response': ''
+            }
+        }
     return res
 
 def get_vendor_balance_request(request):
