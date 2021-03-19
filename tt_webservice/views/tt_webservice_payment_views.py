@@ -168,6 +168,8 @@ def set_payment_method(request):
             "order_number": request.POST['order_number'],
             "bank_code": request.POST['bank_code'],
             "bank_name": request.POST['bank_name'],
+            "online_wallet": True if request.POST['online_wallet'] == 'true' else False,
+            "phone_number": request.POST['phone_number'],
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",

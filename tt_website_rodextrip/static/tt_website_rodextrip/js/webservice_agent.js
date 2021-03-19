@@ -2853,6 +2853,10 @@ function get_merchant_info(){
 
 function get_payment_espay(order_number_full){
     getToken();
+    phone_number = '';
+    if(payment_acq2[payment_method][selected].online_wallet){
+        phone_number = document.getElementById('phone_number').value;
+    }
     $.ajax({
        type: "POST",
        url: "/webservice/payment",
@@ -2863,7 +2867,9 @@ function get_payment_espay(order_number_full){
             "signature": signature,
             "order_number": order_number_full,
             "bank_code": payment_acq2[payment_method][selected]['bank']['code'],
-            "bank_name": payment_acq2[payment_method][selected].name
+            "bank_name": payment_acq2[payment_method][selected].name,
+            "online_wallet": payment_acq2[payment_method][selected].online_wallet,
+            "phone_number": phone_number
        },
        success: function(msg) {
             console.log(msg);
