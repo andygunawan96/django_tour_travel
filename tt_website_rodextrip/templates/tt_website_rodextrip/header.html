@@ -40,9 +40,9 @@
                     </li>
                     {% if username.co_user_login != '' %}
                     {% if username.co_agent_type_name == "Customer COR" or username.co_agent_type_name == "Customer POR" %}
-                    <li class="credit_mobile pt5"><a id="credit_limit" style="color:black;"></a></li>
+                    <li class="credit_mobile pt5"><a id="credit_limit"></a></li>
                     {% else %}
-                    <li class="balance_mobile pt5"><a id="balance" style="color:black;"></a></li>
+                    <li class="balance_mobile pt5"><a id="balance"></a></li>
                     {% endif %}
                     <li class="menu-has-children pt5"><a href="#">{% trans 'Setting' %}</a>
                         <ul>
@@ -809,9 +809,9 @@
 
                     {% if username.co_user_login != '' %}
                     {% if username.co_agent_type_name == "Customer COR" or username.co_agent_type_name == "Customer POR" %}
-                    <li class="credit_mobile" style="margin-top:8px;"><a id="credit_limit" style="color:black;"></a></li>
+                    <li class="credit_mobile" style="margin-top:8px;"><a id="credit_limit"></a></li>
                     {% else %}
-                    <li class="balance_mobile" style="margin-top:8px;"><a id="balance" style="color:black;"></a></li>
+                    <li class="balance_mobile" style="margin-top:8px;"><a id="balance"></a></li>
                     {% endif %}
 
                     <li class="menu-has-children" style="margin-top:8px;"><a href="#">{% trans 'Setting' %} <i class="fas fa-chevron-down fat-dh" style="display:inline-block;"></i></a>
@@ -936,6 +936,8 @@
     </div>
 </div>
 
+{% include 'tt_website_rodextrip/modal_balance_vendor.html' %}
+
 <script>
     //$('head').append( '<meta property="og:title" content="{{name}}" />' );
     //$('head').append( '<meta property="og:type" content="website" />' );
@@ -953,7 +955,7 @@
             if('{{username.co_user_login}}' != ''){
                 triggered_balance({{update_data}});
                 setTimeout(function() {
-                    get_balance({{update_data}});
+                    get_vendor_balance({{update_data}});
                 }, 2000);
             }
             {% endif %}

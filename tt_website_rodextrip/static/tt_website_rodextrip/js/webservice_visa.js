@@ -649,7 +649,7 @@ function visa_commit_booking(){
 
 function visa_get_data(data){
     price_arr_repricing = {};
-    get_balance('false');
+    get_vendor_balance('false');
     $.ajax({
        type: "POST",
        url: "/webservice/visa",

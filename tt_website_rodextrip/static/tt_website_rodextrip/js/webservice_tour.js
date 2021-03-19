@@ -1673,7 +1673,7 @@ function update_service_charge(type){
 function tour_get_booking(order_number)
 {
     price_arr_repricing = {};
-    get_balance('false');
+    get_vendor_balance('false');
     $.ajax({
        type: "POST",
        url: "/webservice/tour",

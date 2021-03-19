@@ -5,7 +5,7 @@
     {% if username.co_agent_type_name == "Customer COR" or username.co_agent_type_name == "Customer POR" %}
     <span id="credit_limit" style="font-size:13px; font-weight:500;"></span>
     {% else %}
-    <span id="balance" style="font-size:13px; font-weight:500; padding-right:10px;"></span>
+    <a id="balance" style="font-size:13px; font-weight:500; border-bottom:2px solid {{color}};"></a>
     {% endif %}
 </div>
 
@@ -19,7 +19,7 @@
             time = 300;
             triggered_balance({{update_data}});
             setTimeout(function() {
-                get_balance({{update_data}});
+                get_vendor_balance({{update_data}});
             }, 2000);
         {% endif %}
     {% endif %}

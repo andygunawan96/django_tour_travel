@@ -52,7 +52,42 @@ function get_balance(val){
                     time = 300;
                     balance = parseInt(msg.result.response.balance);
                     credit_limit = parseInt(msg.result.response.credit_limit);
-                    text = `Balance: `+msg.result.response.currency_code + ' ' + getrupiah(balance)+``;
+
+                    if(vendor_balance_check == 0){
+                        try{
+                            document.getElementById("balance").style.color = "black";
+                        }catch(err){}
+
+                        try{
+                            document.getElementById("balance_mob").style.color = "black";
+                        }catch(err){}
+
+                        try{
+                            document.getElementById("balance_search").style.color = "black";
+                        }catch(err){}
+
+                        text = `Balance: `+msg.result.response.currency_code + ' ' + getrupiah(balance)+``;
+
+                    }else{
+                        text = `Balance Vendor`;
+                        try{
+                            document.getElementById("balance").style.cursor = "pointer";
+                            document.getElementById("balance").onclick = function() {$("#myModalBalanceVendor").modal('show');};
+                        }catch(err){}
+                        try{
+                            document.getElementById("balance_mob").style.cursor = "pointer";
+                            document.getElementById("balance_mob").onclick = function() {$("#myModalBalanceVendor").modal('show');};
+                        }catch(err){}
+                        try{
+                            document.getElementById("balance_search").style.cursor = "pointer";
+                            document.getElementById("balance_search").onclick = function() {$("#myModalBalanceVendor").modal('show');};
+                        }catch(err){}
+                        try{
+                            document.getElementById("my_balance").innerHTML = `
+                            <img src="/static/tt_website_rodextrip/images/icon/wallet_black.png" alt="Balance Vendor" style="width:15px; height:15px;">
+                            <span style="font-size:14px; font-weight:500;"><span style="color:`+color+`;">`+msg.result.response.currency_code+` `+getrupiah(balance)+`</span></span>`;
+                        }catch(err){}
+                    }
                     try{
                         document.getElementById("balance").innerHTML = text;
                         try{
@@ -73,7 +108,7 @@ function get_balance(val){
                         }catch(err){}
                     }catch(err){}
                     get_transactions_notification(val);
-                    get_vendor_balance(val);
+                    //get_vendor_balance(val);
                     //document.getElementById('balance').value = msg.result.response.balance + msg.result.response.credit_limit;
                 }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                     clearTimeout(timeInterval); //clear get balance no session
@@ -1252,6 +1287,7 @@ function get_payment_acquirer_top_up(val){
 }
 
 function get_vendor_balance(val){
+    using_cache = '';
     if(val != undefined)
         using_cache = val;
     $.ajax({
@@ -1266,11 +1302,59 @@ function get_vendor_balance(val){
        },
        success: function(msg) {
         console.log(msg);
+        text_balance = '';
         if(msg.result.error_code == 0){
-            // bikin tampilan disini
+            text_balance += `
+            <div class="col-lg-12 mb-3">
+                <h6 class="mb-2">My Balance</h6>
+                <div style="border: 1px solid #cdcdcd; border-radius:14px; padding:10px;" id="my_balance">
+
+                </div>
+            </div>
+
+            <div class="col-lg-12">
+            <h6>Balance Vendor</h6>
+            <div class="row">`;
+            for(blc in msg.result.response){
+                text_balance += `<div class="col-lg-6 col-md-6 mt-2 mb-2">
+                <div style="border: 1px solid #cdcdcd; border-radius:14px; padding:10px;">`;
+                    if(msg.result.response[blc].provider_type == "airline"){
+                        text_balance += `<img src="/static/tt_website_rodextrip/images/icon/airlines_black.png" alt="`+msg.result.response[blc].code+` `+msg.result.response[blc].code+`" style="width:15px; height:15px;">`;
+                    }else if(msg.result.response[blc].provider_type == "train"){
+                        text_balance += `<img src="/static/tt_website_rodextrip/images/icon/train_black.png" alt="`+msg.result.response[blc].code+` `+msg.result.response[blc].code+`" style="width:15px; height:15px;">`;
+                    }else if(msg.result.response[blc].provider_type == "hotel"){
+                        text_balance += `<img src="/static/tt_website_rodextrip/images/icon/hotel_black.png" alt="`+msg.result.response[blc].code+` `+msg.result.response[blc].code+`" style="width:15px; height:15px;">`;
+                    }else if(msg.result.response[blc].provider_type == "activity"){
+                        text_balance += `<img src="/static/tt_website_rodextrip/images/icon/activity_black.png" alt="`+msg.result.response[blc].code+` `+msg.result.response[blc].code+`" style="width:15px; height:15px;">`;
+                    }else if(msg.result.response[blc].provider_type == "tour"){
+                        text_balance += `<img src="/static/tt_website_rodextrip/images/icon/tour_black.png" alt="`+msg.result.response[blc].code+` `+msg.result.response[blc].code+`" style="width:15px; height:15px;">`;
+                    }else if(msg.result.response[blc].provider_type == "visa"){
+                        text_balance += `<img src="/static/tt_website_rodextrip/images/icon/visa_black.png" alt="`+msg.result.response[blc].code+` `+msg.result.response[blc].code+`" style="width:15px; height:15px;">`;
+                    }else if(msg.result.response[blc].provider_type == "passport"){
+                        text_balance += `<img src="/static/tt_website_rodextrip/images/icon/passport_black.png" alt="`+msg.result.response[blc].code+` `+msg.result.response[blc].code+`" style="width:15px; height:15px;">`;
+                    }else if(msg.result.response[blc].provider_type == "ppob"){
+                        text_balance += `<img src="/static/tt_website_rodextrip/images/icon/ppob_black.png" alt="`+msg.result.response[blc].code+` `+msg.result.response[blc].code+`" style="width:15px; height:15px;">`;
+                    }else if(msg.result.response[blc].provider_type == "event"){
+                        text_balance += `<img src="/static/tt_website_rodextrip/images/icon/event_black.png" alt="`+msg.result.response[blc].code+` `+msg.result.response[blc].code+`" style="width:15px; height:15px;">`;
+                    }
+                    text_balance += `
+                        <span style="text-transform: capitalize; font-size:14px; font-weight:500;">`+msg.result.response[blc].code+`</span><br/>
+                        <img src="/static/tt_website_rodextrip/images/icon/wallet_black.png" alt="Balance Vendor" style="width:15px; height:15px;">
+                        <span style="font-size:14px; color:`+color+`; font-weight:500;">`+msg.result.response[blc].currency+` `+msg.result.response[blc].balance+`</span>
+                    </div>
+                </div>`;
+            }
+            text_balance += `</div></div>`;
+            document.getElementById("balance_content").innerHTML = text_balance;
+            vendor_balance_check = 1;
+        }else{
+            vendor_balance_check = 0;
         }
+        get_balance(val);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            vendor_balance_check = 0;
+            get_balance(val);
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get vendor balance');
        },timeout: 60000
     });
