@@ -595,7 +595,7 @@ function passport_commit_booking(){
 
 function passport_get_data(data){
     price_arr_repricing = {};
-    get_balance('false');
+    get_vendor_balance('false');
     $.ajax({
        type: "POST",
        url: "/webservice/passport",

@@ -290,7 +290,7 @@ function signin_btc(){
                         user_login = msg.result.response;
                         signature = msg.result.response.signature;
                         triggered_balance(false);
-                        //get_balance(false); //firefox error
+                        //get_vendor_balance(false); //firefox error
                     }catch(err){}
                     if(window.location.href.split('/')[3] == ''){
                         window.location.href = '/';
@@ -899,7 +899,7 @@ function triggered_balance(val){
             time--;
         }else{
             if(login_again == true){
-                get_balance(val);
+                get_vendor_balance(val);
                 time--;
             }
         }

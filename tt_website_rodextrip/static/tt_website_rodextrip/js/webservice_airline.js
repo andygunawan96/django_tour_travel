@@ -3904,7 +3904,7 @@ function airline_get_booking(data, sync=false){
     airline_pick_list = [];
     document.getElementById('payment_acq').hidden = true;
     price_arr_repricing = {};
-    get_balance('false');
+    get_vendor_balance('false');
     show_loading();
     please_wait_transaction();
     $("#waitingTransaction").modal('show');
@@ -8410,7 +8410,7 @@ function airline_get_booking_refund(data){
     airline_pick_list = [];
     document.getElementById('payment_acq').hidden = true;
     price_arr_repricing = {};
-    get_balance('false');
+    get_vendor_balance('false');
     $.ajax({
        type: "POST",
        url: "/webservice/airline",

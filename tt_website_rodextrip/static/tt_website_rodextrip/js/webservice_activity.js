@@ -2537,7 +2537,7 @@ function update_service_charge(type){
 
 function activity_get_booking(data){
     price_arr_repricing = {};
-    get_balance('false');
+    get_vendor_balance('false');
     $.ajax({
        type: "POST",
        url: "/webservice/activity",

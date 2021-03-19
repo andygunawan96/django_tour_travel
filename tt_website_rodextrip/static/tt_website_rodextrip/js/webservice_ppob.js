@@ -557,7 +557,7 @@ function bills_ppob(){
 
 function ppob_get_booking(data){
     price_arr_repricing = {};
-    get_balance('false');
+    get_vendor_balance('false');
     $.ajax({
        type: "POST",
        url: "/webservice/ppob",

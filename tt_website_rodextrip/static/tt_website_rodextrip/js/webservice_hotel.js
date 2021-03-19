@@ -1557,7 +1557,7 @@ function hotel_issued_booking(val){
 
 function hotel_get_booking(data){
     price_arr_repricing = {};
-    get_balance('false');
+    get_vendor_balance('false');
     $.ajax({
        type: "POST",
        url: "/webservice/hotel",
