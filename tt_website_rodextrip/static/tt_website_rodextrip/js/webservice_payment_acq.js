@@ -1047,9 +1047,14 @@ function check_payment_payment_method(order_number,btn_name,booker,type,provider
         get_payment_acq(btn_name, booker, order_number, type, signature, provider_type);
     else{
         //print
+        data_gmt = moment(payment_acq_booking.time_limit)._d.toString().split(' ')[5];
+        gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, ''); //ambil gmt
+        timezone = data_gmt.replace (/[^\d.]/g, ''); //ambil timezone
+        timezone = timezone.split('') //split per char
+        timezone = timezone.filter(item => item !== '0') //hapus angka 0 di timezone
         tes = moment.utc(payment_acq_booking.time_limit).format('YYYY-MM-DD HH:mm:ss')
         localTime  = moment.utc(tes).toDate();
-        payment_acq_booking.time_limit = moment(localTime).format('DD MMM YYYY HH:mm');
+        payment_acq_booking.time_limit = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
         text=`<h4 style="color:`+color+`;">Customer Payment Method</h4><hr/>`;
         text+=` <h6 style="padding-bottom:10px;">Payment Detail: </h6>`;
         if(payment_acq_booking.nomor_rekening != ''){

@@ -2495,8 +2495,8 @@ function check_name_airline(first_name, last_name){
             log = 'fill last name of';
         else if(last_name.length == 1)
             log = 'fill last name more than 1 character of';
-        else if(last_name.split(' ').length > 1)
-            log = 'last name may only contain 1 word of';
+//        else if(last_name.split(' ').length > 1)
+//            log = 'last name may only contain 1 word of';
         else if(first_name.split(' ').length > 1){
             check_first_name = false;
             for(counter in first_name.split(' ')){
