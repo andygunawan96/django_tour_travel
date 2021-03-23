@@ -1618,8 +1618,8 @@ function sort(value){
         if(train_request.departure[train_request_pick] == data_filter[i].departure_date[0]){
             if(data_filter[i].available_count >= parseInt(passengers.adult) && data_filter[i].can_book == true)
                 response+=`<div class="sorting-box-b">`;
-            else if(data_filter[i].available_count > parseInt(passengers.adult)  && data_filter[i].can_book == false)
-                response+=`<div class="sorting-box-b">`;
+//            else if(data_filter[i].available_count > parseInt(passengers.adult) && data_filter[i].can_book == false)
+//                response+=`<div class="sorting-box-b">`;
             else if(data_filter[i].can_book == false)
                 response+=`<div style="background-color:#E5E5E5; padding:15px; margin-bottom:15px; border:1px solid #cdcdcd;">`;
             else
