@@ -131,6 +131,8 @@ def api_models(request):
             res = delete_faq(request)
         elif req_data['action'] == 'get_va_number':
             res = get_va_number(request)
+        elif req_data['action'] == 'get_va_number_for_mobile':
+            res = get_va_number_for_mobile(request)
         elif req_data['action'] == 'get_va_bank':
             res = get_va_bank(request)
         elif req_data['action'] == 'set_payment_information':
@@ -1343,6 +1345,40 @@ def get_va_number(request):
         }
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
+
+def get_va_number_for_mobile(request):
+    try:
+        res = request.data['res']
+        if res['result']['error_code'] == 0:
+            res['result']['response'].update({
+                "other": [{
+                    "seq_id": 'other_bank',
+                    "name": 'Other Bank',
+                    "type": ''
+                }]
+            })
+            for rec in res['result']['response']:
+                for data in res['result']['response'][rec]:
+                    file = read_cache_without_folder_path("payment_information/" + data['seq_id'], 90911)
+                    if file:
+                        for idx, data_cache in enumerate(file.split('\n')):
+                            if idx == 0:
+                                data['heading'] = data_cache
+                            elif idx == 1:
+                                data['html'] = data_cache.replace('<br>', '\n')
+                    else:
+                        data['html'] = ''
+                        data['heading'] = ''
+    except Exception as e:
+        res = {
+            'result': {
+                'error_code': -1,
+                'error_msg': str(e),
+                'response': ''
+            }
+        }
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    return request.data['res']
 
 def get_va_bank(request):
     try:
