@@ -1293,7 +1293,7 @@ function airline_search(provider,carrier_codes){
                                <label class="check_box_custom">`;
                                try{
                                carrier_code_airline_checkbox +=`
-                                    <span class="span-search-ticket" style="color:black;">`+airline_all_carriers[0][obj2.segments[0].carrier_code].name+`</span>`;
+                                    <span class="span-search-ticket" style="color:black;">`+airline_all_carriers[obj2.segments[0].carrier_code].name+`</span>`;
                                }catch(err){
                                carrier_code_airline_checkbox +=`
                                     <span class="span-search-ticket" style="color:black;">`+obj2.segments[0].carrier_code+`</span>`;
@@ -1487,7 +1487,7 @@ function change_fare(journey, segment, fares){
             }
         }
     }
-    document.getElementById('fare'+airline_data[journey].sequence).innerHTML = 'IDR ' + getrupiah(price.toString());
+    document.getElementById('fare'+journey).innerHTML = 'IDR ' + getrupiah(price.toString());
 //    airline_data[journey].total_price = price;
 
 }
