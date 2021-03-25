@@ -8477,7 +8477,7 @@ ul.popular2_tabs li.current .image-rounded-icon{
     display:none !important;
   }
   .mystickycopybot {
-    display:none;
+    display:none !important;
   }
   .mystickyticket {
     display:none !important;
