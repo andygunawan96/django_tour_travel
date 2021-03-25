@@ -82,12 +82,12 @@
     airline_signature = `{{signature}}`;
     signature = `{{signature}}`;
     console.log(signature);
-    airline_get_booking = `{{airline_getbooking}}`;
-    airline_get_booking = airline_get_booking.replace(/&#39;/g, '"');
-    airline_get_booking = airline_get_booking.replace(/True/g, 'true');
-    airline_get_booking = airline_get_booking.replace(/False/g, 'false');
-    console.log(airline_get_booking);
-    airline_get_booking = JSON.parse(airline_get_booking);
+    airline_get_detail = `{{airline_getbooking}}`;
+    airline_get_detail = airline_get_detail.replace(/&#39;/g, '"');
+    airline_get_detail = airline_get_detail.replace(/True/g, 'true');
+    airline_get_detail = airline_get_detail.replace(/False/g, 'false');
+    console.log(airline_get_detail);
+    airline_get_detail = JSON.parse(airline_get_detail);
 
     try{
         time_limit = `{{time_limit}}`;
@@ -243,8 +243,9 @@
     order_number = '{{airline_getbooking.order_number}}';
     state = '{{airline_getbooking.state}}';
     page = '{{page}}';
-
-    document.getElementById('payment_acq').hidden = false;
+    try{
+        document.getElementById('payment_acq').hidden = false;
+    }catch(err){}
 </script>
 <!-- loader -->
 {% endblock %}
