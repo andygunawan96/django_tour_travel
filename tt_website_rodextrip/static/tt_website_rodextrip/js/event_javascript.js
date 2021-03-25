@@ -209,34 +209,25 @@ function sort(response, check_filter){
         count_available_event = 0;
         for(i in response){
             available_prop = 0;
+            content_category_pop = '';
+            content_location_pop = '';
             text = '';
 
-            var obj_end_date = Date.now()
             if (response[i].end_date) {
                 obj_end_date = Date.parse(response[i].end_date);
-            }
-            // Event Blum Berlangsung
-            if (Date.parse(response[i].start_date) > Date.now()){
-                //console.log('Blum Langsung');
-                if (response[i].option.length > 0){
-                    available_prop = 1;
-                }
-            // Event Sedang Berlangsung
-            } else if (Date.parse(response[i].start_date) < Date.now() && Date.now() < obj_end_date){
-                for (opt_idx in response[i].option){
-                    // Cek apakah ada ticket option yg masih dijual
-                    // Cek ticket yg tgl juale lebih kecil tmbang date now
-                    // kita bilang tetep available tpi g bsa dibeli dulu soale lu tanggal beli ne
-                    if (Date.parse(response[i].option[opt_idx].ticket_sale_start_day) > Date.now()){
+                if (obj_end_date > Date.now()){
+                    //console.log('Blum Langsung');
+                    if (response[i].option.length > 0){
                         available_prop = 1;
-                        console.log('start date ticket blum');
-                    // Cek yg masih blum end date
-                    } else if (Date.parse(response[i].option[opt_idx].ticket_sale_end_day) > Date.now()){
-                        available_prop = 1;
-                        console.log('end date ticket blum');
                     }
                 }
             }
+            for (opt in response[i].option){
+                if (response[i].option[opt].amount > 0){
+                    available_prop = 1;
+                }
+            }
+
             if (available_prop == 1){
                 count_available_event += 1;
                 if(template == 1){
@@ -280,7 +271,7 @@ function sort(response, check_filter){
                                             <div style="padding-top:2px;">
                                                 <i class="fas fa-map-marker-alt" style="color:`+color+`;"></i>
                                                 <span class="location_hotel" style="font-size:13px;">`;
-                                            content_location_pop = `<i class="fas fa-map-marker-alt" style="color:`+color+`;"></i> `;
+                                            content_location_pop += `<i class="fas fa-map-marker-alt" style="color:`+color+`;"></i> `;
                                             for(g in response[i].locations){
                                                 if(g == 0){
                                                     if (response[i].locations[g].city_name != false){
@@ -317,9 +308,9 @@ function sort(response, check_filter){
 
                                             if(response[i].category.length != 0){
                                                 text+=`<span class="tags_btn" id="pop_tags`+i+`"><i class="fas fa-tags"></i> `+response[i].category.length+` Category</span>`;
-                                                content_category_pop = `<span style="font-weight:600; font-size:14px;"> Category</span><hr/>`;
+                                                content_category_pop += `<span style="font-weight:600; font-size:14px;"> Category</span><hr/>`;
                                                 for(g in response[i].category){
-                                                    content_category_pop+=`<div class="tags_btn mb-2" onclick="window.location='/event/category/`+response[i].category[g]+`';"><i class="fas fa-tags"></i> `+ response[i].category[g] +`</div>`;
+                                                    content_category_pop +=`<div class="tags_btn mb-2" onclick="window.location='/event/category/`+response[i].category[g]+`';"><i class="fas fa-tags"></i> `+ response[i].category[g] +`</div>`;
                                                 }
                                             }
                                         text+=`
@@ -398,7 +389,7 @@ function sort(response, check_filter){
                                         <div style="padding-top:2px;">
                                             <i class="fas fa-map-marker-alt" style="color:`+color+`;"></i>
                                             <span class="location_hotel" style="font-size:13px;">`;
-                                        content_location_pop = `<i class="fas fa-map-marker-alt" style="color:`+color+`;"></i> `;
+                                        content_location_pop += `<i class="fas fa-map-marker-alt" style="color:`+color+`;"></i> `;
                                         for(g in response[i].locations){
                                             if(g == 0){
                                                 if (response[i].locations[g].city_name != false){
@@ -434,7 +425,7 @@ function sort(response, check_filter){
                                         }
                                         if(response[i].category.length != 0){
                                             text+=`<span class="tags_btn" id="pop_tags`+i+`"><i class="fas fa-tags"></i> `+response[i].category.length+` Category</span>`;
-                                            content_category_pop = `<span style="font-weight:600; font-size:14px;"> Category</span><hr/>`;
+                                            content_category_pop += `<span style="font-weight:600; font-size:14px;"> Category</span><hr/>`;
                                             for(g in response[i].category){
                                                 content_category_pop+=`<div class="tags_btn mb-2" onclick="window.location='/event/category/`+response[i].category[g]+`';"><i class="fas fa-tags"></i> `+ response[i].category[g] +`</div>`;
                                             }
@@ -516,7 +507,7 @@ function sort(response, check_filter){
                                                 <div style="padding-top:2px;">
                                                     <i class="fas fa-map-marker-alt" style="color:`+color+`;"></i>
                                                     <span class="location_hotel" style="font-size:13px;">`;
-                                                content_location_pop = `<i class="fas fa-map-marker-alt" style="color:`+color+`;"></i> `;
+                                                content_location_pop += `<i class="fas fa-map-marker-alt" style="color:`+color+`;"></i> `;
                                                 for(g in response[i].locations){
                                                     if(g == 0){
                                                         if (response[i].locations[g].city_name != false){
@@ -553,7 +544,7 @@ function sort(response, check_filter){
 
                                                 if(response[i].category.length != 0){
                                                     text+=`<span class="tags_btn" id="pop_tags`+i+`"><i class="fas fa-tags"></i> `+response[i].category.length+` Category</span>`;
-                                                    content_category_pop = `<span style="font-weight:600; font-size:14px;"> Category</span><hr/>`;
+                                                    content_category_pop += `<span style="font-weight:600; font-size:14px;"> Category</span><hr/>`;
                                                     for(g in response[i].category){
                                                         content_category_pop+=`<div class="tags_btn mb-2" onclick="window.location='/event/category/`+response[i].category[g]+`';"><i class="fas fa-tags"></i> `+ response[i].category[g] +`</div>`;
                                                     }
@@ -638,7 +629,7 @@ function sort(response, check_filter){
                                             <div style="padding-top:2px;">
                                                 <i class="fas fa-map-marker-alt" style="color:`+color+`;"></i>
                                                 <span class="location_hotel" style="font-size:13px;">`;
-                                            content_location_pop = `<i class="fas fa-map-marker-alt" style="color:`+color+`;"></i> `;
+                                            content_location_pop += `<i class="fas fa-map-marker-alt" style="color:`+color+`;"></i> `;
                                             for(g in response[i].locations){
                                                 if(g == 0){
                                                     if (response[i].locations[g].city_name != false){
@@ -666,6 +657,7 @@ function sort(response, check_filter){
                                             text+=`</span>`;
                                             text+=`</span></div>`;
                                         }
+
                                         text+=`
                                         <div style="padding-top:2px;">`;
                                             if (response[i].locations.length > 1){
@@ -675,7 +667,7 @@ function sort(response, check_filter){
 
                                             if(response[i].category.length != 0){
                                                 text+=`<span class="tags_btn" id="pop_tags`+i+`"><i class="fas fa-tags"></i> `+response[i].category.length+` Category</span>`;
-                                                content_category_pop = `<span style="font-weight:600; font-size:14px;"> Category</span><hr/>`;
+                                                content_category_pop += `<span style="font-weight:600; font-size:14px;"> Category</span><hr/>`;
                                                 for(g in response[i].category){
                                                     content_category_pop+=`<div class="tags_btn mb-2" onclick="window.location='/event/category/`+response[i].category[g]+`';"><i class="fas fa-tags"></i> `+ response[i].category[g] +`</div>`;
                                                 }
