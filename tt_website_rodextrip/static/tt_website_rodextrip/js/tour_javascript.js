@@ -1694,9 +1694,9 @@ function sort(tour_dat, exist_check){
                                     <div class="single-recent-blog-post item">
                                         <div class="single-destination avail-sd relative">`;
                                             if(img_src){
-                                                text+=`<div class="thumb relative" style="cursor:pointer; border:1px solid #cdcdcd; height:255px; background: white url('`+img_src+`'); background-size: contain; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">`;
+                                                text+=`<div class="thumb relative" style="cursor:pointer; border:1px solid #cdcdcd; height:200px; background: white url('`+img_src+`'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">`;
                                             }else{
-                                                text+=`<div class="thumb relative" style="cursor:pointer; border:1px solid #cdcdcd; height:255px; background: white url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: contain; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">`;
+                                                text+=`<div class="thumb relative" style="cursor:pointer; border:1px solid #cdcdcd; height:200px; background: white url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">`;
                                             }
                                             text+=`
                                                 <div class="overlay overlay-bg"></div>
@@ -1745,9 +1745,9 @@ function sort(tour_dat, exist_check){
                                     <div class="single-post-area mb-30" style="transform:unset;">
                                         <div class="single-destination avail-sd relative" style="border:unset;">`;
                                             if(img_src){
-                                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:255px; background: white url('`+img_src+`'); background-size: contain; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">`;
+                                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('`+img_src+`'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">`;
                                             }else{
-                                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:255px; background: white url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: contain; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">`;
+                                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">`;
                                             }
                                             text+=`
                                                 <div class="overlay overlay-bg"></div>
@@ -1795,9 +1795,9 @@ function sort(tour_dat, exist_check){
                                     <div class="single-post-area mb-30">
                                         <div class="single-destination avail-sd relative">`;
                                             if(img_src){
-                                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:255px; background: white url('`+img_src+`'); background-size: contain; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">`;
+                                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('`+img_src+`'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">`;
                                             }else{
-                                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:255px; background: white url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: contain; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">`;
+                                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">`;
                                             }
                                             text+=`
                                                 <div class="overlay overlay-bg"></div>
@@ -1845,9 +1845,9 @@ function sort(tour_dat, exist_check){
                                     <div class="single-post-area mb-30">
                                         <div class="single-destination avail-sd relative">`;
                                             if(img_src){
-                                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:255px; background: white url('`+img_src+`'); background-size: contain; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">`;
+                                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('`+img_src+`'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">`;
                                             }else{
-                                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:255px; background: white url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: contain; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">`;
+                                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">`;
                                             }
                                             text+=`
                                                 <div class="overlay overlay-bg"></div>
@@ -1895,9 +1895,9 @@ function sort(tour_dat, exist_check){
                                     <div class="single-post-area mb-30">
                                         <div class="single-destination avail-sd relative" style="border:1px solid #cdcdcd;">`;
                                             if(img_src){
-                                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:255px; background: white url('`+img_src+`'); background-size: contain; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">`;
+                                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('`+img_src+`'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">`;
                                             }else{
-                                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:255px; background: white url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: contain; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">`;
+                                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">`;
                                             }
                                             text+=`
                                             </div>

@@ -887,227 +887,419 @@ function event_options(id){
             for(i in msg.result.response){
                 if(parseInt(msg.result.response[i].qty_available) >= 1){
                     option_ids_length = option_ids_length+1;
+                }else if (parseInt(msg.result.response[i].qty_available) == -1){
+                    option_ids_length = option_ids_length+1;
                 }
             }
             for(i in msg.result.response){
-                text = '<div class="row">';
+                console.log(msg.result.response);
+                content_pop_cancellation = '';
+                content_pop_timeslot = '';
+                text = ''
                     if(parseInt(msg.result.response[i].qty_available) >= 1){
+                        text += '<div class="ticket-layout"><div class="ticket-content-wrapper">';
+                        text += '<div class="row">';
+
                         text += `
                         <div class="col-lg-12" style="padding:0px;">
-                            <div style="background: `+color+`; padding:10px; border-top-left-radius:7px; border-top-right-radius:7px;">
-                                <span class="option_name" id="option_name_`+i+`" style="font-weight: bold; color:`+text_color+`; font-size:16px; padding-right:5px; text-transform: capitalize;"> `+ msg.result.response[i].grade + `</span>`;
-                                if(parseInt(msg.result.response[i].qty_available) <= 5 && parseInt(msg.result.response[i].qty_available) >= 1){
-                                    text+=`<span style="border:2px solid `+text_color+`; padding:0px 7px; color: `+color+`; background: `+text_color+`; border-radius:7px;">`+ msg.result.response[i].qty_available +` ticket left</span>`;
-                                }
+                            <div class="row">
+                                <div class="col-lg-11 col-md-11 col-sm-11 col-xs-10">
+                                <span class="option_name" id="option_name_`+i+`" style="font-weight: bold; font-size:16px; padding-right:5px; text-transform: capitalize;"> `+ msg.result.response[i].grade + `</span><br/>`;
                                 text+=`
-                                <br/>
-                                <div style="top:8px; right:10px; position:absolute;">
-                                    <label class="check_box_custom">
-                                        <span class="span-search-ticket"></span>
+                                </div>
+                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2">
+                                    <label class="check_box_custom" style="float:right; padding-left:15px;">
+                                        <span class="span-search-ticket" style="color:black;"></span>
                                         <input type="checkbox" class="copy_result" name="copy_result`+i+`" id="copy_result`+i+`" onchange="checkboxCopyBox(`+i+`, `+option_ids_length+`);"/>
                                         <span class="check_box_span_custom" style="border:1px solid #cdcdcd;"></span>
                                     </label>
                                     <span class="id_copy_result" hidden>`+i+`</span>
                                 </div>
                             </div>
-                        </div>`;
-                        //console.log(msg.result);
-                        if(msg.result.response[i].images.length != 0)
-                            text+=`<div class="col-lg-3 col-md-3 border-event"><div class="img-event-detail" style="background-size:contain; background-repeat: no-repeat; background-image: url('`+msg.result.response[i].images[0].url+`');"></div></div>`;
-                        else
-                            text+=`<div class="col-lg-3 col-md-3 border-event"><div class="img-event-detail" style="background-size:contain; background-repeat: no-repeat; background-image: url('/static/tt_website_rodextrip/images/no pic/no-ticket.png');"></div></div>`;
+                        </div>
+                        <div class="col-lg-12" style="padding:0px;"><hr style="margin-top:10px; margin-bottom:10px;"/></div>
 
-                        text+=`<div class="col-lg-9 col-md-9">
-                        <div class="row" style="padding:10px 0px;">
-                            <div class="col-lg-12" style="margin-bottom:5px;">`;
-                                if(msg.result.response[i].description != false)
+                        <div class="col-lg-8">
+                            <div class="row">
+                                <div class="col-lg-12" style="margin-bottom:5px; padding:0px;">`;
+                                if(msg.result.response[i].description != false){
                                     text+=`<span class="option_description">` + msg.result.response[i].description + `</span>`;
-                                else
-                                    text+=`<span class="option_description">Description not Available</span>`;
-                            text+=`
-                            </div>`;
-
-                            text+=`<div class="col-lg-12">`;
-                            for (j in msg.result.response[i].timeslot){
-                                text+=`<div class="row option_row`+i+`">`;
-                                if(msg.result.response[i].timeslot[j].start_date != ""){
-                                    text+=`<div class="col-lg-6">
-                                        <i class="fas fa-calendar-alt" style="color:{{color}};"></i><span style="font-size:14px;" class="option_date`+i+``+j+`" > ` + msg.result.response[i].timeslot[j].start_date + `</span>
-                                    </div>`;
                                 }
-
-                                if(msg.result.response[i].timeslot[j].start_hour +`- `+ msg.result.response[i].timeslot[j].end_hour != ""){
-                                    text+=`
-                                    <div class="col-lg-6">
-                                        <i class="fas fa-clock" style="color:{{color}};"></i><span style="font-size:14px;" class="option_time`+i+``+j+`"> ` +  msg.result.response[i].timeslot[j].start_hour +` - `+ msg.result.response[i].timeslot[j].end_hour + `</span>
-                                    </div>`;
+                                else{
+                                    text+=`<span class="option_description">Description not Available</span>`;
                                 }
                                 text+=`</div>`;
-                            }
-                            text+=`</div>`;
 
-                            text+=`<div class="col-lg-12"><hr/></div>
-                            <div class="col-lg-6 col-md-6">`
-                            if (msg.result.response[i].ticket_sale_end_day != '')
-                                text+=`<span style="font-weight:500; color: `+color+`;">Available Until:<br/> <span class="option_expired">`+ msg.result.response[i].ticket_sale_end_day +` - `+ msg.result.response[i].ticket_sale_end_hour +`</span></span>`
-                            text+=`
-                            </div>
-                        <div class="col-lg-6 col-md-6" style="padding-top:5px;">
-                            <div style="float:right; display:flex;">
-                                <input id="option_max_qty_`+i+`" type="hidden" value="`+msg.result.response[i].qty_available+`"/>
-                                <input id="option_currency_`+i+`" type="hidden" value="`+msg.result.response[i].currency+`"/>
-                                <input id="option_price_`+i+`" type="hidden" value="`+msg.result.response[i].price+`"/>
-                                <input id="option_commission_`+i+`" type="hidden" value="`+msg.result.response[i].commission+`"/>`;
-                                price_start.push(msg.result.response[i].price);
-                                if(msg.result.response[i].currency != 'IDR')
-                                    text+= '<span class="option_price" style="font-weight: bold; font-size:15px; padding-right:10px; padding-top:5px;"> '+ msg.result.response[i].currency + ' ' + parseInt(msg.result.response[i].price) +'</span><br/>';
-                                else
-                                    text+= '<span class="option_price" style="font-weight: bold; font-size:15px; padding-right:10px; padding-top:5px;"> '+ msg.result.response[i].currency + ' ' + getrupiah(parseInt(msg.result.response[i].price))+'</span><br/>';
-                            text+=`
-                                <button type="button" class="btn-custom-circle" id="left-minus-event-`+i+`" data-type="minus" data-field="" disabled onclick="reduce_option(`+i+`);">
-                                    <i class="fas fa-minus"></i>
-                                </button>
-                                <input type="text" class="form-control" style="padding:5px !important; background:none; text-align:center; width:30px; height:30px !important;" id="option_qty_`+i+`" name="option_qty_`+i+`" value="0" min="0" readonly>
-                                <button type="button" class="btn-custom-circle" id="right-plus-event-`+i+`" data-type="plus" data-field="" onclick="add_option(`+i+`);">
-                                    <i class="fas fa-plus"></i>
-                                </button>
-                            </div>
-                        </div>`;
+                                //text+=`<div class="col-lg-12" style="padding:0px;">`;
+                                //for (j in msg.result.response[i].timeslot){
+                                //    text+=`<div class="row option_row`+i+`">`;
+                                //    if(msg.result.response[i].timeslot[j].start_date != ""){
+                                //        text+=`<div class="col-lg-6">
+                                //            <i class="fas fa-calendar-alt" style="color:{{color}};"></i><span style="font-size:14px;" class="option_date`+i+``+j+`" > ` + msg.result.response[i].timeslot[j].start_date + `</span>
+                                //        </div>`;
+                                //    }
+                                //    if(msg.result.response[i].timeslot[j].start_hour +`- `+ msg.result.response[i].timeslot[j].end_hour != ""){
+                                //        text+=`
+                                //        <div class="col-lg-6">
+                                //            <i class="fas fa-clock" style="color:{{color}};"></i><span style="font-size:14px;" class="option_time`+i+``+j+`"> ` +  msg.result.response[i].timeslot[j].start_hour +` - `+ msg.result.response[i].timeslot[j].end_hour + `</span>
+                                //        </div>`;
+                                //    }
+                                //    text+=`</div>`;
+                                //}
+                                //text+=`</div>
 
-                        //text+='<button class="primary-btn-custom" type="button" onclick="hotel_room_pick(`'+msg.result.response[i].option_id+'`);" id="button'+msg.result.response[i].option_id+'">Choose</button>';
-                        text+='</div></div>';
-                        node.className = 'detail-event-box';
-                    }
-
-                    else if (parseInt(msg.result.response[i].qty_available) == -1)
-                        {
-                            text += `
-                            <div class="col-lg-12" style="padding:0px;">
-                                <div style="background: gray; padding:10px; border-top-left-radius:7px; border-top-right-radius:7px;">
-                                    <span id="option_name_`+i+`" style="font-weight: bold; color:`+text_color+`; font-size:16px;"> `+ msg.result.response[i].grade + `</span>
-                                    <span style="border:2px solid `+text_color+`; padding:0px 7px; color: `+text_color+`; background: `+color+`; border-radius:7px;">Coming Soon</span>
+                                text+=`
+                                <div class="col-lg-12" style="padding:0px;">`;
+                                    if (msg.result.response[i].ticket_sale_end_day != ''){
+                                        text+=`<span style="font-weight:600;" class="option_available">Available Until:</span><span style="font-weight:600; color: `+color+`;"> <span class="option_expired">`+ msg.result.response[i].ticket_sale_end_day +` - `+ msg.result.response[i].ticket_sale_end_hour +`</span></span>`
+                                    }
+                                    text+=`
                                 </div>
-                            </div>`;
-                            //console.log(msg.result);
-                            if(msg.result.response[i].images.length != 0)
-                                text+=`<div class="col-lg-3 col-md-3 border-event-sold" style="padding-top:20px;"><div class="img-event-detail" style="background-image: url(`+msg.result.response[i].images[0].url+`);"><div class="overlay overlay-bg-sold"></div></div><hr/></div>`;
-                            else
-                                text+=`<div class="col-lg-3 col-md-3 border-event-sold" style="padding-top:20px;"><div class="img-event-detail" style="background-image: url('/static/tt_website_rodextrip/images/no pic/no-ticket.png');"><div class="overlay overlay-bg-sold"></div></div></div>`;
+                                <div class="col-lg-12" style="padding:0px;">`;
+                                    if(msg.result.response[i].cancellation_policy != false){
+                                        text+=`
+                                        <span style="font-weight:600; padding-right:15px; cursor:pointer;" id="pop_cancellation`+i+`">
+                                            <i class="fas fa-ban"></i>
+                                            <span style="color:`+color+`;">Cancellation Policy</span>
+                                        </span>`;
+                                        content_pop_cancellation += msg.result.response[i].cancellation_policy;
+                                    }
 
-                            text+=`<div class="col-lg-9 col-md-9">
-                            <div class="overlay overlay-bg-sold"></div>
+                                    if(msg.result.response[i].timeslot.length == 0){
+                                        text+=`
+                                        <span style="font-weight:600; padding-right:15px; cursor:pointer;" id="pop_timeslot`+i+`">
+                                            <i class="fas fa-clock"></i>
+                                            <span style="color:`+color+`;">Timeslot</span>
+                                        </span>`;
+                                        for (j in msg.result.response[i].timeslot){
+                                            if(msg.result.response[i].timeslot[j].start_date != ""){
+                                                content_pop_timeslot += `<i class="fas fa-calendar-alt" style="color:`+color+`;"></i><span style="font-size:14px;" class="option_date`+i+``+j+`" > ` + msg.result.response[i].timeslot[j].start_date + `</span>`;
+                                            }
+                                            if(msg.result.response[i].timeslot[j].start_hour +`- `+ msg.result.response[i].timeslot[j].end_hour != ""){
+                                                content_pop_timeslot+=`<span style="font-size:14px;" class="option_time`+i+``+j+`"> ` +  msg.result.response[i].timeslot[j].start_hour +` - `+ msg.result.response[i].timeslot[j].end_hour + `</span>`;
+                                            }
+                                            content_pop_timeslot += `</hr>`;
+                                        }
+                                    }
+                                    text+=`
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 mt-1" style="padding:0px; text-align:right;">
                             <div class="row">
-                                <div class="col-lg-12" style="margin-top:10px; margin-bottom:5px;">`;
-                                if(msg.result.response[i].description != false)
-                                    text+=`<span style="color: #6e6e6e;">` + msg.result.response[i].description + `</span>`;
-                                else
-                                    text+=`<span>Description not Available</span>`;
-                                text+=`
-                                </div>`;
-
-                                for (j in msg.result.response[i].timeslot){
-                                    if(msg.result.response[i].timeslot[j].start_date != ""){
-                                        text+=`<div class="col-lg-6">
-                                            <span style="color: #6e6e6e; font-size:14px;"><i class="fas fa-calendar-alt" style="color:{{color}};"></i> ` + msg.result.response[i].timeslot[j].start_date + `</span>
-                                        </div>`;
-                                    }
-
-                                    if(msg.result.response[i].timeslot[j].start_hour +`- `+ msg.result.response[i].timeslot[j].end_hour != ""){
-                                        text+=`<div class="col-lg-6">
-                                            <span style="color: #6e6e6e; font-size:14px;"><i class="fas fa-clock" style="color:{{color}};"></i> ` +  msg.result.response[i].timeslot[j].start_hour +`- `+ msg.result.response[i].timeslot[j].end_hour + `</span>
-                                        </div>`;
-                                    }
+                                <div class="col-lg-12 col-md-6 col-sm-6 left-to-right">`;
+                                if(parseInt(msg.result.response[i].qty_available) <= 5 && parseInt(msg.result.response[i].qty_available) >= 1){
+                                    text+=`<i class="fas fa-ticket-alt"></i><span style="font-weight:600; color: `+color+`;"> `+ msg.result.response[i].qty_available +` ticket left</span><br/>`;
                                 }
-
-                                text+=`<div class="col-lg-12"><hr/></div>
-                                <div class="col-lg-6 col-md-6">`
-                                if (msg.result.response[i].ticket_sale_start_day != '')
-                                    text+=`<span style="font-weight:500; color: `+color+`;">Available On:<br/> <span class="option_expired">`+ msg.result.response[i].ticket_sale_start_day +` - `+ msg.result.response[i].ticket_sale_start_hour +`</span></span>`
+                                if(msg.result.response[i].currency != 'IDR')
+                                    text+= '<span class="option_price" style="font-weight: bold; font-size:15px; padding-bottom:10px; padding-top:5px;"> '+ msg.result.response[i].currency + ' ' + parseInt(msg.result.response[i].price) +'</span><br/>';
+                                else
+                                    text+= '<span class="option_price" style="font-weight: bold; font-size:15px; padding-bottom:10px; padding-top:5px;"> '+ msg.result.response[i].currency + ' ' + getrupiah(parseInt(msg.result.response[i].price))+'</span><br/>';
+                                text+=`</div>
+                                <div class="col-lg-12 col-md-6 col-sm-6">`;
                                 text+=`
-                                </div>
-                            <div class="col-lg-6 col-md-6" style="margin-bottom:10px; padding-top:5px;">
-                                <div style="float:right; display:flex;">
+                                <div style="display:flex; float:right; padding:5px 0px 0px 0px; ">
+                                    <input id="option_max_qty_`+i+`" type="hidden" value="`+msg.result.response[i].qty_available+`"/>
                                     <input id="option_currency_`+i+`" type="hidden" value="`+msg.result.response[i].currency+`"/>
                                     <input id="option_price_`+i+`" type="hidden" value="`+msg.result.response[i].price+`"/>
                                     <input id="option_commission_`+i+`" type="hidden" value="`+msg.result.response[i].commission+`"/>`;
                                     price_start.push(msg.result.response[i].price);
-                                    if(msg.result.response[i].currency != 'IDR')
-                                        text+= '<span class="option_price" style="font-weight: bold; font-size:15px; padding-right:10px; padding-top:5px; color:`+color+`"> '+ msg.result.response[i].currency + ' ' + parseInt(msg.result.response[i].price) +'</span><br/>';
-                                    else
-                                        text+= '<span class="option_price" style="font-weight: bold; font-size:15px; padding-right:10px; padding-top:5px; color:`+color+`"> '+ msg.result.response[i].currency + ' ' + getrupiah(parseInt(msg.result.response[i].price))+'</span><br/>';
-                                    //text+=`<span style="font-weight: bold; font-size:15px; padding-right:10px; padding-top:5px; color:`+color+`"> COMING SOON </span><br/>`;
                                 text+=`
+                                    <button type="button" class="btn-custom-circle" id="left-minus-event-`+i+`" data-type="minus" data-field="" disabled onclick="reduce_option(`+i+`);">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <input type="text" class="form-control" style="padding:5px !important; background:none; text-align:center; width:30px; height:30px !important;" id="option_qty_`+i+`" name="option_qty_`+i+`" value="0" min="0" readonly>
+                                    <button type="button" class="btn-custom-circle" id="right-plus-event-`+i+`" data-type="plus" data-field="" onclick="add_option(`+i+`);">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
                                 </div>
-                            </div>`;
-
-                            //text+='<button class="primary-btn-custom" type="button" onclick="hotel_room_pick(`'+msg.result.response[i].option_id+'`);" id="button'+msg.result.response[i].option_id+'">Choose</button>';
-                            text+='</div></div>';
-                            node.className = 'detail-event-box-sold';
-                        }
-                    else{
-                        text += `
-                        <div class="col-lg-12" style="padding:0px;">
-                            <div style="background: gray; padding:10px; border-top-left-radius:7px; border-top-right-radius:7px;">
-                                <span id="option_name_`+i+`" style="font-weight: bold; color:`+text_color+`; font-size:16px;"> `+ msg.result.response[i].grade + `</span>
-                                <span style="border:2px solid `+text_color+`; padding:0px 7px; color: `+text_color+`; background: `+color+`; border-radius:7px;">SOLD OUT</span>
-                            </div>
-                        </div>`;
-                        //console.log(msg.result);
-                        if(msg.result.response[i].images.length != 0)
-                            text+=`<div class="col-lg-3 col-md-3 border-event-sold" style="padding-top:20px;"><div class="img-event-detail" style="background-image: url(`+msg.result.response[i].images[0].url+`);"><div class="overlay overlay-bg-sold"></div></div><hr/></div>`;
-                        else
-                            text+=`<div class="col-lg-3 col-md-3 border-event-sold" style="padding-top:20px;"><div class="img-event-detail" style="background-image: url('/static/tt_website_rodextrip/images/no pic/no-ticket.png');"><div class="overlay overlay-bg-sold"></div></div></div>`;
-
-                        text+=`<div class="col-lg-9 col-md-9">
-                        <div class="overlay overlay-bg-sold"></div>
-                        <div class="row">
-                            <div class="col-lg-12" style="margin-top:10px; margin-bottom:5px;">`;
-                            if(msg.result.response[i].description != false)
-                                text+=`<span style="color: #6e6e6e;">` + msg.result.response[i].description + `</span>`;
-                            else
-                                text+=`<span>Description not Available</span>`;
-                            text+=`
-                            </div>`;
-
-                            for (j in msg.result.response[i].timeslot){
-                                if(msg.result.response[i].timeslot[j].start_date != ""){
-                                    text+=`<div class="col-lg-6">
-                                        <span style="color: #6e6e6e; font-size:14px;"><i class="fas fa-calendar-alt" style="color:{{color}};"></i> ` + msg.result.response[i].timeslot[j].start_date + `</span>
-                                    </div>`;
-                                }
-
-                                if(msg.result.response[i].timeslot[j].start_hour +`- `+ msg.result.response[i].timeslot[j].end_hour != ""){
-                                    text+=`<div class="col-lg-6">
-                                        <span style="color: #6e6e6e; font-size:14px;"><i class="fas fa-clock" style="color:{{color}};"></i> ` +  msg.result.response[i].timeslot[j].start_hour +`- `+ msg.result.response[i].timeslot[j].end_hour + `</span>
-                                    </div>`;
-                                }
-                            }
-
-                            text+=`<div class="col-lg-12"><hr/></div>
-                            <div class="col-lg-6 col-md-6">`
-                            if (msg.result.response[i].ticket_sale_end_day != '')
-                                text+=`<span style="font-weight:500; color: `+color+`;">Available Until:<br/> <span class="option_expired">`+ msg.result.response[i].ticket_sale_end_day +` - `+ msg.result.response[i].ticket_sale_end_hour +`</span></span>`
-                            text+=`
-                            </div>
-                        <div class="col-lg-6 col-md-6" style="margin-bottom:10px; padding-top:5px;">
-                            <div style="float:right; display:flex;">
-                                <input id="option_currency_`+i+`" type="hidden" value="`+msg.result.response[i].currency+`"/>
-                                <input id="option_price_`+i+`" type="hidden" value="`+msg.result.response[i].price+`"/>
-                                <input id="option_commission_`+i+`" type="hidden" value="`+msg.result.response[i].commission+`"/>`;
-                                price_start.push(msg.result.response[i].price);
-                                text+=`<span style="font-weight: bold; font-size:15px; padding-right:10px; padding-top:5px; color:`+color+`"> SOLD OUT </span><br/>`;
-                            text+=`
                             </div>
                         </div>`;
 
                         //text+='<button class="primary-btn-custom" type="button" onclick="hotel_room_pick(`'+msg.result.response[i].option_id+'`);" id="button'+msg.result.response[i].option_id+'">Choose</button>';
                         text+='</div></div>';
-                        node.className = 'detail-event-box-sold';
+                        node.className = 'p-5px';
+//                        node.className = 'detail-event-box';
                     }
+
+                    else if (parseInt(msg.result.response[i].qty_available) == -1){
+                        text += '<div class="ticket-layout"><div class="ticket-content-wrapper">';
+                        text += '<div class="row">';
+
+                        text += `
+                        <div class="col-lg-12" style="padding:0px;">
+                            <div class="row">
+                                <div class="col-lg-11 col-md-11 col-sm-11 col-xs-10">
+                                <span class="option_name" id="option_name_`+i+`" style="font-weight: bold; font-size:16px; padding-right:5px; text-transform: capitalize;"> `+ msg.result.response[i].grade + `</span><br/>`;
+                                text+=`
+                                </div>
+                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2">
+                                    <label class="check_box_custom" style="float:right; padding-left:15px;">
+                                        <span class="span-search-ticket" style="color:black;"></span>
+                                        <input type="checkbox" class="copy_result" name="copy_result`+i+`" id="copy_result`+i+`" onchange="checkboxCopyBox(`+i+`, `+option_ids_length+`);"/>
+                                        <span class="check_box_span_custom" style="border:1px solid #cdcdcd;"></span>
+                                    </label>
+                                    <span class="id_copy_result" hidden>`+i+`</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12" style="padding:0px;"><hr style="margin-top:10px; margin-bottom:10px;"/></div>
+
+                        <div class="col-lg-8">
+                            <div class="row">
+                                <div class="col-lg-12" style="margin-bottom:5px; padding:0px;">`;
+                                if(msg.result.response[i].description != false){
+                                    text+=`<span class="option_description">` + msg.result.response[i].description + `</span>`;
+                                }
+                                else{
+                                    text+=`<span class="option_description">Description not Available</span>`;
+                                }
+                                text+=`</div>`;
+
+                                //text+=`<div class="col-lg-12" style="padding:0px;">`;
+                                //for (j in msg.result.response[i].timeslot){
+                                //    text+=`<div class="row option_row`+i+`">`;
+                                //    if(msg.result.response[i].timeslot[j].start_date != ""){
+                                //        text+=`<div class="col-lg-6">
+                                //            <i class="fas fa-calendar-alt" style="color:{{color}};"></i><span style="font-size:14px;" class="option_date`+i+``+j+`" > ` + msg.result.response[i].timeslot[j].start_date + `</span>
+                                //        </div>`;
+                                //    }
+                                //    if(msg.result.response[i].timeslot[j].start_hour +`- `+ msg.result.response[i].timeslot[j].end_hour != ""){
+                                //        text+=`
+                                //        <div class="col-lg-6">
+                                //            <i class="fas fa-clock" style="color:{{color}};"></i><span style="font-size:14px;" class="option_time`+i+``+j+`"> ` +  msg.result.response[i].timeslot[j].start_hour +` - `+ msg.result.response[i].timeslot[j].end_hour + `</span>
+                                //        </div>`;
+                                //    }
+                                //    text+=`</div>`;
+                                //}
+                                //text+=`</div>
+
+                                text+=`
+                                <div class="col-lg-12" style="padding:0px;">`;
+                                    if (msg.result.response[i].ticket_sale_end_day != ''){
+                                        text+=`<span style="font-weight:600;" class="option_available">Available On:</span><span style="font-weight:600; color: `+color+`;"> <span class="option_expired">`+ msg.result.response[i].ticket_sale_start_day +` - `+ msg.result.response[i].ticket_sale_start_hour +`</span></span>`
+                                    }
+                                    text+=`
+                                </div>
+                                <div class="col-lg-12" style="padding:0px;">`;
+                                    if(msg.result.response[i].cancellation_policy != false){
+                                        text+=`
+                                        <span style="font-weight:600; padding-right:15px; cursor:pointer;" id="pop_cancellation`+i+`">
+                                            <i class="fas fa-ban"></i>
+                                            <span style="color:`+color+`;">Cancellation Policy</span>
+                                        </span>`;
+                                        content_pop_cancellation += msg.result.response[i].cancellation_policy;
+                                    }
+
+                                    if(msg.result.response[i].timeslot.length == 0){
+                                        text+=`
+                                        <span style="font-weight:600; padding-right:15px; cursor:pointer;" id="pop_timeslot`+i+`">
+                                            <i class="fas fa-clock"></i>
+                                            <span style="color:`+color+`;">Timeslot</span>
+                                        </span>`;
+                                        for (j in msg.result.response[i].timeslot){
+                                            if(msg.result.response[i].timeslot[j].start_date != ""){
+                                                content_pop_timeslot += `<i class="fas fa-calendar-alt" style="color:`+color+`;"></i><span style="font-size:14px;" class="option_date`+i+``+j+`" > ` + msg.result.response[i].timeslot[j].start_date + `</span>`;
+                                            }
+                                            if(msg.result.response[i].timeslot[j].start_hour +`- `+ msg.result.response[i].timeslot[j].end_hour != ""){
+                                                content_pop_timeslot+=`<span style="font-size:14px;" class="option_time`+i+``+j+`"> ` +  msg.result.response[i].timeslot[j].start_hour +` - `+ msg.result.response[i].timeslot[j].end_hour + `</span>`;
+                                            }
+                                            content_pop_timeslot += `</hr>`;
+                                        }
+                                    }
+                                    text+=`
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 mt-1" style="padding:0px; text-align:right;">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-6 col-sm-6 left-to-right">`;
+                                if(parseInt(msg.result.response[i].qty_available) <= 5 && parseInt(msg.result.response[i].qty_available) >= 1){
+                                    text+=`<i class="fas fa-ticket-alt"></i><span style="font-weight:600; color: `+color+`;"> `+ msg.result.response[i].qty_available +` ticket left</span><br/>`;
+                                }
+                                if(msg.result.response[i].currency != 'IDR')
+                                    text+= '<span class="option_price" style="font-weight: bold; font-size:15px; padding-bottom:10px; padding-top:5px;"> '+ msg.result.response[i].currency + ' ' + parseInt(msg.result.response[i].price) +'</span><br/>';
+                                else
+                                    text+= '<span class="option_price" style="font-weight: bold; font-size:15px; padding-bottom:10px; padding-top:5px;"> '+ msg.result.response[i].currency + ' ' + getrupiah(parseInt(msg.result.response[i].price))+'</span><br/>';
+                                text+=`</div>
+                                <div class="col-lg-12 col-md-6 col-sm-6">`;
+                                text+=`
+                                <div style="display:flex; float:right; padding:5px 0px 0px 0px; ">
+                                    <input id="option_currency_`+i+`" type="hidden" value="`+msg.result.response[i].currency+`"/>
+                                    <input id="option_price_`+i+`" type="hidden" value="`+msg.result.response[i].price+`"/>
+                                    <input id="option_commission_`+i+`" type="hidden" value="`+msg.result.response[i].commission+`"/>`;
+                                    price_start.push(msg.result.response[i].price);
+                                text+=`
+                                    <span style="padding:10px; color: `+text_color+`; background: gray; border-radius:7px;">Coming Soon</span>
+                                </div>
+                            </div>
+                        </div>`;
+
+                        //text+='<button class="primary-btn-custom" type="button" onclick="hotel_room_pick(`'+msg.result.response[i].option_id+'`);" id="button'+msg.result.response[i].option_id+'">Choose</button>';
+                        text+='</div></div>';
+                        node.className = 'p-5px';
+//                            node.className = 'detail-event-box-sold';
+                    }
+
+                    else{
+                        text += '<div class="ticket-layout"><div class="ticket-content-wrapper" style="background: #f7f7f7;">';
+                        text += '<div class="row">';
+
+                        text += `
+                        <div class="col-lg-12" style="padding:0px;">
+                            <div class="row">
+                                <div class="col-lg-11 col-md-11 col-sm-11 col-xs-10">
+                                <span class="option_name" id="option_name_`+i+`" style="color:#4a4a4a;font-weight: bold; font-size:16px; padding-right:5px; text-transform: capitalize;"> `+ msg.result.response[i].grade + `</span><br/>`;
+                                text+=`
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12" style="padding:0px;"><hr style="margin-top:10px; margin-bottom:10px;"/></div>
+
+                        <div class="col-lg-8">
+                            <div class="row">
+                                <div class="col-lg-12" style="margin-bottom:5px; padding:0px;">`;
+                                if(msg.result.response[i].description != false){
+                                    text+=`<span class="option_description" style="color:#4a4a4a;">` + msg.result.response[i].description + `</span>`;
+                                }
+                                else{
+                                    text+=`<span class="option_description" style="color:#4a4a4a;">Description not Available</span>`;
+                                }
+                                text+=`</div>`;
+
+                                //text+=`<div class="col-lg-12" style="padding:0px;">`;
+                                //for (j in msg.result.response[i].timeslot){
+                                //    text+=`<div class="row option_row`+i+`">`;
+                                //    if(msg.result.response[i].timeslot[j].start_date != ""){
+                                //        text+=`<div class="col-lg-6">
+                                //            <i class="fas fa-calendar-alt" style="color:{{color}};"></i><span style="font-size:14px;" class="option_date`+i+``+j+`" > ` + msg.result.response[i].timeslot[j].start_date + `</span>
+                                //        </div>`;
+                                //    }
+                                //    if(msg.result.response[i].timeslot[j].start_hour +`- `+ msg.result.response[i].timeslot[j].end_hour != ""){
+                                //        text+=`
+                                //        <div class="col-lg-6">
+                                //            <i class="fas fa-clock" style="color:{{color}};"></i><span style="font-size:14px;" class="option_time`+i+``+j+`"> ` +  msg.result.response[i].timeslot[j].start_hour +` - `+ msg.result.response[i].timeslot[j].end_hour + `</span>
+                                //        </div>`;
+                                //    }
+                                //    text+=`</div>`;
+                                //}
+                                //text+=`</div>
+
+                                text+=`
+                                <div class="col-lg-12" style="padding:0px;">`;
+                                    if (msg.result.response[i].ticket_sale_end_day != ''){
+                                        text+=`<span style="font-weight:600;color:#4a4a4a;">Available Until:</span><span style="font-weight:600; color: `+color+`;"> <span class="option_expired">`+ msg.result.response[i].ticket_sale_end_day +` - `+ msg.result.response[i].ticket_sale_end_hour +`</span></span>`
+                                    }
+                                    text+=`
+                                </div>
+                                <div class="col-lg-12" style="padding:0px;">`;
+                                    if(msg.result.response[i].cancellation_policy != false){
+                                        text+=`
+                                        <span style="font-weight:600; padding-right:15px; color:#4a4a4a; cursor:pointer;" id="pop_cancellation`+i+`">
+                                            <i class="fas fa-ban"></i>
+                                            <span style="color:`+color+`;">Cancellation Policy</span>
+                                        </span>`;
+                                        content_pop_cancellation += msg.result.response[i].cancellation_policy;
+                                    }
+
+                                    if(msg.result.response[i].timeslot.length == 0){
+                                        text+=`
+                                        <span style="font-weight:600; color:#4a4a4a; padding-right:15px; cursor:pointer;" id="pop_timeslot`+i+`">
+                                            <i class="fas fa-clock"></i>
+                                            <span style="color:`+color+`;">Timeslot</span>
+                                        </span>`;
+                                        for (j in msg.result.response[i].timeslot){
+                                            if(msg.result.response[i].timeslot[j].start_date != ""){
+                                                content_pop_timeslot += `<i class="fas fa-calendar-alt" style="color:`+color+`;"></i><span style="font-size:14px;" class="option_date`+i+``+j+`" > ` + msg.result.response[i].timeslot[j].start_date + `</span>`;
+                                            }
+                                            if(msg.result.response[i].timeslot[j].start_hour +`- `+ msg.result.response[i].timeslot[j].end_hour != ""){
+                                                content_pop_timeslot+=`<span style="font-size:14px;" class="option_time`+i+``+j+`"> ` +  msg.result.response[i].timeslot[j].start_hour +` - `+ msg.result.response[i].timeslot[j].end_hour + `</span>`;
+                                            }
+                                            content_pop_timeslot += `</hr>`;
+                                        }
+                                    }
+                                    text+=`
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 mt-1" style="padding:0px; text-align:right;">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-6 col-sm-6 left-to-right">`;
+                                if(parseInt(msg.result.response[i].qty_available) <= 5 && parseInt(msg.result.response[i].qty_available) >= 1){
+                                    text+=`<i class="fas fa-ticket-alt"></i><span style="font-weight:600; color: `+color+`;"> `+ msg.result.response[i].qty_available +` ticket left</span><br/>`;
+                                }
+                                if(msg.result.response[i].currency != 'IDR')
+                                    text+= '<span class="option_price" style="color:#4a4a4a; font-weight: bold; font-size:15px; padding-bottom:10px; padding-top:5px;"> '+ msg.result.response[i].currency + ' ' + parseInt(msg.result.response[i].price) +'</span><br/>';
+                                else
+                                    text+= '<span class="option_price" style="color:#4a4a4a; font-weight: bold; font-size:15px; padding-bottom:10px; padding-top:5px;"> '+ msg.result.response[i].currency + ' ' + getrupiah(parseInt(msg.result.response[i].price))+'</span><br/>';
+                                text+=`</div>
+                                <div class="col-lg-12 col-md-6 col-sm-6">`;
+                                text+=`
+                                <div style="display:flex; float:right; padding:5px 0px 0px 0px; ">
+                                    <input id="option_currency_`+i+`" type="hidden" value="`+msg.result.response[i].currency+`"/>
+                                    <input id="option_price_`+i+`" type="hidden" value="`+msg.result.response[i].price+`"/>
+                                    <input id="option_commission_`+i+`" type="hidden" value="`+msg.result.response[i].commission+`"/>`;
+                                    price_start.push(msg.result.response[i].price);
+                                text+=`
+                                    <span style="font-weight: bold; font-size:20px; padding-top:5px; color:`+color+`"> SOLD OUT </span>
+                                </div>
+                            </div>
+                        </div>`;
+
+                        //text+='<button class="primary-btn-custom" type="button" onclick="hotel_room_pick(`'+msg.result.response[i].option_id+'`);" id="button'+msg.result.response[i].option_id+'">Choose</button>';
+                        text+='</div></div>';
+                        node.className = 'p-5px';
+//                        node.className = 'detail-event-box-sold';
+                    }
+
+                    text += '</div></div>';
 
                     node.innerHTML = text;
                     document.getElementById("detail_room_pick").appendChild(node);
                     node = document.createElement("div");
+
+                    new jBox('Tooltip', {
+                        attach: '#pop_cancellation'+i,
+                        target: '#pop_cancellation'+i,
+                        theme: 'TooltipBorder',
+                        trigger: 'click',
+                        adjustTracker: true,
+                        closeOnClick: 'body',
+                        closeButton: 'box',
+                        animation: 'move',
+                        position: {
+                          x: 'left',
+                          y: 'bottom'
+                        },
+                        outside: 'y',
+                        pointer: 'left:20',
+                        offset: {
+                          x: 25
+                        },
+                        content: content_pop_cancellation
+                    });
+
+                    new jBox('Tooltip', {
+                        attach: '#pop_timeslot'+i,
+                        target: '#pop_timeslot'+i,
+                        theme: 'TooltipBorder',
+                        trigger: 'click',
+                        adjustTracker: true,
+                        closeOnClick: 'body',
+                        closeButton: 'box',
+                        animation: 'move',
+                        position: {
+                          x: 'left',
+                          y: 'bottom'
+                        },
+                        outside: 'y',
+                        pointer: 'left:20',
+                        offset: {
+                          x: 25
+                        },
+                        content: content_pop_timeslot
+                    });
+
                     $('#loading-detail-event').hide();
                 }
                 price_start.sort(function(a, b){return a - b});
@@ -1729,7 +1921,6 @@ function checkboxCopyBox(id, co_hotel){
         if(copycount == co_hotel){
             document.getElementById("check_all_copy").checked = true;
         }
-
     } else {
         document.getElementById("check_all_copy").checked = false;
     }
@@ -1818,167 +2009,176 @@ function copy_data2(){
 }
 
 function get_checked_copy_result(){
-        document.getElementById("show-list-copy-option").innerHTML = '';
+    document.getElementById("show-list-copy-option").innerHTML = '';
 
-        $text= '';
-        text='';
-        //$text='Search: '+value_idx[0]+'\n'+value_idx[1].trim()+'\nDate: '+value_idx[2]+'\n'+value_idx[3]+'\n\n';
-        var option_number = 0;
-        node = document.createElement("div");
-        text+=`<div class="col-lg-12" style="min-height=200px; max-height:500px; overflow-y: scroll;">`;
+    $text= '';
+    text='';
+    //$text='Search: '+value_idx[0]+'\n'+value_idx[1].trim()+'\nDate: '+value_idx[2]+'\n'+value_idx[3]+'\n\n';
+    var option_number = 0;
+    node = document.createElement("div");
+    text+=`<div class="col-lg-12" style="min-height=200px; max-height:500px; overflow-y: scroll;">`;
 
-        var value_idx = [];
-        var value_loc = [];
-        $("#option_search_params .copy_span").each(function(obj) {
-            if($(this).hasClass( "loc_address" )){
-                value_loc.push( $(this).text() )
-            }else{
-                value_idx.push( $(this).text() );
-            }
-        })
-
-        text='';
-        //$text='Search: '+value_idx[0]+'\n'+value_idx[1].trim()+'\nDate: '+value_idx[2]+'\n'+value_idx[3]+'\n\n';
-        $text = value_idx[0]+'\n';
-        $text += 'Date: '+value_idx[1]+'\n';
-        $text += 'Time: '+value_idx[2]+'\n';
-
-        text+=`<h5>`+value_idx[0]+`</h5>`;
-        text+=`<span>Date: `+value_idx[1]+`</span><br/>`;
-        text+=`<span>Time: `+value_idx[2]+`</span><br/>`;
-        text+=`<span>Address: `;
-
-        $text += 'Address: ';
-        if(value_loc.length > 1){
-            $text += '\n';
-            text+=`<br/>`;
+    var value_idx = [];
+    var value_loc = [];
+    $("#option_search_params .copy_span").each(function(obj) {
+        if($(this).hasClass( "loc_address" )){
+            value_loc.push( $(this).text() )
+        }else{
+            value_idx.push( $(this).text() );
         }
-        for (i = 0; i < value_loc.length; i++) {
-          $text += value_loc[i]+'\n';
-          text+= value_loc[i]+'<br/>';
+    })
+
+    text='';
+    //$text='Search: '+value_idx[0]+'\n'+value_idx[1].trim()+'\nDate: '+value_idx[2]+'\n'+value_idx[3]+'\n\n';
+    $text = value_idx[0]+'\n';
+    $text += 'Date: '+value_idx[1]+'\n';
+    $text += 'Time: '+value_idx[2]+'\n';
+
+    text+=`<h5>`+value_idx[0]+`</h5>`;
+    text+=`<span>Date: `+value_idx[1]+`</span><br/>`;
+    text+=`<span>Time: `+value_idx[2]+`</span><br/>`;
+    text+=`<span>Address: `;
+
+    $text += 'Address: ';
+    if(value_loc.length > 1){
+        $text += '\n';
+        text+=`<br/>`;
+    }
+    for (i = 0; i < value_loc.length; i++) {
+      $text += value_loc[i]+'\n';
+      text+= value_loc[i]+'<br/>';
+    }
+    $text += '\n';
+    text+=`</span><br/>`;
+
+    $(".copy_result:checked").each(function(obj) {
+        var parent_option = $(this).parent().parent().parent().parent().parent();
+        var name_option = parent_option.find('.option_name').html();
+        var description_option = parent_option.find('.option_description').html();
+        var id_event = parent_option.find('.id_copy_result').html();
+        var available_option = parent_option.find('.option_available').html();
+        option_number = option_number + 1;
+        $text += ''+option_number+'. '+name_option;
+        if(available_option == "Available On:"){
+            $text += " (COMING SOON) ";
         }
         $text += '\n';
-        text+=`</span><br/>`;
+        $text += 'Description: '+description_option+'\n';
 
-        $(".copy_result:checked").each(function(obj) {
-            var parent_option = $(this).parent().parent().parent().parent().parent();
-            var name_option = parent_option.find('.option_name').html();
-            var description_option = parent_option.find('.option_description').html();
-            var id_event = parent_option.find('.id_copy_result').html();
-            option_number = option_number + 1;
-            $text += ''+option_number+'. '+name_option+'\n';
-            $text += 'Description: '+description_option+'\n';
-
-            var cek_row = 0;
-            text+=`
-            <div class="row" id="div_list`+id_event+`">
-                <div class="col-lg-8">
-                    <h6>`+option_number+`. `+name_option+`</h6>
-                    <span>Description: `+description_option+`</span><br/>`;
-
-            $(".option_row"+id_event).each(function(obj) {
-                var date_option = parent_option.find('.option_date'+id_event+cek_row).html();
-                var time_option = parent_option.find('.option_time'+id_event+cek_row).html();
-                $text += 'Date: ';
-                text += `<span>Date: `;
-                if(date_option != undefined){
-                    $text += date_option;
-                    text += date_option;
+        var cek_row = 0;
+        text+=`
+        <div class="row" id="div_list`+id_event+`">
+            <div class="col-lg-8">
+                <h6>`+option_number+`. `+name_option+``;
+                if(available_option == "Available On:"){
+                    text += " (COMING SOON) ";
                 }
-                if(time_option != undefined){
-                    $text += time_option+'\n';
-                    text += ' '+time_option;
-                }
-                text += `</span><br/>`;
-                cek_row = cek_row+1;
-            })
+                text+=`</h6>
+                <span>Description: `+description_option+`</span><br/>`;
 
-            var expired_option = parent_option.find('.option_expired').html();
-            var price_option = parent_option.find('.option_price').html();
-            $text += 'Expired: ' + expired_option+ '\n';
-            $text += 'Price: ' + price_option+ '\n \n';
+        $(".option_row"+id_event).each(function(obj) {
+            var date_option = parent_option.find('.option_date'+id_event+cek_row).html();
+            var time_option = parent_option.find('.option_time'+id_event+cek_row).html();
+            $text += 'Date: ';
+            text += `<span>Date: `;
+            if(date_option != undefined){
+                $text += date_option;
+                text += date_option;
+            }
+            if(time_option != undefined){
+                $text += time_option+'\n';
+                text += ' '+time_option;
+            }
+            text += `</span><br/>`;
+            cek_row = cek_row+1;
+        })
 
-            text+=`
-                    <span>Expired: `+expired_option+`</span><br/>
-                    <span style="font-weight:500;">Price: `+price_option+`</span>
-                </div>
-                <div class="col-lg-4" style="text-align:right;">
-                    <span style="font-weight:500; cursor:pointer;" onclick="delete_checked_copy_result(`+id_event+`);">Delete <i class="fas fa-times-circle" style="color:red; font-size:18px;"></i></span>
-                </div>
-                <div class="col-lg-12"><hr/></div>
-            </div>`;
-            });
-        $text += '\n===Price may change at any time===';
-        text+=`</div>
-        <div class="row">
-            <div class="col-lg-12" style="margin-bottom:15px;" id="share_result">
-                <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
-                share_data();
-                var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-                if (isMobile) {
-                    text+=`
-                        <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"/></a>`;
-                    if(option_number < 11){
-                        text+=`
-                            <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"/></a>
-                            <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"/></a>`;
-                    }
-                    else{
-                        text+=`
-                        <a href="#" target="_blank" title="Share by Line" style="padding-right:5px; cursor:not-allowed;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line-gray.png" alt="Line Disable"/></a>
-                        <a href="#" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram-gray.png" alt="Telegram Disable"/></a>`;
-                    }
-                    text+=`
-                        <a href="mailto:?subject=This is the event price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/></a>`;
-                } else {
-                    text+=`
-                        <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"/></a>`;
-                    if(option_number < 11){
-                        text+=`
-                            <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"/></a>
-                            <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"/></a>`;
-                    }
-                    else{
-                        text+=`
-                        <a href="#" title="Share by Line" style="padding-right:5px; cursor:not-allowed;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line-gray.png" alt="Line Disable"/></a>
-                        <a href="#" title="Share by Telegram" style="padding-right:5px; cursor:not-allowed;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram-gray.png" alt="Telegram Disable"/></a>`;
-                    }
-                    text+=`
-                        <a href="mailto:?subject=This is the event price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/></a>`;
-                }
-                if(option_number > 10){
-                    text+=`<br/><span style="color:red;">Nb: Share on Line and Telegram Max 10 Hotel</span>`;
-                }
-            text+=`
+        var expired_option = parent_option.find('.option_expired').html();
+        var price_option = parent_option.find('.option_price').html();
+        $text += available_option+ ' ' + expired_option+ '\n';
+        $text += 'Price: ' + price_option+ '\n \n';
+
+        text+=`
+                <span>`+available_option+` `+expired_option+`</span><br/>
+                <span style="font-weight:500;">Price: `+price_option+`</span>
             </div>
-            <div class="col-lg-12" id="copy_result">
-                <input class="primary-btn-white" style="width:100%;" type="button" onclick="copy_data();" value="Copy">
+            <div class="col-lg-4" style="text-align:right;">
+                <span style="font-weight:500; cursor:pointer;" onclick="delete_checked_copy_result(`+id_event+`);">Delete <i class="fas fa-times-circle" style="color:red; font-size:18px;"></i></span>
             </div>
+            <div class="col-lg-12"><hr/></div>
         </div>`;
-        node.innerHTML = text;
-        document.getElementById("show-list-copy-option").appendChild(node);
+        });
+    $text += '\n===Price may change at any time===';
+    text+=`</div>
+    <div class="row">
+        <div class="col-lg-12" style="margin-bottom:15px;" id="share_result">
+            <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
+            share_data();
+            var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            if (isMobile) {
+                text+=`
+                    <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"/></a>`;
+                if(option_number < 11){
+                    text+=`
+                        <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"/></a>
+                        <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"/></a>`;
+                }
+                else{
+                    text+=`
+                    <a href="#" target="_blank" title="Share by Line" style="padding-right:5px; cursor:not-allowed;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line-gray.png" alt="Line Disable"/></a>
+                    <a href="#" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram-gray.png" alt="Telegram Disable"/></a>`;
+                }
+                text+=`
+                    <a href="mailto:?subject=This is the event price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/></a>`;
+            } else {
+                text+=`
+                    <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"/></a>`;
+                if(option_number < 11){
+                    text+=`
+                        <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"/></a>
+                        <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"/></a>`;
+                }
+                else{
+                    text+=`
+                    <a href="#" title="Share by Line" style="padding-right:5px; cursor:not-allowed;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line-gray.png" alt="Line Disable"/></a>
+                    <a href="#" title="Share by Telegram" style="padding-right:5px; cursor:not-allowed;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram-gray.png" alt="Telegram Disable"/></a>`;
+                }
+                text+=`
+                    <a href="mailto:?subject=This is the event price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/></a>`;
+            }
+            if(option_number > 10){
+                text+=`<br/><span style="color:red;">Nb: Share on Line and Telegram Max 10 Hotel</span>`;
+            }
+        text+=`
+        </div>
+        <div class="col-lg-12" id="copy_result">
+            <input class="primary-btn-white" style="width:100%;" type="button" onclick="copy_data();" value="Copy">
+        </div>
+    </div>`;
+    node.innerHTML = text;
+    document.getElementById("show-list-copy-option").appendChild(node);
 
-        if(option_number > 10){
-            document.getElementById("mobile_line").style.display = "none";
-            document.getElementById("mobile_telegram").style.cursor = "not-allowed";
-            document.getElementById("pc_line").style.display = "not-allowe";
-            document.getElementById("pc_telegram").style.cursor = "not-allowed";
-        }
-
-        var count_copy = $(".copy_result:checked").length;
-        if (count_copy == 0){
-            $('#choose-option-copy').show();
-            $("#share_result").remove();
-            $("#copy_result").remove();
-            $("#show-list-copy-option").hide();
-            $text = '';
-            $text_share = '';
-        }
-        else{
-            $('#choose-option-copy').hide();
-            $("#show-list-copy-option").show();
-        }
+    if(option_number > 10){
+        document.getElementById("mobile_line").style.display = "none";
+        document.getElementById("mobile_telegram").style.cursor = "not-allowed";
+        document.getElementById("pc_line").style.display = "not-allowe";
+        document.getElementById("pc_telegram").style.cursor = "not-allowed";
     }
+
+    var count_copy = $(".copy_result:checked").length;
+    if (count_copy == 0){
+        $('#choose-option-copy').show();
+        $("#share_result").remove();
+        $("#copy_result").remove();
+        $("#show-list-copy-option").hide();
+        $text = '';
+        $text_share = '';
+    }
+    else{
+        $('#choose-option-copy').hide();
+        $("#show-list-copy-option").show();
+    }
+}
 
 function delete_checked_copy_result(id){
     $("#div_list"+id).remove();
