@@ -1,6 +1,4 @@
 var option_pick = [];
-var category_tooltip = '';
-var max_category = 3;
 var selected_categ = [];
 
 function search_hotel(val){
@@ -199,245 +197,634 @@ function sorting_button(value){
 }
 //Done
 function sort(response, check_filter){
-        //no filter
-        $pagination_type = "hotel";
-        sorting = sorting_value;
+    //no filter
+    $pagination_type = "hotel";
+    sorting = sorting_value;
 
-        document.getElementById("hotel_result").innerHTML = '';
-        text = '';
-        var node = document.createElement("div");
-        event_objs_length = parseInt(response.length);
-        text+=`
-        <div style="border:1px solid #cdcdcd; background-color:white; margin-bottom:15px; padding:10px;">
-            <span style="font-weight:bold; font-size:14px;"> Event - `+event_objs_length+` results</span>
-        </div>`;
-        node.innerHTML = text;
-        document.getElementById("hotel_result").appendChild(node);
-        node = document.createElement("div");
+    var node = document.createElement("div");
+    document.getElementById("event_ticket_objs").innerHTML = '';
+    text='';
+    console.log(response);
+    if(response.length != 0){
+        count_available_event = 0;
+        for(i in response){
+            available_prop = 0;
+            text = '';
 
-        document.getElementById("event_ticket_objs").innerHTML = '';
-        text='';
-        console.log(response);
-        if(response.length != 0){
-            for(i in response){
-                available_prop = 0;
-
-                var obj_end_date = Date.now()
-                if (response[i].end_date) {
-                    obj_end_date = Date.parse(response[i].end_date);
+            var obj_end_date = Date.now()
+            if (response[i].end_date) {
+                obj_end_date = Date.parse(response[i].end_date);
+            }
+            // Event Blum Berlangsung
+            if (Date.parse(response[i].start_date) > Date.now()){
+                //console.log('Blum Langsung');
+                if (response[i].option.length > 0){
+                    available_prop = 1;
                 }
-                // Event Blum Berlangsung
-                if (Date.parse(response[i].start_date) > Date.now()){
-                    console.log('Blum Langsung');
-                    if (response[i].option.length > 0){
+            // Event Sedang Berlangsung
+            } else if (Date.parse(response[i].start_date) < Date.now() && Date.now() < obj_end_date){
+                for (opt_idx in response[i].option){
+                    // Cek apakah ada ticket option yg masih dijual
+                    // Cek ticket yg tgl juale lebih kecil tmbang date now
+                    // kita bilang tetep available tpi g bsa dibeli dulu soale lu tanggal beli ne
+                    if (Date.parse(response[i].option[opt_idx].ticket_sale_start_day) > Date.now()){
                         available_prop = 1;
-                    }
-                // Event Sedang Berlangsung
-                } else if (Date.parse(response[i].start_date) < Date.now() && Date.now() < obj_end_date){
-                    for (opt_idx in response[i].option){
-                        // Cek apakah ada ticket option yg masih dijual
-                        // Cek ticket yg tgl juale lebih kecil tmbang date now
-                        // kita bilang tetep available tpi g bsa dibeli dulu soale lu tanggal beli ne
-                        if (Date.parse(response[i].option[opt_idx].ticket_sale_start_day) > Date.now()){
-                            available_prop = 1;
-                            console.log('start date ticket blum');
-                        // Cek yg masih blum end date
-                        } else if (Date.parse(response[i].option[opt_idx].ticket_sale_end_day) > Date.now()){
-                            available_prop = 1;
-                            console.log('end date ticket blum');
-                        }
+                        console.log('start date ticket blum');
+                    // Cek yg masih blum end date
+                    } else if (Date.parse(response[i].option[opt_idx].ticket_sale_end_day) > Date.now()){
+                        available_prop = 1;
+                        console.log('end date ticket blum');
                     }
                 }
-
-                if (available_prop == 1){
-                    text = '<div class="sorting-box-b single-recent-blog-post" style="padding:unset;"><form id="event'+i+'" action="/event/detail" method="POST"><div class="row"><div class="col-lg-12">';
-                    if(response[i].images.length != 0){
-                        text+=`<div class="img-event-search" style="background-size:contain; background-repeat: no-repeat; cursor:pointer; background-image: url('`+response[i].images[0].url+`');" onclick="goto_detail('event',`+i+`)"></div>`;
-                    }
-                    else{
-                        text+=`<div class="img-event-search" style="background-size:contain; background-repeat: no-repeat; cursor:pointer; background-image: url('/static/tt_website_rodextrip/images/no pic/no-event.png');" onclick="goto_detail('event',`+i+`)"></div>`;
-                    }
+            }
+            if (available_prop == 1){
+                count_available_event += 1;
+                if(template == 1){
                     text+=`
-                    <div style="padding:10px;">
-                        <h5 class="name_hotel hover_name" title="`+response[i].name+`" style="cursor:pointer; padding-right:5px; font-size:16px; font-weight:bold;" onclick="goto_detail('event',`+i+`)">`+response[i].name+`</h5>`;
-                    detail = JSON.stringify(response[i]);
-                    detail = detail.replace(/'/g, "");
-                    text+=`<input type="hidden" id="event_code`+i+`" name="event_code" value='`+detail+`'/>`;
-                    text+=`
-                    <div style="padding-top:5px;">
-                        <i class="fas fa-calendar-alt" style="color:`+color+`;"></i> <span class="location_hotel" style="font-size:13px;">
-                        `+response[i].start_date;
-                    if (response[i].end_date != false && response[i].start_date != response[i].end_date)
-                        text+=` - `+response[i].end_date;
-                    text+=`</span>
-                    </div>`;
-                    //Unremark jika butuh time
-                    //text+=`<div style="padding-top:5px;"><i class="fas fa-clock" style="color:`+color+`;"></i> <span class="location_hotel" style="font-size:13px;">`+response[i].start_time+` - `+response[i].end_time` + </span></div>`;
-
-                    if(response[i].locations.length != 0){
-                        text+=`<div style="padding-top:5px;"><i class="fas fa-map-marker-alt" style="color:`+color+`;"></i> <span class="location_hotel" style="font-size:13px;">`;
-                        for(g in response[i].locations){
-                            text+= response[i].locations[g].city_name + ', ' + response[i].locations[g].country_name + '; ';
-                        }
-                        text+=`</span></div>`;
-                    }
-                    text+=`
-                    <div style="padding-top:5px; padding-bottom:15px; word-break:break-word;">
-                        Category <i class="fas fa-tags" style="color:`+color+`;"></i><br/>`;
-                        if(response[i].category.length != 0){
-                            var count_category = 0;
-                            category_tooltip = '';
-                            for(g in response[i].category){
-                                if(count_category < max_category){
-                                    text+=`<a href='/event/category/`+response[i].category[g]+`'><span class="tags_btn" id="tags_more`+i+``+g+`">`+ response[i].category[g] +` </span></a>`;
-                                }else{
-                                    text += `<a href='/event/category/`+response[i].category[g]+`'><span class="tags_btn" id="tags_more`+i+``+g+`" style="display:none;">`+ response[i].category[g] +` </span><a>`;
-                                }
-                                count_category = count_category + 1;
+                    <div class="single-recent-blog-post item mb-3" style="margin-top:0px; cursor:unset; margin-bottom:10px; border:1px solid #cdcdcd;">
+                        <div class="single-destination relative" style="margin-bottom:unset;">
+                            <form id="event`+i+`" action="/event/detail" method="POST">`;
+                            if(response[i].images.length != 0){
+                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('`+response[i].images[0].url+`'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="goto_detail('event',`+i+`)">`;
                             }
-
-                            if(response[i].category.length > max_category){
-                                var category_more = response[i].category.length - max_category;
-                                var total_category = response[i].category.length;
-                                text+=`<br/><span class="tags_btn_rsv" id="category_list_more`+i+`" style="margin-top:5px; max-width:80px;" onclick="display_tags_event(`+i+`, `+total_category+`);"> `+ category_more +` More</span>`;
+                            else{
+                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('/static/tt_website_rodextrip/images/no pic/no-event.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="goto_detail('event',`+i+`)">`;
                             }
-                        }
-                    text+=`
+                            text+=`
+                                <div class="overlay overlay-bg"></div>
+                            </div>
+                            <div class="card card-effect-promotion" style="border:unset;">
+                            <div class="card-body" style="padding:5px 10px 10px 10px; border:unset;">
+                                <div class="row details">
+                                    <div class="col-lg-12" style="height:135px;">`;
+                                        text+=`
+                                        <h6 class="name_hotel hover_name" title="`+response[i].name+`" style="cursor:pointer; padding-right:5px; font-weight:bold; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;" onclick="goto_detail('event',`+i+`)">`+response[i].name+`</h6>`;
+                                        detail = JSON.stringify(response[i]);
+                                        detail = detail.replace(/'/g, "");
+                                        text+=`<input type="hidden" id="event_code`+i+`" name="event_code" value='`+detail+`'/>`;
+
+                                        text+=`
+                                        <i class="fas fa-calendar-alt" style="padding-top:7px; color:`+color+`;"></i>
+                                        <span class="location_hotel" style="font-size:13px;">
+                                            `+response[i].start_date;
+                                            if (response[i].end_date != false && response[i].start_date != response[i].end_date)
+                                                text+=` - `+response[i].end_date;
+                                        text+=`</span>
+                                        <br/>`;
+
+                                        //unremark klo btuh time
+                                        //text+=`<i class="fas fa-clock" style="color:`+color+`;"></i> <span class="location_hotel" style="font-size:13px;">`+response[i].start_time+` - `+response[i].end_time` + </span>`;
+
+                                        if(response[i].locations.length != 0){
+                                            text+=`
+                                            <div style="padding-top:2px;">
+                                                <i class="fas fa-map-marker-alt" style="color:`+color+`;"></i>
+                                                <span class="location_hotel" style="font-size:13px;">`;
+                                            content_location_pop = `<i class="fas fa-map-marker-alt" style="color:`+color+`;"></i> `;
+                                            for(g in response[i].locations){
+                                                if(g == 0){
+                                                    if (response[i].locations[g].city_name != false){
+                                                        text+= response[i].locations[g].city_name;
+                                                    }
+                                                    if (response[i].locations[g].city_name != false && response[i].locations[g].country_name != false){
+                                                        text+= ', ';
+                                                    }
+                                                    if (response[i].locations[g].country_name != false){
+                                                        text+= response[i].locations[g].country_name;
+                                                    }
+                                                }else{
+                                                    if (response[i].locations[g].city_name != false){
+                                                        content_location_pop+= response[i].locations[g].city_name;
+                                                    }
+                                                    if (response[i].locations[g].city_name != false && response[i].locations[g].country_name != false){
+                                                        content_location_pop+= ', ';
+                                                    }
+                                                    if (response[i].locations[g].country_name != false){
+                                                        content_location_pop+= response[i].locations[g].country_name;
+                                                    }
+                                                    content_location_pop += `<br/>`;
+                                                }
+                                            }
+                                            text+=`</span>`;
+                                            text+=`</span></div>`;
+                                        }
+                                        text+=`
+                                        <div style="padding-top:2px;">`;
+                                            if (response[i].locations.length > 1){
+                                                var loc_length = response[i].locations.length - 1;
+                                                text+=`<span class="tags_btn" id="loc_tags`+i+`"><i class="fas fa-map-marker-alt"></i> +`+loc_length+` More</span>`;
+                                            }
+
+                                            if(response[i].category.length != 0){
+                                                text+=`<span class="tags_btn" id="pop_tags`+i+`"><i class="fas fa-tags"></i> `+response[i].category.length+` Category</span>`;
+                                                content_category_pop = `<span style="font-weight:600; font-size:14px;"> Category</span><hr/>`;
+                                                for(g in response[i].category){
+                                                    content_category_pop+=`<div class="tags_btn mb-2" onclick="window.location='/event/category/`+response[i].category[g]+`';"><i class="fas fa-tags"></i> `+ response[i].category[g] +`</div>`;
+                                                }
+                                            }
+                                        text+=`
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="border-top:1px solid #cdcdcd; padding: 5px 10px;">
+                                    <a class="a-vendor" href="/event/vendor" style="text-decoration:unset;">
+                                        <div class="row">
+                                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">`;
+                                                if(response[i].vendor_obj.vendor_logo){
+                                                    text+=`<img src="`+response[i].vendor_obj.vendor_logo+`" alt="Logo Vendor" class="image-rounded-profile" style="margin-right:5px; height:30px; width:30px;"/>`;
+                                                }
+                                                else{
+                                                    text+=`<img src="/static/tt_website_rodextrip/images/noprofile.png" alt="Photo Profile" class="image-rounded-profile" style="margin-right:5px; height:30px; width:30px;"/>`;
+                                                }
+                                                text+=`
+                                                </div>
+                                                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10" style="padding:0px 10px; font-size:12px; float:none;margin:auto;">
+                                                    `+response[i].vendor_obj.vendor_name+`
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                    <div>
-                        <button type="button" class="primary-btn-custom" style="float:right; width:100%; margin-bottom:15px;" onclick="goto_detail('event',`+i+`)">See Details</button>
-                    </div></div></div>
-                    </form>
-                    </div>`;
-                }
-                else{
-                    text = '<div class="sorting-box-b single-recent-blog-post disabled-post item" style="padding:unset; border:1px solid #cdcdcd;"><div class="single-destination relative"><form id="event'+i+'" action="/event/detail" method="POST"><div class="row"><div class="col-lg-12">';
-                    text += `<div style="background:gray; position:absolute; padding:10px; float:right; z-index:1;">
-                        <h5 style="color:`+text_color+`;">EVENT CLOSED</h5>
-                    </div>`;
-                    if(response[i].images.length != 0){
-                        text+=`<div class="img-event-search" style="background-size:contain; background-repeat: no-repeat; cursor:pointer; background-image: url('`+response[i].images[0].url+`');" onclick="goto_detail('event',`+i+`)"></div>`;
+                </div>`;
+               }else{
+                    if(template == 5){
+                        text+=`<div class="single-post-area activity_box" style="margin-bottom:15px; cursor:pointer; border:1px solid #cdcdcd; transform:unset; -webkit-transform:unset;">`;
+                    }else{
+                        text+=`<div class="single-post-area activity_box" style="margin-bottom:15px; cursor:pointer; border:unset; transform:unset; -webkit-transform:unset;">`;
                     }
-                    else{
-                        text+=`<div class="img-event-search" style="background-size:contain; background-repeat: no-repeat; cursor:pointer; background-image: url('/static/tt_website_rodextrip/images/no pic/no-event.png');" onclick="goto_detail('event',`+i+`)"></div>`;
-                    }
-                    text+=`
-                    <div style="padding:10px;">
-                        <h5 class="name_hotel hover_name" title="`+response[i].name+`" style="cursor:pointer; color:gray !important; padding-right:5px; font-size:16px; font-weight:bold;" onclick="goto_detail('event',`+i+`)">`+response[i].name+`</h5>`;
-                    detail = JSON.stringify(response[i]);
-                    detail = detail.replace(/'/g, "");
-                    text+=`<input type="hidden" id="event_code`+i+`" name="event_code" value='`+detail+`'/>`;
-                    text+=`
-                    <div style="padding-top:5px; color:gray;">
-                        <i class="fas fa-calendar-alt"></i> <span class="location_hotel" style="font-size:13px;">
-                        `+response[i].start_date;
-                    if (response[i].end_date != false && response[i].start_date != response[i].end_date)
-                        text+=` - `+response[i].end_date;
-                    text+=`</span>
-                    </div>`;
-                    //Unremark jika butuh time
-                    //text+=`<div style="padding-top:5px;"><i class="fas fa-clock" style="color:`+color+`;"></i> <span class="location_hotel" style="font-size:13px;">`+response[i].start_time+` - `+response[i].end_time` + </span></div>`;
 
-                    if(response[i].locations.length != 0){
-                        text+=`<div style="padding-top:5px; color:gray;"><i class="fas fa-map-marker-alt"></i> <span class="location_hotel" style="font-size:13px;">`;
-                        for(g in response[i].locations){
-                            text+= response[i].locations[g].city_name + ', ' + response[i].locations[g].country_name + '; ';
-                        }
-                        text+=`</span></div>`;
-                    }
                     text+=`
-                    <div style="padding-top:5px; padding-bottom:15px; word-break:break-word; color:gray;">
-                        Category <i class="fas fa-tags"></i><br/>`;
-                        if(response[i].category.length != 0){
-                            var count_category = 0;
-                            category_tooltip = '';
-                            for(g in response[i].category){
-                                if(count_category < max_category){
-                                    text+=`<a href='/event/category/`+response[i].category[g]+`'><span class="tags_btn" id="tags_more`+i+``+g+`" style="color:gray !important; background:unset;">`+ response[i].category[g] +` </span></a>`;
-                                }else{
-                                    text += `<a href='/event/category/`+response[i].category[g]+`'><span class="tags_btn" id="tags_more`+i+``+g+`" style="display:none; color:gray !important; background:unset;">`+ response[i].category[g] +` </span><a>`;
-                                }
-                                count_category = count_category + 1;
-                            }
+                    <div class="single-destination avail-sd relative" style="margin-bottom:unset;">
+                        <form id="event`+i+`" action="/event/detail" method="POST">`;
+                        if(response[i].images.length != 0){
+                            text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('`+response[i].images[0].url+`'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="goto_detail('event',`+i+`)">`;
+                        }
+                        else{
+                            text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('/static/tt_website_rodextrip/images/no pic/no-event.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="goto_detail('event',`+i+`)">`;
+                        }
 
-                            if(response[i].category.length > max_category){
-                                var category_more = response[i].category.length - max_category;
-                                var total_category = response[i].category.length;
-                                text+=`<br/><span class="tags_btn_rsv" id="category_list_more`+i+`" style="margin-top:5px; max-width:80px; color:gray !important; background:unset;" onclick="display_tags_event(`+i+`, `+total_category+`);"> `+ category_more +` More</span>`;
-                            }
+                        if(template != 5){
+                            text+=`<div class="overlay overlay-bg"></div>`;
                         }
-                    text+=`
+                        text+=`
+                        </div>
+                        <div class="card card-effect-promotion" style="border:unset;">
+                        <div class="card-body" style="padding:5px 10px 10px 10px; border:unset;">
+                            <div class="row details">
+                                <div class="col-lg-12" style="text-align:left; height:135px;">
+                                    <h6 class="name_hotel hover_name" title="`+response[i].name+`" style="cursor:pointer; padding-right:5px; font-weight:bold; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;" onclick="goto_detail('event',`+i+`)">`+response[i].name+`</h6>`;
+                                    detail = JSON.stringify(response[i]);
+                                    detail = detail.replace(/'/g, "");
+                                    text+=`<input type="hidden" id="event_code`+i+`" name="event_code" value='`+detail+`'/>`;
+
+                                    text+=`
+                                    <i class="fas fa-calendar-alt" style="padding-top:7px; color:`+color+`;"></i>
+                                    <span class="location_hotel" style="font-size:13px;">
+                                        `+response[i].start_date;
+                                        if (response[i].end_date != false && response[i].start_date != response[i].end_date)
+                                            text+=` - `+response[i].end_date;
+                                    text+=`</span>
+                                    <br/>`;
+
+                                    //unremark klo btuh time
+                                    //text+=`<i class="fas fa-clock" style="color:`+color+`;"></i> <span class="location_hotel" style="font-size:13px;">`+response[i].start_time+` - `+response[i].end_time` + </span>`;
+
+                                    if(response[i].locations.length != 0){
+                                        text+=`
+                                        <div style="padding-top:2px;">
+                                            <i class="fas fa-map-marker-alt" style="color:`+color+`;"></i>
+                                            <span class="location_hotel" style="font-size:13px;">`;
+                                        content_location_pop = `<i class="fas fa-map-marker-alt" style="color:`+color+`;"></i> `;
+                                        for(g in response[i].locations){
+                                            if(g == 0){
+                                                if (response[i].locations[g].city_name != false){
+                                                    text+= response[i].locations[g].city_name;
+                                                }
+                                                if (response[i].locations[g].city_name != false && response[i].locations[g].country_name != false){
+                                                    text+= ', ';
+                                                }
+                                                if (response[i].locations[g].country_name != false){
+                                                    text+= response[i].locations[g].country_name;
+                                                }
+                                            }else{
+                                                if (response[i].locations[g].city_name != false){
+                                                    content_location_pop+= response[i].locations[g].city_name;
+                                                }
+                                                if (response[i].locations[g].city_name != false && response[i].locations[g].country_name != false){
+                                                    content_location_pop+= ', ';
+                                                }
+                                                if (response[i].locations[g].country_name != false){
+                                                    content_location_pop+= response[i].locations[g].country_name;
+                                                }
+                                                content_location_pop += `<br/>`;
+                                            }
+                                        }
+                                        text+=`</span>`;
+                                        text+=`</span></div>`;
+                                    }
+                                    text+=`
+                                    <div style="padding-top:2px;">`;
+                                        if (response[i].locations.length > 1){
+                                            var loc_length = response[i].locations.length - 1;
+                                            text+=`<span class="tags_btn" id="loc_tags`+i+`"><i class="fas fa-map-marker-alt"></i> +`+loc_length+` More</span>`;
+                                        }
+                                        if(response[i].category.length != 0){
+                                            text+=`<span class="tags_btn" id="pop_tags`+i+`"><i class="fas fa-tags"></i> `+response[i].category.length+` Category</span>`;
+                                            content_category_pop = `<span style="font-weight:600; font-size:14px;"> Category</span><hr/>`;
+                                            for(g in response[i].category){
+                                                content_category_pop+=`<div class="tags_btn mb-2" onclick="window.location='/event/category/`+response[i].category[g]+`';"><i class="fas fa-tags"></i> `+ response[i].category[g] +`</div>`;
+                                            }
+                                        }
+                                    text+=`
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="border-top:1px solid #cdcdcd; padding: 5px 10px;">
+                                <a class="a-vendor" href="/event/vendor" style="text-decoration:unset;">
+                                    <div class="row">
+                                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">`;
+                                            if(response[i].vendor_obj.vendor_logo){
+                                                text+=`<img src="`+response[i].vendor_obj.vendor_logo+`" alt="Logo Vendor" class="image-rounded-profile" style="margin-right:5px; height:30px; width:30px;"/>`;
+                                            }
+                                            else{
+                                                text+=`<img src="/static/tt_website_rodextrip/images/noprofile.png" alt="Photo Profile" class="image-rounded-profile" style="margin-right:5px; height:30px; width:30px;"/>`;
+                                            }
+                                            text+=`
+                                                </div>
+                                                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10" style="padding:0px 10px; font-size:12px; float:none;margin:auto;">
+                                                    `+response[i].vendor_obj.vendor_name+`
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                    <div>
-                        <button type="button" class="primary-btn-custom" style="float:right; width:100%; margin-bottom:15px; background:gray;" onclick="goto_detail('event',`+i+`)">See Details</button>
-                    </div></div></div>
-                    </form></div>
+                </div>`;
+               }
+            }
+
+            else{
+                if(page_from_name != 'search'){
+                    count_available_event += 1;
+                    if(template == 1){
+                        text+=`
+                        <div class="single-recent-blog-post item mb-3" style="margin-top:0px; cursor:unset; margin-bottom:10px; border:1px solid #cdcdcd;">
+                            <div style="background: `+color+`; position:absolute; padding: 8px 15px 8px 15px; float:right; z-index:1; opacity: 0.8; top: 15px;">
+                                <h6 style="color:`+text_color+`;">EVENT ENDED</h6>
+                            </div>
+                            <div class="single-destination relative" style="margin-bottom:unset;">
+                                <form id="event`+i+`" action="/event/detail" method="POST">`;
+                                if(response[i].images.length != 0){
+                                    text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('`+response[i].images[0].url+`'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="goto_detail('event',`+i+`)">`;
+                                }
+                                else{
+                                    text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('/static/tt_website_rodextrip/images/no pic/no-event.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="goto_detail('event',`+i+`)">`;
+                                }
+                                text+=`
+                                    <div class="overlay overlay-bg"></div>
+                                </div>
+                                <div class="card card-effect-promotion" style="border:unset;">
+                                <div class="card-body" style="padding:5px 10px 10px 10px; border:unset;">
+                                    <div class="row details">
+                                        <div class="col-lg-12" style="text-align:left; height:135px;">
+                                            <h6 class="name_hotel hover_name" title="`+response[i].name+`" style="cursor:pointer; padding-right:5px; font-weight:bold; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;" onclick="goto_detail('event',`+i+`)">`+response[i].name+`</h6>`;
+                                            detail = JSON.stringify(response[i]);
+                                            detail = detail.replace(/'/g, "");
+                                            text+=`<input type="hidden" id="event_code`+i+`" name="event_code" value='`+detail+`'/>`;
+
+                                            text+=`
+                                            <i class="fas fa-calendar-alt" style="padding-top:7px; color:`+color+`;"></i>
+                                            <span class="location_hotel" style="font-size:13px;">
+                                                `+response[i].start_date;
+                                                if (response[i].end_date != false && response[i].start_date != response[i].end_date)
+                                                    text+=` - `+response[i].end_date;
+                                            text+=`</span>
+                                            <br/>`;
+
+                                            //unremark klo btuh time
+                                            //text+=`<i class="fas fa-clock" style="color:`+color+`;"></i> <span class="location_hotel" style="font-size:13px;">`+response[i].start_time+` - `+response[i].end_time` + </span>`;
+
+                                            if(response[i].locations.length != 0){
+                                                text+=`
+                                                <div style="padding-top:2px;">
+                                                    <i class="fas fa-map-marker-alt" style="color:`+color+`;"></i>
+                                                    <span class="location_hotel" style="font-size:13px;">`;
+                                                content_location_pop = `<i class="fas fa-map-marker-alt" style="color:`+color+`;"></i> `;
+                                                for(g in response[i].locations){
+                                                    if(g == 0){
+                                                        if (response[i].locations[g].city_name != false){
+                                                            text+= response[i].locations[g].city_name;
+                                                        }
+                                                        if (response[i].locations[g].city_name != false && response[i].locations[g].country_name != false){
+                                                            text+= ', ';
+                                                        }
+                                                        if (response[i].locations[g].country_name != false){
+                                                            text+= response[i].locations[g].country_name;
+                                                        }
+                                                    }else{
+                                                        if (response[i].locations[g].city_name != false){
+                                                            content_location_pop+= response[i].locations[g].city_name;
+                                                        }
+                                                        if (response[i].locations[g].city_name != false && response[i].locations[g].country_name != false){
+                                                            content_location_pop+= ', ';
+                                                        }
+                                                        if (response[i].locations[g].country_name != false){
+                                                            content_location_pop+= response[i].locations[g].country_name;
+                                                        }
+                                                        content_location_pop += `<br/>`;
+                                                    }
+                                                }
+                                                text+=`</span>`;
+                                                text+=`</span></div>`;
+                                            }
+                                            text+=`
+                                            <div style="padding-top:2px;">`;
+                                                if (response[i].locations.length > 1){
+                                                    var loc_length = response[i].locations.length - 1;
+                                                    text+=`<span class="tags_btn" id="loc_tags`+i+`"><i class="fas fa-map-marker-alt"></i> +`+loc_length+` More</span>`;
+                                                }
+
+                                                if(response[i].category.length != 0){
+                                                    text+=`<span class="tags_btn" id="pop_tags`+i+`"><i class="fas fa-tags"></i> `+response[i].category.length+` Category</span>`;
+                                                    content_category_pop = `<span style="font-weight:600; font-size:14px;"> Category</span><hr/>`;
+                                                    for(g in response[i].category){
+                                                        content_category_pop+=`<div class="tags_btn mb-2" onclick="window.location='/event/category/`+response[i].category[g]+`';"><i class="fas fa-tags"></i> `+ response[i].category[g] +`</div>`;
+                                                    }
+                                                }
+                                            text+=`
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="border-top:1px solid #cdcdcd; padding: 5px 10px;">
+                                        <a class="a-vendor" href="/event/vendor" style="text-decoration:unset;">
+                                            <div class="row">
+                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">`;
+                                                    if(response[i].vendor_obj.vendor_logo){
+                                                        text+=`<img src="`+response[i].vendor_obj.vendor_logo+`" alt="Logo Vendor" class="image-rounded-profile" style="margin-right:5px; height:30px; width:30px;"/>`;
+                                                    }
+                                                    else{
+                                                        text+=`<img src="/static/tt_website_rodextrip/images/noprofile.png" alt="Photo Profile" class="image-rounded-profile" style="margin-right:5px; height:30px; width:30px;"/>`;
+                                                    }
+                                                    text+=`
+                                                    </div>
+                                                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10" style="padding:0px 10px; font-size:12px; float:none;margin:auto;">
+                                                        `+response[i].vendor_obj.vendor_name+`
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>`;
+                   }else{
+                        if(template == 5){
+                            text+=`<div class="single-post-area activity_box" style="margin-bottom:15px; cursor:pointer; border:1px solid #cdcdcd; transform:unset; -webkit-transform:unset;">`;
+                        }else{
+                            text+=`<div class="single-post-area activity_box" style="margin-bottom:15px; cursor:pointer; border:unset; transform:unset; -webkit-transform:unset;">`;
+                        }
+
+                        text+=`
+                        <div style="background: `+color+`; position:absolute; padding: 8px 15px 8px 15px; float:right; z-index:1; opacity: 0.9; top: 15px;">
+                            <h6 style="color:`+text_color+`;">EVENT ENDED</h6>
+                        </div>
+
+                        <div class="single-destination avail-sd relative" style="margin-bottom:unset;">
+                            <form id="event`+i+`" action="/event/detail" method="POST">`;
+                            if(response[i].images.length != 0){
+                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('`+response[i].images[0].url+`'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="goto_detail('event',`+i+`)">`;
+                            }
+                            else{
+                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('/static/tt_website_rodextrip/images/no pic/no-event.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="goto_detail('event',`+i+`)">`;
+                            }
+
+                            if(template != 5){
+                                text+=`<div class="overlay overlay-bg"></div>`;
+                            }
+                            text+=`
+                            </div>
+                            <div class="card card-effect-promotion" style="border:unset;">
+                            <div class="card-body" style="padding:5px 10px 10px 10px; border:unset;">
+                                <div class="row details">
+                                    <div class="col-lg-12" style="text-align:left; height:135px;">
+                                        <h6 class="name_hotel hover_name" title="`+response[i].name+`" style="cursor:pointer; padding-right:5px; font-weight:bold; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;" onclick="goto_detail('event',`+i+`)">`+response[i].name+`</h6>`;
+                                        detail = JSON.stringify(response[i]);
+                                        detail = detail.replace(/'/g, "");
+                                        text+=`<input type="hidden" id="event_code`+i+`" name="event_code" value='`+detail+`'/>`;
+
+                                        text+=`
+                                        <i class="fas fa-calendar-alt" style="padding-top:7px; color:`+color+`;"></i>
+                                        <span class="location_hotel" style="font-size:13px;">
+                                            `+response[i].start_date;
+                                            if (response[i].end_date != false && response[i].start_date != response[i].end_date)
+                                                text+=` - `+response[i].end_date;
+                                        text+=`</span>
+                                        <br/>`;
+
+                                        //unremark klo btuh time
+                                        //text+=`<i class="fas fa-clock" style="color:`+color+`;"></i> <span class="location_hotel" style="font-size:13px;">`+response[i].start_time+` - `+response[i].end_time` + </span>`;
+
+                                        if(response[i].locations.length != 0){
+                                            text+=`
+                                            <div style="padding-top:2px;">
+                                                <i class="fas fa-map-marker-alt" style="color:`+color+`;"></i>
+                                                <span class="location_hotel" style="font-size:13px;">`;
+                                            content_location_pop = `<i class="fas fa-map-marker-alt" style="color:`+color+`;"></i> `;
+                                            for(g in response[i].locations){
+                                                if(g == 0){
+                                                    if (response[i].locations[g].city_name != false){
+                                                        text+= response[i].locations[g].city_name;
+                                                    }
+                                                    if (response[i].locations[g].city_name != false && response[i].locations[g].country_name != false){
+                                                        text+= ', ';
+                                                    }
+                                                    if (response[i].locations[g].country_name != false){
+                                                        text+= response[i].locations[g].country_name;
+                                                    }
+                                                }else{
+                                                    if (response[i].locations[g].city_name != false){
+                                                        content_location_pop+= response[i].locations[g].city_name;
+                                                    }
+                                                    if (response[i].locations[g].city_name != false && response[i].locations[g].country_name != false){
+                                                        content_location_pop+= ', ';
+                                                    }
+                                                    if (response[i].locations[g].country_name != false){
+                                                        content_location_pop+= response[i].locations[g].country_name;
+                                                    }
+                                                    content_location_pop += `<br/>`;
+                                                }
+                                            }
+                                            text+=`</span>`;
+                                            text+=`</span></div>`;
+                                        }
+                                        text+=`
+                                        <div style="padding-top:2px;">`;
+                                            if (response[i].locations.length > 1){
+                                                var loc_length = response[i].locations.length - 1;
+                                                text+=`<span class="tags_btn" id="loc_tags`+i+`"><i class="fas fa-map-marker-alt"></i> +`+loc_length+` More</span>`;
+                                            }
+
+                                            if(response[i].category.length != 0){
+                                                text+=`<span class="tags_btn" id="pop_tags`+i+`"><i class="fas fa-tags"></i> `+response[i].category.length+` Category</span>`;
+                                                content_category_pop = `<span style="font-weight:600; font-size:14px;"> Category</span><hr/>`;
+                                                for(g in response[i].category){
+                                                    content_category_pop+=`<div class="tags_btn mb-2" onclick="window.location='/event/category/`+response[i].category[g]+`';"><i class="fas fa-tags"></i> `+ response[i].category[g] +`</div>`;
+                                                }
+                                            }
+                                        text+=`
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="border-top:1px solid #cdcdcd; padding: 5px 10px;">
+                                    <a class="a-vendor" href="/event/vendor" style="text-decoration:unset;">
+                                        <div class="row">
+                                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">`;
+                                                if(response[i].vendor_obj.vendor_logo){
+                                                    text+=`<img src="`+response[i].vendor_obj.vendor_logo+`" alt="Logo Vendor" class="image-rounded-profile" style="margin-right:5px; height:30px; width:30px;"/>`;
+                                                }
+                                                else{
+                                                    text+=`<img src="/static/tt_website_rodextrip/images/noprofile.png" alt="Photo Profile" class="image-rounded-profile" style="margin-right:5px; height:30px; width:30px;"/>`;
+                                                }
+                                                    text+=`
+                                                    </div>
+                                                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10" style="padding:0px 10px; font-size:12px; float:none;margin:auto;">
+                                                        `+response[i].vendor_obj.vendor_name+`
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>`;
+                   }
                 }
-                //tambah button ke detailevent_result_data
+            }
+            //tambah button ke detailevent_result_data
+            if(text != ''){
                 node.className = 'col-lg-4 col-md-6 col-sm-6 col-xs-12';
                 node.innerHTML = text;
                 document.getElementById("event_ticket_objs").appendChild(node);
                 node = document.createElement("div");
+
+                new jBox('Tooltip', {
+                    attach: '#pop_tags'+i,
+                    target: '#pop_tags'+i,
+                    theme: 'TooltipBorder',
+                    trigger: 'click',
+                    width: 200,
+                    height: ($(window).height() - 160),
+                    adjustTracker: true,
+                    closeOnClick: 'body',
+                    closeOnEsc: true,
+                    animation: 'move',
+                    position: {
+                      x: 'right',
+                      y: 'center'
+                    },
+                    outside: 'x',
+                    content: content_category_pop
+                });
+
+                new jBox('Tooltip', {
+                    attach: '#loc_tags'+i,
+                    target: '#loc_tags'+i,
+                    theme: 'TooltipBorder',
+                    trigger: 'click',
+                    adjustTracker: true,
+                    closeOnClick: 'body',
+                    closeButton: 'box',
+                    animation: 'move',
+                    position: {
+                      x: 'left',
+                      y: 'top'
+                    },
+                    outside: 'y',
+                    pointer: 'left:20',
+                    offset: {
+                      x: 25
+                    },
+                    content: content_location_pop
+                });
             }
-            $('#loading-search-event').hide();
-
-            var items = $(".sorting-box-b");
-            var numItems = items.length;
-            var perPage = 12;
-            items.slice(perPage).hide();
-
-            $('#pagination-container').pagination({
-                items: numItems,
-                itemsOnPage: perPage,
-                prevText: "<i class='fas fa-angle-left'/>",
-                nextText: "<i class='fas fa-angle-right'/>",
-                onPageClick: function (pageNumber) {
-                    var showFrom = perPage * (pageNumber - 1);
-                    var showTo = showFrom + perPage;
-                    items.hide().slice(showFrom, showTo).show();
-                    $('#pagination-container2').pagination('drawPage', pageNumber);
-                }
-            });
-
-            $('#pagination-container2').pagination({
-                items: numItems,
-                itemsOnPage: perPage,
-                prevText: "<i class='fas fa-angle-left'/>",
-                nextText: "<i class='fas fa-angle-right'/>",
-                onPageClick: function (pageNumber) {
-                    var showFrom = perPage * (pageNumber - 1);
-                    var showTo = showFrom + perPage;
-                    items.hide().slice(showFrom, showTo).show();
-                    $('#pagination-container').pagination('drawPage', pageNumber);
-                }
-            });
-            $('#pagination-container').show();
-            $('#pagination-container2').show();
-            $('#event_error').hide();
         }
-        else{
-            $('#loading-search-event').hide();
-            document.getElementById("event_error").innerHTML = '';
-            text = '';
-            text += `
-                <div style="padding:5px; margin:10px;">
-                    <div style="text-align:center">
-                        <img src="/static/tt_website_rodextrip/images/nofound/no-event.png" style="width:60px; height:60px;" alt="Not Found Event" title="" />
-                        <br/><br/>
-                        <span style="font-size:14px; font-weight:600;">Oops! Event not found. Please try another event</span>
-                    </div>
-                </div>
-            `;
-            var node = document.createElement("div");
-            node.innerHTML = text;
-            document.getElementById("event_error").appendChild(node);
-            node = document.createElement("div");
-            $('#pagination-container').hide();
-            $('#pagination-container2').hide();
-            $('#event_error').show();
-        }
+        $('#loading-search-event').hide();
+
+        var items = $(".sorting-box-b");
+        var numItems = items.length;
+        var perPage = 12;
+        items.slice(perPage).hide();
+
+        $('#pagination-container').pagination({
+            items: numItems,
+            itemsOnPage: perPage,
+            prevText: "<i class='fas fa-angle-left'/>",
+            nextText: "<i class='fas fa-angle-right'/>",
+            onPageClick: function (pageNumber) {
+                var showFrom = perPage * (pageNumber - 1);
+                var showTo = showFrom + perPage;
+                items.hide().slice(showFrom, showTo).show();
+                $('#pagination-container2').pagination('drawPage', pageNumber);
+            }
+        });
+
+        $('#pagination-container2').pagination({
+            items: numItems,
+            itemsOnPage: perPage,
+            prevText: "<i class='fas fa-angle-left'/>",
+            nextText: "<i class='fas fa-angle-right'/>",
+            onPageClick: function (pageNumber) {
+                var showFrom = perPage * (pageNumber - 1);
+                var showTo = showFrom + perPage;
+                items.hide().slice(showFrom, showTo).show();
+                $('#pagination-container').pagination('drawPage', pageNumber);
+            }
+        });
+        $('#pagination-container').show();
+        $('#pagination-container2').show();
+        $('#event_error').hide();
     }
+    else{
+        $('#loading-search-event').hide();
+        document.getElementById("event_error").innerHTML = '';
+        text = '';
+        text += `
+            <div style="padding:5px; margin:10px;">
+                <div style="text-align:center">
+                    <img src="/static/tt_website_rodextrip/images/nofound/no-event.png" style="width:60px; height:60px;" alt="Not Found Event" title="" />
+                    <br/><br/>
+                    <span style="font-size:14px; font-weight:600;">Oops! Event not found. Please try another event</span>
+                </div>
+            </div>
+        `;
+        var node = document.createElement("div");
+        node.innerHTML = text;
+        document.getElementById("event_error").appendChild(node);
+        node = document.createElement("div");
+        $('#pagination-container').hide();
+        $('#pagination-container2').hide();
+        $('#event_error').show();
+    }
+
+    document.getElementById("hotel_result").innerHTML = '';
+    text = '';
+    text+=`
+    <div style="border:1px solid #cdcdcd; background-color:white; margin-bottom:15px; padding:10px;">
+        <span style="font-weight:bold; font-size:14px;"> Event - `+count_available_event+` results</span>
+    </div>`;
+    document.getElementById("hotel_result").innerHTML = text;
+}
 
 function filter_name(name_num){
     clearTimeout(myVar);
@@ -1123,14 +1510,14 @@ function reset_filter(){
     filtering('filter');
 }
 
-function display_tags_event(idx, total_category){
-    var display_more = document.getElementById('category_list_more'+idx);
-    display_more.style.display = "none";
-
-    for(i = 3; i < total_category; i++){
-        document.getElementById('tags_more'+idx+i).style.display = "inline-block";
-    }
-}
+//function display_tags_event(idx, total_category){
+//    var display_more = document.getElementById('category_list_more'+idx);
+//    display_more.style.display = "none";
+//
+//    for(i = 3; i < total_category; i++){
+//        document.getElementById('tags_more'+idx+i).style.display = "inline-block";
+//    }
+//}
 
 function check_extra_question_answer(option_code){
     var check_error_question = 0;
@@ -1221,4 +1608,8 @@ function check_extra_question_answer(option_code){
 function regex_input_number(temp){
     var que_id = document.getElementById(temp);
     que_id.value = que_id.value.replace(/(?!^-)[^0-9.]/g, "").replace(/(\..*)\./g, '$1');
+}
+
+function from_page_event(from){
+    page_from_name = from;
 }
