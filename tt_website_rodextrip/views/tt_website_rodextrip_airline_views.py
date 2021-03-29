@@ -488,9 +488,14 @@ def ssr(request):
                 additional_price = request.POST['additional_price_input'].split(',')
                 for i in additional_price:
                     additional_price_input += i
-                airline_ssr = request.session['airline_get_ssr']['result']['response']
+                # airline_ssr = request.session['airline_get_ssr']['result']['response']
+                airline_ssr = {
+                    'ssr_availability_provider': []
+                }
                 airline_list = []
-                for ssr_provider in airline_ssr['ssr_availability_provider']:
+                for ssr_provider in request.session['airline_get_ssr']['result']['response']['ssr_availability_provider']:
+                    if ssr_provider.get('ssr_availability'):
+                        airline_ssr['ssr_availability_provider'].append(ssr_provider)
                     for available in ssr_provider['ssr_availability']:
                         for journey in ssr_provider['ssr_availability'][available]:
                             for segment in journey['segments']:
@@ -530,10 +535,14 @@ def ssr(request):
 
                 #CHECK SINI TEMBAK KO SAM
 
-                airline_ssr = request.session['airline_get_ssr']['result']['response']
+                # airline_ssr = request.session['airline_get_ssr']['result']['response']
+                airline_ssr = {
+                    'ssr_availability_provider': []
+                }
                 airline_list = []
-                for ssr_provider in airline_ssr['ssr_availability_provider']:
+                for ssr_provider in request.session['airline_get_ssr']['result']['response']['ssr_availability_provider']:
                     if ssr_provider.get('ssr_availability'):
+                        airline_ssr['ssr_availability_provider'].append(ssr_provider)
                         for available in ssr_provider.get('ssr_availability'):
                             for journey in ssr_provider['ssr_availability'][available]:
                                 for segment in journey['segments']:
