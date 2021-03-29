@@ -2919,7 +2919,7 @@ function get_post_ssr_availability(){
             if(msg.result.error_code == 0){
                 var check_ssr = 0;
                 for(i in msg.result.response.ssr_availability_provider){
-                    if(Object.keys(msg.result.response.ssr_availability_provider[i].ssr_availability).length > 0)
+                    if(msg.result.response.ssr_availability_provider[i].hasOwnProperty('ssr_availability') == true && Object.keys(msg.result.response.ssr_availability_provider[i].ssr_availability).length > 0)
                         check_ssr = 1;
                 }
                 if(check_ssr == 1)
