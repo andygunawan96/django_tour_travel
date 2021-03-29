@@ -882,15 +882,38 @@ def seat_map(request):
                     pax['seat_list'] = []
                     for seat_provider in request.session['airline_get_seat_availability']['result']['response']['seat_availability_provider']:
                         for segment in seat_provider['segments']:
-                            pax['seat_list'].append({
-                                'segment_code': segment['segment_code2'],
-                                'departure_date': segment['departure_date'],
+                            found = False
+                            passenger_obj = {
                                 'seat_pick': '',
                                 'seat_code': '',
                                 'seat_name': '',
                                 'description': '',
                                 'currency': '',
                                 'price': ''
+                            }
+                            for pax_obj in request.session['airline_get_booking_response']['result']['response']['passengers']:
+                                if pax['first_name'] == pax_obj['first_name'] and pax['last_name'] == pax_obj['last_name'] and pax['birth_date'] == pax_obj['birth_date']:
+                                    for pax_obj in pax_obj['fees']:
+                                        if pax_obj['fee_type'] == 'SEAT' and segment['segment_code'] == pax_obj['journey_code']:
+                                            passenger_obj['seat_pick'] = pax_obj['fee_value']
+                                            passenger_obj['seat_code'] = pax_obj['fee_code']
+                                            passenger_obj['seat_name'] = pax_obj['fee_name']
+                                            passenger_obj['description'] = pax_obj['description']
+                                            passenger_obj['currency'] = pax_obj['currency']
+                                            passenger_obj['price'] = pax_obj['amount']
+                                            found = True
+                                            break
+                                if found:
+                                    break
+                            pax['seat_list'].append({
+                                'segment_code': segment['segment_code2'],
+                                'departure_date': segment['departure_date'],
+                                'seat_pick': passenger_obj['seat_pick'],
+                                'seat_code': passenger_obj['seat_code'],
+                                'seat_name': passenger_obj['seat_name'],
+                                'description': passenger_obj['description'],
+                                'currency': passenger_obj['currency'],
+                                'price': passenger_obj['price']
                             })
             try:
                 additional_price_input = ''
@@ -920,6 +943,8 @@ def seat_map(request):
                 for pax in request.session['airline_get_booking_response']['result']['response']['passengers']:
                     if pax.get('channel_service_charges'):
                         upsell = pax.get('channel_service_charges')
+                airline_get_booking = copy.deepcopy(request.session['airline_get_booking_response']['result']['response'])
+                del airline_get_booking['reschedule_list'] #pop sementara ada list isi string pakai " wktu di parser error
                 values.update({
                     'static_path': path_util.get_static_path(MODEL_NAME),
                     'airline_carriers': carrier,
@@ -928,7 +953,7 @@ def seat_map(request):
                     'phone_code': phone_code,
                     'after_sales': 1,
                     'upsell': upsell,
-                    'airline_getbooking': request.session['airline_get_booking_response']['result']['response'],
+                    'airline_getbooking': airline_get_booking,
                     'additional_price': '',
                     'passengers': passenger,
                     'static_path_url_server': get_url_static_path(),
