@@ -3149,8 +3149,9 @@ function set_first_passenger_seat_map_airline(val){
 }
 
 function set_cancel_seat(segment_number){
-    if(isNaN(passengers[passenger_pick].seat_list[i].price) == false)
-        additional_price -= parseFloat(passengers[passenger_pick].seat_list[i].price);
+    if(isNaN(passengers[passenger_pick].seat_list[segment_number].price) == false)
+        if(additional_price - parseFloat(passengers[passenger_pick].seat_list[segment_number].price) >= 0 )
+            additional_price -= parseFloat(passengers[passenger_pick].seat_list[segment_number].price);
     passengers[passenger_pick].seat_list[segment_number].seat_pick = '';
     passengers[passenger_pick].seat_list[segment_number].seat_code = '';
     passengers[passenger_pick].seat_list[segment_number].seat_name = '';
