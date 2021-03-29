@@ -960,16 +960,16 @@ function event_options(id){
                                         text+=`
                                         <span style="font-weight:600; padding-right:15px; cursor:pointer;" id="pop_cancellation`+i+`">
                                             <i class="fas fa-ban"></i>
-                                            <span style="color:`+color+`;">Cancellation Policy</span>
+                                            <span style="color:`+color+`; text-decoration: underline;">Cancellation Policy</span>
                                         </span>`;
                                         content_pop_cancellation += msg.result.response[i].cancellation_policy;
                                     }
 
-                                    if(msg.result.response[i].timeslot.length == 0){
+                                    if(msg.result.response[i].timeslot.length != 0){
                                         text+=`
                                         <span style="font-weight:600; padding-right:15px; cursor:pointer;" id="pop_timeslot`+i+`">
                                             <i class="fas fa-clock"></i>
-                                            <span style="color:`+color+`;">Timeslot</span>
+                                            <span style="color:`+color+`; text-decoration: underline;">Timeslot</span>
                                         </span>`;
                                         for (j in msg.result.response[i].timeslot){
                                             if(msg.result.response[i].timeslot[j].start_date != ""){
@@ -1086,16 +1086,16 @@ function event_options(id){
                                         text+=`
                                         <span style="font-weight:600; padding-right:15px; cursor:pointer;" id="pop_cancellation`+i+`">
                                             <i class="fas fa-ban"></i>
-                                            <span style="color:`+color+`;">Cancellation Policy</span>
+                                            <span style="color:`+color+`; text-decoration: underline;">Cancellation Policy</span>
                                         </span>`;
                                         content_pop_cancellation += msg.result.response[i].cancellation_policy;
                                     }
 
-                                    if(msg.result.response[i].timeslot.length == 0){
+                                    if(msg.result.response[i].timeslot.length != 0){
                                         text+=`
                                         <span style="font-weight:600; padding-right:15px; cursor:pointer;" id="pop_timeslot`+i+`">
                                             <i class="fas fa-clock"></i>
-                                            <span style="color:`+color+`;">Timeslot</span>
+                                            <span style="color:`+color+`; text-decoration: underline;">Timeslot</span>
                                         </span>`;
                                         for (j in msg.result.response[i].timeslot){
                                             if(msg.result.response[i].timeslot[j].start_date != ""){
@@ -1197,16 +1197,16 @@ function event_options(id){
                                         text+=`
                                         <span style="font-weight:600; padding-right:15px; color:#4a4a4a; cursor:pointer;" id="pop_cancellation`+i+`">
                                             <i class="fas fa-ban"></i>
-                                            <span style="color:`+color+`;">Cancellation Policy</span>
+                                            <span style="color:`+color+`; text-decoration: underline;">Cancellation Policy</span>
                                         </span>`;
                                         content_pop_cancellation += msg.result.response[i].cancellation_policy;
                                     }
 
-                                    if(msg.result.response[i].timeslot.length == 0){
+                                    if(msg.result.response[i].timeslot.length != 0){
                                         text+=`
                                         <span style="font-weight:600; color:#4a4a4a; padding-right:15px; cursor:pointer;" id="pop_timeslot`+i+`">
                                             <i class="fas fa-clock"></i>
-                                            <span style="color:`+color+`;">Timeslot</span>
+                                            <span style="color:`+color+`; text-decoration: underline;">Timeslot</span>
                                         </span>`;
                                         for (j in msg.result.response[i].timeslot){
                                             if(msg.result.response[i].timeslot[j].start_date != ""){
