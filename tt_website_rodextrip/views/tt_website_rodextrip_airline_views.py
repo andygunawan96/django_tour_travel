@@ -533,16 +533,17 @@ def ssr(request):
                 airline_ssr = request.session['airline_get_ssr']['result']['response']
                 airline_list = []
                 for ssr_provider in airline_ssr['ssr_availability_provider']:
-                    for available in ssr_provider['ssr_availability']:
-                        for journey in ssr_provider['ssr_availability'][available]:
-                            for segment in journey['segments']:
-                                if segment['carrier_code'] not in airline_list:
-                                    airline_list.append(segment['carrier_code'])
-                        break
-                    ssr_provider.update({
-                        'airline_list': airline_list
-                    })
-                    airline_list = []
+                    if ssr_provider.get('ssr_availability'):
+                        for available in ssr_provider.get('ssr_availability'):
+                            for journey in ssr_provider['ssr_availability'][available]:
+                                for segment in journey['segments']:
+                                    if segment['carrier_code'] not in airline_list:
+                                        airline_list.append(segment['carrier_code'])
+                            break
+                        ssr_provider.update({
+                            'airline_list': airline_list
+                        })
+                        airline_list = []
 
                 adult = []
                 infant = []
