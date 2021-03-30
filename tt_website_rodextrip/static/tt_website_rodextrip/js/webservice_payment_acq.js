@@ -176,20 +176,22 @@ function set_payment(val, type){
         </label>
         <br/>`;
         else{
-            text+=`
+            if(payment_method != 'payment_gateway' || payment_acq2[payment_method][i].show_device_type != 'mobile'){
+                text+=`
 
-            <label class="radio-button-custom">
-                <span style="font-size:14px; font-weight:500;">`+payment_acq2[payment_method][i].name+`<br>`;
+                <label class="radio-button-custom">
+                    <span style="font-size:14px; font-weight:500;">`+payment_acq2[payment_method][i].name+`<br>`;
 
-            if(payment_acq2[payment_method][i].image){
-                text+=`<img width="50px" height="auto" alt="Logo `+payment_acq2[payment_method][i].name+`" src="`+payment_acq2[payment_method][i].image+`"/></span>`;
+                if(payment_acq2[payment_method][i].image){
+                    text+=`<img width="50px" height="auto" alt="Logo `+payment_acq2[payment_method][i].name+`" src="`+payment_acq2[payment_method][i].image+`"/></span>`;
+                }
+
+                text+=`
+                    <input type="radio" name="radio_payment_type" value="`+i+`" onclick="set_price('`+val+`','`+type+`');">
+                    <span class="checkmark-radio"></span>
+                </label>
+                <br/>`;
             }
-
-            text+=`
-                <input type="radio" name="radio_payment_type" value="`+i+`" onclick="set_price('`+val+`','`+type+`');">
-                <span class="checkmark-radio"></span>
-            </label>
-            <br/>`;
         }
     }
     text += '<div id="set_detail"></div><br/><div id="set_price"></div>'
@@ -993,32 +995,52 @@ function goto_embed_payment_method(provider, order_number){
 function get_payment_order_number(order_number){
      $('#payment_gtw').prop('disabled', true);
      $('#payment_gtw').addClass("running");
-
-    $.ajax({
-       type: "POST",
-       url: "/webservice/payment",
-       headers:{
-            'action': 'get_order_number',
-       },
-       data: {
-            'order_number': order_number,
-            'signature': signature,
-            'seq_id': payment_acq2[payment_method][selected].seq_id,
-       },
-       success: function(msg) {
-            console.log(msg);
-            if(msg.result.error_code == 0){
-                if(payment_acq2[payment_method][selected].account_number == ""){
-//                    window.location.href = '/payment/espay/' + msg.result.response.order_number;
-                    get_order_number_frontend(msg.result.response.order_number);
-                }else
-                    window.location.href = '/payment/'+name+'/' + msg.result.response.order_number;
-            }
-       },
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get signature');
-       },timeout: 60000
-    });
+    check_phone_number_fill = false;
+    try{
+        if(document.getElementById('phone_number').value == '')
+            check_phone_number_fill = true;
+    }catch(err){}
+    if(check_phone_number_fill != true){
+        $.ajax({
+           type: "POST",
+           url: "/webservice/payment",
+           headers:{
+                'action': 'get_order_number',
+           },
+           data: {
+                'order_number': order_number,
+                'signature': signature,
+                'seq_id': payment_acq2[payment_method][selected].seq_id,
+                'show_device_type': payment_acq2[payment_method][selected].show_device_type,
+                'url_back': window.location.href
+           },
+           success: function(msg) {
+                console.log(msg);
+                if(msg.result.error_code == 0){
+                    if(payment_acq2[payment_method][selected].account_number == ""){
+                        if(payment_acq2[payment_method][selected].name == 'OVO')
+                            document.getElementById('set_price').innerHTML += `<span style="font-size:13px;">`+payment_acq2[payment_method][selected].description_msg+` </span>`;
+                        get_order_number_frontend(msg.result.response.order_number);
+                    }else
+                        window.location.href = '/payment/'+name+'/' + msg.result.response.order_number;
+                }
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get signature');
+           },timeout: 60000
+        });
+    }else{
+        Swal.fire({
+          type: 'error',
+          title: 'Oops!',
+          html: 'Please fill phone number!',
+        }).then((result) => {
+          if (result.value) {
+            $('#payment_gtw').prop('disabled', false);
+            $('#payment_gtw').removeClass("running");
+          }
+        })
+    }
 }
 
 function get_order_number_frontend(order_number){
@@ -1100,9 +1122,11 @@ function check_payment_payment_method(order_number,btn_name,booker,type,provider
                             <span style="font-size:14px; font-weight:500;">IDR `+getrupiah(payment_acq_booking.amount)+`<br>
                         </div>
                      </div>`;
-            if(payment_acq_booking.va_number != false)
+            if(payment_acq_booking.url != ''){
+                text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="window.location.href = '`+payment_acq_booking.url+`'" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
+            }else if(payment_acq_booking.va_number != false){
                 text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="window.location.href = '/payment/espay/`+payment_acq_booking.order_number+`'" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
-            else
+            }else
                 text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="window.location.href = '/payment/`+name+`/`+payment_acq_booking.order_number+`'" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
         }
 
