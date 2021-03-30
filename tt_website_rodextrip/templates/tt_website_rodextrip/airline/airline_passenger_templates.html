@@ -1134,6 +1134,7 @@
                     <input type="hidden" id="time_limit_input" name="time_limit_input" />
                     <input type="hidden" id="airline_price_itinerary_request" name="airline_price_itinerary_request" />
                     <input type="hidden" id="additional_price_input" name="additional_price_input" value="0"/>
+                    <input type="hidden" id="airline_sell_journey" name="airline_sell_journey" value=""/>
                 </div>
             </form>
         </div>
@@ -2006,6 +2007,7 @@
                             <input type="hidden" id="time_limit_input" name="time_limit_input" />
                             <input type="hidden" id="airline_price_itinerary_request" name="airline_price_itinerary_request" />
                             <input type="hidden" id="additional_price_input" name="additional_price_input" value="0"/>
+                            <input type="hidden" id="airline_sell_journey" name="airline_sell_journey" value=""/>
                         </div>
                     </form>
                 </div>
@@ -3041,6 +3043,7 @@
                     <input type="hidden" id="time_limit_input" name="time_limit_input" />
                     <input type="hidden" id="airline_price_itinerary_request" name="airline_price_itinerary_request" />
                     <input type="hidden" id="additional_price_input" name="additional_price_input" value="0"/>
+                    <input type="hidden" id="airline_sell_journey" name="airline_sell_journey" value=""/>
                 </div>
             </form>
         </div>
@@ -4073,6 +4076,7 @@
                 <input type="hidden" id="time_limit_input" name="time_limit_input" />
                 <input type="hidden" id="airline_price_itinerary_request" name="airline_price_itinerary_request" />
                 <input type="hidden" id="additional_price_input" name="additional_price_input" value="0"/>
+                <input type="hidden" id="airline_sell_journey" name="airline_sell_journey" value=""/>
             </div>
         </form>
     </div>
@@ -5092,6 +5096,7 @@
                     <input type="hidden" id="time_limit_input" name="time_limit_input" />
                     <input type="hidden" id="airline_price_itinerary_request" name="airline_price_itinerary_request" />
                     <input type="hidden" id="additional_price_input" name="additional_price_input" value="0"/>
+                    <input type="hidden" id="airline_sell_journey" name="airline_sell_journey" value=""/>
                 </div>
             </form>
         </div>
@@ -5104,6 +5109,7 @@
 {% endif %}
 
 <script>
+    document.getElementById('airline_sell_journey').value = JSON.stringify(price_itinerary);
     airline_detail('');
     $( document ).ready(function() {
       breadcrumb_create("airline", 3, 0);

@@ -1320,11 +1320,15 @@ def review(request):
             for i in additional_price:
                 additional_price_input += i
             force_issued = True
-            airline_price_temp = request.session['airline_sell_journey']['sell_journey_provider'] if request.session.get('airline_sell_journey') else request.session['airline_price_itinerary']['price_itinerary_provider']
-            for airline in airline_price_temp:
-                if airline['provider'] == 'traveloka':
-                    force_issued = False
-
+            try:
+                airline_price_temp = request.session['airline_sell_journey']['sell_journey_provider'] if request.session.get('airline_sell_journey') else request.session['airline_price_itinerary']['price_itinerary_provider']
+                for airline in airline_price_temp:
+                    if airline['provider'] == 'traveloka':
+                        force_issued = False
+            except Exception as e:
+                # cache reset
+                _logger.info('cache reset here ' + str(e) + '\n' + traceback.format_exc())
+                set_session(request, 'airline_sell_journey', json.loads(request.POST['airline_sell_journey']))
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],

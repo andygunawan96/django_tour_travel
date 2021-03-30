@@ -3915,7 +3915,9 @@ function airline_get_booking(data, sync=false){
     document.getElementById('payment_acq').hidden = true;
     price_arr_repricing = {};
     get_vendor_balance('false');
-    show_loading();
+    try{
+        show_loading();
+    }catch(err){}
     please_wait_transaction();
     $("#waitingTransaction").modal('show');
     $.ajax({
