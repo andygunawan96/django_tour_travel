@@ -2738,7 +2738,16 @@ function delete_mc_journey(val){
     airline_request['destination'].splice(val-1,1);
     airline_request['origin'].splice(val-1,1);
     airline_request['return'].splice(val-1,1);
-
+    //update data kalau comboprice tetap tidak ketemu karena temen 1 adalah 2 bukan 3 testing delete flight 2 change flight 1
+    new_data = [];
+    for(i in airline_data){
+        if(airline_data[i].airline_pick_sequence != val){
+            if(airline_data[i].airline_pick_sequence > val)
+                airline_data[i].airline_pick_sequence--;
+            new_data.push(airline_data[i]);
+        }
+    }
+    airline_data = new_data;
     airline_pick_mc('all');
     if(parseInt(airline_request.counter) == journey.length){
         document.getElementById('airline_detail').innerHTML = '';

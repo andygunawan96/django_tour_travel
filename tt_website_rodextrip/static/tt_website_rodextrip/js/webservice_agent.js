@@ -2869,21 +2869,27 @@ function get_payment_espay(order_number_full){
             "bank_code": payment_acq2[payment_method][selected]['bank']['code'],
             "bank_name": payment_acq2[payment_method][selected].name,
             "online_wallet": payment_acq2[payment_method][selected].online_wallet,
-            "phone_number": phone_number
+            "phone_number": phone_number,
+            'show_device_type': payment_acq2[payment_method][selected].show_device_type,
+            'url_back': window.location.href
        },
        success: function(msg) {
             console.log(msg);
             if(msg.result.error_code == 0){
                 if(payment_acq2[payment_method][selected].name == 'OVO')
                     window.location.reload();
-                else
+                else if(payment_acq2[payment_method][selected].show_device_type != 'all'){
+                    window.location.href = msg.result.response.url;
+                }else
                     window.location.href = '/payment/espay/' + order_number_full;
             }else{
                 Swal.fire({
                   type: 'error',
                   title: 'Oops!',
                   html: '<span style="color: red;">Error payment </span>',
-                })
+                });
+                $('#payment_gtw').prop('disabled', false);
+                $('#payment_gtw').removeClass("running");
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
