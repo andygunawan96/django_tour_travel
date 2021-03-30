@@ -194,7 +194,7 @@ function set_payment(val, type){
             }
         }
     }
-    text += '<div id="set_detail"></div><br/><div id="set_price"></div>'
+    text += '<div id="set_detail"></div><br/><div id="set_price"></div><div id="detail_description_msg"></div>'
     document.getElementById('payment_description').innerHTML = text;
 }
 
@@ -1019,7 +1019,7 @@ function get_payment_order_number(order_number){
                 if(msg.result.error_code == 0){
                     if(payment_acq2[payment_method][selected].account_number == ""){
                         if(payment_acq2[payment_method][selected].name == 'OVO')
-                            document.getElementById('set_price').innerHTML += `<span style="font-size:13px;">`+payment_acq2[payment_method][selected].description_msg+` </span>`;
+                            document.getElementById('detail_description_msg').innerHTML += `<span style="font-size:13px;">`+payment_acq2[payment_method][selected].description_msg+` </span>`;
                         get_order_number_frontend(msg.result.response.order_number);
                     }else
                         window.location.href = '/payment/'+name+'/' + msg.result.response.order_number;
