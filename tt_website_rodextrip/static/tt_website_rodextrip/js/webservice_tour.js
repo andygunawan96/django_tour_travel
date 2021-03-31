@@ -1786,7 +1786,7 @@ function tour_get_booking(order_number)
                                         else
                                             text+=`<td> - </td>`;
                                         text+=`
-                                            <td>`+moment(localTime).format('DD MMM YYYY HH:mm')+` `+gmt+timezone`</td>
+                                            <td>`+moment(localTime).format('DD MMM YYYY HH:mm')+` `+gmt+timezone+`</td>
                                             <td>`+conv_status+`</td>
                                         </tr>
                                      </table>
