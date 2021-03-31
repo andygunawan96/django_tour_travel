@@ -222,6 +222,12 @@ def vendor(request):
             response = get_cache_data(cache_version)
             values = get_data_template(request, 'search')
             airline_country = response['result']['response']['airline']['country']
+            phone_code = []
+            for i in airline_country:
+                if i['phone_code'] not in phone_code:
+                    phone_code.append(i['phone_code'])
+            phone_code = sorted(phone_code)
+
             if request.POST:
                 set_session(request, 'time_limit', int(request.POST['time_limit_input']))
 
@@ -233,8 +239,12 @@ def vendor(request):
                 pass
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
+                'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+                'countries': airline_country,
+                'phone_code': phone_code,
+                'username': request.session['user_account'],
+                'signature': request.session['event_signature'],
                 'static_path_url_server': get_url_static_path(),
-                'signature': request.session['signature'],
                 'javascript_version': javascript_version,
                 'time_limit': request.session['time_limit'],
 
