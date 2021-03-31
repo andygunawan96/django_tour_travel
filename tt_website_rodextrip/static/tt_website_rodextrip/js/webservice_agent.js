@@ -2870,7 +2870,7 @@ function get_payment_espay(order_number_full){
             "bank_name": payment_acq2[payment_method][selected].name,
             "online_wallet": payment_acq2[payment_method][selected].online_wallet,
             "phone_number": phone_number,
-            'show_device_type': payment_acq2[payment_method][selected].show_device_type,
+            'save_url': payment_acq2[payment_method][selected].save_url,
             'url_back': window.location.href
        },
        success: function(msg) {

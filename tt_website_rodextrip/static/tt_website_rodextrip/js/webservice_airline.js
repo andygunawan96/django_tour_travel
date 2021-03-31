@@ -6257,13 +6257,15 @@ function sell_ssrs_after_sales(){
                 auto_logout();
            }else{
                 Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: #ff9900;">Error airline ssr after sales </span>' + msg.result.error_msg,
+                  title: 'Error please try again!',
+                  type: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'Yes'
+                }).then((result) => {
+                  window.location = '/airline/booking/'+btoa(order_number);
                 })
-                $('.loader-rodextrip').fadeOut();
-                $('.btn-next').removeClass('running');
-                $('.btn-next').prop('disabled', false);
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {

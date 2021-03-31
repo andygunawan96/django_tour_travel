@@ -170,7 +170,7 @@ def set_payment_method(request):
             "bank_name": request.POST['bank_name'],
             "online_wallet": True if request.POST['online_wallet'] == 'true' else False,
             "phone_number": request.POST['phone_number'],
-            'show_device_type': request.POST['show_device_type'],
+            'save_url': True if request.POST['save_url'] == 'true' else False,
             'url_back': request.POST['url_back']
         }
         headers = {
