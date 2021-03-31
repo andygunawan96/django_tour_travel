@@ -2876,9 +2876,12 @@ function get_payment_espay(order_number_full){
        success: function(msg) {
             console.log(msg);
             if(msg.result.error_code == 0){
-                if(payment_acq2[payment_method][selected].name == 'OVO')
-                    window.location.reload();
-                else if(payment_acq2[payment_method][selected].show_device_type != 'all'){
+                if(payment_acq2[payment_method][selected].name == 'OVO'){
+                    if(window.location.href.split('/')[window.location.href.split('/').length-1] == 'payment')
+                        window.location.href = '/' + type_render + '/booking/' + order_number_id
+                    else
+                        window.location.reload();
+                }else if(payment_acq2[payment_method][selected].show_device_type != 'all'){
                     window.location.href = msg.result.response.url;
                 }else
                     window.location.href = '/payment/espay/' + order_number_full;
