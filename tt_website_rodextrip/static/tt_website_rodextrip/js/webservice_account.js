@@ -1340,7 +1340,7 @@ function get_vendor_balance(val){
                     text_balance += `
                         <span style="text-transform: capitalize; font-size:14px; font-weight:500;">`+msg.result.response[blc].code+`</span><br/>
                         <img src="/static/tt_website_rodextrip/images/icon/wallet_black.png" alt="Balance Vendor" style="width:15px; height:15px;">
-                        <span style="font-size:14px; color:`+color+`; font-weight:500;">`+msg.result.response[blc].currency+` `+msg.result.response[blc].balance+`</span>
+                        <span style="font-size:14px; color:`+color+`; font-weight:500;">`+msg.result.response[blc].currency+` `+getrupiah(msg.result.response[blc].balance)+`</span>
                     </div>
                 </div>`;
             }
