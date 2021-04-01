@@ -778,9 +778,13 @@ function sort(response, check_filter){
                             text+=`</span>
                                 </div>
 
-                                <div style="padding-bottom:5px;">
-                                <span>Facilities</span><br/>
-                                <div class="row">`;
+                                <div style="padding-bottom:5px;"><span>`;
+
+                                if(top_facility.length != 0 ){
+                                    text+=`Facilities`;
+                                }
+
+                                text+=`</span><br/><div class="row">`;
                                     try{
                                         var ava_fac = '';
                                         for(j in top_facility){
