@@ -620,7 +620,7 @@ function hotel_facility_request(hotel_facilities){
             facility_image_html += `
                     <div class="col-md-3 col-xs-6" style="width:25%; padding-bottom:15px;">
                         <i class="fas fa-circle" style="font-size:9px;"></i>
-                        <span style="font-weight:500;"> `+ fac_name.name +`</span>
+                        <span style="font-weight:500;"> `+ fac_name +`</span>
                     </div>`;
         }
         document.getElementById("js_image_facility").innerHTML = facility_image_html;
@@ -1570,12 +1570,17 @@ function hotel_get_booking(data){
        },
        success: function(msg) {
             console.log(msg);
+            hide_modal_waiting_transaction();
             document.getElementById('button-home').hidden = false;
             document.getElementById('button-new-reservation').hidden = false;
-            hide_modal_waiting_transaction();
+            document.getElementById("overlay-div-box").style.display = "none";
+
             try{
                 list_pnr = [];
                 if(msg.result.error_code == 0){
+                    if(msg.result.response.state == 'pending' || msg.result.response.state == 'in_progress' || msg.result.response.state == 'partial_issued' || msg.result.response.state == 'fail_issued'){
+                        document.getElementById('div_sync_status').hidden = false;
+                    }
                     hotel_get_detail = msg;
                     $text = '';
                     $text += 'Order Number: '+ msg.result.response.order_number + '\n';
@@ -2100,6 +2105,8 @@ function hotel_get_booking(data){
                     </div>`;
                 }catch(err){console.log(err)}
                 document.getElementById('hotel_detail').innerHTML = text_detail;
+                document.getElementById('show_title_hotel').hidden = false;
+                document.getElementById('show_loading_booking_airline').hidden = true;
                 add_repricing();
                 console.log($text);
 

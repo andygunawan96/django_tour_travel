@@ -235,7 +235,7 @@ function event_get_booking(data){
                document.getElementById('event_booking').innerHTML = text;
             //======================= Button Issued ==================
             if(msg.result.response.status == 'booked'){
-               check_payment_payment_method(msg.result.response.order_number, 'Issued', '', 'billing', 'event', signature, {});
+               check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'event', signature, {});
                $(".issued_booking_btn").show();
                $text += 'Status: Booked\n';
             }
@@ -1793,22 +1793,20 @@ function add_option(val){
     if (max_qty > 9){max_qty = 9;}
 
     document.getElementById(obj).value = new_int;
-    if (new_int < max_qty){
-        document.getElementById('left-minus-event-'+val).disabled = false;
-    }else{
+    if (new_int == max_qty){
         document.getElementById('right-plus-event-'+val).disabled = true;
     }
+    document.getElementById('left-minus-event-'+val).disabled = false;
     render_object(val, new_int);
 }
 function reduce_option(val){
     var obj = 'option_qty_' + val;
     var new_int = parseInt(document.getElementById(obj).value) - 1;
     document.getElementById(obj).value = new_int;
-    if (new_int > 0){
-        document.getElementById('right-plus-event-'+val).disabled = false;
-    }else{
+    if (new_int == 0){
         document.getElementById('left-minus-event-'+val).disabled = true;
     }
+    document.getElementById('right-plus-event-'+val).disabled = false;
     render_object(val, new_int);
 }
 
