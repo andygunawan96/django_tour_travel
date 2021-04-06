@@ -389,7 +389,7 @@ def payment_method(request, provider, order_number):
                     data_payment[len(data_payment)-1]['heading'] = data_cache
                 elif idx == 1:
                     data_payment[len(data_payment) - 1]['html'] = data_cache.replace('<br>', '\n')
-        read_cache_without_folder_path("/payment_information/other_bank", 90911)
+        file = read_cache_without_folder_path("/payment_information/other_bank", 90911)
         if file:
             data_payment.append({
                 "heading": '',

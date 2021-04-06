@@ -348,41 +348,38 @@ function get_activity_config(type, val){
             var category_selection = document.getElementById('activity_category');
 
             for(i in msg.activity_locations){
-                for(j in msg.activity_locations[i].countries)
+                for(j in msg.activity_locations[i].states)
                 {
                     var city = [];
-                    for(k in msg.activity_locations[i].countries[j].states)
+                    for(k in msg.activity_locations[i].states[j].cities)
                     {
-                        for(l in msg.activity_locations[i].countries[j].states[k].cities)
-                        {
-                            city.push({
-                                'name': msg.activity_locations[i].countries[j].states[k].cities[l].name,
-                                'id': msg.activity_locations[i].countries[j].states[k].cities[l].uuid
-                            });
-                        }
+                        city.push({
+                            'name': msg.activity_locations[i].states[j].cities[k].name,
+                            'id': msg.activity_locations[i].states[j].cities[k].uuid
+                        });
                     }
                     activity_country.push({
                         'city': city,
-                        'name': msg.activity_locations[i].countries[j].name,
-                        'id': msg.activity_locations[i].countries[j].uuid
+                        'name': msg.activity_locations[i].name,
+                        'id': msg.activity_locations[i].uuid
                     });
                 }
             }
 
-            for (i in msg.activity_categories.data)
+            for (i in msg.activity_categories)
             {
                 var sub_cats = [];
-                for(j in msg.activity_categories.data[i].children)
+                for(j in msg.activity_categories[i].children)
                 {
                     sub_cats.push({
-                        'name': msg.activity_categories.data[i].children[j].name,
-                        'id': msg.activity_categories.data[i].children[j].uuid
+                        'name': msg.activity_categories[i].children[j].name,
+                        'id': msg.activity_categories[i].children[j].uuid
                     });
                 }
                 activity_categories.push({
                     'sub_categories': sub_cats,
-                    'name': msg.activity_categories.data[i].name,
-                    'id': msg.activity_categories.data[i].uuid
+                    'name': msg.activity_categories[i].name,
+                    'id': msg.activity_categories[i].uuid
                 });
             }
 
@@ -420,16 +417,16 @@ function get_activity_config(type, val){
                 {
                     type_txt += `<option value="0">All Types</option>`;
                 }
-                for(i in msg.activity_types.data)
+                for(i in msg.activity_types)
                 {
-                    if (msg.activity_types.data[i].uuid == parsed_type)
+                    if (msg.activity_types[i].uuid == parsed_type)
                     {
-                        type_txt += `<option value="`+msg.activity_types.data[i].uuid+`" selected>`+msg.activity_types.data[i].name+`</option>`;
-                        document.getElementById('search_type_name').innerHTML = msg.activity_types.data[i].name;
+                        type_txt += `<option value="`+msg.activity_types[i].uuid+`" selected>`+msg.activity_types[i].name+`</option>`;
+                        document.getElementById('search_type_name').innerHTML = msg.activity_types[i].name;
                     }
                     else
                     {
-                        type_txt += `<option value="`+msg.activity_types.data[i].uuid+`">`+msg.activity_types.data[i].name+`</option>`;
+                        type_txt += `<option value="`+msg.activity_types[i].uuid+`">`+msg.activity_types[i].name+`</option>`;
                     }
                 }
 
@@ -463,9 +460,9 @@ function get_activity_config(type, val){
                 }
 
                 type_txt += `<option value="0" selected="">All Types</option>`;
-                for(i in msg.activity_types.data)
+                for(i in msg.activity_types)
                 {
-                    type_txt += `<option value="`+msg.activity_types.data[i].uuid+`">`+msg.activity_types.data[i].name+`</option>`;
+                    type_txt += `<option value="`+msg.activity_types[i].uuid+`">`+msg.activity_types[i].name+`</option>`;
                 }
 
                 category_txt += `<option value="0" selected="">All Categories</option>`;

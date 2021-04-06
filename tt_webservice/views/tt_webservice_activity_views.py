@@ -160,7 +160,7 @@ def get_data(request):
         temp_data = get_cache_data(cache_version)
 
         response = {
-            'activity_locations': temp_data['result']['response']['activity']['locations'],
+            'activity_locations': temp_data['result']['response']['activity']['countries'],
             'activity_types': temp_data['result']['response']['activity']['types'],
             'activity_categories': temp_data['result']['response']['activity']['categories'],
         }
