@@ -4308,11 +4308,13 @@ function check_passenger(adult, child, infant){
        }if(ff_request.length != 0 && check_ff == 1){
            for(j=1;j<=ff_request.length;j++){
                 if(document.getElementById('adult_ff_request'+i+'_'+j).value != '' && document.getElementById('adult_ff_number'+i+'_'+j).value == '' ||
-                   document.getElementById('adult_ff_request'+i+'_'+j).value == 'Frequent Flyer Program' && document.getElementById('adult_ff_number'+i+'_'+j).value != '' ||
                    document.getElementById('adult_ff_request'+i+'_'+j).value != false && document.getElementById('adult_ff_number'+i+'_'+j).value == '' ||
                    document.getElementById('adult_ff_request'+i+'_'+j).value == '' && document.getElementById('adult_ff_number'+i+'_'+j).value != ''){
-                    error_log+= 'Please fill Frequent Flyer Number '+j+' for passenger adult '+i+'!</br>\n';
-                    document.getElementById('adult_ff_number'+i+'_'+j).style['border-color'] = 'red';
+                   if(document.getElementById('adult_ff_request'+i+'_'+j).value == 'Frequent Flyer Program' && document.getElementById('adult_ff_number'+i+'_'+j).value != '' ||
+                      document.getElementById('adult_ff_request'+i+'_'+j).value != 'Frequent Flyer Program' && document.getElementById('adult_ff_number'+i+'_'+j).value == ''){
+                        error_log+= 'Please fill Frequent Flyer Number '+j+' for passenger adult '+i+'!</br>\n';
+                        document.getElementById('adult_ff_number'+i+'_'+j).style['border-color'] = 'red';
+                    }
                 }else{
                     document.getElementById('adult_ff_number'+i+'_'+j).style['border-color'] = '#EFEFEF';
                     document.getElementById('adult_ff_request'+i+'_'+j).style['border-color'] = '#EFEFEF';
