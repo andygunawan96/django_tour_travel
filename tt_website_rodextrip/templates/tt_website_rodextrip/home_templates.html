@@ -334,7 +334,7 @@
                                 <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'ACTIVITY' %} </span>
                             </a>
                         </li>
-                            {% elif "visa" in provider and "ticketing_visa" in username.co_agent_frontend_security and rec.name == "visa" %}
+                            {% elif "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_visa" in username.co_agent_frontend_security and rec.name == "visa" %}
                         <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'visa');" id="nav_scroll_menu_visa">
                             <a class="nav-link {%if forloop.counter == 1 %}active{%endif%}" id="visa-tab" data-toggle="tab" href="#visa" role="tab" aria-controls="visa" aria-selected="false">
                                 <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-visa.png" alt="Visa Icon"/></i>
@@ -1009,7 +1009,7 @@
                             </form>
                         </div>
                         {% endif %}
-                        {% if "visa" in provider and "ticketing_visa" in username.co_agent_frontend_security %}
+                        {% if "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_visa" in username.co_agent_frontend_security %}
                         <div class="tab-pane fade {%if provider_types_sequence.0.name == 'visa' %}show active {% endif %}" id="visa" role="tabpanel" aria-labelledby="visa-tab">
                             <form action="{% url 'tt_website_rodextrip:visa_search'%}" class="form-wrap" id="visa_searchForm" method="post">
                                 {% csrf_token %}
@@ -1987,7 +1987,7 @@
                         <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-event" onclick="scroll_menu_horizontal('tab-link', 'event');" id="nav_scroll_menu_event"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-event.png" alt="Event Icon"/></i><label class="btn-txt-color">{% trans 'EVENT' %}</label></li>
                             {% elif "activity" in provider and "ticketing_activity" in username.co_agent_frontend_security and rec.name == 'activity' %}
                         <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-activity" onclick="scroll_menu_horizontal('tab-link', 'activty');" id="nav_scroll_menu_activity"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-activity.png" alt="Activity Icon"/></i><label class="btn-txt-color">{% trans 'ACTIVITY' %}</label></li>
-                            {% elif "visa" in provider and "ticketing_visa" in username.co_agent_frontend_security and rec.name == 'visa' %}
+                            {% elif "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_visa" in username.co_agent_frontend_security and rec.name == 'visa' %}
                         <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-visa" onclick="scroll_menu_horizontal('tab-link', 'visa');" id="nav_scroll_menu_visa"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-visa.png" alt="Visa Icon"/></i><label class="btn-txt-color">VISA</label></li>
                             {% elif "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_passport" in username.co_agent_frontend_security and rec.name == 'passport' %}
                         <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-passport" onclick="scroll_menu_horizontal('tab-link', 'passport');" id="nav_scroll_menu_passport"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/passport.png" alt="Passport Icon"/></i><label class="btn-txt-color">{% trans 'PASSPORT' %}</label></li>
@@ -2602,7 +2602,7 @@
                         </form>
                     </div>
                     {% endif %}
-                    {% if "visa" in provider and "ticketing_visa" in username.co_agent_frontend_security %}
+                    {% if "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_visa" in username.co_agent_frontend_security %}
                     <div id="tab-visa" class="tab-content {%if provider_types_sequence.0.name == 'visa' %}current{% endif %}">
                         <form action="{% url 'tt_website_rodextrip:visa_search'%}" id="visa_searchForm" method="post">
                             {% csrf_token %}
@@ -3146,7 +3146,7 @@
                                 <li class="tab-link {%if forloop.counter == 1%}current{% endif%}" data-tab="tab-event" onclick="scroll_menu_horizontal('tab-link', 'event');" id="nav_scroll_menu_event"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/home-event.png" alt="Event Icon"/></i><label class="btn-txt-color">{% trans 'EVENT' %}</label></li>
                                     {% elif "activity" in provider and "ticketing_activity" in username.co_agent_frontend_security and rec.name == 'activity' %}
                                 <li class="tab-link {%if forloop.counter == 1%}current{% endif%}" data-tab="tab-activity" onclick="scroll_menu_horizontal('tab-link', 'activity');" id="nav_scroll_menu_activity"><i class="image-rounded-icon" style="background:unset;"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-activity.png" alt="Activity Icon"/></i><label class="btn-txt-color">{% trans 'ACTIVITY' %}</label></li>
-                                    {% elif "visa" in provider and "ticketing_visa" in username.co_agent_frontend_security and rec.name == 'visa' %}
+                                    {% elif "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_visa" in username.co_agent_frontend_security and rec.name == 'visa' %}
                                 <li class="tab-link {%if forloop.counter == 1%}current{% endif%}" data-tab="tab-visa" onclick="scroll_menu_horizontal('tab-link', 'visa');" id="nav_scroll_menu_visa"><i class="image-rounded-icon" style="background:unset;"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-visa.png" alt="Visa Icon"/></i><label class="btn-txt-color">VISA</label></li>
                                     {% elif "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_passport" in username.co_agent_frontend_security and rec.name == 'passport' %}
                                 <li class="tab-link {%if forloop.counter == 1%}current{% endif%}" data-tab="tab-passport" onclick="scroll_menu_horizontal('tab-link', 'passport');" id="nav_scroll_menu_passport"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/passport.png" alt="Passport Icon"/></i><label class="btn-txt-color">{% trans 'PASSPORT' %}</label></li>
@@ -3763,7 +3763,7 @@
                             </form>
                         </div>
                         {% endif %}
-                        {% if "visa" in provider and "ticketing_visa" in username.co_agent_frontend_security %}
+                        {% if "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_visa" in username.co_agent_frontend_security %}
                         <div id="tab-visa" class="tab-content {%if provider_types_sequence.0.name == 'visa' %}current{% endif %}">
                             <h4 class="pb-30" style="color:{{text_color}};">{% trans 'Book Your Visa' %}</h4>
                             <form action="{% url 'tt_website_rodextrip:visa_search'%}" class="form-wrap" id="visa_searchForm" method="post">
@@ -4348,7 +4348,7 @@
                                         <li class="tab-link {%if forloop.counter == 1%}current{% endif%}" data-tab="tab-event" onclick="scroll_menu_horizontal('tab-link', 'event');" id="nav_scroll_menu_event"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-event.png" alt="Event Icon"/></i><label class="btn-txt-color">{% trans 'EVENT' %}</label></li>
                                             {% elif "activity" in provider and "ticketing_activity" in username.co_agent_frontend_security and rec.name == 'activity' %}
                                         <li class="tab-link {%if forloop.counter == 1%}current{% endif%}" data-tab="tab-activity" onclick="scroll_menu_horizontal('tab-link', 'activity');" id="nav_scroll_menu_activity"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-activity.png" alt="Activity Icon"/></i> <label class="btn-txt-color">{% trans 'ACTIVITY' %}</label></li>
-                                            {% elif "visa" in provider and "ticketing_visa" in username.co_agent_frontend_security and rec.name == 'visa' %}
+                                            {% elif "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_visa" in username.co_agent_frontend_security and rec.name == 'visa' %}
                                         <li class="tab-link {%if forloop.counter == 1%}current{% endif%}" data-tab="tab-visa" onclick="scroll_menu_horizontal('tab-link', 'visa');" id="nav_scroll_menu_visa"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-visa.png" alt="Visa Icon"/></i> <label class="btn-txt-color">VISA</label></li>
                                             {% elif "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_passport" in username.co_agent_frontend_security and rec.name == 'passport' %}
                                         <li class="tab-link {%if forloop.counter == 1%}current{% endif%}" data-tab="tab-passport" onclick="scroll_menu_horizontal('tab-link', 'passport');" id="nav_scroll_menu_passport"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/passport.png" alt="Passport Icon"/></i> <label class="btn-txt-color">{% trans 'PASSPORT' %}</label></li>
@@ -4983,7 +4983,7 @@
                                     </form>
                                 </div>
                                 {% endif %}
-                                {% if "visa" in provider and "ticketing_visa" in username.co_agent_frontend_security %}
+                                {% if "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_visa" in username.co_agent_frontend_security %}
                                 <div class="form-search-wrap tab-content {%if provider_types_sequence.0.name == 'visa' %}current{% endif %}" id="tab-visa" data-aos="fade-up" data-aos-delay="200">
                                     <form action="{% url 'tt_website_rodextrip:visa_search'%}" class="form-wrap" id="visa_searchForm" method="post">
                                         {% csrf_token %}
@@ -5565,7 +5565,7 @@
                                         <li class="tab-link {%if forloop.counter == 1%}current{%endif%}" data-tab="tab-event" onclick="scroll_menu_horizontal('tab-link', 'event');" id="nav_scroll_menu_event"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-event.png" alt="Event Icon"/></i><label class="btn-txt-color" style="font-weight:bold; padding:5px;">{% trans 'EVENT' %}</label></li>
                                             {% elif "activity" in provider and "ticketing_activity" in username.co_agent_frontend_security and rec.name == "activity" %}
                                         <li class="tab-link {%if forloop.counter == 1%}current{%endif%}" data-tab="tab-activity" onclick="scroll_menu_horizontal('tab-link', 'activity');" id="nav_scroll_menu_activity"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-activity.png" alt="Activity Icon"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">{% trans 'ACTIVITY' %}</label></li>
-                                            {% elif "visa" in provider and "ticketing_visa" in username.co_agent_frontend_security and rec.name == "visa" %}
+                                            {% elif "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_visa" in username.co_agent_frontend_security and rec.name == "visa" %}
                                         <li class="tab-link {%if forloop.counter == 1%}current{%endif%}" data-tab="tab-visa" onclick="scroll_menu_horizontal('tab-link', 'visa');" id="nav_scroll_menu_visa"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-visa.png" alt="Visa Icon"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">VISA</label></li>
                                             {% elif "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_passport" in username.co_agent_frontend_security and rec.name == "passport" %}
                                         <li class="tab-link {%if forloop.counter == 1%}current{%endif%}" data-tab="tab-passport" onclick="scroll_menu_horizontal('tab-link', 'passport');" id="nav_scroll_menu_passport"><img style="width:20px; height:20px" src="{{static_path}}images/icon/passport.png" alt="Passport Icon"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">{% trans 'PASSPORT' %}</label></li>
@@ -6198,7 +6198,7 @@
                                     </form>
                                 </div>
                                 {% endif %}
-                                {% if "visa" in provider and "ticketing_visa" in username.co_agent_frontend_security %}
+                                {% if "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_visa" in username.co_agent_frontend_security %}
                                 <div id="tab-visa" class="tab-content {%if provider_types_sequence.0.name == 'visa' %}current{% endif %}">
                                     <form action="{% url 'tt_website_rodextrip:visa_search'%}" class="form-wrap" id="visa_searchForm" method="post">
                                         {% csrf_token %}
