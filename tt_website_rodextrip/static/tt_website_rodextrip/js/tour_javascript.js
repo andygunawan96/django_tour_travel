@@ -27,7 +27,7 @@ var tour_type_list = [
         real_val: 'city',
         status: false
     },{
-        value:'Open Tour',
+        value:'Open Trip',
         real_val: 'open',
         status: false
     },{
@@ -1977,7 +1977,7 @@ function sort(tour_dat, exist_check){
                 content_pop_question+=`<b>City Tour: </b>Tour visiting various favorite destinations of a certain city.`;
             }
             else if(tour_dat[i].tour_type == 'open'){
-                content_pop_question+=`<b>Open Tour: </b>Unorganized Tour where tour participants can choose their own Departure Date within certain period.`;
+                content_pop_question+=`<b>Open Trip: </b>Unorganized Tour where tour participants can choose their own Departure Date within certain period.`;
             }
             else if(tour_dat[i].tour_type == 'private'){
                 content_pop_question+=`<b>Private Tour: </b>Private Tour organized according to the participant's request.`;

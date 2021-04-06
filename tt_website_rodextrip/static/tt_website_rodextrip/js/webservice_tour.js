@@ -666,7 +666,7 @@ function tour_search(){
                         content_pop_question+=`<b>City Tour: </b>Tour visiting various favorite destinations of a certain city.`;
                     }
                     else if(tour_data[i].tour_type == 'open'){
-                        content_pop_question+=`<b>Open Tour: </b>Unorganized Tour where tour participants can choose their own Departure Date within certain period.`;
+                        content_pop_question+=`<b>Open Trip: </b>Unorganized Tour where tour participants can choose their own Departure Date within certain period.`;
                     }
                     else if(tour_data[i].tour_type == 'private'){
                         content_pop_question+=`<b>Private Tour: </b>Private Tour organized according to the participant's request.`;
@@ -797,7 +797,7 @@ function tour_get_details(tour_code){
                     content_pop_question+=`<b>City Tour: </b>Tour visiting various favorite destinations of a certain city.`;
                 }
                 else if(tour_data.tour_type == 'open'){
-                    content_pop_question+=`<b>Open Tour: </b>Unorganized Tour where tour participants can choose their own Departure Date within certain period.`;
+                    content_pop_question+=`<b>Open Trip: </b>Unorganized Tour where tour participants can choose their own Departure Date within certain period.`;
                 }
                 else if(tour_data.tour_type == 'private'){
                     content_pop_question+=`<b>Private Tour: </b>Private Tour organized according to the participant's request.`;
