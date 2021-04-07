@@ -1407,7 +1407,7 @@ function datasearch2(airline){
                    if(airline.schedules[i].journeys[j].segments[k].fares[l].available_count >= parseInt(airline_request.adult)+parseInt(airline_request.child) || airline.schedules[i].journeys[j].segments[k].fares[l].available_count == -1){//atau buat sia
                        if(available_count > airline.schedules[i].journeys[j].segments[k].fares[l].available_count)
                             available_count = airline.schedules[i].journeys[j].segments[k].fares[l].available_count;
-                       airline.schedules[i].journeys[j].segments[k].fare_pick = parseInt(k);
+                       airline.schedules[i].journeys[j].segments[k].fare_pick = 0;
                        can_book = true;
                        for(m in airline.schedules[i].journeys[j].segments[k].fares[l].service_charge_summary){
                            if(airline.schedules[i].journeys[j].segments[k].fares[l].service_charge_summary[m].pax_type == 'ADT'){
@@ -6706,7 +6706,7 @@ function datareissue2(airline){
                    for(l in airline[i].schedules[j].journeys[k].segments){
                        for(m in airline[i].schedules[j].journeys[k].segments[l].fares){
 
-                           airline[i].schedules[j].journeys[k].segments[l].fare_pick = parseInt(l);
+                           airline[i].schedules[j].journeys[k].segments[l].fare_pick = 0;
                            can_book = true;
                            for(n in airline[i].schedules[j].journeys[k].segments[l].fares[m].service_charge_summary){
                                if(airline[i].schedules[j].journeys[k].segments[l].fares[m].service_charge_summary[n].pax_type == 'ADT'){
