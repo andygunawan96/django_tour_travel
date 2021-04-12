@@ -760,8 +760,8 @@ function sort(response, check_filter){
                             text+=`
                             <div style="padding-bottom:5px;">
                                 <i class="fas fa-map-marker-alt" style="color:`+color+`;"></i> <span class="location_hotel" style="font-size:13px;">`;
-                            if(response.hotel_ids[i].location.address)
-                                text+= response.hotel_ids[i].location.address + '<br/>';
+//                            if(response.hotel_ids[i].location.address)
+//                                text+= response.hotel_ids[i].location.address + '<br/>';
                             if(response.hotel_ids[i].location.district)
                                 text+= response.hotel_ids[i].location.district + ', ';
                             if(response.hotel_ids[i].location.city)
@@ -770,15 +770,15 @@ function sort(response, check_filter){
                                 text+= ', '+ response.hotel_ids[i].location.state;
                             // if(response.hotel_ids[i].location.kelurahan != false)
                             //   text+= ' '+ response.hotel_ids[i].location.kelurahan;
-                            if(response.hotel_ids[i].location.zipcode != false)
-                                text+= ' ('+ response.hotel_ids[i].location.zipcode + ')';
+//                            if(response.hotel_ids[i].location.zipcode != false)
+//                                text+= ' ('+ response.hotel_ids[i].location.zipcode + ')';
                             // if(response.hotel_ids[i].location.zipcode != false)
                             //    text+= '<br/>'+ response.hotel_ids[i].location.zipcode + ')
 //                            text+=`</span> - <a href="#" style="color:blue; text-decoration: unset;">Show Map</a>
                             text+=`</span>
                                 </div>
 
-                                <div style="padding-bottom:5px;"><span>`;
+                                <div style="padding-bottom:5px; height:90px;"><span>`;
 
                                 if(top_facility.length != 0 ){
                                     text+=`Facilities`;
@@ -814,7 +814,7 @@ function sort(response, check_filter){
                                 text+=`</div>
                                 </div>
 
-                                <div style="padding-top:10px;" id='pagination_image`+i+`'>`;
+                                <div style="padding-top:10px; height:60px;" id='pagination_image`+i+`'>`;
                                     if(i >= 0 && i<= 19){
                                         var idx_img = 1;
                                         if(response.hotel_ids[i].images.length != 0){
@@ -827,9 +827,9 @@ function sort(response, check_filter){
                                                 }
                                             }
                                         }
-                                        else{
-                                            text+=`<img src="/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg" alt="Not Found Hotel" width="60" height="60" style="margin-right:10px; border-radius:4px; border:1px solid #cdcdcd;">`;
-                                        }
+//                                        else{
+//                                            text+=`<img src="/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg" alt="Not Found Hotel" width="60" height="60" style="margin-right:10px; border-radius:4px; border:1px solid #cdcdcd;">`;
+//                                        }
                                     }
                                     text+=`
                                 </div>
@@ -975,11 +975,11 @@ function sort(response, check_filter){
                                     <div class="col-lg-12 search_hotel_button" style="text-align:right; position:absolute; bottom:0px; right:0px;">`;
                                         try{
                                             if(arr.length != 0)
-                                                text+=`<button type="button" class="primary-btn-custom" style="width:100%;" onclick="goto_detail('hotel',`+i+`)">Select</button>`;
+                                                text+=`<button type="button" class="primary-btn-custom" onclick="goto_detail('hotel',`+i+`)">Book Now!</button>`;
                                             else
-                                                text+=`<button type="button" class="primary-btn-custom" style="width:100%; background-color:#cdcdcd;" onclick="goto_detail('hotel',`+i+`)">No Available Price</button>`;
+                                                text+=`<button type="button" class="primary-btn-custom" style="background-color:#cdcdcd;" onclick="goto_detail('hotel',`+i+`)">No Available Price</button>`;
                                         }catch(err){
-                                            text+=`<button type="button" class="primary-btn-custom" style="width:100%; background-color:#cdcdcd;" onclick="goto_detail('hotel',`+i+`)">No Available Price</button>`;
+                                            text+=`<button type="button" class="primary-btn-custom" style="background-color:#cdcdcd;" onclick="goto_detail('hotel',`+i+`)">No Available Price</button>`;
                                         }
                                         text+=`
                                     </div>

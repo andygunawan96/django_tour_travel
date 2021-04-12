@@ -1302,25 +1302,22 @@
         </div>
     </div>
 </div>
-{% if website_mode == 'btc' or website_mode == 'btc_btb' %}
+
 <section class="popular-destination-area" style="z-index:0; position:relative;">
     <div class="container">
         <div class="row">
-            <div class="col-lg-12">
-                <div class="title text-center" id="dynamic_page">
+            <div class="col-lg-12 mb-3">
+                <div class="title text-center pb-4" id="dynamic_page">
 
                 </div>
-                <br/>
-                <div class="owl-carousel-login owl-theme form-box-login">
-                    <div id="owl-login2" style="padding: 0px 0px 15px 0px;">
+                <div class="row" id="owl-login2">
 
-                    </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
-{% endif %}
+
 {% if username.co_user_login != '' %}
 
 <!--    <section class="destinations-area section-gap">-->
@@ -2821,23 +2818,18 @@
 
     </div>
 
-    {% if website_mode == 'btc' or website_mode == 'btc_btb' %}
     <div class="container">
         <div class="row">
-            <div class="col-lg-12">
-                <div class="title text-center" id="dynamic_page">
+            <div class="col-lg-12 mb-3">
+                <div class="title text-center pb-2" id="dynamic_page">
 
                 </div>
-                <br/>
-                <div class="owl-carousel-login owl-theme form-box-login" style="z-index:0;">
-                    <div id="owl-login2" style="z-index:0; margin-top:-5px; margin-bottom:50px">
+                <div class="row" id="owl-login2">
 
-                    </div>
                 </div>
             </div>
         </div>
     </div>
-    {% endif %}
 
 </section>
 
@@ -4033,26 +4025,20 @@
         </div>
     </div>
 </div>
-{% if website_mode == 'btc' or website_mode == 'btc_btb' %}
 <section class="feature-area section-gap">
     <div class="container">
         <div class="row">
-            <div class="col-lg-12">
-                <div class="title text-center" id="dynamic_page">
+            <div class="col-lg-12 mb-3">
+                <div class="title text-center pb-2" id="dynamic_page">
 
                 </div>
-                <br/>
-                <div class="owl-carousel-login owl-theme form-box-login">
+                <div class="row" id="owl-login2">
 
-                    <div id="owl-login2">
-
-                    </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
-{% endif %}
 
 <!--    <section class="feature-area section-gap" id="service">-->
 <!--        <div class="container">-->
@@ -5250,21 +5236,20 @@
         </div>
     </div>
 </div>
-{% if website_mode == 'btc' or website_mode == 'btc_btb' %}
 <section>
-    <div class="container" style="padding-top:50px; padding-bottom:50px;">
-        <div class="title text-center" id="dynamic_page">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 mb-3">
+                <div class="title text-center pb-2" id="dynamic_page">
 
-        </div>
-        <br/>
-        <div class="owl-carousel-login owl-theme form-box-login">
-            <div id="owl-login2">
+                </div>
+                <div class="row" id="owl-login2">
 
+                </div>
             </div>
         </div>
     </div>
 </section>
-{% endif %}
 
 
 
@@ -6456,7 +6441,6 @@
         </div>
     </div>
 </div>
-{% if website_mode == 'btc' or website_mode == 'btc_btb' %}
 <section class="section-gap" style="background:white;">
     <div class="container">
         <div class="row">
@@ -6464,17 +6448,13 @@
                 <div class="title text-center" id="dynamic_page">
 
                 </div>
-                <br/>
-                <div class="owl-carousel-login owl-theme form-box-login">
-                    <div id="owl-login2">
+                <div class="row" id="owl-login2">
 
-                    </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
-{% endif %}
 
 <!--    <section class="testomial-area section-gap">-->
 <!--        <div class="container">-->
@@ -6922,9 +6902,7 @@
 
           get_banner('big_banner','home');
           get_banner('small_banner','home');
-          {% if website_mode == 'btc' or website_mode == 'btc_btb' %}
           get_dynamic_page('home');
-          {% endif %}
           get_banner('promotion','home');
           var now = moment().format('DD MMM YYYY');
             {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security %}

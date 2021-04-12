@@ -868,60 +868,142 @@ function get_dynamic_page(type){
                     }
                 }
                 else if(type == 'login' || type == 'home'){
-                    text = `
-                    <div class="owl-carousel-login owl-theme">`;
+                    //buat owlcaoursel
+                    text = `<div class="owl-carousel-login owl-theme">`;
                     for(i in msg.result.response){
+                        console.log(msg.result.response);
                         if(msg.result.response[i].state == true){
+                            text += `<div class="item">`;
                             text+=`
-                            <div class="item" style="cursor:pointer; float:none; height:400px; display: flex; justify-content: center; align-items: center;" onclick="window.location.href='/page/`+msg.result.response[i].url+`'">
-                                <center>
-                                    <h3 style="width:fit-content; margin-bottom:15px; border-bottom:4px solid `+color+`;">`+msg.result.response[i].title+`</h3>
-                                    <img class="img-fluid" alt="`+msg.result.response[i].title+`" style="max-height:360px; width:auto;" src="`+msg.result.response[i].image_carousel+`">
-                                </center>
+                            <div class="single-recent-blog-post item" style="margin-top:0px; cursor:unset; margin-bottom:10px; border:1px solid #cdcdcd;">
+                                <div class="single-destination relative" style="margin-bottom:unset;">
+                                    <div class="thumb relative" alt="`+msg.result.response[i].title+`" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:170px; background: white url('`+msg.result.response[i].image_carousel+`'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="window.location.href='/page/`+msg.result.response[i].url+`'">
+                                        <div class="overlay overlay-bg"></div>
+                                    </div>
+                                    <div class="card card-effect-promotion" style="border:unset;">
+                                        <div class="card-body" style="padding:5px 10px 10px 10px; border:unset;">
+                                            <div class="row details">
+                                                <div class="col-lg-12" style="height:140px;">
+                                                    <h6 style="cursor:pointer; font-size:16px; width:fit-content; padding-top:10px; border-bottom:4px solid `+color+`; padding-right:5px; font-weight:bold; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;" onclick="window.location.href='/page/`+msg.result.response[i].url+`'">`+msg.result.response[i].title+`</h6>
+                                                    <div style="padding-top:10px; height:65px;display: block; text-overflow: ellipsis; word-wrap: break-word; overflow: hidden; max-height: 4.6em; line-height: 1.8em;">
+                                                        `+msg.result.response[i].body+`
+                                                    </div>
+                                                    <div style="position:absolute; right:15px; bottom:0px;">
+                                                        <button class="primary-btn" style="line-height:24px; padding-left:15px; padding-right:15px;" onclick="window.location.href='/page/`+msg.result.response[i].url+`'">Read More <i class="fas fa-chevron-right"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>`;
+                            //buat owlcaoursel
+                            text+=`</div>`;
                         }
                     }
-                    text+=`
-                    </div>`;
+                    //buat owlcaoursel
+                    text+=`</div>`;
+
                     if(type == 'login'){
                         document.getElementById('owl-login').innerHTML = text;
-                        document.getElementById('owl-login2').innerHTML = text;
+//                        document.getElementById('owl-login2').innerHTML = text;
+
+                        if(text != ''){
+                            if(template == 1){
+                                document.getElementById('dynamic_page').innerHTML = `
+                                <div class="title text-center pb-4">
+                                    <h1>INFORMATION</h1>
+                                </div>`;
+                            }else if(template == 2){
+                                document.getElementById('dynamic_page').innerHTML = `
+                                <div class="section-heading text-center wow fadeInUp" data-wow-delay="100ms" style="margin-bottom:20px;">
+                                    <h1>INFORMATION</h1>
+                                </div>`;
+                            }else if(template == 3){
+                                document.getElementById('dynamic_page').innerHTML = `
+                                <div class="pb-20 header-text">
+                                    <h1>INFORMATION</h1>
+                                </div>`;
+                            }else if(template == 4){
+                                document.getElementById('dynamic_page').innerHTML = `
+                                <div class="text-center border-primary mb-5">
+                                    <h1 class="font-weight-light text-primary" style="color:black !important">INFORMATION</h1>
+                                </div>`;
+                            }else if(template == 5){
+                                document.getElementById('dynamic_page').innerHTML = `
+                                <div class="menu-content">
+                                    <div class="title text-center">
+                                        <h1>INFORMATION</h1>
+                                    </div>
+                                    <br/>
+                                </div>`;
+                            }
+                        }
                     }else if(type == 'home'){
-                        if(text != '')
-                            document.getElementById('dynamic_page').innerHTML = `<h2>OTHER INFORMATION</h2>`;
+                        if(text != ''){
+                            if(template == 1){
+                                document.getElementById('dynamic_page').innerHTML = `
+                                <div class="title text-center">
+                                    <h1>INFORMATION</h1>
+                                </div>`;
+                            }else if(template == 2){
+                                document.getElementById('dynamic_page').innerHTML = `
+                                <div class="section-heading text-center wow fadeInUp" data-wow-delay="100ms" style="margin-bottom:20px;">
+                                    <h1>INFORMATION</h1>
+                                </div>`;
+                            }else if(template == 3){
+                                document.getElementById('dynamic_page').innerHTML = `
+                                <div class="pb-20 header-text">
+                                    <h1>INFORMATION</h1>
+                                </div>`;
+                            }else if(template == 4){
+                                document.getElementById('dynamic_page').innerHTML = `
+                                <div class="text-center border-primary mb-5 mt-5">
+                                    <h1 class="font-weight-light text-primary" style="color:black !important">INFORMATION</h1>
+                                </div>`;
+                            }else if(template == 5){
+                                document.getElementById('dynamic_page').innerHTML = `
+                                <div class="menu-content">
+                                    <div class="title text-center">
+                                        <h1>INFORMATION</h1>
+                                    </div>
+                                    <br/>
+                                </div>`;
+                            }
+                        }
                         document.getElementById('owl-login2').innerHTML = text;
                     }
                     $('.owl-carousel-login').owlCarousel({
-                        loop:false,
-                        nav: false,
-                        navRewind:false,
-                        rewind: false,
+                        loop:true,
+                        nav: true,
+                        navRewind:true,
+                        rewind: true,
                         margin: 20,
-                        items:1,
+                        items:3,
                         responsiveClass:true,
-                        dots: true,
+                        dots: false,
                         merge: false,
                         lazyLoad:true,
                         smartSpeed:500,
-                        autoplay: false,
-                        autoplayTimeout:10000,
+                        autoplay: true,
+                        autoplayTimeout:5000,
                         autoplayHoverPause:false,
                         navText: ['<i class="fa fa-chevron-left owl-wh"/>', '<i class="fa fa-chevron-right owl-wh"/>'],
                         responsive:{
                             0:{
                                 items:1,
-                                nav:false
+                                nav:true
                             },
                             480:{
                                 items:1,
-                                nav:false
+                                nav:true
                             },
                             768:{
-                                items:1,
+                                items:2,
                                 nav:true
                             },
                             961:{
-                                items:1,
+                                items:3,
                                 nav:true,
                             }
                         }

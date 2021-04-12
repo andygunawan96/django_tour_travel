@@ -6,9 +6,9 @@ $(document).ready(function(){
         navRewind:false,
         rewind: false,
         margin: 20,
-        items:1,
+        items:3,
         responsiveClass:true,
-        dots: true,
+        dots: false,
         merge: false,
         lazyLoad:true,
         smartSpeed:500,
@@ -26,11 +26,11 @@ $(document).ready(function(){
                 nav:true
             },
             768:{
-                items:1,
+                items:2,
                 nav:false
             },
             961:{
-                items:1,
+                items:3,
                 nav:true,
             }
         }

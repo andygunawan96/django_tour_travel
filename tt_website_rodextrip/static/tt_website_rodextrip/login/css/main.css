@@ -143,14 +143,13 @@ iframe {
 [ login ]*/
 
 .login-header{
-    height:100vh;
+    height:100%;
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
 }
 .login-header-area{
-    min-height:12vh;
-    padding:1.5vh 0vh;
+    min-height:12%;
     z-index:10;
     display: flex;
     flex-wrap: wrap;
@@ -188,7 +187,7 @@ iframe {
 
 .container-login100 {
   width: 100%;  
-  min-height: 88vh;
+  min-height: 88%;
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
@@ -559,7 +558,7 @@ iframe {
     }
 
     .container-login100{
-        height:100vh;
+        height:100%;
     }
 
     .limiter{
