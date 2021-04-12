@@ -105,7 +105,7 @@
                                             <!--                                            </label>-->
                                         </div>
                                         <div class="col-lg-6" style="text-align:right;">
-                                            {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                                            {% if 'b2c_limitation' not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal" onclick="loadingPaxHide();"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="booker_clear" onclick="clear_passenger('Booker', 0);" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
                                             {% endif %}
@@ -781,7 +781,7 @@
                                                 <!--                                            </label>-->
                                             </div>
                                             <div class="col-lg-6" style="text-align:right;">
-                                                {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                                                {% if 'b2c_limitation' not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
                                                 <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal" onclick="loadingPaxHide();"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                 <button type="button" class="primary-btn" id="booker_clear" onclick="clear_passenger('Booker', 0);" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
                                                 {% endif %}
@@ -1442,7 +1442,7 @@
                                             <!--                                            </label>-->
                                         </div>
                                         <div class="col-lg-6" style="text-align:right;">
-                                            {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                                            {% if 'b2c_limitation' not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal" onclick="loadingPaxHide();"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="booker_clear" onclick="clear_passenger('Booker', 0);" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
                                             {% endif %}
@@ -2108,7 +2108,7 @@
                                         <!--                                            </label>-->
                                     </div>
                                     <div class="col-lg-6" style="text-align:right;">
-                                        {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                                        {% if 'b2c_limitation' not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
                                         <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal" onclick="loadingPaxHide();"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                         <button type="button" class="primary-btn" id="booker_clear" onclick="clear_passenger('Booker', 0);" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
                                         {% endif %}
@@ -2784,7 +2784,7 @@
                                             <!--                                            </label>-->
                                         </div>
                                         <div class="col-lg-6" style="text-align:right;">
-                                            {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                                            {% if 'b2c_limitation' not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal" onclick="loadingPaxHide();"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="booker_clear" onclick="clear_passenger('Booker', 0);" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
                                             {% endif %}
@@ -3481,6 +3481,9 @@
           //$('input[name="child_birth_date'+i+'"]').val("");
       }
     });
+    {% if 'co_customer_parent_type_name' in username and username.co_customer_parent_type_name == "COR" %}
+        get_automatic_booker('{{username.co_customer_seq_id}}');
+    {% endif %}
 </script>
 {% include 'tt_website_rodextrip/plugin_passenger.html' %}
 {% endblock %}

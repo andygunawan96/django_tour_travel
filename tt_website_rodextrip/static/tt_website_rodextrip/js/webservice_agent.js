@@ -929,6 +929,33 @@ function set_passenger_number(val,pax_type='adult'){
     passenger_pick = 'adult';
 }
 
+function get_automatic_booker(cust_code){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/agent",
+       headers:{
+            'action': 'get_automatic_booker',
+       },
+       data: {
+            'cust_code': cust_code,
+            'signature': signature
+       },
+       success: function(msg) {
+        console.log(msg);
+        if(msg.result.error_code == 0){
+            if(msg.result.response.length > 0){
+                passenger_data = msg.result.response;
+                pick_passenger('Booker',0,'');
+            }
+        }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error customer list');
+            $('.loading-booker-train').hide();
+       },timeout: 60000
+    });
+}
+
 function get_customer_list(passenger, number, product){
     check = 0;
     getToken();

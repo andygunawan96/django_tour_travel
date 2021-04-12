@@ -39,11 +39,11 @@
                         </ul>
                     </li>
                     {% if username.co_user_login != '' %}
-                    {% if username.co_agent_type_name == "Customer COR" or username.co_agent_type_name == "Customer POR" %}
+                    {% if 'co_customer_parent_type_name' in username and username.co_customer_parent_type_name == "COR" or 'co_customer_parent_type_name' in username and username.co_customer_parent_type_name == "POR" %}
                     <li class="credit_mobile pt5"><a id="credit_limit"></a></li>
-                    {% else %}
-                    <li class="balance_mobile pt5"><a id="balance"></a></li>
                     {% endif %}
+                    <li class="balance_mobile pt5"><a id="balance"></a></li>
+
                     <li class="menu-has-children pt5"><a href="#">{% trans 'Setting' %}</a>
                         <ul>
                             <li class="menu-has-children pt5"><a href="#">{% trans 'Language' %}</a>
@@ -261,11 +261,11 @@
                                 <ul id="highlight_header_div" class="dropdown">
                                 </ul>
                             </li>
-                            {% if username.co_agent_type_name == "Customer COR" or username.co_agent_type_name == "Customer POR" %}
+                            {% if 'co_customer_parent_type_name' in username and username.co_customer_parent_type_name == "COR" or 'co_customer_parent_type_name' in username and username.co_customer_parent_type_name == "POR" %}
                             <li class="credit_mobile"><a id="credit_limit"></a></li>
-                            {% else %}
-                            <li class="balance_mobile"><a id="balance"></a></li>
                             {% endif %}
+                            <li class="balance_mobile"><a id="balance"></a></li>
+
 
                             <li class="menu-has-children"><a href="#">{% trans 'Setting' %}</a>
                                 <ul class="dropdown">
@@ -443,11 +443,10 @@
                             <ul id="highlight_header_div">
                             </ul>
                         </li>
-                        {% if username.co_agent_type_name == "Customer COR" or username.co_agent_type_name == "Customer POR" %}
+                        {% if 'co_customer_parent_type_name' in username and username.co_customer_parent_type_name == "COR" or 'co_customer_parent_type_name' in username and username.co_customer_parent_type_name == "POR" %}
                         <li class="credit_mobile" style="color:white;"><a id="credit_limit"></a></li>
-                        {% else %}
-                        <li class="balance_mobile" style="color:white;"><a id="balance"></a></li>
                         {% endif %}
+                        <li class="balance_mobile" style="color:white;"><a id="balance"></a></li>
 
                         <li class="menu-has-children"><a href="#">{% trans 'Setting' %}</a>
                             <ul>
@@ -623,11 +622,10 @@
                             </ul>
                         </li>
 
-                        {% if username.co_agent_type_name == "Customer COR" or username.co_agent_type_name == "Customer POR" %}
+                        {% if 'co_customer_parent_type_name' in username and username.co_customer_parent_type_name == "COR" or 'co_customer_parent_type_name' in username and username.co_customer_parent_type_name == "POR" %}
                         <li class="credit_mobile" style="color:white;"><a id="credit_limit"></a></li>
-                        {% else %}
-                        <li class="balance_mobile" style="color:white;"><a id="balance"></a></li>
                         {% endif %}
+                        <li class="balance_mobile" style="color:white;"><a id="balance"></a></li>
 
                         <li class="has-children"><a href="#">{% trans 'Setting' %}</a>
                             <ul class="dropdown">
@@ -808,11 +806,10 @@
                     </li>
 
                     {% if username.co_user_login != '' %}
-                    {% if username.co_agent_type_name == "Customer COR" or username.co_agent_type_name == "Customer POR" %}
+                    {% if 'co_customer_parent_type_name' in username and username.co_customer_parent_type_name == "COR" or 'co_customer_parent_type_name' in username and username.co_customer_parent_type_name == "POR" %}
                     <li class="credit_mobile" style="margin-top:8px;"><a id="credit_limit"></a></li>
-                    {% else %}
-                    <li class="balance_mobile" style="margin-top:8px;"><a id="balance"></a></li>
                     {% endif %}
+                    <li class="balance_mobile" style="margin-top:8px;"><a id="balance"></a></li>
 
                     <li class="menu-has-children" style="margin-top:8px;"><a href="#">{% trans 'Setting' %} <i class="fas fa-chevron-down fat-dh" style="display:inline-block;"></i></a>
                         <ul style="top:65%;">
