@@ -7179,8 +7179,9 @@ function render_ticket_reissue(){
                                                        var total_price = 0;
 
                                                        for(l in airline[i].segments[j].fares[k].service_charges){
-                                                            total_price += airline[i].segments[j].fares[k].service_charges[l].amount;
-                                                        }
+                                                            if(airline[i].segments[j].fares[k].service_charges[l].pax_type == 'ADT')
+                                                                total_price += airline[i].segments[j].fares[k].service_charges[l].amount;
+                                                       }
                                                        id_price_segment = `journey`+i+`segment`+airline[i].segments[j].sequence+`fare`+airline[i].segments[j].fares[k].sequence;
                                                        text+=`<span id="`+id_price_segment+`" class="price_template" style="font-weight:bold;">`+airline[i].currency+` `+getrupiah(total_price)+`</span>`;
                                                        if(airline[i].segments[j].fares[k].fare_name)
