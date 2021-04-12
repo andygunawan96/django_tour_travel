@@ -4626,14 +4626,15 @@ function get_airline_review(){
     <div class="row" style="padding-top:20px;">
         <div class="col-lg-12">
             <div style="background:white; padding:10px; border:1px solid #cdcdcd;">
-                <h4>SSR</h4><hr/>
+                <h4>Seat & SSR
+                </h4><hr/>
                 <table style="width:100%;" id="list-of-passenger">
                     <tr>
                         <th style="width:7%;" class="list-of-passenger-left">No</th>
                         <th style="width:28%;">Name</th>
                         <th style="width:7%;">Type</th>
                         <th style="width:18%;">Birth Date</th>
-                        <th style="width:18%;">Special Service Request</th>
+                        <th style="width:18%;">Seat & SSR</th>
                     </tr>`;
                     count_pax = 0;
                     for(i in passengers_ssr){
@@ -4656,6 +4657,15 @@ function get_airline_review(){
                                 for(j in passengers_ssr[i].ssr_list){
                                     text+= `<label>`+passengers_ssr[i].ssr_list[j].name+`</label><br/>`;
                                 }
+                                try{
+                                    for(j in passengers_ssr[i].ff_numbers){
+                                        text+= `<label> `+passengers_ssr[i].ff_numbers[j].ff_code+`: `+passengers_ssr[i].ff_numbers[j].ff_number+`</label><br/>`;
+                                    }
+                                }catch(err){}
+                                for(j in passengers_ssr[i].seat_list){
+                                    if(passengers_ssr[i].seat_list[j].seat_pick != '')
+                                        text+= `<label> `+passengers_ssr[i].seat_list[j].segment_code + ` ` +passengers_ssr[i].seat_list[j].seat_pick + '</label><br>';
+                                }
                                 text+=`</td>
                                </tr>`;
                         count_pax++;
@@ -4676,59 +4686,59 @@ function get_airline_review(){
     </div>`;
 
     //Seat
-    text+=`
-    <div class="row" style="padding-top:20px;">
-        <div class="col-lg-12">
-            <div style="background:white; padding:10px; border:1px solid #cdcdcd;">
-                <h4>Seat</h4><hr/>
-                <table style="width:100%;" id="list-of-passenger">
-                    <tr>
-                        <th style="width:7%;" class="list-of-passenger-left">No</th>
-                        <th style="width:28%;">Name</th>
-                        <th style="width:7%;">Type</th>
-                        <th style="width:18%;">Birth Date</th>
-                        <th style="width:18%;">Seat</th>
-                    </tr>`;
-                    count_pax = 0;
-                    for(i in passengers_ssr){
-                        text+=`<tr>
-                                <td class="list-of-passenger-left">`+(parseInt(count_pax)+1)+`</td>
-                                <td>`+passengers_ssr[i].title+` `+passengers_ssr[i].first_name+` `+ passengers_ssr[i].last_name +`</td>
-                                <td>`;
-                                if(passengers_ssr[i].pax_type == 'ADT')
-                                    text += `Adult`;
-                                else
-                                    text += `Child`;
-                                text+=`</td>
-                                <td>`+passengers_ssr[i].birth_date+`</td>
-                                <td>`;
-                                try{
-                                    for(j in passengers_ssr[i].ff_numbers){
-                                        text+= `<label>`+passengers_ssr[i].ff_numbers[j].ff_code+`: `+passengers_ssr[i].ff_numbers[j].ff_number+`</label><br/>`;
-                                    }
-                                }catch(err){}
-                                for(j in passengers_ssr[i].seat_list){
-                                    if(passengers_ssr[i].seat_list[j].seat_pick != '')
-                                        text+= `<label>`+passengers_ssr[i].seat_list[j].segment_code + ` ` +passengers_ssr[i].seat_list[j].seat_pick + '</label><br>';
-                                }
-                                text+=`</td>
-                               </tr>`;
-                        count_pax++;
-                    }
-                    for(i in passengers.infant){
-                        text+=`<tr>
-                                <td class="list-of-passenger-left">`+(parseInt(count_pax)+1)+`</td>
-                                <td>`+passengers.infant[i].title+` `+passengers.infant[i].first_name+` `+ passengers.infant[i].last_name +`</td>
-                                <td>Infant</td>
-                                <td>`+passengers.infant[i].birth_date+`</td>
-                                <td></td>
-                               </tr>`;
-                        count_pax++;
-                    }
-                text+=`</table>
-            </div>
-        </div>
-    </div>`;
+//    text+=`
+//    <div class="row" style="padding-top:20px;">
+//        <div class="col-lg-12">
+//            <div style="background:white; padding:10px; border:1px solid #cdcdcd;">
+//                <h4>Seat</h4><hr/>
+//                <table style="width:100%;" id="list-of-passenger">
+//                    <tr>
+//                        <th style="width:7%;" class="list-of-passenger-left">No</th>
+//                        <th style="width:28%;">Name</th>
+//                        <th style="width:7%;">Type</th>
+//                        <th style="width:18%;">Birth Date</th>
+//                        <th style="width:18%;">Seat</th>
+//                    </tr>`;
+//                    count_pax = 0;
+//                    for(i in passengers_ssr){
+//                        text+=`<tr>
+//                                <td class="list-of-passenger-left">`+(parseInt(count_pax)+1)+`</td>
+//                                <td>`+passengers_ssr[i].title+` `+passengers_ssr[i].first_name+` `+ passengers_ssr[i].last_name +`</td>
+//                                <td>`;
+//                                if(passengers_ssr[i].pax_type == 'ADT')
+//                                    text += `Adult`;
+//                                else
+//                                    text += `Child`;
+//                                text+=`</td>
+//                                <td>`+passengers_ssr[i].birth_date+`</td>
+//                                <td>`;
+//                                try{
+//                                    for(j in passengers_ssr[i].ff_numbers){
+//                                        text+= `<label>`+passengers_ssr[i].ff_numbers[j].ff_code+`: `+passengers_ssr[i].ff_numbers[j].ff_number+`</label><br/>`;
+//                                    }
+//                                }catch(err){}
+//                                for(j in passengers_ssr[i].seat_list){
+//                                    if(passengers_ssr[i].seat_list[j].seat_pick != '')
+//                                        text+= `<label>`+passengers_ssr[i].seat_list[j].segment_code + ` ` +passengers_ssr[i].seat_list[j].seat_pick + '</label><br>';
+//                                }
+//                                text+=`</td>
+//                               </tr>`;
+//                        count_pax++;
+//                    }
+//                    for(i in passengers.infant){
+//                        text+=`<tr>
+//                                <td class="list-of-passenger-left">`+(parseInt(count_pax)+1)+`</td>
+//                                <td>`+passengers.infant[i].title+` `+passengers.infant[i].first_name+` `+ passengers.infant[i].last_name +`</td>
+//                                <td>Infant</td>
+//                                <td>`+passengers.infant[i].birth_date+`</td>
+//                                <td></td>
+//                               </tr>`;
+//                        count_pax++;
+//                    }
+//                text+=`</table>
+//            </div>
+//        </div>
+//    </div>`;
 
     document.getElementById('airline_review').innerHTML = text;
 
