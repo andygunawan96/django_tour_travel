@@ -174,6 +174,34 @@ function get_contact(type){
                     text+=`</div></div><br/>`;
                 }
                 document.getElementById('contact_page_div').innerHTML = text;
+            }else if(type == 'login'){
+                text = '';
+                if(msg.length != 0){
+                    text+=`<hr/><h4 style="color:black;">Contact Us</h4>`;
+                }
+                for(i in msg){
+                    if(msg[i][0] == "Phone"){
+                        text+=`<a href="`+msg[i][1]+`" target="_blank"><img style="height:30px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/phone.png" alt="Phone"/><span style="position:absolute;">`;
+                        text+=`</span></a>`;
+                    }else if(msg[i][0] == "Whatsapp"){
+                        text+=`<a href="https://wa.me/`+msg[i][1]+`" target="_blank"><img style="height:33px; width:auto; padding-right:5px;" src="/static/tt_website_rodextrip/img/whatsappic.png" alt="Whatsapp"/><span style="position:absolute;">`;
+                        text+=`</span></a>`;
+                    }else if(msg[i][0] == "Line"){
+                        text+=`<div style="padding-top:5px; display:inline-block;"><div class="line-it-button" data-lang="en" data-type="friend" data-lineid="`+msg[i][1]+`" style="display: none;"><img style="height:41px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"/><span style="position:absolute;">`;
+                        text+=`</span></div></div>`;
+                    }else if(msg[i][0] == "Telegram"){
+                        text+=`<img style="height:30px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"/><span style="position:absolute;">`;
+                        text+=`<a href="https://t.me/`+msg[i][1]+`" target="_blank">`+msg[i][1]+`</a></span>`;
+                    }else if(msg[i][0] == "Email"){
+                        text+=`<img style="height:30px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/><span style="position:absolute;">`;
+                        text+=`<a href="mailto:`+msg[i][1]+`" target="_blank">`+msg[i][1]+`</a></span>`;
+                    }
+                    else if(msg[i][0] == "Other"){
+                        text+=`<img style="height:30px; width:auto; padding-left:10px; padding-right:10px;" src="/static/tt_website_rodextrip/img/other.png" alt="Other"/><span style="position:absolute; padding-top:10px;">`;
+                        text+=``+msg[i][1]+`</span>`;
+                    }
+                }
+                document.getElementById('contact_login_div').innerHTML += text;
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {

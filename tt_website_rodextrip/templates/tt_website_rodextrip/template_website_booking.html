@@ -1757,7 +1757,11 @@ junction_font.load().then(function(loaded_face) {
 {% endif %}
 <body>
 {% include 'tt_website_rodextrip/b2c_signup.html' %}
+
+{% if username.co_user_login != '' %}
 {% include 'tt_website_rodextrip/plugin_whatsapp.html' %}
+{% endif %}
+
 {% block content %}
 
 {% endblock %}

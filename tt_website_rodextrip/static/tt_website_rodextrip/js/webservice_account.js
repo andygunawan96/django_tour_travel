@@ -54,17 +54,17 @@ function get_balance(val){
                     credit_limit = parseInt(msg.result.response.credit_limit);
 
                     if(vendor_balance_check == 0){
-                        try{
-                            document.getElementById("balance").style.color = "black";
-                        }catch(err){}
-
-                        try{
-                            document.getElementById("balance_mob").style.color = "black";
-                        }catch(err){}
-
-                        try{
-                            document.getElementById("balance_search").style.color = "black";
-                        }catch(err){}
+//                        try{
+//                            document.getElementById("balance").style.color = "black";
+//                        }catch(err){}
+//
+//                        try{
+//                            document.getElementById("balance_mob").style.color = "black";
+//                        }catch(err){}
+//
+//                        try{
+//                            document.getElementById("balance_search").style.color = "black";
+//                        }catch(err){}
 
                         text = `Balance: `+msg.result.response.currency_code + ' ' + getrupiah(balance)+``;
 
