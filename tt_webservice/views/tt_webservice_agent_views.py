@@ -65,6 +65,8 @@ def api_models(request):
             res = update_customer(request)
         elif req_data['action'] == 'update_customer_list':
             res = update_customer_list(request)
+        elif req_data['action'] == 'get_automatic_booker':
+            res = get_automatic_booker(request)
         elif req_data['action'] == 'add_passenger_cache':
             res = add_passenger_cache(request)
         elif req_data['action'] == 'del_passenger_cache':
@@ -855,6 +857,85 @@ def update_cache_image(request):
 
 def get_url_static_path():
     return static_path_url
+
+def get_automatic_booker(request):
+    try:
+        upper = 200
+        lower = 0
+        passenger = 'book'
+
+        data = {
+            'name': '',
+            'upper': upper,
+            'lower': lower,
+            'type': passenger,
+            'email': '',
+            'cust_code': request.POST['cust_code']
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_customer_list",
+            "signature": request.POST['signature']
+        }
+        res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
+        if res['result']['error_code'] == 0:
+            counter = 0
+            for pax in res['result']['response']:
+                try:
+                    if pax['gender'] == 'female' and pax['marital_status'] == 'married':
+                        title = 'MRS'
+                    elif pax['gender'] == 'female':
+                        title = 'MS'
+
+                    else:
+                        title = 'MR'
+                    pax.update({
+                        'sequence': counter,
+                        'title': title
+                    })
+                    if pax['birth_date'] != '':
+                        pax.update({
+                            'birth_date': '%s %s %s' % (
+                                pax['birth_date'].split('-')[2], month[pax['birth_date'].split('-')[1]],
+                                pax['birth_date'].split('-')[0]),
+                        })
+                    if pax['identities'].get('passport'):
+                        pax['identities']['passport'].update({
+                            'identity_expdate': '%s %s %s' % (
+                                pax['identities']['passport']['identity_expdate'].split('-')[2], month[pax['identities']['passport']['identity_expdate'].split('-')[1]],
+                                pax['identities']['passport']['identity_expdate'].split('-')[0]),
+                        })
+                    if pax['identities'].get('ktp'):
+                        if pax['identities']['ktp']['identity_expdate'] != '':
+                            pax['identities']['ktp'].update({
+                                'identity_expdate': '%s %s %s' % (
+                                    pax['identities']['ktp']['identity_expdate'].split('-')[2], month[pax['identities']['ktp']['identity_expdate'].split('-')[1]],
+                                    pax['identities']['ktp']['identity_expdate'].split('-')[0]),
+                            })
+                    if pax['identities'].get('sim'):
+                        if pax['identities']['sim']['identity_expdate'] != '':
+                            pax['identities']['sim'].update({
+                                'identity_expdate': '%s %s %s' % (
+                                    pax['identities']['sim']['identity_expdate'].split('-')[2], month[pax['identities']['sim']['identity_expdate'].split('-')[1]],
+                                    pax['identities']['sim']['identity_expdate'].split('-')[0]),
+                            })
+                    if pax['identities'].get('other'):
+                        if pax['identities']['other']['identity_expdate'] != '':
+                            pax['identities']['other'].update({
+                                'identity_expdate': '%s %s %s' % (
+                                    pax['identities']['other']['identity_expdate'].split('-')[2], month[pax['identities']['other']['identity_expdate'].split('-')[1]],
+                                    pax['identities']['other']['identity_expdate'].split('-')[0]),
+                            })
+                    counter += 1
+                except:
+                    pass
+            _logger.info("GET CUSTOMER LIST SUCCESS SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("get_customer_booker_agent ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
 
 def get_customer_list(request):
     try:

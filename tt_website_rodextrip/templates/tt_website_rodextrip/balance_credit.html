@@ -2,11 +2,12 @@
 
 <div class="col-lg-6" style="text-align:left; padding-top:10px;" {% if 'b2c_limitation' in username.co_agent_frontend_security %} hidden {% endif %}>
     <i class="fas fa-user" style="padding-right:5px; color:{{color}}; font-size:16px;"></i><span title="{{username.co_user_login}}" style="font-size:13px; font-weight:600; padding-right:10px; cursor:text; color:black; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{username.co_user_login}}</span>
-    {% if username.co_agent_type_name == "Customer COR" or username.co_agent_type_name == "Customer POR" %}
+
+    {% if 'co_customer_parent_type_name' in username and username.co_customer_parent_type_name == "COR" or 'co_customer_parent_type_name' in username and username.co_customer_parent_type_name == "POR" %}
     <span id="credit_limit" style="font-size:13px; font-weight:500;"></span>
-    {% else %}
-    <a id="balance" style="font-size:13px; font-weight:500; border-bottom:2px solid {{color}};"></a>
     {% endif %}
+    <a id="balance" style="font-size:13px; font-weight:500; border-bottom:2px solid {{color}};"></a>
+
 </div>
 
 <script>
