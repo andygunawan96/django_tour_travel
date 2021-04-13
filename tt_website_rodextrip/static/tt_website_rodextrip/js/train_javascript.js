@@ -1615,7 +1615,7 @@ function sort(value){
 
     var response = '';
     for(i in data_filter){
-        if(train_request.departure[train_request_pick] == data_filter[i].departure_date[0]){
+        if(train_request.departure[train_request_pick] == data_filter[i].departure_date[0] && journeys.length != train_request.departure.length){
             if(data_filter[i].available_count >= parseInt(passengers.adult) && data_filter[i].can_book == true)
                 response+=`<div class="sorting-box-b">`;
 //            else if(data_filter[i].available_count > parseInt(passengers.adult) && data_filter[i].can_book == false)
@@ -2185,7 +2185,11 @@ function change_date_shortcut(val){
         train_request.departure[train_request_pick] = moment(train_request.departure[train_request_pick]).subtract(val,'days').format('DD MMM YYYY');
         train_data = [];
         time_limit = 1200;
-        send_request_search();
+        journeys = [];
+        train_request_pick = 0;
+        train_signin('');
+        train_ticket_pick();
+        //send_request_search();
       }
     })
 

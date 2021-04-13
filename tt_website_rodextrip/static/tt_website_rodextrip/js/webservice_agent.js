@@ -2283,7 +2283,7 @@ function clear_passenger(type, sequence){
             document.getElementById('adult_passport_expired_date'+sequence).value = '';
             document.getElementById('adult_passport_expired_date'+sequence).readOnly = false;
             document.getElementById('adult_country_of_issued'+sequence).value = '';
-            document.getElementById('select2-adult_country_of_issued'+sequence+'_id-container').value = '';
+            document.getElementById('select2-adult_country_of_issued'+sequence+'_id-container').innerHTML = 'Country Of Issued';
 
         }catch(err){}
 
@@ -2315,7 +2315,7 @@ function clear_passenger(type, sequence){
             document.getElementById('infant_passport_expired_date'+sequence).value = '';
             document.getElementById('infant_passport_expired_date'+sequence).readOnly = false;
             document.getElementById('infant_country_of_issued'+sequence).value = '';
-            document.getElementById('select2-infant_country_of_issued'+sequence+'_id-container').value = '';
+            document.getElementById('select2-infant_country_of_issued'+sequence+'_id-container').innerHTML = 'Country Of Issued';
         }catch(err){}
     }else if(type == 'Senior'){
         for(i in passenger_data_pick){
@@ -2344,7 +2344,7 @@ function clear_passenger(type, sequence){
         document.getElementById('senior_passport_expired_date'+sequence).value = '';
         document.getElementById('senior_passport_expired_date'+sequence).readOnly = false;
         document.getElementById('senior_country_of_issued'+sequence).value = '';
-        document.getElementById('select2-senior_country_of_issued'+sequence+'_id-container').value = '';
+        document.getElementById('select2-senior_country_of_issued'+sequence+'_id-container').innerHTML = 'Country Of Issued';
     }else if(type == 'Child'){
         for(i in passenger_data_pick){
             if(passenger_data_pick[i].sequence == 'child'+sequence){
@@ -2371,7 +2371,7 @@ function clear_passenger(type, sequence){
         document.getElementById('child_passport_expired_date'+sequence).value = '';
         document.getElementById('child_passport_expired_date'+sequence).readOnly = false;
         document.getElementById('child_country_of_issued'+sequence).value = '';
-        document.getElementById('select2-child_country_of_issued'+sequence+'_id-container').value = '';
+        document.getElementById('select2-child_country_of_issued'+sequence+'_id-container').innerHTML = 'Country Of Issued';
     }
 }
 

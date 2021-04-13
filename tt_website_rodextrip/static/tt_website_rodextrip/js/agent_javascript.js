@@ -124,7 +124,10 @@ function table_reservation(data){
 }
 
 function auto_complete(type){
-    document.getElementById(type).value = document.getElementById('select2-'+type+'_id-container').innerHTML;
+    if(type.includes('country_of_issued') && document.getElementById('select2-'+type+'_id-container').innerHTML == 'Country Of Issued')
+        document.getElementById(type).value = '';
+    else
+        document.getElementById(type).value = document.getElementById('select2-'+type+'_id-container').innerHTML;
 //    $('#'+type).niceSelect('update');
 //    console.log(type);
 //    $('#'+type).val(document.getElementById('select2-'+type+'_id-container').innerHTML);
