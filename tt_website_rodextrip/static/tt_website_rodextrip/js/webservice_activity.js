@@ -358,12 +358,12 @@ function get_activity_config(type, val){
                             'id': msg.activity_locations[i].states[j].cities[k].uuid
                         });
                     }
-                    activity_country.push({
-                        'city': city,
-                        'name': msg.activity_locations[i].name,
-                        'id': msg.activity_locations[i].uuid
-                    });
                 }
+                activity_country.push({
+                    'city': city,
+                    'name': msg.activity_locations[i].name,
+                    'id': msg.activity_locations[i].uuid
+                });
             }
 
             for (i in msg.activity_categories)

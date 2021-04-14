@@ -4056,6 +4056,7 @@ function airline_get_booking(data, sync=false){
                        check_cancel = 0;
                        check_reschedule = 0;
                        check_ff = 0;
+                       check_split = 0;
                        col = 4;
                        if(last_date != '' && time_now < last_date){
                            for(i in msg.result.response.provider_bookings){
@@ -4074,6 +4075,9 @@ function airline_get_booking(data, sync=false){
                                 if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_cancel){
                                     check_cancel = 1;
                                 }
+                                if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_split){
+                                    check_split = 1;
+                                }
                            }
                        }
                        for(i in msg.result.response.provider_bookings){
@@ -4085,6 +4089,10 @@ function airline_get_booking(data, sync=false){
                        if(check_reschedule){
                             document.getElementById('reissued').hidden = false;
                             document.getElementById('reissued').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="reissued_btn();" value="Reissued">`;
+                       }
+                       if(check_split){
+                            document.getElementById('split_booking').hidden = false;
+                            document.getElementById('split_booking').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="split_booking_btn();" value="Split Booking">`;
                        }
                        document.getElementById('ssr_request_after_sales').innerHTML = '';
                        if(check_ssr){
@@ -4134,6 +4142,7 @@ function airline_get_booking(data, sync=false){
                        check_cancel = 0;
                        check_reschedule = 0;
                        check_ff = 0;
+                       check_split = 0;
                        col = 4;
                        if(last_date != '' && time_now < last_date){
                            for(i in msg.result.response.provider_bookings){
@@ -4149,6 +4158,9 @@ function airline_get_booking(data, sync=false){
                                 if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_booked_frequent_flyer){
                                     check_ff = 1;
                                 }
+                                if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_booked_split){
+                                    check_split = 1;
+                                }
                                 if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_booked_cancel){
                                     check_cancel = 1;
                                 }
@@ -4161,6 +4173,10 @@ function airline_get_booking(data, sync=false){
                        if(check_reschedule){
                             document.getElementById('reissued').hidden = false;
                             document.getElementById('reissued').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="reissued_btn();" value="Change Booking">`;
+                       }
+                       if(check_split){
+                            document.getElementById('split_booking').hidden = false;
+                            document.getElementById('split_booking').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="split_booking_btn();" value="Split Booking">`;
                        }
                        document.getElementById('ssr_request_after_sales').innerHTML = '';
                        if(check_ssr){
@@ -6226,9 +6242,11 @@ function sell_after_sales(){
     show_loading();
     please_wait_transaction();
     if(page == 'ssr'){
-        sell_ssrs_after_sales();
+//        sell_ssrs_after_sales();
+        sell_ssrs_after_sales_v2();
     }else if(page == 'seat'){
-        assign_seats_after_sales();
+//        assign_seats_after_sales();
+        assign_seats_after_sales_v2();
     }
 }
 
@@ -6251,7 +6269,8 @@ function sell_ssrs_after_sales(){
                     //document.getElementById('show_loading_booking_airline').hidden = false;
                     get_payment_acq('Issued',booker_id, order_number, 'billing',signature,'airline_after_sales');
                 }else{
-                    update_booking_after_sales();
+//                    update_booking_after_sales();
+                    update_booking_after_sales_v2();
                 }
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 auto_logout();
@@ -6295,9 +6314,11 @@ function after_sales_next_btn(){
         //show_loading();
         //please_wait_transaction();
         if(page == 'ssr'){
-            sell_ssrs_after_sales();
+//            sell_ssrs_after_sales();
+            sell_ssrs_after_sales_v2();
         }else if(page == 'seat'){
-            assign_seats_after_sales();
+//            assign_seats_after_sales();
+            assign_seats_after_sales_v2();
         }
       }
     })
@@ -6322,8 +6343,10 @@ function assign_seats_after_sales(){
                     //hide_modal_waiting_transaction();
                     //document.getElementById('show_loading_booking_airline').hidden = false;
                     get_payment_acq('Issued',booker_id, '', 'billing',signature,'airline_after_sales');
-                }else
-                    update_booking_after_sales();
+                }else{
+//                    update_booking_after_sales();
+                    update_booking_after_sales_v2();
+                }
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 auto_logout();
            }else{
@@ -6518,7 +6541,8 @@ function reissued_btn(){
     }
     text+=`
         <div class="col-lg-12" style="margin-top:10px;">
-            <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="airline_reissued();" value="Request Reissued">
+            <!--<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="airline_reissued();" value="Request Reissued">--!>
+            <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="airline_get_reschedule_availability_v2();" value="Request Reissued">
         </div>
     </div>`;
     document.getElementById('reissued').innerHTML = text;
@@ -7254,7 +7278,8 @@ function get_price_itinerary_reissue(val){
         get_chosen_ticket();
         render_ticket_reissue();
         //get_price_reissue_construct();
-        sell_journey_reissue_construct();
+//        sell_journey_reissue_construct();
+        sell_reschedule_v2();
         //tampil getprice
     }else{
         flight_select++;
@@ -7299,7 +7324,8 @@ function get_price_itinerary_reissue(val){
         }
         if(airline_pick_list.length == journey_booking_length){
             //get_price_reissue_construct();
-            sell_journey_reissue_construct()
+//            sell_journey_reissue_construct()
+            sell_reschedule_v2();
             //tampil getprice
         }
     }
@@ -8171,7 +8197,8 @@ function get_price_reissue_construct(){
                                get_payment_acq('Issued',airline_get_detail.result.response.booker.seq_id, airline_get_detail.result.response.order_number, 'billing',signature,'airline_reissue');
                                document.getElementById('payment_acq').hidden = false;
                            }else{
-                               document.getElementById('airline_detail').innerHTML += `<input type="button" class="primary-btn issued_booking_btn" style="width:100%;" onclick="update_booking_after_sales(true);" value="Continue">`;
+//                               document.getElementById('airline_detail').innerHTML += `<input type="button" class="primary-btn issued_booking_btn" style="width:100%;" onclick="update_booking_after_sales(true);" value="Continue">`;
+                               document.getElementById('airline_detail').innerHTML += `<input type="button" class="primary-btn issued_booking_btn" style="width:100%;" onclick="update_booking_after_sales_v2(true);" value="Continue">`;
                                document.getElementById('payment_acq').innerHTML = '';
                            }
                            if(check_seat){
@@ -8413,7 +8440,8 @@ function sell_journey_reissue_construct(){
                                get_payment_acq('Issued',airline_get_detail.result.response.booker.seq_id, airline_get_detail.result.response.order_number, 'billing',signature,'airline_reissue');
                                document.getElementById('payment_acq').hidden = false;
                            }else{
-                               document.getElementById('airline_detail').innerHTML += `<input type="button" class="primary-btn issued_booking_btn" style="width:100%;" onclick="update_booking_after_sales(true);" value="Continue">`;
+//                               document.getElementById('airline_detail').innerHTML += `<input type="button" class="primary-btn issued_booking_btn" style="width:100%;" onclick="update_booking_after_sales(true);" value="Continue">`;
+                               document.getElementById('airline_detail').innerHTML += `<input type="button" class="primary-btn issued_booking_btn" style="width:100%;" onclick="update_booking_after_sales_v2(true);" value="Continue">`;
                                document.getElementById('payment_acq').innerHTML = '';
                            }
                            if(check_seat){
@@ -9629,3 +9657,668 @@ function pnr_refund_onclick(val, type){
     }catch(err){}
 }
 
+//v2
+
+function airline_get_reschedule_availability_v2(){
+    flight = 1;
+    cabin_class = 1;
+    provider_list = [];
+    journey_list = [];
+    cabin_class_flight = 1;
+    pnr_list = []
+    for(i in airline_get_detail.result.response.provider_bookings){
+        for(j in airline_get_detail.result.response.provider_bookings[i].journeys){
+            try{
+                journey_list.push({
+                    "origin": airline_get_detail.result.response.provider_bookings[i].journeys[j].origin,
+                    "destination": airline_get_detail.result.response.provider_bookings[i].journeys[j].destination,
+                    "departure_date": document.getElementById('airline_departure'+ flight).value,
+                });
+            }catch(err){}
+            flight++;
+        }
+        if(journey_list.length > 0){
+            provider_list.push({
+                "pnr": airline_get_detail.result.response.provider_bookings[i].pnr,
+                "journeys":  journey_list,
+                "cabin_class": document.getElementById('cabin_class_flight'+ cabin_class).value
+            });
+            pnr_list.push(airline_get_detail.result.response.provider_bookings[i].pnr)
+        }
+        cabin_class++;
+        journey_list = [];
+    }
+    try{
+        document.getElementById('voucher_discount').hidden = true;
+    }catch(err){}
+    document.getElementById('reissued').hidden = true;
+    if(airline_get_detail.result.response.state == 'booked')
+        try{
+            document.getElementById('issued_btn_airline').hidden = true;
+        }catch(err){}
+
+    getToken();
+    show_loading();
+    please_wait_transaction();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/airline",
+       headers:{
+            'action': 'get_reschedule_availability_v2',
+       },
+//       url: "{% url 'tt_backend_rodextrip:social_media_tree_update' %}",
+       data: {
+            'data':JSON.stringify(provider_list),
+            'signature': signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           hide_modal_waiting_transaction();
+           document.getElementById('show_loading_booking_airline').hidden = false;
+           if(msg.result.error_code == 0){
+                document.getElementById('airline_booking').innerHTML = '';
+                document.getElementById('show_loading_booking_airline').style.display = 'block';
+                document.getElementById('show_loading_booking_airline').hidden = false;
+                document.getElementById('airline_detail').innerHTML = '';
+                document.getElementById('ssr_request_after_sales').hidden = true;
+
+                document.getElementById('reissued').innerHTML = `<input class="primary-btn-white" style="width:100%;" type="button" onclick="show_loading();please_wait_transaction();airline_get_booking('`+airline_get_detail.result.response.order_number+`')" value="Cancel Reissued">`;
+                flight_select = 0;
+                datareissue2(msg.result.response.reschedule_availability_provider);
+           }else{
+                Swal.fire({
+                   type: 'error',
+                   title: 'Oops!',
+                   html: '<span style="color: red;">Error reissued </span>' + msg.result.error_msg,
+                }).then((result) => {
+                  if (result.value) {
+                    hide_modal_waiting_transaction();
+                  }
+                })
+                airline_get_booking(airline_get_detail.result.response.order_number);
+                $('.loader-rodextrip').fadeOut();
+                hide_modal_waiting_transaction();
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline reissued');
+            $("#show_loading_booking_airline").hide();
+            $("#show_error_booking_airline").show();
+            hide_modal_waiting_transaction();
+            $('.loader-rodextrip').fadeOut();
+       },timeout: 300000
+    });
+}
+
+function sell_reschedule_v2(){
+    title = '';
+    if(airline_get_detail.result.response.state == 'booked')
+        title = 'Are you sure want to change your booking?';
+    else
+        title = 'Are you sure want to reissue?';
+    Swal.fire({
+      title: 'Are you sure want to reissue?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+        console.log(result);
+        if (result.value) {
+            if (result.value == true){
+            show_loading();
+            please_wait_transaction();
+//                document.getElementById('next_reissue').disabled = true;
+                $.ajax({
+                   type: "POST",
+                   url: "/webservice/airline",
+                   headers:{
+                        'action': 'sell_reschedule_v2',
+                   },
+            //       url: "{% url 'tt_backend_rodextrip:social_media_tree_update' %}",
+                   data: {
+                        "journeys_booking": JSON.stringify(journey),
+                        "passengers":JSON.stringify({
+                            "adult": airline_get_detail.result.response.ADT,
+                            "child": airline_get_detail.result.response.CHD,
+                            "infant": airline_get_detail.result.response.INF
+                        }),
+                        'signature': signature,
+                        "pnr": JSON.stringify(pnr_list)
+                   },
+                   success: function(msg) {
+                       console.log(msg);
+                       hide_modal_waiting_transaction();
+                       document.getElementById('show_loading_booking_airline').hidden = false;
+                       if(msg.result.error_code == 0){
+                           for(i in journey){
+                               try{
+                                   document.getElementById('changejourney_pick'+parseInt(1+parseInt(i))).disabled = true;
+                                   document.getElementById('changejourney_pick'+parseInt(1+parseInt(i))).onclick = '';
+                               }catch(err){}
+                           }
+                           airline_response = [];
+                           airline_route = [];
+                           check_seat = 0;
+                           for(i in msg.result.response.sell_reschedule_provider){
+                               for(j in msg.result.response.sell_reschedule_provider[i].journeys){
+                                   airline_response.push(msg.result.response.sell_reschedule_provider[i].journeys[j]);
+                                   for(k in msg.result.response.sell_reschedule_provider[i].journeys[j].segments){
+                                       if(msg.result.response.sell_reschedule_provider[i].journeys[j].segments[k].seat_cabins.length > 0){
+                                           check_seat = 1;
+                                           airline_route.push(msg.result.response.sell_reschedule_provider[i].journeys[j].segments[k].origin+' - '+msg.result.response.sell_reschedule_provider[i].journeys[j].segments[k].destination)
+                                       }
+                                   }
+                               }
+                           }
+                           for(i=0;i<airline_response.length;i++){
+                                for(j=i;j<airline_response.length;j++){
+                                    if(airline_response[i].departure_date > airline_response[j].departure_date){
+                                        temp = airline_response[i];
+                                        airline_response[i] = airline_response[j];
+                                        airline_response[j] = temp;
+                                    }
+                                }
+                           }
+                           //change date moment
+                           for(i=0;i<airline_response.length;i++){
+
+                           }
+                           get_price_itinerary_reissue_request(airline_response, msg.result.response.total_admin_fee, msg.result.response.sell_reschedule_provider);
+                           if(airline_get_detail.result.response.state == 'issued'){
+                               get_payment_acq('Issued',airline_get_detail.result.response.booker.seq_id, airline_get_detail.result.response.order_number, 'billing',signature,'airline_reissue');
+                               document.getElementById('payment_acq').hidden = false;
+                           }else{
+                               document.getElementById('airline_detail').innerHTML += `<input type="button" class="primary-btn issued_booking_btn" style="width:100%;" onclick="update_booking_after_sales_v2(true);" value="Continue">`;
+                               document.getElementById('payment_acq').innerHTML = '';
+                           }
+                           if(check_seat){
+                               document.getElementById('airline_booking').innerHTML += `
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <h5 style="padding-top:10px; padding-bottom:10px;">Airline Route</h5>
+                                            <div class="row" id="airline_seat_map" style="padding-bottom:15px;">`;
+                               first_value = true;
+                               passengers = JSON.parse(JSON.stringify(airline_get_detail.result.response.passengers));
+                               seat_map = {
+                                    "seat_availability_provider" : []
+                               }
+                               for(i in msg.result.response.sell_reschedule_provider){
+                                   for(j in msg.result.response.sell_reschedule_provider[i].journeys){
+                                       airline_response.push(msg.result.response.sell_reschedule_provider[i].journeys[j]);
+                                       for(k in msg.result.response.sell_reschedule_provider[i].journeys[j].segments){
+                                           if(msg.result.response.sell_reschedule_provider[i].journeys[j].segments[k].seat_cabins.length > 0){
+                                                check_provider = false;
+                                                for(l in seat_map.seat_availability_provider){
+                                                    if(seat_map.seat_availability_provider[l].provider == msg.result.response.sell_reschedule_provider[i].journeys[j].segments[k].provider){
+                                                        check_provider = true;
+                                                        break;
+                                                    }
+                                                }
+                                                if(!check_provider){
+                                                    seat_map.seat_availability_provider.push({
+                                                        "provider": msg.result.response.sell_reschedule_provider[i].journeys[j].segments[k].provider,
+                                                        "status": "available",
+                                                        "pnr": msg.result.response.sell_reschedule_provider[i].pnr,
+                                                        "segments": []
+                                                    })
+                                                }
+                                                for(l in seat_map.seat_availability_provider){
+                                                    if(seat_map.seat_availability_provider[l].provider == msg.result.response.sell_reschedule_provider[i].journeys[j].segments[k].provider &&
+                                                       seat_map.seat_availability_provider[l].pnr == msg.result.response.sell_reschedule_provider[i].pnr){
+                                                       seat_map.seat_availability_provider[l].segments.push(msg.result.response.sell_reschedule_provider[i].journeys[j].segments[k])
+                                                       break;
+                                                    }
+                                                }
+                                                for(l in passengers){
+                                                    if(!passengers[l].hasOwnProperty('seat_list'))
+                                                        passengers[l]['seat_list'] = [];
+                                                    passengers[l]['seat_list'].push({
+                                                        "segment_code": msg.result.response.sell_reschedule_provider[i].journeys[j].segments[k].segment_code2,
+                                                        "departure_date": msg.result.response.sell_reschedule_provider[i].journeys[j].segments[k].departure_date,
+                                                        "seat_pick": "",
+                                                        "seat_code": "",
+                                                        "seat_name": "",
+                                                        "description": "",
+                                                        "currency": "",
+                                                        "price": "",
+                                                        "pnr": msg.result.response.sell_reschedule_provider[i].pnr
+                                                    });
+                                                }
+
+                                                if(first_value == true){
+                                                    set_seat_show_segments = msg.result.response.sell_reschedule_provider[i].journeys[j].segments[k].segment_code2+'_'+msg.result.response.sell_reschedule_provider[i].journeys[j].segments[k].departure_date;
+                                                    document.getElementById('airline_booking').innerHTML+= `
+                                                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
+                                                            <button class="button-seat-pass" style="width:100%; margin-right:10px; margin-bottom:10px; padding:10px;color:`+text_color+`; background-color:`+color+`;" type="button" id="`+msg.result.response.sell_reschedule_provider[i].journeys[j].segments[k].segment_code2+`_`+msg.result.response.sell_reschedule_provider[i].journeys[j].segments[k].departure_date+`" onclick="show_seat_map('`+msg.result.response.sell_reschedule_provider[i].journeys[j].segments[k].segment_code2+`_`+msg.result.response.sell_reschedule_provider[i].journeys[j].segments[k].departure_date+`', false)">
+                                                                <span>`+msg.result.response.sell_reschedule_provider[i].journeys[j].segments[k].segment_code2+`</span>
+                                                            </button>
+                                                        </div>`;
+                                                    first_value = false;
+                                                }else{
+                                                    document.getElementById('airline_booking').innerHTML+= `
+                                                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
+                                                            <button class="button-seat-pass" style="width:100%; margin-right:10px; margin-bottom:10px; padding:10px;color:black; background-color:white;" type="button" id="`+msg.result.response.sell_reschedule_provider[i].journeys[j].segments[k].segment_code2+`_`+msg.result.response.sell_reschedule_provider[i].journeys[j].segments[k].departure_date+`" onclick="show_seat_map('`+msg.result.response.sell_reschedule_provider[i].journeys[j].segments[k].segment_code2+`_`+msg.result.response.sell_reschedule_provider[i].journeys[j].segments[k].departure_date+`', false)">
+                                                                <span>`+msg.result.response.sell_reschedule_provider[i].journeys[j].segments[k].segment_code2+`</span>
+                                                            </button>
+                                                        </div>`;
+                                                }
+                                           }
+                                        }
+                                    }
+                                }
+
+                               document.getElementById('airline_booking').innerHTML+= `
+
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <h5 style="padding-top:10px; padding-bottom:10px;">Passenger</h5>
+                                            <div class="row">`;
+                                            for(i in airline_get_detail.result.response.passengers){
+                                                document.getElementById('airline_booking').innerHTML+= `
+                                                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
+                                                        <input title="`+airline_get_detail.result.response.passengers[i].title+` `+airline_get_detail.result.response.passengers[i].name+`" class="button-seat-pass" type="button" id="passenger`+parseInt(parseInt(i)+1)+`" style="width:100%; background-color:white;padding:10px; margin-right:10px; text-align:center;margin-bottom:10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color:black;" onclick="set_passenger_seat_map_airline(`+i+`);" value="`+airline_get_detail.result.response.passengers[i].title+` `+airline_get_detail.result.response.passengers[i].name+`">
+                                                    </div>`;
+                                            }
+                                            document.getElementById('airline_booking').innerHTML+= `
+                                            </div>
+                                            <div id="airline_passenger_detail_seat">
+
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12" style="padding-bottom:10px;">
+                                            <hr/>
+                                            <div class="row">
+                                                <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
+                                                    <div style="text-align:center">
+                                                        <span class="button-seat-map2" style="background-color:`+color+`"></span>
+                                                        <br/>
+                                                        <h6>Selected</h6>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
+                                                    <div style="text-align:center">
+                                                        <span class="button-seat-map2" style="background-color:#656565"></span>
+                                                        <br/>
+                                                        <h6>Not Available</h6>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
+                                                    <div style="text-align:center">
+                                                        <span class="button-seat-map2" style="background-color:#CACACA"></span>
+                                                        <br/>
+                                                        <h6>Available</h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slideshow-container" id="airline_slideshow" style="padding-top:15px;">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                               `;
+                               slideIndex = [1,1];
+                               slideId = ["mySlides1", "mySlides2"];
+                               type = 'reschedule';
+                               set_first_passenger_seat_map_airline(0);
+                               show_seat_map(set_seat_show_segments, true)
+                           }
+                       }else{
+                           //harus nya login ulang
+                           Swal.fire({
+                              type: 'error',
+                              title: 'Oops...',
+                              text: msg.result.error_msg,
+                           })
+                           $('.loader-rodextrip').fadeOut();
+                       }
+                   },
+                   error: function(XMLHttpRequest, textStatus, errorThrown) {
+                        error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline sell journey reissue');
+                        $('.loader-rodextrip').fadeOut();
+                   },timeout: 300000
+                });
+            }else{
+
+            }
+
+        }else{
+
+        }
+    })
+}
+
+function update_booking_after_sales_v2(input_pax_seat = false){
+    data = {};
+    data['signature'] = signature;
+    error_log = '';
+    if($("[name='radio_payment_type']").val() != undefined){
+        data['seq_id'] = payment_acq2[payment_method][selected].seq_id;
+        data['member'] = payment_acq2[payment_method][selected].method;
+    }
+    pax_seat = {};
+    try{
+        if(passengers != undefined && input_pax_seat == true)
+            data['pax_seat'] = JSON.stringify(passengers);
+    }catch(err){}
+    if(error_log == ''){
+        getToken();
+        show_loading();
+        please_wait_transaction();
+        $.ajax({
+           type: "POST",
+           url: "/webservice/airline",
+           headers:{
+                'action': 'update_booking_v2',
+           },
+           data: data,
+           success: function(msg) {
+               console.log(msg);
+               hide_modal_waiting_transaction();
+               document.getElementById('show_loading_booking_airline').hidden = false;
+               try{
+                    document.getElementById('airline_reissue_div').innerHTML = '';
+               }catch(err){}
+               if(msg.result.error_code == 0){
+                    window.location = '/airline/booking/' + btoa(msg.result.response.order_number);
+               }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                    auto_logout();
+               }else{
+                    Swal.fire({
+                      title: 'Error '+msg.result.error_msg+', please try again!',
+                      type: 'warning',
+                      showCancelButton: true,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: '#d33',
+                      confirmButtonText: 'Yes'
+                    }).then((result) => {
+                      window.location = '/airline/booking/'+btoa(order_number);
+                    })
+               }
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline update booking');
+                window.location = '/airline/booking/'+btoa(order_number);
+                $('.loader-rodextrip').fadeOut();
+                $('.btn-next').removeClass('running');
+                $('.btn-next').prop('disabled', false);
+           },timeout: 300000
+        });
+    }else{
+        Swal.fire({
+          type: 'error',
+          title: 'Oops!',
+          html: '<span style="color: red;">'+error_log+' </span>',
+        })
+        window.location = '/airline/booking/'+btoa(order_number);
+    }
+}
+
+function split_booking_request(){
+    passengers = [];
+    $('.split_booking:checkbox:checked').each(function( index ) {
+        passengers.push($('.split_booking:checkbox:checked')[index].id);
+    });
+    if(passengers.length == 0){
+        Swal.fire({
+          type: 'error',
+          title: 'Oops!',
+          html: 'Please pick passenger!',
+        })
+    }else if(passengers.length == airline_get_detail.result.response.passengers.length){
+        Swal.fire({
+          type: 'error',
+          title: 'Oops!',
+          html: "Can't split all passenger!",
+        })
+    }else{
+        Swal.fire({
+          title: 'Are you sure want to Split Booking?',
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes'
+        }).then((result) => {
+          if (result.value) {
+            show_loading();
+            please_wait_transaction();
+            $.ajax({
+               type: "POST",
+               url: "/webservice/airline",
+               headers:{
+                    'action': 'split_booking_v2',
+               },
+               data: {
+                    "passengers":JSON.stringify(passengers),
+                    'signature': signature,
+               },
+               success: function(msg) {
+                   console.log(msg);
+                   hide_modal_waiting_transaction();
+                   airline_get_booking(airline_get_detail.result.response.order_number);
+               },
+               error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline update booking');
+                    window.location = '/airline/booking/'+btoa(order_number);
+                    $('.loader-rodextrip').fadeOut();
+                    $('.btn-next').removeClass('running');
+                    $('.btn-next').prop('disabled', false);
+               },timeout: 300000
+            });
+          }
+        })
+    }
+}
+
+function split_booking_btn(){
+    text = '';
+    flight = 1;
+    cabin_class = 1;
+    text+=`
+            <h5>Split Booking</h5>`;
+    for(i in airline_get_detail.result.response.passengers){
+        text += `<div class="row">
+                       <div class="col-lg-10 col-xs-10">
+                        `+airline_get_detail.result.response.passengers[i].title+` `+airline_get_detail.result.response.passengers[i].name+`
+                       </div>
+                       <div class="col-lg-2 col-xs-2" style="text-align:right;">
+                        <input type="checkbox" class="split_booking" id="pax_`+i+`" name="pax_`+i+`"/>
+                       </div>
+                   </div>`;
+    }
+    text+=`
+        <div class="col-lg-12" style="margin-top:10px;">
+            <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="split_booking_request();" value="Split Booking">
+        </div>
+    </div>`;
+    document.getElementById('split_booking').innerHTML = text;
+}
+
+function get_post_ssr_availability_v2(){
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/airline",
+       headers:{
+            'action': 'get_post_ssr_availability_v2',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+            console.log(msg);
+            if(msg.result.error_code == 0){
+                var check_ssr = 0;
+                for(i in msg.result.response.ssr_availability_provider){
+                    if(msg.result.response.ssr_availability_provider[i].hasOwnProperty('ssr_availability') == true && Object.keys(msg.result.response.ssr_availability_provider[i].ssr_availability).length > 0)
+                        check_ssr = 1;
+                }
+                if(check_ssr == 1)
+                    window.location.href='/airline/ssr';
+                else{
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: #ff9900;">Error airline no request new ssr available</span>',
+                    });
+                    $('.loader-rodextrip').fadeOut();
+                    $('#show_loading_booking_airline').hide();
+                    hide_modal_waiting_transaction();
+                }
+            }else{
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error airline ssr availability </span>' + msg.result.error_msg,
+                })
+                $('.loader-rodextrip').fadeOut();
+                $('#show_loading_booking_airline').hide();
+                hide_modal_waiting_transaction();
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline ssr availability');
+            $('.loader-rodextrip').fadeOut();
+            $('#show_loading_booking_airline').hide();
+            hide_modal_waiting_transaction();
+       },timeout: 300000
+    });
+}
+
+function get_post_seat_availability_v2(){
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/airline",
+       headers:{
+            'action': 'get_post_seat_availability_v2',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+            console.log(msg);
+            if(msg.result.error_code == 0){
+                if(msg.result.response.seat_availability_provider.length > 0){
+                    window.location.href='/airline/seat_map';
+                }else{
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: #ff9900;">Error airline no request new seat available</span>',
+                    })
+                    $('.loader-rodextrip').fadeOut();
+                    $('#show_loading_booking_airline').hide();
+                    hide_modal_waiting_transaction();
+                }
+            }else{
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error airline seat availability </span>' + msg.result.error_msg,
+                })
+                $('.loader-rodextrip').fadeOut();
+                $('#show_loading_booking_airline').hide();
+                hide_modal_waiting_transaction();
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline seat availability');
+            $('.loader-rodextrip').fadeOut();
+            $('#show_loading_booking_airline').hide();
+            hide_modal_waiting_transaction();
+       },timeout: 300000
+    });
+}
+
+function assign_seats_after_sales_v2(){
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/airline",
+       headers:{
+            'action': 'assign_post_seats_v2',
+       },
+       data: {
+            'signature': airline_signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           if(msg.result.error_code == 0){
+                if(state == 'issued' || state == 'reissue' || state == 'rescheduled'){
+                    //hide_modal_waiting_transaction();
+                    //document.getElementById('show_loading_booking_airline').hidden = false;
+                    get_payment_acq('Issued',booker_id, '', 'billing',signature,'airline_after_sales');
+                }else
+                    update_booking_after_sales_v2();
+           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                auto_logout();
+           }else{
+                Swal.fire({
+                  title: 'Error please try again!',
+                  type: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'Yes'
+                }).then((result) => {
+                  window.location = '/airline/booking/'+btoa(order_number);
+                })
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline seat after sales');
+            $('.loader-rodextrip').fadeOut();
+            $('.btn-next').removeClass('running');
+            $('.btn-next').prop('disabled', false);
+       },timeout: 300000
+    });
+}
+
+function sell_ssrs_after_sales_v2(){
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/airline",
+       headers:{
+            'action': 'sell_post_ssrs_v2',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           if(msg.result.error_code == 0){
+                if(state == 'issued' || state == 'reissue' || state == 'rescheduled'){
+                    //hide_modal_waiting_transaction();
+                    //document.getElementById('show_loading_booking_airline').hidden = false;
+                    get_payment_acq('Issued',booker_id, order_number, 'billing',signature,'airline_after_sales');
+                }else{
+                    update_booking_after_sales_v2();
+                }
+           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                auto_logout();
+           }else{
+                Swal.fire({
+                  title: 'Error please try again!',
+                  type: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'Yes'
+                }).then((result) => {
+                  window.location = '/airline/booking/'+btoa(order_number);
+                })
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline ssr after sales');
+            $('.loader-rodextrip').fadeOut();
+            $('.btn-next').removeClass('running');
+            $('.btn-next').prop('disabled', false);
+       },timeout: 300000
+    });
+}
