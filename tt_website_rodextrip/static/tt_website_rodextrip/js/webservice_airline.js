@@ -4043,7 +4043,7 @@ function airline_get_booking(data, sync=false){
                 last_date = '';
                 for(i in msg.result.response.provider_bookings){
                     for(j in msg.result.response.provider_bookings[i].journeys){
-                        last_date = msg.result.response.provider_bookings[i].journeys[j].departure_date.substr(0,10);
+                        last_date = moment(msg.result.response.provider_bookings[i].journeys[j].departure_date.substr(0,11)).format('YYYY-MM-DD');
                     }
                 }
                 col = 4;

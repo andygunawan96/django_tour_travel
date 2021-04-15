@@ -854,6 +854,7 @@ function get_dynamic_page(type){
        data: {},
        success: function(msg) {
             console.log(msg);
+            check_dynamic = false;
             if(type == 'admin'){
             text = '';
                 counter = 0;
@@ -873,6 +874,7 @@ function get_dynamic_page(type){
                     for(i in msg.result.response){
                         console.log(msg.result.response);
                         if(msg.result.response[i].state == true){
+                            check_dynamic = true;
                             text += `<div class="item">`;
                             text+=`
                             <div class="single-recent-blog-post item" style="margin-top:0px; cursor:unset; margin-bottom:10px; border:1px solid #cdcdcd;">
@@ -908,7 +910,7 @@ function get_dynamic_page(type){
                         document.getElementById('owl-login').innerHTML = text;
 //                        document.getElementById('owl-login2').innerHTML = text;
 
-                        if(text != ''){
+                        if(check_dynamic){
                             if(template == 1){
                                 document.getElementById('dynamic_page').innerHTML = `
                                 <div class="title text-center pb-4">
@@ -940,7 +942,7 @@ function get_dynamic_page(type){
                             }
                         }
                     }else if(type == 'home'){
-                        if(text != ''){
+                        if(check_dynamic){
                             if(template == 1){
                                 document.getElementById('dynamic_page').innerHTML = `
                                 <div class="title text-center">
