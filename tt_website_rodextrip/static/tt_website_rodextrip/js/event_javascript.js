@@ -809,6 +809,24 @@ function sort(response, check_filter){
         $('#event_error').show();
     }
 
+    if(count_available_event == 0){
+        document.getElementById("event_error").innerHTML = `
+        <div style="padding:5px; margin:10px;">
+            <div style="text-align:center">
+                <img src="/static/tt_website_rodextrip/images/nofound/no-event.png" style="width:60px; height:60px;" alt="Hotel Not Found" title="" />
+                <br/><br/>
+                <span style="font-size:14px; font-weight:600;">Oops! Event not found. Please try another event</span>
+            </div>
+        </div>`;
+        $('#event_error').show();
+        $('#pagination-container').hide();
+        $('#pagination-container2').hide();
+    }else{
+        document.getElementById("event_error").innerHTML = '';
+        $('#event_error').hide();
+        $('#pagination-container').show();
+        $('#pagination-container2').show();
+    }
     document.getElementById("hotel_result").innerHTML = '';
     text = '';
     text+=`
@@ -1016,9 +1034,10 @@ function render_object_from_value(val){
             </div>`;
         }
         grand_total_option += upsell_price;
-        $text += 'Grand Total: '+val[i].currency+' '+ getrupiah(grand_total_option);
+        //$text += 'Grand Total: '+val[i].currency+' '+ getrupiah(grand_total_option);
     }catch(err){}
 
+    $text += 'Grand Total: '+val[i].currency+' '+ getrupiah(grand_total_option);
     text+=`
     <div class="row">
         <div class="col-lg-12">

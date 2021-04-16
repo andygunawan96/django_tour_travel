@@ -845,6 +845,7 @@ function testing_espay_close(){
 
 function get_dynamic_page(type){
     console.log(type);
+    check_available_dynamic = 0;
     $.ajax({
        type: "POST",
        url: "/webservice/content",
@@ -940,6 +941,7 @@ function get_dynamic_page(type){
                                     <br/>
                                 </div>`;
                             }
+                            check_available_dynamic = 1;
                         }
                     }else if(type == 'home'){
                         if(check_dynamic){
@@ -975,6 +977,7 @@ function get_dynamic_page(type){
                         }
                         document.getElementById('owl-login2').innerHTML = text;
                     }
+
                     $('.owl-carousel-login').owlCarousel({
                         loop:true,
                         nav: true,

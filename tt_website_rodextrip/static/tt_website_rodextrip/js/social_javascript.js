@@ -157,7 +157,11 @@ function get_social(type){
             }else if(type == 'login'){
                 text = '';
                 if(msg.length != 0){
-                    text+=`<hr/><h4 style="color:black;">Follow Us</h4>`;
+                    if(check_available_dynamic == 0){
+                        text+=`<br/><h4 style="color:`+text_color+`; font-weight:bold;">Follow Us</h4>`;
+                    }else{
+                        text+=`<hr/><h4 style="color:black;">Follow Us</h4>`;
+                    }
                 }
                 for(i in msg){
                     text += `<a href="`+msg[i][1]+`" target="_blank">`;
@@ -179,8 +183,16 @@ function get_social(type){
                     //    $('head').append( '<meta name="twitter:creator" content="'+msg[i][2]+'" />' );
                     //}
                 }
-                document.getElementById('social_login_div').innerHTML = text;
-                //document.getElementById('social_login_div2').innerHTML = text;
+
+                if(check_available_dynamic == 0){
+                    document.getElementById('social_login_div').innerHTML = text;
+                    document.getElementById('social_login_div2').innerHTML = text;
+                    document.getElementById("scroll_up_btn").style.display = "none";
+                    document.getElementById("scroll_dn_btn").style.display = "none";
+                    document.getElementById("go_more").style.display = "none";
+                }else{
+                    document.getElementById('social_login_div3').innerHTML = text;
+                }
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {

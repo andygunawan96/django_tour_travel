@@ -8123,7 +8123,7 @@ ul.btn_tabs li.current .image-rounded-icon{
 .eventstep { margin: 1em; width: 100%; }
 .eventstep,
 .eventstep *::before,
-.eventstep *::after { box-sizing: border-box; font-family: arial; }
+.eventstep *::after { box-sizing: border-box; }
 
 @media (min-width: 576px) {
   .step_itinerary_tour {

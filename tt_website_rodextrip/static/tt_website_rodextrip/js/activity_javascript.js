@@ -2184,16 +2184,20 @@ function sort(activity_dat, check){
                }
 
                text+=`
-               <div class="col-lg-4 col-md-6">
-                   <form action='/activity/detail' method=POST id='myForm`+activity_dat[i].sequence+`'>
-                        <div id='csrf`+activity_dat[i].sequence+`'></div>
-                        <input type='hidden' value='`+JSON.stringify(activity_dat[i]).replace(/[']/g, /["]/g)+`'/>
-                        <input id='uuid' name='uuid' type=hidden value='`+activity_dat[i].uuid+`'/>
-                        <input id='sequence' name='sequence' type=hidden value='`+activity_dat[i].sequence+`'/>`;
+               <div class="col-lg-6 col-md-6 activity_box" style="min-height:unset;">
+                   <form action='/activity/detail/`+activity_dat[i].uuid+`' method=POST id='myForm`+activity_dat[i].sequence+`'>
+                   <div id='csrf`+activity_dat[i].sequence+`'></div>
+                   <input type='hidden' value='`+JSON.stringify(activity_dat[i]).replace(/[']/g, /["]/g)+`'/>
+                   <input id='uuid`+activity_dat[i].sequence+`' name='uuid' type=hidden value='`+activity_dat[i].uuid+`'/>
+                   <input id='sequence`+activity_dat[i].sequence+`' name='sequence' type=hidden value='`+activity_dat[i].sequence+`'/>`;
 
                    temp_arr_loc = [];
+                   temp_arr_ctg = [];
                    for(j in activity_dat[i].locations){
                        temp_arr_loc.push(activity_dat[i].locations[j].country_name);
+                   }
+                   for(j in activity_dat[i].categories){
+                       temp_arr_ctg.push(activity_dat[i].categories[j].category_name);
                    }
                    temp_arr_loc = get_unique_list_data(temp_arr_loc);
 
@@ -2214,18 +2218,36 @@ function sort(activity_dat, check){
                                         <div class="row details">
                                             <div class="col-lg-12" style="text-align:left; height:90px;">
                                                 <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+activity_dat[i].name+`">`+activity_dat[i].name+`</h6>
-                                                <span class="span-activity-desc" style="font-size:13px;"> `+activity_dat[i].reviewAverageScore+` <i style="color:#FFC801 !important;" class="fas fa-star"></i> (`+activity_dat[i].reviewCount+`)</span><br/>`;
-
-                                                text+=`<span style="font-size:12px; font-weight:600; color:`+color+`; cursor:pointer;"> <i style="color:`+color+` !important;" class="fas fa-map-marker-alt"></i>`;
-                                                for(ct in temp_arr_loc){
-                                                    if(ct == 0){
-                                                        text+=`<span id="pop_loc`+i+``+ct+`" class="span-activity-desc" style="color:`+color+`; cursor:pointer;"> `+temp_arr_loc[ct].data_country+` (`+temp_arr_loc[ct].count+`)</span>`;
+                                                <div class="row">
+                                                    <div class="col-lg-6" style="text-align:left;">`;
+                                                    if(activity_dat[i].reviewCount != 0){
+                                                        text+=`<span class="span-activity-desc" style="font-size:13px;"> `+activity_dat[i].reviewAverageScore+` <i style="color:#FFC801 !important;" class="fas fa-star"></i> (`+activity_dat[i].reviewCount+`)</span><br/>`;
                                                     }else{
-                                                        text+=`<span id="pop_loc`+i+``+ct+`" class="span-activity-desc" style="color:`+color+`; cursor:pointer;">, `+temp_arr_loc[ct].data_country+` (`+temp_arr_loc[ct].count+`) </span>`;
+                                                        text+=`<span style="font-size:13px;"><i style="color:#FFC801 !important;" class="fas fa-star"></i> No Rating</span><br/>`;
                                                     }
-                                                }
-                                                text+=`</span><br/>`;
-                                            text+=`
+                                                text+=`
+                                                    </div>
+                                                    <div class="col-lg-6" style="text-align:right;">
+                                                        <span style="font-size:12px; font-weight:600; cursor:pointer;"> <i class="fas fa-tags"></i>`;
+                                                        text+=`<span id="pop_ctg`+i+`" class="span-activity-desc" style="color:`+color+`; cursor:pointer;"> `+temp_arr_ctg.length+` Category</span>`;
+                                                        text+=`
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12" style="height:30px;">
+                                                        <span style="font-size:12px; font-weight:600; color:`+color+`; cursor:pointer;"> <i style="color:`+color+` !important;" class="fas fa-map-marker-alt"></i>`;
+                                                        for(ct in temp_arr_loc){
+                                                            if(ct == 0){
+                                                                text+=`<span id="pop_loc`+i+``+ct+`" class="span-activity-desc" style="color:`+color+`; cursor:pointer;"> `+temp_arr_loc[ct].data_country+` (`+temp_arr_loc[ct].count+`)</span>`;
+                                                            }else{
+                                                                text+=`<span id="pop_loc`+i+``+ct+`" class="span-activity-desc" style="color:`+color+`; cursor:pointer;">, `+temp_arr_loc[ct].data_country+` (`+temp_arr_loc[ct].count+`) </span>`;
+                                                            }
+                                                        }
+                                                        text+=`
+                                                        </span>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div class="col-lg-12" style="text-align:right;">
                                                 <span style="float:left; font-size:13px;font-weight:bold;">IDR `+getrupiah(activity_dat[i].activity_price)+`</span>
@@ -2258,8 +2280,13 @@ function sort(activity_dat, check){
                                     <div class="card-body" style="padding:10px; border:unset;">
                                         <div class="row details">
                                             <div class="col-lg-12" style="text-align:left; height:90px;">
-                                                <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+activity_dat[i].name+`">`+activity_dat[i].name+`</h6>
-                                                <span class="span-activity-desc" style="font-size:13px;"> `+activity_dat[i].reviewAverageScore+` <i style="color:#FFC801 !important;" class="fas fa-star"></i> (`+activity_dat[i].reviewCount+` reviews)</span><br/>`;
+                                                <span>SIM CARD</span>
+                                                <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+activity_dat[i].name+`">`+activity_dat[i].name+`</h6>`;
+                                                if(activity_dat[i].reviewCount != 0){
+                                                    text+=`<span class="span-activity-desc" style="font-size:13px;"> `+activity_dat[i].reviewAverageScore+` <i style="color:#FFC801 !important;" class="fas fa-star"></i> (`+activity_dat[i].reviewCount+` reviews)</span><br/>`;
+                                                }else{
+                                                    text+=`<span style="font-size:13px;"><i style="color:#FFC801 !important;" class="fas fa-star"></i> No Rating</span><br/>`;
+                                                }
                                                 text+=`<span style="font-size:12px; font-weight:600; color:`+color+`; cursor:pointer;"> <i style="color:`+color+` !important;" class="fas fa-map-marker-alt"></i>`;
                                                 for(ct in temp_arr_loc){
                                                     if(ct == 0){
@@ -2303,9 +2330,14 @@ function sort(activity_dat, check){
 
         for(i in activity_dat){
             temp_arr_loc = [];
+            temp_arr_ctg = [];
             for(j in activity_dat[i].locations){
                 temp_arr_loc.push(activity_dat[i].locations[j].country_name);
             }
+            for(j in activity_dat[i].categories){
+                temp_arr_ctg.push(activity_dat[i].categories[j].category_name);
+            }
+
             temp_arr_loc = get_unique_list_data(temp_arr_loc);
 
             for(ct in temp_arr_loc){
@@ -2341,7 +2373,49 @@ function sort(activity_dat, check){
                     content: content_pop_loc,
                 });
             }
+
+            content_pop_ctg = '';
+            for(ct in temp_arr_ctg){
+                content_pop_ctg+=`
+                <span class="span-activity-desc" style="font-size:13px;">
+                    <i style="color:`+color+` !important;" class="fas fa-tags"></i>
+                    `+temp_arr_ctg[ct]+`
+                </span><br/>`;
+            }
+            new jBox('Tooltip', {
+                attach: '#pop_ctg'+i,
+                target: '#pop_ctg'+i,
+                theme: 'TooltipBorder',
+                trigger: 'click',
+                adjustTracker: true,
+                closeOnClick: 'body',
+                closeButton: 'box',
+                animation: 'move',
+                position: {
+                  x: 'left',
+                  y: 'top'
+                },
+                outside: 'y',
+                pointer: 'left:20',
+                offset: {
+                  x: 25
+                },
+                content: content_pop_ctg,
+            });
+
        }
+
+       document.getElementById("activity_result").innerHTML = '';
+       text = '';
+       var node = document.createElement("div");
+       text+=`
+       <div style="border:1px solid #cdcdcd; background-color:white; margin-bottom:15px; padding:10px;">
+           <span style="font-weight:bold; font-size:14px;"> Activity - `+activity_dat.length+` results</span>
+       </div>`;
+       node.innerHTML = text;
+       document.getElementById("activity_result").appendChild(node);
+       node = document.createElement("div");
+
 
         var items = $(".activity_box");
         var numItems = items.length;
