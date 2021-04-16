@@ -1089,7 +1089,50 @@ function visa_get_data(data){
                             </div>
                         </div>
                     </div>`;
+
                     document.getElementById('visa_booking').innerHTML = text;
+
+                    text_status = `<ul class="eventstep step_itinerary_tour" style="margin: 0px 15px 15px 15px;">`;
+                    for(st in visa.state_visa_arr){
+                        text_status += `
+                        <li>
+                            <time style="padding:unset; width:unset;">
+                            </time>
+                            <span>`;
+                                if(visa.state_visa_arr[st].value == true){
+                                    if(visa.state_visa_arr[st].name == "Approve" || visa.state_visa_arr[st].name == "Done" || visa.state_visa_arr[st].name == "Refund"){
+                                        text_status+=`<i class="fas fa-check" style="color:green;"></i>`;
+                                    }else{
+                                        if(visa.state_visa_arr[st].name == "Rejected" || visa.state_visa_arr[st].name == "Expired" || visa.state_visa_arr[st].name == "Canceled" || visa.state_visa_arr[st].name == "Failed (Book)'"){
+                                            text_status+=`<i class="fas fa-times" style="color:red;"></i>`;
+                                        }else{
+                                            text_status+=`<i class="fas fa-check" style="color:green;"></i>`;
+                                        }
+                                    }
+
+                                    text_status += `
+                                    <strong style="display:unset;">`+visa.state_visa_arr[st].name+` </strong>`;
+                                }else{
+                                    if(visa.journey.state_visa == "Approve" ||
+                                        visa.journey.state_visa == "Done" ||
+                                        visa.journey.state_visa == "Refund" ||
+                                        visa.journey.state_visa == "Rejected" ||
+                                        visa.journey.state_visa == "Expired" ||
+                                        visa.journey.state_visa == "Canceled" ||
+                                        visa.journey.state_visa == "Failed (Book)"){
+                                        text_status += `<strong style="display:unset; color:gray; font-weight:unset; text-decoration:line-through;">`+visa.state_visa_arr[st].name+` </strong>`;
+                                    }else{
+                                        text_status += `<strong style="display:unset; color:gray; font-weight:unset;">`+visa.state_visa_arr[st].name+` </strong>`;
+                                    }
+                                }
+                        text_status += `
+                            </span>
+                        </li>`;
+                    }
+                    text_status += `</ul>`;
+
+                    document.getElementById('visa_track').innerHTML = text_status;
+
                     hide_modal_waiting_transaction();
                     update_table('booking');
                 }

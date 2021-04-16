@@ -470,21 +470,8 @@
                                     <span class="copy_span" style="font-size:14px;"><i class="fas fa-calendar-alt" style="color:{{color}};"></i> {{event_code.start_date}} {% if event_code.start_date != event_code.end_date and event_code.end_date %} - {{event_code.end_date}} {% endif %}</span><br/>
                                     <span class="copy_span" style="font-size:14px;"><i class="fas fa-clock" style="color:{{color}};"></i> {{event_code.start_time}} {% if event_code.start_time != event_code.end_time and event_code.end_time %} - {{event_code.end_time}} {% endif %}</span><br/>
                                     {% for loc in event_code.locations %}
-                                    <span class="copy_span loc_address" style="font-size:14px;"><i class="fas fa-map-marker-alt" style="color:{{color}};"></i>
-                                        <span class="loc_address">
-                                        {% if loc.location_name != False %}
-                                            {{loc.location_name}},
-                                        {% endif %}
-                                        {% if loc.location_address != False %}
-                                            {{loc.location_address}},
-                                        {% endif %}
-                                        {% if loc.city_name != False %}
-                                            {{loc.city_name}},
-                                        {% endif %}
-                                        {% if loc.country_name != False %}
-                                            {{loc.country_name}}
-                                        {% endif %}
-                                        </span>
+                                    <span style="font-size:14px;"><i class="fas fa-map-marker-alt" style="color:{{color}};"></i>
+                                        <span class="copy_span loc_address">{% if loc.location_name != False %}{{loc.location_name}},{% endif %} {% if loc.location_address != False %}{{loc.location_address}},{% endif %} {% if loc.city_name != False %}{{loc.city_name}},{% endif %} {% if loc.country_name != False %}{{loc.country_name}}{% endif %}</span>
                                     </span><br/>
                                     {% endfor %}
                                     <!-- <span class="address_hotel" id="address_hotel">{% if event_code.location.address != false %}{{event_code.location.address}}{% endif %}{% if event_code.location.city != false %}, {{event_code.location.city}}{% endif %}{% if event_code.location.kelurahan != false %}, {{event_code.location.kelurahan}}{% endif %}{% if event_code.location.state != false %}, {{event_code.location.state}}{% endif %}{% if event_code.location.zipcode != false %}, {{event_code.location.zipcode}}{% endif %}</span>-->

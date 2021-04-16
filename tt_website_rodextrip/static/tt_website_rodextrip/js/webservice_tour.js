@@ -376,6 +376,17 @@ function tour_search(){
                offset++;
                document.getElementById('tour_ticket').innerHTML += text;
 
+               document.getElementById("tour_result").innerHTML = '';
+               text = '';
+               var node = document.createElement("div");
+               text+=`
+               <div style="border:1px solid #cdcdcd; background-color:white; margin-bottom:15px; padding:10px;">
+                   <span style="font-weight:bold; font-size:14px;"> Tour - `+tour_data.length+` results</span>
+               </div>`;
+               node.innerHTML = text;
+               document.getElementById("tour_result").appendChild(node);
+               node = document.createElement("div");
+
                for(i in tour_data){
                    content_pop_date = '';
                    content_pop_question = '';
