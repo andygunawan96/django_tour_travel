@@ -83,8 +83,12 @@ function check_voucher(){
 
             }catch(err){
                 //review
-                for(i in price_itinerary.price_itinerary_provider)
-                    provider_id.push(price_itinerary.price_itinerary_provider[i].provider)
+                if(price_itinerary.hasOwnProperty('price_itinerary_provider'))
+                    for(i in price_itinerary.price_itinerary_provider)
+                        provider_id.push(price_itinerary.price_itinerary_provider[i].provider)
+                else if(price_itinerary.hasOwnProperty('sell_journey_provider'))
+                    for(i in price_itinerary.sell_journey_provider)
+                        provider_id.push(price_itinerary.sell_journey_provider[i].provider)
                 for(i in passengers){
                     if(i == 'adult' || i == 'child' || i == 'infant'){
                         for(j in passengers[i]){
