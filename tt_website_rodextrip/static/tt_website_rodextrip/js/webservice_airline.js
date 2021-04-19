@@ -6567,26 +6567,24 @@ function reissued_btn(){
     counter_airline = 1;
     for(i in airline_get_detail.result.response.provider_bookings){
         for(j in airline_get_detail.result.response.provider_bookings[i].journeys){
-            for(k in airline_get_detail.result.response.provider_bookings[i].journeys[j].segments){
-                $('input[id="airline_departure'+counter_airline+'"]').daterangepicker({
-                      singleDatePicker: true,
-                      autoUpdateInput: true,
-                      autoApply: true,
-                      startDate: moment(airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].departure_date.split('  ')[0]),
-                      minDate: moment(),
-                      maxDate: moment().subtract(-1, 'years'),
-                      showDropdowns: true,
-                      opens: 'center',
-                      locale: {
-                          format: 'DD MMM YYYY',
-                      }
-                }, function(start, end, label) {
-                    document.getElementById(this.element.context.id).value = moment(start._d).format('DD MMM YYYY');
-                    check_next_date_journey_reissue();
-                });
+            $('input[id="airline_departure'+counter_airline+'"]').daterangepicker({
+                  singleDatePicker: true,
+                  autoUpdateInput: true,
+                  autoApply: true,
+                  startDate: moment(airline_get_detail.result.response.provider_bookings[i].journeys[j].departure_date.split('  ')[0]),
+                  minDate: moment(),
+                  maxDate: moment().subtract(-1, 'years'),
+                  showDropdowns: true,
+                  opens: 'center',
+                  locale: {
+                      format: 'DD MMM YYYY',
+                  }
+            }, function(start, end, label) {
+                document.getElementById(this.element.context.id).value = moment(start._d).format('DD MMM YYYY');
+                check_next_date_journey_reissue();
+            });
 
-                counter_airline++;
-            }
+            counter_airline++;
         }
     }
 }
@@ -6596,33 +6594,31 @@ function check_next_date_journey_reissue(){
     min_date = '';
     for(i in airline_get_detail.result.response.provider_bookings){
         for(j in airline_get_detail.result.response.provider_bookings[i].journeys){
-            for(k in airline_get_detail.result.response.provider_bookings[i].journeys[j].segments){
-                if(min_date == '')
-                    min_date = moment();
-                if(moment(min_date) > moment($('input[id="airline_departure'+counter_airline+'"]').val()))
-                    select_date = min_date;
-                else
-                    select_date = moment($('input[id="airline_departure'+counter_airline+'"]').val());
-                console.log(select_date);
-                console.log(min_date);
-                $('input[id="airline_departure'+counter_airline+'"]').daterangepicker({
-                      singleDatePicker: true,
-                      autoUpdateInput: true,
-                      startDate: select_date,
-                      minDate: min_date,
-                      maxDate: moment().subtract(-1, 'years'),
-                      showDropdowns: true,
-                      opens: 'center',
-                      locale: {
-                          format: 'DD MMM YYYY',
-                      }
-                }, function(start, end, label) {
-                    document.getElementById(this.element.context.id).value = moment(start._d).format('DD MMM YYYY');
-                    check_next_date_journey_reissue();
-                });
-                min_date = $('input[id="airline_departure'+counter_airline+'"]').val();
-                counter_airline++;
-            }
+            if(min_date == '')
+                min_date = moment();
+            if(moment(min_date) > moment($('input[id="airline_departure'+counter_airline+'"]').val()))
+                select_date = min_date;
+            else
+                select_date = moment($('input[id="airline_departure'+counter_airline+'"]').val());
+            console.log(select_date);
+            console.log(min_date);
+            $('input[id="airline_departure'+counter_airline+'"]').daterangepicker({
+                  singleDatePicker: true,
+                  autoUpdateInput: true,
+                  startDate: select_date,
+                  minDate: min_date,
+                  maxDate: moment().subtract(-1, 'years'),
+                  showDropdowns: true,
+                  opens: 'center',
+                  locale: {
+                      format: 'DD MMM YYYY',
+                  }
+            }, function(start, end, label) {
+                document.getElementById(this.element.context.id).value = moment(start._d).format('DD MMM YYYY');
+                check_next_date_journey_reissue();
+            });
+            min_date = $('input[id="airline_departure'+counter_airline+'"]').val();
+            counter_airline++;
         }
     }
 }
@@ -6636,14 +6632,16 @@ function airline_reissued(){
     pnr_list = []
     for(i in airline_get_detail.result.response.provider_bookings){
         for(j in airline_get_detail.result.response.provider_bookings[i].journeys){
-            try{
-                journey_list.push({
-                    "origin": airline_get_detail.result.response.provider_bookings[i].journeys[j].origin,
-                    "destination": airline_get_detail.result.response.provider_bookings[i].journeys[j].destination,
-                    "departure_date": document.getElementById('airline_departure'+ flight).value,
-                });
-            }catch(err){}
-            flight++;
+            if(moment() < moment(airline_get_detail.result.response.provider_bookings[i].journeys[j].departure_date)){
+                try{
+                    journey_list.push({
+                        "origin": airline_get_detail.result.response.provider_bookings[i].journeys[j].origin,
+                        "destination": airline_get_detail.result.response.provider_bookings[i].journeys[j].destination,
+                        "departure_date": document.getElementById('airline_departure'+ flight).value,
+                    });
+                }catch(err){}
+                flight++;
+            }
         }
         if(journey_list.length > 0){
             provider_list.push({
@@ -7932,8 +7930,6 @@ function get_price_itinerary_reissue_request(airline_response, total_admin_fee, 
         text+=`<div class="col-lg-9">`;
         price = 0;
         //adult
-        commission = 0;
-        total_price = 0;
         currency = '';
         for(j in airline_response[i].segments){
             //datacopy
@@ -9684,14 +9680,16 @@ function airline_get_reschedule_availability_v2(){
     pnr_list = []
     for(i in airline_get_detail.result.response.provider_bookings){
         for(j in airline_get_detail.result.response.provider_bookings[i].journeys){
-            try{
-                journey_list.push({
-                    "origin": airline_get_detail.result.response.provider_bookings[i].journeys[j].origin,
-                    "destination": airline_get_detail.result.response.provider_bookings[i].journeys[j].destination,
-                    "departure_date": document.getElementById('airline_departure'+ flight).value,
-                });
-            }catch(err){}
-            flight++;
+            if(moment() < moment(airline_get_detail.result.response.provider_bookings[i].journeys[j].departure_date)){
+                try{
+                    journey_list.push({
+                        "origin": airline_get_detail.result.response.provider_bookings[i].journeys[j].origin,
+                        "destination": airline_get_detail.result.response.provider_bookings[i].journeys[j].destination,
+                        "departure_date": document.getElementById('airline_departure'+ flight).value,
+                    });
+                }catch(err){}
+                flight++;
+            }
         }
         if(journey_list.length > 0){
             provider_list.push({
