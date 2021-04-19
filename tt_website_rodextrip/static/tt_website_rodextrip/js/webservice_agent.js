@@ -2884,6 +2884,14 @@ function get_payment_espay(order_number_full){
     if(payment_acq2[payment_method][selected].online_wallet){
         phone_number = document.getElementById('phone_number').value;
     }
+    url_back = '';
+    if(window.location.href.split('/')[window.location.href.split('/').length-1] == 'payment'){
+        url_back = window.location.href.split('/');
+        url_back.pop();
+        url_back = url_back.join('/');
+        window.location.href = '/' + type_render + '/booking/' + order_number_id;
+    }else
+        url_back = window.location.href;
     $.ajax({
        type: "POST",
        url: "/webservice/payment",
@@ -2898,7 +2906,7 @@ function get_payment_espay(order_number_full){
             "online_wallet": payment_acq2[payment_method][selected].online_wallet,
             "phone_number": phone_number,
             'save_url': payment_acq2[payment_method][selected].save_url,
-            'url_back': window.location.href
+            'url_back': url_back
        },
        success: function(msg) {
             console.log(msg);

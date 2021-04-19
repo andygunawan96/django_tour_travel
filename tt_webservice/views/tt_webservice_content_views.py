@@ -661,7 +661,7 @@ def delete_dynamic_page(request):
         data = os.listdir('/var/log/django/page_dynamic')
         image_list = []
         for rec in data:
-            file = read_cache_without_folder_path("page_dynamic/" + rec, 90911)
+            file = read_cache_without_folder_path("page_dynamic/" + rec[:-4], 90911)
             if file:
                 for idx, line in enumerate(file.split('\n')):
                     if idx == 3:
