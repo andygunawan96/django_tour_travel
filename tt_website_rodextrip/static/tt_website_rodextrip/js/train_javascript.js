@@ -753,7 +753,7 @@ function train_get_detail(){
         train_detail_text +=`
             </div>
         </div>`;
-        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
             train_detail_text+=`
             <div class="row" id="show_commission" style="display:none;">
                 <div class="col-lg-12 col-xs-12" style="text-align:center;">
@@ -768,7 +768,7 @@ function train_get_detail(){
                 <input class="primary-btn-white" style="width:100%;" type="button" onclick="copy_data();" value="Copy" >
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">`;
-            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                 train_detail_text+=`
                     <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br/>
                 `;
@@ -958,7 +958,7 @@ function train_detail(){
             </div>
         </div>`;
     }
-    if(document.URL.split('/')[document.URL.split('/').length-1] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
+    if(document.URL.split('/')[document.URL.split('/').length-1] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
         text+=`<div style="text-align:right;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
     }
     grand_total_price = total_price + total_tax;
@@ -988,7 +988,7 @@ function train_detail(){
             <span style="font-size:13px;"><b>`+price['currency']+` `+getrupiah(grand_total_price)+`</b></span><br>
         </div>
     </div>`;
-    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
         text+=`
         <div class="row" id="show_commission" style="display:none;">
             <div class="col-lg-12 col-xs-12" style="text-align:center;">
@@ -1049,7 +1049,7 @@ function train_detail(){
         <div class="col-lg-12" style="padding-bottom:10px;">
             <input class="primary-btn-white" style="width:100%;" type="button" onclick="copy_data();" value="Copy" >
         </div>`;
-        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
             text+=`
             <div class="col-lg-12" style="padding-bottom:5px;">
                 <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br/>

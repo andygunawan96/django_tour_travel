@@ -1463,7 +1463,7 @@ function hotel_room_pick(key, key2){
         </div>
     </div>`;
 
-    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
     text += `<br/>
         <div class="col-lg-12" style="text-align:center; display:none;" id="show_commission_hotel">
             <div class="alert alert-success">
@@ -1504,7 +1504,7 @@ function hotel_room_pick_button(){
                 <a href="mailto:?subject=This is the hotel price detail&amp;body=`+ $text_share2 +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/></a>`;
         }
     text +=`</div>`;
-    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
         text += `<div class="col-lg-12">
             <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission_hotel();" value="Show Commission"/>
         </div>`;
@@ -1993,7 +1993,7 @@ function hotel_detail(old_cancellation_policy){
 
     text += `<div class="row">
         <div class="col-lg-12"><hr/></div>`;
-        if(document.URL.split('/')[document.URL.split('/').length-1] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
+        if(document.URL.split('/')[document.URL.split('/').length-1] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
             text+=`<div class="col-lg-12"><div style="text-align:right;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div></div>`;
         }
         try{
@@ -2018,7 +2018,7 @@ function hotel_detail(old_cancellation_policy){
     </div>`;
     $text2 += 'Grand Total: IDR ' + getrupiah(total_price_hotel) + '\n';
     }catch(err){}
-    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
         text+=`<br/>
         <div class="col-lg-12 col-xs-12" style="text-align:center; display:none;" id="show_commission_hotel">
             <div class="alert alert-success">
@@ -2045,7 +2045,7 @@ function hotel_detail(old_cancellation_policy){
                 <a href="mailto:?subject=This is the hotel price detail&amp;body=`+ $text_share2 +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/></a>`;
         }
     text +=`</div></div><div class="row">`;
-    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
         text += `<div class="col-lg-12">
             <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission_hotel();" value="Show Commission"/>
         </div>`;

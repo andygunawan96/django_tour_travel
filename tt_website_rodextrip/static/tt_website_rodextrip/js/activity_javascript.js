@@ -396,7 +396,7 @@ function activity_table_detail(){
                 text+=`
                 </div>
            </div>`;
-           if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+           if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                text+=`
                <div class="row" id="show_commission" style="display:none;">
                     <div class="col-lg-12" style="margin-top:10px; text-align:center;">
@@ -412,7 +412,7 @@ function activity_table_detail(){
                    <input type="button" class="primary-btn-white" onclick="copy_data();" value="Copy" style="width:100%;"/>
                </div>
            </div>`;
-           if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+           if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                text+=`
                <div class="row" style="margin-top:10px; text-align:center;">
                    <div class="col-lg-12" style="padding-bottom:10px;">
@@ -626,7 +626,7 @@ function activity_table_detail2(pagetype){
            </div>`;
    }
    text += `<hr style="padding:0px;">`;
-   if(document.URL.split('/')[document.URL.split('/').length-1] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
+   if(document.URL.split('/')[document.URL.split('/').length-1] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
        text +=`<div style="text-align:right;"><img alt="Bank" src="/static/tt_website_rodextrip/img/bank.png" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
    }
 
@@ -673,7 +673,7 @@ function activity_table_detail2(pagetype){
                 text+=`
                 </div>
            </div>`;
-           if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+           if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                text+=`
                <div class="row" id="show_commission" style="display:none;">
                     <div class="col-lg-12 col-xs-12" style="margin-top:10px; text-align:center;">
@@ -688,7 +688,7 @@ function activity_table_detail2(pagetype){
                      <input type="button" class="primary-btn-white" onclick="copy_data();" value="Copy" style="width:100%;"/>
                </div>
            </div></div></div>`;
-           if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+           if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                text+= `
                <div class="row" style="margin-top:10px; text-align:center;">
                    <div class="col-xs-12" style="padding-bottom:10px;">

@@ -1135,6 +1135,20 @@ function visa_get_data(data){
 
                     hide_modal_waiting_transaction();
                     update_table('booking');
+                }else if(msg.result.error_code == 1035){
+                    render_login('visa');
+                }else{
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: #ff9900;">Error visa booking </span>' + msg.result.error_msg,
+                    }).then((result) => {
+                      if (result.value) {
+                        hide_modal_waiting_transaction();
+                      }
+                    })
+                    document.getElementById('show_loading_booking_train').hidden = true;
+                    hide_modal_waiting_transaction();
                 }
             }catch(err){
                 Swal.fire({

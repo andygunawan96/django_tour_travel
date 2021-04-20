@@ -1049,6 +1049,17 @@ function passport_get_data(data){
                     </div>`;
                     document.getElementById('passport_booking').innerHTML = text;
                     update_table('booking');
+                }else if(msg.result.error_code == 1035){
+                    document.getElementById('detail').hidden = true;
+                    render_login('passport');
+                }else{
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: #ff9900;">Error passport booking </span> Please try again in 1 - 5 minutes later or contact customer service' ,
+                    }).then((result) => {
+                      window.location.href = '/reservation';
+                    })
                 }
             }catch(err){
                 Swal.fire({

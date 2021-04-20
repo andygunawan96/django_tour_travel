@@ -3288,7 +3288,7 @@ function activity_get_booking(data){
                     price_text+=`
                     </div>
                  </div>`;
-                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                      price_text+=`
                      <div class="row" id="show_commission" style="display:none;">
                         <div class="col-lg-12 col-xs-12" style="text-align:center;">
@@ -3335,7 +3335,7 @@ function activity_get_booking(data){
                         <input type="button" class="primary-btn-white" onclick="copy_data();" value="Copy" style="width:100%;"/>
                    </div>
                  </div>`;
-                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                      price_text+=`
                      <div class="row" style="margin-top:10px; text-align:center;">
                        <div class="col-xs-12">
@@ -3360,6 +3360,9 @@ function activity_get_booking(data){
                 {
                     $('#final_issued_btn').remove();
                 }
+            }else if(msg.result.error_code == 1035){
+                    document.getElementById('activity_detail').hidden = true;
+                    render_login('activity');
             }else{
                 Swal.fire({
                   type: 'error',
