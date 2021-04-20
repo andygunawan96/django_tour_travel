@@ -170,7 +170,8 @@ function update_list_report_footer(){
        data: {
             'signature': signature,
             'html': CKEDITOR.instances['body_printout'].getData(),
-            'code': document.getElementById('printout_choose').value
+            'code': document.getElementById('printout_choose').value,
+            'name': document.getElementById('printout_choose').options[document.getElementById('printout_choose').selectedIndex].text
        },
        success: function(msg) {
             console.log(msg);
