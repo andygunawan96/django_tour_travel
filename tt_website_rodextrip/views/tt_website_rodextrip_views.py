@@ -797,7 +797,7 @@ def setting_footer_printout(request):
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
-        return render(request, MODEL_NAME+'/backend/printout_footer.html', values)
+        return render(request, MODEL_NAME+'/backend/printout_footer_templates.html', values)
     else:
         return no_session_logout(request)
 
