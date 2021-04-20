@@ -3872,7 +3872,7 @@ function airline_detail(type){
             document.getElementById('repricing_div').innerHTML = text_repricing;
             //repricing
         }
-        if(document.URL.split('/')[document.URL.split('/').length-1] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
+        if(document.URL.split('/')[document.URL.split('/').length-1] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
             text+=`<div style="text-align:right;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
         }
         text+=`
@@ -3937,7 +3937,7 @@ function airline_detail(type){
             text+=`
             </div>
         </div>`;
-        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
             text+=`
             <div class="row" id="show_commission" style="display:none;">
                 <div class="col-lg-12 col-xs-12" style="text-align:center;">
@@ -3952,7 +3952,7 @@ function airline_detail(type){
                 <input type="button" class="primary-btn-white" style="width:100%;" onclick="copy_data();" value="Copy"/>
             </center>
         </div>`;
-        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
             text+=`
             <div style="padding-bottom:10px;">
                 <center>

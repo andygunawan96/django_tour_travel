@@ -173,7 +173,7 @@ function update_table(type){
             }catch(err){
                 display = 'none';
             }
-            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
             text+=`
                 <div class="row" id="show_commission" style="display: `+display+`;">
                     <div class="col-lg-12" style="text-align:center;">
@@ -204,7 +204,7 @@ function update_table(type){
                     text +=`</div>
 
                 </div>`;
-                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                 text+=`
                 <div class="row" id="show_commission" style="display: `+display+`;">
                     <div class="col-lg-12" style="text-align:center;">
@@ -219,7 +219,7 @@ function update_table(type){
                         <input class="primary-btn-white" style="width:100%;" type="button" onclick="copy_data('search');" value="Copy">
                    </div>
                 </div>`;
-                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                 text+=`
                 <div class="row" style="margin-top:10px; text-align:center;">
                    <div class="col-lg-12">
@@ -333,7 +333,7 @@ function update_table(type){
                 }
                 text +=`</div>
             </div>`;
-            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
             text+=`
             <div class="row" id="show_commission" style="display: `+display+`;">
                 <div class="col-lg-12 col-xs-12" style="text-align:center;">
@@ -348,7 +348,7 @@ function update_table(type){
                     <input class="primary-btn-white" style="width:100%;" type="button" onclick="copy_data('passenger');" value="Copy">
                </div>
             </div>`;
-            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
             text+=`
             <div class="row" style="margin-top:10px; text-align:center;">
                <div class="col-lg-12" style="padding-bottom:10px;">
@@ -490,7 +490,7 @@ function update_table(type){
                 text+=`</div></div>`;
             }
         }catch(err){}
-        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
             text+=`<div style="text-align:right;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
         try{
             grand_total_price = price;
@@ -536,7 +536,7 @@ function update_table(type){
                 }
                 text +=`</div>
             </div>`;
-            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
             text+=`
             <div class="row" id="show_commission" style="display: `+display+`;">
                 <div class="col-lg-12 col-xs-12" style="text-align:center;">
@@ -551,7 +551,7 @@ function update_table(type){
                     <input class="primary-btn-white" style="width:100%;" type="button" onclick="copy_data('passenger');" value="Copy">
                </div>
             </div>`;
-            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
             text+=`
             <div class="row" style="margin-top:10px; text-align:center;">
                <div class="col-lg-12" style="padding-bottom:10px;">
@@ -656,7 +656,7 @@ function update_table(type){
         }
         if(passport.journey.state == 'booked')
             text+=`<div style="text-align:right; cursor:pointer; padding-bottom:10px;" onclick="show_repricing();"><i class="image-rounded-icon"><img src="/static/tt_website_rodextrip/img/bank.png" style="width:30px; height:30px;" alt="Bank"/></i></div>`;
-        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
+        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
         text+=`
         <div class="row" id="show_commission" style="display: `+display+`;">
             <div class="col-lg-12" style="text-align:center;">
@@ -704,7 +704,7 @@ function update_table(type){
                 <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="copy_data('review');" value="Copy">
            </div>
         </div>`;
-        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
         text+=`
         <div class="row" style="margin-top:10px; text-align:center;">
            <div class="col-lg-12" style="padding-bottom:10px;">

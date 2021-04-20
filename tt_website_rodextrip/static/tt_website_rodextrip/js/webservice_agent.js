@@ -206,6 +206,85 @@ function signin(){
     }
 }
 
+function signin_booking(){
+    username = '';
+    password = '';
+    keep_me_signin = false;
+    check = 0;
+    if($('#username').val() != '' && $('#password').val() != ''){
+        username = $('#username').val();
+        password = $('#password').val();
+        keep_me_signin = $('#keep_me_signin').is(':checked');
+        check = 1;
+        $('.button-login').addClass("running");
+        $('.button-login').prop('disabled', true);
+    }else{
+        $('.button-login').prop('disabled', false);
+        $('.button-login').removeClass("running");
+        Swal.fire({
+          type: 'error',
+          title: 'Oops!',
+          text: 'Please input username and password',
+        })
+    }
+    if(check == 1){
+        $.ajax({
+           type: "POST",
+           url: "/webservice/agent",
+           headers:{
+                'action': 'signin',
+           },
+           data: {
+            'username':username,
+            'password':password,
+            'keep_me_signin': keep_me_signin
+           },
+           success: function(msg) {
+            console.log(msg);
+            if(msg.result.error_code == 0 && msg.result.response.co_agent_frontend_security.includes('login') == true && window.location.href.split('/').length == 6){
+                let timerInterval
+                Swal.fire({
+                  type: 'success',
+                  title: 'Login Success!',
+                  html: 'Please Wait ...',
+                  timer: 50000,
+                  onBeforeOpen: () => {
+                    Swal.showLoading()
+                    timerInterval = setInterval(() => {
+                      Swal.getContent().querySelector('strong')
+                        .textContent = Swal.getTimerLeft()
+                    }, 100)
+                  },
+                  onClose: () => {
+                    clearInterval(timerInterval)
+                  }
+                }).then((result) => {
+                  if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.timer
+                  ) {
+
+                  }
+                })
+                window.location.reload();
+            }else{
+                $('.button-login').prop('disabled', false);
+                $('.button-login').removeClass("running");
+
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  text: "Username and Password do not match!",
+                })
+            }
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error signin');
+           },timeout: 60000
+        });
+    }
+}
+
 function signin_btc(){
     username = '';
     password = '';
@@ -4400,4 +4479,62 @@ function hide_modal_waiting_transaction(){
     setTimeout(function() {
        $("#waitingTransaction").modal('hide'); // bug modal kalau hasil ajax langsung kembali / tidak loading tidak bisa di hide jadi di beri jeda waktu untuk hide
    }, 150);
+}
+
+function render_login(product_type){
+    html_id = '';
+    if(product_type == 'train')
+        html_id = 'train_booking';
+    else if(product_type == 'visa')
+        html_id = 'visa_booking';
+    else if(product_type == 'hotel')
+        html_id = 'hotel_booking';
+    else if(product_type == 'issued_offline')
+        html_id = 'offline_booking';
+    else if(product_type == 'tour')
+        html_id = 'tour_final_info';
+    else if(product_type == 'activity')
+        html_id = 'activity_final_info';
+    else if(product_type == 'passport')
+        html_id = 'passport_booking';
+    else if(product_type == 'ppob')
+        html_id = 'bills_booking';
+    else if(product_type == 'airline')
+        html_id = 'airline_booking';
+
+    document.getElementById(html_id).innerHTML = `
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3">
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <h5>Login</h5>
+                <br/>
+                <label>Username</label>
+                <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                    <input type="text" class="form-control" name="username" id="username" placeholder="Username " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username '">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3">
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <br/>
+                <label>Password</label>
+                <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Password " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password '">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3">
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+            <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Login" onclick="$('.btn-next').addClass('running');$('.btn-next').prop('disabled', true);signin_booking();">
+                Login
+                <div class="ld ld-ring ld-cycle"></div>
+            </button>
+            </div>
+        </div>
+        `;
 }

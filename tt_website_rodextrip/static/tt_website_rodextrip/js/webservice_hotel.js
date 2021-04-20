@@ -1327,14 +1327,14 @@ function hotel_issued_alert(val){
                 <div class="col-lg-6" style="text-align:right;">
                     <span style="font-weight:bold;">`+hotel_price.rooms[i].nightly_prices[j].currency+` `+ getrupiah(grand_total_price) +`</span>
                 </div>`;
-                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                     text+=`
                     <div class="col-lg-12 col-xs-12" style="text-align:center; display:none;" id="show_commission_hotel_old">
                         <div class="alert alert-success">
                             <span style="font-size:13px; font-weight:bold;">Your Commission: `+hotel_price.rooms[i].nightly_prices[j].currency+` `+ getrupiah(hotel_price.rooms[i].commission) +`</span><br>
                         </div>
                     </div>`;
-                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                     text += `<div class="col-lg-12">
                         <input class="primary-btn" id="show_commission_button_hotel_old" style="width:100%;" type="button" onclick="show_commission_hotel_price_change('old');" value="Show Commission"/>
                     </div>`;
@@ -1388,14 +1388,14 @@ function hotel_issued_alert(val){
                 <div class="col-lg-6" style="text-align:right;">
                     <span style="font-weight:bold;">`+temporary.rooms[i].currency+` `+ getrupiah(grand_total_price) +`</span>
                 </div>`;
-                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                     text+=`
                     <div class="col-lg-12 col-xs-12" style="text-align:center; display:none;" id="show_commission_hotel_new">
                         <div class="alert alert-success">
                             <span style="font-size:13px; font-weight:bold;">Your Commission: `+temporary.rooms[i].currency+` `+ getrupiah(parseInt(temporary.rooms[i].commission)) +`</span><br>
                         </div>
                     </div>`;
-                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                     text += `<div class="col-lg-12">
                         <input class="primary-btn" id="show_commission_button_hotel_new" style="width:100%;" type="button" onclick="show_commission_hotel_price_change('new');" value="Show Commission"/>
                     </div>`;
@@ -2023,7 +2023,7 @@ function hotel_get_booking(data){
                                 text_detail+= `</span>
                             </div>
                         </div>`;
-                        if(msg.result.response.state != 'issued' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+                        if(msg.result.response.state != 'issued' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                             text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
                         text_detail+=`<div class="row">
                         <div class="col-lg-12" style="padding-bottom:10px;">
@@ -2048,7 +2048,7 @@ function hotel_get_booking(data){
                         text_detail+=`
                             </div>
                         </div>`;
-                        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
+                        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
                             text_detail+=`
                             <div class="row" id="show_commission_hotel" style="display:none;">
                                 <div class="col-lg-12 col-xs-12" style="text-align:center;">
@@ -2096,7 +2096,7 @@ function hotel_get_booking(data){
                                 <input type="button" class="primary-btn-white" style="width:100%;" onclick="copy_data();" value="Copy"/>
                             </center>
                         </div>`;
-                        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+                        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                             text_detail+=`
                             <div style="margin-bottom:5px;">
                                 <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission_hotel('commission');" value="Show Commission"/>
@@ -2111,8 +2111,16 @@ function hotel_get_booking(data){
                 console.log($text);
 
     //               document.getElementById('hotel_detail').innerHTML = text;
+                }else if(msg.result.error_code == 1035){
+                    render_login('hotel');
                 }else{
-                    //swal
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: #ff9900;">Error hotel booking </span> Please try again in 1 - 5 minutes later or contact customer service' ,
+                    }).then((result) => {
+                      window.location.href = '/reservation';
+                    })
                 }
             }catch(err){
                 Swal.fire({

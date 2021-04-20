@@ -1011,7 +1011,7 @@ function render_object_from_value(val){
         document.getElementById('repricing_div').innerHTML = text_repricing;
         //repricing
     }
-    if(document.URL.split('/')[document.URL.split('/').length-1] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
+    if(document.URL.split('/')[document.URL.split('/').length-1] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
         text+=`<div style="text-align:right;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
     }
     try{
@@ -1078,7 +1078,7 @@ function render_object_from_value(val){
         </div>
     </div>`;
 
-    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
         text+=`
         <div class="row" id="show_commission_event" style="display:none;">
             <div class="col-lg-12 col-xs-12" style="text-align:center;">
@@ -1133,7 +1133,7 @@ function hotel_room_pick_button(total_commission){
                 <a href="mailto:?subject=This is the event price detail&amp;body=`+ $text_share2 +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/></a>`;
         }
     text +=`</div>`;
-    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
         text+=`
         <div class="col-lg-12 col-xs-12" style="text-align:center; display:none;" id="show_commission_event">
             <div class="alert alert-success">
