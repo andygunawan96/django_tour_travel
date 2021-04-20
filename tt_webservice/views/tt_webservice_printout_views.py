@@ -167,7 +167,8 @@ def update_list_report_footer(request):
     try:
         data = {
             'html': request.POST['html'],
-            'code': request.POST['code']
+            'code': request.POST['code'],
+            'name': request.POST['name']
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",

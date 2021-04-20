@@ -1,0 +1,659 @@
+{% extends 'tt_website_rodextrip/template_website_booking.html' %}
+{% load i18n %}
+{% load static from staticfiles %}
+{% block content %}
+<!--<script src="{{ static_path }}js/webservice_token.js"></script>-->
+<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_airline.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_train.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/airline_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/train_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_content.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_payment_acq.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/payment_partner_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_printout.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/highlight_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/contact_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/social_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/about_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/faq_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/jscolor.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}ckeditor/ckeditor.js"></script>
+<script>
+    static_path_url_server = '{{static_path_url_server}}'
+    signature = `{{signature}}`;
+</script>
+<style>
+	#selectedFiles_bigbanner img {
+		max-width: 125px;
+		max-height: 125px;
+		float: left;
+		margin-bottom:10px;
+	}
+	#selectedFiles_smallbanner img {
+		max-width: 125px;
+		max-height: 125px;
+		float: left;
+		margin-bottom:10px;
+	}
+	#selectedFiles_promotionbanner img {
+		max-width: 125px;
+		max-height: 125px;
+		float: left;
+		margin-bottom:10px;
+	}
+	hr {
+	    display: block; height: 1px;
+        border: 0; border-top: 1px solid #ccc;
+        margin: 1em 0; padding: 0;
+    }
+</style>
+<title>{{name}} - Admin</title>
+
+{% include 'tt_website_rodextrip/logout.html' %}
+{% include 'tt_website_rodextrip/header.html' %}
+{% if template == 1 %}
+<section class="testimonial-area" style="padding-top:30px; padding-bottom:50px; min-height:unset;">
+    <div class="container">
+        <div class="banner-right" style="margin-bottom:25px;">
+            <form action="" method="POST" class="form-wrap" id="form_admin" enctype="multipart/form-data" style="padding:0px;">
+                {% csrf_token %}
+                <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                    <h3 style="color:white;">{% trans 'Admin Setting' %}</h3>
+                </div>
+                <div class="col-lg-12" style="padding:0px;">
+                    <div class="style-scrollbar" style="overflow:auto; white-space:nowrap; background:{{tab_color}};">
+                        <ul class="create_tabs" id="identity">
+                            <li class="create_tab-link current" data-tab="web_information-tab"><label style="color:{{text_color}}; font-size:15px;">{% trans 'Website Information' %}</label></li>
+                        </ul>
+                    </div>
+
+                    <div class="banner-right" style="color:white;">
+                        <!--<img src="{{static_path}}images/christmas-icon2.png" style="width:auto; height:90px; position:absolute; right:-35px; top:35px; float:right; z-index:200;" alt="">-->
+                        <div class="tab-content" id="myTabContent" style="background:transparent !important;">
+                            <div id="web_information-tab" class="create_tab-content current" style="padding:20px 0px 10px 0px;">
+                                <div style="background:{{tab_color}}">
+                                    <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                        <div class="col-lg-12">
+                                            <ul class="edit_tabs" id="tabs_template">
+                                                <li class="edit_tab-link current" data-tab="printout-tab_edit"><label style="color:{{text_color}};">{% trans 'Printout Footer Setting Page' %}</label></li>
+                                            </ul>
+                                            <div class="banner-right" style="border: 1px solid {{text_color}};">
+                                                <div id="printout-tab_edit" class="edit_tab-content current" style="padding:20px 0px 15px 0px;">
+                                                    <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                        <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                            <h3 style="color:white;">{% trans 'Printout Footer' %}</h3>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-xs-12">
+                                                            <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Name' %}</h6>
+                                                            <div class="input-container-search-ticket">
+                                                                <div class="form-select">
+                                                                    <select class="nice-select-default" style="width:100%;" id="printout_choose" onchange="change_printout();">
+
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                            <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Footer' %}</h6>
+                                                            <textarea class="ckeditor" name="body_printout" id="body_printout"></textarea>
+                                                        </div>
+                                                        <div class="col-lg-12" style="text-align:center;">
+                                                            <button type="button" class="primary-btn update_banner_btn" onclick="update_list_report_footer_agent();">{% trans 'Save Change' %}</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--<div class="col-lg-6">-->
+                                        <!--<h6 style="margin-bottom:10px;color:{{text_color}};">Twitter</h6>-->
+                                        <!--<div class="form-select">-->
+                                        <!--<input type="text" class="form-control" name="tawk_code" id="tawk_code" placeholder="Tawk Code " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tawk Code '" value="{{tawk_code}}">-->
+                                        <!--</div>-->
+                                        <!--</div>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% elif template == 2 %}
+<section style="padding-top:30px; padding-bottom:50px;background-image:url('{{background}}'); background-attachment:fixed; background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;">
+    <div class="container">
+        <div class="hotel-search-form-area" style="bottom:0px; padding:0px;">
+            <div class="hotel-search-form" style="background:transparent;padding:unset; box-shadow:unset;">
+                <form action="" method="POST" class="form-wrap" id="form_admin" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="col-lg-12" style="margin-bottom:15px;color:white; text-align:center;">
+                        <h3 style="color:white; padding:15px;">{% trans 'Admin Setting' %}</h3>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="style-scrollbar" style="overflow:auto; white-space:nowrap; background:{{tab_color}}">
+                            <ul class="create_tabs" id="identity" style="text-align:center;">
+                                <li class="create_tab-link current" data-tab="web_information-tab"><label style="color:{{text_color}}; font-size:15px;">{% trans 'Website Information' %}</label></li>
+                            </ul>
+                        </div>
+
+                        <!--<img src="{{static_path}}images/christmas-icon2.png" style="width:auto; height:90px; position:absolute; right:-35px; top:35px; float:right; z-index:200;" alt="">-->
+                        <div id="web_information-tab" class="create_tab-content current" style="padding:20px 0px 10px 0px;">
+                            <div style="background:{{tab_color}};">
+                                <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                    <div class="col-lg-12">
+                                        <ul class="edit_tabs" id="tabs_template">
+                                            <li class="edit_tab-link current" data-tab="printout-tab_edit"><label style="color:{{text_color}};">{% trans 'Printout Footer Setting Page' %}</label></li>
+                                        </ul>
+                                        <div class="banner-right" style="border: 1px solid {{text_color}};">
+                                            <div id="printout-tab_edit" class="edit_tab-content current" style="padding:20px 0px 15px 0px;">
+                                                <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                    <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                        <h3 style="color:white;">{% trans 'Printout Footer' %}</h3>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-xs-12">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Name' %}</h6>
+                                                        <div class="input-container-search-ticket">
+                                                            <div class="form-select">
+                                                                <select class="nice-select-default" style="width:100%;" id="printout_choose" onchange="change_printout();">
+
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Footer' %}</h6>
+                                                        <textarea class="ckeditor" name="body_printout" id="body_printout"></textarea>
+                                                    </div>
+                                                    <div class="col-lg-12" style="text-align:center;">
+                                                        <button type="button" class="primary-btn update_banner_btn" onclick="update_list_report_footer_agent();">{% trans 'Save Change' %}</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <!--<div class="col-lg-6">-->
+                                    <!--<h6 style="margin-bottom:10px;color:{{text_color}};">Twitter</h6>-->
+                                    <!--<div class="form-select">-->
+                                    <!--<input type="text" class="form-control" name="tawk_code" id="tawk_code" placeholder="Tawk Code " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tawk Code '" value="{{tawk_code}}">-->
+                                    <!--</div>-->
+                                    <!--</div>-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% elif template == 3 %}
+<section style="padding-top:30px; padding-bottom:50px;background-image:url('{{background}}'); background-attachment:fixed; background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;">
+    <div class="container" style="padding:0px;">
+        <div class="header-right" style="background:unset; border:unset;">
+            <form action="" method="POST" class="form-wrap" id="form_admin" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="col-lg-12" style="margin-bottom:15px;color:white; text-align:center;">
+                    <h3 style="color:white; padding:15px;">{% trans 'Admin Setting' %}</h3>
+                </div>
+                <div class="col-lg-12">
+                    <div class="style-scrollbar" style="overflow:auto; white-space:nowrap; background:{{tab_color}}">
+                        <ul class="create_tabs" id="identity" style="text-align:center;">
+                            <li class="create_tab-link current" data-tab="web_information-tab"><label style="color:{{text_color}}; font-size:15px;">{% trans 'Website Information' %}</label></li>
+                        </ul>
+                    </div>
+
+                    <!--<img src="{{static_path}}images/christmas-icon2.png" style="width:auto; height:90px; position:absolute; right:-35px; top:35px; float:right; z-index:200;" alt="">-->
+                    <div id="web_information-tab" class="create_tab-content current" style="padding:20px 0px 10px 0px;">
+                        <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                            <div class="col-lg-12" style="background:{{tab_color}} !important;">
+                                <ul class="edit_tabs" id="tabs_template">
+                                    <li class="edit_tab-link current" data-tab="printout-tab_edit"><label style="color:{{text_color}};">{% trans 'Printout Footer Setting Page' %}</label></li>
+                                </ul>
+                                <div class="banner-right" style="border: 1px solid {{text_color}};">
+                                    <div id="printout-tab_edit" class="edit_tab-content current" style="padding:20px 0px 15px 0px;">
+                                        <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                            <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                <h3 style="color:white;">{% trans 'Printout Footer' %}</h3>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-xs-12">
+                                                <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Name' %}</h6>
+                                                <div class="input-container-search-ticket">
+                                                    <div class="form-select">
+                                                        <select class="nice-select-default" style="width:100%;" id="printout_choose" onchange="change_printout();">
+
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Footer' %}</h6>
+                                                <textarea class="ckeditor" name="body_printout" id="body_printout"></textarea>
+                                            </div>
+                                            <div class="col-lg-12" style="text-align:center;">
+                                                <button type="button" class="primary-btn update_banner_btn" onclick="update_list_report_footer_agent();">{% trans 'Save Change' %}</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--<div class="col-lg-6">-->
+                            <!--<h6 style="margin-bottom:10px;color:{{text_color}};">Twitter</h6>-->
+                            <!--<div class="form-select">-->
+                            <!--<input type="text" class="form-control" name="tawk_code" id="tawk_code" placeholder="Tawk Code " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tawk Code '" value="{{tawk_code}}">-->
+                            <!--</div>-->
+                            <!--</div>-->
+                        </div>
+                    </div>
+                        <!--<div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">-->
+                        <!--<div class="col-lg-6">-->
+                        <!--<h6 style="margin-bottom:10px;color:{{text_color}};">Visible Chat</h6>-->
+                        <!--<div class="default-select">-->
+                        <!--<select id="tawk_chat" name="tawk_chat" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">-->
+                        <!--<option value="0" {% if tawk_chat == 0 %} selected {% endif %}>No</option>-->
+                        <!--<option value="1" {% if tawk_chat == 1 %} selected {% endif %}>Yes</option>-->
+                        <!--</select>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-lg-6">-->
+                        <!--<h6 style="margin-bottom:10px;color:{{text_color}};">Code</h6>-->
+                        <!--<div class="form-select">-->
+                        <!--<input type="text" class="form-control" name="tawk_code" id="tawk_code" placeholder="Tawk Code " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tawk Code '" value="{{tawk_code}}">-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-lg-12" style="text-align:center;">-->
+                        <!--<hr/>-->
+                        <!--<button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% elif template == 4 %}
+<div style="padding-top:30px; padding-bottom:50px;background-image:url('{{background}}'); background-attachment:fixed; background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;">
+    <div class="container">
+        <form action="" method="POST" class="form-wrap" id="form_admin" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="col-lg-12" style="margin-bottom:15px;color:white; text-align:center;">
+                <h3 style="color:white; padding:15px;">{% trans 'Admin Setting' %}</h3>
+            </div>
+            <div class="col-lg-12">
+                <div class="style-scrollbar" style="overflow:auto; white-space:nowrap; background:{{tab_color}} !important;">
+                    <ul class="create_tabs" id="identity" style="text-align:center;">
+                        <li class="create_tab-link current" data-tab="web_information-tab"><label style="color:{{text_color}}; font-size:15px;">{% trans 'Website Information' %}</label></li>
+                    </ul>
+                </div>
+                <!--<img src="{{static_path}}images/christmas-icon2.png" style="width:auto; height:90px; position:absolute; right:-35px; top:35px; float:right; z-index:200;" alt="">-->
+                <div id="web_information-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
+                    <div class="row" style="margin:0px;text-align:left;padding: 15px 0px; background:{{tab_color}} !important;">
+                        <div class="col-lg-12">
+                            <ul class="edit_tabs" id="tabs_template">
+                                <li class="edit_tab-link current" data-tab="printout-tab_edit"><label style="color:{{text_color}};">{% trans 'Printout Footer Setting Page' %}</label></li>
+                            </ul>
+                            <div class="banner-right" style="border: 1px solid {{text_color}};">
+                                <div id="printout-tab_edit" class="edit_tab-content current" style="padding:20px 0px 15px 0px;">
+                                    <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                        <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                            <h3 style="color:white;">{% trans 'Printout Footer' %}</h3>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-xs-12">
+                                            <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Name' %}</h6>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select">
+                                                    <select class="nice-select-default" style="width:100%;" id="printout_choose" onchange="change_printout();">
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                            <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Footer' %}</h6>
+                                            <textarea class="ckeditor" name="body_printout" id="body_printout"></textarea>
+                                        </div>
+                                        <div class="col-lg-12" style="text-align:center;">
+                                            <button type="button" class="primary-btn update_banner_btn" onclick="update_list_report_footer_agent();">{% trans 'Save Change' %}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--<div class="col-lg-6">-->
+                        <!--<h6 style="margin-bottom:10px;color:{{text_color}};">Twitter</h6>-->
+                        <!--<div class="form-select">-->
+                        <!--<input type="text" class="form-control" name="tawk_code" id="tawk_code" placeholder="Tawk Code " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tawk Code '" value="{{tawk_code}}">-->
+                        <!--</div>-->
+                        <!--</div>-->
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+{% elif template == 5 %}
+<section style="padding-top:30px; padding-bottom:50px;background-image:url('{{background}}'); background-attachment:fixed; background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;">
+    <div class="container">
+        <div class="row align-items-end justify-content-center">
+            <div class="banner-content col-xl-12 search-field" style="background:transparent; padding:0px;">
+                <form action="" method="POST" class="form-wrap" id="form_admin" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                        <h3 style="color:white; padding:15px;">{% trans 'Admin Setting' %}</h3>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="style-scrollbar" style="overflow:auto; white-space:nowrap;">
+                            <ul class="create_tabs" id="identity" style="background: {{tab_color}} !important;">
+                                <li class="create_tab-link current" data-tab="web_information-tab"><label style="color:{{text_color}}; font-size:15px;">{% trans 'Website Information' %}</label></li>                                {% endif %}
+                            </ul>
+                        </div>
+
+                        <!--<img src="{{static_path}}images/christmas-icon2.png" style="width:auto; height:90px; position:absolute; right:-35px; top:35px; float:right; z-index:200;" alt="">-->
+                        <div id="web_information-tab" class="create_tab-content current" style="padding:20px 0px 10px 0px;">
+                            <div class="row" style="margin:0px;text-align:left;padding: 15px 0px; background: {{tab_color}};">
+                                <div class="col-lg-12">
+                                    <ul class="edit_tabs" id="tabs_template">
+                                        <li class="edit_tab-link current" data-tab="printout-tab_edit"><label style="color:{{text_color}};">{% trans 'Printout Footer Setting Page' %}</label></li>
+                                    </ul>
+                                    <div class="banner-right" style="border: 1px solid {{text_color}};">
+                                        <div id="printout-tab_edit" class="edit_tab-content current" style="padding:20px 0px 15px 0px;">
+                                            <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                    <h3 style="color:white;">{% trans 'Printout Footer' %}</h3>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-xs-12">
+                                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Name' %}</h6>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select">
+                                                            <select class="nice-select-default" style="width:100%;" id="printout_choose" onchange="change_printout();">
+
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Footer' %}</h6>
+                                                    <textarea class="ckeditor" name="body_printout" id="body_printout"></textarea>
+                                                </div>
+                                                <div class="col-lg-12" style="text-align:center;">
+                                                    <button type="button" class="primary-btn update_banner_btn" onclick="update_list_report_footer_agent();">{% trans 'Save Change' %}</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--<div class="col-lg-6">-->
+                                <!--<h6 style="margin-bottom:10px;color:{{text_color}};">Twitter</h6>-->
+                                <!--<div class="form-select">-->
+                                <!--<input type="text" class="form-control" name="tawk_code" id="tawk_code" placeholder="Tawk Code " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tawk Code '" value="{{tawk_code}}">-->
+                                <!--</div>-->
+                                <!--</div>-->
+                            </div>
+                        </div>
+                    </div>
+                    <!--<div class="col-lg-12" style="border:1px solid #cdcdcd; background:white; padding:20px;">-->
+                    <!--<div class="row" style="text-align:left">-->
+                    <!--<div class="col-lg-12" style="margin-bottom:15px;">-->
+                    <!--<h3>Admin Setting</h3>-->
+                    <!--<hr/>-->
+                    <!--</div>-->
+                    <!--<div class="col-lg-12">-->
+
+                    <!--</div>-->
+                    <!--<div class="col-lg-6">-->
+                    <!--<h6 style="margin-bottom:10px;">Template Website</h6>-->
+                    <!--{% if template == 1 or template == 2 %}-->
+                    <!--<div class="form-select" id="default-select">-->
+                    <!--<select id="template" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">-->
+                    <!--<option value="1" {% if template == 1 %} selected {% endif%}>Template 1</option>-->
+                    <!--<option value="2" {% if template == 2 %} selected {% endif%}>Template 2</option>-->
+                    <!--<option value="3" {% if template == 3 %} selected {% endif%}>Template 3</option>-->
+                    <!--<option value="4" {% if template == 4 %} selected {% endif%}>Template 4</option>-->
+                    <!--<option value="5" {% if template == 5 %} selected {% endif%}>Template 5</option>-->
+                    <!--</select>-->
+                    <!--</div>-->
+                    <!--{% elif template == 3 %}-->
+                    <!--<div class="form-group" style="width:100%;">-->
+                    <!--<div class="default-select" id="default-select" style="width:100%;">-->
+                    <!--<select id="template" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" style="width:100%;">-->
+                    <!--<option value="1" {% if template == 1 %} selected {% endif%}>Template 1</option>-->
+                    <!--<option value="2" {% if template == 2 %} selected {% endif%}>Template 2</option>-->
+                    <!--<option value="3" {% if template == 3 %} selected {% endif%}>Template 3</option>-->
+                    <!--<option value="4" {% if template == 4 %} selected {% endif%}>Template 4</option>-->
+                    <!--<option value="5" {% if template == 5 %} selected {% endif%}>Template 5</option>-->
+                    <!--</select>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--{% elif template == 4 %}-->
+                    <!--<div class="select-wrap">-->
+                    <!--<span class="icon"><span class="icon-keyboard_arrow_down"></span></span>-->
+                    <!--<select id="template" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" style="width:100%;" class="form-control rounded">-->
+                    <!--<option value="1" {% if template == 1 %} selected {% endif%}>Template 1</option>-->
+                    <!--<option value="2" {% if template == 2 %} selected {% endif%}>Template 2</option>-->
+                    <!--<option value="3" {% if template == 3 %} selected {% endif%}>Template 3</option>-->
+                    <!--<option value="4" {% if template == 4 %} selected {% endif%}>Template 4</option>-->
+                    <!--<option value="5" {% if template == 5 %} selected {% endif%}>Template 5</option>-->
+                    <!--</select>-->
+                    <!--</div>-->
+                    <!--{% elif template == 5 %}-->
+                    <!--<div id="default-select">-->
+                    <!--<select id="template" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" style="width:100%;" class="app-select form-control">-->
+                    <!--<option value="1" {% if template == 1 %} selected {% endif%}>Template 1</option>-->
+                    <!--<option value="2" {% if template == 2 %} selected {% endif%}>Template 2</option>-->
+                    <!--<option value="3" {% if template == 3 %} selected {% endif%}>Template 3</option>-->
+                    <!--<option value="4" {% if template == 4 %} selected {% endif%}>Template 4</option>-->
+                    <!--<option value="5" {% if template == 5 %} selected {% endif%}>Template 5</option>-->
+                    <!--</select>-->
+                    <!--</div>-->
+                    <!--{% endif %}-->
+                    <!--</div>-->
+                    <!--<div class="col-lg-6">-->
+                    <!--<h6 style="margin-bottom:10px;">Color</h6>-->
+                    <!--<div class="form-select" id="default-select">-->
+                    <!--<input class="jscolor nice-select-default" value="{{color}}" name="color_pick">-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="col-lg-12"><hr/></div>-->
+                    <!--<div class="col-lg-6">-->
+                    <!--<h6 style="margin-bottom:10px;">Website Name</h6>-->
+                    <!--<div class="form-select">-->
+                    <!--<input type="text" class="form-control" name="website_name" id="website_name" placeholder="Website Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Website Name '" value="{{name}}">-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="col-lg-6">-->
+                    <!--<h6 style="margin-bottom:10px;">Website Description</h6>-->
+                    <!--<textarea rows="6" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="website_description" name="website_description">{% for description in desc%}{{description}}{% if forloop.last == False %}&#13;&#10;{% endif %}{% endfor %}</textarea>-->
+                    <!--</div>-->
+                    <!--<div class="col-lg-12"><hr/></div>-->
+                    <!--<div class="col-lg-6">-->
+                    <!--<h6 style="margin-bottom:10px;">Logo</h6>-->
+                    <!--<div class="input-container-search-ticket form-select">-->
+                    <!--<input type="file" name="fileToUpload" id="fileToUpload"/>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="col-lg-6">-->
+                    <!--<h6 style="margin-bottom:10px;">Background Image Home</h6>-->
+                    <!--<div class="input-container-search-ticket form-select">-->
+                    <!--<input type="file" name="fileBackgroundHome" id="fileBackgroundHome"/>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="col-lg-6">-->
+                    <!--<h6 style="margin-bottom:10px;">Background Image Login</h6>-->
+                    <!--<div class="input-container-search-ticket form-select">-->
+                    <!--<input type="file" name="fileBackgroundLogin" id="fileBackgroundLogin"/>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="col-lg-6">-->
+                    <!--<h6 style="margin-bottom:10px;">Background Image Search</h6>-->
+                    <!--<div class="input-container-search-ticket form-select">-->
+                    <!--<input type="file" name="fileBackgroundSearch" id="fileBackgroundSearch"/>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="col-lg-12"><hr/></div>-->
+                    <!--<div class="col-lg-12">-->
+                    <!--<h6 style="margin-bottom:10px;">Big Banner</h6>-->
+                    <!--<button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalBigBanner">Upload Image</button>-->
+                    <!--&lt;!&ndash; Modal &ndash;&gt;-->
+                    <!--<div class="modal fade" id="myModalBigBanner" role="dialog" data-keyboard="false">-->
+                    <!--<div class="modal-dialog">-->
+
+                    <!--&lt;!&ndash; Modal content&ndash;&gt;-->
+                    <!--<div class="modal-content">-->
+                    <!--<div class="modal-header">-->
+                    <!--<h4 class="modal-title" style="color:{{text_color}};">Big Banner</h4>-->
+                    <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
+                    <!--</div>-->
+                    <!--<div class="modal-body">-->
+
+                    <!--Files: <input type="file" id="files_bigbanner" name="files_bigbanner" multiple="" accept="image/*"><br>-->
+
+                    <!--<div id="selectedFiles_bigbanner"></div>-->
+
+                    <!--</div>-->
+                    <!--<div class="modal-footer">-->
+                    <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--<br/><br/>-->
+                    <!--<h6 style="margin-bottom:10px;">Image Big Banner</h6><br/>-->
+                    <!--<div class="row" id="big_banner">-->
+
+                    <!--</div>-->
+                    <!--<hr/>-->
+                    <!--</div>-->
+
+                    <!--<div class="col-lg-12">-->
+                    <!--<h6 style="margin-bottom:10px;">Small Banner</h6>-->
+                    <!--<button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalSmallBanner">Upload Image</button>-->
+                    <!--&lt;!&ndash; Modal &ndash;&gt;-->
+                    <!--<div class="modal fade" id="myModalSmallBanner" role="dialog" data-keyboard="false">-->
+                    <!--<div class="modal-dialog">-->
+
+                    <!--&lt;!&ndash; Modal content&ndash;&gt;-->
+                    <!--<div class="modal-content">-->
+                    <!--<div class="modal-header">-->
+                    <!--<h4 class="modal-title" style="color:{{text_color}};">Small Banner</h4>-->
+                    <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
+                    <!--</div>-->
+                    <!--<div class="modal-body">-->
+
+                    <!--Files: <input type="file" id="files_smallbanner" name="files_smallbanner" multiple="" accept="image/*"><br>-->
+
+                    <!--<div id="selectedFiles_smallbanner"></div>-->
+
+                    <!--</div>-->
+                    <!--<div class="modal-footer">-->
+                    <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--<br/><br/>-->
+                    <!--<h6>Image Small Banner</h6><br/>-->
+                    <!--<div id="small_banner">-->
+
+                    <!--</div>-->
+                    <!--<hr/>-->
+                    <!--</div>-->
+
+                    <!--<div class="col-lg-12">-->
+                    <!--<h6 style="margin-bottom:10px;">Promotion Banner</h6>-->
+                    <!--<button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalPromotionBanner">Upload Image</button>-->
+                    <!--&lt;!&ndash; Modal &ndash;&gt;-->
+                    <!--<div class="modal fade" id="myModalPromotionBanner" role="dialog" data-keyboard="false">-->
+                    <!--<div class="modal-dialog">-->
+
+                    <!--&lt;!&ndash; Modal content&ndash;&gt;-->
+                    <!--<div class="modal-content">-->
+                    <!--<div class="modal-header">-->
+                    <!--<h4 class="modal-title" style="color:{{text_color}};">Promotion Banner</h4>-->
+                    <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
+                    <!--</div>-->
+                    <!--<div class="modal-body">-->
+
+                    <!--Files: <input type="file" id="files_promotionbanner" name="files_promotionbanner" multiple="" accept="image/*"><br>-->
+
+                    <!--<div id="selectedFiles_promotionbanner"></div>-->
+
+                    <!--</div>-->
+                    <!--<div class="modal-footer">-->
+                    <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--<br/><br/>-->
+                    <!--<h6 style="margin-bottom:10px;">Image Promotion Banner</h6>-->
+                    <!--<div id="promotion">-->
+
+                    <!--</div>-->
+                    <!--<hr/>-->
+                    <!--</div>-->
+
+                    <!--<div class="col-lg-12">-->
+                    <!--{% if template == 1 or template == 2 or template == 3%}-->
+                    <!--<button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>-->
+                    <!--{% elif template == 4 %}-->
+                    <!--<button type="button" class="btn btn-primary rounded" onclick="update_banner();">Save Change</button>-->
+                    <!--{% elif template == 5 %}-->
+                    <!--<button type="button" class="btn btn-primary" onclick="update_banner();">Save Change</button>-->
+                    <!--{% endif %}-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+{% include 'tt_website_rodextrip/footer.html' %}
+
+<script>
+    get_list_report_footer();
+    function update_list_report_footer_agent(){
+        document.getElementsByClassName("update_banner_btn")[0].disabled = true;
+
+        $.ajax({
+           type: "POST",
+           url: "/webservice/printout",
+           headers:{
+                'action': 'update_list_report_footer_api',
+           },
+           data: {
+                'signature': signature,
+                'html': CKEDITOR.instances['body_printout'].getData(),
+                'code': document.getElementById('printout_choose').value,
+                'name': document.getElementById('printout_choose').options[document.getElementById('printout_choose').selectedIndex].text
+           },
+           success: function(msg) {
+                console.log(msg);
+                if(msg.result.error_code == 0){
+                    Swal.fire({
+                     type: 'success',
+                     title: 'Report footer!',
+                     html: 'Success update ' + document.getElementById('printout_choose').options[document.getElementById('printout_choose').selectedIndex].text,
+                    })
+                    printout = msg.result.response;
+                    change_printout();
+
+                    document.getElementsByClassName("update_banner_btn")[0].disabled = false;
+                }
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error payment');
+                document.getElementsByClassName("update_banner_btn")[0].disabled = false;
+           },timeout: 60000
+        });
+    }
+</script>
+{% endblock %}
