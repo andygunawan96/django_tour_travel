@@ -252,6 +252,7 @@ function get_banner(type,page){
             if(msg.result.error_code == 0){
                 document.getElementById(type).innerHTML = '';
                 text = '';
+                cek_available_provider = 0;
                 if(page == 'home'){
                     if(msg.result.response.length == 0)
                         document.getElementById(type).style.display = 'none';
@@ -469,7 +470,8 @@ function get_banner(type,page){
                             </div>
                         </div>`;
                     }
-                }else if(page == 'admin'){
+                }
+                else if(page == 'admin'){
                     //<img src="`+msg.result.response[i].url+`" id="`+msg.result.response[i].seq_id+`" alt="" style="height:220px;width:auto"/>
                     text += `<div class="row">`;
                     for(i in msg.result.response){
@@ -546,14 +548,187 @@ function get_banner(type,page){
                     text += `</div>`;
                     banner_list[type] = msg.result.response;
                 }
+                else{
+                    if(msg.result.response.length == 0)
+                        document.getElementById(type).style.display = 'none';
+
+                    if(type == 'small_banner'){
+                        //banner_list['small_banner'] = msg.result.response;
+                        for(i in msg.result.response){
+                            if(msg.result.response[i].provider_type == page){
+                                cek_available_provider = 1;
+                            }
+                        }
+                        if(cek_available_provider == 1){
+                            if(template == 1){
+                                text+=`
+                                <section class="popular-destination-area section-gap" style="z-index:0; position:relative;">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="menu-content">
+                                                    <div class="title text-center">
+                                                        <h1>HOT DEALS</h1>
+                                                    </div>
+                                                    <br/>
+                                                </div>
+                                                <div class="owl-carousel-suggest owl-theme">`;
+                                                //<div style="background:red; position:absolute; right:0px; padding:5px; z-index:10;">
+                                                //    <h5 style="color:`+text_color+`;">SOLD OUT BRO</h5>
+                                                //</div>
+                                                for(i in msg.result.response){
+                                                    if(msg.result.response[i].provider_type == page){
+                                                        text+=`
+                                                        <div class="item">
+                                                            <div class="single-destination relative">
+                                                                <div class="thumb relative">
+                                                                    <img style="cursor:pointer;" src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>`;
+                                                    }
+                                                }
+                                                text+=`</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>`;
+                            }
+                            else if(template == 2){
+                                text+=`
+                                <section class="roberto-service-area" style="z-index:0; background:white;">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <div class="section-heading text-center wow fadeInUp" data-wow-delay="100ms" style="margin-bottom:20px;">
+                                                    <h1>HOT DEALS</h1>
+                                                </div>
+                                                <div class="owl-carousel-suggest owl-theme">`;
+                                                //<div style="background:red; position:absolute; right:0px; padding:5px; z-index:10;">
+                                                //    <h5 style="color:`+text_color+`;">SOLD OUT BRO</h5>
+                                                //</div>
+                                                for(i in msg.result.response){
+                                                    text+=`
+                                                    <div class="item">
+                                                        <div class="single-destination relative">
+                                                            <div class="thumb relative">
+                                                                <img style="cursor:pointer;" src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+                                                }
+                                                text+=`</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>`;
+                            }
+                            else if(template == 3){
+                                text+=`
+                                <section class="feature-area section-gap" id="service">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="row d-flex justify-content-center">
+                                                    <div class="col-md-8 pb-20 header-text">
+                                                        <h1>HOT DEALS</h1>
+                                                    </div>
+                                                </div>
+                                                <div class="owl-carousel-suggest owl-theme">`;
+                                                //<div style="background:red; position:absolute; right:0px; padding:5px; z-index:10;">
+                                                //    <h5 style="color:`+text_color+`;">SOLD OUT BRO</h5>
+                                                //</div>
+                                                for(i in msg.result.response){
+                                                    text+=`
+                                                    <div class="item">
+                                                        <div class="single-destination relative">
+                                                            <div class="thumb relative">
+                                                                <img style="cursor:pointer;" src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+                                                }
+                                                text+=`</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>`;
+                            }
+                            else if(template == 4){
+                                text+=`
+                                <div class="site-section" style="background: #f7f7f7;">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="row justify-content-center mb-5">
+                                                    <div class="col-md-7 text-center border-primary">
+                                                        <h1 class="font-weight-light text-primary" style="color:black !important">HOT DEALS</h1>
+                                                    </div>
+                                                </div>
+                                                <div class="owl-carousel-suggest owl-theme">`;
+                                                //<div style="background:red; position:absolute; right:0px; padding:5px; z-index:10;">
+                                                //    <h5 style="color:`+text_color+`;">SOLD OUT BRO</h5>
+                                                //</div>
+                                                for(i in msg.result.response){
+                                                    text+=`
+                                                    <div class="item">
+                                                        <div class="single-destination relative">
+                                                            <div class="thumb relative">
+                                                                <img style="cursor:pointer;" src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+                                                }
+                                                text+=`</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>`;
+                            }
+                            else if(template == 5){
+                                text+=`
+                                <section class="popular-destination-area section-gap" style="z-index:0; position:relative;">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="menu-content">
+                                                    <div class="title text-center">
+                                                        <h1>HOT DEALS</h1>
+                                                    </div>
+                                                    <br/>
+                                                </div>
+                                                <div class="owl-carousel-suggest owl-theme">`;
+                                                //<div style="background:red; position:absolute; right:0px; padding:5px; z-index:10;">
+                                                //    <h5 style="color:`+text_color+`;">SOLD OUT BRO</h5>
+                                                //</div>
+                                                for(i in msg.result.response){
+                                                    text+=`
+                                                    <div class="item">
+                                                        <div class="single-destination relative">
+                                                            <div class="thumb relative">
+                                                                <img style="cursor:pointer;" src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+                                                }
+                                                text+=`</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>`;
+                            }
+                        }
+                    }
+                }
                 document.getElementById(type).innerHTML = text;
                 if(page == 'admin'){
                     for(i in msg.result.response){
                         $("#"+type+i+`_provider_type`).niceSelect();
                     }
                 }
-                if(page == 'home'){
-                    if(msg.result.response.length > 0){
+
+                if(msg.result.response.length > 0){
+                    if(page == 'home'){
                         checkCookie();
 
                         if(type == 'big_banner'){
@@ -680,6 +855,46 @@ function get_banner(type,page){
                             $('#myModalPromotion').on('hidden.bs.modal', function (e) {
                                 checkCookie();
                             })
+                        }
+                    }else{
+                        if(cek_available_provider == 1){
+                            if(type == 'small_banner'){
+                            $('.owl-carousel-suggest').owlCarousel({
+                                loop:false,
+                                nav: true,
+                                navRewind:true,
+                                rewind: true,
+                                margin: 20,
+                                items:4,
+                                responsiveClass:true,
+                                dots: false,
+                                merge: false,
+                                lazyLoad:true,
+                                smartSpeed:500,
+                                autoplay: false,
+                                autoplayTimeout:10000,
+                                autoplayHoverPause:false,
+                                navText: ['<i class="fa fa-chevron-left owl-wh"/>', '<i class="fa fa-chevron-right owl-wh"/>'],
+                                responsive:{
+                                    0:{
+                                        items:2,
+                                        nav:true
+                                    },
+                                    480:{
+                                        items:2,
+                                        nav:true
+                                    },
+                                    768:{
+                                        items:3,
+                                        nav:true
+                                    },
+                                    961:{
+                                        items:4,
+                                        nav:true,
+                                    }
+                                }
+                            });
+                        }
                         }
                     }
                 }

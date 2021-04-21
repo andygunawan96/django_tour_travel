@@ -533,6 +533,10 @@ function getrupiah(price){
 
 function choose_train(data,key){
     var x = document.getElementById("show-cart");
+    document.getElementById("badge-copy-notif").innerHTML = 0;
+    document.getElementById("badge-copy-notif2").innerHTML = 0;
+    $('#button_copy_train').hide();
+
     //ini manual
     change_date_next_prev(1);
     $("#show-cart").addClass("minus");
@@ -580,6 +584,9 @@ function change_train(val){
     document.getElementById("train_ticket").innerHTML = '';
     $('#button_chart_train').hide();
     document.getElementById("badge-train-notif").innerHTML = "0";
+    document.getElementById("badge-copy-notif").innerHTML = 0;
+    document.getElementById("badge-copy-notif2").innerHTML = 0;
+    $('#button_copy_train').hide();
     change_date_next_prev(val);
     train_ticket_pick();
     filtering('filter');

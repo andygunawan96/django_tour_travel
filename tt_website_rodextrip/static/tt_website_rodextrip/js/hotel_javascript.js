@@ -852,53 +852,38 @@ function sort(response, check_filter){
                                                 }
                                             }
                                         //IVAN
-                                         for(j in arr){
-                                            if(j < 2 || (j == 2 && arr.length == 3) ){
-                                                text+=`
-                                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">`;
-                                                if(j == 0){
-                                                    text += `<i class="fas fa-thumbs-up" style="color:`+color+`;"></i>`;
-                                                    text += `<span class="price_hotel" hidden>`+arr[j][1]['currency']+` ` + getrupiah(arr[j][1]['price']) + `</span>`;
-                                                }
-                                                text +=`
-                                                </div>
-                                                <div class="col-lg-10 col-md-10 col-sm-11 col-xs-11 search_hotel_vendor" style="padding-left:5px; padding-right:5px;">
-                                                    <span style="font-size:13px; font-weight: 700;">`+arr[j][1]['currency']+` ` + getrupiah(arr[j][1]['price']) + `</span>
-                                                    <span style="font-size:13px; font-weight: 500; float:right;">` + arr[j][0] +`</span>
-                                                </div>`;
-                                            }
+//                                         for(j in arr){
+//                                            if(j < 2 || (j == 2 && arr.length == 3) ){
+//                                                text+=`
+//                                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">`;
+//                                                if(j == 0){
+//                                                    text += `<i class="fas fa-thumbs-up" style="color:`+color+`;"></i>`;
+//                                                    text += `<span class="price_hotel" hidden>`+arr[j][1]['currency']+` ` + getrupiah(arr[j][1]['price']) + `</span>`;
+//                                                }
+//                                                text +=`
+//                                                </div>
+//                                                <div class="col-lg-10 col-md-10 col-sm-11 col-xs-11 search_hotel_vendor" style="padding-left:5px; padding-right:5px;">
+//                                                    <span style="font-size:13px; font-weight: 700;">`+arr[j][1]['currency']+` ` + getrupiah(arr[j][1]['price']) + `</span>
+//                                                    <span style="font-size:13px; font-weight: 500; float:right;">` + arr[j][0] +`</span>
+//                                                </div>`;
+//                                            }
 //                                            if(response.hotel_ids[i].prices[j]['price'] != 0 && response.hotel_ids[i].prices[j]['price'] != false && response.hotel_ids[i].prices[j]['price'] != "-")
 //                                                best_price.push(response.hotel_ids[i].prices[j]['price']);
-                                        }
-                                        if(arr.length > 3){
-                                            text+=`
-                                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>`;
-                                            text += `
-                                            <div class="col-lg-10 col-md-10 col-sm-11 col-xs-11 search_hotel_vendor" style="padding-left:5px; padding-right:5px;">
-                                                <span style="font-size:13px; font-weight:700; text-align:left; cursor:pointer;" data-toggle="dropdown"> View all <i class="fas fa-caret-down"></i></span>
-                                                <ul class="dropdown-menu" role="menu" style="top:-10px !important; border:1px solid black;">
-                                                    <div class="row" style="padding:0px;">`;
-                                                    for(j in arr){
-                                                        text+=`
-                                                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">`;
-                                                        if(j == 0){
-                                                            text += `<i class="fas fa-thumbs-up" style="padding-left: 5px; color:`+color+`;"></i>`;
-                                                            text += `<span class="price_hotel" hidden>IDR ` + getrupiah(arr[j][1]['price']) + `</span>`;
-                                                        }
-                                                        // else if(j > 2){
-                                                        //     text += `<i class="fas fa-thumbs-down" style="color:`+color+`;"></i>`;
-                                                        // }
-                                                        text +=`
-                                                        </div>
-                                                        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
-                                                            <span style="font-size:13px; font-weight: 700; float:left;">IDR ` + getrupiah(arr[j][1]['price']) + `</span>
-                                                            <span style="font-size:13px; font-weight: 500; float:right;">` + arr[j][0] +`</span>
-                                                        </div>`;
-                                                    }
-                                                    text+=`</div>
-                                                </ul>
-                                            </div>`;
-                                        }
+//                                        }
+
+                                            content_price_pop = ``;
+                                            for(j in arr){
+                                                if(j == 0){
+                                                    content_price_pop += `<i class="fas fa-thumbs-up" style="padding-left: 5px; color:`+color+`;"></i>`;
+                                                    text += `<span class="price_hotel" hidden>IDR ` + getrupiah(arr[j][1]['price']) + `</span>`;
+                                                }
+                                                // else if(j > 2){
+                                                //     text += `<i class="fas fa-thumbs-down" style="color:`+color+`;"></i>`;
+                                                // }
+                                                content_price_pop +=`
+                                                    <span style="font-size:16px; font-weight: 700;">IDR ` + getrupiah(arr[j][1]['price']) + `</span>
+                                                    <span style="font-size:16px; font-weight: 700; color:`+color+`;">` + arr[j][0] +`</span><br/>`;
+                                            }
                                         //
 //                                        var best_price = [];
 //                                        var check_price = 0;
@@ -965,14 +950,18 @@ function sort(response, check_filter){
                                     }
                                     var total_room = document.getElementById("hotel_room").value;
                                     var total_night = document.getElementById("total_night_search").textContent;
-                                    text+=`
-                                    <div class="col-lg-12">
-                                        <span class="carrier_code_template">( for `+total_room+` room, `+total_night+` night )</span>
-                                    </div>`;
 
                                     text += `
                                     </div>
-                                    <div class="col-lg-12 search_hotel_button" style="text-align:right; position:absolute; bottom:0px; right:0px;">`;
+                                    <div class="col-lg-12 search_hotel_button" style="text-align:right; position:absolute; bottom:0px; right:0px;">
+                                        <span style="font-size:16px; font-weight: 700;">`+arr[j][1]['currency']+` ` + getrupiah(arr[j][1]['price']) + `</span>
+                                        <span style="font-size:16px; font-weight: 700; color:`+color+`;">` + arr[j][0] +`</span>`;
+                                        if(arr.length > 1){
+                                            text+=`<br/><span style="color:`+color+`; font-size:13px; font-weight:700; text-align:left; cursor:pointer;" id="view_all`+i+`"> More Price<i class="fas fa-caret-down"></i></span>`;
+                                        }
+                                        text+=`
+                                        <br/>
+                                        <span class="carrier_code_template">for `+total_room+` room, `+total_night+` night</span><br/>`;
                                         try{
                                             if(arr.length != 0)
                                                 text+=`<button type="button" class="primary-btn-custom" onclick="goto_detail('hotel',`+i+`)">Book Now!</button>`;
@@ -994,6 +983,28 @@ function sort(response, check_filter){
                 node.innerHTML = text;
                 document.getElementById("hotel_ticket").appendChild(node);
                 node = document.createElement("div");
+
+                new jBox('Tooltip', {
+                    attach: '#view_all'+i,
+                    target: '#view_all'+i,
+                    theme: 'TooltipBorder',
+                    trigger: 'click',
+                    adjustTracker: true,
+                    closeOnClick: 'body',
+                    closeButton: 'box',
+                    animation: 'move',
+                    position: {
+                      x: 'left',
+                      y: 'top'
+                    },
+                    outside: 'y',
+                    pointer: 'left:20',
+                    offset: {
+                      x: 25
+                    },
+                    content: content_price_pop
+                });
+
             }
             $('#loading-search-hotel').hide();
 
@@ -1465,7 +1476,7 @@ function hotel_room_pick(key, key2){
 
     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
     text += `<br/>
-        <div class="col-lg-12" style="text-align:center; display:none;" id="show_commission_hotel">
+        <div class="col-lg-12" style="padding:0px; text-align:center; display:none;" id="show_commission_hotel">
             <div class="alert alert-success">
                 <span style="font-size:13px; font-weight:bold;">Your Commission: IDR `+ getrupiah(parseInt(hotel_room.rooms[i].commission)*-1) +`</span><br>
             </div>
@@ -2020,7 +2031,7 @@ function hotel_detail(old_cancellation_policy){
     }catch(err){}
     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
         text+=`<br/>
-        <div class="col-lg-12 col-xs-12" style="text-align:center; display:none;" id="show_commission_hotel">
+        <div class="col-lg-12 col-xs-12" style="padding:0px; text-align:center; display:none;" id="show_commission_hotel">
             <div class="alert alert-success">
                 <span style="font-size:13px; font-weight:bold;">Your Commission: IDR `+ getrupiah(commission) +`</span><br>
             </div>
