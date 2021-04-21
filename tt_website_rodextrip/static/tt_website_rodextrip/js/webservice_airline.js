@@ -1983,7 +1983,7 @@ function get_price_itinerary_request(){
                                 <span style="font-weight:bold;"> Please check before going to the next page!</span>
                             </div>
                         </div>
-                        <div class="col-lg-12" style="max-height:100%; overflow:auto;">
+                        <div class="col-lg-12" style="max-height:500px; overflow:auto;">
                             <div class="row">`;
                 flight_count = 0;
                 for(i in resJson.result.response.price_itinerary_provider){
