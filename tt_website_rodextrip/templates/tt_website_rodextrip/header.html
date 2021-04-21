@@ -39,7 +39,7 @@
                         </ul>
                     </li>
                     {% if username.co_user_login != '' %}
-                    {% if 'co_customer_parent_type_name' in username and username.co_customer_parent_type_name == "COR" or 'co_customer_parent_type_name' in username and username.co_customer_parent_type_name == "POR" %}
+                    {% if "corp_limitation" in username.co_agent_frontend_security %}
                     <li class="menu-has-children pt5"><a href="#">{% trans 'Balance & Credit' %}</a>
                         <ul>
                             <li class="credit_mobile pt5"><a id="credit_limit"></a></li>
@@ -144,6 +144,7 @@
                             </div>
                             <div class="input-container-search-ticket">
                                 <label class="check_box_custom" style="margin-top:5px; margin-right:5px;">
+                                    <input type="hidden" id="g-recaptcha-response" />
                                     <span style="font-size:13px;color:{{text_color_login}};">{% trans 'Keep Me Signin' %}</span>
                                     <input type="checkbox" value="" id="keep_me_signin" name="keep_me_signin" checked="checked">
                                     <span class="check_box_span_custom"></span>
@@ -270,7 +271,7 @@
                                 <ul id="highlight_header_div" class="dropdown">
                                 </ul>
                             </li>
-                            {% if 'co_customer_parent_type_name' in username and username.co_customer_parent_type_name == "COR" or 'co_customer_parent_type_name' in username and username.co_customer_parent_type_name == "POR" %}
+                            {% if "corp_limitation" in username.co_agent_frontend_security %}
                             <li><a href="#">{% trans 'Balance & Credit' %}</a>
                                 <ul class="dropdown">
                                     <li class="credit_mobile"><a id="credit_limit"></a></li>
@@ -385,6 +386,7 @@
                                 </div>
                                 <div class="input-container-search-ticket">
                                     <label class="check_box_custom" style="margin-right:10px;">
+                                        <input type="hidden" id="g-recaptcha-response" />
                                         <span style="font-size:13px; color:{{text_color_login}};">{% trans 'Keep Me Signin' %}</span>
                                         <input type="checkbox" value="" id="keep_me_signin" name="keep_me_signin" checked="checked">
                                         <span class="check_box_span_custom"></span>
@@ -402,6 +404,7 @@
                                     <input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password2" placeholder="Password"/>
                                 </div>
                                 <label class="check_box_custom" style="margin-left:5px;">
+                                    <input type="hidden" id="g-recaptcha-response" />
                                     <span style="font-size:13px;">{% trans 'Keep Me Signin' %}</span>
                                     <input type="checkbox" value="" id="keep_me_signin2" name="keep_me_signin" checked="checked">
                                     <span class="check_box_span_custom"></span>
@@ -460,7 +463,7 @@
                             <ul id="highlight_header_div">
                             </ul>
                         </li>
-                        {% if 'co_customer_parent_type_name' in username and username.co_customer_parent_type_name == "COR" or 'co_customer_parent_type_name' in username and username.co_customer_parent_type_name == "POR" %}
+                        {% if "corp_limitation" in username.co_agent_frontend_security %}
                         <li class="menu-has-children"><a href="#">{% trans 'Balance & Credit' %}</a>
                             <ul>
                                 <li class="credit_mobile"><a id="credit_limit"></a></li>
@@ -559,6 +562,7 @@
                                 </div>
                                 <div class="input-container-search-ticket">
                                     <label class="check_box_custom" style="margin-right:5px;">
+                                        <input type="hidden" id="g-recaptcha-response" />
                                         <span style="font-size:13px; color:{{text_color_login}};">{% trans 'Keep Me Signin' %}</span>
                                         <input type="checkbox" value="" id="keep_me_signin" name="keep_me_signin" checked="checked">
                                         <span class="check_box_span_custom"></span>
@@ -649,7 +653,7 @@
                             </ul>
                         </li>
 
-                        {% if 'co_customer_parent_type_name' in username and username.co_customer_parent_type_name == "COR" or 'co_customer_parent_type_name' in username and username.co_customer_parent_type_name == "POR" %}
+                        {% if "corp_limitation" in username.co_agent_frontend_security %}
                         <li class="has-children"><a href="#">{% trans 'Balance & Credit' %}</a>
                             <ul class="dropdown">
                                 <li class="credit_mobile" style="color:white;"><a id="credit_limit"></a></li>
@@ -744,6 +748,7 @@
                                     <input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password2" placeholder="Password"/>
                                 </div>
                                 <label class="check_box_custom" style="margin-left:5px; float:left;">
+                                    <input type="hidden" id="g-recaptcha-response" />
                                     <span style="font-size:13px;">{% trans 'Keep Me Signin' %}</span>
                                     <input type="checkbox" value="" id="keep_me_signin2" name="keep_me_signin" checked="checked">
                                     <span class="check_box_span_custom"></span>
@@ -842,7 +847,7 @@
                     </li>
 
                     {% if username.co_user_login != '' %}
-                    {% if 'co_customer_parent_type_name' in username and username.co_customer_parent_type_name == "COR" or 'co_customer_parent_type_name' in username and username.co_customer_parent_type_name == "POR" %}
+                    {% if "corp_limitation" in username.co_agent_frontend_security %}
                     <li class="menu-has-children" style="margin-top:8px;"><a href="#">{% trans 'Balance & Credit' %} <i class="fas fa-chevron-down fat-dh" style="display:inline-block;"></i></a>
                         <ul style="top:65%;">
                             <li class="credit_mobile" style="margin-top:8px;"><a id="credit_limit"></a></li>
@@ -939,6 +944,7 @@
                                 <input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password" placeholder="Password"/>
                             </div>
                             <label class="check_box_custom" style="margin-left:5px; margin-right:5px;">
+                                <input type="hidden" id="g-recaptcha-response" />
                                 <span style="font-size:13px; color:{{text_color_login}};">{% trans 'Keep Me Signin' %}</span>
                                 <input type="checkbox" value="" id="keep_me_signin" name="keep_me_signin" checked="checked">
                                 <span class="check_box_span_custom"></span>
