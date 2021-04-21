@@ -318,6 +318,18 @@ function tour_search(){
            if(msg.result.error_code == 0){
                tour_data = msg.result.response.result;
                $('#loading-search-tour').hide();
+               if (tour_data.length == 0)
+               {
+                    text += `
+                        <div class="col-lg-12">
+                            <div style="text-align:center">
+                                <img src="/static/tt_website_rodextrip/images/nofound/no-tour.png" style="width:70px; height:70px;" alt="Not Found Tour" title="" />
+                                <br/>
+                            </div>
+                            <center><div class="alert alert-warning" role="alert" style="margin-top:15px; border:1px solid #cdcdcd;"><h6><i class="fas fa-search-minus"></i> Oops! Tour not found. Please try again or search another tour. </h6></div></center>
+                        </div>
+                    `;
+               }
                for(i in tour_data){
                    if(high_price_slider < tour_data[i].est_starting_price){
                         high_price_slider = tour_data[i].est_starting_price;

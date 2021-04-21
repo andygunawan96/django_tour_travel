@@ -12,10 +12,10 @@
 <!--<script src="{{ static_path }}js/webservice_bank.js?version={{javascript_version}}"></script>-->
 <script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/daterangepicker.js?version={{javascript_version}}"></script>
-<link rel="stylesheet" type="text/css" href="{{ static_path }}login/css/owl.carousel.css?version={{javascript_version}}">
-<link rel="stylesheet" type="text/css" href="{{ static_path }}login/css/owl.theme.default.min.css?version={{javascript_version}}">
-<link rel="stylesheet" type="text/css" href="{{ static_path }}login/css/owl.theme.green.min.css?version={{javascript_version}}">
-<script src="{{ static_path }}js/vendor/owl.carousel.min.js?version={{javascript_version}}"></script>
+<!--<link rel="stylesheet" type="text/css" href="{{ static_path }}login/css/owl.carousel.css?version={{javascript_version}}">-->
+<!--<link rel="stylesheet" type="text/css" href="{{ static_path }}login/css/owl.theme.default.min.css?version={{javascript_version}}">-->
+<!--<link rel="stylesheet" type="text/css" href="{{ static_path }}login/css/owl.theme.green.min.css?version={{javascript_version}}">-->
+<!--<script src="{{ static_path }}js/vendor/owl.carousel.min.js?version={{javascript_version}}"></script>-->
 <script>
     signature = `{{signature}}`;
     static_path_url_server = '{{static_path_url_server}}'
@@ -2155,7 +2155,7 @@
     //bank_get_balance();
     //get_transaction();
     //get_banner('big_banner','home');
-    //get_banner('small_banner','home');
+    get_banner('small_banner','visa');
     {% if website_mode == 'btc' or website_mode == 'btc_btb' %}
     ///get_dynamic_page('home');
     {% endif %}

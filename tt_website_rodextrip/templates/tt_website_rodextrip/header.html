@@ -39,7 +39,7 @@
                         </ul>
                     </li>
                     {% if username.co_user_login != '' %}
-                    {% if "corp_limitation" in username.co_agent_frontend_security %}
+                    {% if 'co_customer_parent_type_name' in username and username.co_customer_parent_type_name == "COR" or 'co_customer_parent_type_name' in username and username.co_customer_parent_type_name == "POR" %}
                     <li class="menu-has-children pt5"><a href="#">{% trans 'Balance & Credit' %}</a>
                         <ul>
                             <li class="credit_mobile pt5"><a id="credit_limit"></a></li>
@@ -270,7 +270,7 @@
                                 <ul id="highlight_header_div" class="dropdown">
                                 </ul>
                             </li>
-                            {% if "corp_limitation" in username.co_agent_frontend_security %}
+                            {% if 'co_customer_parent_type_name' in username and username.co_customer_parent_type_name == "COR" or 'co_customer_parent_type_name' in username and username.co_customer_parent_type_name == "POR" %}
                             <li><a href="#">{% trans 'Balance & Credit' %}</a>
                                 <ul class="dropdown">
                                     <li class="credit_mobile"><a id="credit_limit"></a></li>
@@ -460,7 +460,7 @@
                             <ul id="highlight_header_div">
                             </ul>
                         </li>
-                        {% if "corp_limitation" in username.co_agent_frontend_security %}
+                        {% if 'co_customer_parent_type_name' in username and username.co_customer_parent_type_name == "COR" or 'co_customer_parent_type_name' in username and username.co_customer_parent_type_name == "POR" %}
                         <li class="menu-has-children"><a href="#">{% trans 'Balance & Credit' %}</a>
                             <ul>
                                 <li class="credit_mobile"><a id="credit_limit"></a></li>
@@ -649,7 +649,7 @@
                             </ul>
                         </li>
 
-                        {% if "corp_limitation" in username.co_agent_frontend_security %}
+                        {% if 'co_customer_parent_type_name' in username and username.co_customer_parent_type_name == "COR" or 'co_customer_parent_type_name' in username and username.co_customer_parent_type_name == "POR" %}
                         <li class="has-children"><a href="#">{% trans 'Balance & Credit' %}</a>
                             <ul class="dropdown">
                                 <li class="credit_mobile" style="color:white;"><a id="credit_limit"></a></li>
@@ -842,7 +842,7 @@
                     </li>
 
                     {% if username.co_user_login != '' %}
-                    {% if "corp_limitation" in username.co_agent_frontend_security %}
+                    {% if 'co_customer_parent_type_name' in username and username.co_customer_parent_type_name == "COR" or 'co_customer_parent_type_name' in username and username.co_customer_parent_type_name == "POR" %}
                     <li class="menu-has-children" style="margin-top:8px;"><a href="#">{% trans 'Balance & Credit' %} <i class="fas fa-chevron-down fat-dh" style="display:inline-block;"></i></a>
                         <ul style="top:65%;">
                             <li class="credit_mobile" style="margin-top:8px;"><a id="credit_limit"></a></li>

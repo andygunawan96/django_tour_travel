@@ -1983,13 +1983,22 @@ function get_price_itinerary_request(){
                                 <span style="font-weight:bold;"> Please check before going to the next page!</span>
                             </div>
                         </div>
-                        <div class="col-lg-12" style="max-height:400px; overflow-y: auto;">
+                        <div class="col-lg-12" style="max-height:100%; overflow:auto;">
                             <div class="row">`;
                 flight_count = 0;
                 for(i in resJson.result.response.price_itinerary_provider){
                     for(j in resJson.result.response.price_itinerary_provider[i].journeys){
+                        flight_count++;
+                        text += `<div class="col-lg-12 mt-2">`;
+                        text += `<h6 style="background:`+color+`; padding:10px; cursor:pointer; color:`+text_color+`;" id="flight_title_up`+flight_count+`" onclick="show_hide_flight(`+flight_count+`);">Flight `+flight_count+` <i class="fas fa-caret-up" style="float:right; font-size:18px;"></i></h6>`;
+                        text += `<h6 style="background:`+color+`; padding:10px; cursor:pointer; color:`+text_color+`; display:none;" id="flight_title_down`+flight_count+`" onclick="show_hide_flight(`+flight_count+`);">Flight `+flight_count+` <i class="fas fa-caret-down" style="float:right; font-size:18px;"></i></h6>`;
+                        text += `</div>`;
+                        $text +='Flight '+flight_count+'\n';
+
+                        text+=`<div class="col-lg-12" style="padding:15px;" id="flight_div_sh`+flight_count+`">`;
                         text+=`
-                        <div class="col-lg-12">`;
+                            <div class="row">
+                                <div class="col-lg-12">`;
                         if(i == 0 && j == 0 && resJson.result.response.is_combo_price == true && journey.length > 1){
 //                            text += `<marquee direction="down" behavior="alternate" height="50">
 //
@@ -1998,10 +2007,8 @@ function get_price_itinerary_request(){
 //                                     </marquee>`;
                             $text +='Special Price\n';
                         }
-                        flight_count++;
-                        text += `<hr/><h6>Flight `+flight_count+`</h6>`;
-                        $text +='Flight '+flight_count+'\n';
-                 text+=`</div>
+                        text+=`
+                        <div class="row">
                         <div class="col-lg-3">`;
                         //logo
                         for(k in resJson.result.response.price_itinerary_provider[i].journeys[j].segments){ //print gambar airline
@@ -2228,6 +2235,8 @@ function get_price_itinerary_request(){
                         if(fare_print == true){
                             fare_print = false;
                             text+=`
+                            </div>
+                        </div>
                                     <div class="col-lg-12" id="rules`+rules+`" style="padding-bottom:15px; padding-top:15px;">
                                         <span class="carrier_code_template"> Term and Condition </span><br/>
                                         <span style="font-size:16px; font-weight:bold;">PLEASE WAIT ... </span>
@@ -2245,7 +2254,9 @@ function get_price_itinerary_request(){
                                             <div class="sk-circle11 sk-child"></div>
                                             <div class="sk-circle12 sk-child"></div>
                                         </div>
-                                    </div>`;
+                                    </div>
+                                </div>
+                            </div>`;
                             rules++;
                             //price
                             price = 0;
@@ -2379,7 +2390,6 @@ function get_price_itinerary_request(){
                                     price_counter++;
                                     $text += '\n';
                         }
-
                     }
                 }
                 for(;price_counter<airline_price.length;i++){
@@ -2686,7 +2696,7 @@ function get_fare_rules(){
                             text_fare+=`
                                 <span id="span-tac-up`+count_fare+`" class="carrier_code_template" style="display:none; cursor:pointer;" onclick="show_hide_tac(`+count_fare+`);"> Show Term and Condition <i class="fas fa-chevron-down"></i></span>
                                 <span id="span-tac-down`+count_fare+`" class="carrier_code_template" style="display:block; cursor:pointer;" onclick="show_hide_tac(`+count_fare+`);"> Hide Term and Condition <i class="fas fa-chevron-up"></i></span>
-                                <div id="div-tac`+count_fare+`" style="display:block;">`;
+                                <div id="div-tac`+count_fare+`" style="display:block; max-height:175px; overflow-y: auto; padding:15px;">`;
                             for(k in msg.result.response.fare_rule_provider[i].rules){
                                 if(msg.result.response.fare_rule_provider[i].rules[k] != ""){
                                     text_fare += `<span style="font-weight:bold;">`+msg.result.response.fare_rule_provider[i].rules[k].name+`</span><br/>`;
@@ -7908,18 +7918,18 @@ function get_price_itinerary_reissue_request(airline_response, total_admin_fee, 
                     <span style="font-weight:bold;"> Please check before going to the next page!</span>
                 </div>
             </div>
-            <div class="col-lg-12" style="max-height:400px; overflow-y: auto;">
+            <div class="col-lg-12">
                 <div class="row">`;
     flight_count = 0;
     $text +='New schedule\n';
     for(i in airline_response){
         text+=`
-        <div class="col-lg-12">`;
+        <div class="col-lg-12" style="max-height:400px; overflow-y: auto;">`;
         flight_count++;
         text += `<hr/><h6>Flight `+flight_count+`</h6>`;
         $text +='Flight '+flight_count+'\n';
  text+=`</div>
-        <div class="col-lg-3">`;
+        <div class="col-lg-12">`;
         //logo
         for(j in airline_response[i].carrier_code_list){ //print gambar airline
             try{
@@ -7931,7 +7941,7 @@ function get_price_itinerary_reissue_request(airline_response, total_admin_fee, 
             }
         }
         text+=`</div>`;
-        text+=`<div class="col-lg-9">`;
+        text+=`<div class="col-lg-12">`;
         price = 0;
         //adult
         currency = '';
@@ -10339,4 +10349,21 @@ function sell_ssrs_after_sales_v2(){
             $('.btn-next').prop('disabled', false);
        },timeout: 300000
     });
+}
+
+function show_hide_flight(id){
+    var general_up = document.getElementById('flight_title_up'+id);
+    var general_down = document.getElementById('flight_title_down'+id);
+    var general_show = document.getElementById('flight_div_sh'+id);
+
+    if (general_down.style.display === "none") {
+        general_up.style.display = "none";
+        general_down.style.display = "block";
+        general_show.style.display = "none";
+    }
+    else {
+        general_up.style.display = "block";
+        general_down.style.display = "none";
+        general_show.style.display = "block";
+    }
 }
