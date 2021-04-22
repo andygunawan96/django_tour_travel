@@ -228,7 +228,7 @@ function banner_click(type, seq_id){
                 if(banner_list[i][j].provider_type == 'hotel'){
                     $('#myModalWizardHotel').modal('show');
                     document.getElementById('hotel_searchForm_wizard').action = banner_list[i][j].url_page;
-                }else if(banner_list[i][j].provider_type == 'tour' || banner_list[i][j].provider_type == 'activity'){
+                }else if(banner_list[i][j].provider_type == 'tour' || banner_list[i][j].provider_type == 'activity' || banner_list[i][j].provider_type == 'external'){
                     window.location = banner_list[i][j].url_page;
                 }
             }
@@ -515,7 +515,7 @@ function get_banner(type,page){
                                     <h6 style="color:`+text_color+`;margin-bottom:10px;">Provider Type</h6>
                                     <div class="form-select">
                                         <select id="`+type+i+`_provider_type" style="width:100%" name="`+type+i+`_provider_type" class="nice-select-default">
-                                            <option value=""></option>`;
+                                            <option value="external">External</option>`;
                                         for(j in provider_list_template){
                                             if(provider_list_template[j] != "offline" &&
                                                provider_list_template[j] != "bank" &&

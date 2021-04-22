@@ -2956,17 +2956,12 @@ def sell_reschedule_v2(request,boolean, counter):
                     carrier_code = []
                     for segment in journey['segments']:
                         carrier_code.append(segment['carrier_code'])
-                    try:
-                        schedules.append({
-                            'journeys': journeys,
-                            'passengers': passenger,
-                            'pnr': pnr_list[idx]
-                        })
-                    except:
-                        schedules.append({
-                            'journeys': journeys,
-                            'provider': journey['provider'],
-                        })
+                    schedules.append({
+                        'journeys': journeys,
+                        'passengers': passenger,
+                        'pnr': pnr_list[idx],
+                        'provider': journey['provider']
+                    })
                 journeys = []
         data = {
             "schedules": schedules,
