@@ -3927,8 +3927,9 @@ function airline_get_booking(data, sync=false){
     get_vendor_balance('false');
     try{
         show_loading();
+        please_wait_transaction();
     }catch(err){}
-    please_wait_transaction();
+
     $("#waitingTransaction").modal('show');
     $.ajax({
        type: "POST",
