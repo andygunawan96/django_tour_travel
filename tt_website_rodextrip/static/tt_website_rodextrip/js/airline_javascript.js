@@ -3531,6 +3531,7 @@ function airline_detail(type){
             price_itinerary_temp = price_itinerary.price_itinerary_provider;
         else
             price_itinerary_temp = price_itinerary.sell_journey_provider;
+        currency = '';
         for(i in price_itinerary_temp){
             for(j in price_itinerary_temp[i].journeys){
                 for(k in price_itinerary_temp[i].journeys[j].segments){
@@ -3538,10 +3539,12 @@ function airline_detail(type){
                         if(price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary.length != 0)
                             airline_price.push({});
                         for(m in price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary){
+                            if(currency == '')
+                                currency = price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[0].currency;
                             price_type['fare'] = price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_fare / price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].pax_count;
                             price_type['tax'] = price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_tax / price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].pax_count;
                             price_type['rac'] = price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_commission / price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].pax_count;
-                            price_type['currency'] = price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[0].currency;
+                            price_type['currency'] = currency;
                             price_type['roc'] = 0;
                             airline_price[airline_price.length-1][price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].pax_type] = price_type;
                             price_type = [];
