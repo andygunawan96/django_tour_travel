@@ -4440,8 +4440,8 @@ function airline_get_booking(data, sync=false){
                                     <h5> Reschedule Flight Detail <img style="width:18px;" src="/static/tt_website_rodextrip/images/icon/plane.png" alt="Reschedule Flight Detail"/></h5>
                                     <hr/>`;
                                 check = 0;
-                                flight_counter = 1;
                                 for(i in msg.result.response.reschedule_list){
+                                    flight_counter = 1;
                                     if(i != 0){
                                         text+=`<hr/>`;
                                     }
