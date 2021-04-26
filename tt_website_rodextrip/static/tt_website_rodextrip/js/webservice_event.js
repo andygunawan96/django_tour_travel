@@ -157,11 +157,24 @@ function event_get_booking(data){
             'signature': signature
        },
        success: function(msg) {
-            console.log('Get Booking');
             console.log(msg);
             document.getElementById('button-home').hidden = false;
             document.getElementById('button-new-reservation').hidden = false;
             hide_modal_waiting_transaction();
+            tes = moment.utc(msg.result.response.hold_date).format('YYYY-MM-DD HH:mm:ss')
+            localTime  = moment.utc(tes).toDate();
+
+            data_gmt = moment(msg.result.response.hold_date)._d.toString().split(' ')[5];
+            gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, '');
+            timezone = data_gmt.replace (/[^\d.]/g, '');
+            timezone = timezone.split('')
+            timezone = timezone.filter(item => item !== '0')
+            msg.result.response.hold_date = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
+            if(msg.result.response.issued_date != ''){
+                tes = moment.utc(msg.result.response.issued_date).format('YYYY-MM-DD HH:mm:ss')
+                localTime  = moment.utc(tes).toDate();
+                msg.result.response.issued_date = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
+            }
             try{
                 //======================= Resv =========================
                 if(msg.result.error_code == 0){
@@ -177,16 +190,6 @@ function event_get_booking(data){
                                 <th>Status</th>
                             </tr>`;
                             for(i in msg.result.response.providers){
-                                tes = moment.utc(msg.result.response.hold_date).format('YYYY-MM-DD HH:mm:ss')
-                                localTime  = moment.utc(tes).toDate();
-
-                                data_gmt = moment(msg.result.response.hold_date)._d.toString().split(' ')[5];
-                                gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, '');
-                                timezone = data_gmt.replace (/[^\d.]/g, '');
-                                timezone = timezone.split('')
-                                timezone = timezone.filter(item => item !== '0')
-                                msg.result.response.hold_date = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
-
                                 text+=`
                                     <tr>
                                         <td>`+msg.result.response.providers[i].pnr+`</td>

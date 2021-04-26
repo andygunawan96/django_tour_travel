@@ -4022,6 +4022,11 @@ function airline_get_booking(data, sync=false){
                     timezone = timezone.split('') //split per char
                     timezone = timezone.filter(item => item !== '0') //hapus angka 0 di timezone
                     msg.result.response.hold_date = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
+                    if(msg.result.response.issued_date != ''){
+                        tes = moment.utc(msg.result.response.issued_date).format('YYYY-MM-DD HH:mm:ss')
+                        localTime  = moment.utc(tes).toDate();
+                        msg.result.response.issued_date = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
+                    }
                 }
                 if(msg.result.response.state == 'cancel'){
                    document.getElementById('issued-breadcrumb').classList.remove("br-active");
