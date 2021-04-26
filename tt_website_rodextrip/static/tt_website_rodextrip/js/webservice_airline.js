@@ -4672,7 +4672,7 @@ function airline_get_booking(data, sync=false){
                     text+=`
                     <div class="col-lg-6 col-md-6" style="padding-bottom:10px;">`;
                         text+=`
-                        <button type="button" id="button-print-ori" class="primary-btn ld-ext-right" style="width:100%;" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket_original','airline');">
+                        <button type="button" id="button-print-ori" class="primary-btn ld-ext-right" style="width:100%;" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket_original','airline',120);">
                             Print Ori Ticket
                             <div class="ld ld-ring ld-cycle"></div>
                         </button>
