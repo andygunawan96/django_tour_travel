@@ -1,5 +1,5 @@
 printout_state = 0;
-function get_printout(order_number,type,provider_type){
+function get_printout(order_number,type,provider_type, timeout=60){
     //type ticket, ticket_price, invoice, itinerary, voucher, visa_handling,
     if(printout_state == 0){
         printout_state = 1;
@@ -46,7 +46,8 @@ function get_printout(order_number,type,provider_type){
                 'bill_name_to': bill_name_to,
                 'bill_address': bill_address,
                 'additional_information': additional_information,
-                'signature': signature
+                'signature': signature,
+                'timeout': timeout
            },
            success: function(msg) {
                 console.log(msg);
@@ -99,7 +100,7 @@ function get_printout(order_number,type,provider_type){
                     $('#button-issued-print').prop('disabled', false);
                     $('#button-issued-print').removeClass("running");
                 }
-           },timeout: 60000
+           },timeout: timeout * 1000
         });
     }else{
         Swal.fire({

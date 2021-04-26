@@ -95,7 +95,7 @@ def get_printout(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + 'printout', data=data, headers=headers, method='POST')
+    res = util.send_request(url=url + 'printout', data=data, headers=headers, method='POST', timeout=request.POST.get('timeout') or 60)
     try:
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS get_printout_api_printout " + request.POST['provider_type'] + " SIGNATURE " + request.POST['signature'])
