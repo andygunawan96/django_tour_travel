@@ -1574,7 +1574,18 @@ function hotel_get_booking(data){
             document.getElementById('button-home').hidden = false;
             document.getElementById('button-new-reservation').hidden = false;
             document.getElementById("overlay-div-box").style.display = "none";
-
+            tes = moment.utc(msg.result.response.hold_date).format('YYYY-MM-DD HH:mm:ss')
+            localTime  = moment.utc(tes).toDate();
+            data_gmt = moment(msg.result.response.hold_date)._d.toString().split(' ')[5];
+            gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, '');
+            timezone = data_gmt.replace (/[^\d.]/g, '');
+            timezone = timezone.split('')
+            timezone = timezone.filter(item => item !== '0')
+            if(msg.result.response.issued_date != ''){
+                tes = moment.utc(msg.result.response.issued_date).format('YYYY-MM-DD HH:mm:ss')
+                localTime  = moment.utc(tes).toDate();
+                msg.result.response.issued_date = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
+            }
             try{
                 list_pnr = [];
                 if(msg.result.error_code == 0){

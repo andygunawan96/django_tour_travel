@@ -619,7 +619,13 @@ def ssr(request):
                                     for provider in ssr_provider['ssr_availability']:
                                         for availability in ssr_provider['ssr_availability'][provider]:
                                             for ssr in availability['ssrs']:
-                                                if ssr['fee_code'] == fee['fee_code']:
+                                                if ssr.get('fee_code') == fee['fee_code']:
+                                                    adult[len(adult) - 1]['ssr_list'].append({
+                                                        "name": fee['fee_name'],
+                                                        "journey_code": ssr['journey_code'],
+                                                        "availability_type": ssr['fee_category']
+                                                    })
+                                                elif ssr.get('ssr_code') == fee['fee_code']:
                                                     adult[len(adult) - 1]['ssr_list'].append({
                                                         "name": fee['fee_name'],
                                                         "journey_code": ssr['journey_code'],

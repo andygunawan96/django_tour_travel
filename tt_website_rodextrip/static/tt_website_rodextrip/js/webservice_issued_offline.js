@@ -954,10 +954,19 @@ function get_booking_offline(data){
                     }
 
                     $text += 'Order Number: '+ msg.result.response.order_number + '\n';
-                    if(msg.result.response.hold_date != 'Invalid date'){
+                    if(msg.result.response.hold_date != ''){
                         tes = moment.utc(msg.result.response.hold_date).format('YYYY-MM-DD HH:mm:ss')
                         localTime  = moment.utc(tes).toDate();
-                        msg.result.response.hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
+                        data_gmt = moment(msg.result.response.hold_date)._d.toString().split(' ')[5];
+                        gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, '');
+                        timezone = data_gmt.replace (/[^\d.]/g, '');
+                        timezone = timezone.split('')
+                        timezone = timezone.filter(item => item !== '0')
+                        if(msg.result.response.issued_date != ''){
+                            tes = moment.utc(msg.result.response.issued_date).format('YYYY-MM-DD HH:mm:ss')
+                            localTime  = moment.utc(tes).toDate();
+                            msg.result.response.issued_date = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
+                        }
                     }
                     //$text += 'Hold Date: ' + msg.result.response.hold_date + '\n';
                     $text += msg.result.response.state_offline + '\n';

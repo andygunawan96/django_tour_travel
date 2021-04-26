@@ -1437,6 +1437,11 @@ function tour_get_booking(order_number)
                    timezone = data_gmt.replace (/[^\d.]/g, '');
                    timezone = timezone.split('')
                    timezone = timezone.filter(item => item !== '0')
+                   if(msg.result.response.issued_date != ''){
+                        tes = moment.utc(msg.result.response.issued_date).format('YYYY-MM-DD HH:mm:ss')
+                        localTime  = moment.utc(tes).toDate();
+                        msg.result.response.issued_date = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
+                    }
                    if(cur_state == 'booked'){
                         conv_status = 'Booked';
                         document.getElementById('voucher_discount').style.display = '';
