@@ -1332,7 +1332,7 @@ function airline_search(provider,carrier_codes){
                     })
 
                 }
-                filtering('sort');
+                filtering('filter');
                 $("#barFlightSearch").hide();
                 $("#waitFlightSearch").hide();
               }
@@ -1347,7 +1347,7 @@ function airline_search(provider,carrier_codes){
             if ((airline_choose/count_progress_bar_airline)*100 == 100){
                 $("#barFlightSearch").hide();
                 $("#waitFlightSearch").hide();
-                filtering('sort');
+                filtering('filter');
             }
            if (count_progress_bar_airline == airline_choose && airline_data.length == 0){
                 error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline search');
