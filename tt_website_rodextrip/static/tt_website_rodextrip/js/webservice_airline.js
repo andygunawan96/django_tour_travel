@@ -3214,9 +3214,10 @@ function update_seat_passenger(segment, departure_date, row, column,seat_code,se
 //                            if(get_seat_check == true)
 //                               break
 //                        }
-
-                        document.getElementById(segment+'_'+departure_date+'_'+seat_choose_pax.replace(/[^0-9]/g, '')+'_'+seat_choose_pax.replace(/[^A-Za-z]/g, '')).style.background = '#CACACA';
-                        document.getElementById(segment+'_'+departure_date+'_'+seat_choose_pax.replace(/[^0-9]/g, '')+'_'+seat_choose_pax.replace(/[^A-Za-z]/g, '')).style.color = 'black';
+                        try{
+                            document.getElementById(segment+'_'+departure_date+'_'+seat_choose_pax.replace(/[^0-9]/g, '')+'_'+seat_choose_pax.replace(/[^A-Za-z]/g, '')).style.background = '#CACACA';
+                            document.getElementById(segment+'_'+departure_date+'_'+seat_choose_pax.replace(/[^0-9]/g, '')+'_'+seat_choose_pax.replace(/[^A-Za-z]/g, '')).style.color = 'black';
+                        }catch(err){}
 
                     }
                     //pasang passenger seat
@@ -10313,7 +10314,7 @@ function assign_seats_after_sales_v2(){
                 if(state == 'issued' || state == 'reissue' || state == 'rescheduled'){
                     //hide_modal_waiting_transaction();
                     //document.getElementById('show_loading_booking_airline').hidden = false;
-                    get_payment_acq('Issued',booker_id, '', 'billing',signature,'airline_after_sales');
+                    get_payment_acq('Issued',booker_id, order_number, 'billing',signature,'airline_after_sales');
                 }else
                     update_booking_after_sales_v2();
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
