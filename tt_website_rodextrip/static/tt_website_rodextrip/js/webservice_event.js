@@ -158,26 +158,26 @@ function event_get_booking(data){
        },
        success: function(msg) {
             console.log(msg);
-            document.getElementById('button-home').hidden = false;
-            document.getElementById('button-new-reservation').hidden = false;
-            hide_modal_waiting_transaction();
-            tes = moment.utc(msg.result.response.hold_date).format('YYYY-MM-DD HH:mm:ss')
-            localTime  = moment.utc(tes).toDate();
-
-            data_gmt = moment(msg.result.response.hold_date)._d.toString().split(' ')[5];
-            gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, '');
-            timezone = data_gmt.replace (/[^\d.]/g, '');
-            timezone = timezone.split('')
-            timezone = timezone.filter(item => item !== '0')
-            msg.result.response.hold_date = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
-            if(msg.result.response.issued_date != ''){
-                tes = moment.utc(msg.result.response.issued_date).format('YYYY-MM-DD HH:mm:ss')
-                localTime  = moment.utc(tes).toDate();
-                msg.result.response.issued_date = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
-            }
             try{
                 //======================= Resv =========================
                 if(msg.result.error_code == 0){
+                    document.getElementById('button-home').hidden = false;
+                    document.getElementById('button-new-reservation').hidden = false;
+                    hide_modal_waiting_transaction();
+                    tes = moment.utc(msg.result.response.hold_date).format('YYYY-MM-DD HH:mm:ss')
+                    localTime  = moment.utc(tes).toDate();
+
+                    data_gmt = moment(msg.result.response.hold_date)._d.toString().split(' ')[5];
+                    gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, '');
+                    timezone = data_gmt.replace (/[^\d.]/g, '');
+                    timezone = timezone.split('')
+                    timezone = timezone.filter(item => item !== '0')
+                    msg.result.response.hold_date = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
+                    if(msg.result.response.issued_date != ''){
+                        tes = moment.utc(msg.result.response.issued_date).format('YYYY-MM-DD HH:mm:ss')
+                        localTime  = moment.utc(tes).toDate();
+                        msg.result.response.issued_date = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
+                    }
                     event_get_detail = msg;
                     $text = '';
                     $text += 'Order Number: '+ msg.result.response.order_number + '\n';
@@ -194,7 +194,7 @@ function event_get_booking(data){
                                     <tr>
                                         <td>`+msg.result.response.providers[i].pnr+`</td>
                                         <td>`+msg.result.response.hold_date+`</td>
-                                        <td>`+msg.result.response.status.charAt(0).toUpperCase()+msg.result.response.status.slice(1).toLowerCase()+`</td>
+                                        <td>`+msg.result.response.state_description+`</td>
                                     </tr>`;
                             }
                     text+=`
@@ -419,8 +419,7 @@ function event_get_booking(data){
             $text += '\nContact Person:\n';
             $text += msg.result.response.contact.title + ' ' + msg.result.response.contact.name + '\n';
             $text += msg.result.response.contact.email + '\n';
-            if(msg.result.response.contact.phones.length > 0)
-                $text += msg.result.response.contact.phones[0].calling_number + '\n';
+            $text += msg.result.response.contact.phone + '\n';
             text = '';
             tax = 0;
             fare = 0;

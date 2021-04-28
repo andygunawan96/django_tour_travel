@@ -107,7 +107,6 @@ function add_table_of_passenger(type){
     set_passenger_number(counter_passenger);
     var node = document.createElement("tr");
     text += `
-        <td>`+(parseInt(counter_passenger)+1)+`</td>
         <td>
             <span id='name_pax`+counter_passenger+`' name='name_pax`+counter_passenger+`'></span>
             <input id="id_passenger`+counter_passenger+`" name="id_passenger`+counter_passenger+`" type="hidden"/>
@@ -120,7 +119,7 @@ function add_table_of_passenger(type){
         <td>
             <div style="text-align:center;">
                 <button type="button" class="primary-btn" style="margin-bottom:5px; line-height:34px;" data-toggle="modal" data-target="#myModalPassenger`+counter_passenger+`" onclick="set_passenger_number(`+counter_passenger+`);"><i class="fas fa-search"></i></button>
-                <button type="button" class="primary-btn" style="margin-bottom:5px; line-height:34px;" onclick="clear_passenger('Adult',`+parseInt(counter_passenger+1)+`);document.getElementById('name_pax`+counter_passenger+`').innerHTML='';document.getElementById('birth_date`+counter_passenger+`').innerHTML=document.getElementById('adult_birth_date`+parseInt(counter_passenger+1)+`').value;document.getElementById('id_passenger`+counter_passenger+`').value='';"><i class="fas fa-times"></i></button>
+                <button type="button" class="primary-btn" style="margin-bottom:5px; line-height:34px;" onclick="delete_table_of_passenger(`+parseInt(counter_passenger)+`);"><i class="fas fa-times"></i></button>
             </div>
             <!-- Modal -->
             <div class="modal fade" id="myModalPassenger`+counter_passenger+`" role="dialog" data-keyboard="false">
@@ -261,15 +260,42 @@ function add_table_of_passenger(type){
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    <label>Passport Number</label>
-                                                    <div class="input-container-search-ticket" style="margin-bottom:5px;">
-                                                        <input type="text" class="form-control" name="adult_passport_number`+parseInt(counter_passenger+1)+`" id="adult_passport_number`+parseInt(counter_passenger+1)+`" placeholder="Passport Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                    <label>ID Type</label>`;
+                                                    if(template == 1){
+                                                        text+=`<div class="input-container-search-ticket">`;
+                                                    }else if(template == 2){
+                                                        text+=`<div>`;
+                                                    }else if(template == 3){
+                                                        text+=`<div class="default-select">`;
+                                                    }else if(template == 4){
+                                                        text+=`<div class="input-container-search-ticket">`;
+                                                    }else if(template == 5){
+                                                        text+=`<div class="input-container-search-ticket">`;
+                                                    }
+                                                    text+=`<div class="form-select-2">`;
+                                                    if(template == 4){
+                                                        text+=`<select class="nice-select-default rounded" id="adult_identity_type`+parseInt(counter_passenger+1)+`" name="adult_identity_type`+parseInt(counter_passenger+1)+`">`;
+                                                    }else{
+                                                        text+=`<select id="adult_identity_type`+parseInt(counter_passenger+1)+`" name="adult_identity_type`+parseInt(counter_passenger+1)+`">`;
+                                                    }
+                                                        text+=`<option value="ktp">KTP</option>
+                                                            <option value="sim">SIM</option>
+                                                            <option value="passport">PASSPORT</option>
+                                                            <option value="other">Other</option>`;
+                                                            text+=`</select>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    <label>Passport Expired Date</label>
+                                                    <label>Identity Number</label>
                                                     <div class="input-container-search-ticket" style="margin-bottom:5px;">
-                                                        <input type="text" class="form-control date-picker-passport" name="adult_passport_expired_date`+parseInt(counter_passenger+1)+`" id="adult_passport_expired_date`+parseInt(counter_passenger+1)+`" placeholder="Passport Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" autocomplete="off">
+                                                        <input type="text" class="form-control" name="adult_identity_number`+parseInt(counter_passenger+1)+`" id="adult_identity_number`+parseInt(counter_passenger+1)+`" placeholder="Identity Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    <label>Identity Expired Date</label>
+                                                    <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                                                        <input type="text" class="form-control date-picker-passport" name="adult_identity_expired_date`+parseInt(counter_passenger+1)+`" id="adult_identity_expired_date`+parseInt(counter_passenger+1)+`" placeholder="Identity Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Expired Date '" autocomplete="off">
                                                         <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -404,7 +430,7 @@ function add_table_of_passenger(type){
           }
     });
 
-    $('input[name="adult_passport_expired_date'+parseInt(counter_passenger+1)+'"]').daterangepicker({
+    $('input[name="adult_identity_expired_date'+parseInt(counter_passenger+1)+'"]').daterangepicker({
           singleDatePicker: true,
           autoUpdateInput: true,
           startDate: moment(),
@@ -415,7 +441,7 @@ function add_table_of_passenger(type){
               format: 'DD MMM YYYY',
           }
     });
-    document.getElementById('adult_passport_expired_date'+parseInt(counter_passenger+1)).value = '';
+    document.getElementById('adult_identity_expired_date'+parseInt(counter_passenger+1)).value = '';
     document.getElementById("train_"+parseInt(counter_passenger+1)+"_search").addEventListener("keyup", function(event) {
       // Number 13 is the "Enter" key on the keyboard
 
@@ -435,15 +461,15 @@ function add_table_of_passenger(type){
     if(type == 'open')
         $('#myModalPassenger'+parseInt(parseInt(counter_passenger))).modal('show');
     $('#adult_title'+parseInt(counter_passenger+1)).niceSelect();
+    $('#adult_identity_type'+parseInt(counter_passenger+1)).niceSelect();
     auto_complete(`adult_nationality`+parseInt(counter_passenger+1));
     counter_passenger++;
 }
 
-function delete_table_of_passenger(){
+function delete_table_of_passenger(counter){
     if(counter_passenger != 0){
         try{
-            counter_passenger--;
-            var element = document.getElementById('table_passenger'+counter_passenger);
+            var element = document.getElementById('table_passenger'+counter);
             element.parentNode.removeChild(element);
         }catch(err){}
     }
@@ -940,8 +966,12 @@ function update_contact(type,val){
         if(document.getElementById('booker_title').value != '' && document.getElementById('booker_first_name').value != '' && document.getElementById('booker_last_name').value != '')
             document.getElementById('contact_person').value = document.getElementById('booker_title').value + ' ' + document.getElementById('booker_first_name').value + ' ' + document.getElementById('booker_last_name').value;
     }else if(type == 'passenger'){
-        if(document.getElementById('adult_title'+val).value != '' && document.getElementById('adult_first_name'+val).value != '' && document.getElementById('adult_last_name'+val).value != '')
-            document.getElementById('name_pax'+parseInt(val-1)).innerHTML = document.getElementById('adult_title'+val).value + ' ' + document.getElementById('adult_first_name'+val).value + ' ' + document.getElementById('adult_last_name'+val).value;
+        if(document.getElementById('adult_title'+val).value != '')
+            document.getElementById('name_pax'+parseInt(val-1)).innerHTML = document.getElementById('adult_title'+val).value + ' ';
+        if(document.getElementById('adult_first_name'+val).value != '')
+            document.getElementById('name_pax'+parseInt(val-1)).innerHTML = document.getElementById('adult_first_name'+val).value + ' ' ;
+        if(document.getElementById('adult_last_name'+val).value != '')
+            document.getElementById('name_pax'+parseInt(val-1)).innerHTML = document.getElementById('adult_last_name'+val).value;
         if(document.getElementById('adult_birth_date'+val).value != ''){
             document.getElementById('birth_date'+parseInt(val-1)).innerHTML = document.getElementById('adult_birth_date'+val).value;
         }
@@ -1111,3 +1141,146 @@ function copy_data(){
 //    document.execCommand('copy');
 //    document.body.removeChild(el);
 }
+
+function Upload() {
+    //Reference the FileUpload element.
+    var fileUpload = document.getElementById("fileUpload");
+
+    //Validate whether File is valid Excel file.
+    if(fileUpload.value.toLowerCase().endsWith(".xlsx")){
+        if (typeof (FileReader) != "undefined") {
+            var reader = new FileReader();
+
+            //For Browsers other than IE.
+            if (reader.readAsBinaryString) {
+                reader.onload = function (e) {
+                    ProcessExcel(e.target.result);
+                };
+                reader.readAsBinaryString(fileUpload.files[0]);
+            } else {
+                //For IE Browser.
+                reader.onload = function (e) {
+                    var data = "";
+                    var bytes = new Uint8Array(e.target.result);
+                    for (var i = 0; i < bytes.byteLength; i++) {
+                        data += String.fromCharCode(bytes[i]);
+                    }
+                    ProcessExcel(data);
+                };
+                reader.readAsArrayBuffer(fileUpload.files[0]);
+            }
+        } else {
+            alert("This browser does not support HTML5.");
+        }
+    } else {
+        alert("Please upload a valid Excel file.");
+    }
+};
+function ProcessExcel(data) {
+    //Read the Excel File data.
+    var workbook = XLSX.read(data, {
+        type: 'binary'
+    });
+    console.log(workbook);
+    //Fetch the name of First Sheet.
+    var firstSheet = workbook.SheetNames[0];
+
+    //Read all rows from First Sheet into an JSON array.
+    var excelRows = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[firstSheet]);
+    console.log(excelRows);
+    //Create a HTML Table element.
+    var table = document.createElement("table");
+    table.border = "1";
+
+    //Add the header row.
+    var row = table.insertRow(-1);
+
+    //Add the header cells.
+    var headerCell = document.createElement("TH");
+    headerCell.innerHTML = "Id";
+    row.appendChild(headerCell);
+
+    headerCell = document.createElement("TH");
+    headerCell.innerHTML = "Name";
+    row.appendChild(headerCell);
+
+    headerCell = document.createElement("TH");
+    headerCell.innerHTML = "Country";
+    row.appendChild(headerCell);
+
+    //Add the data rows from Excel file.
+    passengers_excel = []
+    for (var i = 0; i < excelRows.length; i++) {
+        //Add the data row.
+        passengers_excel.push([])
+        for(j in excelRows[i]){
+            passengers_excel[passengers_excel.length-1].push(excelRows[i][j])
+        }
+    }
+    list_test = []
+    for(i in passengers_excel){
+        check = 1;
+        for(j in list_test){
+            if(list_test[j].address == passengers_excel[i][7] &&
+               list_test[j].date == passengers_excel[i][8] &&
+               list_test[j].hour == passengers_excel[i][9]){
+                check = 0;
+                list_test[j].pax.push(passengers_excel[i]);
+            }
+        }
+        if(check){
+            list_test.push({
+                'address': passengers_excel[i][7],
+                'date': passengers_excel[i][8],
+                'hour': passengers_excel[i][9],
+                'jenis_test': passengers_excel[i][10],
+                'pax': [passengers_excel[i]]
+            })
+        }
+
+    }
+    console.log(passengers_excel);
+    console.log(list_test);
+    notes = '';
+    counter_pax = 0;
+    for(i in list_test){
+        for(j in list_test[i].pax){
+            add_table_of_passenger('');
+            document.getElementById('adult_title'+counter_passenger).value = list_test[i].pax[j][0];
+            document.getElementById('adult_first_name'+counter_passenger).value = list_test[i].pax[j][1].split(' ')[0];
+            try{
+                last_name = list_test[i].pax[j][1].split(' ');
+                last_name.splice(0, 1)
+                document.getElementById('adult_last_name'+counter_passenger).value = last_name.join(' ');
+            }catch(err){}
+            document.getElementById('adult_birth_date'+counter_passenger).value = moment(list_test[i].pax[j][5]).format('DD MMM YYYY').toString();
+            document.getElementById('adult_identity_type'+counter_passenger).value = list_test[i].pax[j][3].toLowerCase();
+            document.getElementById('adult_identity_number'+counter_passenger).value = list_test[i].pax[j][4];
+            document.getElementById('adult_country_of_issued'+counter_passenger+'_id').value = 'ID';
+            document.getElementById('adult_country_of_issued'+counter_passenger).value = 'ID';
+            document.getElementById('select2-adult_country_of_issued'+counter_passenger+'_id-container').innerHTML = 'Indonesia';
+            notes += parseInt(parseInt(counter_pax)+1) + ' Pax: ' + list_test[i].pax[j][0] + ' ' + list_test[i].pax[j][1] + '\n';
+            if(list_test[i].pax[j][2] != undefined)
+                notes += 'Phone number: ' + list_test[i].pax[j][2] + '\n';
+            if(list_test[i].pax[j][3] != undefined && list_test[i].pax[j][4] != undefined)
+                notes += list_test[i].pax[j][3] + ': ' + list_test[i].pax[j][4] + '\n';
+            if(list_test[i].pax[j][6] != undefined)
+                notes += 'Alamat: ' + list_test[i].pax[j][6] + '\n';
+            if(list_test[i].pax[j][11] != undefined)
+                notes += 'Email: ' + list_test[i].pax[j][11] + '\n';
+            if(list_test[i].pax[j][12] != undefined)
+                notes += 'Notes: ' + list_test[i].pax[j][12] + '\n';
+            update_contact('passenger', counter_passenger);
+            $('#adult_title'+counter_passenger).niceSelect('update');
+            $('#adult_id_type'+counter_passenger).niceSelect('update');
+            counter_pax++;
+        }
+        if(list_test[i].jenis_test != undefined){
+            notes += 'Test: ' + list_test[i].jenis_test + '\n';
+            notes += list_test[i].address + ' ' + moment(list_test[i].date).format('DD MMM YYYY').toString()+ ' ' + list_test[i].hour + '\n';
+        }
+
+
+    }
+    document.getElementById('description').innerHTML = notes;
+};

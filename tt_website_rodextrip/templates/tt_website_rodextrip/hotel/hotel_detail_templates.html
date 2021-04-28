@@ -1526,6 +1526,65 @@
     $(function() {
       $('.js-example-basic-single').select2();
       breadcrumb_create("hotel", 3, 0);
+      var quantity_room_hotel = parseInt($('#hotel_room').val());
+      var quantity_adult_hotel = parseInt($('#hotel_adult').val());
+      var quantity_child_hotel = parseInt($('#hotel_child').val());
+      if (quantity_room_hotel == 9){
+          document.getElementById("right-plus-room-hotel").disabled = true;
+          document.getElementById("left-minus-room-hotel").disabled = false;
+      }
+      else if(quantity_room_hotel == 1){
+          document.getElementById("left-minus-room-hotel").disabled = true;
+          document.getElementById("right-plus-room-hotel").disabled = false;
+      }
+      else{
+          document.getElementById("right-plus-room-hotel").disabled = false;
+          document.getElementById("left-minus-room-hotel").disabled = false;
+      }
+
+      if (quantity_room_hotel == quantity_adult_hotel){
+          document.getElementById("left-minus-adult-hotel").disabled = true;
+      }
+      else if (quantity_room_hotel < quantity_adult_hotel){
+          document.getElementById("left-minus-adult-hotel").disabled = false;
+      }
+
+      if (quantity_room_hotel > quantity_child_hotel){
+          document.getElementById("right-plus-child-hotel").disabled = false;
+      }
+      else{
+          document.getElementById("right-plus-child-hotel").disabled = true;
+      }
+
+      if(quantity_adult_hotel > quantity_room_hotel && quantity_adult_hotel < 18){
+          document.getElementById("left-minus-adult-hotel").disabled = false;
+          document.getElementById("right-plus-adult-hotel").disabled = false;
+      }
+      else if(quantity_adult_hotel == 18){
+          document.getElementById("left-minus-adult-hotel").disabled = false;
+          document.getElementById("right-plus-adult-hotel").disabled = true;
+      }
+
+      if(quantity_adult_hotel == quantity_room_hotel){
+          document.getElementById("left-minus-adult-hotel").disabled = true;
+      }
+      else{
+          document.getElementById("right-plus-adult-hotel").disabled = false;
+      }
+
+      if(quantity_child_hotel == quantity_room_hotel){
+          document.getElementById("right-plus-child-hotel").disabled = true;
+          document.getElementById("left-minus-child-hotel").disabled = false;
+      }
+      else if (quantity_child_hotel == 0){
+          document.getElementById("left-minus-child-hotel").disabled = true;
+          document.getElementById("right-plus-child-hotel").disabled = false;
+      }
+
+      /*if(quantity_child_hotel < quantity_room_hotel){
+          document.getElementById("right-plus-child-hotel").disabled = false;
+          document.getElementById("left-minus-child-hotel").disabled = false;
+      }*/
       $(window).scroll(function() {
         if($(this).scrollTop()>=$('.div-photo-hotel').position().top-95 && $(this).scrollTop()<$('.div-facility-hotel').position().top-95){
             active_sticky_hotel("photo");
