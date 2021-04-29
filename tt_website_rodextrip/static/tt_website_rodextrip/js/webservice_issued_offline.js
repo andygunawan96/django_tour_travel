@@ -782,7 +782,9 @@ function update_passenger(){
        success: function(msg) {
             if(msg.result.error_code == 0){
                 get_payment_acq('Issued', document.getElementById('booker_id').value, '', 'billing', signature, 'issued_offline','', '');
-                focus_box('payment_acq');
+                setTimeout(function() {
+                    focus_box('payment_acq');
+                }, 500);
                 //document.getElementById('payment_acq').hidden = false;
             }else{
                 Swal.fire({
