@@ -345,89 +345,92 @@ def update_passenger(request):
         javascript_version = get_cache_version()
         response = get_cache_data(javascript_version)
         for i in range(int(request.POST['counter_passenger'])):
-            birth_date = ''
-            passport_expdate = ''
-            if request.POST['passenger_birth_date' + str(i)] != '':
-                birth_date = '%s-%s-%s' % (request.POST['passenger_birth_date' + str(i)].split(' ')[2],
-                                           month[request.POST['passenger_birth_date' + str(i)].split(' ')[1]],
-                                           request.POST['passenger_birth_date' + str(i)].split(' ')[0])
             try:
-                if request.POST['passenger_passport_expired_date' + str(i)] != '':
-                    passport_expdate = '%s-%s-%s' % (request.POST['passenger_passport_expired_date' + str(i)].split(' ')[2],
-                                                     month[request.POST['passenger_passport_expired_date' + str(i)].split(' ')[
-                                                         1]],
-                                                     request.POST['passenger_passport_expired_date' + str(i)].split(' ')[0])
-            except:
-                _logger.error(msg=str('no passport issued_offline update_passengers') + '\n')
-            pax_type = calculateAge(datetime(int(birth_date.split('-')[0]), int(birth_date.split('-')[1]), int(birth_date.split('-')[2])))
-            if pax_type > 12:
-                pax_type = 'ADT'
-            elif pax_type >= 2:
-                pax_type = 'CHD'
-            elif pax_type < 2:
-                pax_type = 'INF'
-            passenger.append({
-                "pax_type": pax_type,
-                "first_name": request.POST['passenger_first_name' + str(i)],
-                "last_name": request.POST['passenger_last_name' + str(i)],
-                "title": request.POST['passenger_title' + str(i)],
-                "birth_date": birth_date,
-                "nationality_name": request.POST['passenger_nationality_code' + str(i)],
-                'passenger_seq_id': request.POST['passenger_id' + str(i)] != '' and request.POST['passenger_id' + str(i)] or ''
-            })
-            try:
-                if(request.POST['passenger_passport_number' + str(i)] != ''):
-                    passenger[len(passenger)-1].update({
-                        'identity': {
-                            "identity_country_of_issued_name": request.POST['passenger_country_of_issued' + str(i)],
-                            "identity_expdate": passport_expdate,
-                            "identity_number": request.POST['passenger_passport_number' + str(i)],
-                            "identity_type": "passport"
-                        }
+                birth_date = ''
+                passport_expdate = ''
+                if request.POST['passenger_birth_date' + str(i)] != '':
+                    birth_date = '%s-%s-%s' % (request.POST['passenger_birth_date' + str(i)].split(' ')[2],
+                                               month[request.POST['passenger_birth_date' + str(i)].split(' ')[1]],
+                                               request.POST['passenger_birth_date' + str(i)].split(' ')[0])
+                try:
+                    if request.POST['passenger_identity_expired_date' + str(i)] != '':
+                        passport_expdate = '%s-%s-%s' % (request.POST['passenger_identity_expired_date' + str(i)].split(' ')[2],
+                                                         month[request.POST['passenger_identity_expired_date' + str(i)].split(' ')[1]],
+                                                         request.POST['passenger_identity_expired_date' + str(i)].split(' ')[0])
+                except:
+                    _logger.error(msg=str('no identity issued_offline update_passengers') + '\n')
+                pax_type = calculateAge(datetime(int(birth_date.split('-')[0]), int(birth_date.split('-')[1]), int(birth_date.split('-')[2])))
+                if pax_type > 12:
+                    pax_type = 'ADT'
+                elif pax_type >= 2:
+                    pax_type = 'CHD'
+                elif pax_type < 2:
+                    pax_type = 'INF'
+                if request.POST['passenger_nationality_code' + str(i)] != '':
+                    for country in response['result']['response']['airline']['country']:
+                        if request.POST['passenger_nationality_code' + str(i)] == country['name']:
+                            nationality_code = country['code']
+                            break
+                passenger.append({
+                    "pax_type": pax_type,
+                    "first_name": request.POST['passenger_first_name' + str(i)],
+                    "last_name": request.POST['passenger_last_name' + str(i)],
+                    "title": request.POST['passenger_title' + str(i)],
+                    "birth_date": birth_date,
+                    "nationality_code": nationality_code,
+                    'passenger_seq_id': request.POST['passenger_id' + str(i)] != '' and request.POST['passenger_id' + str(i)] or ''
+                })
+                try:
+                    if request.POST['passenger_identity_type' + str(i)] != '':
+                        identity = {}
+                        if request.POST['passenger_identity_number' + str(i)]:
+                            identity['identity_number'] = request.POST['passenger_identity_number' + str(i)]
+                        if request.POST['passenger_identity_type' + str(i)]:
+                            identity['identity_type'] = request.POST['passenger_identity_type' + str(i)]
+                        identity["identity_expdate"] = passport_expdate
+
+                        if request.POST['passenger_country_of_issued' + str(i)] != '':
+                            for country in response['result']['response']['airline']['country']:
+                                if request.POST['passenger_country_of_issued' + str(i)] == country['code']:
+                                    country_of_issued_code = country['code']
+                                    break
+                            identity["identity_country_of_issued_code"] = country_of_issued_code
+
+                        passenger[len(passenger)-1].update({
+                            'identity': identity
+                        })
+                except Exception as e:
+                    pass
+                if i == 0:
+                    if request.POST['myRadios'] == 'true':
+                        passenger[len(passenger)-1].update({
+                            'is_booker': True
+                        })
+                    else:
+                        passenger[len(passenger)-1].update({
+                            'is_booker': False
+                        })
+                else:
+                    passenger[len(passenger) - 1].update({
+                        'is_booker': False
                     })
-            except:
-                pass
-            if i == 0:
-                if request.POST['myRadios'] == 'true':
+                if request.POST['passenger_cp' + str(i)] == 'true':
                     passenger[len(passenger)-1].update({
-                        'is_booker': True
+                        'is_contact': True
                     })
                 else:
                     passenger[len(passenger)-1].update({
-                        'is_booker': False
+                        'is_contact': False
                     })
-            else:
-                passenger[len(passenger) - 1].update({
-                    'is_booker': False
-                })
-            if request.POST['passenger_cp' + str(i)] == 'true':
-                passenger[len(passenger)-1].update({
-                    'is_contact': True
-                })
-            else:
-                passenger[len(passenger)-1].update({
-                    'is_contact': False
-                })
+            except:
+                pass
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "update_passenger",
             "signature": request.session['issued_offline_signature'],
         }
-        for pax in passenger:
-            if pax['nationality_name'] != '':
-                for country in response['result']['response']['airline']['country']:
-                    if pax['nationality_name'] == country['name']:
-                        pax['nationality_code'] = country['code']
-                        break
-            try:
-                if pax['identity']['identity_country_of_issued_name'] != '':
-                    for country in response['result']['response']['airline']['country']:
-                        if pax['nationality_name'] == country['name']:
-                            pax['identity_country_of_issued_code'] = country['code']
-                            break
-            except:
-                pass
+
         data = {
             'passengers': passenger
         }

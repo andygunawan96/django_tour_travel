@@ -147,12 +147,6 @@ def index(request):
                         except Exception as e:
                             activity_types = []
                             _logger.error(str(e) + '\n' + traceback.format_exc())
-                        try:
-                            activity_locations = response['result']['response']['activity']['locations']
-                        except Exception as e:
-                            activity_locations = []
-                            _logger.error(str(e) + '\n' + traceback.format_exc())
-                        # activity
 
                         # tour
                         try:
@@ -248,7 +242,6 @@ def index(request):
                                 #activity
                                 'activity_categories': activity_categories,
                                 'activity_types': activity_types,
-                                'activity_locations': activity_locations,
                                 #tour
                                 'tour_countries': tour_countries,
                                 'javascript_version': javascript_version,
