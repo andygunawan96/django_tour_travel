@@ -789,7 +789,9 @@ function submit_top_up(){
 
             get_payment_acq('Issued','', '', 'top_up', signature, 'top_up','', '');
             document.getElementById('submit_name').disabled = false;
-            focus_box('payment_acq');
+            setTimeout(function() {
+                focus_box('payment_acq');
+            }, 500);
 //            document.getElementById('top_up_form').submit();
         }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
             auto_logout();

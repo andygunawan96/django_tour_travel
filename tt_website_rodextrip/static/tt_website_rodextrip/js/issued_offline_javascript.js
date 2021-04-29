@@ -205,7 +205,7 @@ function add_table_of_passenger(type){
                                                         text+=`<select id="adult_title`+parseInt(counter_passenger+1)+`" name="adult_title`+parseInt(counter_passenger+1)+`">`;
                                                     }
                                                             for(i in titles){
-                                                                text+= `<option>`+titles[i]+`</option>`;
+                                                                text+= `<option value="`+titles[i]+`">`+titles[i]+`</option>`;
                                                             }
                                                             text+=`</select>
                                                         </div>
@@ -971,9 +971,9 @@ function update_contact(type,val){
         if(document.getElementById('adult_title'+val).value != '')
             document.getElementById('name_pax'+parseInt(val-1)).innerHTML = document.getElementById('adult_title'+val).value + ' ';
         if(document.getElementById('adult_first_name'+val).value != '')
-            document.getElementById('name_pax'+parseInt(val-1)).innerHTML = document.getElementById('adult_first_name'+val).value + ' ' ;
+            document.getElementById('name_pax'+parseInt(val-1)).innerHTML += document.getElementById('adult_first_name'+val).value + ' ' ;
         if(document.getElementById('adult_last_name'+val).value != '')
-            document.getElementById('name_pax'+parseInt(val-1)).innerHTML = document.getElementById('adult_last_name'+val).value;
+            document.getElementById('name_pax'+parseInt(val-1)).innerHTML += document.getElementById('adult_last_name'+val).value;
         if(document.getElementById('adult_birth_date'+val).value != ''){
             document.getElementById('birth_date'+parseInt(val-1)).innerHTML = document.getElementById('adult_birth_date'+val).value;
         }
@@ -1248,7 +1248,7 @@ function ProcessExcel(data) {
     for(i in list_test){
         for(j in list_test[i].pax){
             add_table_of_passenger('');
-            document.getElementById('adult_title'+counter_passenger).value = list_test[i].pax[j][0];
+            document.getElementById('adult_title'+counter_passenger).value = list_test[i].pax[j][0].toUpperCase();
             document.getElementById('adult_first_name'+counter_passenger).value = list_test[i].pax[j][1].split(' ')[0];
             try{
                 last_name = list_test[i].pax[j][1].split(' ');
@@ -1276,6 +1276,8 @@ function ProcessExcel(data) {
             $('#adult_title'+counter_passenger).niceSelect('update');
             $('#adult_id_type'+counter_passenger).niceSelect('update');
             counter_pax++;
+            $('#adult_title'+parseInt(counter_passenger)).niceSelect('update');
+            $('#adult_identity_type'+parseInt(counter_passenger)).niceSelect('update');
         }
         if(list_test[i].jenis_test != undefined){
             notes += 'Test: ' + list_test[i].jenis_test + '\n';
