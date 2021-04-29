@@ -1255,7 +1255,7 @@ function ProcessExcel(data) {
                 last_name.splice(0, 1)
                 document.getElementById('adult_last_name'+counter_passenger).value = last_name.join(' ');
             }catch(err){}
-            document.getElementById('adult_birth_date'+counter_passenger).value = moment(list_test[i].pax[j][5]).format('DD MMM YYYY').toString();
+            document.getElementById('adult_birth_date'+counter_passenger).value = moment(list_test[i].pax[j][6]).format('DD MMM YYYY').toString();
             document.getElementById('adult_identity_type'+counter_passenger).value = list_test[i].pax[j][3].toLowerCase();
             document.getElementById('adult_identity_number'+counter_passenger).value = list_test[i].pax[j][4];
             document.getElementById('adult_country_of_issued'+counter_passenger+'_id').value = 'ID';
@@ -1267,7 +1267,7 @@ function ProcessExcel(data) {
             if(list_test[i].pax[j][3] != undefined && list_test[i].pax[j][4] != undefined)
                 notes += list_test[i].pax[j][3] + ': ' + list_test[i].pax[j][4] + '\n';
             if(list_test[i].pax[j][6] != undefined)
-                notes += 'Alamat: ' + list_test[i].pax[j][6] + '\n';
+                notes += 'Alamat: ' + list_test[i].pax[j][5] + '\n';
             if(list_test[i].pax[j][11] != undefined)
                 notes += 'Email: ' + list_test[i].pax[j][11] + '\n';
             if(list_test[i].pax[j][12] != undefined)
