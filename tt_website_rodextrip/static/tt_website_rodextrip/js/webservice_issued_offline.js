@@ -709,8 +709,15 @@ function update_booker(){
        },
        data: request,
        success: function(msg) {
-            if(msg.result.error_code == 0)
+            if(msg.result.error_code == 0){
                 update_passenger();
+            }else{
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: msg.result.error_msg,
+               })
+            }
 
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {

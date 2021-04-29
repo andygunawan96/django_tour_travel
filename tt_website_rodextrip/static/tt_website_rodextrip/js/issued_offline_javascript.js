@@ -278,7 +278,9 @@ function add_table_of_passenger(type){
                                                     }else{
                                                         text+=`<select id="adult_identity_type`+parseInt(counter_passenger+1)+`" name="adult_identity_type`+parseInt(counter_passenger+1)+`">`;
                                                     }
-                                                        text+=`<option value="ktp">KTP</option>
+                                                        text+=`
+                                                            <option value=""></option>
+                                                            <option value="ktp">KTP</option>
                                                             <option value="sim">SIM</option>
                                                             <option value="passport">PASSPORT</option>
                                                             <option value="other">Other</option>`;
