@@ -738,6 +738,31 @@ function visa_get_data(data){
                         'expired': 'Expired'
                     }
 
+                    if(visa.hold_date != false && visa.hold_date != ''){
+                        tes = moment.utc(visa.hold_date).format('YYYY-MM-DD HH:mm:ss')
+                        localTime  = moment.utc(tes).toDate();
+                        visa.hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
+                        var now = moment();
+                        var hold_date_time = moment(visa.hold_date, "DD MMM YYYY HH:mm");
+                        data_gmt = moment(visa.hold_date)._d.toString().split(' ')[5];
+                        gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, ''); //ambil gmt
+                        timezone = data_gmt.replace (/[^\d.]/g, ''); //ambil timezone
+                        timezone = timezone.split('') //split per char
+                        timezone = timezone.filter(item => item !== '0') //hapus angka 0 di timezone
+                        visa.hold_date = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
+
+                        if(visa.booked_date != ''){
+                            tes = moment.utc(visa.booked_date).format('YYYY-MM-DD HH:mm:ss')
+                            localTime  = moment.utc(tes).toDate();
+                            visa.booked_date = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
+                        }
+                        if(visa.issued_date != ''){
+                            tes = moment.utc(visa.issued_date).format('YYYY-MM-DD HH:mm:ss')
+                            localTime  = moment.utc(tes).toDate();
+                            visa.issued_date = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
+                        }
+                    }
+
                     text= `<div class="row">
                             <div class="col-lg-12">
                                 <div id="visa_booking_detail" style="border:1px solid #cdcdcd; padding:10px; background-color:white">
@@ -752,6 +777,44 @@ function visa_get_data(data){
                                             <td>`+conv_status+`</td>
                                         </tr>
                                      </table>
+
+                                    <hr/>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <h6>Booked</h6>
+                                            <span>Date: <b>`;
+                                                if(visa.booked_date != ""){
+                                                    text+=``+visa.booked_date+``;
+                                                }else{
+                                                    text+=`-`
+                                                }
+                                                text+=`</b>
+                                            </span>
+                                            <br/>
+                                            <span>by <b>`+visa.booked_by+`</b><span>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <h6>Issued</h6>`;
+                                            if(visa.journey.state == 'issued'){
+                                                text+=`<span>Date: <b>`;
+                                                if(visa.issued_date != ""){
+                                                    text+=``+visa.issued_date+``;
+                                                }else{
+                                                    text+=`-`
+                                                }
+                                                text+=`</b>
+                                                </span>
+                                                <br/>
+                                                <span>by <b>`+visa.issued_by+`</b><span>`;
+                                            }else{
+                                                text+=`<b>-</b>`;
+                                            }
+                                            text+=`
+                                        </div>
+                                    </div>
+
+
                                 </div>
                             </div>
                         </div>`;

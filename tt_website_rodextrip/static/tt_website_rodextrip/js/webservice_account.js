@@ -389,16 +389,17 @@ function get_transactions(type){
         document.getElementById("table_reservation").innerHTML = `
                     <tr>
                         <th style="width:2%;">No.</th>
-                        <th style="width:10%;">Order Number</th>
-                        <th style="width:7%;">Provider</th>
-                        <th style="width:12%;">Book Date</th>
-                        <th style="width:12%;">Booker name</th>
-                        <th style="width:12%;">Hold Date</th>
-                        <th style="width:8%;">State</th>
-                        <th style="width:5%;">PNR</th>
-                        <th style="width:12%;">Issued Date</th>
+                        <th style="width:9%;">Order Number</th>
+                        <th style="width:6%;">Provider</th>
+                        <th style="width:11%;">Book Date</th>
+                        <th style="width:11%;">Booker name</th>
+                        <th style="width:11%;">Hold Date</th>
+                        <th style="width:7%;">State</th>
+                        <th style="width:4%;">PNR</th>
+                        <th style="width:11%;">Issued Date</th>
+                        <th style="width:9%;">Booked By</th>
                         <th style="width:9%;">Issued By</th>
-                        <th style="width:7%;">Action</th>
+                        <th style="width:6%;">Action</th>
                     </tr>`;
     }
     carrier_code = [];
@@ -500,16 +501,17 @@ function get_transactions(type){
                 document.getElementById("table_reservation").innerHTML = `
                     <tr>
                         <th style="width:2%;">No.</th>
-                        <th style="width:10%;">Order Number</th>
-                        <th style="width:7%;">Provider</th>
-                        <th style="width:12%;">Book Date</th>
-                        <th style="width:12%;">Booker name</th>
-                        <th style="width:12%;">Hold Date</th>
-                        <th style="width:8%;">State</th>
-                        <th style="width:5%;">PNR</th>
-                        <th style="width:12%;">Issued Date</th>
+                        <th style="width:9%;">Order Number</th>
+                        <th style="width:6%;">Provider</th>
+                        <th style="width:11%;">Book Date</th>
+                        <th style="width:11%;">Booker name</th>
+                        <th style="width:11%;">Hold Date</th>
+                        <th style="width:7%;">State</th>
+                        <th style="width:4%;">PNR</th>
+                        <th style="width:11%;">Issued Date</th>
+                        <th style="width:9%;">Booked By</th>
                         <th style="width:9%;">Issued By</th>
-                        <th style="width:7%;">Action</th>
+                        <th style="width:6%;">Action</th>
                     </tr>`;
             }
             try{

@@ -872,11 +872,9 @@ function set_price(val, type, product_type){
                 </div>
             </div>
 
-
-                    <button type="button" onclick="window.location.href='/'" width="100px" class="btn btn-primary pull-right">
-
-                        <span>Selesai (HOME)<span class="fa fa-long-arrow-right"></span></span>
-                    </button>
+            <button type="button" onclick="window.location.href='/'" class="primary-btn pull-right">
+                Back to Home <i class="fas fa-home"></i>
+            </button>
 
 
                 <script type="text/javascript" src="/tt_payment_gw_edc/static/src/js/jquery.payment.js"></script>
@@ -1319,33 +1317,38 @@ function change_top_up_method(){
                 text += `<br/>`;
             text += `
                     <div class="row">
-                        <div class="col-sm-3">
-                            `+va_number[i].name+`
-                        </div>
-                        <div class="col-sm-2" style="text-align:right">
-                            <strong>`+va_number[i].account_number+`</strong>
-                        </div>
-                        <div class="col-sm-2" style="text-align:right">
-                            <button type="button" class="payment_acq_btn primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="copy_value('`+va_number[i].account_number+`');" style="width:100%;">
-                                Copy
-                                <div class="ld ld-ring ld-cycle"></div>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            Fee Top Up (exclude bank charges)
-                        </div>
-                        <div class="col-sm-2" style="text-align:right">
-                            <strong>`+va_number[i].currency+` `+getrupiah(va_number[i].price_component.fee)+`</strong>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-1">
-                            Description
-                        </div>
-                        <div class="col-sm-4" style="text-align:right">
-                            `+va_number[i].description_msg+`
+                        <div class="col-lg-12" style="border:1px solid #cdcdcd; padding:15px;">
+                            <div class="row">
+                                <div class="col-lg-2 mb-1" style="text-align:center;">`;
+                                    if(va_number[i].image){
+                                        text+=`<img width="auto" height="50px" alt="Logo `+va_number[i].name+`" src="`+va_number[i].image+`"/>`;
+                                    }else{
+                                        text+=`<img width="auto" height="50px" alt="Logo `+va_number[i].name+`" src="/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg"/>`;
+                                    }
+                                text+=`
+                                </div>
+                                <div class="col-lg-5 mb-1">
+                                    `+va_number[i].name+`<br/>
+                                    <strong style="font-size:16px; padding-right:5px;">`+va_number[i].account_number+`</strong>
+                                    <span onclick="copy_value('`+va_number[i].account_number+`');" style="cursor:pointer; font-weight:500;color:`+color+`; font-size:14px;">
+                                        Copy <i class="fas fa-copy"></i>
+                                    </span>
+                                </div>
+                                <div class="col-lg-5 mb-1">
+                                    Fee Top Up (exclude bank charges)<br/>
+                                    <strong style="font-size:16px;">`+va_number[i].currency+` `+getrupiah(va_number[i].price_component.fee)+`</strong>
+                                </div>`;
+
+                                if(va_number[i].description_msg != ''){
+                                    text+=`
+                                    <div class="col-lg-2" style="text-align:center;"></div>
+                                    <div class="col-lg-10">
+                                        <strong>Description: </strong>
+                                        `+va_number[i].description_msg+`
+                                    </div>`;
+                                }
+                                text+=`
+                            </div>
                         </div>
                     </div>
             `;
@@ -1399,9 +1402,8 @@ function change_top_up_method(){
                 }
                 text+=`
 
-                <button type="button" onclick="window.location.href='/'" width="100px" class="btn btn-primary pull-right">
-
-                    <span>Selesai (HOME) <span class="fas fa-arrow-right"></span></span>
+                <button type="button" onclick="window.location.href='/'" class="primary-btn pull-right">
+                    Back to Home <i class="fas fa-home"></i>
                 </button>
 
 

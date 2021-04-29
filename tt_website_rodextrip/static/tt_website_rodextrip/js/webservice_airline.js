@@ -2293,6 +2293,7 @@ function get_price_itinerary_request(){
                                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
                                                         <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(price * airline_request.adult))+`</span>
                                                     </div>
+                                                    <div class="col-lg-12" style="border:1px solid #e3e3e3;"></div>
                                                 </div>
                                             </div>`;
                                             $text += airline_request.adult + ' Adult Fare @'+ airline_price[price_counter].ADT.currency +' '+getrupiah(Math.ceil(airline_price[price_counter].ADT.fare))+'\n';
@@ -2333,6 +2334,7 @@ function get_price_itinerary_request(){
                                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
                                                         <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(price * airline_request.child))+`</span>
                                                     </div>
+                                                    <div class="col-lg-12" style="border:1px solid #e3e3e3;"></div>
                                                 </div>
                                             </div>`;
                                             $text += airline_request.child + ' Child Fare @'+ airline_price[i].CHD.currency +' '+getrupiah(Math.ceil(airline_price[i].CHD.fare))+'\n';
@@ -2378,6 +2380,7 @@ function get_price_itinerary_request(){
                                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
                                                         <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(price * airline_request.infant))+`</span>
                                                     </div>
+                                                    <div class="col-lg-12" style="border:1px solid #e3e3e3;"></div>
                                                 </div>
                                             </div>`;
                                             $text += airline_request.infant + ' Infant Fare @'+ airline_price[price_counter].INF.currency +' '+getrupiah(Math.ceil(airline_price[price_counter].INF.fare))+'\n';
@@ -2526,7 +2529,7 @@ function get_price_itinerary_request(){
                     </div>
                 </div>
                 <div class="col-lg-12">
-                    <hr/>
+                    <br/>
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
                             <span style="font-size:14px; font-weight: bold;"><b>Total</b></span>
@@ -3966,10 +3969,9 @@ function airline_get_booking(data, sync=false){
     get_vendor_balance('false');
     try{
         show_loading();
-        please_wait_transaction();
     }catch(err){}
-
-    $("#waitingTransaction").modal('show');
+//    please_wait_transaction();
+//    $("#waitingTransaction").modal('show');
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -4023,6 +4025,11 @@ function airline_get_booking(data, sync=false){
                     timezone = timezone.split('') //split per char
                     timezone = timezone.filter(item => item !== '0') //hapus angka 0 di timezone
                     msg.result.response.hold_date = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
+                    if(msg.result.response.booked_date != ''){
+                        tes = moment.utc(msg.result.response.booked_date).format('YYYY-MM-DD HH:mm:ss')
+                        localTime  = moment.utc(tes).toDate();
+                        msg.result.response.booked_date = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
+                    }
                     if(msg.result.response.issued_date != ''){
                         tes = moment.utc(msg.result.response.issued_date).format('YYYY-MM-DD HH:mm:ss')
                         localTime  = moment.utc(tes).toDate();
@@ -4273,8 +4280,10 @@ function airline_get_booking(data, sync=false){
                     <h6>Order Number : `+msg.result.response.order_number+`</h6><br/>
                     <table style="width:100%;">
                         <tr>
-                            <th>PNR</th>
-                            <th>Hold Date</th>
+                            <th>PNR</th>`;
+                            if(msg.result.response.state == 'booked')
+                                text+=`<th>Hold Date</th>`;
+                        text+=`
                             <th>Status</th>
                         </tr>`;
                         printed_hold_date = false;
@@ -4312,8 +4321,11 @@ function airline_get_booking(data, sync=false){
                                     <td>`+msg.result.response.provider_bookings[i].pnr+`</td>`;
                             else
                                 text += `<td> - </td>`;
+
+                            if(msg.result.response.state == 'booked')
+                                text+=`<td>`+msg.result.response.hold_date+`</td>`;
+
                             text+=`
-                                <td>`+msg.result.response.hold_date+`</td>
                                 <td id='pnr'>`+msg.result.response.provider_bookings[i].state_description+`</td>
                             </tr>`;
                         }
@@ -4323,7 +4335,43 @@ function airline_get_booking(data, sync=false){
                             $(".issued_booking_btn").remove();
                         }
                         $text +='\n';
-                text+=`</table>
+                text+=`
+                </table>
+                    <hr/>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <h6>Booked</h6>
+                            <span>Date: <b>`;
+                                if(msg.result.response.booked_date != ""){
+                                    text+=``+msg.result.response.booked_date+``;
+                                }else{
+                                    text+=`-`
+                                }
+                                text+=`</b>
+                            </span>
+                            <br/>
+                            <span>by <b>`+msg.result.response.booked_by+`</b><span>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <h6>Issued</h6>`;
+                            if(msg.result.response.state == 'issued'){
+                                text+=`<span>Date: <b>`;
+                                if(msg.result.response.issued_date != ""){
+                                    text+=``+msg.result.response.issued_date+``;
+                                }else{
+                                    text+=`-`
+                                }
+                                text+=`</b>
+                                </span>
+                                <br/>
+                                <span>by <b>`+msg.result.response.issued_by+`</b><span>`;
+                            }else{
+                                text+=`<b>-</b>`;
+                            }
+                            text+=`
+                        </div>
+                    </div>
                 </div>
 
                 <div style="background-color:white; border:1px solid #cdcdcd;">

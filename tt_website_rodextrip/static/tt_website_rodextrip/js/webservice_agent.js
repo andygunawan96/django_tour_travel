@@ -1114,7 +1114,7 @@ function get_customer_list(passenger, number, product){
                     if(msg.result.response.length != 0){
                         response+=`
                         <div class="alert alert-success" role="alert" style="margin-top:10px;"><h6><i class="fas fa-search"></i> We found `+msg.result.response.length+` user(s) with name like " `+like_name_booker+` "</h6></div>
-                        <div style="overflow-y:auto;height:60vh;margin-top:10px;">
+                        <div style="overflow-y:auto;height:45vh;margin-top:10px;">
                         <table style="width:100%" id="list-of-passenger">
                             <tr>
                                 <th style="width:10%;">No</th>
@@ -1210,9 +1210,11 @@ function get_customer_list(passenger, number, product){
                         $('.phone_chosen_cls').niceSelect();
                     }else{
                         response = '';
-                        response+=`<center><div class="alert alert-danger" role="alert" style="margin-top:10px;"><h6><i class="fas fa-search-minus"></i> Oops! User not found!</h6></div></center>`;
+                        response+=`<div class="alert alert-danger" role="alert" style="margin-top:10px;"><h6><i class="fas fa-search-minus"></i> Oops! User not found!</h6></div>`;
                         if(product == 'get_booking_vendor'){
-                            document.getElementById('search_result_passenger').innerHTML = response;
+                            document.getElementById('search_result_booker_vendor').innerHTML = response;
+                            document.getElementById('search_result_booker_vendor').hidden = false;
+                            document.getElementById('search_btn_click').disabled=false;
                         }else if(passenger == 'passenger')
                             document.getElementById('search_result_passenger').innerHTML = response;
                         else
@@ -1297,7 +1299,7 @@ function get_customer_list(passenger, number, product){
                     if(msg.result.response.length != 0){
                         response+=`
                         <div class="alert alert-success" role="alert" style="margin-top:10px;"><h6><i class="fas fa-search"></i> We found `+msg.result.response.length+` user(s) with name like " `+like_name_paxs+` "</h6></div>
-                        <div style="overflow-y:auto;height:50vh;margin-top:10px;">
+                        <div style="overflow-y:auto;height:45vh;margin-top:10px;">
                         <table style="width:100%" id="list-of-passenger">
                             <tr>
                                 <th style="width:10%;">No</th>
@@ -3176,7 +3178,7 @@ function del_passenger_cache(sequence){
             if(msg.result.response.length != 0){
                 response+=`
                 <div class="alert alert-success" role="alert" style="margin-top:10px;"><h6><i class="fas fa-search"></i> Selected Passenger</h6></div>
-                <div style="overflow:auto;height:300px;margin-top:10px;">
+                <div style="overflow:auto;height:45vh;margin-top:10px;">
                 <table style="width:100%" id="list-of-passenger">
                     <tr>
                         <th style="width:10%;">No</th>
@@ -3245,7 +3247,7 @@ function get_passenger_cache(){
             if(msg.result.response.length != 0){
                 response+=`
                 <div class="alert alert-success" role="alert" style="margin-top:10px;"><h6><i class="fas fa-search"></i> Selected Passenger</h6></div>
-                <div style="overflow:auto;height:60vh;margin-top:10px;">
+                <div style="overflow:auto;height:45vh;margin-top:10px;">
                 <table style="width:100%" id="list-of-passenger">
                     <tr>
                         <th style="width:10%;">No</th>`;
@@ -4572,38 +4574,46 @@ function render_login(product_type){
         html_id = 'airline_booking';
 
     document.getElementById(html_id).innerHTML = `
-        <div class="row">
-            <div class="col-lg-3 col-md-3 col-sm-3">
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-6">
-                <h5>Login</h5>
-                <br/>
-                <label>Username</label>
-                <div class="input-container-search-ticket" style="margin-bottom:5px;">
-                    <input type="text" class="form-control" name="username" id="username" placeholder="Username " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username '">
+        <div class="col-lg-12" style="background:white; padding:30px; 20px; border:1px solid #cdcdcd;">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h5 style="color:`+color+`;">Please Signin First!</h5>
+                    <hr/>
+                </div>
+
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <h5>Login</h5>
+                    <br/>
+                    <label>Username</label>
+                    <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                        <input type="text" class="form-control" name="username" id="username" placeholder="Username " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username '">
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-3 col-md-3 col-sm-3">
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-6">
-                <br/>
-                <label>Password</label>
-                <div class="input-container-search-ticket" style="margin-bottom:5px;">
-                    <input type="password" class="form-control" name="password" id="password" placeholder="Password " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password '">
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <br/>
+                    <label>Password</label>
+                    <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                        <input type="password" class="form-control" name="password" id="password" placeholder="Password " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password '">
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-3 col-md-3 col-sm-3">
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 mt-3">
+                <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Login" onclick="$('.btn-next').addClass('running');$('.btn-next').prop('disabled', true);signin_booking();">
+                    Login
+                    <div class="ld ld-ring ld-cycle"></div>
+                </button>
+                </div>
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-6">
-            <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Login" onclick="$('.btn-next').addClass('running');$('.btn-next').prop('disabled', true);signin_booking();">
-                Login
-                <div class="ld ld-ring ld-cycle"></div>
-            </button>
-            </div>
-        </div>
-        `;
+        </div>`;
+
+        hide_modal_waiting_transaction();
 }

@@ -70,8 +70,7 @@ function update_table(type){
     var check_price_detail = 0;
     if(type == 'search'){
         text += `<div style="background-color:white; padding:10px; border:1px solid #cdcdcd;">
-                <h4>Price detail `+passport_request.passport_type+` - `+passport_request.passport_apply_type+`</h4><hr/>
-                <table style="width:100%;">`;
+                <h4>Price detail `+passport_request.passport_type+` - `+passport_request.passport_apply_type+`</h4><hr/>`;
         price = 0;
         commission = 0;
         count_i = 0;
@@ -84,12 +83,17 @@ function update_table(type){
             if(pax_count != 0){
                 count_price_detail[i] = 1;
                 text+=`
-                <tr>
-                    <td>`+pax_count+` `+passport[i].apply_type+`, `+passport[i].type.process_type+`</td>
-                    <td>x</td>
-                    <td>`+passport[i].sale_price.currency+` `+getrupiah(passport[i].sale_price.total_price)+` </td>
-                    <td style="text-align:right;">`+passport[i].sale_price.currency+` `+getrupiah(passport[i].sale_price.total_price*pax_count)+`</td>
-                </tr>`;
+                <div class="row">
+                    <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                        <span style="font-size:13px;">`+pax_count+` `+passport[i].apply_type+`, `+passport[i].type.process_type+` <br/> `+passport[i].sale_price.currency+` `+getrupiah(passport[i].sale_price.total_price)+`</span>
+                    </div>
+                    <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                        <span style="font-size:13px;">`+passport[i].sale_price.currency+` `+getrupiah(passport[i].sale_price.total_price*pax_count)+`</span>
+                    </div>
+                    <div class="col-lg-12">
+                        <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
+                    </div>
+                </div>`;
                 count_i = count_i+1;
                 $text += count_i + '. ';
                 $text += passport[i].apply_type + ' ' + passport[i].type.process_type + ' ' + passport[i].type.duration + ' day(s)' + '\n\n';
@@ -120,7 +124,6 @@ function update_table(type){
 
             }
         }
-        text+=`</table>`;
 
         for(i in count_price_detail){
             if(count_price_detail[i] == 1){
@@ -156,9 +159,6 @@ function update_table(type){
 
             text+=`
                 <div class="row" style="padding-bottom:15px;">
-                    <div class="col-lg-12">
-                        <hr/>
-                    </div>
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
                         <h6>Grand Total</h6>
                     </div>
@@ -239,8 +239,7 @@ function update_table(type){
             text+=`</div>`;
         }
     }else if(type == 'passenger'){
-        text += `<h4>Price detail `+passport_request.passport_type+` - `+passport_request.passport_apply_type+`</h4><hr/>
-                <table style="width:100%;">`;
+        text += `<h4>Price detail `+passport_request.passport_type+` - `+passport_request.passport_apply_type+`</h4><hr/>`;
         price = 0;
         commission = 0;
         count_i = 0;
@@ -248,12 +247,17 @@ function update_table(type){
             if(passport.list_of_passport[i].total_pax != 0){
                 count_price_detail[i] = 1;
                 text+=`
-                <tr>
-                    <td>`+passport.list_of_passport[i].total_pax+` `+passport.list_of_passport[i].apply_type+`, `+passport.list_of_passport[i].type.process_type+`</td>
-                    <td>x</td>
-                    <td>`+passport.list_of_passport[i].sale_price.currency+` `+getrupiah(passport.list_of_passport[i].sale_price.total_price)+` </td>
-                    <td style="text-align:right;">`+passport.list_of_passport[i].sale_price.currency+` `+getrupiah(passport.list_of_passport[i].sale_price.total_price*passport.list_of_passport[i].total_pax)+`</td>
-                </tr>`;
+                <div class="row">
+                    <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                        <span style="font-size:13px;">`+passport.list_of_passport[i].total_pax+` `+passport.list_of_passport[i].apply_type+`, `+passport.list_of_passport[i].type.process_type+` <br/> `+passport.list_of_passport[i].sale_price.currency+` `+getrupiah(passport.list_of_passport[i].sale_price.total_price)+`</span>
+                    </div>
+                    <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                        <span style="font-size:13px;">`+passport.list_of_passport[i].sale_price.currency+` `+getrupiah(passport.list_of_passport[i].sale_price.total_price*passport.list_of_passport[i].total_pax)+`</span>
+                    </div>
+                    <div class="col-lg-12">
+                        <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
+                    </div>
+                </div>`;
 
                 count_i = count_i+1;
                 $text += count_i + '. ';
@@ -283,7 +287,6 @@ function update_table(type){
 
             }
         }
-        text+=`</table>`;
 
         $text += 'Price\n';
         for(i in passport.list_of_passport){
@@ -295,9 +298,6 @@ function update_table(type){
 
         text+=`
             <div class="row" style="padding-bottom:15px;">
-                <div class="col-lg-12">
-                    <hr/>
-                </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
                     <h6>Grand Total</h6>
                 </div>
@@ -404,8 +404,7 @@ function update_table(type){
             document.getElementById('repricing_div').innerHTML = text_repricing;
             //repricing
         }
-        text += `<h4>Price detail `+passport_request.passport_type+` - `+passport_request.passport_apply_type+`</h4><hr/>
-                <table style="width:100%;">`;
+        text += `<h4>Price detail `+passport_request.passport_type+` - `+passport_request.passport_apply_type+`</h4><hr/>`;
         price = 0;
         commission = 0;
         count_i = 0;
@@ -413,12 +412,17 @@ function update_table(type){
             if(passport.list_of_passport[i].pax_count != 0){
                 count_price_detail[i] = 1;
                 text+=`
-                <tr>
-                    <td>`+passport.list_of_passport[i].pax_count+` `+passport.list_of_passport[i].apply_type+`, `+passport.list_of_passport[i].type.process_type+`</td>
-                    <td>x</td>
-                    <td>`+passport.list_of_passport[i].sale_price.currency+` `+getrupiah(passport.list_of_passport[i].sale_price.total_price)+` </td>
-                    <td style="text-align:right;">`+passport.list_of_passport[i].sale_price.currency+` `+getrupiah(passport.list_of_passport[i].sale_price.total_price*passport.list_of_passport[i].pax_count)+`</td>
-                </tr>`;
+                <div class="row">
+                    <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                        <span style="font-size:13px;">`+passport.list_of_passport[i].pax_count+` `+passport.list_of_passport[i].apply_type+`, `+passport.list_of_passport[i].type.process_type+` <br/> `+passport.list_of_passport[i].sale_price.currency+` `+getrupiah(passport.list_of_passport[i].sale_price.total_price)+`</span>
+                    </div>
+                    <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                        <span style="font-size:13px;">`+passport.list_of_passport[i].sale_price.currency+` `+getrupiah(passport.list_of_passport[i].sale_price.total_price*passport.list_of_passport[i].pax_count)+`</span>
+                    </div>
+                    <div class="col-lg-12">
+                        <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
+                    </div>
+                </div>`;
 
                 count_i = count_i+1;
                 $text += count_i + '. ';
@@ -450,7 +454,6 @@ function update_table(type){
 
             }
         }
-        text+=`</table>`;
 
         $text += 'Contact Person:\n';
         $text += passenger.contact[0].title + ' ' + passenger.contact[0].first_name + ' ' + passenger.contact[0].last_name + '\n';

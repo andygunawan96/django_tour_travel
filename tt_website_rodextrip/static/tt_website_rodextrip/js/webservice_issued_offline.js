@@ -969,6 +969,7 @@ function get_booking_offline(data){
                         timezone = data_gmt.replace (/[^\d.]/g, '');
                         timezone = timezone.split('')
                         timezone = timezone.filter(item => item !== '0')
+                        msg.result.response.hold_date = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
                         if(msg.result.response.issued_date != ''){
                             tes = moment.utc(msg.result.response.issued_date).format('YYYY-MM-DD HH:mm:ss')
                             localTime  = moment.utc(tes).toDate();
@@ -1005,7 +1006,43 @@ function get_booking_offline(data){
                             $(".issued_booking_btn").remove();
                             $text += msg.result.response.state_offline+'\n';
                             $text +='\n';
+                        console.log(msg.result.response);
                     text+=`</table>
+                        <hr/>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <h6>Booked</h6>
+                                <span>Date: <b>`;
+                                    if(msg.result.response.booked_date != ""){
+                                        text+=``+msg.result.response.booked_date+``;
+                                    }else{
+                                        text+=`-`
+                                    }
+                                    text+=`</b>
+                                </span>
+                                <br/>
+                                <span>by <b>`+msg.result.response.booked_by+`</b><span>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <h6>Issued</h6>`;
+                                if(msg.result.response.state == 'issued'){
+                                    text+=`<span>Date: <b>`;
+                                    if(msg.result.response.issued_date != ""){
+                                        text+=``+msg.result.response.issued_date+``;
+                                    }else{
+                                        text+=`-`
+                                    }
+                                    text+=`</b>
+                                    </span>
+                                    <br/>
+                                    <span>by <b>`+msg.result.response.issued_by+`</b><span>`;
+                                }else{
+                                    text+=`<b>-</b>`;
+                                }
+                                text+=`
+                            </div>
+                        </div>
                     </div>`;
 
                     if(msg.result.response.offline_provider_type == 'airline' || msg.result.response.offline_provider_type == 'train'){

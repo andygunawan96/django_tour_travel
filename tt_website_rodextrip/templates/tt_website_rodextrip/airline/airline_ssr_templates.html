@@ -195,14 +195,14 @@
                                         <select id="{{key}}_{{counter_provider}}_{{counter}}_{{forloop.counter}}" name="{{key}}_{{counter_provider}}_{{counter}}_{{forloop.counter}}" data-live-search="true" size="4" onchange="on_change_ssr()">
                                             <option value=""></option>
                                             {% for ssr in values.ssrs %}
-                                            <option value="{{ssr.ssr_code}}_{{ssr.total_price}}" id="ssr_option_{{ forloop.counter }}" {% for ssr_list_pax in pax.ssr_list %}
+                                            <option value="{{ssr.ssr_code}}_{{ssr.total_price}}" id="ssr_option_{{key}}_{{counter_provider}}_{{counter}}_{{ forloop.counter }}" {% for ssr_list_pax in pax.ssr_list %}
                                                 {% if key == ssr_list_pax.availability_type and ssr_list_pax.journey_code == ssr.journey_code and ssr.name == ssr_list_pax.name %}
                                                     selected {% endif %} {% endfor %}
                                             >
                                                 {{ssr.name}} - {{ssr.currency}}
                                             </option>
                                             <script>
-                                                print_nominal_ssr({{ forloop.counter }}, {{ssr.total_price}});
+                                                print_nominal_ssr("{{key}}_{{counter_provider}}_{{counter}}_{{ forloop.counter }}", {{ssr.total_price}});
                                             </script>
                                             {% endfor %}
                                         </select>

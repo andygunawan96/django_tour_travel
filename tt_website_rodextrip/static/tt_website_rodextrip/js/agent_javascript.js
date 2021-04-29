@@ -39,6 +39,13 @@ function table_reservation(data){
             text+= `<td>`+data[i].issued_date+`</td>`;
         }
 
+        if(data[i].booked_uid == false){
+            text+= `<td>-</td>`;
+        }
+        else{
+            text+= `<td>`+data[i].booked_uid+`</td>`;
+        }
+
         if(data[i].issued_uid == false){
             text+= `<td>-</td>`;
         }
@@ -105,7 +112,7 @@ function table_reservation(data){
 //                    </td>`;
 //        }else
         if(data[i].state != 'fail_booking')
-            text+= `<td><input type='button' value='Search' class="primary-btn-custom" onclick="goto_detail_reservation(`+data_counter+`)" /></td>`;
+            text+= `<td><button type='button' class="primary-btn-custom" onclick="goto_detail_reservation(`+data_counter+`)"><i class="fas fa-search"></button></td>`;
         else{
             text+= `<td> - </td>`;
         }
