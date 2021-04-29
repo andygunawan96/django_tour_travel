@@ -598,9 +598,9 @@ function activity_search(){
                                         <div class="card card-effect-promotion" style="border:unset;">
                                             <div class="card-body">
                                                 <div class="row details">
-                                                    <div class="col-lg-12" style="text-align:left;">
-                                                        <span style="font-weight:500; margin-bottom:5px; padding:0px 10px; background: `+color+`; color: `+text_color+`;">TYPE ACTIVITY</span>
-                                                        <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding-top:5px;" title="`+activity_data[i].name+`">`+activity_data[i].name+`</h6>
+                                                    <div class="col-lg-12" style="text-align:left;">`;
+                                                        //text+=`<span style="font-weight:500; margin-bottom:5px; padding:0px 10px; background: `+color+`; color: `+text_color+`;">TYPE ACTIVITY</span>`;
+                                                        text+=`<h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding-top:5px;" title="`+activity_data[i].name+`">`+activity_data[i].name+`</h6>
                                                         <div class="row">
                                                             <div class="col-lg-6" style="text-align:left;">`;
                                                             if(activity_data[i].reviewCount != 0){
@@ -2639,6 +2639,11 @@ function activity_get_booking(data){
                 timezone = timezone.split('')
                 timezone = timezone.filter(item => item !== '0')
 
+                if(msg.result.response.booked_date != ''){
+                    tes = moment.utc(msg.result.response.booked_date).format('YYYY-MM-DD HH:mm:ss')
+                    localTime  = moment.utc(tes).toDate();
+                    msg.result.response.booked_date = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
+                }
                 if(msg.result.response.issued_date != ''){
                     tes = moment.utc(msg.result.response.issued_date).format('YYYY-MM-DD HH:mm:ss')
                     localTime  = moment.utc(tes).toDate();
@@ -2775,8 +2780,10 @@ function activity_get_booking(data){
                                         <h6>Order Number : `+msg.result.response.order_number+`</h6><br/>
                                          <table style="width:100%;">
                                             <tr>
-                                                <th>PNR</th>
-                                                <th>Hold Date</th>
+                                                <th>PNR</th>`;
+                                                if(msg.result.response.state == 'booked')
+                                                    text+=`<th>Hold Date</th>`;
+                                            text+=`
                                                 <th>Status</th>
                                             </tr>
                                             <tr>`;
@@ -2785,11 +2792,53 @@ function activity_get_booking(data){
                                                 <td>`+msg.result.response.pnr+`</td>`;
                                             else
                                                 text+=`<td> - </td>`;
+
+                                            if(msg.result.response.state == 'booked'){
+                                                text+=`<td>`+moment(localTime).format('DD MMM YYYY HH:mm')+` `+gmt+timezone+`</td>`;
+                                            }
+
                                             text+=`
-                                                <td>`+moment(localTime).format('DD MMM YYYY HH:mm')+` `+gmt+timezone+`</td>
                                                 <td>`+conv_status+`</td>
                                             </tr>
                                          </table>
+
+                                        <hr/>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <h6>Booked</h6>
+                                                <span>Date: <b>`;
+                                                    if(msg.result.response.booked_date != ""){
+                                                        text+=``+msg.result.response.booked_date+``;
+                                                    }else{
+                                                        text+=`-`
+                                                    }
+                                                    text+=`</b>
+                                                </span>
+                                                <br/>
+                                                <span>by <b>`+msg.result.response.booked_by+`</b><span>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <h6>Issued</h6>`;
+                                                if(msg.result.response.state == 'issued'){
+                                                    text+=`<span>Date: <b>`;
+                                                    if(msg.result.response.issued_date != ""){
+                                                        text+=``+msg.result.response.issued_date+``;
+                                                    }else{
+                                                        text+=`-`
+                                                    }
+                                                    text+=`</b>
+                                                    </span>
+                                                    <br/>
+                                                    <span>by <b>`+msg.result.response.issued_by+`</b><span>`;
+                                                }else{
+                                                    text+=`<b>-</b>`;
+                                                }
+                                                text+=`
+                                            </div>
+                                        </div>
+
+
                                     </div>
                                 </div>
                             </div>
@@ -2865,6 +2914,7 @@ function activity_get_booking(data){
                         }
                         text += `
                             </table>
+
                                     </div>
                                 </div>
                             </div>

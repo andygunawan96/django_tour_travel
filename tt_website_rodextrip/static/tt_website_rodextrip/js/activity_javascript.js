@@ -324,7 +324,12 @@ function activity_table_detail(){
                        grand_total += parseInt(document.getElementById(low_sku_id+'_passenger').value) * skus[sku]['1'].sale_price;
                        grand_commission += parseInt(document.getElementById(low_sku_id+'_passenger').value) * skus[sku]['1'].commission_price;
                    }
-                   text+= `</span></div></div>`;
+                   text+= `</span></div>
+                       <div class="col-lg-12">
+                           <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
+                       </div>
+
+                   </div>`;
                }
             }
        }
@@ -340,7 +345,11 @@ function activity_table_detail(){
 
                text+= getrupiah(0);
                $test += document.getElementById('infant_passenger').value.toString() + ' Infant Price @IDR ' + getrupiah(0)+'\n';
-               text+= `</span></div></div>`;
+               text+= `</span></div>
+                   <div class="col-lg-12">
+                        <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
+                   </div>
+               </div>`;
            }
        }
    }catch(err){
@@ -580,7 +589,11 @@ function activity_table_detail2(pagetype){
                        total_price_provider.push({"price":price_discount,"provider":activity_data.provider_code});
                    }
                }
-               text+= `</span></div></div>`;
+               text+= `</span></div>
+                   <div class="col-lg-12">
+                       <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
+                   </div>
+               </div>`;
            }
        }
        if (passenger['infant'] && passenger['infant'] != 0)
@@ -594,7 +607,11 @@ function activity_table_detail2(pagetype){
 
            text+= getrupiah(0);
            $test += passenger['infant'].toString() + ' Infant Price @IDR ' + getrupiah(0)+'\n';
-           text+= `</span></div></div>`;
+           text+= `</span></div>
+               <div class="col-lg-12">
+                   <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
+               </div>
+           </div>`;
        }
 
    }catch(err){

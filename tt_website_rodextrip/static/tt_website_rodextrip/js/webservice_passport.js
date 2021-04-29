@@ -685,20 +685,84 @@ function passport_get_data(data){
                         'expired': 'Expired'
                     }
 
+                    if(passport.hold_date != false && passport.hold_date != ''){
+                        tes = moment.utc(passport.hold_date).format('YYYY-MM-DD HH:mm:ss')
+                        localTime  = moment.utc(tes).toDate();
+                        passport.hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
+                        var now = moment();
+                        var hold_date_time = moment(passport.hold_date, "DD MMM YYYY HH:mm");
+                        data_gmt = moment(passport.hold_date)._d.toString().split(' ')[5];
+                        gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, ''); //ambil gmt
+                        timezone = data_gmt.replace (/[^\d.]/g, ''); //ambil timezone
+                        timezone = timezone.split('') //split per char
+                        timezone = timezone.filter(item => item !== '0') //hapus angka 0 di timezone
+                        passport.hold_date = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
+                        if(passport.booked_date != ''){
+                            tes = moment.utc(passport.booked_date).format('YYYY-MM-DD HH:mm:ss')
+                            localTime  = moment.utc(tes).toDate();
+                            passport.booked_date = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
+                        }
+                        if(passport.issued_date != ''){
+                            tes = moment.utc(passport.issued_date).format('YYYY-MM-DD HH:mm:ss')
+                            localTime  = moment.utc(tes).toDate();
+                            passport.issued_date = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
+                        }
+                    }
+
+
                     text= `<div class="row">
                             <div class="col-lg-12">
                                 <div id="passport_booking_detail" style="border:1px solid #cdcdcd; padding:10px; background-color:white">
                                     <h6>Order Number : `+passport.journey.name+`</h6><br/>
                                      <table style="width:100%;">
-                                        <tr>
+                                        <tr>`;
+                                        text+=`
                                             <th>Passport Status</th>
                                             <th>Order Status</th>
                                         </tr>
-                                        <tr>
+                                        <tr>`;
+
+                                        text+=`
                                             <td>`+passport.journey.state_passport+`</td>
                                             <td>`+conv_status+`</td>
                                         </tr>
                                      </table>
+
+                                     <hr/>
+                                     <div class="row">
+                                         <div class="col-lg-6">
+                                             <h6>Booked</h6>
+                                             <span>Date: <b>`;
+                                                 if(passport.booked_date != ""){
+                                                     text+=``+passport.booked_date+``;
+                                                 }else{
+                                                     text+=`-`
+                                                }
+                                                 text+=`</b>
+                                             </span>
+                                             <br/>
+                                             <span>by <b>`+passport.booked_by+`</b><span>
+                                         </div>
+
+                                         <div class="col-lg-6">
+                                             <h6>Issued</h6>`;
+                                             if(passport.state == 'issued'){
+                                                 text+=`<span>Date: <b>`;
+                                                 if(passport.issued_date != ""){
+                                                     text+=``+passport.issued_date+``;
+                                                 }else{
+                                                     text+=`-`
+                                                 }
+                                                 text+=`</b>
+                                                 </span>
+                                                 <br/>
+                                                 <span>by <b>`+passport.issued_by+`</b><span>`;
+                                             }else{
+                                                 text+=`<b>-</b>`;
+                                             }
+                                             text+=`
+                                         </div>
+                                     </div>
                                 </div>
                             </div>
                         </div>`;

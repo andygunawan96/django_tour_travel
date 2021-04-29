@@ -71,8 +71,7 @@ function update_table(type){
     if(type == 'search'){
         check_visa = 0;
         text += `<div style="background-color:white; padding:10px; border:1px solid #cdcdcd;">
-                <h4>Price detail `+visa_request.destination+`</h4><hr/>
-                <table style="width:100%;">`;
+                <h4>Price detail `+visa_request.destination+`</h4><hr/>`;
         price = 0;
         commission = 0;
         count_i = 0;
@@ -87,12 +86,17 @@ function update_table(type){
             if(pax_count != 0){
                 count_price_detail[i] = 1;
                 text+=`
-                <tr>
-                    <td>`+pax_count+` `+visa[i].pax_type[1]+` <br/> `+visa[i].visa_type[1]+`, `+visa[i].entry_type[1]+`</td>
-                    <td>x</td>
-                    <td>`+visa[i].sale_price.currency+` `+getrupiah(visa[i].sale_price.total_price)+` </td>
-                    <td style="text-align:right;">`+visa[i].sale_price.currency+` `+getrupiah(visa[i].sale_price.total_price*pax_count)+`</td>
-                </tr>`;
+                <div class="row">
+                    <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                        <span style="font-size:13px;">`+pax_count+` `+visa[i].pax_type[1]+` <br/> `+visa[i].visa_type[1]+`, `+visa[i].entry_type[1]+` <br/> `+visa[i].sale_price.currency+` `+getrupiah(visa[i].sale_price.total_price)+`</span>
+                    </div>
+                    <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                        <span style="font-size:13px;">`+visa[i].sale_price.currency+` `+getrupiah(visa[i].sale_price.total_price*pax_count)+`</span>
+                    </div>
+                    <div class="col-lg-12">
+                        <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
+                    </div>
+                </div>`;
                 count_i = count_i+1;
                 $text += count_i + '. ';
                 $text += 'Visa '+ country +'\n';
@@ -124,7 +128,6 @@ function update_table(type){
 
             }
         }
-        text+=`</table>`;
 
         for(i in count_price_detail){
             if(count_price_detail[i] == 1){
@@ -160,9 +163,6 @@ function update_table(type){
 
             text+=`
                 <div class="row" style="padding-bottom:15px;">
-                    <div class="col-lg-12">
-                        <hr/>
-                    </div>
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
                         <h6>Grand Total</h6>
                     </div>
@@ -241,8 +241,7 @@ function update_table(type){
             }
         }
     }else if(type == 'passenger'){
-        text += `<h4>Price detail `+visa_request.destination+`</h4><hr/>
-                <table style="width:100%;">`;
+        text += `<h4>Price detail `+visa_request.destination+`</h4><hr/>`;
         price = 0;
         commission = 0;
         count_i = 0;
@@ -250,12 +249,17 @@ function update_table(type){
             if(visa.list_of_visa[i].total_pax != 0){
                 count_price_detail[i] = 1;
                 text+=`
-                <tr>
-                    <td>`+visa.list_of_visa[i].total_pax+` `+visa.list_of_visa[i].pax_type[1]+` <br/> `+visa.list_of_visa[i].visa_type[1]+`, `+visa.list_of_visa[i].entry_type[1]+`</td>
-                    <td>x</td>
-                    <td>`+visa.list_of_visa[i].sale_price.currency+` `+getrupiah(visa.list_of_visa[i].sale_price.total_price)+`</td>
-                    <td style="text-align:right;">`+visa.list_of_visa[i].sale_price.currency+` `+getrupiah(visa.list_of_visa[i].sale_price.total_price*visa.list_of_visa[i].total_pax)+`</td>
-                </tr>`;
+                <div class="row">
+                    <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                        <span style="font-size:13px;">`+visa.list_of_visa[i].total_pax+` `+visa.list_of_visa[i].pax_type[1]+` <br/> `+visa.list_of_visa[i].visa_type[1]+`, `+visa.list_of_visa[i].entry_type[1]+` <br/> `+visa.list_of_visa[i].sale_price.currency+` `+getrupiah(visa.list_of_visa[i].sale_price.total_price)+`</span>
+                    </div>
+                    <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                        <span style="font-size:13px;">`+visa.list_of_visa[i].sale_price.currency+` `+getrupiah(visa.list_of_visa[i].sale_price.total_price*visa.list_of_visa[i].total_pax)+`</span>
+                    </div>
+                    <div class="col-lg-12">
+                        <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
+                    </div>
+                </div>`;
 
                 count_i = count_i+1;
                 $text += count_i + '. ';
@@ -286,7 +290,6 @@ function update_table(type){
 
             }
         }
-        text+=`</table>`;
 
         $text += 'Price\n';
         for(i in visa.list_of_visa){
@@ -298,9 +301,6 @@ function update_table(type){
 
         text+=`
             <div class="row" style="padding-bottom:15px;">
-                <div class="col-lg-12">
-                    <hr/>
-                </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
                     <h6>Grand Total</h6>
                 </div>
@@ -407,21 +407,34 @@ function update_table(type){
             document.getElementById('repricing_div').innerHTML = text_repricing;
             //repricing
         }
-        text += `<h4>Price detail `+visa_request.destination+`</h4><hr/>
-                <table style="width:100%;">`;
+        text += `<h4>Price detail `+visa_request.destination+`</h4><hr/>`;
         price = 0;
         commission = 0;
         count_i = 0;
         for(i in visa.list_of_visa){
             if(visa.list_of_visa[i].pax_count != 0){
                 count_price_detail[i] = 1;
+
                 text+=`
-                <tr>
-                    <td>`+visa.list_of_visa[i].pax_count+` `+visa.list_of_visa[i].pax_type[1]+` <br/> `+visa.list_of_visa[i].visa_type[1]+`, `+visa.list_of_visa[i].entry_type[1]+`</td>
-                    <td>x</td>
-                    <td>`+visa.list_of_visa[i].sale_price.currency+` `+getrupiah(visa.list_of_visa[i].sale_price.total_price)+`</td>
-                    <td style="text-align:right;">`+visa.list_of_visa[i].sale_price.currency+` `+getrupiah(visa.list_of_visa[i].sale_price.total_price*visa.list_of_visa[i].pax_count)+`</td>
-                </tr>`;
+                <div class="row">
+                    <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                        <span style="font-size:13px;">`+visa.list_of_visa[i].pax_count+` `+visa.list_of_visa[i].pax_type[1]+` <br/> `+visa.list_of_visa[i].visa_type[1]+`, `+visa.list_of_visa[i].entry_type[1]+` <br/> `+visa.list_of_visa[i].sale_price.currency+` `+getrupiah(visa.list_of_visa[i].sale_price.total_price)+`</span>
+                    </div>
+                    <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                        <span style="font-size:13px;">`+visa.list_of_visa[i].sale_price.currency+` `+getrupiah(visa.list_of_visa[i].sale_price.total_price*visa.list_of_visa[i].pax_count)+`</span>
+                    </div>
+                    <div class="col-lg-12">
+                        <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
+                    </div>
+                </div>`;
+
+//                text+=`
+//                <tr>
+//                    <td>`+visa.list_of_visa[i].pax_count+` `+visa.list_of_visa[i].pax_type[1]+` <br/> `+visa.list_of_visa[i].visa_type[1]+`, `+visa.list_of_visa[i].entry_type[1]+`</td>
+//                    <td>x</td>
+//                    <td>`+visa.list_of_visa[i].sale_price.currency+` `+getrupiah(visa.list_of_visa[i].sale_price.total_price)+`</td>
+//                    <td style="text-align:right;">`+visa.list_of_visa[i].sale_price.currency+` `+getrupiah(visa.list_of_visa[i].sale_price.total_price*visa.list_of_visa[i].pax_count)+`</td>
+//                </tr>`;
 
                 count_i = count_i+1;
                 $text += count_i + '. ';
@@ -453,7 +466,6 @@ function update_table(type){
 
             }
         }
-        text+=`</table>`;
         $text += 'Booker:\n';
         $text += passenger.booker.title + ' ' + passenger.booker.first_name + ' ' + passenger.booker.last_name + '\n';
         $text += passenger.booker.email + '\n';
@@ -566,8 +578,7 @@ function update_table(type){
                    </div>
                 </div>`;
     }else if(type == 'booking'){
-        text += `<h4>Price detail</h4><hr/>
-                <table style="width:100%; margin-bottom:10px;">`;
+        text += `<h4>Price detail</h4><hr/>`;
         price = 0;
         price_pax = 0;
         commission = 0;
@@ -632,15 +643,21 @@ function update_table(type){
                 }
             }
             $text += 'Price '+ visa.passengers[i].visa.price[j].currency + ' ' + getrupiah(price_pax) + '\n';
-            text+=`
-                    <tr>
-                        <td>`+visa.passengers[i].title+` `+visa.passengers[i].first_name+` `+visa.passengers[i].last_name+`</td>
-                        <td style="text-align:right;">`+currency+` `+getrupiah(price_pax)+`</td>
-                    </tr>`;
 
+            text+=`
+            <div class="row">
+                <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                    <span style="font-size:13px;">`+visa.passengers[i].title+` `+visa.passengers[i].first_name+` `+visa.passengers[i].last_name+`</span>
+                </div>
+                <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                    <span style="font-size:13px;">`+currency+` `+getrupiah(price_pax)+`</span>
+                </div>
+                <div class="col-lg-12">
+                    <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
+                </div>
+            </div>`;
         }
 
-        text+=`</table>`;
         if(csc != 0){
             text+=`
                 <div class="row" style="margin-bottom:5px;">
@@ -665,9 +682,6 @@ function update_table(type){
         }
         text+=`
             <div class="row" style="padding-bottom:15px;">
-                <div class="col-lg-12">
-                    <hr/>
-                </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
                     <h6>Grand Total</h6>
                 </div>

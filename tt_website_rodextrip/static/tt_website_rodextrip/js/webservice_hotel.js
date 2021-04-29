@@ -1586,7 +1586,17 @@ function hotel_get_booking(data){
                         timezone = data_gmt.replace (/[^\d.]/g, '');
                         timezone = timezone.split('')
                         timezone = timezone.filter(item => item !== '0')
-                    }if(msg.result.response.issued_date != ''){
+                    }if(msg.result.response.booked_date != ''){
+                        tes = moment.utc(msg.result.response.booked_date).format('YYYY-MM-DD HH:mm:ss')
+                        localTime  = moment.utc(tes).toDate();
+                        data_gmt = moment(msg.result.response.booked_date)._d.toString().split(' ')[5];
+                        gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, '');
+                        timezone = data_gmt.replace (/[^\d.]/g, '');
+                        timezone = timezone.split('')
+                        timezone = timezone.filter(item => item !== '0')
+                        msg.result.response.booked_date = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
+                    }
+                    if(msg.result.response.issued_date != ''){
                         tes = moment.utc(msg.result.response.issued_date).format('YYYY-MM-DD HH:mm:ss')
                         localTime  = moment.utc(tes).toDate();
                         data_gmt = moment(msg.result.response.issued_date)._d.toString().split(' ')[5];
@@ -1628,7 +1638,42 @@ function hotel_get_booking(data){
                             }
                         text+=`
                         </table>
-                   `;
+                        <hr/>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <h6>Booked</h6>
+                                <span>Date: <b>`;
+                                    if(msg.result.response.booked_date != ""){
+                                        text+=``+msg.result.response.booked_date+``;
+                                    }else{
+                                        text+=`-`
+                                    }
+                                    text+=`</b>
+                                </span>
+                                <br/>
+                                <span>by <b>`+msg.result.response.booked_by+`</b><span>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <h6>Issued</h6>`;
+                                if(msg.result.response.state == 'issued'){
+                                    text+=`<span>Date: <b>`;
+                                    if(msg.result.response.issued_date != ""){
+                                        text+=``+msg.result.response.issued_date+``;
+                                    }else{
+                                        text+=`-`
+                                    }
+                                    text+=`</b>
+                                    </span>
+                                    <br/>
+                                    <span>by <b>`+msg.result.response.issued_by+`</b><span>`;
+                                }else{
+                                    text+=`<b>-</b>`;
+                                }
+                                text+=`
+                            </div>
+                        </div><hr/>`;
+
                    text+=`<div class="row" style="margin-top:15px;">`;
                    if(msg.result.response.hotel_name != false){
                        text+=`
