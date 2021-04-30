@@ -2633,6 +2633,7 @@ function activity_get_booking(data){
             if(msg.result.error_code == 0){
                 tes = moment.utc(msg.result.response.hold_date).format('YYYY-MM-DD HH:mm:ss')
                 localTime  = moment.utc(tes).toDate();
+                msg.result.response.hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
                 data_gmt = moment(msg.result.response.hold_date)._d.toString().split(' ')[5];
                 gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, '');
                 timezone = data_gmt.replace (/[^\d.]/g, '');
@@ -2650,7 +2651,7 @@ function activity_get_booking(data){
                     msg.result.response.issued_date = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
                 }
                 var now = moment();
-                var hold_date_time = moment(localTime, "DD MMM YYYY HH:mm");
+                var hold_date_time = moment(msg.result.response.hold_date, "DD MMM YYYY HH:mm");
                 if(msg.result.response.no_order_number){
                     text = ``;
                     voucher_text = ``;
@@ -2794,7 +2795,7 @@ function activity_get_booking(data){
                                                 text+=`<td> - </td>`;
 
                                             if(msg.result.response.state == 'booked'){
-                                                text+=`<td>`+moment(localTime).format('DD MMM YYYY HH:mm')+` `+gmt+timezone+`</td>`;
+                                                text+=`<td>`+msg.result.response.hold_date+` `+gmt+timezone+`</td>`;
                                             }
 
                                             text+=`

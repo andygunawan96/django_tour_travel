@@ -1545,6 +1545,9 @@ function tour_get_booking(order_number)
                                             else
                                                 text+=`<td> - </td>`;
 
+                                            if(book_obj.state == 'booked')
+                                                text+=`<td>`+book_obj.hold_date+`</td>`;
+
                                             text+=`
                                                 <td>`+conv_status+`</td>
                                             </tr>
