@@ -1021,7 +1021,6 @@ function get_booking_offline(data){
                             $(".issued_booking_btn").remove();
                             $text += msg.result.response.state_offline+'\n';
                             $text +='\n';
-                        console.log(msg.result.response);
                     text+=`</table>
                         <hr/>
                         <div class="row">

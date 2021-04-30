@@ -1321,7 +1321,7 @@ def update_customer(request):
                                 month[pax['identities']['passport']['identity_expdate'].split('-')[1]],
                                 pax['identities']['passport']['identity_expdate'].split('-')[0]),
                         })
-                    elif pax['identities'].get('ktp'):
+                    if pax['identities'].get('ktp'):
                         if pax['identities']['ktp']['identity_expdate'] != '':
                             pax['identities']['ktp'].update({
                                 'identity_expdate': '%s %s %s' % (
@@ -1329,7 +1329,7 @@ def update_customer(request):
                                     month[pax['identities']['ktp']['identity_expdate'].split('-')[1]],
                                     pax['identities']['ktp']['identity_expdate'].split('-')[0]),
                             })
-                    elif pax['identities'].get('sim'):
+                    if pax['identities'].get('sim'):
                         if pax['identities']['sim']['identity_expdate'] != '':
                             pax['identities']['sim'].update({
                                 'identity_expdate': '%s %s %s' % (
@@ -1337,7 +1337,7 @@ def update_customer(request):
                                     month[pax['identities']['sim']['identity_expdate'].split('-')[1]],
                                     pax['identities']['sim']['identity_expdate'].split('-')[0]),
                             })
-                    elif pax['identities'].get('other'):
+                    if pax['identities'].get('other'):
                         if pax['identities']['other']['identity_expdate'] != '':
                             pax['identities']['other'].update({
                                 'identity_expdate': '%s %s %s' % (
