@@ -445,7 +445,7 @@ function select_tour_date(key_change_date){
 
 function set_tour_arrival_date(){
     var tour_dept_date = document.getElementById('open_tour_departure_date').value;
-    var tour_arr_date = moment(tour_dept_date).add(tour_data.duration, 'days').format('DD MMM YYYY');
+    var tour_arr_date = moment(tour_dept_date).add(tour_data.duration-1, 'days').format('DD MMM YYYY');
     document.getElementById('open_tour_arrival_date').value = tour_arr_date;
     selected_tour_date = tour_dept_date.toString() + ' - ' + tour_arr_date.toString();
     document.getElementById('product_date').innerHTML = selected_tour_date;
