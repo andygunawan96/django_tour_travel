@@ -1427,6 +1427,7 @@ function tour_get_booking(order_number)
                    var contact = msg.result.response.contact;
                    var payment = msg.result.response.payment_rules;
                    var cur_state = msg.result.response.state;
+                   var cur_state_desc = msg.result.response.state_description;
 
                    tes = moment.utc(msg.result.response.hold_date).format('YYYY-MM-DD HH:mm:ss')
                    localTime  = moment.utc(tes).toDate();
@@ -1489,7 +1490,19 @@ function tour_get_booking(order_number)
                         document.getElementById('order_state').innerHTML = 'Your Order Has Failed, Please Try Again';
                         document.getElementById('voucher_discount').innerHTML = '';
                     }
-                    else{
+                    else if(cur_state == 'fail_refunded'){
+                        conv_status = 'Failed (Refunded)';
+                        document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                        document.getElementById('issued-breadcrumb').classList.add("br-fail");
+                        document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                        document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+                        document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                        document.getElementById('issued-breadcrumb-span').innerHTML = `Failed (Refunded)`;
+                        document.getElementById('order_state').innerHTML = 'Your Order Has Been ' + conv_status;
+                        document.getElementById('order_state').innerHTML = 'Your Order Has Failed and Your Balance Has Been Refunded';
+                        document.getElementById('voucher_discount').innerHTML = '';
+                    }
+                    else if(cur_state == 'pending'){
                         conv_status = 'Pending';
                         document.getElementById('issued-breadcrumb').classList.remove("br-active");
                         document.getElementById('issued-breadcrumb').classList.add("br-pending");
@@ -1498,6 +1511,12 @@ function tour_get_booking(order_number)
                         document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-clock"></i>`;
                         document.getElementById('issued-breadcrumb-span').innerHTML = `Pending`;
                         document.getElementById('order_state').innerHTML = 'Your Order Is Currently ' + conv_status;
+                        document.getElementById('voucher_discount').innerHTML = '';
+                    }
+                    else{
+                        document.getElementById('issued-breadcrumb-span').innerHTML = cur_state_desc;
+                        document.getElementById('order_state').innerHTML = 'Your Order Status Is ' + cur_state_desc;
+                        document.getElementById('voucher_discount').innerHTML = '';
                     }
 
                    text = `
