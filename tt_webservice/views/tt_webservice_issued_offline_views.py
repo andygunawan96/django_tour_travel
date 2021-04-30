@@ -469,7 +469,7 @@ def commit_booking(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + "booking/issued_offline", data=data, headers=headers, method='POST')
+    res = util.send_request(url=url + "booking/issued_offline", data=data, headers=headers, method='POST', timeout=180)
     try:
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS commit_booking_issued_offline SIGNATURE " + request.session['issued_offline_signature'])

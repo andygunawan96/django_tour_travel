@@ -975,6 +975,7 @@ function radio_button(type,val){
 
         if(value == 'chosen'){
             document.getElementById('passenger_chosen').hidden = false;
+            get_passenger_cache(value);
         }else{
             document.getElementById('passenger_chosen').hidden = true;
         }
@@ -987,10 +988,13 @@ function radio_button(type,val){
 
         if(value == 'search'){
             document.getElementById('passenger_search').hidden = false;
+            $(".phone_chosen_cls").niceSelect('destroy');
+            $(".phone_chosen_cls").niceSelect();
         }else{
             document.getElementById('passenger_search').hidden = true;
         }
-        get_passenger_cache();
+
+
     }
     else if(value == 'search' && type == 'booker'){
         document.getElementById('train_booker_search_div').hidden = false;
@@ -3227,7 +3231,7 @@ function del_passenger_cache(sequence){
     });
 }
 
-function get_passenger_cache(){
+function get_passenger_cache(type){
     $.ajax({
        type: "POST",
        url: "/webservice/agent",
@@ -3242,213 +3246,215 @@ function get_passenger_cache(){
         if(msg.result.error_code == 0){
             document.getElementById('passenger_chosen').innerHTML = '';
             passenger_data_cache = msg.result.response;
-            var response = '';
-            var like_name_booker = document.getElementById('train_passenger_search').value;
-            if(msg.result.response.length != 0){
-                response+=`
-                <div class="alert alert-success" role="alert" style="margin-top:10px;"><h6><i class="fas fa-search"></i> Selected Passenger</h6></div>
-                <div style="overflow:auto;height:45vh;margin-top:10px;">
-                <table style="width:100%" id="list-of-passenger">
-                    <tr>
-                        <th style="width:10%;">No</th>`;
-                        if(window.location.href.split('/')[window.location.href.split('/').length-1] == 'passenger' || window.location.href.split('/')[window.location.href.split('/').length-1] == 'issued_offline'){
-                            response+=`<th style="width:40%;">Name</th>
-                                       <th style="width:20%"></th>
-                                       <th style="width:15%"></th>
-                                       <th style="width:15%"></th>`;
-                        }else{
-                            response+=` <th style="width:60%;">Name</th>
-                                        <th style="width:30%"></th>`;
-                        }
-                        text+=`
-                    </tr>`;
-
-                for(i in msg.result.response){
+            if(type == 'chosen'){
+                var response = '';
+                var like_name_booker = document.getElementById('train_passenger_search').value;
+                if(msg.result.response.length != 0){
                     response+=`
-                    <tr>
-                        <td>`+(parseInt(i)+1)+`</td>
-                        <td>
-                            <div class="row">
-                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">`;
-                                    if(msg.result.response[i].face_image.length > 0)
-                                        response+=`<img src="`+msg.result.response[i].face_image[0]+`" alt="User" style="width:100%;">`;
-                                    else if(msg.result.response[i].title == "MR"){
-                                        response+=`<img src="/static/tt_website_rodextrip/img/user_mr.png" alt="User MR" style="width:100%;">`;
+                    <div class="alert alert-success" role="alert" style="margin-top:10px;"><h6><i class="fas fa-search"></i> Selected Passenger</h6></div>
+                    <div style="overflow:auto;height:60vh;margin-top:10px;">
+                    <table style="width:100%" id="list-of-passenger">
+                        <tr>
+                            <th style="width:10%;">No</th>`;
+                            if(window.location.href.split('/')[window.location.href.split('/').length-1] == 'passenger' || window.location.href.split('/')[window.location.href.split('/').length-1] == 'issued_offline'){
+                                response+=`<th style="width:40%;">Name</th>
+                                           <th style="width:20%"></th>
+                                           <th style="width:15%"></th>
+                                           <th style="width:15%"></th>`;
+                            }else{
+                                response+=` <th style="width:60%;">Name</th>
+                                            <th style="width:30%"></th>`;
+                            }
+                            text+=`
+                        </tr>`;
+
+                    for(i in msg.result.response){
+                        response+=`
+                        <tr>
+                            <td>`+(parseInt(i)+1)+`</td>
+                            <td>
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">`;
+                                        if(msg.result.response[i].face_image.length > 0)
+                                            response+=`<img src="`+msg.result.response[i].face_image[0]+`" alt="User" style="width:100%;">`;
+                                        else if(msg.result.response[i].title == "MR"){
+                                            response+=`<img src="/static/tt_website_rodextrip/img/user_mr.png" alt="User MR" style="width:100%;">`;
+                                        }
+                                        else if(msg.result.response[i].title == "MRS"){
+                                            response+=`<img src="/static/tt_website_rodextrip/img/user_mrs.png" alt="User MRS" style="width:100%;">`;
+                                        }
+                                        else if(msg.result.response[i].title == "MS"){
+                                            response+=`<img src="/static/tt_website_rodextrip/img/user_ms.png" alt="User MS" style="width:100%;">`;
+                                        }
+                                        else if(msg.result.response[i].title == "MSTR"){
+                                            response+=`<img src="/static/tt_website_rodextrip/img/user_mistr.png" alt="User MSTR" style="width:100%;">`;
+                                        }
+                                        else if(msg.result.response[i].title == "MISS"){
+                                            response+=`<img src="/static/tt_website_rodextrip/img/user_miss.png" alt="User MISS" style="width:100%;">`;
+                                        }
+                                response+=`
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                    <span style="font-weight:600; font-size:14px;"> `+msg.result.response[i].title+` `+msg.result.response[i].first_name+` `+msg.result.response[i].last_name+``;
+                                    if(msg.result.response[i].birth_date != '')
+                                        response+=`<br/> <span><i class="fas fa-birthday-cake"></i> `+msg.result.response[i].birth_date+`</span>`;
+                                    if(msg.result.response[i].phones.length != 0){
+                                        if(template == 1 || template == 5){
+                                            response+=`<br/> <div class="row" style="margin-left:0"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> `;
+                                        }else if(template == 2){
+                                            response+=`<br/> <div class="row"><div class="col-lg-12"><div class="input-container-search-ticket"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> `;
+                                        }else if(template == 3){
+                                            response+=`<br/> <div class="row"><div class="col-lg-12"><div class="input-container-search-ticket"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i><div class="default-select">`;
+                                        }else if(template == 4){
+                                            response+=`<br/> <div class="row" style="margin-left:0"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i>`;
+                                        }
+                                        response+=`<select class="phone_chosen_cls" id="phone_chosen`+i+`" style="width:100%;">`;
+                                        for(j in msg.result.response[i].phones){
+                                            response += `<option>`+msg.result.response[i].phones[j].calling_code+` - `+msg.result.response[i].phones[j].calling_number+`</option>`;
+                                        }
+                                        if(template == 1 || template == 5){
+                                            response+=`</select></div>`;
+                                        }else if(template == 2){
+                                            response+=`</select></div></div></div>`;
+                                        }else if(template == 3){
+                                            response+=`</select></div></div></div></div>`;
+                                        }else if(template == 4){
+                                            response+=`</select></div>`;
+                                        }
+                                    }else{
+                                        response+=`<br/>`;
                                     }
-                                    else if(msg.result.response[i].title == "MRS"){
-                                        response+=`<img src="/static/tt_website_rodextrip/img/user_mrs.png" alt="User MRS" style="width:100%;">`;
+                                    if(msg.result.response[i].nationality_name != '')
+                                        response+=`<span><i class="fas fa-globe-asia"></i> `+msg.result.response[i].nationality_name+`</span>`;
+                                    if(msg.result.response[i].identities.hasOwnProperty('passport') == true)
+                                        response+=`<br/> <span><i class="fas fa-passport"></i> Passport - `+msg.result.response[i].identities.passport.identity_number+`</span>`;
+                                    if(msg.result.response[i].identities.hasOwnProperty('ktp') == true)
+                                        response+=`<br/> <span><i class="fas fa-id-card"></i> KTP - `+msg.result.response[i].identities.ktp.identity_number+`</span>`;
+                                    if(msg.result.response[i].identities.hasOwnProperty('sim') == true)
+                                        response+=`<br/> <span><i class="fas fa-id-badge"></i> SIM - `+msg.result.response[i].identities.sim.identity_number+`</span>`;
+                                    if(msg.result.response[i].customer_parents.length != 0){
+                                        response += `<div class="tooltip-inner" style="text-align:left;" style data-tooltip="`;
+                                        for(j in msg.result.response[i].customer_parents){
+                                            response+= "• " + msg.result.response[i].customer_parents[j].type + ' ' + msg.result.response[i].customer_parents[j].name + ' ' + msg.result.response[i].customer_parents[j].currency + ' ' + getrupiah(msg.result.response[i].customer_parents[j].actual_balance) + '\n';
+                                        }
+                                        response += `"><i class="fas fa-money-bill-wave-alt"></i> Corporate Booker</span></div>`;
                                     }
-                                    else if(msg.result.response[i].title == "MS"){
-                                        response+=`<img src="/static/tt_website_rodextrip/img/user_ms.png" alt="User MS" style="width:100%;">`;
-                                    }
-                                    else if(msg.result.response[i].title == "MSTR"){
-                                        response+=`<img src="/static/tt_website_rodextrip/img/user_mistr.png" alt="User MSTR" style="width:100%;">`;
-                                    }
-                                    else if(msg.result.response[i].title == "MISS"){
-                                        response+=`<img src="/static/tt_website_rodextrip/img/user_miss.png" alt="User MISS" style="width:100%;">`;
-                                    }
-                            response+=`
+                                response+=`
                                 </div>
-                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                                <span style="font-weight:600; font-size:14px;"> `+msg.result.response[i].title+` `+msg.result.response[i].first_name+` `+msg.result.response[i].last_name+``;
-                                if(msg.result.response[i].birth_date != '')
-                                    response+=`<br/> <span><i class="fas fa-birthday-cake"></i> `+msg.result.response[i].birth_date+`</span>`;
-                                if(msg.result.response[i].phones.length != 0){
-                                    if(template == 1 || template == 5){
-                                        response+=`<br/> <div class="row" style="margin-left:0"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> `;
-                                    }else if(template == 2){
-                                        response+=`<br/> <div class="row"><div class="col-lg-12"><div class="input-container-search-ticket"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> `;
-                                    }else if(template == 3){
-                                        response+=`<br/> <div class="row"><div class="col-lg-12"><div class="input-container-search-ticket"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i><div class="default-select">`;
-                                    }else if(template == 4){
-                                        response+=`<br/> <div class="row" style="margin-left:0"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i>`;
-                                    }
-                                    response+=`<select class="phone_chosen_cls" id="phone_chosen`+i+`" style="width:100%;">`;
-                                    for(j in msg.result.response[i].phones){
-                                        response += `<option>`+msg.result.response[i].phones[j].calling_code+` - `+msg.result.response[i].phones[j].calling_number+`</option>`;
-                                    }
-                                    if(template == 1 || template == 5){
-                                        response+=`</select></div>`;
-                                    }else if(template == 2){
-                                        response+=`</select></div></div></div>`;
-                                    }else if(template == 3){
-                                        response+=`</select></div></div></div></div>`;
-                                    }else if(template == 4){
-                                        response+=`</select></div>`;
-                                    }
-                                }else{
-                                    response+=`<br/>`;
+                            </td>`;
+                            if(window.location.href.split('/')[window.location.href.split('/').length-1] == 'passenger'){
+                                response+=`<td><select class="selection_type_ns" id="selection_type`+i+`" style="width:100%;" onchange="btn_move_passenger_cache_enable(`+i+`);">`;
+                                if(msg.result.response[i].title == "MR" || msg.result.response[i].title == "MRS" || msg.result.response[i].title == "MS"){
+                                    response+=`<optgroup label="Booker">`;
+                                    response+=`<option value="booker">Booker</option>`;
                                 }
-                                if(msg.result.response[i].nationality_name != '')
-                                    response+=`<span><i class="fas fa-globe-asia"></i> `+msg.result.response[i].nationality_name+`</span>`;
-                                if(msg.result.response[i].identities.hasOwnProperty('passport') == true)
-                                    response+=`<br/> <span><i class="fas fa-passport"></i> Passport - `+msg.result.response[i].identities.passport.identity_number+`</span>`;
-                                if(msg.result.response[i].identities.hasOwnProperty('ktp') == true)
-                                    response+=`<br/> <span><i class="fas fa-id-card"></i> KTP - `+msg.result.response[i].identities.ktp.identity_number+`</span>`;
-                                if(msg.result.response[i].identities.hasOwnProperty('sim') == true)
-                                    response+=`<br/> <span><i class="fas fa-id-badge"></i> SIM - `+msg.result.response[i].identities.sim.identity_number+`</span>`;
-                                if(msg.result.response[i].customer_parents.length != 0){
-                                    response += `<div class="tooltip-inner" style="text-align:left;" style data-tooltip="`;
-                                    for(j in msg.result.response[i].customer_parents){
-                                        response+= "• " + msg.result.response[i].customer_parents[j].type + ' ' + msg.result.response[i].customer_parents[j].name + ' ' + msg.result.response[i].customer_parents[j].currency + ' ' + getrupiah(msg.result.response[i].customer_parents[j].actual_balance) + '\n';
+
+                                try{
+                                    if(adult > 0)
+                                        response+=`<optgroup label="Adult">`;
+                                    for(j=0;j<adult;j++){
+                                        response+=`<option value="adult`+parseInt(j+1)+`">Adult `+parseInt(j+1)+`</option>`;
                                     }
-                                    response += `"><i class="fas fa-money-bill-wave-alt"></i> Corporate Booker</span></div>`;
+                                }catch(err){
+
                                 }
+                                try{
+                                    if(child > 0)
+                                        response+=`<optgroup label="Child">`;
+                                    for(j=0;j<child;j++){
+                                        response+=`<option value="child`+parseInt(j+1)+`">Child `+parseInt(j+1)+`</option>`;
+                                    }
+                                }catch(err){
+
+                                }
+                                try{
+                                    if(infant > 0)
+                                        response+=`<optgroup label="Infant">`;
+                                    for(j=0;j<infant;j++){
+                                        response+=`<option value="infant`+parseInt(j+1)+`">Infant `+parseInt(j+1)+`</option>`;
+                                    }
+                                }catch(err){
+
+                                }
+                                try{
+                                    if(senior > 0)
+                                        response+=`<optgroup label="Senior">`;
+                                    for(j=0;j<senior;j++){
+                                        response+=`<option value="senior`+parseInt(j+1)+`">Senior `+parseInt(j+1)+`</option>`;
+                                    }
+                                }catch(err){
+
+                                }
+                                response+=`</select></td>`;
+                                check = 0;
+                                var passenger_sequence = '';
+                                for(j in passenger_data_pick){
+                                    if(passenger_data_pick[j].seq_id == msg.result.response[i].seq_id){
+                                        check = 1;
+                                        var passenger_pick = passenger_data_pick[j].sequence.replace(/[^a-zA-Z ]/g,"");
+                                        var passenger_pick_number = passenger_data_pick[j].sequence.replace( /^\D+/g, '');
+                                        passenger_sequence = passenger_pick.charAt(0).toUpperCase() + passenger_pick.slice(1).toLowerCase() + ' ' + passenger_pick_number;
+                                    }
+                                }
+                                if(check == 0)
+                                    response+=`<td><button type="button" class="primary-btn-custom" onclick="update_customer_cache_list(`+i+`)" id="move_btn_`+i+`">Move</button></td>`;
+                                else
+                                    response+=`<td><button type="button" class="primary-btn-custom" id="move_btn_`+i+`" disabled>`+passenger_sequence+`</button></td>`;
+                            }else if(window.location.href.split('/')[window.location.href.split('/').length-1] == 'issued_offline'){
+                                response+=`<td><select class="selection_type_ns" id="selection_type`+i+`" style="width:100%;">`;
+                                if(msg.result.response[i].title == "MR" || msg.result.response[i].title == "MRS" || msg.result.response[i].title == "MS"){
+                                    response+=`<optgroup label="Booker">`;
+                                    response+=`<option value="booker">Booker</option>`;
+                                }
+
+                                try{
+                                    if(counter_passenger > 0)
+                                        response+=`<optgroup label="Passenger">`;
+                                    for(j=0;j<counter_passenger;j++){
+                                        response+=`<option value="adult`+parseInt(j+1)+`">Passenger `+parseInt(j+1)+`</option>`;
+                                    }
+                                }catch(err){
+
+                                }
+                                response+=`</select></td>`;
+                                check = 0;
+                                var passenger_sequence = '';
+                                console.log(msg.result.response[i].seq_id);
+                                for(i in passenger_data_pick){
+                                    console.log(passenger_data_pick);
+                                    if(passenger_data_pick[i].seq_id == msg.result.response[i].seq_id){
+                                        check = 1;
+                                        var passenger_pick = passenger_data_pick[i].sequence.replace(/[^a-zA-Z ]/g,"");
+                                        var passenger_pick_number = passenger_data_pick[i].sequence.replace( /^\D+/g, '');
+                                        passenger_sequence = passenger_pick.charAt(0).toUpperCase() + passenger_pick.slice(1).toLowerCase() + ' ' + passenger_pick_number;
+                                    }
+                                }
+                                console.log(check);
+                                if(check == 0)
+                                    response+=`<td><button type="button" class="primary-btn-custom" onclick="update_customer_cache_list(`+i+`)" id="move_btn_`+i+`">Move</button></td>`;
+                                else
+                                    response+=`<td><button type="button" class="primary-btn-custom" disabled id="move_btn_`+i+`">`+passenger_sequence+`</button></td>`;
+                            }
+                            response+=`<td>
+                                            <button type="button" class="primary-btn-custom" onclick="del_passenger_cache(`+i+`);">Delete</button>`;
+                            if(agent_security.includes('p_cache_2') == true)
                             response+=`
-                            </div>
-                        </td>`;
-                        if(window.location.href.split('/')[window.location.href.split('/').length-1] == 'passenger'){
-                            response+=`<td><select class="selection_type_ns" id="selection_type`+i+`" style="width:100%;" onchange="btn_move_passenger_cache_enable(`+i+`);">`;
-                            if(msg.result.response[i].title == "MR" || msg.result.response[i].title == "MRS" || msg.result.response[i].title == "MS"){
-                                response+=`<optgroup label="Booker">`;
-                                response+=`<option value="booker">Booker</option>`;
-                            }
+                                            <button type="button" class="primary-btn-custom" onclick="edit_passenger_cache(`+i+`);">Edit</button>`;
+                            response+=`
+                                       </td>`;
 
-                            try{
-                                if(adult > 0)
-                                    response+=`<optgroup label="Adult">`;
-                                for(j=0;j<adult;j++){
-                                    response+=`<option value="adult`+parseInt(j+1)+`">Adult `+parseInt(j+1)+`</option>`;
-                                }
-                            }catch(err){
-
-                            }
-                            try{
-                                if(child > 0)
-                                    response+=`<optgroup label="Child">`;
-                                for(j=0;j<child;j++){
-                                    response+=`<option value="child`+parseInt(j+1)+`">Child `+parseInt(j+1)+`</option>`;
-                                }
-                            }catch(err){
-
-                            }
-                            try{
-                                if(infant > 0)
-                                    response+=`<optgroup label="Infant">`;
-                                for(j=0;j<infant;j++){
-                                    response+=`<option value="infant`+parseInt(j+1)+`">Infant `+parseInt(j+1)+`</option>`;
-                                }
-                            }catch(err){
-
-                            }
-                            try{
-                                if(senior > 0)
-                                    response+=`<optgroup label="Senior">`;
-                                for(j=0;j<senior;j++){
-                                    response+=`<option value="senior`+parseInt(j+1)+`">Senior `+parseInt(j+1)+`</option>`;
-                                }
-                            }catch(err){
-
-                            }
-                            response+=`</select></td>`;
-                            check = 0;
-                            var passenger_sequence = '';
-                            for(j in passenger_data_pick){
-                                if(passenger_data_pick[j].seq_id == msg.result.response[i].seq_id){
-                                    check = 1;
-                                    var passenger_pick = passenger_data_pick[j].sequence.replace(/[^a-zA-Z ]/g,"");
-                                    var passenger_pick_number = passenger_data_pick[j].sequence.replace( /^\D+/g, '');
-                                    passenger_sequence = passenger_pick.charAt(0).toUpperCase() + passenger_pick.slice(1).toLowerCase() + ' ' + passenger_pick_number;
-                                }
-                            }
-                            if(check == 0)
-                                response+=`<td><button type="button" class="primary-btn-custom" onclick="update_customer_cache_list(`+i+`)" id="move_btn_`+i+`">Move</button></td>`;
-                            else
-                                response+=`<td><button type="button" class="primary-btn-custom" id="move_btn_`+i+`" disabled>`+passenger_sequence+`</button></td>`;
-                        }else if(window.location.href.split('/')[window.location.href.split('/').length-1] == 'issued_offline'){
-                            response+=`<td><select class="selection_type_ns" id="selection_type`+i+`" style="width:100%;">`;
-                            if(msg.result.response[i].title == "MR" || msg.result.response[i].title == "MRS" || msg.result.response[i].title == "MS"){
-                                response+=`<optgroup label="Booker">`;
-                                response+=`<option value="booker">Booker</option>`;
-                            }
-
-                            try{
-                                if(counter_passenger > 0)
-                                    response+=`<optgroup label="Passenger">`;
-                                for(j=0;j<counter_passenger;j++){
-                                    response+=`<option value="adult`+parseInt(j+1)+`">Passenger `+parseInt(j+1)+`</option>`;
-                                }
-                            }catch(err){
-
-                            }
-                            response+=`</select></td>`;
-                            check = 0;
-                            var passenger_sequence = '';
-                            console.log(msg.result.response[i].seq_id);
-                            for(i in passenger_data_pick){
-                                console.log(passenger_data_pick);
-                                if(passenger_data_pick[i].seq_id == msg.result.response[i].seq_id){
-                                    check = 1;
-                                    var passenger_pick = passenger_data_pick[i].sequence.replace(/[^a-zA-Z ]/g,"");
-                                    var passenger_pick_number = passenger_data_pick[i].sequence.replace( /^\D+/g, '');
-                                    passenger_sequence = passenger_pick.charAt(0).toUpperCase() + passenger_pick.slice(1).toLowerCase() + ' ' + passenger_pick_number;
-                                }
-                            }
-                            console.log(check);
-                            if(check == 0)
-                                response+=`<td><button type="button" class="primary-btn-custom" onclick="update_customer_cache_list(`+i+`)" id="move_btn_`+i+`">Move</button></td>`;
-                            else
-                                response+=`<td><button type="button" class="primary-btn-custom" disabled id="move_btn_`+i+`">`+passenger_sequence+`</button></td>`;
-                        }
-                        response+=`<td>
-                                        <button type="button" class="primary-btn-custom" onclick="del_passenger_cache(`+i+`);">Delete</button>`;
-                        if(agent_security.includes('p_cache_2') == true)
-                        response+=`
-                                        <button type="button" class="primary-btn-custom" onclick="edit_passenger_cache(`+i+`);">Edit</button>`;
-                        response+=`
-                                   </td>`;
-
-                        text+=`
-                    </tr>`;
+                            text+=`
+                        </tr>`;
+                    }
+                    response+=`</table></div>`;
+                    document.getElementById('passenger_chosen').innerHTML = response;
+                    $('.phone_chosen_cls').niceSelect();
+                    $('.selection_type_ns').niceSelect();
+                }else{
+                    response = '';
+                    response+=`<center><div class="alert alert-danger" role="alert" style="margin-top:10px;"><h6><i class="fas fa-search-minus"></i> Oops! Please select database customer first!</h6></div></center>`;
+                    document.getElementById('passenger_chosen').innerHTML = response;
                 }
-                response+=`</table></div>`;
-                document.getElementById('passenger_chosen').innerHTML = response;
-                $('.phone_chosen_cls').niceSelect();
-                $('.selection_type_ns').niceSelect();
-            }else{
-                response = '';
-                response+=`<center><div class="alert alert-danger" role="alert" style="margin-top:10px;"><h6><i class="fas fa-search-minus"></i> Oops! Please select database customer first!</h6></div></center>`;
-                document.getElementById('passenger_chosen').innerHTML = response;
             }
         }
        },
@@ -4407,7 +4413,7 @@ function update_passenger_backend(){
                                 })
                                 document.getElementById('passenger_chosen').hidden = false;
                                 document.getElementById('passenger_update').hidden = true;
-                                get_passenger_cache();
+                                get_passenger_cache('chosen');
                                 document.getElementById('update_passenger_customer').disabled = false;
                                 //document.getElementById('form_admin').submit();
                             }else{

@@ -1264,10 +1264,10 @@ function ProcessExcel(data) {
             notes += parseInt(parseInt(counter_pax)+1) + ' Pax: ' + list_test[i].pax[j][0] + ' ' + list_test[i].pax[j][1] + '\n';
             if(list_test[i].pax[j][2] != undefined)
                 notes += 'Phone number: ' + list_test[i].pax[j][2] + '\n';
-            if(list_test[i].pax[j][3] != undefined && list_test[i].pax[j][4] != undefined)
-                notes += list_test[i].pax[j][3] + ': ' + list_test[i].pax[j][4] + '\n';
-            if(list_test[i].pax[j][6] != undefined)
-                notes += 'Alamat: ' + list_test[i].pax[j][5] + '\n';
+//            if(list_test[i].pax[j][3] != undefined && list_test[i].pax[j][4] != undefined)
+//                notes += list_test[i].pax[j][3] + ': ' + list_test[i].pax[j][4] + '\n';
+//            if(list_test[i].pax[j][6] != undefined)
+//                notes += 'Alamat: ' + list_test[i].pax[j][5] + '\n';
             if(list_test[i].pax[j][11] != undefined)
                 notes += 'Email: ' + list_test[i].pax[j][11] + '\n';
             if(list_test[i].pax[j][12] != undefined)
