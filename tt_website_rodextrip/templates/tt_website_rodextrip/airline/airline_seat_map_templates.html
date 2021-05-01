@@ -55,6 +55,9 @@
         airline_get_detail = airline_get_detail.replace(/&#39;/g, '"');
         airline_get_detail = airline_get_detail.replace(/True/g, 'true');
         airline_get_detail = airline_get_detail.replace(/False/g, 'false');
+        airline_get_detail = airline_get_detail.replace(/""/g, '');
+        airline_get_detail = airline_get_detail.replace(/: ,/g, ':"",');
+        console.log(airline_get_detail);
         airline_get_detail = JSON.parse(airline_get_detail);
         breadcrumb = 2;
         type = 'request_new';
