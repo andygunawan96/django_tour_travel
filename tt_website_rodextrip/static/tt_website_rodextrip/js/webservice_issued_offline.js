@@ -765,8 +765,8 @@ function update_passenger(){
             try{
                 request['passenger_identity_number'+i] = document.getElementById('adult_identity_number' + (i + 1)).value;
                 request['passenger_identity_type'+i] = document.getElementById('adult_identity_type' + (i + 1)).value;
-                request['passenger_identity_expired_date'+i] = document.getElementById('adult_identity_expired_date' + (i + 1)).value;
                 request['passenger_country_of_issued'+i] = document.getElementById('adult_country_of_issued' + (i + 1)).value;
+                request['passenger_identity_expired_date'+i] = document.getElementById('adult_identity_expired_date' + (i + 1)).value;
             }catch(err){}
         }catch(err){}
     }

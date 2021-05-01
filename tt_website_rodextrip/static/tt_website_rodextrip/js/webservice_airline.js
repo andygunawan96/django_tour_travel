@@ -4474,6 +4474,16 @@ function airline_get_booking(data, sync=false){
                                             </div>
                                         </div>`;
                                     }
+                                    for(l in msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details){
+                                        if(msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details[l].detail_type == 'BG'){
+                                            text+=`<i class="fas fa-suitcase"></i><span style="font-weight:500;" class="copy_suitcase_details"> `+msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details[l].amount+` `+msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details[l].unit+`</span><br/>`;
+                                        }else if(msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details[l].detail_type == 'ML'){
+                                            text+=`<i class="fas fa-utensils"></i><span style="font-weight:500;" class="copy_utensils_details"> `+msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details[l].amount+` `+msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details[l].unit+`</span><br/>`;
+                                        }else{
+                                            text+=`<span style="font-weight:500;" class="copy_others_details">`+msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details[l].amount+` `+msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details[l].unit+`</span><br/>`;
+                                        }
+
+                                    }
                                 }
                             }
                         }
