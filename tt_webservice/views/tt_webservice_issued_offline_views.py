@@ -249,31 +249,34 @@ def update_contact(request):
     response = get_cache_data(javascript_version)
     try:
         for i in range(int(request.POST['counter_passenger'])):
-            if request.POST['passenger_cp' + str(i)] == 'true':
-                contact.append({
-                    'title': request.POST['passenger_title' + str(i)],
-                    'first_name': request.POST['passenger_first_name' + str(i)],
-                    'last_name': request.POST['passenger_last_name' + str(i)],
-                    'email': request.POST['passenger_email' + str(i)],
-                    'calling_code': request.POST['booker_calling_code'],
-                    'mobile': request.POST['booker_mobile'],
-                    'nationality_name': request.POST['booker_nationality_code'],
-                    'contact_seq_id': request.POST['passenger_id' + str(i)] != '' and request.POST['passenger_id' + str(i)] or ''
-                })
-                if i == 0:
-                    if request.POST['myRadios'] == 'true':
-                        contact[len(contact)-1].update({
-                            'is_booker': True
-                        })
+            try:
+                if request.POST['passenger_cp' + str(i)] == 'true':
+                    contact.append({
+                        'title': request.POST['passenger_title' + str(i)],
+                        'first_name': request.POST['passenger_first_name' + str(i)],
+                        'last_name': request.POST['passenger_last_name' + str(i)],
+                        'email': request.POST['passenger_email' + str(i)],
+                        'calling_code': request.POST['booker_calling_code'],
+                        'mobile': request.POST['booker_mobile'],
+                        'nationality_name': request.POST['booker_nationality_code'],
+                        'contact_seq_id': request.POST['passenger_id' + str(i)] != '' and request.POST['passenger_id' + str(i)] or ''
+                    })
+                    if i == 0:
+                        if request.POST['myRadios'] == 'true':
+                            contact[len(contact)-1].update({
+                                'is_booker': True
+                            })
+                        else:
+                            contact[len(contact)-1].update({
+                                'is_booker': False
+                            })
                     else:
                         contact[len(contact)-1].update({
                             'is_booker': False
                         })
                 else:
-                    contact[len(contact)-1].update({
-                        'is_booker': False
-                    })
-            else:
+                    pass
+            except:
                 pass
 
         if len(contact) == 0:
