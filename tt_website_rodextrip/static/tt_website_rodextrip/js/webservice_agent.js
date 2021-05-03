@@ -1629,7 +1629,19 @@ function pick_passenger(type, sequence, product){
                 }
                 document.getElementById('booker_birth_date').value = passenger_data[sequence].birth_date;
                 document.getElementById('booker_birth_date').readOnly = true;
-                if(product == 'train'){
+                if(product == 'issued_offline'){
+                    for(i in passenger_data[sequence].identities){
+                        document.getElementById('booker_id_type').value = i;
+                        document.getElementById('booker_id_type').readOnly = true;
+                        document.getElementById('booker_id_number').value = passenger_data[sequence].identities[i].identity_number;
+                        document.getElementById('booker_id_number').readOnly = true;
+                        document.getElementById('booker_country_of_issued').value = passenger_data[sequence].identities[i].identity_country_of_issued_name;
+                        document.getElementById('booker_country_of_issued').readOnly = true;
+                        document.getElementById('booker_exp_date').value = passenger_data[sequence].identities[i].identity_expdate;
+                        document.getElementById('booker_exp_date').readOnly = true;
+                        break;
+                    }
+                }else if(product == 'train'){
                     for(i in passenger_data[sequence].identities){
                         document.getElementById('booker_id_type').value = i;
                         document.getElementById('booker_id_type').readOnly = true;
@@ -2145,23 +2157,16 @@ function copy_booker_to_passenger(val,type){
                     document.getElementById('adult_email1').value = document.getElementById('booker_email').value;
                     document.getElementById('adult_phone1').value = document.getElementById('booker_phone').value;
                     document.getElementById('adult_phone_code1').value = document.getElementById('booker_phone_code').value;
-                    if(type == 'train'){
-                        document.getElementById('adult_phone_code1').value = document.getElementById('booker_phone_code').value;
-                        document.getElementById('adult_phone1').value = document.getElementById('booker_phone').value;
-                        if(document.getElementById('adult_years_old1').value >= 17){
-                            document.getElementById('adult_id_type1').value = document.getElementById('booker_id_type').value;
-                            $('#adult_id_type1').niceSelect('update');
-                            document.getElementById('adult_id_number1').value = document.getElementById('booker_id_number').value;
-                        }
-                    }else if(type == 'airline'){
-                        if(document.getElementById('booker_id_number').value != 'undefined' && document.getElementById('booker_id_number').value != '')
-                            document.getElementById('adult_passport_number1').value = document.getElementById('booker_id_number').value;
-                        if(document.getElementById('booker_exp_date').value != 'undefined' && document.getElementById('booker_exp_date').value != '')
-                            document.getElementById('adult_passport_expired_date1').value = document.getElementById('booker_exp_date').value;
-                        if(document.getElementById('booker_country_of_issued').value != 'undefined' && document.getElementById('booker_country_of_issued').value != ''){
-                            document.getElementById('select2-adult_country_of_issued1_id-container').innerHTML = document.getElementById('booker_country_of_issued').value;
-                            document.getElementById('adult_country_of_issued1').value = document.getElementById('booker_country_of_issued').value;
-                        }
+
+                    if(document.getElementById('booker_id_number').value != 'undefined' && document.getElementById('booker_id_number').value != '')
+                        document.getElementById('adult_identity_number1').value = document.getElementById('booker_id_number').value;
+                    if(document.getElementById('booker_id_type').value != 'undefined' && document.getElementById('booker_id_type').value != '')
+                        document.getElementById('adult_identity_type1').value = document.getElementById('booker_id_type').value;
+                    if(document.getElementById('booker_exp_date').value != 'undefined' && document.getElementById('booker_exp_date').value != '')
+                        document.getElementById('adult_identity_expired_date1').value = document.getElementById('booker_exp_date').value;
+                    if(document.getElementById('booker_country_of_issued').value != 'undefined' && document.getElementById('booker_country_of_issued').value != ''){
+                        document.getElementById('select2-adult_country_of_issued1_id-container').innerHTML = document.getElementById('booker_country_of_issued').value;
+                        document.getElementById('adult_country_of_issued1').value = document.getElementById('booker_country_of_issued').value;
                     }
                     document.getElementById('adult_nationality1_id').disabled = true;
                     document.getElementById('adult_email1').readOnly = true;
@@ -2170,6 +2175,7 @@ function copy_booker_to_passenger(val,type){
                     if(document.getElementById('adult_birth_date1').value != '')
                         document.getElementById('adult_birth_date1').disabled = true;
                     document.getElementById('adult_id1').value = document.getElementById('booker_id').value;
+                    $('#adult_identity_type1').niceSelect('update');
                 }catch(err){
                     console.log(err);
                     document.getElementsByName('myRadios')[1].checked = true;

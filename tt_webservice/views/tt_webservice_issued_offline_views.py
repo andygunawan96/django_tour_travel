@@ -264,15 +264,15 @@ def update_contact(request):
                     if i == 0:
                         if request.POST['myRadios'] == 'true':
                             contact[len(contact)-1].update({
-                                'is_booker': True
+                                'is_also_booker': True
                             })
                         else:
                             contact[len(contact)-1].update({
-                                'is_booker': False
+                                'is_also_booker': False
                             })
                     else:
                         contact[len(contact)-1].update({
-                            'is_booker': False
+                            'is_also_booker': False
                         })
                 else:
                     pass
@@ -289,7 +289,7 @@ def update_contact(request):
                 'mobile': request.POST['booker_mobile'],
                 'nationality_name': request.POST['booker_nationality_code'],
                 'contact_seq_id': request.POST['booker_id'] != '' and request.POST['booker_id'] or '',
-                'is_booker': True
+                'is_also_booker': True
             })
 
         headers = {
@@ -394,7 +394,7 @@ def update_passenger(request):
 
                         if request.POST['passenger_country_of_issued' + str(i)] != '':
                             for country in response['result']['response']['airline']['country']:
-                                if request.POST['passenger_country_of_issued' + str(i)] == country['code']:
+                                if request.POST['passenger_country_of_issued' + str(i)] == country['name']:
                                     country_of_issued_code = country['code']
                                     break
                             identity["identity_country_of_issued_code"] = country_of_issued_code
@@ -407,23 +407,23 @@ def update_passenger(request):
                 if i == 0:
                     if request.POST['myRadios'] == 'true':
                         passenger[len(passenger)-1].update({
-                            'is_booker': True
+                            'is_also_booker': True
                         })
                     else:
                         passenger[len(passenger)-1].update({
-                            'is_booker': False
+                            'is_also_booker': False
                         })
                 else:
                     passenger[len(passenger) - 1].update({
-                        'is_booker': False
+                        'is_also_booker': False
                     })
                 if request.POST['passenger_cp' + str(i)] == 'true':
                     passenger[len(passenger)-1].update({
-                        'is_contact': True
+                        'is_also_contact': True
                     })
                 else:
                     passenger[len(passenger)-1].update({
-                        'is_contact': False
+                        'is_also_contact': False
                     })
             except:
                 pass

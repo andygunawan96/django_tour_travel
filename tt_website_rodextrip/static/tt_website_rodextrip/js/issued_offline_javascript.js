@@ -274,9 +274,9 @@ function add_table_of_passenger(type){
                                                     }
                                                     text+=`<div class="form-select-2">`;
                                                     if(template == 4){
-                                                        text+=`<select class="nice-select-default rounded" id="adult_identity_type`+parseInt(counter_passenger+1)+`" name="adult_identity_type`+parseInt(counter_passenger+1)+`">`;
+                                                        text+=`<select class="nice-select-default rounded" id="adult_identity_type`+parseInt(counter_passenger+1)+`" name="adult_identity_type`+parseInt(counter_passenger+1)+`" onchange="change_country_of_issued(`+parseInt(counter_passenger+1)+`);">`;
                                                     }else{
-                                                        text+=`<select id="adult_identity_type`+parseInt(counter_passenger+1)+`" name="adult_identity_type`+parseInt(counter_passenger+1)+`">`;
+                                                        text+=`<select id="adult_identity_type`+parseInt(counter_passenger+1)+`" name="adult_identity_type`+parseInt(counter_passenger+1)+`" onchange="change_country_of_issued(`+parseInt(counter_passenger+1)+`);">`;
                                                     }
                                                         text+=`
                                                             <option value=""></option>
@@ -298,7 +298,7 @@ function add_table_of_passenger(type){
                                                     <label>Identity Expired Date</label>
                                                     <div class="input-container-search-ticket" style="margin-bottom:5px;">
                                                         <input type="text" class="form-control date-picker-passport" name="adult_identity_expired_date`+parseInt(counter_passenger+1)+`" id="adult_identity_expired_date`+parseInt(counter_passenger+1)+`" placeholder="Identity Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Expired Date '" autocomplete="off">
-                                                        <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('adult', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
 
@@ -308,7 +308,7 @@ function add_table_of_passenger(type){
                                                         text+=`<div class="input-container-search-ticket">`;
                                                         text+=`
                                                             <div class="form-select">
-                                                                <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`')">
+                                                                <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`');">
                                                                     <option value="">Select Country Of Issued</option>`;
                                                                     for(i in countries){
                                                                        text+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
@@ -321,7 +321,7 @@ function add_table_of_passenger(type){
                                                     }else if(template == 2){
                                                         text+=`<div class="input-container-search-ticket">`;
                                                         text+=`
-                                                            <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`')">
+                                                            <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`');">
                                                                 <option value="">Select Country Of Issued</option>`;
                                                                 for(i in countries){
                                                                    text+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
@@ -333,7 +333,7 @@ function add_table_of_passenger(type){
                                                     }else if(template == 3){
                                                         text+=`<div class="input-container-search-ticket" style="margin-bottom:5px;">`;
                                                         text+=`
-                                                            <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`')">
+                                                            <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`');">
                                                                 <option value="">Select Country Of Issued</option>`;
                                                                 for(i in countries){
                                                                    text+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
@@ -345,7 +345,7 @@ function add_table_of_passenger(type){
                                                     }else if(template == 4){
                                                         text+=`<div class="input-container-search-ticket" style="margin-bottom:5px;">`;
                                                         text+=`
-                                                            <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`')">
+                                                            <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`');">
                                                                 <option value="">Select Country Of Issued</option>`;
                                                                 for(i in countries){
                                                                    text+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
@@ -358,7 +358,7 @@ function add_table_of_passenger(type){
                                                         text+=`<div class="input-container-search-ticket">`;
                                                         text+=`
                                                             <div class="form-select">
-                                                                <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`')">
+                                                                <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`');">
                                                                     <option value="">Select Country Of Issued</option>`;
                                                                     for(i in countries){
                                                                        text+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
@@ -427,6 +427,7 @@ function add_table_of_passenger(type){
           maxDate: moment(),
           showDropdowns: true,
           opens: 'center',
+          drops: 'up',
           locale: {
               format: 'DD MMM YYYY',
           }
@@ -439,6 +440,7 @@ function add_table_of_passenger(type){
           minDate: moment(),
           showDropdowns: true,
           opens: 'center',
+          drops: 'up',
           locale: {
               format: 'DD MMM YYYY',
           }
@@ -1273,6 +1275,7 @@ function ProcessExcel(data) {
             if(list_test[i].pax[j][12] != undefined)
                 notes += 'Notes: ' + list_test[i].pax[j][12] + '\n';
             update_contact('passenger', counter_passenger);
+            change_country_of_issued(counter_passenger);
             $('#adult_title'+counter_passenger).niceSelect('update');
             $('#adult_id_type'+counter_passenger).niceSelect('update');
             counter_pax++;
@@ -1288,3 +1291,20 @@ function ProcessExcel(data) {
     }
     document.getElementById('description').innerHTML = notes;
 };
+
+function change_country_of_issued(val){
+    if(document.getElementById('adult_identity_type'+val).value != ''){
+        if(document.getElementById('adult_country_of_issued'+val).value == '' || document.getElementById('adult_country_of_issued1').value != ''){
+            document.getElementById('select2-adult_country_of_issued'+val+'_id-container').innerHTML = 'Indonesia';
+            document.getElementById('adult_country_of_issued'+val).value = 'Indonesia'
+        }
+    }else{
+        document.getElementById('select2-adult_country_of_issued'+val+'_id-container').innerHTML = 'Select Country Of Issued';
+        document.getElementById('adult_country_of_issued'+val).value = '';
+    }
+    $('#adult_country_of_issued'+val+'_id').niceSelect('update');
+}
+
+function delete_identity_expired_date(type, id){
+    document.getElementById(type+'_identity_expired_date'+id).value = "";
+}
