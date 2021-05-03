@@ -4476,11 +4476,11 @@ function airline_get_booking(data, sync=false){
                                     }
                                     for(l in msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details){
                                         if(msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details[l].detail_type == 'BG'){
-                                            text+=`<i class="fas fa-suitcase"></i><span style="font-weight:500;" class="copy_suitcase_details"> `+msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details[l].amount+` `+msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details[l].unit+`</span><br/>`;
+                                            text+=`<i class="fas fa-suitcase"></i><span style="font-weight:500;" class="copy_suitcase_details"> `+msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details[l].amount+` `+msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details[l].unit+` for 1 person</span><br/>`;
                                         }else if(msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details[l].detail_type == 'ML'){
-                                            text+=`<i class="fas fa-utensils"></i><span style="font-weight:500;" class="copy_utensils_details"> `+msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details[l].amount+` `+msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details[l].unit+`</span><br/>`;
+                                            text+=`<i class="fas fa-utensils"></i><span style="font-weight:500;" class="copy_utensils_details"> `+msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details[l].amount+` `+msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details[l].unit+` for 1 person</span><br/>`;
                                         }else{
-                                            text+=`<span style="font-weight:500;" class="copy_others_details">`+msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details[l].amount+` `+msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details[l].unit+`</span><br/>`;
+                                            text+=`<span style="font-weight:500;" class="copy_others_details">`+msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details[l].amount+` `+msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details[l].unit+` for 1 person</span><br/>`;
                                         }
 
                                     }
@@ -8237,11 +8237,11 @@ function get_price_itinerary_reissue_request(airline_response, total_admin_fee, 
 function get_price_reissue_construct(){
     title = '';
     if(airline_get_detail.result.response.state == 'booked')
-        title = 'Are you sure want to change your booking?';
+        title = 'Are you sure want to check this journey?';
     else
-        title = 'Are you sure want to reissue?';
+        title = 'Are you sure want to check this journey?';
     Swal.fire({
-      title: 'Are you sure want to reissue?',
+      title: title,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',

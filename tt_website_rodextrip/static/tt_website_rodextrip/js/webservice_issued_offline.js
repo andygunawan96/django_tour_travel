@@ -93,11 +93,62 @@ function check_issued_offline(){
                     request['passenger_birth_date'+i] = document.getElementById('adult_birth_date' + (i + 1)).value;
                     document.getElementById('adult_birth_date'+ (i + 1)).style['border-color'] = '#EFEFEF';
                 }
-                if(document.getElementById('transaction_type').value == 'airline'){
-    //                if(document.getElementById('sector').value == 'international'){
-                    if(document.getElementById('adult_identity_number'+ (i + 1)).value != ''){
+                if(document.getElementById('adult_cp' + (i + 1)).checked == true){
+                    if(check_phone_number(document.getElementById('adult_phone' + (i + 1)).value)==false){
+                        error_log+= 'Phone number only contain number 8 - 12 digits for passenger '+i+'!\n';
+                        document.getElementById('adult_phone' + (i + 1)).style['border-color'] = 'red';
+                    }else{
+                        request['passenger_phone'+i] = document.getElementById('adult_phone' + (i + 1)).value;
+                        document.getElementById('adult_phone' + (i + 1)).style['border-color'] = '#EFEFEF';
+                    }
+                    if(check_email(document.getElementById('adult_email' + (i + 1)).value)==false){
+                        error_log+= 'Invalid Passenger '+i+' email!\n';
+                        document.getElementById('adult_email' + (i + 1)).style['border-color'] = 'red';
+                    }else{
+                        request['passenger_email'+i] = document.getElementById('adult_email' + (i + 1)).value;
+                        document.getElementById('adult_email' + (i + 1)).style['border-color'] = '#EFEFEF';
+                    }
+                }
+                if(document.getElementById('adult_identity_type' + (i + 1)).value != ''){
+                    if(document.getElementById('adult_identity_type' + (i + 1)).value == 'ktp'){
+                        if(document.getElementById('adult_identity_number'+ (i + 1)).value == ''){
+                            error_log+= 'Please fill identity number for passenger '+(i + 1)+'!\n';
+                            document.getElementById('adult_identity_number'+ (i + 1)).style['border-color'] = 'red';
+                        }else if(check_ktp(document.getElementById('adult_identity_number'+ (i + 1)).value) == false){
+                            error_log+= 'Please fill identity number, ktp only contain 16 digits for passenger adult '+i+'!</br>\n';
+                            document.getElementById('adult_identity_number'+ (i + 1)).style['border-color'] = 'red';
+                        }else{
+                            request['passenger_identity_number'+i] = document.getElementById('adult_identity_number' + (i + 1)).value;
+                            document.getElementById('adult_identity_number'+ (i + 1)).style['border-color'] = '#EFEFEF';
+                        }
+                        if(document.getElementById('adult_country_of_issued'+ (i + 1)).value == ''){
+                            error_log+= 'Please fill country of issued for passenger '+i+'!\n';
+                            document.getElementById('adult_country_of_issued'+ (i + 1)).style['border-color'] = 'red';
+                        }else{
+                            request['passenger_country_of_issued'+i] = document.getElementById('adult_country_of_issued' + (i + 1)).value;
+                            document.getElementById('adult_country_of_issued'+ (i + 1)).style['border-color'] = '#EFEFEF';
+                        }
+                    }else if(document.getElementById('adult_identity_type' + (i + 1)).value == 'other'){
                         if(document.getElementById('adult_identity_number'+ (i + 1)).value == ''){
                             error_log+= 'Please fill identity number for passenger '+i+'!\n';
+                            document.getElementById('adult_identity_number'+ (i + 1)).style['border-color'] = 'red';
+                        }else{
+                            request['passenger_identity_number'+i] = document.getElementById('adult_identity_number' + (i + 1)).value;
+                            document.getElementById('adult_identity_number'+ (i + 1)).style['border-color'] = '#EFEFEF';
+                        }
+                        if(document.getElementById('adult_country_of_issued'+ (i + 1)).value == ''){
+                            error_log+= 'Please fill country of issued for passenger '+i+'!\n';
+                            document.getElementById('adult_country_of_issued'+ (i + 1)).style['border-color'] = 'red';
+                        }else{
+                            request['passenger_country_of_issued'+i] = document.getElementById('adult_country_of_issued' + (i + 1)).value;
+                            document.getElementById('adult_country_of_issued'+ (i + 1)).style['border-color'] = '#EFEFEF';
+                        }
+                    }else if(document.getElementById('adult_identity_type' + (i + 1)).value == 'sim'){
+                        if(document.getElementById('adult_identity_number'+ (i + 1)).value == ''){
+                            error_log+= 'Please fill identity number for passenger '+(i + 1)+'!\n';
+                            document.getElementById('adult_identity_number'+ (i + 1)).style['border-color'] = 'red';
+                        }else if(check_sim(document.getElementById('adult_identity_number'+(i + 1)).value) == false){
+                            error_log+= 'Please fill identity number, sim only contain 12 - 13 digits!</br>\n';
                             document.getElementById('adult_identity_number'+ (i + 1)).style['border-color'] = 'red';
                         }else{
                             request['passenger_identity_number'+i] = document.getElementById('adult_identity_number' + (i + 1)).value;
@@ -117,22 +168,31 @@ function check_issued_offline(){
                             request['passenger_country_of_issued'+i] = document.getElementById('adult_country_of_issued' + (i + 1)).value;
                             document.getElementById('adult_country_of_issued'+ (i + 1)).style['border-color'] = '#EFEFEF';
                         }
-                    }
-                }
-                if(document.getElementById('adult_cp' + (i + 1)).checked == true){
-                    if(check_phone_number(document.getElementById('adult_phone' + (i + 1)).value)==false){
-                        error_log+= 'Phone number only contain number 8 - 12 digits for passenger '+i+'!\n';
-                        document.getElementById('adult_phone' + (i + 1)).style['border-color'] = 'red';
-                    }else{
-                        request['passenger_phone'+i] = document.getElementById('adult_phone' + (i + 1)).value;
-                        document.getElementById('adult_phone' + (i + 1)).style['border-color'] = '#EFEFEF';
-                    }
-                    if(check_email(document.getElementById('adult_email' + (i + 1)).value)==false){
-                        error_log+= 'Invalid Passenger '+i+' email!\n';
-                        document.getElementById('adult_email' + (i + 1)).style['border-color'] = 'red';
-                    }else{
-                        request['passenger_email'+i] = document.getElementById('adult_email' + (i + 1)).value;
-                        document.getElementById('adult_email' + (i + 1)).style['border-color'] = '#EFEFEF';
+                    }else if(document.getElementById('adult_identity_type' + (i + 1)).value == 'passport'){
+                        if(document.getElementById('adult_identity_number'+ (i + 1)).value == ''){
+                            error_log+= 'Please fill identity number for passenger '+(i + 1)+'!\n';
+                            document.getElementById('adult_identity_number'+ (i + 1)).style['border-color'] = 'red';
+                        }else if(check_passport(document.getElementById('adult_identity_number'+(i + 1)).value) == false){
+                            error_log+= 'Please fill identity number, passport only contain more than 6 digits!</br>\n';
+                            document.getElementById('adult_identity_number'+ (i + 1)).style['border-color'] = 'red';
+                        }else{
+                            request['passenger_identity_number'+i] = document.getElementById('adult_identity_number' + (i + 1)).value;
+                            document.getElementById('adult_identity_number'+ (i + 1)).style['border-color'] = '#EFEFEF';
+                        }
+                        if(document.getElementById('adult_identity_expired_date'+ (i + 1)).value == ''){
+                            error_log+= 'Please fill identity expired date for passenger '+i+'!\n';
+                            document.getElementById('adult_identity_expired_date'+ (i + 1)).style['border-color'] = 'red';
+                        }else{
+                            request['passenger_identity_expired_date'+i] = document.getElementById('adult_identity_expired_date' + (i + 1)).value;
+                            document.getElementById('adult_identity_expired_date'+ (i + 1)).style['border-color'] = '#EFEFEF';
+                        }
+                        if(document.getElementById('adult_country_of_issued'+ (i + 1)).value == ''){
+                            error_log+= 'Please fill country of issued for passenger '+i+'!\n';
+                            document.getElementById('adult_country_of_issued'+ (i + 1)).style['border-color'] = 'red';
+                        }else{
+                            request['passenger_country_of_issued'+i] = document.getElementById('adult_country_of_issued' + (i + 1)).value;
+                            document.getElementById('adult_country_of_issued'+ (i + 1)).style['border-color'] = '#EFEFEF';
+                        }
                     }
                 }
                 request['passenger_cp'+i] = document.getElementById('adult_cp' + (i + 1)).checked;
@@ -597,8 +657,10 @@ function set_data_issued_offline(){
        data: request,
        success: function(msg) {
             console.log(msg);
-            if(msg.result.error_code == 0)
+            if(msg.result.error_code == 0){
+                document.getElementById('payment_acq').innerHTML = '';
                 update_booker();
+            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error set data issued offline');
@@ -709,6 +771,7 @@ function update_booker(){
        },
        data: request,
        success: function(msg) {
+            console.log(msg);
             if(msg.result.error_code == 0){
                 update_passenger();
             }else{
@@ -779,7 +842,8 @@ function update_passenger(){
             'action': 'update_passenger',
        },
        data: request,
-       success: function(msg) {
+       success: function(msg){
+            console.log(msg);
             if(msg.result.error_code == 0){
                 get_payment_acq('Issued', document.getElementById('booker_id').value, '', 'billing', signature, 'issued_offline','', '');
                 setTimeout(function() {
@@ -838,7 +902,7 @@ function commit_booking(){
                document.getElementById('timelimit').value = '';
 
                //booker
-               document.getElementsByName('radio-booker-type')[0].checked = true;
+//               document.getElementsByName('radio-booker-type')[0].checked = true;
                document.getElementById('booker_title').value = 'MR';
                document.getElementById('booker_first_name').value = '';
                document.getElementById('booker_last_name').value = '';
@@ -1312,7 +1376,6 @@ function get_booking_offline(data){
 
                     <div class="row" style="margin-top:20px;">
                         <div class="col-lg-4" style="padding-bottom:10px;">`;
-                            console.log(msg.result.response.state_offline);
                             if (msg.result.response.state_offline == 'sent'){
                                 text+=`
                                 <a href="#" id="seat-map-link" class="hold-seat-booking-train ld-ext-right" style="color:`+text_color+`;">
