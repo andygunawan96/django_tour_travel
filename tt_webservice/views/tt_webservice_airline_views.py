@@ -1458,6 +1458,11 @@ def get_booking(request):
                             'departure_date': convert_string_to_date_to_string_front_end_with_time(segment['departure_date']),
                             'arrival_date': convert_string_to_date_to_string_front_end_with_time(segment['arrival_date']),
                         })
+                        for fare_detail in segment['fare_details']:
+                            try:
+                                fare_detail['description'] = json.loads(json.loads(fare_detail['description']))
+                            except:
+                                pass
                         for destination in airline_destinations:
                             if destination['code'] == segment['origin']:
                                 segment.update({
