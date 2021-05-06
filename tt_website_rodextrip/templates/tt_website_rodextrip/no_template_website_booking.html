@@ -1,0 +1,365 @@
+{% load static from staticfiles %}
+{% load i18n %}
+<!DOCTYPE html>
+<!--
+Template Name: Pcomspace
+Author: <a href="http://www.os-templates.com/">OS Templates</a>
+Author URI: http://www.os-templates.com/
+Licence: Free to use under our free template licence terms
+Licence URI: http://www.os-templates.com/template-terms
+-->
+<html>
+<head>
+
+     <!--Global site tag (gtag.js) - Google Analytics-->
+    <script>
+        google_analytics = '{{google_analytics}}';
+    </script>
+    {%if '{{google_analytics}}' != ''%}
+        <script async src="https://www.googletagmanager.com/gtag/js?id={{google_analytics}}"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', '{{google_analytics}}');
+        </script>
+    {% endif %}
+
+    {% if google_recaptcha == '1' %}
+    <script src="https://www.google.com/recaptcha/api.js?render={{site_key}}"></script>
+    {% endif %}
+
+    <script>
+
+        function get_captcha(id,type){
+          var form = this;
+          if({{google_recaptcha}} == '1'){
+              grecaptcha.execute('{{site_key}}', {action: ''}).then(function(token) {
+                  $('#'+id).val(token)
+                  button_onclick(type);
+
+              });
+          }else{
+              button_onclick(type);
+          }
+        }
+
+        function button_onclick(type){
+            if(type == 'airline')
+                airline_goto_search();
+            else if(type == 'train')
+                train_check_search_values();
+            else if(type == 'hotel')
+                hotel_search_validation();
+            else if(type == 'activity')
+                activity_search_form_submit();
+            else if(type == 'tour')
+                tour_search_form_submit();
+            else if(type == 'visa')
+                document.getElementById('visa_searchForm').submit();
+            else if(type == 'passport')
+                document.getElementById('passport_searchForm').submit();
+            else if(type == 'event')
+                event_search_validation();
+            else if(type == 'signin_btc')
+                signin_btc();
+            else if(type == 'signin_btb')
+                signin();
+        }
+    </script>
+
+    <meta charset="utf-8">
+<!--    <meta name="description" content="Rodextrip adalah agensi yang terbaik bergerak di bidang tour & travel sejak 1945. Jual tiket pesawat, kereta, hotel murah. Urus visa dan passport jadi lebih mudah.">-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="author" content="Rodextrip" />
+
+<!--    <meta property="og:url" content="http://bits.blogs.nytimes.com/2011/12/08/a-twitter-for-my-sister/" />-->
+<!--    <meta property="og:title" content="A Twitter for My Sister" />-->
+<!--    <meta property="og:description" content="In the early days, Twitter grew so quickly that it was almost impossible to add new features because engineers spent their time trying to keep the rocket ship from stalling." />-->
+<!--    <meta property="og:image" content="http://graphics8.nytimes.com/images/2011/12/08/technology/bits-newtwitter/bits-newtwitter-tmagArticle.jpg" />-->
+
+    <!--<link href="{{ static_path }}layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">-->
+
+    <link rel="icon" href="{{ logo_icon }}" sizes="16x16" type="image/png">
+    <!--<link href="https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700" rel="stylesheet">-->
+
+    {% if username.co_user_login == 'agent_b2c' %}
+    <script>
+        login_color_base = '{{login_background_color}}';
+        login_color_base = login_color_base.substr(0,7);
+        text_color_login = `{{text_color_login}}`;
+    </script>
+    {% endif %}
+
+    <!--template1-->
+
+    <link rel="stylesheet" href="{{ static_path }}css/jquery.dataTables.min.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/auto-complete.css?version={{javascript_version}}">
+    <script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
+    
+    <!--jbox-->
+    <link rel="stylesheet" href="{{ static_path }}css/jbox/jBox.all.css?version={{javascript_version}}">
+<!--    <link rel="stylesheet" href="{{ static_path }}css/jbox/normalize.css?version={{javascript_version}}">-->
+    <link rel="stylesheet" href="{{ static_path }}css/jbox/playground-avatars.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/jbox/playground-inception.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/jbox/playground-login.css?version={{javascript_version}}">
+
+    <!--font-->
+    <link rel="stylesheet" href="{{ static_path }}css/all.min.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/sweetalert2.min.css?version={{javascript_version}}">
+    <!--cart-->
+    <link rel="stylesheet" href="{{ static_path }}css/cart.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/simplePagination.css?version={{javascript_version}}">
+    <!--daterangepicker-->
+    <link rel="stylesheet" href="{{ static_path }}css/daterangepicker.css?version={{javascript_version}}">
+    <!--loadingbar-->
+    <link rel="stylesheet" href="{{ static_path }}css/loading.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/loading-btn.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/loading-bar.css?version={{javascript_version}}">
+    <!--select2-->
+    <!--other-->
+    <script src="{{ static_path }}js/vendor/jquery-2.2.4.min.js?version={{javascript_version}}"></script>
+    <script>
+        bottom = 60;
+    </script>
+    {% if username.co_user_login != ''  and name == 'Rodextrip'%}
+    <script>
+    $(function() {
+        new jBox('Tooltip', {
+            attach: '.b24-widget-button-inner-container',
+            theme: 'TooltipBorder',
+            width: 200,
+            position: {
+              x: 'left',
+              y: 'center'
+            },
+            outside: 'x',
+            pointer: 'top:15',
+            content: 'Livechat<br/><b>Bitrix, Telegram</b>',
+            animation: 'move'
+        });
+    });
+    </script>
+    <script data-skip-moving="true">
+        (function(w,d,u){
+        var s=d.createElement('script');s.async=1;s.src=u+'?'+(Date.now()/60000|0);
+        var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);
+        })(window,document,'https://bitrix.skytors.id/upload/crm/site_button/loader_1_gvnv97.js');
+        bottom += 58;
+    </script>
+    {% endif %}
+    <style media="screen" type="text/css">
+        .bx-imopenlines-config-sidebar{
+            height: 65% !important;
+            top: 35% !important;
+            width: 25%;
+            min-height: 65% !important;
+        }
+        .bx-imopenlines-config-sidebar-info-block-container{
+            display: none !important;
+        }
+        .connector-icon{
+            background-size: 60% auto !important;
+        }
+        .b24-widget-button-position-bottom-right{
+            right:-5px !important;
+            bottom: 52px !important;
+        }
+        .b24-widget-button-inner-mask{
+            height:unset !important;
+            width:unset !important;
+            min-width:unset !important;
+            -webkit-width:unset !important;
+            background: {{color}} !important;
+            border-radius: unset !important;
+        }
+        .b24-widget-button-pulse-animate{
+            -webkit-animation: unset !important;
+            animation: unset !important;
+        }
+        .b24-widget-button-block{
+            border-radius: unset !important;
+            height:65px !important;
+            width:65px !important;
+        }
+        .b24-widget-button-inner-block{
+            background-color: {{color}} !important;
+            border-radius: unset !important;
+        }
+        .b24-widget-button-openline_livechat{
+            background-color: {{color}} !important;
+        }
+        .b24-widget-button-popup{
+            border-color: {{color}} !important;
+            border-radius: unset !important;
+        }
+        .b24-widget-button-popup-triangle{
+            border-color: {{color}} !important;
+        }
+        .b24-widget-button-pulse{
+            border-color: {{color}} !important;
+            border-radius: unset !important;
+        }
+    </style>
+
+
+    <script type="text/javascript" >
+    template = {{template}};
+    </script>
+    <script src="{{ static_path }}js/auto-complete.js?version={{javascript_version}}"></script>
+    <script>
+        window.onbeforeunload = function () {
+            window.scrollTo(0, 0);
+        };
+    </script>
+</head>
+<script>
+    color = `{{color}}`;
+    text_color = `{{text_color}}`;
+    user_login = '{{username}}';
+    user_login = user_login.replace(/False/g, '""');
+    user_login = user_login.replace(/True/g, '""');
+    user_login = JSON.parse(user_login.replace(/&#39;/g, '"'));
+    name = `{{name}}`;
+    web_name = `{{name}}`;
+    provider_list_template = `{{provider}}`;
+    provider_list_template = provider_list_template.replace(/False/g, '""');
+    provider_list_template = provider_list_template.replace(/True/g, '""');
+    provider_list_template = JSON.parse(provider_list_template.replace(/&#39;/g, '"'));
+</script>
+<script type="text/javascript">
+    // Broad cast that your're opening a page.
+    localStorage.openpages = Date.now();
+    page_open = 1;
+    var onLocalStorageEvent = function(e){
+
+        if(e.key == "openpages"){
+            // Listen if anybody else opening the same page!
+            localStorage.page_available = Date.now();
+        }
+        if(e.key == "page_available"){
+            //buat mobile
+            try{
+                if(window.location.href.split('/').length > 3)
+                    if(window.location.href.split('/')[3] != 'payment')
+                        alert("One more page already open");
+                else{
+                    alert("One more page already open");
+                    page_open = 0;
+                }
+            }catch(err){}
+            //self.close();
+            //open(location, '_self').close();
+        }
+    };
+    window.addEventListener('storage', onLocalStorageEvent, false);
+    $( document ).ready(function() {
+      $('.js-example-basic-single').select2();
+    });
+</script>
+<!--change font-->
+{% if font.name != '' %}
+<script>
+// first parameter is font name
+// second parameter is the path to the font file
+var junction_font = new FontFace('{{font.name}}', 'url({{ static_path }}custom_font/{{font.font}})');
+junction_font.load().then(function(loaded_face) {
+	document.fonts.add(loaded_face);
+  	document.body.style.fontFamily = '"{{font.name}}", Arial';
+
+}).catch(function(error) {
+    console.log(err);
+});
+</script>
+<style>
+    h1, h2, h3, h4, h5, h6{
+        font-family: "{{font.name}}", Arial !important
+    }
+</style>
+{% endif %}
+<body>
+{% include 'tt_website_rodextrip/b2c_signup.html' %}
+
+{% if username.co_user_login != '' %}
+{% include 'tt_website_rodextrip/plugin_whatsapp.html' %}
+{% endif %}
+
+{% block content %}
+
+{% endblock %}
+<div id="alert-area" class="alert-area"></div>
+</body>
+<!-- JAVASCRIPTS -->
+
+<!--template1-->
+<!--IVAN-->
+<script>
+    url_home = `{% url 'tt_website_rodextrip:index'%}`;
+</script>
+<!--jbox-->
+<script src="{{ static_path }}js/jbox/jBox.all.js"></script>
+<script src="{{ static_path }}js/jbox/playground-avatars.js"></script>
+<script src="{{ static_path }}js/jbox/playground-inception.js"></script>
+<script src="{{ static_path }}js/jbox/playground-login.js"></script>
+
+<!--zoom-->
+<script src="{{ static_path }}js/jquery.zoom.min.js?version={{javascript_version}}"></script>
+<!--select2-->
+<script src="{{ static_path }}js/select2.js?version={{javascript_version}}"></script>
+<!--price slider-->
+<script src="{{ static_path }}js/price-slider.js?version={{javascript_version}}"></script>
+<!--loading-bar-->
+<script src="{{ static_path }}js/loading-bar.js?version={{javascript_version}}"></script>
+<!--datetimepicker-->
+<script src="{{ static_path }}js/daterangepicker.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/moment.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/sweetalert2.min.js?version={{javascript_version}}"></script>
+<!--cart-->
+<script src="{{ static_path }}js/cart.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/jquery.simplePagination.js?version={{javascript_version}}"></script>
+<!--other-->
+<script src="{{ static_path }}js/style.js?version={{javascript_version}}"></script>
+<script src="https://d.line-scdn.net/r/web/social-plugin/js/thirdparty/loader.min.js" async="async" defer="defer"></script>
+<!--<script src="{{ static_path }}js/maps.js?version={{javascript_version}}"></script>-->
+
+<script src="{{ static_path }}js/jquery.dataTables.min.js?version={{javascript_version}}"></script>
+
+<script src="{{ static_path }}js/vendor/bootstrap.min.js?version={{javascript_version}}"></script>
+<!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhOdIF3Y9382fqJYt5I_sswSrEw5eihAA"></script>-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>-->
+<!--<script src="https://unpkg.com/aos@2.3.1/dist/aos.js?version={{javascript_version}}"></script>-->
+
+
+<!--Start of Tawk.to Script-->
+{% if tawk_code != '' and username.co_user_login != '' %}
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+Tawk_API.visitor = {
+    'name': '{{username.co_user_login}}',
+    'email': 'rodextrip@gmail.com'
+};
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/{{tawk_code}}/default';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+Tawk_API.onLoad = function(){
+    {% if tawk_chat == 0 %}
+        //Tawk_API.hideWidget();
+        Tawk_API.toggleVisibility();
+    {% endif %}
+}
+})();
+</script>
+{% endif %}
+<!--End of Tawk.to Script-->
+<!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>-->
+<!--<script src="{{ static_path }}js/google-map.js' %}"></script>-->
+<!--<script src="{{ static_path }}js/main.js?version={{javascript_version}}"></script>-->
+<script src="{{ static_path }}js/language.js?version={{javascript_version}}"></script>
+
+</html>
