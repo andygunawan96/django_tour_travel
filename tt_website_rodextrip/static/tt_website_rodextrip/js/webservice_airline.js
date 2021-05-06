@@ -8532,7 +8532,7 @@ function sell_journey_reissue_construct(){
                                for(j in msg.result.response.sell_reschedule_provider[i].journeys){
                                    airline_response.push(msg.result.response.sell_reschedule_provider[i].journeys[j]);
                                    for(k in msg.result.response.sell_reschedule_provider[i].journeys[j].segments){
-                                       if(msg.result.response.sell_reschedule_provider[i].journeys[j].segments[k].seat_cabins.length > 0){
+                                       if(msg.result.response.sell_reschedule_provider[i].journeys[j].segments[k].hasOwnProperty('seat_cabins') && msg.result.response.sell_reschedule_provider[i].journeys[j].segments[k].seat_cabins.length > 0){
                                            check_seat = 1;
                                            airline_route.push(msg.result.response.sell_reschedule_provider[i].journeys[j].segments[k].origin+' - '+msg.result.response.sell_reschedule_provider[i].journeys[j].segments[k].destination)
                                        }
@@ -8576,7 +8576,7 @@ function sell_journey_reissue_construct(){
                                    for(j in msg.result.response.sell_reschedule_provider[i].journeys){
                                        airline_response.push(msg.result.response.sell_reschedule_provider[i].journeys[j]);
                                        for(k in msg.result.response.sell_reschedule_provider[i].journeys[j].segments){
-                                           if(msg.result.response.sell_reschedule_provider[i].journeys[j].segments[k].seat_cabins.length > 0){
+                                           if(msg.result.response.sell_reschedule_provider[i].journeys[j].segments[k].hasOwnProperty('seat_cabins') && msg.result.response.sell_reschedule_provider[i].journeys[j].segments[k].seat_cabins.length > 0){
                                                 check_provider = false;
                                                 for(l in seat_map.seat_availability_provider){
                                                     if(seat_map.seat_availability_provider[l].provider == msg.result.response.sell_reschedule_provider[i].journeys[j].segments[k].provider){
@@ -9924,7 +9924,7 @@ function sell_reschedule_v2(){
                                for(j in msg.result.response.sell_reschedule_provider[i].journeys){
                                    airline_response.push(msg.result.response.sell_reschedule_provider[i].journeys[j]);
                                    for(k in msg.result.response.sell_reschedule_provider[i].journeys[j].segments){
-                                       if(msg.result.response.sell_reschedule_provider[i].journeys[j].segments[k].seat_cabins.length > 0){
+                                       if(msg.result.response.sell_reschedule_provider[i].journeys[j].segments[k].hasOwnProperty('seat_cabins') && msg.result.response.sell_reschedule_provider[i].journeys[j].segments[k].seat_cabins.length > 0){
                                            check_seat = 1;
                                            airline_route.push(msg.result.response.sell_reschedule_provider[i].journeys[j].segments[k].origin+' - '+msg.result.response.sell_reschedule_provider[i].journeys[j].segments[k].destination)
                                        }
@@ -9973,7 +9973,7 @@ function sell_reschedule_v2(){
                                    for(j in msg.result.response.sell_reschedule_provider[i].journeys){
                                        airline_response.push(msg.result.response.sell_reschedule_provider[i].journeys[j]);
                                        for(k in msg.result.response.sell_reschedule_provider[i].journeys[j].segments){
-                                           if(msg.result.response.sell_reschedule_provider[i].journeys[j].segments[k].seat_cabins.length > 0){
+                                           if(msg.result.response.sell_reschedule_provider[i].journeys[j].segments[k].hasOwnProperty('seat_cabins') && msg.result.response.sell_reschedule_provider[i].journeys[j].segments[k].seat_cabins.length > 0){
                                                 check_provider = false;
                                                 for(l in seat_map.seat_availability_provider){
                                                     if(seat_map.seat_availability_provider[l].provider == msg.result.response.sell_reschedule_provider[i].journeys[j].segments[k].provider){
