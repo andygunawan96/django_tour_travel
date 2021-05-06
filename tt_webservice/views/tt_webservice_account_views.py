@@ -1508,11 +1508,15 @@ def get_vendor_balance_request(request):
             "action": "get_vendor_balance",
             "signature": request.POST['signature'],
         }
-        data = {
-        }
+        data = {}
 
         res = util.send_request(url=url + "account", data=data, headers=headers, method='POST')
         if res['result']['error_code'] == 0:
+            data_vendor = res['result']['response']
+            res['result']['response'] = {
+                'data': data_vendor,
+                'cache_time': datetime.now().strftime("%Y-%m-%d %H:%M")
+            }
             write_cache_with_folder(res, "get_vendor_balance")
     except Exception as e:
         res = {

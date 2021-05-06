@@ -1319,36 +1319,45 @@ function get_vendor_balance(val){
             <div class="col-lg-12">
             <h6>Balance Vendor</h6>
             <div class="row">`;
-            for(blc in msg.result.response){
+            for(blc in msg.result.response.data){
                 text_balance += `<div class="col-lg-6 col-md-6 mt-2 mb-2">
                 <div style="border: 1px solid #cdcdcd; border-radius:14px; padding:10px;">`;
-                    if(msg.result.response[blc].provider_type == "airline"){
-                        text_balance += `<img src="/static/tt_website_rodextrip/images/icon/airlines_black.png" alt="`+msg.result.response[blc].code+` `+msg.result.response[blc].code+`" style="width:15px; height:15px;">`;
-                    }else if(msg.result.response[blc].provider_type == "train"){
-                        text_balance += `<img src="/static/tt_website_rodextrip/images/icon/train_black.png" alt="`+msg.result.response[blc].code+` `+msg.result.response[blc].code+`" style="width:15px; height:15px;">`;
-                    }else if(msg.result.response[blc].provider_type == "hotel"){
-                        text_balance += `<img src="/static/tt_website_rodextrip/images/icon/hotel_black.png" alt="`+msg.result.response[blc].code+` `+msg.result.response[blc].code+`" style="width:15px; height:15px;">`;
-                    }else if(msg.result.response[blc].provider_type == "activity"){
-                        text_balance += `<img src="/static/tt_website_rodextrip/images/icon/activity_black.png" alt="`+msg.result.response[blc].code+` `+msg.result.response[blc].code+`" style="width:15px; height:15px;">`;
-                    }else if(msg.result.response[blc].provider_type == "tour"){
-                        text_balance += `<img src="/static/tt_website_rodextrip/images/icon/tour_black.png" alt="`+msg.result.response[blc].code+` `+msg.result.response[blc].code+`" style="width:15px; height:15px;">`;
-                    }else if(msg.result.response[blc].provider_type == "visa"){
-                        text_balance += `<img src="/static/tt_website_rodextrip/images/icon/visa_black.png" alt="`+msg.result.response[blc].code+` `+msg.result.response[blc].code+`" style="width:15px; height:15px;">`;
-                    }else if(msg.result.response[blc].provider_type == "passport"){
-                        text_balance += `<img src="/static/tt_website_rodextrip/images/icon/passport_black.png" alt="`+msg.result.response[blc].code+` `+msg.result.response[blc].code+`" style="width:15px; height:15px;">`;
-                    }else if(msg.result.response[blc].provider_type == "ppob"){
-                        text_balance += `<img src="/static/tt_website_rodextrip/images/icon/ppob_black.png" alt="`+msg.result.response[blc].code+` `+msg.result.response[blc].code+`" style="width:15px; height:15px;">`;
-                    }else if(msg.result.response[blc].provider_type == "event"){
-                        text_balance += `<img src="/static/tt_website_rodextrip/images/icon/event_black.png" alt="`+msg.result.response[blc].code+` `+msg.result.response[blc].code+`" style="width:15px; height:15px;">`;
+                    if(msg.result.response.data[blc].provider_type == "airline"){
+                        text_balance += `<img src="/static/tt_website_rodextrip/images/icon/airlines_black.png" alt="`+msg.result.response.data[blc].code+` `+msg.result.response.data[blc].code+`" style="width:15px; height:15px;">`;
+                    }else if(msg.result.response.data[blc].provider_type == "train"){
+                        text_balance += `<img src="/static/tt_website_rodextrip/images/icon/train_black.png" alt="`+msg.result.response.data[blc].code+` `+msg.result.response.data[blc].code+`" style="width:15px; height:15px;">`;
+                    }else if(msg.result.response.data[blc].provider_type == "hotel"){
+                        text_balance += `<img src="/static/tt_website_rodextrip/images/icon/hotel_black.png" alt="`+msg.result.response.data[blc].code+` `+msg.result.response.data[blc].code+`" style="width:15px; height:15px;">`;
+                    }else if(msg.result.response.data[blc].provider_type == "activity"){
+                        text_balance += `<img src="/static/tt_website_rodextrip/images/icon/activity_black.png" alt="`+msg.result.response.data[blc].code+` `+msg.result.response.data[blc].code+`" style="width:15px; height:15px;">`;
+                    }else if(msg.result.response.data[blc].provider_type == "tour"){
+                        text_balance += `<img src="/static/tt_website_rodextrip/images/icon/tour_black.png" alt="`+msg.result.response.data[blc].code+` `+msg.result.response.data[blc].code+`" style="width:15px; height:15px;">`;
+                    }else if(msg.result.response.data[blc].provider_type == "visa"){
+                        text_balance += `<img src="/static/tt_website_rodextrip/images/icon/visa_black.png" alt="`+msg.result.response.data[blc].code+` `+msg.result.response.data[blc].code+`" style="width:15px; height:15px;">`;
+                    }else if(msg.result.response.data[blc].provider_type == "passport"){
+                        text_balance += `<img src="/static/tt_website_rodextrip/images/icon/passport_black.png" alt="`+msg.result.response.data[blc].code+` `+msg.result.response.data[blc].code+`" style="width:15px; height:15px;">`;
+                    }else if(msg.result.response.data[blc].provider_type == "ppob"){
+                        text_balance += `<img src="/static/tt_website_rodextrip/images/icon/ppob_black.png" alt="`+msg.result.response.data[blc].code+` `+msg.result.response.data[blc].code+`" style="width:15px; height:15px;">`;
+                    }else if(msg.result.response.data[blc].provider_type == "event"){
+                        text_balance += `<img src="/static/tt_website_rodextrip/images/icon/event_black.png" alt="`+msg.result.response.data[blc].code+` `+msg.result.response.data[blc].code+`" style="width:15px; height:15px;">`;
                     }
                     text_balance += `
-                        <span style="text-transform: capitalize; font-size:14px; font-weight:500;">`+msg.result.response[blc].code+`</span><br/>
+                        <span style="text-transform: capitalize; font-size:14px; font-weight:500;">`+msg.result.response.data[blc].code+`</span><br/>
                         <img src="/static/tt_website_rodextrip/images/icon/wallet_black.png" alt="Balance Vendor" style="width:15px; height:15px;">
-                        <span style="font-size:14px; color:`+color+`; font-weight:500;">`+msg.result.response[blc].currency+` `+getrupiah(msg.result.response[blc].balance)+`</span>
+                        <span style="font-size:14px; color:`+color+`; font-weight:500;">`+msg.result.response.data[blc].currency+` `+getrupiah(msg.result.response.data[blc].balance)+`</span>
                     </div>
                 </div>`;
             }
-            text_balance += `</div></div>`;
+            tes = moment.utc(msg.result.response.cache_time).format('YYYY-MM-DD HH:mm')
+            localTime  = moment.utc(tes).toDate();
+            data_gmt = moment(msg.result.response.cache_time)._d.toString().split(' ')[5];
+            gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, ''); //ambil gmt
+            timezone = data_gmt.replace (/[^\d.]/g, ''); //ambil timezone
+            timezone = timezone.split('') //split per char
+            timezone = timezone.filter(item => item !== '0') //hapus angka 0 di timezone
+            text_balance += `</div>
+            <span style="text-transform: capitalize; font-size:14px; font-weight:500;">Last cache `+moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone+`</span>
+            </div>`;
             document.getElementById("balance_content").innerHTML = text_balance;
             vendor_balance_check = 1;
         }else{

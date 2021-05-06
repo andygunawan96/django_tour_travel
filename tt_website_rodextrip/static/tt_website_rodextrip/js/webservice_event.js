@@ -283,12 +283,12 @@ function event_get_booking(data){
                    text+=`</div>`;
                document.getElementById('event_booking').innerHTML = text;
             //======================= Button Issued ==================
-            if(msg.result.response.status == 'booked'){
-               check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'event', signature, {});
+            if(msg.result.response.state == 'booked'){
+               check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'event', signature, msg.result.response.payment_acquirer_number);
                $(".issued_booking_btn").show();
                $text += 'Status: Booked\n';
             }
-            else if(msg.result.response.status == 'issued'){
+            else if(msg.result.response.state == 'issued'){
                 document.getElementById('issued-breadcrumb').classList.add("br-active");
                 document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
                 document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
@@ -297,7 +297,7 @@ function event_get_booking(data){
                 //document.getElementById('display_prices').style.display = "none";
                 $text += 'Status: Issued\n';
             }
-            else if(msg.result.response.status == 'cancel2'){
+            else if(msg.result.response.state == 'cancel2'){
                 $text += 'Status: Expired \n';
                 document.getElementById('issued-breadcrumb').classList.remove("br-active");
                 document.getElementById('issued-breadcrumb').classList.add("br-fail");
@@ -308,7 +308,7 @@ function event_get_booking(data){
                 document.getElementById('display_state').innerHTML = `Your Order Has Been Expired`;
                 document.getElementById('show_title_event').hidden = true;
             }
-            else if(msg.result.response.status == 'fail_issued'){
+            else if(msg.result.response.state == 'fail_issued'){
                 $text = 'Failed (Issue)';
                 document.getElementById('issued-breadcrumb').classList.remove("br-active");
                 document.getElementById('issued-breadcrumb').classList.add("br-fail");
@@ -319,7 +319,7 @@ function event_get_booking(data){
                 document.getElementById('display_state').innerHTML = `Your Order Has Been Failed (Issue)`;
                 document.getElementById('show_title_event').hidden = true;
             }
-            else if(msg.result.response.status == 'fail_booked'){
+            else if(msg.result.response.state == 'fail_booked'){
                 $text = 'Failed (Book)';
                 document.getElementById('issued-breadcrumb').classList.remove("br-active");
                 document.getElementById('issued-breadcrumb').classList.add("br-fail");
@@ -330,7 +330,7 @@ function event_get_booking(data){
                 document.getElementById('display_state').innerHTML = `Your Order Has Been Failed (Book)`;
                 document.getElementById('show_title_event').hidden = true;
             }
-            else if(msg.result.response.status == 'fail_refunded'){
+            else if(msg.result.response.state == 'fail_refunded'){
                 $text = 'Failed (Refunded)';
                 document.getElementById('issued-breadcrumb').classList.remove("br-active");
                 document.getElementById('issued-breadcrumb').classList.add("br-fail");
@@ -341,7 +341,7 @@ function event_get_booking(data){
                 document.getElementById('display_state').innerHTML = `Your Order Has Been Failed (Refunded)`;
                 document.getElementById('show_title_event').hidden = true;
             }
-            else if(msg.result.response.status == 'refund'){
+            else if(msg.result.response.state == 'refund'){
                 $text = 'Refunded';
                 document.getElementById('issued-breadcrumb').classList.add("br-active");
                 document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
@@ -492,34 +492,34 @@ function event_get_booking(data){
                                 <span style="font-weight:500; font-size:14px;">PNR: `+msg.result.response.providers[i].pnr+` </span>
                             </div>`;
 
-                    for(j in msg.result.response.passenger){
+                    for(j in msg.result.response.passengers){
                         price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
-                        for(k in msg.result.response.passenger[j].sale_service_charges[""]){
-                            price[k] += msg.result.response.passenger[j].sale_service_charges[""][k].amount;
+                        for(k in msg.result.response.passengers[j].sale_service_charges[""]){
+                            price[k] += msg.result.response.passengers[j].sale_service_charges[""][k].amount;
                             if(price['currency'] == '')
-                                price['currency'] = msg.result.response.passenger[j].sale_service_charges[""][k].currency;
+                                price['currency'] = msg.result.response.passengers[j].sale_service_charges[""][k].currency;
                         }
                         try{
-                            price['CSC'] = msg.result.response.passenger[j].channel_service_charges.amount;
+                            price['CSC'] = msg.result.response.passengers[j].channel_service_charges.amount;
 
                         }catch(err){}
                         //repricing
                         check = 0;
                         for(k in pax_type_repricing){
-                            if(pax_type_repricing[k][0] == msg.result.response.passenger[j].name)
+                            if(pax_type_repricing[k][0] == msg.result.response.passengers[j].name)
                                 check = 1;
                         }
                         if(check == 0){
-                            pax_type_repricing.push([msg.result.response.passenger[j].name, msg.result.response.passenger[j].name]);
-                            price_arr_repricing[msg.result.response.passenger[j].name] = {
+                            pax_type_repricing.push([msg.result.response.passengers[j].name, msg.result.response.passengers[j].name]);
+                            price_arr_repricing[msg.result.response.passengers[j].name] = {
                                 'Fare': price['FARE'] + price['SSR'] + price['SEAT'] + price['DISC'],
                                 'Tax': price['TAX'] + price['ROC'],
                                 'Repricing': price['CSC']
                             }
                         }else{
-                            price_arr_repricing[msg.result.response.passenger[j].name] = {
-                                'Fare': price_arr_repricing[msg.result.response.passenger[j].name]['Fare'] + price['FARE'] + price['DISC'] + price['SSR'] + price['SEAT'],
-                                'Tax': price_arr_repricing[msg.result.response.passenger[j].name]['Tax'] + price['TAX'] + price['ROC'],
+                            price_arr_repricing[msg.result.response.passengers[j].name] = {
+                                'Fare': price_arr_repricing[msg.result.response.passengers[j].name]['Fare'] + price['FARE'] + price['DISC'] + price['SSR'] + price['SEAT'],
+                                'Tax': price_arr_repricing[msg.result.response.passengers[j].name]['Tax'] + price['TAX'] + price['ROC'],
                                 'Repricing': price['CSC']
                             }
                         }
@@ -553,21 +553,21 @@ function event_get_booking(data){
                         text_detail+=`
                         <div class="row" style="margin-bottom:5px;">
                             <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                <span style="font-size:12px;">`+msg.result.response.passenger[j].name+`</span>`;
+                                <span style="font-size:12px;">`+msg.result.response.passengers[j].name+`</span>`;
                             text_detail+=`</div>
                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                <span style="font-size:13px;">`+ msg.result.response.passenger[j].qty + `X @` + price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC + price.SSR + price.SEAT + price.DISC))+`</span>
+                                <span style="font-size:13px;">`+ msg.result.response.passengers[j].qty + `X @` + price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC + price.SSR + price.SEAT + price.DISC))+`</span>
                             </div>
                         </div>`;
-                        $text += msg.result.response.passenger[j].name + ' ['+msg.result.response.providers[i].pnr+'] \n';
-                        $text += msg.result.response.passenger[j].qty + ' x ' + price.currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC))+'\n';
-                        $text += 'Sub Total: ' + price.currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC) * msg.result.response.passenger[j].qty)+'\n\n';
+                        $text += msg.result.response.passengers[j].name + ' ['+msg.result.response.providers[i].pnr+'] \n';
+                        $text += msg.result.response.passengers[j].qty + ' x ' + price.currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC))+'\n';
+                        $text += 'Sub Total: ' + price.currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC) * msg.result.response.passengers[j].qty)+'\n\n';
                         if(counter_service_charge == 0){
-                            total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC) * parseInt(msg.result.response.passenger[j].qty);
-                            price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC) * parseInt(msg.result.response.passenger[j].qty);
+                            total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC) * parseInt(msg.result.response.passengers[j].qty);
+                            price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC) * parseInt(msg.result.response.passengers[j].qty);
                         }else{
-                            total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC) * parseInt(msg.result.response.passenger[j].qty);
-                            price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC) * parseInt(msg.result.response.passenger[j].qty);
+                            total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC) * parseInt(msg.result.response.passengers[j].qty);
+                            price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC) * parseInt(msg.result.response.passengers[j].qty);
                         }
                         commission += parseInt(price.RAC);
                     }
@@ -582,7 +582,7 @@ function event_get_booking(data){
             try{
                 event_get_detail.result.response.total_price = total_price;
                 $text += 'Grand Total: '+price.currency+' '+ getrupiah(total_price);
-                if(msg.result.response.status == 'booked'){
+                if(msg.result.response.state == 'booked'){
                     $text += '\n\nPrices and availability may change at any time';
                 }
                 text_detail+=`
@@ -603,7 +603,7 @@ function event_get_booking(data){
                         text_detail+= `</span>
                     </div>
                 </div>`;
-                if(msg.result.response.status == 'booked' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                if(msg.result.response.state == 'booked' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                     text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
                 text_detail+=`<div class="row">
                 <div class="col-lg-12" style="padding-bottom:10px;">
@@ -689,7 +689,7 @@ function event_get_booking(data){
             //==================== Print Button =====================
             var print_text = '<div class="col-lg-4" style="padding-bottom:10px;">';
             // === Button 1 ===
-            if (msg.result.response.status  == 'issued') {
+            if (msg.result.response.state  == 'issued') {
                 print_text+=`
                 <button class="primary-btn hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="get_printout('` + msg.result.response.name + `','ticket','event');" style="width:100%;">
                     Print Ticket
@@ -698,7 +698,7 @@ function event_get_booking(data){
             }
             print_text += '</div><div class="col-lg-4" style="padding-bottom:10px;">';
             // === Button 2 ===
-            if (msg.result.response.status  == 'booked'){
+            if (msg.result.response.state  == 'booked'){
                 print_text+=`
                 <button class="primary-btn hold-seat-booking-train ld-ext-right" id="button-print-print" type="button" onclick="get_printout('` + msg.result.response.name + `','itinerary','event');" style="width:100%;">
                     Print Itinerary Form
@@ -713,7 +713,7 @@ function event_get_booking(data){
             }
             print_text += '</div><div class="col-lg-4" style="padding-bottom:10px;">';
             // === Button 3 ===
-            if (msg.result.response.status  == 'issued') {
+            if (msg.result.response.state  == 'issued') {
                 print_text+=`
                 <button class="primary-btn hold-seat-booking-train ld-ext-right" type="button" onclick="window.location.href='https://backend.rodextrip.com/rodextrip/report/pdf/tt.agent.invoice/`+msg.result.response.name+`'" style="width:100%;" >
                     Print Invoice
@@ -1838,7 +1838,7 @@ function add_option(val){
     var obj = 'option_qty_' + val;
     var new_int = parseInt(document.getElementById(obj).value) + 1;
     var max_qty = parseInt(document.getElementById('option_max_qty_'+val).value);
-    if (max_qty > 9){max_qty = 9;}
+//    if (max_qty > 9){max_qty = 9;} // kata ko vincent commend biar bisa lebih dari 9 ticket
 
     document.getElementById(obj).value = new_int;
     if (new_int == max_qty){
