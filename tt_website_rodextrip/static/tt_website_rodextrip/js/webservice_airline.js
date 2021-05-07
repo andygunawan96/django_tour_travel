@@ -2695,7 +2695,7 @@ function get_fare_rules(){
             if(msg.result.error_code == 0){
                 for(i in msg.result.response.fare_rule_provider){
                     if(msg.result.response.fare_rule_provider[i].hasOwnProperty('journeys') == true){
-                        if(msg.result.response.fare_rule_provider[i].status != 'FAILED'){
+                        if(msg.result.response.fare_rule_provider[i].status != 'unavailable'){
                             text_fare+=`
                                 <span id="span-tac-up`+count_fare+`" class="carrier_code_template" style="display:none; cursor:pointer;" onclick="show_hide_tac(`+count_fare+`);"> Show Term and Condition <i class="fas fa-chevron-down"></i></span>
                                 <span id="span-tac-down`+count_fare+`" class="carrier_code_template" style="display:block; cursor:pointer;" onclick="show_hide_tac(`+count_fare+`);"> Hide Term and Condition <i class="fas fa-chevron-up"></i></span>
@@ -3452,7 +3452,7 @@ function airline_set_ssr(val){
            if(msg.result.error_code == 0){
                 for(i in msg.result.response.sell_ssr_provider){
                     error_log = '';
-                    if(msg.result.response.sell_ssr_provider[i].status == "FAILED"){
+                    if(msg.result.response.sell_ssr_provider[i].status == "unavailable"){
                         error_log += msg.result.response.sell_ssr_provider[i].error_msg+'\n';
                     }
                 }
@@ -3537,7 +3537,7 @@ function airline_assign_seats(val){
            if(msg.result.error_code == 0){
                 error_log = '';
                 for(i in msg.result.response.seat_provider){
-                    if(msg.result.response.seat_provider[i].status == 'FAILED')
+                    if(msg.result.response.seat_provider[i].status == 'unavailable')
                         error_log += msg.result.response.seat_provider[i].error_msg + '\n';
                 }
                 if(error_log == '')
@@ -3970,8 +3970,7 @@ function airline_get_booking(data, sync=false){
     try{
         show_loading();
     }catch(err){}
-//    please_wait_transaction();
-//    $("#waitingTransaction").modal('show');
+
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
