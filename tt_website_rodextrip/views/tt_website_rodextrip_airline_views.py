@@ -651,7 +651,13 @@ def ssr(request):
                                 for provider in ssr_provider['ssr_availability']:
                                     for availability in ssr_provider['ssr_availability'][provider]:
                                         for ssr in availability['ssrs']:
-                                            if ssr['fee_code'] == fee['fee_code']:
+                                            if ssr.get('fee_code') == fee['fee_code']:
+                                                adult[len(adult) - 1]['ssr_list'].append({
+                                                    "name": fee['fee_name'],
+                                                    "journey_code": ssr['journey_code'],
+                                                    "availability_type": ssr['fee_category']
+                                                })
+                                            elif ssr.get('ssr_code') == fee['fee_code']:
                                                 adult[len(adult) - 1]['ssr_list'].append({
                                                     "name": fee['fee_name'],
                                                     "journey_code": ssr['journey_code'],
@@ -1306,10 +1312,11 @@ def review(request):
                 airline_carriers = file
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
-            additional_price_input = ''
-            additional_price = request.POST['additional_price_input'].split(',')
-            for i in additional_price:
-                additional_price_input += i
+            try:
+                additional_price_input = request.POST['additional_price_input'].replace(',', '')
+            except:
+                additional_price_input = '0'
+
             force_issued = True
             try:
                 airline_price_temp = request.session['airline_sell_journey']['sell_journey_provider'] if request.session.get('airline_sell_journey') else request.session['airline_price_itinerary']['price_itinerary_provider']
@@ -1459,12 +1466,9 @@ def review_after_sales(request):
 
             # get_balance(request)
             try:
-                additional_price_input = ''
-                additional_price = request.POST['additional_price_input'].split(',')
-                for i in additional_price:
-                    additional_price_input += i
+                additional_price_input = request.POST['additional_price_input'].replace(',', '')
             except:
-                additional_price_input = 0
+                additional_price_input = '0'
 
             file = read_cache_with_folder_path("get_airline_carriers", 90911)
             if file:
