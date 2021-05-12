@@ -2695,7 +2695,7 @@ function get_fare_rules(){
             if(msg.result.error_code == 0){
                 for(i in msg.result.response.fare_rule_provider){
                     if(msg.result.response.fare_rule_provider[i].hasOwnProperty('journeys') == true){
-                        if(msg.result.response.fare_rule_provider[i].status != 'unavailable'){
+                        if(msg.result.response.fare_rule_provider[i].hasOwnProperty('rules') && msg.result.response.fare_rule_provider[i].rules.length != 0){
                             text_fare+=`
                                 <span id="span-tac-up`+count_fare+`" class="carrier_code_template" style="display:none; cursor:pointer;" onclick="show_hide_tac(`+count_fare+`);"> Show Term and Condition <i class="fas fa-chevron-down"></i></span>
                                 <span id="span-tac-down`+count_fare+`" class="carrier_code_template" style="display:block; cursor:pointer;" onclick="show_hide_tac(`+count_fare+`);"> Hide Term and Condition <i class="fas fa-chevron-up"></i></span>
@@ -5116,6 +5116,7 @@ function airline_get_booking(data, sync=false){
                                             </div>
                                          </div>`;
                                 total_refund += msg.result.response.refund_list[i].total_amount;
+                                break;
                             }
                         }
                         text += `<hr/>
@@ -9654,6 +9655,10 @@ function airline_get_booking_refund(data){
 
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                auto_logout();
+           }else if(msg.result.error_code == 1035){
+                    hide_modal_waiting_transaction();
+                    document.getElementById('show_loading_booking_airline').hidden = true;
+                    render_login('airline');
            }else{
                 text += `<div class="alert alert-danger">
                         <h5>
@@ -10217,8 +10222,8 @@ function split_booking_request(){
                },
                success: function(msg) {
                    console.log(msg);
-                   hide_modal_waiting_transaction();
                    airline_get_booking(airline_get_detail.result.response.order_number);
+                   hide_modal_waiting_transaction();
                },
                error: function(XMLHttpRequest, textStatus, errorThrown) {
                     error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline update booking');

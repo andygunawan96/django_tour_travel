@@ -124,9 +124,9 @@ def get_list_report_footer(request):
     res = util.send_request(url=url + 'printout', data=data, headers=headers, method='POST')
     try:
         if res['result']['error_code'] == 0:
-            _logger.info("SUCCESS get_printout_api_printout " + request.POST['provider_type'] + " SIGNATURE " + request.POST['signature'])
+            _logger.info("SUCCESS get_printout_api_printout SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("ERROR get_printout_api_printout" + request.POST['provider_type'] + " SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR get_printout_api_printout SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 

@@ -379,13 +379,13 @@ def get_carriers(request, signature=''):
             if res['result']['error_code'] == 0:
                 res = res['result']['response']
                 write_cache_with_folder(res, "get_airline_carriers")
-                _logger.info("get_carriers AIRLINE RENEW SUCCESS SIGNATURE " + request.POST['signature'])
+                _logger.info("get_carriers AIRLINE RENEW SUCCESS SIGNATURE " + headers['signature'])
             else:
                 try:
                     file = read_cache_with_folder_path("get_airline_carriers")
                     if file:
                         res = file
-                    _logger.info("get_carriers AIRLINE ERROR USE CACHE SIGNATURE " + request.POST['signature'])
+                    _logger.info("get_carriers AIRLINE RENEW SUCCESS SIGNATURE " + headers['signature'])
                 except Exception as e:
                     _logger.error('ERROR get_carriers file\n' + str(e) + '\n' + traceback.format_exc())
         except Exception as e:
@@ -2319,7 +2319,8 @@ def pre_refund_login(request):
             pnr.append(provider_bookings['pnr'])
         data = {
             "provider": provider,
-            "pnr": pnr
+            "pnr": pnr,
+            "order_number": request.session['airline_get_booking_response']['result']['response']['order_number']
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
