@@ -3150,7 +3150,7 @@ function airline_pick_mc(type){
                         text+=`
                             <span style="font-weight: 500;">`+airline_pick_list[i].segments[j].carrier_code+`</span><br/>
                             <span style="color:`+color+`; font-weight: 500;">`+airline_pick_list[i].segments[j].carrier_name+`</span><br/>
-                            <img data-toggle="tooltip" alt="`+airline_carriers[0][airline_pick_list[i].segments[j].carrier_code].name+`" style="width:50px; height:50px;" title="`+airline_carriers[0][airline_pick_list[i].segments[j].carrier_code].name+`" src="`+static_path_url_server+`/public/airline_logo/`+airline_pick_list[i].segments[j].carrier_code+`.png"><br/>`;
+                            <img data-toggle="tooltip" alt="`+airline_pick_list[i].segments[j].carrier_code+`" style="width:50px; height:50px;" title="`+airline_pick_list[i].segments[j].carrier_code+`" src="`+static_path_url_server+`/public/airline_logo/`+airline_pick_list[i].segments[j].carrier_code+`.png"><br/>`;
                         }
                         text+=`
                         </div>
