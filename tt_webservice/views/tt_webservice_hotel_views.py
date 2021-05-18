@@ -579,13 +579,11 @@ def create_booking(request):
             'special_request': request.session['hotel_request']['special_request'],
             'resv_name': '',
             'os_res_no': '',
-            'journeys_booking': '',
-            'seq_id': request.POST['seq_id'],
-            'member': request.POST['member'] == 'member',
+            'journeys_booking': ''
         }
 
         # payment
-        if request.POST['force_issued'] == True:
+        if bool(int(request.POST['force_issued'])) == True:
             try:
                 if request.POST['member'] == 'non_member':
                     member = False

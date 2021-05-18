@@ -656,8 +656,9 @@ def issued_booking(request):
             'voucher': {}
         }
         if request.POST['voucher_code'] != '':
+            activity_get_booking = request.session['activity_get_booking_response'] if request.session.get('activity_get_booking_response') else json.loads(request.POST['booking'])
             data.update({
-                'voucher': data_voucher(request.POST['voucher_code'], 'activity',[request.session['activity_get_booking_response']['result']['response']['provider']]),
+                'voucher': data_voucher(request.POST['voucher_code'], 'activity',[activity_get_booking['result']['response']['provider']]),
                 # 'voucher': data_voucher(request.POST['voucher_code'], 'activity',['bemyguest']),
             })
         headers = {

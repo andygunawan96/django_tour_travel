@@ -1640,7 +1640,8 @@ function ppob_issued(data){
                'seq_id': payment_acq2[payment_method][selected].seq_id,
                'member': payment_acq2[payment_method][selected].method,
                'voucher_code': voucher_code,
-               'signature': signature
+               'signature': signature,
+               'booking': JSON.stringify(bills_get_detail)
            },
            success: function(msg) {
                console.log(msg);

@@ -406,7 +406,8 @@ def issued(request):
         }
         provider = []
         try:
-            for provider_type in request.session['bills_get_booking_response']['result']['response']['provider_booking']:
+            bill_get_booking = request.session['bills_get_booking_response'] if request.session.get('bills_get_booking_response') else json.loads(request.POST['booking'])
+            for provider_type in bill_get_booking['result']['response']['provider_booking']:
                 if not provider_type['provider'] in provider:
                     provider.append(provider_type['provider'])
             if request.POST['voucher_code'] != '':

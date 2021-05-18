@@ -1737,7 +1737,8 @@ function event_issued(data){
                'seq_id': payment_acq2[payment_method][selected].seq_id,
                'member': payment_acq2[payment_method][selected].method,
                'voucher_code': voucher_code,
-               'signature': signature
+               'signature': signature,
+               'booking': JSON.stringify(event_get_detail)
            },
            success: function(msg) {
                console.log(msg);
@@ -1748,7 +1749,6 @@ function event_issued(data){
                    price_arr_repricing = {};
                    pax_type_repricing = [];
                    hide_modal_waiting_transaction();
-                   document.getElementById('show_loading_booking_airline').hidden = false;
                    document.getElementById('event_booking').innerHTML = '';
                    document.getElementById('event_detail').innerHTML = '';
                    document.getElementById('payment_acq').innerHTML = '';
