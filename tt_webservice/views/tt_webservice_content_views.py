@@ -101,6 +101,8 @@ def api_models(request):
             res = get_booking(request)
         elif req_data['action'] == 'youtube_api':
             res = youtube_api_check(request)
+        elif req_data['action'] == 'cancel_payment_method_api':
+            res = cancel_payment_method_api(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -263,6 +265,27 @@ def get_booking(request):
             _logger.info("SUCCESS get booking b2c SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR get booking b2c SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def cancel_payment_method_api(request):
+    try:
+        data = {"order_number": request.POST['order_number']}
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "cancel_payment_method_api",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    res = util.send_request(url=url+"content", data=data, headers=headers, method='POST')
+    try:
+        if res['result']['error_code'] == 0:
+            _logger.info("SUCCESS cancel payment SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("ERROR cancel payment SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res

@@ -1129,7 +1129,7 @@ function check_payment_payment_method(order_number,btn_name,booker,type,provider
             }else
                 text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="window.location.href = '/payment/`+name+`/`+payment_acq_booking.order_number+`'" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
         }
-
+        text += `<input class="primary-btn-white" style="width:100%;margin-top:15px;" type="button" onclick="cancel_payment_method('`+order_number+`','`+provider_type+`');" value="Cancel Payment">`;
         document.getElementById('payment_acq').innerHTML = text;
     }
 //    if(provider_type == 'airline')
@@ -1520,5 +1520,56 @@ function func_get_term(){
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get signature');
        },timeout: 60000
+    });
+}
+
+function cancel_payment_method(order_number, provider_type){
+    show_loading();
+    please_wait_transaction();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/content",
+       headers:{
+            'action': 'cancel_payment_method_api',
+       },
+       data: {
+            "order_number": order_number,
+            "signature": signature
+       },
+       success: function(msg) {
+            if(msg.result.error_code == 0){
+                if(provider_type == 'airline'){
+                    airline_get_booking(order_number);
+                }else if(provider_type == 'train'){
+                    train_get_booking(order_number);
+                }else if(provider_type == 'hotel'){
+                    hotel_get_booking(order_number);
+                }else if(provider_type == 'activity'){
+                    activity_get_booking(order_number);
+                }else if(provider_type == 'tour'){
+                    tour_get_booking(order_number);
+                }else if(provider_type == 'visa'){
+                    visa_get_data(order_number);
+                }else if(provider_type == 'passport'){
+                    passport_get_data(order_number);
+                }else if(provider_type == 'ppob'){
+                    ppob_get_booking(order_number);
+                }else if(provider_type == 'event'){
+                    event_get_booking(order_number);
+                }else if(provider_type == 'issued_offline'){
+                    get_booking_offline(order_number);
+                }
+            }else{
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: msg.result.error_msg,
+                })
+            }
+            hide_modal_waiting_transaction();
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error update dynamic page');
+       }
     });
 }

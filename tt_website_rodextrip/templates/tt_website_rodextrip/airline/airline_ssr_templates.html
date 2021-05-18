@@ -175,13 +175,13 @@
                         <div class="col-lg-12">
                             <div id="airline_review" style="background-color:white; padding:10px; margin-bottom:15px; border:1px solid #cdcdcd;">
                                 {% for pax in passengers%}
-                                {% with forloop.counter as counter%}
+                                {% with forloop.counter as counter_pax %}
                                 <div style="padding-top:15px;">
                                     <h5 style="color:{{color}};">{{pax.title}} {{pax.first_name}} {{pax.last_name}}</h5>
                                     <hr/>
                                 </div>
                                 {% for ssr_provider in airline_ssrs.ssr_availability_provider %}
-                                    {% with forloop.counter as counter_provider%}
+                                    {% with forloop.counter as counter_provider %}
                                     {% for img in ssr_provider.airline_list %}
                                     <img data-toggle="tooltip" style="width:50px; height:50px;" src="{{static_path_url_server}}/public/airline_logo/{{img}}.png" alt="Airline Logo">
                                     {% endfor %}
@@ -189,24 +189,24 @@
                                     {% for key, ssr_values in ssr_provider.ssr_availability.items %}
 
                                         {% for values in ssr_values %}
+                                        {% with forloop.counter as counter_ssr %}
                                     <span style="text-transform: capitalize; font-size:14px; font-weight:600;">{{key}} <i class="fas fa-suitcase"></i> <br/>
                                     {{values.origin}} - {{values.destination}}</span>
                                 <br/>
-                                <span class="span-search-ticket">{{key}}</span>
                                 {%if template == 1%}
                                 <div class="input-container-search-ticket btn-group">
                                     <div class="form-select" id="default-select">
-                                        <select id="{{key}}_{{counter_provider}}_{{counter}}_{{forloop.counter}}" name="{{key}}_{{counter_provider}}_{{counter}}_{{forloop.counter}}" data-live-search="true" size="4" onchange="on_change_ssr()">
+                                        <select id="{{key}}_{{counter_provider}}_{{counter_pax}}_{{counter_ssr}}" name="{{key}}_{{counter_provider}}_{{counter_pax}}_{{counter_ssr}}" data-live-search="true" size="4" onchange="on_change_ssr()">
                                             <option value=""></option>
                                             {% for ssr in values.ssrs %}
-                                            <option value="{{ssr.ssr_code}}_{{ssr.total_price}}" id="ssr_option_{{key}}_{{counter_provider}}_{{counter}}_{{ forloop.counter }}" {% for ssr_list_pax in pax.ssr_list %}
+                                            <option value="{{ssr.ssr_code}}_{{ssr.total_price}}" id="ssr_option_{{key}}_{{counter_provider}}_{{counter_pax}}_{{counter_ssr}}_{{forloop.counter}}" {% for ssr_list_pax in pax.ssr_list %}
                                                 {% if key == ssr_list_pax.availability_type and ssr_list_pax.journey_code == ssr.journey_code and ssr.name == ssr_list_pax.name %}
                                                     selected {% endif %} {% endfor %}
                                             >
                                                 {{ssr.name}} - {{ssr.currency}}
                                             </option>
                                             <script>
-                                                print_nominal_ssr("{{key}}_{{counter_provider}}_{{counter}}_{{ forloop.counter }}", {{ssr.total_price}});
+                                                print_nominal_ssr("{{key}}_{{counter_provider}}_{{counter_pax}}_{{counter_ssr}}_{{ forloop.counter }}", {{ssr.total_price}});
                                             </script>
                                             {% endfor %}
                                         </select>
@@ -214,17 +214,17 @@
                                 </div>
                                 {% elif template == 2 %}
                                 <div class="input-container-search-ticket btn-group">
-                                    <select id="{{key}}_{{counter_provider}}_{{counter}}_{{forloop.counter}}" name="{{key}}_{{counter_provider}}_{{counter}}_{{forloop.counter}}" data-live-search="true" size="4" onchange="on_change_ssr()">
+                                    <select id="{{key}}_{{counter_provider}}_{{counter_pax}}_{{counter_ssr}}" name="{{key}}_{{counter_provider}}_{{counter_pax}}_{{counter_ssr}}" data-live-search="true" size="4" onchange="on_change_ssr()">
                                         <option value=""></option>
                                         {% for ssr in values.ssrs %}
-                                        <option value="{{ssr.ssr_code}}_{{ssr.total_price}}" id="ssr_option_{{ forloop.counter }}" {% for ssr_list_pax in pax.ssr_list %}
+                                        <option value="{{ssr.ssr_code}}_{{ssr.total_price}}" id="ssr_option_{{key}}_{{counter_provider}}_{{counter_pax}}_{{counter_ssr}}_{{forloop.counter}}" {% for ssr_list_pax in pax.ssr_list %}
                                                 {% if key == ssr_list_pax.availability_type and ssr_list_pax.journey_code == ssr.journey_code and ssr.name == ssr_list_pax.name %}
                                                     selected {% endif %} {% endfor %}
                                         >
                                             {{ssr.name}} - {{ssr.currency}}
                                         </option>
                                         <script>
-                                            print_nominal_ssr({{ forloop.counter }}, {{ssr.total_price}});
+                                            print_nominal_ssr("{{key}}_{{counter_provider}}_{{counter_pax}}_{{counter_ssr}}_{{ forloop.counter }}", {{ssr.total_price}});
                                         </script>
                                         {% endfor %}
                                     </select>
@@ -232,17 +232,17 @@
                                 {% elif template == 3 %}
                                 <div class="form-group">
                                     <div class="default-select" id="default-select">
-                                        <select id="{{key}}_{{counter_provider}}_{{counter}}_{{forloop.counter}}" name="{{key}}_{{counter_provider}}_{{counter}}_{{forloop.counter}}" data-live-search="true" size="4" onchange="on_change_ssr()">
+                                        <select id="{{key}}_{{counter_provider}}_{{counter_pax}}_{{counter_ssr}}" name="{{key}}_{{counter_provider}}_{{counter_pax}}_{{counter_ssr}}" data-live-search="true" size="4" onchange="on_change_ssr()">
                                             <option value=""></option>
                                             {% for ssr in values.ssrs %}
-                                            <option value="{{ssr.ssr_code}}_{{ssr.total_price}}" id="ssr_option_{{ forloop.counter }}" {% for ssr_list_pax in pax.ssr_list %}
+                                            <option value="{{ssr.ssr_code}}_{{ssr.total_price}}" id="ssr_option_{{key}}_{{counter_provider}}_{{counter_pax}}_{{counter_ssr}}_{{forloop.counter}}" {% for ssr_list_pax in pax.ssr_list %}
                                                     {% if key == ssr_list_pax.availability_type and ssr_list_pax.journey_code == ssr.journey_code and ssr.name == ssr_list_pax.name %}
                                                         selected {% endif %} {% endfor %}
                                             >
                                                 {{ssr.name}} - {{ssr.currency}}
                                             </option>
                                             <script>
-                                                print_nominal_ssr({{ forloop.counter }}, {{ssr.total_price}});
+                                                print_nominal_ssr("{{key}}_{{counter_provider}}_{{counter_pax}}_{{counter_ssr}}_{{ forloop.counter }}", {{ssr.total_price}});
                                             </script>
                                             {% endfor %}
                                         </select>
@@ -251,17 +251,17 @@
                                 {% elif template == 4 %}
                                 <div class="input-container-search-ticket btn-group">
                                     <div class="form-select" id="default-select">
-                                        <select class="nice-select-default rounded" id="{{key}}_{{counter_provider}}_{{counter}}_{{forloop.counter}}" name="{{key}}_{{counter_provider}}_{{counter}}_{{forloop.counter}}" onchange="on_change_ssr()">
+                                        <select class="nice-select-default rounded" id="{{key}}_{{counter_provider}}_{{counter_pax}}_{{counter_ssr}}" name="{{key}}_{{counter_provider}}_{{counter_pax}}_{{counter_ssr}}" onchange="on_change_ssr()">
                                             <option value=""></option>
                                             {% for ssr in values.ssrs %}
-                                            <option value="{{ssr.ssr_code}}_{{ssr.total_price}}" id="ssr_option_{{ forloop.counter }}" {% for ssr_list_pax in pax.ssr_list %}
+                                            <option value="{{ssr.ssr_code}}_{{ssr.total_price}}" id="ssr_option_{{key}}_{{counter_provider}}_{{counter_pax}}_{{counter_ssr}}_{{forloop.counter}}" {% for ssr_list_pax in pax.ssr_list %}
                                                     {% if key == ssr_list_pax.availability_type and ssr_list_pax.journey_code == ssr.journey_code and ssr.name == ssr_list_pax.name %}
                                                         selected {% endif %} {% endfor %}
                                             >
                                                 {{ssr.name}} - {{ssr.currency}}
                                             </option>
                                             <script>
-                                                print_nominal_ssr({{ forloop.counter }}, {{ssr.total_price}});
+                                                print_nominal_ssr("{{key}}_{{counter_provider}}_{{counter_pax}}_{{counter_ssr}}_{{ forloop.counter }}", {{ssr.total_price}});
                                             </script>
                                             {% endfor %}
                                         </select>
@@ -270,23 +270,24 @@
                                 {% elif template == 5 %}
                                 <div class="input-container-search-ticket" style="display:inline-block !important;">
                                     <div id="default-select">
-                                        <select class="app-select form-control" id="{{key}}_{{counter_provider}}_{{counter}}_{{forloop.counter}}" name="{{key}}_{{counter_provider}}_{{counter}}_{{forloop.counter}}" onchange="on_change_ssr()">
+                                        <select class="app-select form-control" id="{{key}}_{{counter_provider}}_{{counter_pax}}_{{counter_ssr}}" name="{{key}}_{{counter_provider}}_{{counter_pax}}_{{counter_ssr}}" onchange="on_change_ssr()">
                                             <option value=""></option>
                                             {% for ssr in values.ssrs %}
-                                            <option value="{{ssr.ssr_code}}_{{ssr.total_price}}" id="ssr_option_{{ forloop.counter }}" {% for ssr_list_pax in pax.ssr_list %}
+                                            <option value="{{ssr.ssr_code}}_{{ssr.total_price}}" id="ssr_option_{{key}}_{{counter_provider}}_{{counter_pax}}_{{counter_ssr}}_{{forloop.counter}}" {% for ssr_list_pax in pax.ssr_list %}
                                                     {% if key == ssr_list_pax.availability_type and ssr_list_pax.journey_code == ssr.journey_code and ssr.name == ssr_list_pax.name %}
                                                         selected {% endif %} {% endfor %}
                                             >
                                                 {{ssr.name}} - {{ssr.currency}}
                                             </option>
                                             <script>
-                                                print_nominal_ssr({{ forloop.counter }}, {{ssr.total_price}});
+                                                print_nominal_ssr("{{key}}_{{counter_provider}}_{{counter_pax}}_{{counter_ssr}}_{{ forloop.counter }}", {{ssr.total_price}});
                                             </script>
                                             {% endfor %}
                                         </select>
                                     </div>
                                 </div>
                                 {%endif%}
+                                            {% endwith %}
                                             {% endfor %}
                                         {% endfor %}
                                         {% endwith %}
