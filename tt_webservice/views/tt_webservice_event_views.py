@@ -472,11 +472,11 @@ def issued_booking(request):
 
         if request.POST['voucher_code'] != '':
             provider = []
-            if request.session.get('event_get_booking_response'):
-                for provider_type in request.session['event_get_booking_response']['result']['response']['providers']:
-                    if not provider_type['provider'] in provider:
-                        provider.append(provider_type['provider'])
-            else:
+            event_get_booking = request.session['event_get_booking_response'] if request.session.get('event_get_booking_response') else json.loads(request.POST['booking'])
+            for provider_type in event_get_booking['result']['response']['providers']:
+                if not provider_type['provider'] in provider:
+                    provider.append(provider_type['provider'])
+            if len(provider) == 0:
                 provider.append('event_internal')
 
             data.update({

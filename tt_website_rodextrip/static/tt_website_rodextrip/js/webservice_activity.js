@@ -2417,7 +2417,8 @@ function activity_issued_booking(order_number)
            'seq_id': payment_acq2[payment_method][selected].seq_id,
            'member': payment_acq2[payment_method][selected].method,
            'signature': signature,
-           'voucher_code': voucher_code
+           'voucher_code': voucher_code,
+           'booking': JSON.stringify(act_get_booking)
        },
        success: function(msg) {
            console.log(msg);

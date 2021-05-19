@@ -2879,7 +2879,8 @@ function get_post_seat_availability(){
             'action': 'get_post_seat_availability',
        },
        data: {
-            'signature': signature
+            'signature': signature,
+            'booking': JSON.stringify(airline_get_detail)
        },
        success: function(msg) {
             console.log(msg);
@@ -2925,7 +2926,8 @@ function get_post_ssr_availability(){
             'action': 'get_post_ssr_availability',
        },
        data: {
-            'signature': signature
+            'signature': signature,
+            'booking': JSON.stringify(airline_get_detail)
        },
        success: function(msg) {
             console.log(msg);
@@ -5900,7 +5902,8 @@ function airline_issued(data){
                'seq_id': payment_acq2[payment_method][selected].seq_id,
                'member': payment_acq2[payment_method][selected].method,
                'voucher_code': voucher_code,
-               'signature': signature
+               'signature': signature,
+               'booking': JSON.stringify(airline_get_detail)
            },
            success: function(msg) {
                console.log(msg);
@@ -6452,7 +6455,8 @@ function assign_seats_after_sales(){
             'action': 'assign_post_seats',
        },
        data: {
-            'signature': airline_signature
+            'signature': airline_signature,
+            'booking': JSON.stringify(airline_get_detail)
        },
        success: function(msg) {
            console.log(msg);
@@ -6507,6 +6511,7 @@ function update_booking_after_sales(input_pax_seat = false){
            url: "/webservice/airline",
            headers:{
                 'action': 'update_booking',
+                'booking': JSON.stringify(airline_get_detail)
            },
            data: data,
            success: function(msg) {
@@ -6781,7 +6786,8 @@ function airline_reissued(){
 //       url: "{% url 'tt_backend_rodextrip:social_media_tree_update' %}",
        data: {
             'data':JSON.stringify(provider_list),
-            'signature': signature
+            'signature': signature,
+            'booking': JSON.stringify(airline_get_detail)
        },
        success: function(msg) {
            console.log(msg);
@@ -8269,7 +8275,8 @@ function get_price_reissue_construct(){
                             "infant": airline_get_detail.result.response.INF
                         }),
                         'signature': signature,
-                        "pnr": JSON.stringify(pnr_list)
+                        "pnr": JSON.stringify(pnr_list),
+                        'booking': JSON.stringify(airline_get_detail)
                    },
                    success: function(msg) {
                        console.log(msg);
@@ -8512,7 +8519,8 @@ function sell_journey_reissue_construct(){
                             "infant": airline_get_detail.result.response.INF
                         }),
                         'signature': signature,
-                        "pnr": JSON.stringify(pnr_list)
+                        "pnr": JSON.stringify(pnr_list),
+                        'booking': JSON.stringify(airline_get_detail)
                    },
                    success: function(msg) {
                        console.log(msg);
@@ -8867,7 +8875,8 @@ function pre_refund_login(){
             'action': 'pre_refund_login',
        },
        data: {
-            'signature': signature
+            'signature': signature,
+            'booking': JSON.stringify(airline_get_detail)
        },
        success: function(msg) {
            console.log(msg);
@@ -9908,7 +9917,8 @@ function sell_reschedule_v2(){
                             "infant": airline_get_detail.result.response.INF
                         }),
                         'signature': signature,
-                        "pnr": JSON.stringify(pnr_list)
+                        "pnr": JSON.stringify(pnr_list),
+                        'booking': JSON.stringify(airline_get_detail)
                    },
                    success: function(msg) {
                        console.log(msg);
@@ -10141,6 +10151,7 @@ function update_booking_after_sales_v2(input_pax_seat = false){
            url: "/webservice/airline",
            headers:{
                 'action': 'update_booking_v2',
+                'booking': JSON.stringify(airline_get_detail)
            },
            data: data,
            success: function(msg) {
@@ -10271,7 +10282,8 @@ function get_post_ssr_availability_v2(){
             'action': 'get_post_ssr_availability_v2',
        },
        data: {
-            'signature': signature
+            'signature': signature,
+            'booking': JSON.stringify(airline_get_detail)
        },
        success: function(msg) {
             console.log(msg);
@@ -10322,7 +10334,8 @@ function get_post_seat_availability_v2(){
             'action': 'get_post_seat_availability_v2',
        },
        data: {
-            'signature': signature
+            'signature': signature,
+            'booking': JSON.stringify(airline_get_detail)
        },
        success: function(msg) {
             console.log(msg);
@@ -10368,7 +10381,8 @@ function assign_seats_after_sales_v2(){
             'action': 'assign_post_seats_v2',
        },
        data: {
-            'signature': airline_signature
+            'signature': airline_signature,
+            'booking': JSON.stringify(airline_get_detail)
        },
        success: function(msg) {
            console.log(msg);
