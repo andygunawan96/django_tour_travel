@@ -58,15 +58,15 @@ function check_issued_offline(){
         for(i=0; i < counter_passenger; i++){
             try{
                 //kasi if kosong
-                if(document.getElementById('adult_first_name' + (i + 1)).value == ''){
-                    error_log += 'Please fill first name for passenger '+ (i + 1) + ' !\n';
+                if(document.getElementById('adult_first_name' + (i + 1)).value == '' || check_word(document.getElementById('adult_first_name' + (i + 1)).value) == false){
+                    error_log += 'Please fill or use alpha characters for first name for passenger '+ (i + 1) + ' !\n';
                     document.getElementById('adult_first_name' + (i + 1)).style['border-color'] = 'red';
                 }else{
                     request['passenger_first_name'+i] = document.getElementById('adult_first_name' + (i + 1)).value;
                     document.getElementById('adult_first_name' + (i + 1)).style['border-color'] = '#EFEFEF';
                 }
-                if(document.getElementById('adult_last_name' + (i + 1)).value == ''){
-                    error_log += 'Please fill last name for passenger '+ (i + 1) + ' !\n';
+                if(document.getElementById('adult_last_name' + (i + 1)).value == '' || check_word(document.getElementById('adult_last_name' + (i + 1)).value) == false){
+                    error_log += 'Please fill or use alpha characters for last name for passenger '+ (i + 1) + ' !\n';
                     document.getElementById('adult_last_name' + (i + 1)).style['border-color'] = 'red';
                 }else{
                     request['passenger_last_name'+i] = document.getElementById('adult_last_name' + (i + 1)).value;
@@ -210,20 +210,20 @@ function check_issued_offline(){
     }else{
         request["booker_title"] = document.getElementById('booker_title').value;
         document.getElementById('booker_title').style['border-color'] = '#EFEFEF';
-    }if(document.getElementById('booker_first_name').value == ''){
-        error_log += 'Please fill first name for booker !\n';
+    }if(document.getElementById('booker_first_name').value == '' || check_word(document.getElementById('booker_first_name').value) == false){
+        error_log += 'Please fill or use alpha characters for first name for booker !\n';
         document.getElementById('booker_first_name').style['border-color'] = 'red';
     }else{
         request["booker_first_name"] = document.getElementById('booker_first_name').value;
         document.getElementById('booker_first_name').style['border-color'] = '#EFEFEF';
     }
-    if(document.getElementById('booker_last_name').value == ''){
-        error_log += 'Please fill last name for booker !\n';
+    if(document.getElementById('booker_last_name').value == '' || check_word(document.getElementById('booker_last_name').value) == false){
+        error_log += 'Please fill or use alpha characters for last name for booker !\n';
         document.getElementById('booker_last_name').style['border-color'] = 'red';
     }else{
         request["booker_last_name"] = document.getElementById('booker_last_name').value;
         document.getElementById('booker_last_name').style['border-color'] = '#EFEFEF';
-    }if(document.getElementById('booker_email').value == ''){
+    }if(document.getElementById('booker_email').value == '' || check_email(document.getElementById('booker_email').value) == false){
         error_log += 'Please fill email for booker !\n';
         document.getElementById('booker_email').style['border-color'] = 'red';
     }else{

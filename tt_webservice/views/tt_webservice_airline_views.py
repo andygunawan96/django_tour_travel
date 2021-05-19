@@ -1780,7 +1780,8 @@ def issued(request):
 def reissue(request):
     # nanti ganti ke get_ssr_availability
     try:
-        order_number = request.session['airline_get_booking_response']['result']['response']['order_number']
+        airline_get_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+        order_number = airline_get_booking['result']['response']['order_number']
         data_request = json.loads(request.POST['data'])
         cabin_class = ''
         for provider in data_request:
@@ -1905,7 +1906,7 @@ def get_price_reissue_construct(request,boolean, counter):
         journeys = []
         journey_booking = json.loads(request.POST['journeys_booking'])
         passengers = json.loads(request.POST['passengers'])
-        data_booking = request.session['airline_get_booking_response']
+        data_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
         order_number = data_booking['result']['response']['order_number']
         pnr_list = json.loads(request.POST['pnr'])
 
@@ -2066,7 +2067,7 @@ def sell_journey_reissue_construct(request,boolean, counter):
         journeys = []
         journey_booking = json.loads(request.POST['journeys_booking'])
         passengers = json.loads(request.POST['passengers'])
-        data_booking = request.session['airline_get_booking_response']
+        data_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
         order_number = data_booking['result']['response']['order_number']
         pnr_list = json.loads(request.POST['pnr'])
 
@@ -2315,13 +2316,14 @@ def pre_refund_login(request):
     try:
         provider = []
         pnr = []
-        for provider_bookings in request.session['airline_get_booking_response']['result']['response']['provider_bookings']:
+        airline_get_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+        for provider_bookings in airline_get_booking['result']['response']['provider_bookings']:
             provider.append(provider_bookings['provider'])
             pnr.append(provider_bookings['pnr'])
         data = {
             "provider": provider,
             "pnr": pnr,
-            "order_number": request.session['airline_get_booking_response']['result']['response']['order_number']
+            "order_number": airline_get_booking['result']['response']['order_number']
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -2549,7 +2551,7 @@ def get_refund_booking(request):
 
 # POST
 def get_post_ssr_availability(request):
-    data_booking = request.session['airline_get_booking_response']
+    data_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
     schedules = []
     order_number = data_booking['result']['response']['order_number']
     for rec in data_booking['result']['response']['provider_bookings']:
@@ -2602,7 +2604,7 @@ def get_post_ssr_availability(request):
     return res
 
 def get_post_seat_availability(request):
-    data_booking = request.session['airline_get_booking_response']
+    data_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
     schedules = []
     order_number = data_booking['result']['response']['order_number']
     for rec in data_booking['result']['response']['provider_bookings']:
@@ -2632,7 +2634,8 @@ def get_post_seat_availability(request):
 
 def sell_post_ssrs(request):
     try:
-        order_number = request.session['airline_get_booking_response']['result']['response']['order_number']
+        airline_get_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+        order_number = airline_get_booking['result']['response']['order_number']
         data = {
             'sell_ssrs_request': request.session['airline_ssr_request'],
             'order_number': order_number
@@ -2676,7 +2679,8 @@ def sell_post_ssrs(request):
 
 def assign_post_seats(request):
     try:
-        order_number = request.session['airline_get_booking_response']['result']['response']['order_number']
+        airline_get_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+        order_number = airline_get_booking['result']['response']['order_number']
         data = {
             'segment_seat_request': request.session['airline_seat_request'],
             'order_number': order_number
@@ -2722,7 +2726,7 @@ def assign_post_seats(request):
 def update_booking(request):
     #nanti ganti ke get_ssr_availability
     try:
-        data_booking = request.session['airline_get_booking_response']
+        data_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
         schedules = []
         order_number = data_booking['result']['response']['order_number']
         for rec in data_booking['result']['response']['provider_bookings']:
@@ -2794,7 +2798,8 @@ def update_booking(request):
 def get_reschedule_availability_v2(request):
     # nanti ganti ke get_ssr_availability
     try:
-        data_temp = request.session['airline_get_booking_response']['result']['response']
+        airline_get_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+        data_temp = airline_get_booking['result']['response']
         order_number = data_temp['order_number']
         passenger = []
         for pax in data_temp['passengers']:
@@ -2923,7 +2928,7 @@ def sell_reschedule_v2(request,boolean, counter):
         journeys = []
         journey_booking = json.loads(request.POST['journeys_booking'])
 
-        data_booking = request.session['airline_get_booking_response']
+        data_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
         order_number = data_booking['result']['response']['order_number']
         passenger = []
         for pax in data_booking['result']['response']['passengers']:
@@ -3083,7 +3088,7 @@ def split_booking_v2(request):
         data_passengers = json.loads(request.POST['passengers'])
         for pax in data_passengers:
             passengers.append({"passenger_number": int(pax.split('_')[1])})
-        data_booking = request.session['airline_get_booking_response']
+        data_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
         for provider_booking in data_booking['result']['response']['provider_bookings']:
             provider_bookings.append({
                 'pnr': provider_booking['pnr'],
@@ -3114,7 +3119,7 @@ def split_booking_v2(request):
     return res
 
 def get_post_ssr_availability_v2(request):
-    data_booking = request.session['airline_get_booking_response']
+    data_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
     schedules = []
     order_number = data_booking['result']['response']['order_number']
     for rec in data_booking['result']['response']['provider_bookings']:
@@ -3168,7 +3173,8 @@ def get_post_ssr_availability_v2(request):
 
 def sell_post_ssrs_v2(request):
     try:
-        order_number = request.session['airline_get_booking_response']['result']['response']['order_number']
+        airline_get_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+        order_number = airline_get_booking['result']['response']['order_number']
         data = {
             'sell_ssrs_request': request.session['airline_ssr_request'],
             'order_number': order_number
@@ -3211,7 +3217,7 @@ def sell_post_ssrs_v2(request):
     return res
 
 def get_post_seat_availability_v2(request):
-    data_booking = request.session['airline_get_booking_response']
+    data_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
     schedules = []
     order_number = data_booking['result']['response']['order_number']
     for rec in data_booking['result']['response']['provider_bookings']:
@@ -3241,7 +3247,8 @@ def get_post_seat_availability_v2(request):
 
 def assign_post_seats_v2(request):
     try:
-        order_number = request.session['airline_get_booking_response']['result']['response']['order_number']
+        airline_get_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+        order_number = airline_get_booking['result']['response']['order_number']
         data = {
             'segment_seat_request': request.session['airline_seat_request'],
             'order_number': order_number
@@ -3287,7 +3294,7 @@ def assign_post_seats_v2(request):
 def update_booking_v2(request):
     #nanti ganti ke get_ssr_availability
     try:
-        data_booking = request.session['airline_get_booking_response']
+        data_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
         schedules = []
         order_number = data_booking['result']['response']['order_number']
         for rec in data_booking['result']['response']['provider_bookings']:
