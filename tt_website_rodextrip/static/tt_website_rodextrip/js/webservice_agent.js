@@ -4619,7 +4619,7 @@ function render_login(product_type){
                 <div class="col-lg-3 col-md-3 col-sm-3">
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 mt-3">
-                <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Login" onclick="$('.btn-next').addClass('running');$('.btn-next').prop('disabled', true);signin_booking();">
+                <button class="btn-next primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Login" onclick="$('.btn-next').addClass('running');$('.btn-next').prop('disabled', true);signin_booking();">
                     Login
                     <div class="ld ld-ring ld-cycle"></div>
                 </button>

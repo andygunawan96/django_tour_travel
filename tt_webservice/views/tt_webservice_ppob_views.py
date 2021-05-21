@@ -410,12 +410,12 @@ def issued(request):
             for provider_type in bill_get_booking['result']['response']['provider_booking']:
                 if not provider_type['provider'] in provider:
                     provider.append(provider_type['provider'])
-            if request.POST['voucher_code'] != '':
-                data.update({
-                    'voucher': data_voucher(request.POST['voucher_code'], 'ppob', provider),
-                })
         except:
             pass
+        if request.POST['voucher_code'] != '':
+            data.update({
+                'voucher': data_voucher(request.POST['voucher_code'], 'ppob', provider),
+            })
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",

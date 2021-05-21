@@ -234,6 +234,9 @@
                     <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="train_detail">
 
                     </div>
+                    {% if 'issued_reservation' in username.co_agent_frontend_security %}
+                    {% include 'tt_website_rodextrip/voucher_code.html'  %}
+                    {% endif %}
                 </div>
                 <div class="modal fade" id="myModalRepricing" role="dialog">
                     <div class="modal-dialog" style="width:100% !important; height:100% !important; max-width:1200px;padding: 0;">
@@ -307,6 +310,19 @@
                 </div>
             </div>
         </form>
+        <form method="POST" id="train_seat_map" action="{% url 'tt_website_rodextrip:train_seat_map'%}">
+            {% csrf_token %}
+            <input type="hidden" id="passenger_input" name="passenger_input"/>
+            <input type="hidden" id="seat_map_request_input" name="seat_map_request_input"/>
+            <input type="hidden" id="passengers" name="passengers"/>
+            <input type="hidden" id="signature" name="signature"/>
+            <input type="hidden" id="order_number" name="order_number"/>
+            <input type="hidden" id="provider" name="provider"/>
+            <input type="hidden" id="discount" name="discount"/>
+            <input type="hidden" id="voucher_code" name="voucher_code"/>
+            <input type="hidden" id="type" name="type"/>
+            <input type="hidden" id="session_time_input" name="session_time_input"/>
+        </form>
         <form method="POST" id="train_issued" action="{% url 'tt_website_rodextrip:payment'%}">
             {% csrf_token %}
             <input type="hidden" id="passengers" name="passengers"/>
@@ -326,10 +342,18 @@
 {% endif %}
 <script>
     train_detail();
+    function goto_seat_map(){
+        document.getElementById('train_seat_map').innerHTML += `{% csrf_token %}`;
+        document.getElementById('train_seat_map').submit();
+    }
     //get_payment_acq('Issued','{{passenger.booker.booker_seq_id}}', '', 'billing',signature,'train_review');
     $( document ).ready(function() {
         breadcrumb_create("train", 4, 0);
     });
+    function train_seat_map(){
+        document.getElementById('seat_map_request').innerHTML += `{% csrf_token %}`;
+        document.getElementById('seat_map_request').submit();
+    }
 </script>
 
 {% endblock %}

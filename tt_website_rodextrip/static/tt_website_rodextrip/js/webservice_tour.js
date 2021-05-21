@@ -1202,6 +1202,9 @@ function tour_pre_issued_booking(order_number)
 
 function tour_issued_booking(order_number)
 {
+    var temp_data = {}
+    if(typeof(tr_get_booking) !== 'undefined')
+        temp_data = JSON.stringify(tr_get_booking)
     payment_method_choice = '';
     var radios = document.getElementsByName('payment_opt');
     for (var i = 0; i < radios.length; i++)
@@ -1225,24 +1228,29 @@ function tour_issued_booking(order_number)
            'seq_id': payment_acq2[payment_method][selected].seq_id,
            'member': payment_acq2[payment_method][selected].method,
            'signature': signature,
-           'voucher_code': voucher_code
+           'voucher_code': voucher_code,
+           'booking': temp_data
        },
        success: function(msg) {
            console.log(msg);
            if(google_analytics != '')
                gtag('event', 'tour_issued', {});
            if(msg.result.error_code == 0){
-               var booking_num = msg.result.response.order_number;
-               if (booking_num)
-               {
-                   price_arr_repricing = {};
-                   pax_type_repricing = [];
-                   tour_get_booking(order_number);
-                   document.getElementById('payment_acq').innerHTML = '';
-                   document.getElementById('payment_acq').hidden = true;
-                   $("#issuedModal").modal('hide');
-                   hide_modal_waiting_transaction();
-                   document.getElementById("overlay-div-box").style.display = "none";
+               if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
+                    window.location.href = '/tour/booking/' + btoa(order_number);
+               }else{
+                   var booking_num = msg.result.response.order_number;
+                   if (booking_num)
+                   {
+                       price_arr_repricing = {};
+                       pax_type_repricing = [];
+                       tour_get_booking(order_number);
+                       document.getElementById('payment_acq').innerHTML = '';
+                       document.getElementById('payment_acq').hidden = true;
+                       $("#issuedModal").modal('hide');
+                       hide_modal_waiting_transaction();
+                       document.getElementById("overlay-div-box").style.display = "none";
+                   }
                }
            }else if(msg.result.error_code == 1009){
                price_arr_repricing = {};

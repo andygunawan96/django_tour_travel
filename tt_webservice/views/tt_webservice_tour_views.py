@@ -712,9 +712,14 @@ def issued_booking(request):
             'acquirer_seq_id': request.POST['seq_id'],
             'voucher': {}
         }
+        provider = []
+        try:
+            provider = [request.session['tour_get_booking_response']['result']['response']['provider']]
+        except:
+            pass
         if request.POST['voucher_code'] != '':
             data.update({
-                'voucher': data_voucher(request.POST['voucher_code'], 'tour', [request.session['tour_get_booking_response']['result']['response']['provider']]),
+                'voucher': data_voucher(request.POST['voucher_code'], 'tour', provider),
             })
         headers = {
             "Accept": "application/json,text/html,application/xml",

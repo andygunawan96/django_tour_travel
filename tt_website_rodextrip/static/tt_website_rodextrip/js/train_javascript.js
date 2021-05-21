@@ -867,6 +867,30 @@ function train_detail(){
         text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
         document.getElementById('repricing_div').innerHTML = text_repricing;
         //repricing
+        total_price_provider = [];
+        for(i in train_data){
+            provider_price = {
+                'fare': 0,
+                'tax': 0,
+                'currency': '',
+                'rac': 0,
+                'roc': 0
+            };
+
+            for(j in train_data[i].fares){
+                for(k in train_data[i].fares[j].service_charge_summary){
+                    provider_price['fare'] = train_data[i].fares[j].service_charge_summary[k].total_fare;
+                    provider_price['tax'] = train_data[i].fares[j].service_charge_summary[k].total_tax;
+                    provider_price['rac'] = train_data[i].fares[j].service_charge_summary[k].total_commission;
+                    if(provider_price['currency'] != '')
+                        provider_price['currency'] = train_data[i].fares[j].service_charge_summary[k].service_charges[0].currency;
+                }
+            }
+            total_price_provider.push({
+                'provider': train_data[i].provider,
+                'price': provider_price
+            });
+        }
     }
     total_price = 0;
     total_commission = 0;

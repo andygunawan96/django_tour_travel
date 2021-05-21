@@ -410,7 +410,7 @@ function train_pre_create_booking(val){
             document.getElementById("provider").value = 'train';
             document.getElementById("type").value = 'train';
             document.getElementById("voucher_code").value = voucher_code;
-            document.getElementById("discount").value = JSON.stringify({});
+            document.getElementById("discount").value = JSON.stringify(discount_voucher);
             document.getElementById("session_time_input").value = time_limit;
             train_create_booking(val);
         }else{
@@ -467,6 +467,9 @@ function train_create_booking(val){
         data['member'] = payment_acq2[payment_method][selected].method;
     }catch(err){
     }
+    try{
+        data['voucher_code'] = voucher_code;
+    }catch(err){}
     $.ajax({
        type: "POST",
        url: "/webservice/train",
@@ -489,9 +492,12 @@ function train_create_booking(val){
                     $('.hold-seat-booking-train').removeClass("running");
                     $('.hold-seat-booking-train').attr("disabled", false);
                     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true){
-                        send_url_booking('train', btoa(msg.result.response.order_number), msg.result.response.order_number);
-                        document.getElementById('order_number').value = msg.result.response.order_number;
-                        document.getElementById('train_issued').submit();
+                        document.getElementById("order_number").value = msg.result.response.order_number;
+                        train_get_detail = msg;
+                        set_seat_map();
+//                        send_url_booking('train', btoa(msg.result.response.order_number), msg.result.response.order_number);
+//                        document.getElementById('order_number').value = msg.result.response.order_number;
+//                        document.getElementById('train_issued').submit();
                     }else{
                         document.getElementById('train_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
                         document.getElementById('train_booking').action = '/train/booking/' + btoa(msg.result.response.order_number);
@@ -1429,6 +1435,9 @@ function set_seat_map(){
 }
 
 function train_issued(data){
+    var temp_data = {}
+    if(typeof(train_get_detail) !== 'undefined')
+        temp_data = JSON.stringify(train_get_detail)
     Swal.fire({
       title: 'Are you sure want to Issued this booking?',
       type: 'warning',
@@ -1451,29 +1460,34 @@ function train_issued(data){
                'seq_id': payment_acq2[payment_method][selected].seq_id,
                'member': payment_acq2[payment_method][selected].method,
                'signature': signature,
-               'voucher_code': voucher_code
+               'voucher_code': voucher_code,
+               'booking': temp_data
            },
            success: function(msg) {
                console.log(msg);
                if(google_analytics != '')
                    gtag('event', 'train_issued', {});
                if(msg.result.error_code == 0){
-                   //update ticket
-                   price_arr_repricing = {};
-                   pax_type_repricing = [];
-                   document.getElementById('show_loading_booking_train').hidden = true;
-                   document.getElementById('train_booking').innerHTML = '';
-                   document.getElementById('train_detail').innerHTML = '';
-                   document.getElementById('payment_acq').innerHTML = '';
-                   document.getElementById('show_loading_booking_train').style.display = 'block';
-                   document.getElementById('show_loading_booking_train').hidden = false;
-                   document.getElementById('payment_acq').hidden = true;
-                   document.getElementById("overlay-div-box").style.display = "none";
-                   try{
-                        document.getElementById('voucher_discount').style.display = 'none';
-                   }catch(err){}
-                   hide_modal_waiting_transaction();
-                   train_get_booking(data);
+                   if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
+                        window.location.href = '/train/booking/' + btoa(data);
+                   }else{
+                       //update ticket
+                       price_arr_repricing = {};
+                       pax_type_repricing = [];
+                       document.getElementById('show_loading_booking_train').hidden = true;
+                       document.getElementById('train_booking').innerHTML = '';
+                       document.getElementById('train_detail').innerHTML = '';
+                       document.getElementById('payment_acq').innerHTML = '';
+                       document.getElementById('show_loading_booking_train').style.display = 'block';
+                       document.getElementById('show_loading_booking_train').hidden = false;
+                       document.getElementById('payment_acq').hidden = true;
+                       document.getElementById("overlay-div-box").style.display = "none";
+                       try{
+                            document.getElementById('voucher_discount').style.display = 'none';
+                       }catch(err){}
+                       hide_modal_waiting_transaction();
+                       train_get_booking(data);
+                   }
                }else if(msg.result.error_code == 1009){
                    price_arr_repricing = {};
                    pax_type_repricing = [];
@@ -1692,7 +1706,21 @@ function train_manual_seat(){
                 }
             }
             if(check == 0){
-                document.getElementById('train_booking').submit();
+                //check var
+                if(is_b2c_field.value == true){
+                    send_url_booking('train', btoa(is_b2c_field.order_number), is_b2c_field.order_number);
+                    document.getElementById("passengers").value = JSON.stringify(is_b2c_field.passengers);
+                    document.getElementById("signature").value = is_b2c_field.signature;
+                    document.getElementById("provider").value = is_b2c_field.provider;
+                    document.getElementById("type").value = is_b2c_field.type;
+                    document.getElementById("voucher_code").value = is_b2c_field.voucher_code;
+                    document.getElementById("discount").value = JSON.stringify(is_b2c_field.discount);
+                    document.getElementById("session_time_input").value = is_b2c_field.session_time_input;
+                    document.getElementById("order_number2").value = is_b2c_field.order_number;
+                    document.getElementById('train_issued').submit();
+                }else{
+                    document.getElementById('train_booking').submit();
+                }
             }else{
                 $('.submit-seat-train').removeClass("running");
                 $('.change-seat-train-buttons').prop('disabled', false);

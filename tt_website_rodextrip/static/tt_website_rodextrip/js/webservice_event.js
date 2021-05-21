@@ -1714,6 +1714,9 @@ function event_create_booking(val,a){
 }
 
 function event_issued(data){
+    var temp_data = {}
+    if(typeof(event_get_detail) !== 'undefined')
+        temp_data = JSON.stringify(event_get_detail)
     Swal.fire({
       title: 'Are you sure want to Issued this booking?',
       type: 'warning',
@@ -1738,26 +1741,30 @@ function event_issued(data){
                'member': payment_acq2[payment_method][selected].method,
                'voucher_code': voucher_code,
                'signature': signature,
-               'booking': JSON.stringify(event_get_detail)
+               'booking': temp_data
            },
            success: function(msg) {
                console.log(msg);
                if(google_analytics != '')
                    gtag('event', 'event_issued', {});
                if(msg.result.error_code == 0){
-                   //update ticket
-                   price_arr_repricing = {};
-                   pax_type_repricing = [];
-                   hide_modal_waiting_transaction();
-                   document.getElementById('event_booking').innerHTML = '';
-                   document.getElementById('event_detail').innerHTML = '';
-                   document.getElementById('payment_acq').innerHTML = '';
-                   document.getElementById('show_loading_booking_airline').style.display = 'block';
-                   document.getElementById('show_loading_booking_airline').hidden = false;
-                   document.getElementById('payment_acq').hidden = true;
-                   document.getElementById("overlay-div-box").style.display = "none";
-                   $(".issued_booking_btn").remove();
-                   event_get_booking(data);
+                   if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
+                        window.location.href = '/event/booking/' + btoa(data);
+                   }else{
+                       //update ticket
+                       price_arr_repricing = {};
+                       pax_type_repricing = [];
+                       hide_modal_waiting_transaction();
+                       document.getElementById('event_booking').innerHTML = '';
+                       document.getElementById('event_detail').innerHTML = '';
+                       document.getElementById('payment_acq').innerHTML = '';
+                       document.getElementById('show_loading_booking_airline').style.display = 'block';
+                       document.getElementById('show_loading_booking_airline').hidden = false;
+                       document.getElementById('payment_acq').hidden = true;
+                       document.getElementById("overlay-div-box").style.display = "none";
+                       $(".issued_booking_btn").remove();
+                       event_get_booking(data);
+                   }
                }else if(msg.result.error_code == 1009){
                    price_arr_repricing = {};
                    pax_type_repricing = [];
