@@ -184,6 +184,17 @@ img {vertical-align: middle;}
                         </div>
                     </div>
                 </form>
+                <form method="POST" id="train_issued" action="{% url 'tt_website_rodextrip:payment'%}">
+                    {% csrf_token %}
+                    <input type="hidden" id="passengers" name="passengers"/>
+                    <input type="hidden" id="signature" name="signature"/>
+                    <input type="hidden" id="order_number2" name="order_number"/>  <!-- nama kembar sama yg get booking biar py tidak ubah ganti id saja-->
+                    <input type="hidden" id="provider" name="provider"/>
+                    <input type="hidden" id="discount" name="discount"/>
+                    <input type="hidden" id="voucher_code" name="voucher_code"/>
+                    <input type="hidden" id="type" name="type"/>
+                    <input type="hidden" id="session_time_input" name="session_time_input"/>
+                </form>
             </div>
         </div>
     </div>
@@ -191,6 +202,15 @@ img {vertical-align: middle;}
 
 {% include 'tt_website_rodextrip/footer.html' %}
 <script>
+    is_b2c_field = `{{is_b2c_field}}`;
+    is_b2c_field = is_b2c_field.replace(/&quot;/g, '"');
+    is_b2c_field = is_b2c_field.replace(/&#39;/g, '"');
+    is_b2c_field = is_b2c_field.replace(/True/g, 'true');
+    is_b2c_field = is_b2c_field.replace(/False/g, 'false');
+    is_b2c_field = is_b2c_field.replace(/&amp;/g, '&');
+    is_b2c_field = JSON.parse(is_b2c_field);
+    console.log(is_b2c_field);
+
     document.getElementById('train_booking').action = '/train/booking/' + btoa(order_number);
     select_passenger(1);
     select_journey(1);

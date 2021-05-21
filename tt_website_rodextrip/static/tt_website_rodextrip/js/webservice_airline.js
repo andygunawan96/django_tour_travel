@@ -2985,27 +2985,27 @@ function get_seat_map_response(){
             percent = 0;
             segment_list = []
             for(i in seat_map.seat_availability_provider){
-                percent += seat_map.seat_availability_provider[i].segments.length;
-            }
-            percent = 75 / percent;
-            for(i in seat_map.seat_availability_provider){
-                for(j in seat_map.seat_availability_provider[i].segments){
-                    if(i == 0 && j == 0){
-                        set_seat_show_segments = seat_map.seat_availability_provider[i].segments[j].segment_code2+'_'+seat_map.seat_availability_provider[i].segments[j].departure_date;
-                        segment_list.push(seat_map.seat_availability_provider[i].segments[j].segment_code2);
+                if(seat_map.seat_availability_provider[i].hasOwnProperty('segments')){
+                    percent += seat_map.seat_availability_provider[i].segments.length;
+                    percent = 75 / percent;
+                    for(j in seat_map.seat_availability_provider[i].segments){
+                        if(i == 0 && j == 0){
+                            set_seat_show_segments = seat_map.seat_availability_provider[i].segments[j].segment_code2+'_'+seat_map.seat_availability_provider[i].segments[j].departure_date;
+                            segment_list.push(seat_map.seat_availability_provider[i].segments[j].segment_code2);
+                            text += `
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
+                                <button class="button-seat-pass" style="width:100%; margin-right:10px; margin-bottom:10px; padding:10px;" type="button" id="`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`_`+seat_map.seat_availability_provider[i].segments[j].departure_date+`" onclick="show_seat_map('`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`_`+seat_map.seat_availability_provider[i].segments[j].departure_date+`', false)">
+                                    <span>`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`</span>
+                                </button>
+                            </div>`;
+                        }else
                         text += `
                         <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
-                            <button class="button-seat-pass" style="width:100%; margin-right:10px; margin-bottom:10px; padding:10px;" type="button" id="`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`_`+seat_map.seat_availability_provider[i].segments[j].departure_date+`" onclick="show_seat_map('`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`_`+seat_map.seat_availability_provider[i].segments[j].departure_date+`', false)">
+                            <button class="button-seat-pass" style="width:100%; margin-right:10px; margin-bottom:10px; padding:10px; color:black; background-color:white;" id="`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`_`+seat_map.seat_availability_provider[i].segments[j].departure_date+`" type="button" onclick="show_seat_map('`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`_`+seat_map.seat_availability_provider[i].segments[j].departure_date+`', false)">
                                 <span>`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`</span>
                             </button>
                         </div>`;
-                    }else
-                    text += `
-                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
-                        <button class="button-seat-pass" style="width:100%; margin-right:10px; margin-bottom:10px; padding:10px; color:black; background-color:white;" id="`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`_`+seat_map.seat_availability_provider[i].segments[j].departure_date+`" type="button" onclick="show_seat_map('`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`_`+seat_map.seat_availability_provider[i].segments[j].departure_date+`', false)">
-                            <span>`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`</span>
-                        </button>
-                    </div>`;
+                    }
                 }
             }
             text += '</div></div>';
@@ -5879,6 +5879,9 @@ function cancel_reservation_airline(){
 }
 
 function airline_issued(data){
+    var temp_data = {}
+    if(typeof(airline_get_detail) !== 'undefined')
+        temp_data = JSON.stringify(airline_get_detail)
     Swal.fire({
       title: 'Are you sure want to Issued this booking?',
       type: 'warning',
@@ -5903,31 +5906,35 @@ function airline_issued(data){
                'member': payment_acq2[payment_method][selected].method,
                'voucher_code': voucher_code,
                'signature': signature,
-               'booking': JSON.stringify(airline_get_detail)
+               'booking': temp_data
            },
            success: function(msg) {
                console.log(msg);
                if(google_analytics != '')
                    gtag('event', 'airline_issued', {});
                if(msg.result.error_code == 0){
-                   //update ticket
-                   price_arr_repricing = {};
-                   pax_type_repricing = [];
-                   hide_modal_waiting_transaction();
-                   document.getElementById('show_loading_booking_airline').hidden = false;
-                   document.getElementById('airline_booking').innerHTML = '';
-                   document.getElementById('airline_detail').innerHTML = '';
-                   document.getElementById('payment_acq').innerHTML = '';
-                   document.getElementById('voucher_div').style.display = 'none';
-                   document.getElementById('ssr_request_after_sales').hidden = true;
-                   document.getElementById('show_loading_booking_airline').style.display = 'block';
-                   document.getElementById('show_loading_booking_airline').hidden = false;
-                   document.getElementById('reissued').hidden = true;
-                   document.getElementById('cancel').hidden = true;
-                   document.getElementById('payment_acq').hidden = true;
-                   document.getElementById("overlay-div-box").style.display = "none";
-                   $(".issued_booking_btn").hide(); //kalau error masih keluar button awal remove ivan
-                   airline_get_booking(data);
+                   if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
+                        window.location.href = '/airline/booking/' + btoa(data);
+                   }else{
+                       //update ticket
+                       price_arr_repricing = {};
+                       pax_type_repricing = [];
+                       hide_modal_waiting_transaction();
+                       document.getElementById('show_loading_booking_airline').hidden = false;
+                       document.getElementById('airline_booking').innerHTML = '';
+                       document.getElementById('airline_detail').innerHTML = '';
+                       document.getElementById('payment_acq').innerHTML = '';
+                       document.getElementById('voucher_div').style.display = 'none';
+                       document.getElementById('ssr_request_after_sales').hidden = true;
+                       document.getElementById('show_loading_booking_airline').style.display = 'block';
+                       document.getElementById('show_loading_booking_airline').hidden = false;
+                       document.getElementById('reissued').hidden = true;
+                       document.getElementById('cancel').hidden = true;
+                       document.getElementById('payment_acq').hidden = true;
+                       document.getElementById("overlay-div-box").style.display = "none";
+                       $(".issued_booking_btn").hide(); //kalau error masih keluar button awal remove ivan
+                       airline_get_booking(data);
+                   }
                }else if(msg.result.error_code == 1009){
                    price_arr_repricing = {};
                    pax_type_repricing = [];
@@ -6363,17 +6370,6 @@ function gotoForm(){
     document.getElementById('airline_searchForm').submit();
 }
 
-function sell_after_sales(){
-    show_loading();
-    please_wait_transaction();
-    if(page == 'ssr'){
-        sell_ssrs_after_sales();
-//        sell_ssrs_after_sales_v2();
-    }else if(page == 'seat'){
-        assign_seats_after_sales();
-//        assign_seats_after_sales_v2();
-    }
-}
 
 function sell_ssrs_after_sales(){
     getToken();
@@ -6390,9 +6386,9 @@ function sell_ssrs_after_sales(){
            console.log(msg);
            if(msg.result.error_code == 0){
                 if(state == 'issued' || state == 'reissue' || state == 'rescheduled'){
-                    //hide_modal_waiting_transaction();
-                    //document.getElementById('show_loading_booking_airline').hidden = false;
                     get_payment_acq('Issued',booker_id, order_number, 'billing',signature,'airline_after_sales');
+                    $('#show_loading_booking_airline').hide();
+                    hide_modal_waiting_transaction();
                 }else{
                     update_booking_after_sales();
 //                    update_booking_after_sales_v2();
@@ -6432,8 +6428,8 @@ function after_sales_next_btn(){
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        //show_loading();
-        //please_wait_transaction();
+        show_loading();
+        please_wait_transaction();
         if(page == 'ssr'){
             sell_ssrs_after_sales();
 //            sell_ssrs_after_sales_v2();
@@ -6462,9 +6458,9 @@ function assign_seats_after_sales(){
            console.log(msg);
            if(msg.result.error_code == 0){
                 if(state == 'issued' || state == 'reissue' || state == 'rescheduled'){
-                    //hide_modal_waiting_transaction();
-                    //document.getElementById('show_loading_booking_airline').hidden = false;
-                    get_payment_acq('Issued',booker_id, '', 'billing',signature,'airline_after_sales');
+                    get_payment_acq('Issued',booker_id, order_number, 'billing',signature,'airline_after_sales');
+                    $('#show_loading_booking_airline').hide();
+                    hide_modal_waiting_transaction();
                 }else{
                     update_booking_after_sales();
 //                    update_booking_after_sales_v2();
@@ -6843,10 +6839,25 @@ function datareissue2(airline){
             recommendations_airline.push(airline[i].recommendations[j]);
        }
        for(j in airline[i].schedules){
+            airline_pick_sequence = 0;
+            found = false;
+            for(k in provider_list){
+                for(l in provider_list[k].journeys){
+                    airline_pick_sequence++;
+                    if(moment(airline[i].schedules[j].departure_date).format('DD MMM YYYY') == provider_list[k].journeys[l].departure_date &&
+                       airline[i].schedules[j].destination == provider_list[k].journeys[l].destination &&
+                       airline[i].schedules[j].origin == provider_list[k].journeys[l].origin){
+                       found = true;
+                       break;
+                    }
+                }
+                if(found == true)
+                    break;
+            }
             for(k in airline[i].schedules[j].journeys){
                 try{
                    airline[i].schedules[j].journeys[k].sequence = counter;
-                   airline[i].schedules[j].journeys[k].airline_pick_sequence = airline[i].schedules[j].sequence;
+                   airline[i].schedules[j].journeys[k].airline_pick_sequence = airline_pick_sequence;
                    available_count = 100;
                    price = 0;
                    currency = '';
@@ -10388,9 +10399,9 @@ function assign_seats_after_sales_v2(){
            console.log(msg);
            if(msg.result.error_code == 0){
                 if(state == 'issued' || state == 'reissue' || state == 'rescheduled'){
-                    //hide_modal_waiting_transaction();
-                    //document.getElementById('show_loading_booking_airline').hidden = false;
                     get_payment_acq('Issued',booker_id, order_number, 'billing',signature,'airline_after_sales');
+                    $('#show_loading_booking_airline').hide();
+                    hide_modal_waiting_transaction();
                 }else
                     update_booking_after_sales_v2();
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
@@ -10428,9 +10439,9 @@ function sell_ssrs_after_sales_v2(){
            console.log(msg);
            if(msg.result.error_code == 0){
                 if(state == 'issued' || state == 'reissue' || state == 'rescheduled'){
-                    //hide_modal_waiting_transaction();
-                    //document.getElementById('show_loading_booking_airline').hidden = false;
                     get_payment_acq('Issued',booker_id, order_number, 'billing',signature,'airline_after_sales');
+                    $('#show_loading_booking_airline').hide();
+                    hide_modal_waiting_transaction();
                 }else{
                     update_booking_after_sales_v2();
                 }

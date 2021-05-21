@@ -566,7 +566,7 @@ function activity_table_detail2(pagetype){
                             if(price_discount['currency'] == '')
                                 price_discount['currency'] = skus[sku][passenger[low_sku_id]].service_charges[i].currency;
                        }
-                       total_price_provider.push({"price":price_discount,"provider":activity_data.provider_code});
+                       total_price_provider.push({"price":price_discount,"provider":response.provider});
                    }
                }
                else
@@ -914,7 +914,8 @@ function check_detail(){
     if(text==''){
         document.getElementById('additional_price_input').value = document.getElementById('additional_price').innerHTML;
         document.getElementById('time_limit_input').value = time_limit;
-        detail_to_passenger_page();
+        update_sell_activity();
+
     }else{
         document.getElementById('show_error_log').innerHTML = text;
         $("#myModalErrorDetail").modal('show');
@@ -2495,44 +2496,7 @@ function activity_pre_create_booking(value){
       if (result.value) {
         show_loading();
         please_wait_transaction();
-        if(value == 0){
-            document.getElementById("passengers").value = JSON.stringify({'booker':booker});
-            document.getElementById("signature").value = signature;
-            document.getElementById("provider").value = 'activity';
-            document.getElementById("type").value = 'activity';
-            document.getElementById("voucher_code").value = voucher_code;
-            document.getElementById("discount").value = JSON.stringify(discount_voucher);
-            document.getElementById("session_time_input").value = time_limit;
-            activity_commit_booking(value);
-        }else{
-            document.getElementById("passengers").value = JSON.stringify({'booker':booker});
-            document.getElementById("signature").value = signature;
-            document.getElementById("provider").value = 'activity';
-            document.getElementById("type").value = 'activity_review';
-            document.getElementById("voucher_code").value = voucher_code;
-            document.getElementById("discount").value = JSON.stringify(discount_voucher);
-            document.getElementById("session_time_input").value = time_limit;
-            document.getElementById('activity_issued').submit();
-        }
-      }
-    })
-}
-
-function activity_pre_issued_booking(order_number){
-    Swal.fire({
-      title: 'Are you sure you want to Issued this booking?',
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes'
-    }).then((result) => {
-      if (result.value) {
-        show_loading();
-        please_wait_transaction();
-        $('.next-loading-issued').addClass("running");
-        $('.next-loading-issued').prop('disabled', true);
-        activity_issued_booking(order_number);
+        update_contact_activity(value);
       }
     })
 }

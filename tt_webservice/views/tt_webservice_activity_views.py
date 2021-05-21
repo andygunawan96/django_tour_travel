@@ -67,6 +67,8 @@ def api_models(request):
             res = update_options(request)
         elif req_data['action'] == 'activity_review_booking':
             res = get_review_booking_data(request)
+        elif req_data['action'] == 'prepare_booking':
+            res = prepare_booking(request)
         elif req_data['action'] == 'commit_booking':
             res = commit_booking(request)
         elif req_data['action'] == 'issued_booking':
@@ -575,6 +577,18 @@ def update_options(request):
     res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST', timeout=300)
     return res
 
+def prepare_booking(request):
+    data = {}
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "prepare_booking",
+        "signature": request.POST['signature']
+    }
+
+    res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST', timeout=300)
+
+    return res
 
 def commit_booking(request):
     force_issued = request.POST.get('value') and request.POST['value'] or 0
@@ -656,11 +670,16 @@ def issued_booking(request):
             'voucher': {}
         }
         if request.POST['voucher_code'] != '':
-            activity_get_booking = request.session['activity_get_booking_response'] if request.session.get('activity_get_booking_response') else json.loads(request.POST['booking'])
-            data.update({
-                'voucher': data_voucher(request.POST['voucher_code'], 'activity',[activity_get_booking['result']['response']['provider']]),
-                # 'voucher': data_voucher(request.POST['voucher_code'], 'activity',['bemyguest']),
-            })
+            try:
+                activity_get_booking = request.session['activity_get_booking_response'] if request.session.get('activity_get_booking_response') else json.loads(request.POST['booking'])
+                data.update({
+                    'voucher': data_voucher(request.POST['voucher_code'], 'activity',[activity_get_booking['result']['response']['provider']]),
+                    # 'voucher': data_voucher(request.POST['voucher_code'], 'activity',['bemyguest']),
+                })
+            except:
+                data.update({
+                    'voucher': data_voucher(request.POST['voucher_code'], 'activity',['']),
+                })
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",

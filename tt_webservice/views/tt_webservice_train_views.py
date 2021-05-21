@@ -381,7 +381,8 @@ def commit_booking(request):
             "passengers": passenger,
             "schedules": request.session['train_booking'],
             "booker": booker,
-            'force_issued': bool(int(request.POST['value']))
+            'force_issued': bool(int(request.POST['value'])),
+            'voucher': {}
         }
         try:
             if bool(int(request.POST['value'])) == True:
@@ -395,7 +396,10 @@ def commit_booking(request):
                 })
         except:
             pass
-
+        if request.POST.get('voucher_code') != '':
+            data.update({
+                'voucher': data_voucher(request.POST['voucher_code'], 'train', []),
+            })
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",

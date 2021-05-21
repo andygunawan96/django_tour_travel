@@ -450,11 +450,35 @@ def seat_map(request):
         try:
             javascript_version = get_javascript_version()
             values = get_data_template(request)
+            is_b2c_field_from_review = {'value': False}
+            value = False
+            try:
+                if 'b2c_limitation' in request.session['user_account']['co_agent_frontend_security']:
+                    value = True
+            except:
+                pass
             try:
                 set_session(request, 'train_seat_map_request', json.loads(request.POST['seat_map_request_input']))
                 set_session(request, 'train_passenger_request', json.loads(request.POST['passenger_input']))
             except:
                 pass
+
+            try:
+                is_b2c_field_from_review.update({
+                    "discount": json.loads(request.POST['discount']),
+                    "voucher_code": request.POST['voucher_code'],
+                    "type": request.POST['type'],
+                    "passengers": json.loads(request.POST['passengers']),
+                    "signature": request.POST['signature'],
+                    "order_number": request.POST['order_number'],
+                    "provider": request.POST['provider'],
+                    "session_time_input": request.POST['session_time_input'],
+                    "value": value
+                })
+            except:
+                is_b2c_field_from_review.update({
+                    'value': False
+                })
 
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
@@ -462,6 +486,7 @@ def seat_map(request):
                 'order_number': request.POST['order_number'],
                 'username': request.session['user_account'],
                 'signature': request.session['train_signature'],
+                "is_b2c_field": is_b2c_field_from_review,
                 # 'co_uid': request.session['co_uid'],
                 # 'cookies': json.dumps(res['result']['cookies']),
                 'javascript_version': javascript_version,

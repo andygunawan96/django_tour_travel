@@ -1617,6 +1617,9 @@ function resync_status(){
 }
 
 function ppob_issued(data){
+    var temp_data = {}
+    if(typeof(bills_get_detail) !== 'undefined')
+        temp_data = JSON.stringify(bills_get_detail)
     Swal.fire({
       title: 'Are you sure want to Issued this booking?',
       type: 'warning',
@@ -1641,28 +1644,32 @@ function ppob_issued(data){
                'member': payment_acq2[payment_method][selected].method,
                'voucher_code': voucher_code,
                'signature': signature,
-               'booking': JSON.stringify(bills_get_detail)
+               'booking': temp_data
            },
            success: function(msg) {
                console.log(msg);
                if(google_analytics != '')
                    gtag('event', 'ppob_issued', {});
                if(msg.result.error_code == 0){
-                   //update ticket
-                   price_arr_repricing = {};
-                   pax_type_repricing = [];
-                   hide_modal_waiting_transaction();
-                   document.getElementById('show_loading_booking_bills').hidden = false;
-                   document.getElementById('bills_booking').innerHTML = '';
-                   document.getElementById('bills_detail').innerHTML = '';
-                   document.getElementById('payment_acq').innerHTML = '';
-                   document.getElementById('show_loading_booking_bills').style.display = 'block';
-                   document.getElementById('show_loading_booking_bills').hidden = false;
-                   document.getElementById('cancel').hidden = true;
-                   document.getElementById('payment_acq').hidden = true;
-                   document.getElementById("overlay-div-box").style.display = "none";
-                   $(".issued_booking_btn").remove();
-                   ppob_get_booking(data);
+                   if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
+                        window.location.href = '/ppob/booking/' + btoa(data);
+                   }else{
+                       //update ticket
+                       price_arr_repricing = {};
+                       pax_type_repricing = [];
+                       hide_modal_waiting_transaction();
+                       document.getElementById('show_loading_booking_bills').hidden = false;
+                       document.getElementById('bills_booking').innerHTML = '';
+                       document.getElementById('bills_detail').innerHTML = '';
+                       document.getElementById('payment_acq').innerHTML = '';
+                       document.getElementById('show_loading_booking_bills').style.display = 'block';
+                       document.getElementById('show_loading_booking_bills').hidden = false;
+                       document.getElementById('cancel').hidden = true;
+                       document.getElementById('payment_acq').hidden = true;
+                       document.getElementById("overlay-div-box").style.display = "none";
+                       $(".issued_booking_btn").remove();
+                       ppob_get_booking(data);
+                   }
                }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                     auto_logout();
                }else{

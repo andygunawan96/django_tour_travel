@@ -64,6 +64,8 @@ def api_models(request):
             res = provision(request)
         elif req_data['action'] == 'issued':
             res = create_booking(request)
+        elif req_data['action'] == 'issued_b2c':
+            res = issued_b2c(request)
         elif req_data['action'] == 'get_booking':
             res = get_booking(request)
         elif req_data['action'] == 'get_top_facility':
@@ -665,6 +667,42 @@ def get_booking(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
+    return res
+
+def issued_b2c(request):
+    try:
+        if request.POST['member'] == 'non_member':
+            member = False
+        else:
+            member = True
+        data = {
+            'order_number': request.POST['order_number'],
+            'member': member,
+            'seq_id': request.POST['seq_id'],
+            'voucher': {}
+        }
+        provider = []
+        if request.POST['voucher_code'] != '':
+            data.update({
+                'voucher': data_voucher(request.POST['voucher_code'], 'hotel', provider),
+            })
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "issued",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    res = util.send_request(url=url + 'booking/hotel', data=data, headers=headers, method='POST', timeout=300)
+    try:
+        if res['result']['error_code'] == 0:
+            _logger.info("SUCCESS issued HOTEL SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("ERROR issued_hotel AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def update_service_charge(request):

@@ -2151,7 +2151,7 @@ function update_sell_activity(){
        success: function(msg) {
         console.log(msg);
         if(msg.result.error_code == 0){
-            update_contact_activity();
+            detail_to_passenger_page();
         }else{
             Swal.fire({
               type: 'error',
@@ -2177,7 +2177,7 @@ function update_sell_activity(){
     });
 }
 
-function update_contact_activity(){
+function update_contact_activity(value){
     getToken();
     $.ajax({
        type: "POST",
@@ -2191,7 +2191,7 @@ function update_contact_activity(){
        success: function(msg) {
         console.log(msg);
         if(msg.result.error_code == 0){
-            update_passengers_activity();
+            update_passengers_activity(value);
         }else{
             Swal.fire({
               type: 'error',
@@ -2217,7 +2217,7 @@ function update_contact_activity(){
     });
 }
 
-function update_passengers_activity(){
+function update_passengers_activity(value){
     getToken();
     $.ajax({
        type: "POST",
@@ -2231,7 +2231,7 @@ function update_passengers_activity(){
        success: function(msg) {
         console.log(msg);
         if(msg.result.error_code == 0){
-            update_options_activity();
+            update_options_activity(value);
         }else{
             Swal.fire({
               type: 'error',
@@ -2257,7 +2257,7 @@ function update_passengers_activity(){
     });
 }
 
-function update_options_activity(){
+function update_options_activity(value){
     getToken();
     $.ajax({
        type: "POST",
@@ -2276,8 +2276,10 @@ function update_options_activity(){
                 act_booker_id = '';
             }
             try{
-                get_payment_acq('Issued', act_booker_id, '', 'billing', signature, 'activity_review');
+                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+                    get_payment_acq('Issued', act_booker_id, '', 'billing', signature, 'activity_review');
             }catch(err){}
+            prepare_booking(value);
         }else{
             Swal.fire({
               type: 'error',
@@ -2301,6 +2303,82 @@ function update_options_activity(){
             hide_modal_waiting_transaction();
        },timeout: 60000
     });
+}
+
+function prepare_booking(value){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/activity",
+       headers:{
+            'action': 'prepare_booking',
+       },
+       data: {
+           'signature': signature
+       },
+       success: function(msg) {
+        console.log(msg);
+        if(msg.result.error_code == 0){
+            if(value == 0){
+                document.getElementById("passengers").value = JSON.stringify({'booker':booker});
+                document.getElementById("signature").value = signature;
+                document.getElementById("provider").value = 'activity';
+                document.getElementById("type").value = 'activity';
+                document.getElementById("voucher_code").value = voucher_code;
+                document.getElementById("discount").value = JSON.stringify(discount_voucher);
+                document.getElementById("session_time_input").value = time_limit;
+                activity_commit_booking(value);
+            }else{
+                document.getElementById("passengers").value = JSON.stringify({'booker':booker});
+                document.getElementById("signature").value = signature;
+                document.getElementById("provider").value = 'activity';
+                document.getElementById("type").value = 'activity_review';
+                document.getElementById("voucher_code").value = voucher_code;
+                document.getElementById("discount").value = JSON.stringify(discount_voucher);
+                document.getElementById("session_time_input").value = time_limit;
+                document.getElementById('activity_issued').submit();
+            }
+        }else{
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: #ff9900;">Error prepare booking activity </span>' + msg.result.error_msg,
+            }).then((result) => {
+              if (result.value) {
+                hide_modal_waiting_transaction();
+              }
+            })
+            $('.hold-seat-booking-train').prop('disabled', false);
+            $('.hold-seat-booking-train').removeClass("running");
+            hide_modal_waiting_transaction();
+        }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error update options activity');
+            hide_modal_waiting_transaction();
+            $('.hold-seat-booking-train').prop('disabled', false);
+            $('.hold-seat-booking-train').removeClass("running");
+            hide_modal_waiting_transaction();
+       },timeout: 60000
+    });
+}
+
+function activity_pre_issued_booking(order_number){
+    Swal.fire({
+      title: 'Are you sure you want to Issued this booking?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        show_loading();
+        please_wait_transaction();
+        $('.next-loading-issued').addClass("running");
+        $('.next-loading-issued').prop('disabled', true);
+        activity_issued_booking(order_number);
+      }
+    })
 }
 
 function force_issued_activity(val){
@@ -2406,6 +2484,9 @@ function activity_commit_booking(val){
 function activity_issued_booking(order_number)
 {
     getToken();
+    var temp_data = {}
+    if(typeof(act_get_booking) !== 'undefined')
+        temp_data = JSON.stringify(act_get_booking)
     $.ajax({
        type: "POST",
        url: "/webservice/activity",
@@ -2418,23 +2499,27 @@ function activity_issued_booking(order_number)
            'member': payment_acq2[payment_method][selected].method,
            'signature': signature,
            'voucher_code': voucher_code,
-           'booking': JSON.stringify(act_get_booking)
+           'booking': temp_data
        },
        success: function(msg) {
            console.log(msg);
            if(google_analytics != '')
                gtag('event', 'activity_issued', {});
            if(msg.result.error_code == 0){
-               var booking_num = msg.result.response.order_number;
-               if (booking_num)
-               {
-                   price_arr_repricing = {};
-                   pax_type_repricing = [];
-                   activity_get_booking(order_number);
-                   document.getElementById('payment_acq').innerHTML = '';
-                   document.getElementById('payment_acq').hidden = true;
-                   document.getElementById("overlay-div-box").style.display = "none";
-                   hide_modal_waiting_transaction();
+               if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
+                    window.location.href = '/activity/booking/' + btoa(order_number);
+               }else{
+                   var booking_num = msg.result.response.order_number;
+                   if (booking_num)
+                   {
+                       price_arr_repricing = {};
+                       pax_type_repricing = [];
+                       activity_get_booking(order_number);
+                       document.getElementById('payment_acq').innerHTML = '';
+                       document.getElementById('payment_acq').hidden = true;
+                       document.getElementById("overlay-div-box").style.display = "none";
+                       hide_modal_waiting_transaction();
+                   }
                }
            }else if(msg.result.error_code == 1009){
                price_arr_repricing = {};

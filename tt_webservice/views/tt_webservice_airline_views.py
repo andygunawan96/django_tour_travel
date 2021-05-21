@@ -1750,10 +1750,15 @@ def issued(request):
             'voucher': {}
         }
         provider = []
-        airline_get_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
-        for provider_type in airline_get_booking['result']['response']['provider_bookings']:
-            if not provider_type['provider'] in provider:
-                provider.append(provider_type['provider'])
+
+        try:
+            airline_get_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+            for provider_type in airline_get_booking['result']['response']['provider_bookings']:
+                if not provider_type['provider'] in provider:
+                    provider.append(provider_type['provider'])
+        except:
+            pass
+
         if request.POST['voucher_code'] != '':
             data.update({
                 'voucher': data_voucher(request.POST['voucher_code'], 'airline', provider),

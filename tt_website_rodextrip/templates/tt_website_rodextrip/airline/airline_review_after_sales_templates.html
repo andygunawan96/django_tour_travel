@@ -86,7 +86,6 @@
     airline_get_detail = airline_get_detail.replace(/&#39;/g, '"');
     airline_get_detail = airline_get_detail.replace(/True/g, 'true');
     airline_get_detail = airline_get_detail.replace(/False/g, 'false');
-    console.log(airline_get_detail);
     airline_get_detail = JSON.parse(airline_get_detail);
 
     try{
@@ -215,7 +214,7 @@
                 <div class="col-lg-8">
                     <div class="row" style="padding-top:5px;">
                         <div class="col-lg-4" style="padding-bottom:15px;">
-                            <button class="next-loading-booking primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Hold Booking" onclick="sell_after_sales();" style="width:100%;">
+                            <button class="next-loading-booking primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Hold Booking" onclick="after_sales_next_btn();" style="width:100%;">
                                 Proceed
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>

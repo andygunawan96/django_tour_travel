@@ -98,7 +98,7 @@
         'safety': `{{response.safety}}`,
         'longitude': {{response.longitude}},
         'latitude': {{response.latitude}},
-        'provider': '{{response.provider}}',
+        'provider': '{{response.provider_code}}',
         'description': `{{response.description}}`,
         'warnings': `{{response.warnings}}`,
         'priceExcludes': `{{response.priceExcludes}}`,
@@ -518,7 +518,6 @@
     activity_table_detail2('review');
     $(document).ready(function () {
         breadcrumb_create("activity", 5, 0);
-        update_sell_activity();
     });
 </script>
 {% endblock %}
