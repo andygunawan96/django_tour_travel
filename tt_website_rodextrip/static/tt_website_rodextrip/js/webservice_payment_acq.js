@@ -853,8 +853,8 @@ function set_price(val, type, product_type){
 
     }else{
         var free_reservation = false;
-        if(Object.keys(discount_voucher).length != 0 && discount_voucher['discount'] >= payment_acq2[payment_method][selected].total_amount)
-            free_reservation = true;
+        if (typeof discount_voucher !== 'undefined' && Object.keys(discount_voucher).length != 0 && discount_voucher['discount'] >= payment_acq2[payment_method][selected].total_amount)
+                free_reservation = true;
         //price
         text += `
                 <div class='col-sm-6' style='text-align:left;'>
