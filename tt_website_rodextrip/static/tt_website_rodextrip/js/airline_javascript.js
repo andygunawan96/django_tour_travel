@@ -4069,6 +4069,7 @@ function airline_detail(type){
                         </div>
                     </div>`;
                 }
+                flight_count++;
             }
         }
         //getprice
