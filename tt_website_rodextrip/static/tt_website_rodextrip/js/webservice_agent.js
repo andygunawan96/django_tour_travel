@@ -373,6 +373,8 @@ function signin_btc(){
                     }catch(err){}
                     if(window.location.href.split('/')[3] == ''){
                         window.location.href = '/';
+                    }else if(window.location.href.split('/').length == 4){
+                        window.location.reload();
                     }else if(window.location.href.split('/')[3] == 'airline'){
                         airline_redirect_signup(last_session);
                     }else if(window.location.href.split('/')[3] == 'train'){

@@ -70,7 +70,7 @@ def event(request):
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
-        return render(request, MODEL_NAME+'/event/01_event_search_templates.html', values)
+        return render(request, MODEL_NAME+'/event/00_event_templates.html', values)
 
     else:
         return no_session_logout(request)
