@@ -6498,6 +6498,9 @@ function update_booking_after_sales(input_pax_seat = false){
         if(passengers != undefined && input_pax_seat == true)
             data['pax_seat'] = JSON.stringify(passengers);
     }catch(err){}
+    try{
+        data['booking'] = JSON.stringify(airline_get_detail)
+    }catch(err){}
     if(error_log == ''){
         getToken();
         show_loading();
@@ -6506,8 +6509,7 @@ function update_booking_after_sales(input_pax_seat = false){
            type: "POST",
            url: "/webservice/airline",
            headers:{
-                'action': 'update_booking',
-                'booking': JSON.stringify(airline_get_detail)
+                'action': 'update_booking'
            },
            data: data,
            success: function(msg) {
@@ -10153,6 +10155,9 @@ function update_booking_after_sales_v2(input_pax_seat = false){
         if(passengers != undefined && input_pax_seat == true)
             data['pax_seat'] = JSON.stringify(passengers);
     }catch(err){}
+    try{
+        data['booking'] = JSON.stringify(airline_get_detail);
+    }catch(err){}
     if(error_log == ''){
         getToken();
         show_loading();
@@ -10162,7 +10167,7 @@ function update_booking_after_sales_v2(input_pax_seat = false){
            url: "/webservice/airline",
            headers:{
                 'action': 'update_booking_v2',
-                'booking': JSON.stringify(airline_get_detail)
+
            },
            data: data,
            success: function(msg) {
