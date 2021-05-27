@@ -1544,8 +1544,8 @@ function pick_passenger(type, sequence, product){
             }
             document.getElementById('adult_birth_date'+passenger_number).value = passenger_data[sequence].birth_date;
             if(passenger_data[sequence].identities.hasOwnProperty('passport') == true){
-                document.getElementById('adult_passport_number'+passenger_number).value = passenger_data[sequence].identities.passport.identity_number;
-                document.getElementById('adult_passport_number'+passenger_number).readOnly = true;
+                document.getElementById('adult_identity_number'+passenger_number).value = passenger_data[sequence].identities.passport.identity_number;
+                document.getElementById('adult_identity_number'+passenger_number).readOnly = true;
                 if(passenger_data[sequence].identities.passport.identity_country_of_issued_name != '' && passenger_data[sequence].identities.passport.identity_country_of_issued_name != undefined){
                     document.getElementById('select2-adult_country_of_issued'+passenger_number+'_id-container').innerHTML = passenger_data[sequence].identities.passport.identity_country_of_issued_name;
                     document.getElementById('adult_country_of_issued'+passenger_number).value = passenger_data[sequence].identities.passport.identity_country_of_issued_name;
@@ -1553,7 +1553,7 @@ function pick_passenger(type, sequence, product){
                     document.getElementById('adult_country_of_issued'+passenger_number).readOnly = true;
                 }
                 if(passenger_data[sequence].identities.passport.identity_expdate != '' && passenger_data[sequence].identities.passport.identity_expdate != undefined){
-                    document.getElementById('adult_passport_expired_date'+passenger_number).value = passenger_data[sequence].identities.passport.identity_expdate;
+                    document.getElementById('adult_identity_expired_date'+passenger_number).value = passenger_data[sequence].identities.passport.identity_expdate;
                 }
             }
                 //document.getElementById('adult_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued_id.code;

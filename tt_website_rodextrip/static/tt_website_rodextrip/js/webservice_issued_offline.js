@@ -51,6 +51,7 @@ function get_data_issued_offline(){
 function check_issued_offline(){
     error_log = '';
     request = {};
+    var check_passenger = false;
     if(counter_passenger == 0)
         error_log += 'Please fill passengers\n';
     else{
@@ -201,6 +202,7 @@ function check_issued_offline(){
                 request['passenger_phone'+i] = document.getElementById('adult_phone' + (i + 1)).value;
                 request['passenger_email'+i] = document.getElementById('adult_email' + (i + 1)).value;
                 request['passenger_id'+i] = document.getElementById('adult_id' + (i + 1)).value;
+                check_passenger = true;
             }catch(err){}
         }
     }
@@ -426,7 +428,11 @@ function check_issued_offline(){
     }else{
         document.getElementById('timelimit').style['border-color'] = '#EFEFEF';
         request["expired_date"] = document.getElementById('timelimit').value;
-    }if(error_log == ''){
+    }
+    if(check_passenger == false){
+        error_log += 'Please fill passengers\n';
+    }
+    if(error_log == ''){
         request["desc"] = document.getElementById('description').value;
         request["counter_passenger"] = counter_passenger;
         request["counter_line"] = counter_line;
@@ -792,6 +798,7 @@ function update_booker(){
 }
 
 function update_passenger(){
+    var check_passenger = false;
     for(i=0; i < counter_passenger; i++){
         try{
             //kasi if kosong
@@ -831,45 +838,58 @@ function update_passenger(){
                 request['passenger_country_of_issued'+i] = document.getElementById('adult_country_of_issued' + (i + 1)).value;
                 request['passenger_identity_expired_date'+i] = document.getElementById('adult_identity_expired_date' + (i + 1)).value;
             }catch(err){}
+            check_passenger = true;
         }catch(err){}
     }
-    request["counter_passenger"] = counter_passenger;
-    getToken();
-    $.ajax({
-       type: "POST",
-       url: "/webservice/issued_offline",
-       headers:{
-            'action': 'update_passenger',
-       },
-       data: request,
-       success: function(msg){
-            console.log(msg);
-            if(msg.result.error_code == 0){
-                get_payment_acq('Issued', document.getElementById('booker_id').value, '', 'billing', signature, 'issued_offline','', '');
-                setTimeout(function() {
-                    focus_box('payment_acq');
-                }, 500);
-                //document.getElementById('payment_acq').hidden = false;
-            }else{
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: msg.result.error_msg,
-               })
-            }
-//
+    if(check_passenger == true){
+        request["counter_passenger"] = counter_passenger;
+        getToken();
+        $.ajax({
+           type: "POST",
+           url: "/webservice/issued_offline",
+           headers:{
+                'action': 'update_passenger',
+           },
+           data: request,
+           success: function(msg){
+                console.log(msg);
+                if(msg.result.error_code == 0){
+                    get_payment_acq('Issued', document.getElementById('booker_id').value, '', 'billing', signature, 'issued_offline','', '');
+                    setTimeout(function() {
+                        focus_box('payment_acq');
+                    }, 500);
+                    //document.getElementById('payment_acq').hidden = false;
+                }else{
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: msg.result.error_msg,
+                   })
+                }
+    //
 
-       },
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error issued offline update passenger');
-            $('.payment_acq_btn').prop('disabled', false);
-            $('.hold-seat-booking-train').removeClass("running");
-       },timeout: 60000
-    });
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error issued offline update passenger');
+                $('.payment_acq_btn').prop('disabled', false);
+                $('.hold-seat-booking-train').removeClass("running");
+           },timeout: 60000
+        });
+    }else{
+        Swal.fire({
+            type: 'error',
+            title: 'Oops!',
+            html: 'Please input passenger!',
+        })
+        $('.payment_acq_btn').prop('enable', true);
+        $('.payment_acq_btn').removeClass("running");
+        $("#loading_payment_acq").hide();
+    }
 }
 
 function commit_booking(){
-    document.getElementById('submit_top_up').disabled = true;
+    show_loading();
+    please_wait_transaction();
     data = {
         'seq_id':payment_acq2[payment_method][selected].seq_id,
         'member':payment_acq2[payment_method][selected].method,
@@ -908,17 +928,20 @@ function commit_booking(){
                document.getElementById('booker_last_name').value = '';
                document.getElementById('booker_email').value = '';
                document.getElementById('booker_phone').value = '';
+               document.getElementById('table_of_passenger').innerHTML = `
+                <tbody><tr>
+                        <th style="width:40%;">Name</th>
+                        <th style="width:35%;">Birth Date</th>
+                        <th style="width:20%;"></th>
+                    </tr>
+                </tbody>
+               `;
 
 
-               for(i=counter_passenger; i >= 0; i--){
-                   delete_table_of_passenger();
-               }
-               for(i=counter_line; i >= 0; i--){
-                   delete_table_of_line();
-               }
                document.getElementsByName('myRadios')[1].checked = true;
                document.getElementById('show_line').hidden = true;
                document.getElementById('show_line').innerHTML = '';
+               counter_passenger = 0; //reset counter pax
 //               document.getElementById('payment_acq').hidden = true;
                close_div('payment_acq');
                $('#transaction_type').niceSelect('update');
@@ -933,6 +956,7 @@ function commit_booking(){
                 })
                 close_div('payment_acq');
            }
+           hide_modal_waiting_transaction();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error issued offline commit booking');
@@ -1069,7 +1093,7 @@ function get_booking_offline(data){
                             </tr>`;
                             for(i in msg.result.response.lines){
                                 if(i == 0 && msg.result.response.hold_date != 'Invalid date' && msg.result.response.state != 'issued'){
-                                    $text += 'Please make payment before '+ msg.result.response.hold_date + `\n`;
+                                    $text += 'PLEASE MAKE PAYMENT BEFORE '+ msg.result.response.hold_date + `\n`;
                                 }
                                 text+=`<tr>
                                     <td>`+msg.result.response.lines[i].pnr+`</td>`;
