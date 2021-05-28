@@ -665,7 +665,7 @@ function get_retrieve_booking_from_vendor(){
            },
            data: {
                 'signature': signature,
-                'pnr':  document.getElementById('pnr').value,
+                'pnr':  document.getElementById('pnr2').value,
                 'provider': document.getElementById('provider_booking_from_vendor').value
            },
            success: function(msg) {
@@ -6526,7 +6526,7 @@ function update_booking_after_sales(input_pax_seat = false){
                }else{
                     Swal.fire({
                       type: 'warning',
-                      title: 'Error please try again!',
+                      title: 'Error '+msg.result.error_msg+'!',
                     }).then((result) => {
                       window.location = '/airline/booking/'+btoa(order_number);
                     })
@@ -10184,7 +10184,7 @@ function update_booking_after_sales_v2(input_pax_seat = false){
                }else{
                     Swal.fire({
                       type: 'warning',
-                      title: 'Error please try again!',
+                      title: 'Error '+msg.result.error_msg+'!',
                     }).then((result) => {
                       window.location = '/airline/booking/'+btoa(order_number);
                     })
