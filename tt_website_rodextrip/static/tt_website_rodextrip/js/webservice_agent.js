@@ -3047,7 +3047,7 @@ function get_payment_espay(order_number_full){
                         window.location.href = '/' + type_render + '/booking/' + order_number_id
                     else
                         window.location.reload();
-                }else if(payment_acq2[payment_method][selected].save_url != 'all'){
+                }else if(payment_acq2[payment_method][selected].save_url == true){
                     window.location.href = msg.result.response.url;
                 }else
                     window.location.href = '/payment/espay/' + order_number_full;
