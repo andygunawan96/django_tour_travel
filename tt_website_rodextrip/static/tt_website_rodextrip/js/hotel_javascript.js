@@ -341,11 +341,15 @@ function filtering(type, update){
             $minPrice = parseFloat(minPr);
             $maxPrice = parseFloat(maxPr);
             data.hotel_ids.forEach((obj)=> {
-                for (i in obj.prices) {
-                    if ($minPrice <= obj.prices[i].price && obj.prices[i].price <= $maxPrice){
-                        temp_data.push(obj);
-                        break;
+                if (obj.prices.length > 0){
+                    for (i in obj.prices) {
+                        if ($minPrice <= obj.prices[i].price && obj.prices[i].price <= $maxPrice){
+                            temp_data.push(obj);
+                            break;
+                        }
                     }
+                } else {
+                    temp_data.push(obj);
                 }
             });
             data.hotel_ids = temp_data;
@@ -954,8 +958,8 @@ function sort(response, check_filter){
                                     text += `
                                     </div>
                                     <div class="col-lg-12 search_hotel_button" style="text-align:right; position:absolute; bottom:0px; right:0px;">
-                                        <span style="font-size:16px; font-weight: 700;">`+arr[j][1]['currency']+` ` + getrupiah(arr[j][1]['price']) + `</span>
-                                        <span style="font-size:16px; font-weight: 700; color:`+color+`;">` + arr[j][0] +`</span>`;
+                                        <span style="font-size:16px; font-weight: 700;">`+arr[0][1]['currency']+` ` + getrupiah(arr[0][1]['price']) + `</span>
+                                        <span style="font-size:16px; font-weight: 700; color:`+color+`;">` + arr[0][0] +`</span>`;
                                         if(arr.length > 1){
                                             text+=`<br/><span style="color:`+color+`; font-size:13px; font-weight:700; text-align:left; cursor:pointer;" id="view_all`+i+`"> More Price<i class="fas fa-caret-down"></i></span>`;
                                         }
@@ -1874,7 +1878,8 @@ function hotel_detail(old_cancellation_policy){
         old_cancellation_text += '<li style="list-style: unset;">' + old_cancellation_policy[i].cancellation_string + '</li>';
     }
     if (old_cancellation_text == ''){
-        old_cancellation_text += '<li style="list-style: unset;">No Cancellation Policy Provided</li>';
+        old_cancellation_text += '<li style="list-style: unset;">Not Refundable</li>';
+        //old_cancellation_text += '<li style="list-style: unset;">No Cancellation Policy Provided</li>';
         //$text2 += 'No Cancellation Policy Provided \n';
     }
 
