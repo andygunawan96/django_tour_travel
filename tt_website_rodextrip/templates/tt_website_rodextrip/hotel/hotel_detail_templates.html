@@ -1439,13 +1439,21 @@
 </div>
 {% include 'tt_website_rodextrip/footer.html' %}
 
-{% if response.lat != '' and response.long != '' %}
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB0B4gWu6auyPm91HyHd55huvqFX9-0kr4&libraries=&v=weekly"></script>
+{% if response.lat != '' and response.long != '' and google_api_key != '' %}
+<script async defer src="https://maps.googleapis.com/maps/api/js?key={{google_api_key}}&libraries=&v=weekly"></script>
+{% endif %}
 <script>
     var map;
-    var myLatlng = { lat: {{response.location.latitude}}, lng: {{response.location.longitude}} };
     function initMap() {
-        var myLatlng = { lat: {{response.location.latitude}}, lng: {{response.location.longitude}} };
+        {% if response.lat != '' and response.long != '' and google_api_key != '' %}
+        draw_map();
+        {% else %}
+        open_map();
+        {% endif %}
+    }
+    function draw_map(){
+        {% if response.lat != '' and response.long != '' and google_api_key != '' %}
+        var myLatlng = { lat: {{response.lat}}, lng: {{response.long}} };
         map = new google.maps.Map(document.getElementById("map"), {
             center: myLatlng,
             zoom: 18
@@ -1457,9 +1465,23 @@
         });
         document.getElementById('map').hidden = false;
         $("#show_google_map").remove();
+        {% endif %}
+    }
+    function open_map(){
+        //redirect open new tab
+        {% if response.lat != '' and response.long != '' %}
+        var web_url = 'http://www.google.com/maps/place/';
+        web_url += {{response.lat}} + ',' + {{response.long}};
+        window.open(web_url,'_blank');
+        {% else %}
+        Swal.fire({
+            type: 'warning',
+            title: 'Oops!',
+            html: 'Location not found!',
+        })
+        {% endif %}
     }
 </script>
-{% endif %}
 <script>
     hotel_facility_request(facilities);
     var myIndex = 0;

@@ -639,6 +639,7 @@ def admin(request):
                     text += "#" + request.POST['text_pick_login'] + '\n'
                     text += request.POST['wa_chat'] + '\n'
                     text += request.POST['wa_number'] + '\n'
+                    text += request.POST['google_api_key'] + '\n'
                     write_cache_with_folder(text, "data_cache_template")
                     temp = text.split('\n')
                     for idx, rec in enumerate(temp):
@@ -1151,6 +1152,7 @@ def get_data_template(request, type='home', provider_type = []):
     printout_color = '#FF0000'
     api_key_youtube = ''
     channel_id_youtube = ''
+    google_api_key = ''
     font = {
         "name": '',
         "font": ''
@@ -1391,6 +1393,9 @@ def get_data_template(request, type='home', provider_type = []):
                 elif idx == 23:
                     if line != '':
                         wa_number = line.split('\n')[0]
+                elif idx == 24:
+                    if line != '':
+                        google_api_key = line.split('\n')[0]
             if color == '':
                 color = '#f15a22'
             if len(background.split('\n')) > 1:
@@ -1441,8 +1446,8 @@ def get_data_template(request, type='home', provider_type = []):
         'provider_types_sequence': provider_types_sequence,
         'font': font,
         'api_key_youtube': api_key_youtube,
-        'channel_id_youtube': channel_id_youtube
-
+        'channel_id_youtube': channel_id_youtube,
+        'google_api_key': google_api_key
     }
 
 
