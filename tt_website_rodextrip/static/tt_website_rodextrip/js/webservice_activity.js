@@ -2146,7 +2146,13 @@ function update_sell_activity(){
             'action': 'sell_activity',
        },
        data: {
-           'signature': signature
+           'signature': signature,
+           "promotion_codes_booking": [],
+           "product_type_uuid": activity_type[activity_type_pick].uuid,
+           "product_uuid": activity_data.uuid,
+           "visit_date": moment(document.getElementById('activity_date').value).format('YYYY-MM-DD'),
+           "timeslot": activity_timeslot.split(' ~ ')[0],
+           "event_seq": event_pick
        },
        success: function(msg) {
         console.log(msg);

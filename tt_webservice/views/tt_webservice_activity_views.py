@@ -309,16 +309,23 @@ def get_pricing(request):
 
 
 def sell_activity(request):
-    data = request.session['activity_review_booking']['search_request']
-    data.update({
-        "promotion_codes_booking": [],
-    })
-    headers = {
-        "Accept": "application/json,text/html,application/xml",
-        "Content-Type": "application/json",
-        "action": "sell_activity",
-        "signature": request.POST['signature']
-    }
+    try:
+        data = {
+            "promotion_codes_booking": request.POST.get('promotion_codes_booking') or [],
+            "product_type_uuid": request.POST['product_type_uuid'],
+            "product_uuid": request.POST['product_uuid'],
+            "visit_date": request.POST['visit_date'],
+            "timeslot": request.POST['timeslot'],
+            "event_seq": request.POST['event_seq']
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "sell_activity",
+            "signature": request.POST['signature']
+        }
+    except Exception as e:
+        logging.error(msg=str(e) + '\n' + traceback.format_exc())
 
     res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST', timeout=300)
     return res
