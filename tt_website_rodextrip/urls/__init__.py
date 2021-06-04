@@ -10,4 +10,5 @@ from .tt_website_rodextrip_activity_urls import *
 from .tt_website_rodextrip_tour_urls import *
 from .tt_website_rodextrip_hotel_urls import *
 from .tt_website_rodextrip_event_urls import *
+from .tt_website_rodextrip_medical_urls import *
 from .tt_website_rodextrip_urls import *

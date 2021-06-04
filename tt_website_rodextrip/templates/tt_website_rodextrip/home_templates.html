@@ -15,6 +15,7 @@
 <script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_ppob.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_event.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_medical.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/ppob_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/train_javascript.js?version={{javascript_version}}"></script>
@@ -25,6 +26,7 @@
 <script src="{{ static_path }}js/hotel_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/tour_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/event_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/medical_javascript.js?version={{javascript_version}}"></script>
 <!--<script src="{{ static_path }}js/webservice_bank.js?version={{javascript_version}}"></script>-->
 <script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/daterangepicker.js?version={{javascript_version}}"></script>
@@ -345,6 +347,21 @@
                             <a class="nav-link {%if forloop.counter == 1 %}active{%endif%}" id="passport-tab" data-toggle="tab" href="#passport" role="tab" aria-controls="passport" aria-selected="false">
                                 <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/passport.png" alt="Passport Icon"/></i>
                                 <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'PASSPORT' %} </span>
+                            </a>
+                        </li>
+                            {% elif "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security and rec.name == "medical" %}
+                            {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                        <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'medical1');" id="nav_scroll_menu_medical1">
+                            <a class="nav-link {%if forloop.counter == 1 %}active{%endif%}" id="medical1-tab" data-toggle="tab" href="#medical1" role="tab" aria-controls="medical1" aria-selected="false">
+                                <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/passport.png" alt="Medical Icon"/></i>
+                                <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'Periksain' %} </span>
+                            </a>
+                        </li>
+                            {% endif %}
+                        <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'medical2');" id="nav_scroll_menu_medical2">
+                            <a class="nav-link {%if forloop.counter == 1 and 'b2c_limitation' in username.co_agent_frontend_security %}active{%endif%}" id="medical2-tab" data-toggle="tab" href="#medical2" role="tab" aria-controls="medical2" aria-selected="false">
+                                <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/passport.png" alt="Medical Icon"/></i>
+                                <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'PHC' %} </span>
                             </a>
                         </li>
                             {% endif %}
@@ -1097,6 +1114,50 @@
                                 <br/>
                                 <center>
                                     <button class="button-search primary-btn ld-ext-right" type="button" onclick="get_captcha('recaptcha_passport','passport');" value="Submit">
+                                        <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                        {% trans 'Search' %}
+                                        <div class="ld ld-ring ld-cycle"></div>
+                                    </button>
+                                </center>
+                            </form>
+                        </div>
+                        {% endif %}
+                        {% if "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security %}
+                            {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                        <div class="tab-pane fade {%if provider_types_sequence.0.name == 'medical' %}show active {% endif %}" id="medical1" role="tabpanel" aria-labelledby="medical1-tab">
+                            <form action="periksain/passenger/antigen" class="form-wrap" id="medical_searchForm1" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="g-recaptcha-response" id='recaptcha_medical1'>
+                                <center>
+                                    <button class="button-search primary-btn ld-ext-right" type="button" onclick="get_captcha('recaptcha_medical1','medical1');" value="Submit">
+                                        <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                        {% trans 'Search' %}
+                                        <div class="ld ld-ring ld-cycle"></div>
+                                    </button>
+                                </center>
+                            </form>
+                        </div>
+                            {% endif %}
+                        <!--<div class="tab-pane fade {%if provider_types_sequence.0.name == 'medical' and 'b2c_limitation' in username.co_agent_frontend_security %}show active {% endif %}" id="medical2" role="tabpanel" aria-labelledby="medical2-tab">-->
+                            <!--<form action="/medical/passenger/phc" class="form-wrap" id="medical_searchForm2" method="post">-->
+                                <!--{% csrf_token %}-->
+                                <!--<input type="hidden" name="g-recaptcha-response" id='recaptcha_medical2'>-->
+                                <!--<div class="row">-->
+                                    <!--<div class="col-lg-12 col-md-12 col-sm-12" style="padding:0px;">-->
+                                        <!--<span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Medical Type' %}</span>-->
+                                        <!--<div class="input-container-search-ticket">-->
+                                            <!--<div class="form-select">-->
+                                                <!--<select id="medical_type" name="medical_type" class="nice-select-default">-->
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <input type="hidden" name="medical_type" id="medical_type" />
+                                    </div>
+                                </div>
+                                <br/>
+                                <center>
+                                    <button class="button-search primary-btn ld-ext-right" type="button" onclick="get_captcha('recaptcha_medical2','medical2');" value="Submit">
                                         <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                         {% trans 'Search' %}
                                         <div class="ld ld-ring ld-cycle"></div>
@@ -6572,7 +6633,10 @@
     {% if username.co_user_login != '' %}
         try{
             //hotel_signin('home');
-
+            {% if "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security %}
+            //get_config_medical('home','phc');
+            get_config_medical('home','periksain');
+            {% endif %}
             {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security %}
             get_airline_config('home');
             airline_search_value = 'false';
@@ -6693,7 +6757,7 @@
                 }
             });
             {% endif %}
-            {% if "visa" in provider and "ticketing_visa" in username.co_agent_frontend_security %}
+            {% if "visa" in provider and "ticketing_visa" in username.co_agent_frontend_security and 'b2c_limitation' not in username.co_agent_frontend_security %}
             get_visa_config('home');
             {% endif %}
             {% if "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_passport" in username.co_agent_frontend_security %}

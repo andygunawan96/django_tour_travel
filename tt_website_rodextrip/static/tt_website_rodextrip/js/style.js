@@ -417,6 +417,52 @@ $(document).ready(function(){
     var quantity_adult_flight = parseInt($('#adult_flight').val());
     var quantity_child_flight = parseInt($('#child_flight').val());
     var quantity_infant_flight = parseInt($('#infant_flight').val());
+
+    //medical
+    var quantity_passenger_medical = parseInt($('#passenger_medical').val());
+    $('#show_total_pax_medical').text(quantity_passenger_medical + " Passengers");
+
+    $('.right-plus-adult-medical').click(function(e){
+        // Stop acting like a button
+        e.preventDefault();
+        // Get the field name
+        var quantity = parseInt($('#adult_medical').val());
+
+        // If is not undefined
+        if(quantity < 9){
+            $('#adult_medical').val(quantity + 1);
+            quantity_adult_flight = quantity + 1;
+
+            $('#show_total_pax_medical').text(quantity_passenger_medical + " Passengers");
+        }
+
+        // Increment
+
+        if (quantity == 9){
+            document.getElementById("right-plus-adult-medical").disabled = true;
+        }
+
+    });
+    $('.left-minus-adult-medical').click(function(e){
+        // Stop acting like a button
+        e.preventDefault();
+        // Get the field name
+        var quantity = parseInt($('#adult_medical').val());
+
+        // If is not undefined
+        // Increment
+        if(quantity > 1){
+            $('#adult_medical').val(quantity - 1);
+            quantity_adult_flight = quantity - 1;
+            $('#show_total_pax_medical').text(quantity_passenger_medical + " Passengers");
+        }
+        if (quantity == 1){
+            document.getElementById("left-minus-adult-medical").disabled = true;
+        }
+
+    });
+
+
     $('#show_total_pax_flight').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
 
     $('.right-plus-adult-flight').click(function(e){
@@ -2358,6 +2404,9 @@ function breadcrumb_create(breadcrumbs_type, current_step, back_step){
     else if(breadcrumbs_type == "event"){
         var breadcrumbs = ["Home", "Search", "Details", "Contact", "Review", "Issued"];
         var breadcrumbs_url = ["location.href='/dashboard';", "location.href='/event/search';", "location.href='/event/detail';", "location.href='/event/passenger';", "", ""];
+    }else if(breadcrumbs_type == "medical"){
+        var breadcrumbs = ["Home", "Passenger", "Review", "Issued"];
+        var breadcrumbs_url = ["location.href='/dashboard';", "", "", ""];
     }
 
     document.getElementById("breadcrumbs_create").innerHTML = '';
