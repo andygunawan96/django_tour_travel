@@ -654,7 +654,7 @@ function get_provider_booking_from_vendor(){
 }
 
 function get_retrieve_booking_from_vendor(){
-    if(document.getElementById('pnr').value != ''){
+    if(document.getElementById('pnr2').value != ''){
         document.getElementById('retrieve_booking_from_vendor').disabled = true;
         $('.loader-rodextrip').fadeIn();
         $.ajax({
