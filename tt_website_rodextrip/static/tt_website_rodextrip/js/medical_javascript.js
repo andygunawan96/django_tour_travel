@@ -57,20 +57,19 @@ function add_other_time(){
         }
     });
     $('input[name="booker_test_date'+test_time+'"]').on('apply.daterangepicker', function(ev, picker) {
-        console.log(ev);
-        console.log(picker);
         var val = parseInt(ev.target.id.replace('booker_test_date',''));
         reset_pax();
 
         update_timeslot(val);
     });
+    update_timeslot(test_time);
     test_time++;
 }
 
 function update_timeslot(val){
     var text = '';
-    for(i in medical_get_availability_response.timeslot[document.getElementById('booker_area').value][moment(document.getElementById('booker_test_date'+val).value).format('YYYY-MM-DD')]){
-        text+= `<option value="`+medical_get_availability_response.timeslot[document.getElementById('booker_area').value][moment(document.getElementById('booker_test_date'+val).value).format('YYYY-MM-DD')][i].seq_id+`~`+medical_get_availability_response.timeslot[document.getElementById('booker_area').value][moment(document.getElementById('booker_test_date'+val).value).format('YYYY-MM-DD')][i].timeslot+`">`+medical_get_availability_response.timeslot[document.getElementById('booker_area').value][moment(document.getElementById('booker_test_date'+val).value).format('YYYY-MM-DD')][i].timeslot+`</option>`;
+    for(i in medical_get_availability_response.timeslots[document.getElementById('booker_area').value][moment(document.getElementById('booker_test_date'+val).value).format('YYYY-MM-DD')]){
+        text+= `<option value="`+medical_get_availability_response.timeslots[document.getElementById('booker_area').value][moment(document.getElementById('booker_test_date'+val).value).format('YYYY-MM-DD')][i].seq_id+`~`+medical_get_availability_response.timeslots[document.getElementById('booker_area').value][moment(document.getElementById('booker_test_date'+val).value).format('YYYY-MM-DD')][i].time+`">`+medical_get_availability_response.timeslots[document.getElementById('booker_area').value][moment(document.getElementById('booker_test_date'+val).value).format('YYYY-MM-DD')][i].time+`</option>`;
     }
     console.log(text);
     document.getElementById('booker_timeslot_id'+val).innerHTML = text;

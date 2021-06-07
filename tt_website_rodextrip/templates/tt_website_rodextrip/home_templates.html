@@ -349,7 +349,7 @@
                                 <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'PASSPORT' %} </span>
                             </a>
                         </li>
-                            {% elif "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security and rec.name == "medical" %}
+                            {% elif "periksain" in provider and "ticketing_medical" in username.co_agent_frontend_security and rec.name == "medical" %}
                             {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                         <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'medical1');" id="nav_scroll_menu_medical1">
                             <a class="nav-link {%if forloop.counter == 1 %}active{%endif%}" id="medical1-tab" data-toggle="tab" href="#medical1" role="tab" aria-controls="medical1" aria-selected="false">
@@ -358,12 +358,12 @@
                             </a>
                         </li>
                             {% endif %}
-                        <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'medical2');" id="nav_scroll_menu_medical2">
-                            <a class="nav-link {%if forloop.counter == 1 and 'b2c_limitation' in username.co_agent_frontend_security %}active{%endif%}" id="medical2-tab" data-toggle="tab" href="#medical2" role="tab" aria-controls="medical2" aria-selected="false">
-                                <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/passport.png" alt="Medical Icon"/></i>
-                                <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'PHC' %} </span>
-                            </a>
-                        </li>
+                        <!--<li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'medical2');" id="nav_scroll_menu_medical2">-->
+                            <!--<a class="nav-link {%if forloop.counter == 1 and 'b2c_limitation' in username.co_agent_frontend_security %}active{%endif%}" id="medical2-tab" data-toggle="tab" href="#medical2" role="tab" aria-controls="medical2" aria-selected="false">-->
+                                <!--<i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/passport.png" alt="Medical Icon"/></i>-->
+                                <!--<span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'PHC' %} </span>-->
+                            <!--</a>-->
+                        <!--</li>-->
                             {% endif %}
                         {% endfor %}
 
@@ -1122,7 +1122,7 @@
                             </form>
                         </div>
                         {% endif %}
-                        {% if "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security %}
+                        {% if "periksain" in provider and "ticketing_medical" in username.co_agent_frontend_security %}
                             {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                         <div class="tab-pane fade {%if provider_types_sequence.0.name == 'medical' %}show active {% endif %}" id="medical1" role="tabpanel" aria-labelledby="medical1-tab">
                             <form action="periksain/passenger/antigen" class="form-wrap" id="medical_searchForm1" method="post">
@@ -1149,22 +1149,22 @@
                                             <!--<div class="form-select">-->
                                                 <!--<select id="medical_type" name="medical_type" class="nice-select-default">-->
 
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <input type="hidden" name="medical_type" id="medical_type" />
-                                    </div>
-                                </div>
-                                <br/>
-                                <center>
-                                    <button class="button-search primary-btn ld-ext-right" type="button" onclick="get_captcha('recaptcha_medical2','medical2');" value="Submit">
-                                        <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                        {% trans 'Search' %}
-                                        <div class="ld ld-ring ld-cycle"></div>
-                                    </button>
-                                </center>
-                            </form>
-                        </div>
+                                                <!--</select>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                        <!--<input type="hidden" name="medical_type" id="medical_type" />-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<br/>-->
+                                <!--<center>-->
+                                    <!--<button class="button-search primary-btn ld-ext-right" type="button" onclick="get_captcha('recaptcha_medical2','medical2');" value="Submit">-->
+                                        <!--<i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>-->
+                                        <!--{% trans 'Search' %}-->
+                                        <!--<div class="ld ld-ring ld-cycle"></div>-->
+                                    <!--</button>-->
+                                <!--</center>-->
+                            <!--</form>-->
+                        <!--</div>-->
                         {% endif %}
                         {% if "ppob" in provider and "ticketing_ppob" in username.co_agent_frontend_security %}
                         <div class="tab-pane fade {%if provider_types_sequence.0.name == 'ppob' %}show active {% endif %}" id="bills" role="tabpanel" aria-labelledby="bills-tab">
@@ -6968,6 +6968,32 @@
           get_dynamic_page('home');
           get_banner('promotion','home');
           var now = moment().format('DD MMM YYYY');
+            {% if "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security %}
+                try{
+                    medical_date = cache.medical.date;
+                }catch(err){
+                    medical_date = now;
+                }
+                $('input[name="medical_date"]').daterangepicker({
+                    singleDatePicker: true,
+                    autoUpdateInput: true,
+                    startDate: medical_date,
+                    minDate: moment(),
+                    maxDate: moment().subtract(-13, 'days'),
+                    showDropdowns: true,
+                    opens: 'center',
+                    locale: {
+                        format: 'DD MMM YYYY',
+                    }
+                });
+
+                $('input[name="medical_date"]').on('apply.daterangepicker', function(ev, picker) {
+                    setTimeout(function(){
+                        $("#show_total_pax_medical").click();
+                    }, 200);
+                });
+
+            {% endif %}
             {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security %}
                 try{
                     document.getElementById('origin_id_flight').value = cache.airline.origin;

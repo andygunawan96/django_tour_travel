@@ -183,8 +183,8 @@ def review(request):
             try:
                 set_session(request, 'time_limit', request.POST['time_limit_input'])
                 set_session(request, 'medical_signature', request.POST['signature'])
-                set_session(request, 'vendor', request.POST['vendor'])
-                set_session(request, 'test_type', request.POST['test_type'])
+                set_session(request, 'vendor_%s' % request.POST['signature'], request.POST['vendor'])
+                set_session(request, 'test_type_%s' % request.POST['signature'], request.POST['test_type'])
             except:
                 pass
             time_limit = request.session['time_limit']
@@ -197,13 +197,13 @@ def review(request):
             try:
                 set_session(request, 'time_limit', request.session['time_limit'])
                 set_session(request, 'medical_signature', request.session['medical_signature'])
-                set_session(request, 'vendor', request.session['vendor'])
-                set_session(request, 'test_type', request.session['test_type'])
+                set_session(request, 'vendor_%s' % request.POST['signature'], request.session['vendor'])
+                set_session(request, 'test_type_%s' % request.POST['signature'], request.session['test_type'])
             except:
                 pass
             time_limit = request.session['time_limit']
-            vendor = request.session['vendor']
-            test_type = request.session['test_type']
+            vendor = request.session['vendor_%s' % request.POST['signature']]
+            test_type = request.session['test_type_%s' % request.POST['signature']]
 
         try:
             values.update({
