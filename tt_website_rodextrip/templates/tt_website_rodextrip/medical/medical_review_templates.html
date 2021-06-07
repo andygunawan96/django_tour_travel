@@ -8,6 +8,7 @@
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/medical_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_payment_acq.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_medical.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/pricing_javascript.js?version={{javascript_version}}"></script>
 <script>
@@ -19,6 +20,8 @@
     data = data.replace(/True/g, 'true');
     data = JSON.parse(data);
     console.log(data);
+    passengers = data;
+
 
     time_limit = {{time_limit}};
     session_time_limit();
@@ -28,7 +31,7 @@
 {% include 'tt_website_rodextrip/loading_screen.html' %}
 {% include 'tt_website_rodextrip/check_connection.html' %}
 {% include 'tt_website_rodextrip/modal_balance_vendor.html' %}
-<title id="title_search">{{name}} {% trans 'Train' %} - {% trans 'Review' %}</title>
+<title id="title_search">{{name}} {% trans 'Medical' %} - {% trans 'Review' %}</title>
 {%if template == 1%}
 <header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
     <div class="main-menu">
@@ -197,6 +200,9 @@
                     {% if 'issued_reservation' in username.co_agent_frontend_security %}
                     {% include 'tt_website_rodextrip/voucher_code.html'  %}
                     {% endif %}
+                    <div style="background-color:white; padding:10px; border:1px solid {{color}};margin-top:15px; position:relative;" id="payment_acq" hidden>
+
+                    </div>
                 </div>
                 <div class="modal fade" id="myModalRepricing" role="dialog">
                     <div class="modal-dialog" style="width:100% !important; height:100% !important; max-width:1200px;padding: 0;">
@@ -260,9 +266,18 @@
                     <div class="row">
                         <div class="col-lg-4" style="padding-bottom:10px;">
                             {% if 'book_reservation' in username.co_agent_frontend_security %}
-                            <button type="button" class="primary-btn hold-seat-booking-train ld-ext-right" id="btn-search-train" onclick="medical_commit_booking();" style="width:100%;">
+                            <button type="button" class="primary-btn hold-seat-booking-train ld-ext-right" id="btn-search-train" onclick="pre_medical_commit_booking(0);" style="width:100%;">
                                 {% trans 'Hold Booking' %}
                                 <div class="ld ld-ring ld-cycle"></div>
+                            </button>
+                            {% endif %}
+                        </div>
+                        <div class="col-lg-4" style="padding-bottom:10px;">
+                        </div>
+                        <div class="col-lg-4" style="padding-bottom:10px;">
+                            {% if 'issued_reservation' in username.co_agent_frontend_security and 'b2c_limitation' not in username.co_agent_frontend_security %}
+                            <button class="btn-next for-show-website primary-btn issued_booking_btn" type="button" style="width:100%;" id="force_issued_btn" onclick="pre_medical_commit_booking(1);">
+                                 {% trans 'Issued Booking' %}
                             </button>
                             {% endif %}
                         </div>

@@ -102,6 +102,15 @@ def get_payment_acquirer(request):
         url_post = 'booking/tour'
     elif request.POST['type'] == 'event':
         url_post = 'booking/event'
+    elif request.POST['type'] == 'medical' or request.POST['type'] == 'medical_review':
+        if 'PK' in data['order_number']:
+            url_post = 'booking/periksain'
+        elif data['order_number']:
+            url_post = 'booking/medical'
+        elif request.session.get('vendor') == 'periksain':
+            url_post = 'booking/periksain'
+        elif request.session.get('vendor') == 'phc':
+            url_post = 'booking/medical'
     res = util.send_request(url=url + url_post, data=data, headers=headers, method='POST')
     try:
         if res['result']['error_code'] == 0:

@@ -66,6 +66,8 @@ def api_models(request):
             res = commit_booking(request)
         elif req_data['action'] == 'get_booking':
             res = get_booking(request)
+        elif req_data['action'] == 'issued':
+            res = issued(request)
 
         else:
             res = ERR.get_error_api(1001)
@@ -285,10 +287,16 @@ def commit_booking(request):
     try:
         provider = ''
         additional_url = 'booking/'
-        if request.POST['provider'] == 'phc':
+        if request.POST.get('provider') == 'phc':
             provider = 'phc_web'
             additional_url += 'medical'
-        else:
+        elif request.POST.get('provider') == 'periksain':
+            provider = request.POST['provider']
+            additional_url += 'periksain'
+        elif request.session.get('vendor_%s' % request.POST['signature']) == 'periksain':
+            provider = request.POST['provider']
+            additional_url += 'periksain'
+        elif request.session.get('vendor_%s' % request.POST['signature']) == 'periksain':
             provider = request.POST['provider']
             additional_url += 'periksain'
         headers = {
@@ -299,8 +307,14 @@ def commit_booking(request):
         }
 
         data = request.session['medical_data_%s' % request.POST['signature']]
-        data['data']['carrier_code'] = request.POST['test_type']
-        data['provider'] = request.POST['provider']
+        if request.POST.get('test_type'):
+            data['data']['carrier_code'] = request.POST['test_type']
+        elif request.session.get('test_type_%s' % request.POST['signature']):
+            data['data']['carrier_code'] = request.session['test_type_%s' % request.POST['signature']]
+        if request.POST.get('provider'):
+            data['provider'] = request.POST['provider']
+        elif request.session.get('vendor_%s' % request.POST['signature']):
+            data['provider'] = request.session['vendor_%s' % request.POST['signature']]
 
         javascript_version = get_cache_version()
         response = get_cache_data(javascript_version)
@@ -326,7 +340,8 @@ def commit_booking(request):
                     rec['identity_country_of_issued_code'] = country['code']
                     break
         try:
-            if bool(int(request.POST['value'])) == True:
+            if bool(int(request.POST['force_issued'])) == True:
+                data['force_issued'] = bool(int(request.POST['force_issued']))
                 if request.POST['member'] == 'non_member':
                     member = False
                 else:
@@ -403,7 +418,7 @@ def get_booking(request):
                     pass
 
             time.sleep(2)
-            set_session(request, 'airline_get_booking_response', response)
+            set_session(request, 'medical_get_booking_response', response)
 
             _logger.info(json.dumps(request.session['airline_get_booking_response']))
 
@@ -413,5 +428,57 @@ def get_booking(request):
     except Exception as e:
         print(str(e))
         set_session(request, 'airline_get_booking_response', res)
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def issued(request):
+    try:
+        if request.POST['member'] == 'non_member':
+            member = False
+        else:
+            member = True
+        data = {
+            'order_number': request.POST['order_number'],
+            'member': member,
+            'seq_id': request.POST['seq_id'],
+            'voucher': {}
+        }
+        provider = []
+
+        try:
+            medical_get_booking = request.session['medical_get_booking_response'] if request.session.get('medical_get_booking_response') else json.loads(request.POST['booking'])
+            for provider_type in medical_get_booking['result']['response']['provider_bookings']:
+                if not provider_type['provider'] in provider:
+                    provider.append(provider_type['provider'])
+        except:
+            pass
+
+        if request.POST['voucher_code'] != '':
+            data.update({
+                'voucher': data_voucher(request.POST['voucher_code'], 'medical', provider),
+            })
+
+        additional_url = 'booking/'
+        if 'PK' in request.POST['order_number']:
+            additional_url += 'periksain'
+        else:
+            additional_url += 'medical'
+
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "issued",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    res = util.send_request(url=url + additional_url, data=data, headers=headers, method='POST', timeout=300)
+    try:
+        if res['result']['error_code'] == 0:
+            _logger.info("SUCCESS issued MEDICAL SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("ERROR medical_airline AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res

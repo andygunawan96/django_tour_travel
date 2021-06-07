@@ -3310,11 +3310,11 @@
         {% if google_api_key != ''%}
         var list_map_choose = {};
         web_url = '';
-        if(document.getElementById('booker_area').value == 'surabaya'){
+        if(document.getElementById('booker_area').value == 'surabaya' || document.getElementById('booker_area').value == 'Surabaya'){
             list_map_choose = list_map[0];
-        }else if(document.getElementById('booker_area').value == 'sidoarjo'){
+        }else if(document.getElementById('booker_area').value == 'sidoarjo' || document.getElementById('booker_area').value == 'Sidoarjo'){
             list_map_choose = list_map[1];
-        }else if(document.getElementById('booker_area').value == 'malang'){
+        }else if(document.getElementById('booker_area').value == 'malang' || document.getElementById('booker_area').value == 'Malang'){
             list_map_choose = list_map[2];
         }else{
             list_map_choose = list_map[0];
