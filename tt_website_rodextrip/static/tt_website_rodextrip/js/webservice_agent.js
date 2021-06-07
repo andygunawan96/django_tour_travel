@@ -1505,6 +1505,77 @@ function pick_passenger(type, sequence, product){
             document.getElementById('contact_person').value = passenger_data[sequence].title + ' ' + passenger_data[sequence].first_name + ' ' + passenger_data[sequence].last_name;
             document.getElementById('contact_id').value = passenger_data[sequence].seq_id;
             $('#myModal').modal('hide');
+        }else if(product == 'medical'){
+            passenger_number++;
+//            document.getElementById('name_pax'+passenger_number).innerHTML = passenger_data[sequence].title + ' ' + passenger_data[sequence].first_name + ' ' + passenger_data[sequence].last_name;
+//            document.getElementById('id_passenger'+passenger_number).value = passenger_data[sequence].id;
+//            document.getElementById('birth_date'+passenger_number).value = passenger_data[sequence].birth_date;
+            //masukkin data
+//            for(i in passenger_data_pick){
+//                if(passenger_data_pick[i].sequence == 'adult'+passenger_number){
+//                    passenger_data_pick.splice(i,1);
+//                    break;
+//                }
+//            }
+            for(i in document.getElementById('adult_title'+passenger_number).options){
+                document.getElementById('adult_title'+passenger_number).options[i].disabled = false;
+            }
+            document.getElementById('adult_title'+passenger_number).value = passenger_data[sequence].title;
+            for(i in document.getElementById('adult_title'+passenger_number).options){
+                if(document.getElementById('adult_title'+passenger_number).options[i].selected != true)
+                    document.getElementById('adult_title'+passenger_number).options[i].disabled = true;
+            }
+            $('#adult_title'+passenger_number).niceSelect('update');
+
+            document.getElementById('adult_first_name'+passenger_number).value = passenger_data[sequence].first_name;
+            document.getElementById('adult_first_name'+passenger_number).readOnly = true;
+            document.getElementById('adult_last_name'+passenger_number).value = passenger_data[sequence].last_name;
+            document.getElementById('adult_last_name'+passenger_number).readOnly = true;
+
+//            capitalizeInput('adult_first_name'+passenger_number);
+//            passenger_data[sequence].first_name = document.getElementById('adult_first_name'+passenger_number).value;
+//            capitalizeInput('adult_last_name'+passenger_number);
+//            passenger_data[sequence].last_name = document.getElementById('adult_last_name'+passenger_number).value;
+
+            document.getElementById('adult_nationality'+passenger_number).value = passenger_data[sequence].nationality_name;
+            if(passenger_data[sequence].nationality_name != '' && passenger_data[sequence].nationality_name != ''){
+                document.getElementById('select2-adult_nationality'+passenger_number+'_id-container').innerHTML = passenger_data[sequence].nationality_name;
+                document.getElementById('adult_nationality'+passenger_number).value = passenger_data[sequence].nationality_name;
+            }
+            document.getElementById('adult_birth_date'+passenger_number).value = passenger_data[sequence].birth_date;
+            if(passenger_data[sequence].identities.hasOwnProperty('ktp') == true){
+                document.getElementById('adult_identity_type'+passenger_number).value = 'ktp';
+                $('#adult_identity_type'+passenger_number).niceSelect('update');
+                document.getElementById('adult_identity_number'+passenger_number).value = passenger_data[sequence].identities.ktp.identity_number;
+                document.getElementById('adult_identity_number'+passenger_number).readOnly = true;
+                if(passenger_data[sequence].identities.ktp.identity_country_of_issued_name != '' && passenger_data[sequence].identities.ktp.identity_country_of_issued_name != undefined){
+                    document.getElementById('select2-adult_country_of_issued'+passenger_number+'_id-container').innerHTML = passenger_data[sequence].identities.ktp.identity_country_of_issued_name;
+                    document.getElementById('adult_country_of_issued'+passenger_number).value = passenger_data[sequence].identities.ktp.identity_country_of_issued_name;
+                    auto_complete('adult_country_of_issued'+passenger_number);
+                    document.getElementById('adult_country_of_issued'+passenger_number).readOnly = true;
+                }
+            }
+                //document.getElementById('adult_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued_id.code;
+
+            try{
+                document.getElementById('adult_email'+passenger_number).value = passenger_data[sequence].email;
+            }catch(err){}
+            try{
+                var phone = document.getElementById('phone_chosen'+sequence).value;
+                document.getElementById('adult_phone_code'+passenger_number).value = phone.split(' - ')[0];
+                document.getElementById('select2-adult_phone_code'+passenger_number+'_id-container').value = phone.split(' - ')[0];
+                document.getElementById('adult_phone'+passenger_number).value = phone.split(' - ')[1];
+            }catch(err){
+                console.log(err);
+            }
+            document.getElementById('adult_id'+passenger_number).value = passenger_data[sequence].seq_id;
+//            document.getElementById('pax_type'+sequence).innerHTML = passenger_data[sequence].pax_type;
+            document.getElementById('radio_passenger_input'+passenger_number).checked = true;
+            radio_button('passenger',passenger_number);
+            document.getElementById('search_result_'+passenger_number).innerHTML = '';
+            update_contact('passenger',passenger_number);
+            passenger_number;
+            //$('#myModalPassenger'+parseInt(passenger_number-1)).modal('hide');
         }else{
             passenger_number++;
 //            document.getElementById('name_pax'+passenger_number).innerHTML = passenger_data[sequence].title + ' ' + passenger_data[sequence].first_name + ' ' + passenger_data[sequence].last_name;
@@ -1560,6 +1631,9 @@ function pick_passenger(type, sequence, product){
 
             try{
                 document.getElementById('adult_email'+passenger_number).value = passenger_data[sequence].email;
+            }catch(err){}
+            try{
+                document.getElementById('adult_id'+passenger_number).value = passenger_data[sequence].seq_id;
             }catch(err){}
             try{
                 var phone = document.getElementById('phone_chosen'+sequence).value;
