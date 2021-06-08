@@ -101,7 +101,6 @@ function add_table_of_passenger(type){
         <td>
             <div style="text-align:center;">
                 <button type="button" class="primary-btn" style="margin-bottom:5px; line-height:34px;" data-toggle="modal" data-target="#myModalPassenger`+counter_passenger+`" onclick="set_passenger_number(`+counter_passenger+`);"><i class="fas fa-search"></i></button>
-                <button type="button" class="primary-btn" style="margin-bottom:5px; line-height:34px;" onclick="delete_table_of_passenger(`+parseInt(counter_passenger)+`);"><i class="fas fa-times"></i></button>
             </div>
             <!-- Modal -->
             <div class="modal fade" id="myModalPassenger`+counter_passenger+`" role="dialog" data-keyboard="false">
@@ -354,8 +353,7 @@ function add_table_of_passenger(type){
                                                         text+=`
                                                             <option value=""></option>
                                                             <option value="saliva">Saliva</option>
-                                                            <option value="nasal_swab">Nasal Swab</option>
-                                                            <option value="-">-</option>`;
+                                                            <option value="nasal_swab">Nasal Swab</option>`;
                                                             text+=`</select>
                                                         </div>
                                                     </div>
@@ -547,7 +545,6 @@ function add_table_passenger_phc(type){
         <td>
             <div style="text-align:center;">
                 <button type="button" class="primary-btn" style="margin-bottom:5px; line-height:34px;" data-toggle="modal" data-target="#myModalPassenger`+counter_passenger+`" onclick="set_passenger_number(`+counter_passenger+`);"><i class="fas fa-search"></i></button>
-                <button type="button" class="primary-btn" style="margin-bottom:5px; line-height:34px;" onclick="delete_table_of_passenger(`+parseInt(counter_passenger)+`);"><i class="fas fa-times"></i></button>
             </div>
             <!-- Modal -->
             <div class="modal fade" id="myModalPassenger`+counter_passenger+`" role="dialog" data-keyboard="false">
@@ -1005,65 +1002,69 @@ function check_passenger(){
                 try{
                     //kasi if kosong
                     if(document.getElementById('adult_first_name' + (i + 1)).value == '' || check_word(document.getElementById('adult_first_name' + (i + 1)).value) == false){
-                        error_log += 'Please fill or use alpha characters for first name for passenger '+ (i + 1) + ' !\n';
+                        error_log += 'Please fill or use alpha characters for first name for passenger '+ (i + 1) + ' !</br>\n';
                         document.getElementById('adult_first_name' + (i + 1)).style['border-color'] = 'red';
                     }else{
                         document.getElementById('adult_first_name' + (i + 1)).style['border-color'] = '#EFEFEF';
                     }
                     if(document.getElementById('adult_last_name' + (i + 1)).value == '' || check_word(document.getElementById('adult_last_name' + (i + 1)).value) == false){
-                        error_log += 'Please fill or use alpha characters for last name for passenger '+ (i + 1) + ' !\n';
+                        error_log += 'Please fill or use alpha characters for last name for passenger '+ (i + 1) + ' !</br>\n';
                         document.getElementById('adult_last_name' + (i + 1)).style['border-color'] = 'red';
                     }else{
                         document.getElementById('adult_last_name' + (i + 1)).style['border-color'] = '#EFEFEF';
                     }
                     if(document.getElementById('adult_title' + (i + 1)).value == ''){
-                        error_log += 'Please fill title name for passenger '+ (i + 1) + ' !\n';
+                        error_log += 'Please fill title name for passenger '+ (i + 1) + ' !</br>\n';
                         document.getElementById('adult_title' + (i + 1)).style['border-color'] = 'red';
                     }else{
                         document.getElementById('adult_title' + (i + 1)).style['border-color'] = '#EFEFEF';
                     }
                     if(document.getElementById('adult_nationality' + (i + 1)).value == ''){
-                        error_log += 'Please fill title name for passenger '+ (i + 1) + ' !\n';
+                        error_log += 'Please fill title name for passenger '+ (i + 1) + ' !</br>\n';
                         document.getElementById('adult_nationality' + (i + 1)).style['border-color'] = 'red';
                     }else{
                         document.getElementById('adult_nationality' + (i + 1)).style['border-color'] = '#EFEFEF';
                     }
                     if(check_date(document.getElementById('adult_birth_date'+ (i + 1)).value)==false){
-                        error_log+= 'Birth date wrong for passenger passenger '+i+'!\n';
+                        error_log+= 'Birth date wrong for passenger passenger '+(i+1)+'!</br>\n';
                         document.getElementById('adult_birth_date'+ (i + 1)).style['border-color'] = 'red';
                     }else{
                         document.getElementById('adult_birth_date'+ (i + 1)).style['border-color'] = '#EFEFEF';
                     }
                     if(check_phone_number(document.getElementById('adult_phone' + (i + 1)).value)==false){
-                        error_log+= 'Phone number only contain number 8 - 12 digits for passenger '+i+'!\n';
+                        error_log+= 'Phone number only contain number 8 - 12 digits for passenger '+(i+1)+'!</br>\n';
                         document.getElementById('adult_phone' + (i + 1)).style['border-color'] = 'red';
                     }else{
                         document.getElementById('adult_phone' + (i + 1)).style['border-color'] = '#EFEFEF';
                     }
                     if(check_email(document.getElementById('adult_email' + (i + 1)).value)==false){
-                        error_log+= 'Invalid Passenger '+i+' email!\n';
+                        error_log+= 'Invalid Passenger '+(i+1)+' email!</br>\n';
                         document.getElementById('adult_email' + (i + 1)).style['border-color'] = 'red';
                     }else{
                         document.getElementById('adult_email' + (i + 1)).style['border-color'] = '#EFEFEF';
                     }
                     if(document.getElementById('adult_identity_type' + (i + 1)).value != ''){
+                        document.getElementById('adult_identity_type' + (i + 1)).style['border-color'] = '#EFEFEF';
                         if(document.getElementById('adult_identity_type' + (i + 1)).value == 'ktp'){
                             if(document.getElementById('adult_identity_number'+ (i + 1)).value == ''){
-                                error_log+= 'Please fill identity number for passenger '+(i + 1)+'!\n';
+                                error_log+= 'Please fill identity number for passenger '+(i + 1)+'!</br>\n';
                                 document.getElementById('adult_identity_number'+ (i + 1)).style['border-color'] = 'red';
                             }else if(check_ktp(document.getElementById('adult_identity_number'+ (i + 1)).value) == false){
-                                error_log+= 'Please fill identity number, ktp only contain 16 digits for passenger adult '+i+'!</br>\n';
+                                error_log+= 'Please fill identity number, ktp only contain 16 digits for passenger adult '+(i+1)+'!</br>\n';
                                 document.getElementById('adult_identity_number'+ (i + 1)).style['border-color'] = 'red';
                             }else{
                                 document.getElementById('adult_identity_number'+ (i + 1)).style['border-color'] = '#EFEFEF';
                             }
                             if(document.getElementById('adult_country_of_issued'+ (i + 1)).value == ''){
-                                error_log+= 'Please fill country of issued for passenger '+i+'!\n';
+                                error_log+= 'Please fill country of issued for passenger '+i+'!</br>\n';
                                 document.getElementById('adult_country_of_issued'+ (i + 1)).style['border-color'] = 'red';
                             }else{
                                 document.getElementById('adult_country_of_issued'+ (i + 1)).style['border-color'] = '#EFEFEF';
                             }
                         }
+                    }else{
+                        error_log+= 'Please fill identity type for passenger '+(i+1)+'!</br>\n';
+                        document.getElementById('adult_identity_type' + (i + 1)).style['border-color'] = 'red';
                     }
                     check_passenger = true;
                     request['passenger'].push({
@@ -1092,33 +1093,33 @@ function check_passenger(){
                 try{
                     //kasi if kosong
                     if(document.getElementById('inp_nm_pasien_blmpernah_' + (i)).value == '' || check_word(document.getElementById('inp_nm_pasien_blmpernah_' + (i)).value) == false){
-                        error_log += 'Please fill or use alpha characters for name for passenger '+ (i + 1) + ' !\n';
+                        error_log += 'Please fill or use alpha characters for name for passenger '+ (i + 1) + ' !</br>\n';
                         document.getElementById('inp_nm_pasien_blmpernah_' + (i)).style['border-color'] = 'red';
                     }else{
                         document.getElementById('inp_nm_pasien_blmpernah_' + (i)).style['border-color'] = '#EFEFEF';
                     }
 
                     if(check_date(document.getElementById('inp_tgl_lahir_blmpernah_'+ (i)).value)==false){
-                        error_log+= 'Birth date wrong for passenger passenger '+(i + 1)+'!\n';
+                        error_log+= 'Birth date wrong for passenger passenger '+(i + 1)+'</br>!\n';
                         document.getElementById('inp_tgl_lahir_blmpernah_'+ (i)).style['border-color'] = 'red';
                     }else{
                         document.getElementById('inp_tgl_lahir_blmpernah_'+ (i)).style['border-color'] = '#EFEFEF';
                     }
                     if(check_phone_number(document.getElementById('inp_nomor_hp_blmpernah_' + (i)).value)==false){
-                        error_log+= 'Phone number only contain number 8 - 12 digits for passenger '+(i+1)+'!\n';
+                        error_log+= 'Phone number only contain number 8 - 12 digits for passenger '+(i+1)+'!</br>\n';
                         document.getElementById('inp_nomor_hp_blmpernah_' + (i)).style['border-color'] = 'red';
                     }else{
                         document.getElementById('inp_nomor_hp_blmpernah_' + (i)).style['border-color'] = '#EFEFEF';
                     }
                     if(check_email(document.getElementById('inp_email_blmpernah_' + (i)).value)==false){
-                        error_log+= 'Invalid Passenger '+(i+1)+' email!\n';
+                        error_log+= 'Invalid Passenger '+(i+1)+' email!</br>\n';
                         document.getElementById('inp_email_blmpernah_' + (i)).style['border-color'] = 'red';
                     }else{
                         document.getElementById('inp_email_blmpernah_' + (i)).style['border-color'] = '#EFEFEF';
                     }
 
                     if(document.getElementById('inp_nomor_nik_blmpernah_'+ (i)).value == ''){
-                        error_log+= 'Please fill identity number for passenger '+(i + 1)+'!\n';
+                        error_log+= 'Please fill identity number for passenger '+(i + 1)+'!</br>\n';
                         document.getElementById('inp_nomor_nik_blmpernah_'+ (i)).style['border-color'] = 'red';
                     }else if(check_ktp(document.getElementById('inp_nomor_nik_blmpernah_'+ (i)).value) == false){
                         error_log+= 'Please fill identity number, ktp only contain 16 digits for passenger adult '+(i+1)+'!</br>\n';

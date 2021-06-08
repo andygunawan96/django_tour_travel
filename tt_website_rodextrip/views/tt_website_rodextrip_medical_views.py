@@ -98,7 +98,7 @@ def medical(request):
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
-        return render(request, MODEL_NAME + '/train/train_templates.html', values)
+        return render(request, MODEL_NAME + '/medical/medical_templates.html', values)
 
     else:
         return no_session_logout(request)
