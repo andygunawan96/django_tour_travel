@@ -206,7 +206,27 @@ function medical_check_price(){
             timeslot_list.push(document.getElementById('booker_timeslot_id'+i).value.split('~')[0])
         }catch(err){}
     }
-    if(timeslot_list.length != 0){
+    var now = moment();
+    var test_list_counter = 1;
+    var add_list = true;
+    var error_log = '';
+    for(i=1; i <= test_time; i++){
+        try{
+            add_list = true;
+            if(now.format('DD MMM YYYY') == document.getElementById('booker_test_date'+i).value){
+                if(now.diff(moment(document.getElementById('booker_test_date'+i).value+' '+document.getElementById('booker_timeslot_id'+i).value.split('~')[1]), 'hours') > -5){
+                    add_list = false;
+                    error_log += 'Test time reservation only can be book 5 hours before test please change test ' + test_list_counter + '!</br>\n';
+                }
+            }
+            test_list_counter++;
+        }catch(err){
+
+        }
+
+    }
+    if(timeslot_list.length != 0 && error_log == ''){
+        reset_pax();
         $.ajax({
            type: "POST",
            url: "/webservice/medical",
@@ -275,6 +295,12 @@ function medical_check_price(){
                 error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get price medical');
            },timeout: 300000
         });
+    }else if(error_log != ''){
+        Swal.fire({
+            type: 'error',
+            title: 'Oops!',
+            html: error_log,
+        })
     }else{
         Swal.fire({
             type: 'error',

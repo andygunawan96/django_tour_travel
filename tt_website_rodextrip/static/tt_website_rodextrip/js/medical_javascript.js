@@ -922,7 +922,7 @@ function check_passenger(){
         try{
             add_list = true;
             if(now.format('DD MMM YYYY') == document.getElementById('booker_test_date'+i).value){
-                if(now.diff(moment(document.getElementById('booker_test_date'+i).value+' '+document.getElementById('booker_timeslot_id'+i).value.split('~')[1])) > -3){
+                if(now.diff(moment(document.getElementById('booker_test_date'+i).value+' '+document.getElementById('booker_timeslot_id'+i).value.split('~')[1]), 'hours') > -5){
                     add_list = false;
                     error_log += 'Test time reservation only can be book 3 hours before test please change test ' + test_list_counter + '!</br>\n';
                 }
@@ -1216,7 +1216,7 @@ function check_passenger(){
 }
 
 function reset_other_time(){
-    test_time = 0;
+    test_time = 1;
     document.getElementById('test').innerHTML = '';
     reset_pax();
 }
