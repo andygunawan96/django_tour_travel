@@ -163,24 +163,34 @@ function medical_get_availability(){
        success: function(msg) {
             console.log(msg);
             if(msg.result.error_code == 0){
-                for(i in msg.result.response.timeslots){
-                    for(j in msg.result.response.timeslots[i]){
-                        for(k in msg.result.response.timeslots[i][j]){
-                            tes = moment.utc(j + ' '+ msg.result.response.timeslots[i][j][k].time).format('YYYY-MM-DD HH:mm:ss')
-                            localTime  = moment.utc(tes).toDate();
-                            msg.result.response.timeslots[i][j][k].time = moment(localTime).format('HH:mm');
+                if(Object.keys(msg.result.response.timeslots).length > 0){
+                    for(i in msg.result.response.timeslots){
+                        for(j in msg.result.response.timeslots[i]){
+                            for(k in msg.result.response.timeslots[i][j]){
+                                tes = moment.utc(j + ' '+ msg.result.response.timeslots[i][j][k].time).format('YYYY-MM-DD HH:mm:ss')
+                                localTime  = moment.utc(tes).toDate();
+                                msg.result.response.timeslots[i][j][k].time = moment(localTime).format('HH:mm');
+                            }
                         }
                     }
+                    medical_get_availability_response = msg.result.response;
+                    var text_innerHTML = '';
+                    for(i in msg.result.response.timeslots){
+                        text_innerHTML += `<option value=`+i+`>`+i+`</option>`;
+                    }
+                    document.getElementById('booker_area').innerHTML = text_innerHTML;
+                    $('#booker_area').niceSelect('update');
+                    document.getElementById('add_test_time_button').hidden = false;
+                    add_other_time();
+                }else{
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: 'Timeslot not available please contact administrator!',
+                    }).then((result) => {
+                      //redirect ke phc
+                    })
                 }
-                medical_get_availability_response = msg.result.response;
-                var text_innerHTML = '';
-                for(i in msg.result.response.timeslots){
-                    text_innerHTML += `<option value=`+i+`>`+i+`</option>`;
-                }
-                document.getElementById('booker_area').innerHTML = text_innerHTML;
-                $('#booker_area').niceSelect('update');
-                document.getElementById('add_test_time_button').hidden = false;
-                add_other_time();
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -252,6 +262,7 @@ function medical_check_price(){
                             }
                         }
                     }
+                    passenger_number = 0;
                     document.getElementById('medical_detail').innerHTML = text;
                     document.getElementById('medical_detail').style.display = 'block';
                     document.getElementById('next_medical').style.display = 'block';
