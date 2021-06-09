@@ -74,12 +74,8 @@ function update_timeslot(val){
     var medical_date_pick = moment(document.getElementById('booker_test_date'+val).value).format('YYYY-MM-DD');
     var now = moment()
     for(i in medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick]){
-        if(medical_date_pick == now.format('YYYY-MM-DD')){
-            if(now.diff(moment(medical_date_pick+' '+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].time), 'hours') > -5){
-                text+= `<option disabled value="`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].seq_id+`~`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].time+`">`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].time+`</option>`;
-            }else{
-                text+= `<option value="`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].seq_id+`~`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].time+`">`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].time+`</option>`;
-            }
+        if(medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].availability == false){
+            text+= `<option disabled value="`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].seq_id+`~`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].time+`">`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].time+`</option>`;
         }else{
             text+= `<option value="`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].seq_id+`~`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].time+`">`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].time+`</option>`;
         }

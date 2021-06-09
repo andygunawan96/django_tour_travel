@@ -1574,7 +1574,7 @@ function pick_passenger(type, sequence, product){
             radio_button('passenger',passenger_number);
             document.getElementById('search_result_'+passenger_number).innerHTML = '';
             update_contact('passenger',passenger_number);
-            passenger_number;
+            passenger_number--;
             //$('#myModalPassenger'+parseInt(passenger_number-1)).modal('hide');
         }else{
             passenger_number++;
