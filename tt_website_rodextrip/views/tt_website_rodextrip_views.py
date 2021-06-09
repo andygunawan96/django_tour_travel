@@ -1261,7 +1261,10 @@ def get_data_template(request, type='home', provider_type = []):
         if file:
             provider_types_sequence_file = file
             for rec in provider_types_sequence:
-                rec['sequence'] = provider_types_sequence_file.get(rec['name'], '')
+                try:
+                    rec['sequence'] = provider_types_sequence_file.get(rec['name'], '')
+                except:
+                    pass
         #check sequence
         last_sequence = 0
         empty_sequence = False
