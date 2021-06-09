@@ -2346,8 +2346,6 @@ function copy_booker_to_passenger(val,type){
                         document.getElementById('adult_identity_number1').value = document.getElementById('booker_id_number').value;
                     if(document.getElementById('booker_id_type').value != 'undefined' && document.getElementById('booker_id_type').value != '')
                         document.getElementById('adult_identity_type1').value = document.getElementById('booker_id_type').value;
-                    if(document.getElementById('booker_exp_date').value != 'undefined' && document.getElementById('booker_exp_date').value != '')
-                        document.getElementById('adult_identity_expired_date1').value = document.getElementById('booker_exp_date').value;
                     if(document.getElementById('booker_country_of_issued').value != 'undefined' && document.getElementById('booker_country_of_issued').value != ''){
                         document.getElementById('select2-adult_country_of_issued1_id-container').innerHTML = document.getElementById('booker_country_of_issued').value;
                         document.getElementById('adult_country_of_issued1').value = document.getElementById('booker_country_of_issued').value;
@@ -2539,7 +2537,6 @@ function copy_booker_to_passenger(val,type){
             document.getElementById('id_passenger0').value = '';
             document.getElementById('birth_date0').innerHTML = '';
             document.getElementById('sample_method0').innerHTML = '';
-
         }catch(err){}
         document.getElementById('adult_id1').value = '';
     }
