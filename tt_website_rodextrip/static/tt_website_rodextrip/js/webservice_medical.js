@@ -288,12 +288,14 @@ function medical_check_price(){
             title: 'Oops!',
             html: error_log,
         })
+        document.getElementById('check_price_medical').disabled = false;
     }else{
         Swal.fire({
             type: 'error',
             title: 'Oops!',
             html: 'Please choose timeslot!',
         })
+        document.getElementById('check_price_medical').disabled = false;
     }
 }
 
