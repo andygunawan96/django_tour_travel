@@ -41,7 +41,8 @@ def can_book(now, dep):
     return dep > now
 
 def medical(request):
-    if 'user_account' in request.session._session and 'ticketing_medical' in request.session['user_account']['co_agent_frontend_security']:
+    if 'user_account' in request.session._session and 'ticketing_medical' in request.session['user_account']['co_agent_frontend_security'] or \
+        'user_account' in request.session._session and 'ticketing_periksain' in request.session['user_account']['co_agent_frontend_security']:
         try:
             values = get_data_template(request)
             javascript_version = get_javascript_version()
