@@ -190,7 +190,7 @@
                                         </div>
 
                                         <div class="col-lg-6 col-xs-6">
-                                            <label style="color:red">*</label>
+                                            <label style="color:red !important;">*</label>
                                             <label>{% trans "Title" %}</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select-2" id="default-select">
@@ -235,7 +235,7 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <br/>
-                                            <label style="color:red">*</label>
+                                            <label style="color:red !important;">*</label>
                                             <label>{% trans 'First name and middle name (if any)' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" onchange="capitalizeInput('booker_first_name');change_booker_value('train');" class="form-control" name="booker_first_name" id="booker_first_name" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
@@ -258,7 +258,7 @@
                                         </div>
 
                                         <div class="col-lg-6">
-                                            <label style="color:red">*</label>
+                                            <label style="color:red !important;">*</label>
                                             <label>{% trans 'Nationality' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
@@ -272,9 +272,8 @@
                                             </div>
                                         </div>
 
-
                                         <div class="col-lg-6">
-                                            <label style="color:red">*</label>
+                                            <label style="color:red !important;">*</label>
                                             <label>{% trans 'Contact Email Address' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control" name="booker_email" id="booker_email" placeholder="{% trans 'Email Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" onchange="change_booker_value('train');">
@@ -283,7 +282,7 @@
                                         </div>
 
                                         <div class="col-lg-6">
-                                            <label style="color:red">*</label>
+                                            <label style="color:red !important;">*</label>
                                             <label style="margin:0;">{% trans 'Contact Person for Urgent Situation' %}:</label>
                                             <div class="row">
                                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
@@ -304,99 +303,148 @@
                                             <label style="font-size:12px; padding:0;">{% trans 'Example' %}: 812345678</label>
                                         </div>
 
-                                        <div class="col-lg-6">
-                                            <label style="color:red">*</label>
-                                            <label>{% trans 'Test Address' %}</label>
-                                            <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" name="booker_address" id="booker_address" placeholder="{% trans 'Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address '" onchange="change_booker_value('train');">
-                                            </div>
-                                            <label style="font-size:12px; padding:0;">{% trans 'Example' %}: Jl. Raya Darmo 177b</label>
-                                        </div>
-
-                                        <div class="col-lg-6 col-xs-6">
-                                            <label style="color:red">*</label>
-                                            <label>{% trans "Area" %}</label>
-                                            <div class="input-container-search-ticket">
-                                                <div class="form-select-2" id="default-select">
-                                                    <select id="booker_area" name="booker_area" class="nice-select-default" onchange="reset_other_time();change_area();">
-
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <label style="font-size:12px; padding:0;">{% trans 'Area Test' %}</label>
-                                        </div>
-
-                                        <div class="col-lg-6 col-xs-6">
-                                            <label style="color:red">*</label>
-                                            <label>{% trans "Passenger" %}</label>
-                                            <div class="input-container-search-ticket">
-                                                <div class="form-select-2" id="default-select">
-                                                    <select id="passenger" name="passenger" class="nice-select-default">
-                                                        <option value="1">1</option>
-                                                        <option value="2">2</option>
-                                                        <option value="3">3</option>
-                                                        <option value="4">4</option>
-                                                        <option value="5">5</option>
-                                                        <option value="6">6</option>
-                                                        <option value="7">7</option>
-                                                        <option value="8">8</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <label style="font-size:12px; padding:0;"></label>
-                                        </div>
-                                        {% if wa_number != '' %}
-                                        <div class="col-lg-12 col-xs-12">
-                                            <label>{% trans "For 20 pax / greater you can call" %} {{wa_number}} {% trans "for special price"%}</label>
-                                        </div>
-                                        {% endif %}
-                                        <div class="col-lg-6" id="timeslot_type" style="padding:0px; text-align:left;margin-bottom:10px;">
-                                            <label class="radio-button-custom" style="margin-left:15px;">
-                                                <span style="font-size:14px;">Fix Time</span>
-                                                <input type="radio" checked="checked" id="fix" name="timeslot_type" value="Fix" onclick="radio_timeslot_type_func('fix');">
-                                                <span class="checkmark-radio"></span>
-                                            </label>
-                                            <label class="radio-button-custom">
-                                                <span style="font-size:14px;">Flexible Time</span>
-                                                <input type="radio" id="flexible" name="timeslot_type" value="Flexible" onclick="radio_timeslot_type_func('flexible');">
-                                                <span class="checkmark-radio"></span>
-                                            </label>
-                                        </div>
-                                        <div class="col-lg-6" id="add_test_time_button" hidden>
-                                            <button class="primary-btn-ticket" style="width:100%;" type="button" value="" onclick="add_other_time();">
-                                                Add more timeslot
-                                            </button>
-                                        </div>
-
-                                        <div id="test" class="col-lg-12">
-
-                                        </div>
-
-                                        <div id="map"></div>
-                                        <div id="googleMap" style=""></div>
-
-                                        <div class="col-lg-12">
-                                            <button class="primary-btn-ticket" id="medical_check_price_btn" style="width:100%;" type="button" value="" onclick="medical_check_price();">
-                                                Check Price
-                                            </button>
-                                        </div>
-                                        {% if vendor != 'phc' %}
-                                        <div class="col-lg-12" style="margin-top:15px;">
-                                            <button class="primary-btn-ticket" style="width:100%;" type="button" value="" onclick="window.location.href='/phc/passenger/swab_antigen'">
-                                                Don't find right time for test? you can search other time in here
-                                            </button>
-                                        </div>
-                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <br/>
-
-
-
                     </div>
-                    <div class="col-lg-4" style="margin-top:10px;">
+                    <div class="col-lg-4"></div>
+                </div>
+                <div class="row mt-3" style="padding:15px;">
+                    <div class="col-lg-12" style="padding:15px; background:white; border:1px solid #cdcdcd;">
+                        <div class="row">
+                            <!--testaddress-->
+                            <div class="col-lg-6">
+                                <label style="color:red !important;">*</label>
+                                <label>{% trans "Area Test" %}</label>
+                                <div class="input-container-search-ticket">
+                                    <div class="form-select-2" id="default-select">
+                                        <select id="booker_area" name="booker_area" class="nice-select-default" onchange="reset_other_time();change_area();">
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 mt-2">
+                                <label style="color:red !important;">*</label>
+                                <label>{% trans 'Test Address' %}</label>
+                                <div class="input-container-search-ticket">
+                                    <textarea type="text" class="form-control" style="height:120px;" name="booker_address" id="booker_address" placeholder="{% trans 'Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address '" onchange="change_booker_value('train');"></textarea>
+                                </div>
+                                <label style="font-size:12px; padding:0;">{% trans 'Example' %}: Jl. Raya Darmo 177b</label>
+                            </div>
+                            <div id="map"></div>
+                            <div id="googleMap" style=""></div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12 mt-4" style="padding:15px; background:white; border:1px solid #cdcdcd;">
+                        <div class="row">
+                            <div class="col-lg-12" id="timeslot_type" style="padding:0px; text-align:left;margin-bottom:10px;">
+                                <label class="radio-button-custom" style="margin-left:15px;">
+                                    <span style="font-size:14px;">Fix Time</span>
+                                    <input type="radio" checked="checked" id="fix" name="timeslot_type" value="Fix" onclick="radio_timeslot_type_func('fix');">
+                                    <span class="checkmark-radio"></span>
+                                </label>
+                                <label class="radio-button-custom">
+                                    <span style="font-size:14px;">Flexible Time</span>
+                                    <input type="radio" id="flexible" name="timeslot_type" value="Flexible" onclick="radio_timeslot_type_func('flexible');">
+                                    <span class="checkmark-radio"></span>
+                                </label>
+                            </div>
+
+                            <div id="test" class="col-lg-12">
+
+                            </div>
+
+                            <div class="col-lg-12 mt-2" style="text-align:center;" id="add_test_time_button" hidden>
+                                <button class="primary-btn-ticket" type="button" value="" onclick="add_other_time();">
+                                    Add more timeslot
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12 mt-4" style="padding:15px; background:white; border:1px solid #cdcdcd;">
+                        <div class="row ">
+                            <div class="col-lg-6 col-xs-6">
+                                <label style="color:red !important;">*</label>
+                                <label>{% trans "Passenger" %}</label>
+                                <div class="input-container-search-ticket">
+                                    <div class="form-select-2" id="default-select">
+                                        <select id="passenger" name="passenger" class="nice-select-default">
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <label style="font-size:12px; padding:0;"></label>
+                            </div>
+
+                            {% if wa_number != '' %}
+                            <div class="col-lg-12 col-xs-12">
+                                <label>{% trans "For 20 pax / greater you can call" %} {{wa_number}} {% trans "for special price"%}</label>
+                            </div>
+                            {% endif %}
+
+                            <div class="col-lg-12" style="text-align:left; margin-top:20px; margin-bottom:15px;display:none;" id="table_passenger_list">
+                                <div class="row" id="loading-booker-train" style="display:none;">
+                                    <div class="col-lg-12">
+                                        <div class="sk-circle">
+                                            <div class="sk-circle1 sk-child"></div>
+                                            <div class="sk-circle2 sk-child"></div>
+                                            <div class="sk-circle3 sk-child"></div>
+                                            <div class="sk-circle4 sk-child"></div>
+                                            <div class="sk-circle5 sk-child"></div>
+                                            <div class="sk-circle6 sk-child"></div>
+                                            <div class="sk-circle7 sk-child"></div>
+                                            <div class="sk-circle8 sk-child"></div>
+                                            <div class="sk-circle9 sk-child"></div>
+                                            <div class="sk-circle10 sk-child"></div>
+                                            <div class="sk-circle11 sk-child"></div>
+                                            <div class="sk-circle12 sk-child"></div>
+                                        </div>
+                                        <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                                    </div>
+                                </div>
+                                <h4>List of Passenger</h4><hr/>
+                                <div style="margin-top:15px;">
+                                    <table id="table_of_passenger" name="table_of_passenger" style="width:100%;background:white;" class="list-of-table">
+                                        <tr>
+                                            <th style="width:40%;">Name</th>
+                                            <th style="width:20%;">Birth Date</th>
+                                            <th style="width:15%;">Sample Method</th>
+                                            <th style="width:20%;"></th>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12" style="text-align:center;">
+                                <button id="check_price_medical" class="primary-btn-ticket" type="button" value="" onclick="loadingPaxHide(); medical_check_price();">
+                                    Check Price
+                                </button>
+                            </div>
+                            {% if vendor != 'phc' %}
+                            <div class="col-lg-12" style="margin-top:15px; text-align:center;">
+                                <a style="width:100%; color:{{color}}; text-decoration:underline; cursor:pointer;" onclick="window.location.href='/phc/passenger/swab_antigen'">
+                                    Can't find right time for test? Search other time here
+                                </a>
+                            </div>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-7"></div>
+                    <div class="col-lg-5" style="margin-top:10px;">
                         <div class="modal fade" id="myModalErrorPassenger" role="dialog">
                             <div class="modal-dialog">
                                 <!-- Modal content-->
@@ -435,22 +483,9 @@
                         <input type="hidden" id="test_type" name="test_type" />
                         <input type="hidden" id="signature" name="signature" />
                     </div>
-                    <div class="col-lg-12" style="text-align:left; margin-top:20px; margin-bottom:15px;display:none;" id="table_passenger_list">
-                        <h4>List of Passenger</h4><hr/>
-                        <div style="margin-top:15px;">
-                            <table id="table_of_passenger" name="table_of_passenger" style="width:100%;background:white;" class="list-of-table">
-                                <tr>
-                                    <th style="width:40%;">Name</th>
-                                    <th style="width:20%;">Birth Date</th>
-                                    <th style="width:15%;">Sample Method</th>
-                                    <th style="width:20%;"></th>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="col-lg-4"></div>
-                    <div class="col-lg-4"></div>
-                    <div class="col-lg-4">
+
+                    <div class="col-lg-7"></div>
+                    <div class="col-lg-5">
                         <button class="primary-btn-ticket next-passenger-train ld-ext-right" style="width:100%;display:none;" id="next_medical" type="button" value="Next" onclick="check_passenger();">
                             {% trans 'Next' %}
                             <i class="fas fa-angle-right"></i>
@@ -570,7 +605,7 @@
                                             </div>
 
                                             <div class="col-lg-6 col-xs-6">
-                                                <label style="color:red">*</label>
+                                                <label style="color:red !important;">*</label>
                                                 <label>{% trans "Title" %}</label>
                                                 <div class="input-container-search-ticket">
                                                     <div class="form-select-2" id="default-select">
@@ -615,7 +650,7 @@
                                             </div>
                                             <div class="col-lg-6">
                                                 <br/>
-                                                <label style="color:red">*</label>
+                                                <label style="color:red !important;">*</label>
                                                 <label>{% trans 'First name and middle name (if any)' %}</label>
                                                 <div class="input-container-search-ticket">
                                                     <input type="text" onchange="capitalizeInput('booker_first_name');change_booker_value('train');" class="form-control" name="booker_first_name" id="booker_first_name" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
@@ -638,7 +673,7 @@
                                             </div>
 
                                             <div class="col-lg-6">
-                                                <label style="color:red">*</label>
+                                                <label style="color:red !important;">*</label>
                                                 <label>{% trans 'Nationality' %}</label>
                                                 <div class="input-container-search-ticket">
                                                     <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('booker_nationality');change_booker_value('train');" class="nice-select-default">
@@ -652,7 +687,7 @@
 
 
                                             <div class="col-lg-6">
-                                                <label style="color:red">*</label>
+                                                <label style="color:red !important;">*</label>
                                                 <label>{% trans 'Contact Email Address' %}</label>
                                                 <div class="input-container-search-ticket">
                                                     <input type="text" class="form-control" name="booker_email" id="booker_email" placeholder="{% trans 'Email Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" onchange="change_booker_value('train');">
@@ -661,9 +696,9 @@
                                             </div>
 
                                             <div class="col-lg-6">
-                                                <label style="color:red">*</label>
+                                                <label style="color:red !important;">*</label>
                                                 <label style="margin:0;">{% trans 'Contact Person for Urgent Situation' %}:</label>
-                                                <label style="font-size:10px; color:red;">({% trans "Must be filled with booker's mobile on first registration" %}:)</label>
+                                                <label style="font-size:10px; color:red !important;">({% trans "Must be filled with booker's mobile on first registration" %}:)</label>
                                                 <div class="row">
                                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                                         <div class="form-select">
@@ -789,7 +824,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6">
-                                                <label style="color:red">*</label>
+                                                <label style="color:red !important;">*</label>
                                                 <label>{% trans "Title" %}</label>
                                                 <div class="input-container-search-ticket">
                                                     <div class="form-select-2">
@@ -834,7 +869,7 @@
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6">
                                                 <br/>
-                                                <label style="color:red">*</label>
+                                                <label style="color:red !important;">*</label>
                                                 <label>{% trans 'First name and middle name (if any)' %}</label>
                                                 <div class="input-container-search-ticket">
                                                     <input type="text" onchange="capitalizeInput('adult_first_name{{forloop.counter}}');" class="form-control" name="adult_first_name{{forloop.counter}}" id="adult_first_name{{forloop.counter}}" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
@@ -851,7 +886,7 @@
                                                 <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6">
-                                                <label style="color:red">*</label>
+                                                <label style="color:red !important;">*</label>
                                                 <label>{% trans 'Nationality' %}</label>
                                                 <div class="input-container-search-ticket">
                                                     <select class="form-control js-example-basic-single" name="adult_nationality{{forloop.counter}}_id" style="width:100%;" id="adult_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('adult_nationality{{forloop.counter}}')" class="nice-select-default">
@@ -865,7 +900,7 @@
                                             <div class="col-lg-6 col-md-6 col-sm-6">
                                                 <script>
                                                     if(birth_date_required == true)
-                                                        document.write(`<label style="color:red">*</label>`);
+                                                        document.write(`<label style="color:red !important;">*</label>`);
                                                 </script>
                                                 <label>{% trans 'Birth Date' %}</label>
                                                 <div class="input-container-search-ticket">
@@ -874,7 +909,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6">
-                                                <label style="color:red">*</label>
+                                                <label style="color:red !important;">*</label>
                                                 <label>{% trans 'ID Type' %}</label>
                                                 <div class="input-container-search-ticket">
                                                     <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onchange="id_type_change('adult',{{forloop.counter}})">
@@ -885,7 +920,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6">
-                                                <label style="color:red">*</label>
+                                                <label style="color:red !important;">*</label>
                                                 <label>{% trans 'ID Number' %}</label>
                                                 <div class="input-container-search-ticket">
                                                     <input type="text" class="form-control" name="adult_passport_number{{forloop.counter}}" id="adult_passport_number{{forloop.counter}}" placeholder="{% trans 'ID Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'ID Number '">
@@ -915,7 +950,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden1_{{forloop.counter}}" hidden>
-                                                <label style="color:red">*</label>
+                                                <label style="color:red !important;">*</label>
                                                 <label>{% trans 'Contact Email Address' %}</label>
                                                 <div class="input-container-search-ticket">
                                                     <input type="text" class="form-control" name="adult_email{{forloop.counter}}" id="adult_email{{forloop.counter}}" placeholder="{% trans 'Email Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '">
@@ -923,9 +958,9 @@
                                                 <label style="font-size:12px; padding:0;">{% trans 'Example' %}: email@example.com</label>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden2_{{forloop.counter}}" hidden>
-                                                <label style="color:red">*</label>
+                                                <label style="color:red !important;">*</label>
                                                 <label style="margin:0;">{% trans 'Contact Person for Urgent Situation' %}:</label>
-                                                <label style="font-size:10px; color:red;">({% trans "Must be filled with contact person's mobile on first registration" %}:)</label>
+                                                <label style="font-size:10px; color:red !important;">({% trans "Must be filled with contact person's mobile on first registration" %}:)</label>
                                                 <div class="row">
                                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
 
@@ -1023,7 +1058,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-xs-6">
-                                                <label style="color:red">*</label>
+                                                <label style="color:red !important;">*</label>
                                                 <label>{% trans "Title" %}</label>
                                                 <div class="input-container-search-ticket">
                                                     <div class="form-select-2">
@@ -1065,7 +1100,7 @@
                                             </div>
                                             <div class="col-lg-6">
                                                 <br/>
-                                                <label style="color:red">*</label>
+                                                <label style="color:red !important;">*</label>
                                                 <label>{% trans 'First name and middle name (if any)' %}</label>
                                                 <div class="input-container-search-ticket">
                                                     <input type="text" onchange="capitalizeInput('infant_first_name{{forloop.counter}}');" class="form-control" name="infant_first_name{{forloop.counter}}" id="infant_first_name{{forloop.counter}}" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
@@ -1082,7 +1117,7 @@
                                                 <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
                                             </div>
                                             <div class="col-lg-6">
-                                                <label style="color:red">*</label>
+                                                <label style="color:red !important;">*</label>
                                                 <label>{% trans 'Nationality' %}</label>
                                                 <div class="input-container-search-ticket">
                                                     <select class="form-control js-example-basic-single" name="infant_nationality{{forloop.counter}}_id" style="width:100%;" id="infant_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('infant_nationality{{forloop.counter}}')" class="nice-select-default">
@@ -1095,7 +1130,7 @@
 
                                             </div>
                                             <div class="col-lg-6">
-                                                <label style="color:red">*</label>
+                                                <label style="color:red !important;">*</label>
                                                 <label>{% trans 'Birth Date' %}</label>
                                                 <div class="input-container-search-ticket">
                                                     <input type="text" class="form-control date-picker-birth" style="background:white;" name="infant_birth_date{{forloop.counter}}" id="infant_birth_date{{forloop.counter}}" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
@@ -1269,7 +1304,7 @@
                                         </div>
 
                                         <div class="col-lg-6 col-xs-6">
-                                            <label style="color:red">*</label>
+                                            <label style="color:red !important;">*</label>
                                             <label>{% trans "Title" %}</label>
                                             <div class="default-select" id="default-select">
                                                 <select id="booker_title" name="booker_title" class="nice-select-default" onchange="change_booker_value('train');">
@@ -1312,7 +1347,7 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <br/>
-                                            <label style="color:red">*</label>
+                                            <label style="color:red !important;">*</label>
                                             <label>{% trans 'First name and middle name (if any)' %}</label>
                                             <div class="form-group">
                                                 <input type="text" onchange="capitalizeInput('booker_first_name');change_booker_value('train');" class="form-control" name="booker_first_name" id="booker_first_name" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
@@ -1335,7 +1370,7 @@
                                         </div>
 
                                         <div class="col-lg-6">
-                                            <label style="color:red">*</label>
+                                            <label style="color:red !important;">*</label>
                                             <label>{% trans 'Nationality' %}</label>
                                             <div class="form-select">
                                                 <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('booker_nationality');change_booker_value('train');" class="nice-select-default">
@@ -1349,7 +1384,7 @@
 
 
                                         <div class="col-lg-6">
-                                            <label style="color:red">*</label>
+                                            <label style="color:red !important;">*</label>
                                             <label>{% trans 'Contact Email Address' %}</label>
                                             <div class="form-group">
                                                 <input type="text" class="form-control" name="booker_email" id="booker_email" placeholder="{% trans 'Email Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" onchange="change_booker_value('train');">
@@ -1358,9 +1393,9 @@
                                         </div>
 
                                         <div class="col-lg-6">
-                                            <label style="color:red">*</label>
+                                            <label style="color:red !important;">*</label>
                                             <label style="margin:0;">{% trans 'Contact Person for Urgent Situation' %}:</label>
-                                            <label style="font-size:10px; color:red;">({% trans "Must be filled with booker's mobile on first registration" %}:)</label>
+                                            <label style="font-size:10px; color:red !important;">({% trans "Must be filled with booker's mobile on first registration" %}:)</label>
                                             <div class="row">
                                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                                     <div class="form-select">
@@ -1486,7 +1521,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
-                                            <label style="color:red">*</label>
+                                            <label style="color:red !important;">*</label>
                                             <label>{% trans "Title" %}</label>
                                             <div class="default-select">
                                                 <select id="adult_title{{forloop.counter}}" name="adult_title{{forloop.counter}}" class="nice-select-default">
@@ -1529,7 +1564,7 @@
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                             <br/>
-                                            <label style="color:red">*</label>
+                                            <label style="color:red !important;">*</label>
                                             <label>{% trans 'First name and middle name (if any)' %}</label>
                                             <div class="form-group">
                                                 <input type="text" onchange="capitalizeInput('adult_first_name{{forloop.counter}}');" class="form-control" name="adult_first_name{{forloop.counter}}" id="adult_first_name{{forloop.counter}}" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
@@ -1546,7 +1581,7 @@
                                             <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
-                                            <label style="color:red">*</label>
+                                            <label style="color:red !important;">*</label>
                                             <label>{% trans 'Nationality' %}</label>
                                             <div class="form-select">
                                                 <select class="form-control js-example-basic-single" name="adult_nationality{{forloop.counter}}_id" style="width:100%;" id="adult_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('adult_nationality{{forloop.counter}}')" class="nice-select-default">
@@ -1560,7 +1595,7 @@
                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                             <script>
                                                 if(birth_date_required == true)
-                                                    document.write(`<label style="color:red">*</label>`);
+                                                    document.write(`<label style="color:red !important;">*</label>`);
                                             </script>
                                             <label>{% trans 'Birth Date' %}</label>
                                             <div class="form-group">
@@ -1569,7 +1604,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
-                                            <label style="color:red">*</label>
+                                            <label style="color:red !important;">*</label>
                                             <label>{% trans 'ID Type' %}</label>
                                             <div class="default-select" id="default-select">
                                                 <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onchange="id_type_change('adult',{{forloop.counter}})">
@@ -1580,7 +1615,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
-                                            <label style="color:red">*</label>
+                                            <label style="color:red !important;">*</label>
                                             <label>{% trans 'ID Number' %}</label>
                                             <div class="form-group">
                                                 <input type="text" class="form-control" name="adult_passport_number{{forloop.counter}}" id="adult_passport_number{{forloop.counter}}" placeholder="{% trans 'ID Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'ID Number '">
@@ -1609,7 +1644,7 @@
                                             <input type="hidden" name="adult_country_of_issued{{forloop.counter}}" id="adult_country_of_issued{{forloop.counter}}" />
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden1_{{forloop.counter}}" hidden>
-                                            <label style="color:red">*</label>
+                                            <label style="color:red !important;">*</label>
                                             <label>{% trans 'Contact Email Address' %}</label>
                                             <div class="form-group">
                                                 <input type="text" class="form-control" name="adult_email{{forloop.counter}}" id="adult_email{{forloop.counter}}" placeholder="{% trans 'Email Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '">
@@ -1617,9 +1652,9 @@
                                             <label style="font-size:12px; padding:0;">{% trans 'Example' %}: email@example.com</label>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden2_{{forloop.counter}}" hidden>
-                                            <label style="color:red">*</label>
+                                            <label style="color:red !important;">*</label>
                                             <label style="margin:0;">{% trans 'Contact Person for Urgent Situation' %}:</label>
-                                            <label style="font-size:10px; color:red;">({% trans "Must be filled with contact person's mobile on first registration" %}:)</label>
+                                            <label style="font-size:10px; color:red !important;">({% trans "Must be filled with contact person's mobile on first registration" %}:)</label>
                                             <div class="row">
                                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                                     <div class="form-select">
@@ -1714,7 +1749,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-xs-6">
-                                            <label style="color:red">*</label>
+                                            <label style="color:red !important;">*</label>
                                             <label>{% trans "Title" %}</label>
                                             <div class="default-select">
                                                 <select id="infant_title{{forloop.counter}}" name="infant_title{{forloop.counter}}" class="nice-select-default">
@@ -1754,7 +1789,7 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <br/>
-                                            <label style="color:red">*</label>
+                                            <label style="color:red !important;">*</label>
                                             <label>{% trans 'First name and middle name (if any)' %}</label>
                                             <div class="form-group">
                                                 <input type="text" onchange="capitalizeInput('infant_first_name{{forloop.counter}}');" class="form-control" name="infant_first_name{{forloop.counter}}" id="infant_first_name{{forloop.counter}}" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
@@ -1783,7 +1818,7 @@
                                             <input type="hidden" name="infant_nationality{{forloop.counter}}" id="infant_nationality{{forloop.counter}}" />
                                         </div>
                                         <div class="col-lg-6">
-                                            <label style="color:red">*</label>
+                                            <label style="color:red !important;">*</label>
                                             <label>{% trans 'Birth Date' %}</label>
                                             <div class="form-group">
                                                 <input type="text" style="background-color:white;" class="form-control date-picker-birth" name="infant_birth_date{{forloop.counter}}" id="infant_birth_date{{forloop.counter}}" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
@@ -1954,7 +1989,7 @@
                                     </div>
 
                                     <div class="col-lg-6 col-xs-6">
-                                        <label style="color:red">*</label>
+                                        <label style="color:red !important;">*</label>
                                         <label>{% trans "Title" %}</label>
                                         <div class="input-container-search-ticket">
                                             <div class="form-select-2" id="default-select">
@@ -1999,7 +2034,7 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <br/>
-                                        <label style="color:red">*</label>
+                                        <label style="color:red !important;">*</label>
                                         <label>{% trans 'First name and middle name (if any)' %}</label>
                                         <div class="input-container-search-ticket">
                                             <input type="text" onchange="capitalizeInput('booker_first_name');change_booker_value('train');" class="form-control" name="booker_first_name" id="booker_first_name" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
@@ -2022,7 +2057,7 @@
                                     </div>
 
                                     <div class="col-lg-6">
-                                        <label style="color:red">*</label>
+                                        <label style="color:red !important;">*</label>
                                         <label>{% trans 'Nationality' %}</label>
                                         <div class="input-container-search-ticket">
                                             <div class="form-select">
@@ -2038,7 +2073,7 @@
 
 
                                     <div class="col-lg-6">
-                                        <label style="color:red">*</label>
+                                        <label style="color:red !important;">*</label>
                                         <label>{% trans 'Contact Email Address' %}</label>
                                         <div class="input-container-search-ticket">
                                             <input type="text" class="form-control" name="booker_email" id="booker_email" placeholder="{% trans 'Email Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" onchange="change_booker_value('train');">
@@ -2047,9 +2082,9 @@
                                     </div>
 
                                     <div class="col-lg-6">
-                                        <label style="color:red">*</label>
+                                        <label style="color:red !important;">*</label>
                                         <label style="margin:0;">{% trans 'Contact Person for Urgent Situation' %}:</label>
-                                        <label style="font-size:10px; color:red;">({% trans "Must be filled with booker's mobile on first registration" %}:)</label>
+                                        <label style="font-size:10px; color:red !important;">({% trans "Must be filled with booker's mobile on first registration" %}:)</label>
                                         <div class="row">
                                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                                 <div class="form-select">
@@ -2175,7 +2210,7 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6">
-                                        <label style="color:red">*</label>
+                                        <label style="color:red !important;">*</label>
                                         <label>{% trans "Title" %}</label>
                                         <div class="input-container-search-ticket">
                                             <div class="form-select-2">
@@ -2220,7 +2255,7 @@
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6">
                                         <br/>
-                                        <label style="color:red">*</label>
+                                        <label style="color:red !important;">*</label>
                                         <label>{% trans 'First name and middle name (if any)' %}</label>
                                         <div class="input-container-search-ticket">
                                             <input type="text" onchange="capitalizeInput('adult_first_name{{forloop.counter}}');" class="form-control" name="adult_first_name{{forloop.counter}}" id="adult_first_name{{forloop.counter}}" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
@@ -2237,7 +2272,7 @@
                                         <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6">
-                                        <label style="color:red">*</label>
+                                        <label style="color:red !important;">*</label>
                                         <label>{% trans 'Nationality' %}</label>
                                         <div class="input-container-search-ticket">
                                             <div class="form-select">
@@ -2253,7 +2288,7 @@
                                     <div class="col-lg-6 col-md-6 col-sm-6">
                                         <script>
                                             if(birth_date_required == true)
-                                                document.write(`<label style="color:red">*</label>`);
+                                                document.write(`<label style="color:red !important;">*</label>`);
                                         </script>
                                         <label>{% trans 'Birth Date' %}</label>
                                         <div class="input-container-search-ticket">
@@ -2275,7 +2310,7 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6">
-                                        <label style="color:red">*</label>
+                                        <label style="color:red !important;">*</label>
                                         <label>{% trans 'ID Number' %}</label>
                                         <div class="input-container-search-ticket">
                                             <input type="text" class="form-control" name="adult_passport_number{{forloop.counter}}" id="adult_passport_number{{forloop.counter}}" placeholder="{% trans 'ID Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'ID Number '">
@@ -2315,7 +2350,7 @@
                                         <label style="font-size:12px; padding:0;">{% trans 'Example' %}: email@example.com</label>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden2_{{forloop.counter}}" hidden>
-                                        <label style="color:red">*</label>
+                                        <label style="color:red !important;">*</label>
                                         <label style="margin:0;">{% trans 'Contact Person for Urgent Situation' %}:</label>
                                         <label style="font-size:10px; color:red;">({% trans "Must be filled with contact contact person's mobile on first registration" %}:)</label>
                                         <div class="row">
@@ -2414,7 +2449,7 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-xs-6">
-                                        <label style="color:red">*</label>
+                                        <label style="color:red !important;">*</label>
                                         <label>{% trans "Title" %}</label>
                                         <div class="input-container-search-ticket">
                                             <div class="form-select-2">
@@ -2456,7 +2491,7 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <br/>
-                                        <label style="color:red">*</label>
+                                        <label style="color:red !important;">*</label>
                                         <label>{% trans 'First name and middle name (if any)' %}</label>
                                         <div class="input-container-search-ticket">
                                             <input type="text" onchange="capitalizeInput('infant_first_name{{forloop.counter}}');" class="form-control" name="infant_first_name{{forloop.counter}}" id="infant_first_name{{forloop.counter}}" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
@@ -2487,7 +2522,7 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
-                                        <label style="color:red">*</label>
+                                        <label style="color:red !important;">*</label>
                                         <label>{% trans 'Birth Date' %}</label>
                                         <div class="input-container-search-ticket">
                                             <input type="text" style="background:white;" class="form-control date-picker-birth" name="infant_birth_date{{forloop.counter}}" id="infant_birth_date{{forloop.counter}}" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
@@ -2659,7 +2694,7 @@
                                         </div>
 
                                         <div class="col-lg-6 col-xs-6">
-                                            <label style="color:red">*</label>
+                                            <label style="color:red !important;">*</label>
                                             <label>{% trans "Title" %}</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select" id="default-select" style="margin-bottom:0px;">
@@ -2702,7 +2737,7 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <br/>
-                                            <label style="color:red">*</label>
+                                            <label style="color:red !important;">*</label>
                                             <label>{% trans 'First name and middle name (if any)' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" onchange="capitalizeInput('booker_first_name');change_booker_value('train');" class="form-control" name="booker_first_name" id="booker_first_name" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
@@ -2725,7 +2760,7 @@
                                         </div>
 
                                         <div class="col-lg-6">
-                                            <label style="color:red">*</label>
+                                            <label style="color:red !important;">*</label>
                                             <label>{% trans 'Nationality' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
@@ -2741,7 +2776,7 @@
 
 
                                         <div class="col-lg-6">
-                                            <label style="color:red">*</label>
+                                            <label style="color:red !important;">*</label>
                                             <label>{% trans 'Contact Email Address' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control" name="booker_email" id="booker_email" placeholder="{% trans 'Email Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" onchange="change_booker_value('train');">
@@ -2750,9 +2785,9 @@
                                         </div>
 
                                         <div class="col-lg-6">
-                                            <label style="color:red">*</label>
+                                            <label style="color:red !important;">*</label>
                                             <label style="margin:0;">{% trans 'Contact Person for Urgent Situation' %}:</label>
-                                            <label style="font-size:10px; color:red;">({% trans "Must be filled with booker's mobile on first registration" %}:)</label>
+                                            <label style="font-size:10px; color:red !important;">({% trans "Must be filled with booker's mobile on first registration" %}:)</label>
                                             <div class="row">
                                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                                     <div class="form-select">
@@ -2878,7 +2913,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
-                                            <label style="color:red">*</label>
+                                            <label style="color:red !important;">*</label>
                                             <label>{% trans "Title" %}</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select" style="margin-bottom:0px;">
@@ -2923,7 +2958,7 @@
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                             <br/>
-                                            <label style="color:red">*</label>
+                                            <label style="color:red !important;">*</label>
                                             <label>{% trans 'First name and middle name (if any)' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" onchange="capitalizeInput('adult_first_name{{forloop.counter}}');" class="form-control" name="adult_first_name{{forloop.counter}}" id="adult_first_name{{forloop.counter}}" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
@@ -2956,7 +2991,7 @@
                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                             <script>
                                                 if(birth_date_required == true)
-                                                    document.write(`<label style="color:red">*</label>`);
+                                                    document.write(`<label style="color:red !important;">*</label>`);
                                             </script>
                                             <label>{% trans 'Birth Date' %}</label>
                                             <div class="input-container-search-ticket">
@@ -2965,7 +3000,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
-                                            <label style="color:red">*</label>
+                                            <label style="color:red !important;">*</label>
                                             <label>{% trans 'ID Type' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select" id="default-select">
@@ -2978,7 +3013,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
-                                            <label style="color:red">*</label>
+                                            <label style="color:red !important;">*</label>
                                             <label>{% trans 'ID Number' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control" name="adult_passport_number{{forloop.counter}}" id="adult_passport_number{{forloop.counter}}" placeholder="{% trans 'ID Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'ID Number '">
@@ -3010,7 +3045,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden1_{{forloop.counter}}" hidden>
-                                            <label style="color:red">*</label>
+                                            <label style="color:red !important;">*</label>
                                             <label>{% trans 'Contact Email Address' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control" name="adult_email{{forloop.counter}}" id="adult_email{{forloop.counter}}" placeholder="{% trans 'Email Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '">
@@ -3018,9 +3053,9 @@
                                             <label style="font-size:12px; padding:0;">{% trans 'Example' %}: email@example.com</label>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden2_{{forloop.counter}}" hidden>
-                                            <label style="color:red">*</label>
+                                            <label style="color:red !important;">*</label>
                                             <label style="margin:0;">{% trans 'Contact Person for Urgent Situation' %}:</label>
-                                            <label style="font-size:10px; color:red;">({% trans "Must be filled with contact person's mobile on first registration" %}:)</label>
+                                            <label style="font-size:10px; color:red !important;">({% trans "Must be filled with contact person's mobile on first registration" %}:)</label>
                                             <div class="row">
                                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
 
@@ -3118,7 +3153,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-xs-6">
-                                            <label style="color:red">*</label>
+                                            <label style="color:red !important;">*</label>
                                             <label>{% trans "Title" %}</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select" style="margin-bottom:0px;">
@@ -3160,7 +3195,7 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <br/>
-                                            <label style="color:red">*</label>
+                                            <label style="color:red !important;">*</label>
                                             <label>{% trans 'First name and middle name (if any)' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" onchange="capitalizeInput('infant_first_name{{forloop.counter}}');" class="form-control" name="infant_first_name{{forloop.counter}}" id="infant_first_name{{forloop.counter}}" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
@@ -3177,7 +3212,7 @@
                                             <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
                                         </div>
                                         <div class="col-lg-6">
-                                            <label style="color:red">*</label>
+                                            <label style="color:red !important;">*</label>
                                             <label>{% trans 'Nationality' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
@@ -3192,7 +3227,7 @@
 
                                         </div>
                                         <div class="col-lg-6">
-                                            <label style="color:red">*</label>
+                                            <label style="color:red !important;">*</label>
                                             <label>{% trans 'Birth Date' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" style="background:white;" class="form-control date-picker-birth" name="infant_birth_date{{forloop.counter}}" id="infant_birth_date{{forloop.counter}}" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
@@ -3414,6 +3449,13 @@
     var marker;
     document.getElementById('googleMap').style.width = '100%';
     document.getElementById('googleMap').style.height = '400px';
+
+    $(document).keypress(
+      function(event){
+        if (event.which == '13') {
+          event.preventDefault();
+        }
+    });
 
     function placeMarker(location) {
         web_url = 'http://www.google.com/maps/place/';
