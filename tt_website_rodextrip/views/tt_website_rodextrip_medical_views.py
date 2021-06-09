@@ -230,7 +230,7 @@ def review(request):
     else:
         return no_session_logout(request)
 
-def booking(request, order_number):
+def booking(request, vendor, order_number):
     try:
         javascript_version = get_javascript_version()
         values = get_data_template(request)
