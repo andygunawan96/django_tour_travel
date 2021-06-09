@@ -29,7 +29,6 @@ function medical_signin(data){
                   title: 'Oops!',
                   html: msg.result.error_msg,
                })
-               $('.loader-rodextrip').fadeOut();
                try{
                 $("#show_loading_booking_airline").hide();
                }catch(err){}
@@ -163,24 +162,27 @@ function medical_get_availability(){
        success: function(msg) {
             console.log(msg);
             if(msg.result.error_code == 0){
-                if(Object.keys(msg.result.response.timeslots).length > 0){
-                    for(i in msg.result.response.timeslots){
-                        for(j in msg.result.response.timeslots[i]){
-                            for(k in msg.result.response.timeslots[i][j]){
-                                tes = moment.utc(j + ' '+ msg.result.response.timeslots[i][j][k].time).format('YYYY-MM-DD HH:mm:ss')
+                msg = msg.result.response;
+                if(Object.keys(msg).length > 0){
+                    for(i in msg){
+                        for(j in msg[i].timeslots){
+                            for(k in msg[i].timeslots[j]){
+                                tes = moment.utc(j + ' '+ msg[i].timeslots[j][k].time).format('YYYY-MM-DD HH:mm:ss')
                                 localTime  = moment.utc(tes).toDate();
-                                msg.result.response.timeslots[i][j][k].time = moment(localTime).format('HH:mm');
+                                msg[i].timeslots[j][k].time = moment(localTime).format('HH:mm');
                             }
                         }
                     }
-                    medical_get_availability_response = msg.result.response;
+                    medical_get_availability_response = msg;
                     var text_innerHTML = '';
-                    for(i in msg.result.response.timeslots){
-                        text_innerHTML += `<option value=`+i+`>`+i+`</option>`;
+                    for(i in msg){
+                        if(i == 'Surabaya')
+                            text_innerHTML += `<option value=`+i+` selected>`+i+`</option>`;
+                        else
+                            text_innerHTML += `<option value=`+i+`>`+i+`</option>`;
                     }
                     document.getElementById('booker_area').innerHTML = text_innerHTML;
                     $('#booker_area').niceSelect('update');
-                    document.getElementById('add_test_time_button').hidden = false;
                     add_other_time();
                 }else{
                     Swal.fire({
@@ -226,7 +228,7 @@ function medical_check_price(){
 
     }
     if(timeslot_list.length != 0 && error_log == ''){
-        reset_pax();
+        document.getElementById('medical_check_price_btn').disabled = true;
         $.ajax({
            type: "POST",
            url: "/webservice/medical",
@@ -241,6 +243,7 @@ function medical_check_price(){
            },
            success: function(msg) {
                 console.log(msg);
+                reset_pax();
                 try{
                 if(msg.result.error_code == 0){
                     var text = `
@@ -290,6 +293,7 @@ function medical_check_price(){
                     //print harga
                 }
                 }catch(err){console.log(err);}
+                document.getElementById('medical_check_price_btn').disabled = false;
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
                 error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get price medical');
