@@ -201,17 +201,7 @@ function medical_get_availability(){
     });
 }
 
-function medical_add_table(valtb){
-//    var tempcounter = parseInt(document.getElementById('passenger').value);
 
-    for(counting=0;counting<tempcounter;counting++){
-        if(vendor == 'phc'){
-            add_table_passenger_phc();
-        }else if(vendor == 'periksain'){
-            add_table_of_passenger();
-        }
-    }
-}
 
 function medical_check_price(){
     var timeslot_list = [];

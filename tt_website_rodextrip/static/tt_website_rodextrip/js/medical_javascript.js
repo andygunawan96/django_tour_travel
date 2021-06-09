@@ -1,6 +1,13 @@
 function add_other_time(){
     var node = document.createElement("div");
-    text = `
+    text = '';
+    if(test_time > 1){
+    text+=`
+        <div>
+            <hr/>
+        </div>`;
+    }
+    text+= `
         <div class="row">
             <div class="col-lg-6">
                 <label style="color:red !important">*</label>
@@ -37,13 +44,7 @@ function add_other_time(){
         `;
     }
 
-    if(test_time > 0){
-    text+=`
-        <div class="col-lg-12">
-            <hr style="border-top: 1px solid `+color+`;"/>
-        </div>
-    `;
-    }
+
     node.innerHTML = text;
     node.id = 'test' + test_time
     document.getElementById('test').appendChild(node);
@@ -1276,10 +1277,34 @@ function show_commission(val){
 function radio_timeslot_type_func(val){
     if(val == 'fix'){
         document.getElementById('add_test_time_button').hidden = true;
+        for(var i=2;i<=test_time;i++)
+            delete_other_time('test'+i);
+        test_time = 2;
     }else if(val == 'flexible'){
         document.getElementById('add_test_time_button').hidden = false;
     }
     if(test_time == 1){
         add_other_time();
     }
+}
+
+function add_table(){
+    var tempcounter = parseInt(document.getElementById('passenger').value);
+    if(tempcounter > last_counter){
+        document.getElementById('table_passenger_list').style.display = 'block';
+        for(counting=last_counter;counting<tempcounter;counting++){
+            if(vendor == 'phc'){
+                add_table_passenger_phc();
+            }else if(vendor == 'periksain'){
+                add_table_of_passenger();
+            }
+        }
+    }else{
+        for(counting=last_counter;counting>=tempcounter;counting--){
+            delete_table_of_passenger(counting);
+        }
+
+        table_passenger0
+    }
+    last_counter = tempcounter;
 }
