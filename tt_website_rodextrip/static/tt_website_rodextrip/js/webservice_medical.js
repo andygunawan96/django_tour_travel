@@ -201,8 +201,22 @@ function medical_get_availability(){
     });
 }
 
+function medical_add_table(valtb){
+//    var tempcounter = parseInt(document.getElementById('passenger').value);
+
+    for(counting=0;counting<tempcounter;counting++){
+        if(vendor == 'phc'){
+            add_table_passenger_phc();
+        }else if(vendor == 'periksain'){
+            add_table_of_passenger();
+        }
+    }
+}
+
 function medical_check_price(){
     var timeslot_list = [];
+    document.getElementById('check_price_medical').disabled = true;
+    reset_pax();
     for(i=1;i <= test_time; i++){
         try{
             timeslot_list.push(document.getElementById('booker_timeslot_id'+i).value.split('~')[0])
@@ -228,7 +242,6 @@ function medical_check_price(){
 
     }
     if(timeslot_list.length != 0 && error_log == ''){
-        document.getElementById('medical_check_price_btn').disabled = true;
         $.ajax({
            type: "POST",
            url: "/webservice/medical",
@@ -243,7 +256,6 @@ function medical_check_price(){
            },
            success: function(msg) {
                 console.log(msg);
-                reset_pax();
                 try{
                 if(msg.result.error_code == 0){
                     var text = `
@@ -269,31 +281,14 @@ function medical_check_price(){
                     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                         text+=`
                             <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"><br/>`;
-                    var tempcounter = parseInt(document.getElementById('passenger').value);
-                    for(counting=0;counting<tempcounter;counting++){
-                        if(counting == 0){
-                            if(vendor == 'phc'){
-                                add_table_passenger_phc('open');
-                            }else if(vendor == 'periksain'){
-                                add_table_of_passenger('open');
-                            }
-                        }else{
-                            if(vendor == 'phc'){
-                                add_table_passenger_phc();
-                            }else if(vendor == 'periksain'){
-                                add_table_of_passenger();
-                            }
-                        }
-                    }
-                    passenger_number = 0;
                     document.getElementById('medical_detail').innerHTML = text;
                     document.getElementById('medical_detail').style.display = 'block';
                     document.getElementById('next_medical').style.display = 'block';
                     document.getElementById('table_passenger_list').style.display = 'block';
+                    document.getElementById('check_price_medical').disabled = false;
                     //print harga
                 }
                 }catch(err){console.log(err);}
-                document.getElementById('medical_check_price_btn').disabled = false;
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
                 error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get price medical');

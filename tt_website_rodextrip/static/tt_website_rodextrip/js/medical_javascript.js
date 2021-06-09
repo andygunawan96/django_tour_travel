@@ -3,7 +3,7 @@ function add_other_time(){
     text = `
         <div class="row">
             <div class="col-lg-6">
-                <label style="color:red">*</label>
+                <label style="color:red !important">*</label>
                 <label>Test Date</label>
                 <div class="input-container-search-ticket">
                     <input type="text" class="form-control" style="cursor:pointer;" name="booker_test_date`+test_time+`" id="booker_test_date`+test_time+`" placeholder="Test Date" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Test Date '" autocomplete="off" readonly>
@@ -11,22 +11,19 @@ function add_other_time(){
             </div>
 
             <div class="col-lg-6">
-                <label style="color:red">*</label>
+                <label style="color:red !important;">*</label>
                 <label>Timeslot</label>
                 <div class="row">
                     <div class="col-lg-8">
                         <div class="input-container-search-ticket">
                             <div class="form-select">
-                                <select class="form-control" style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot" onclick="reset_pax();">
+                                <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot" onclick="reset_pax();">
 
                                 </select>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-2">
-
-
-    `;
+                    <div class="col-lg-2">`;
     if(test_time == 1){
         text+=` </div>
             </div>
@@ -38,6 +35,14 @@ function add_other_time(){
             </div>
         </div>
         `;
+    }
+
+    if(test_time > 0){
+    text+=`
+        <div class="col-lg-12">
+            <hr style="border-top: 1px solid `+color+`;"/>
+        </div>
+    `;
     }
     node.innerHTML = text;
     node.id = 'test' + test_time
