@@ -336,8 +336,8 @@ def commit_booking(request):
                     rec['nationality_code'] = country['code']
                     break
             for country in response['result']['response']['airline']['country']:
-                if rec['identity_country_of_issued_name'] == country['name']:
-                    rec['identity_country_of_issued_code'] = country['code']
+                if rec['identity']['identity_country_of_issued_name'] == country['name']:
+                    rec['identity']['identity_country_of_issued_code'] = country['code']
                     break
         try:
             if bool(int(request.POST['force_issued'])) == True:

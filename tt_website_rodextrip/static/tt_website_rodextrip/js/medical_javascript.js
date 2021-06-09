@@ -164,6 +164,7 @@ function add_table_of_passenger(type){
                                         <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid `+color+`;" id="adult_paxs`+parseInt(counter_passenger+1)+`">
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
+                                                    <label style="color:red !important">*</label>
                                                     <label>Title</label>`;
                                                     if(template == 1){
                                                         text+=`<div class="input-container-search-ticket">`;
@@ -192,6 +193,7 @@ function add_table_of_passenger(type){
                                                 <div class="col-lg-6 col-md-6 col-sm-6" style="float:left;"></div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                                     <br/>
+                                                    <label style="color:red !important">*</label>
                                                     <label>First name and middle name (if any)</label>
                                                     <div class="input-container-search-ticket" style="margin-bottom:5px;">
                                                         <input type="text" class="form-control" name="adult_first_name`+parseInt(counter_passenger+1)+`" id="adult_first_name`+parseInt(counter_passenger+1)+`" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
@@ -208,6 +210,7 @@ function add_table_of_passenger(type){
                                                     <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
                                                 </div>
                                                 <div class="col-lg-6">
+                                                    <label style="color:red !important">*</label>
                                                     <label>Nationality</label>`;
                                                     if(template == 1 || template == 5){
                                                         text+=`<div class="input-container-search-ticket">`;
@@ -231,6 +234,7 @@ function add_table_of_passenger(type){
                                                 text+=`
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    <label style="color:red !important">*</label>
                                                     <label>Birth Date</label>
                                                     <div class="input-container-search-ticket" style="margin-bottom:5px;">
                                                         <input type="text" class="form-control date-picker-birth" name="adult_birth_date`+parseInt(counter_passenger+1)+`" id="adult_birth_date`+parseInt(counter_passenger+1)+`" onchange="check_years_old(`+parseInt(counter_passenger+1)+`)" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off">
@@ -238,6 +242,7 @@ function add_table_of_passenger(type){
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    <label style="color:red !important">*</label>
                                                     <label>ID Type</label>`;
                                                     if(template == 1){
                                                         text+=`<div class="input-container-search-ticket">`;
@@ -271,6 +276,7 @@ function add_table_of_passenger(type){
                                                 </div>
 
                                                 <div class="col-lg-6">
+                                                    <label style="color:red !important">*</label>
                                                     <label>Country of Issued</label>`;
                                                     if(template == 1){
                                                         text+=`<div class="input-container-search-ticket">`;
@@ -341,6 +347,7 @@ function add_table_of_passenger(type){
                                                 </div>
 
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    <label style="color:red !important">*</label>
                                                     <label>Sample Method</label>`;
                                                     if(template == 1){
                                                         text+=`<div class="input-container-search-ticket">`;
@@ -369,6 +376,7 @@ function add_table_of_passenger(type){
                                                 </div>`;
                                                 text+=`
                                                 <div class="col-lg-6" id="adult_cp_hidden1_`+parseInt(counter_passenger+1)+`">
+                                                    <label style="color:red !important">*</label>
                                                     <label>Contact Email Address</label>
                                                     <div class="input-container-search-ticket">
                                                         <input type="text" class="form-control" name="adult_email`+parseInt(counter_passenger+1)+`" id="adult_email`+parseInt(counter_passenger+1)+`" placeholder="Email Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '">
@@ -376,6 +384,7 @@ function add_table_of_passenger(type){
                                                     <label style="font-size:12px; padding:0;">Example: email@example.com</label>
                                                 </div>
                                                 <div class="col-lg-6" id="adult_cp_hidden2_`+parseInt(counter_passenger+1)+`">
+                                                    <label style="color:red !important">*</label>
                                                     <label>Contact Person for Urgent Situation</label>
                                                     <div class="row">
                                                         <div class="col-lg-3">
@@ -1009,91 +1018,107 @@ function check_passenger(){
         request['passenger'] = []
         if(vendor == 'periksain'){
             for(i=0; i < counter_passenger; i++){
+                nomor_pax = (i + 1)
                 try{
                     //kasi if kosong
-                    if(document.getElementById('adult_first_name' + (i + 1)).value == '' || check_word(document.getElementById('adult_first_name' + (i + 1)).value) == false){
-                        error_log += 'Please fill or use alpha characters for first name for passenger '+ (i + 1) + ' !</br>\n';
-                        document.getElementById('adult_first_name' + (i + 1)).style['border-color'] = 'red';
+                    if(document.getElementById('adult_first_name' + nomor_pax).value == '' || check_word(document.getElementById('adult_first_name' + nomor_pax).value) == false){
+                        error_log += 'Please fill or use alpha characters for first name for passenger '+ nomor_pax + ' !</br>\n';
+                        document.getElementById('adult_first_name' + nomor_pax).style['border-color'] = 'red';
                     }else{
-                        document.getElementById('adult_first_name' + (i + 1)).style['border-color'] = '#EFEFEF';
+                        document.getElementById('adult_first_name' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
-                    if(document.getElementById('adult_last_name' + (i + 1)).value == '' || check_word(document.getElementById('adult_last_name' + (i + 1)).value) == false){
-                        error_log += 'Please fill or use alpha characters for last name for passenger '+ (i + 1) + ' !</br>\n';
-                        document.getElementById('adult_last_name' + (i + 1)).style['border-color'] = 'red';
+                    if(document.getElementById('adult_last_name' + nomor_pax).value == '' || check_word(document.getElementById('adult_last_name' + nomor_pax).value) == false){
+                        error_log += 'Please fill or use alpha characters for last name for passenger '+ nomor_pax + ' !</br>\n';
+                        document.getElementById('adult_last_name' + nomor_pax).style['border-color'] = 'red';
                     }else{
-                        document.getElementById('adult_last_name' + (i + 1)).style['border-color'] = '#EFEFEF';
+                        document.getElementById('adult_last_name' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
-                    if(document.getElementById('adult_title' + (i + 1)).value == ''){
-                        error_log += 'Please fill title name for passenger '+ (i + 1) + ' !</br>\n';
-                        document.getElementById('adult_title' + (i + 1)).style['border-color'] = 'red';
+                    if(document.getElementById('adult_title' + nomor_pax).value == ''){
+                        error_log += 'Please fill title name for passenger '+ nomor_pax + ' !</br>\n';
+                        document.getElementById('adult_title' + nomor_pax).style['border-color'] = 'red';
                     }else{
-                        document.getElementById('adult_title' + (i + 1)).style['border-color'] = '#EFEFEF';
+                        document.getElementById('adult_title' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
-                    if(document.getElementById('adult_nationality' + (i + 1)).value == ''){
-                        error_log += 'Please fill title name for passenger '+ (i + 1) + ' !</br>\n';
-                        document.getElementById('adult_nationality' + (i + 1)).style['border-color'] = 'red';
+                    if(document.getElementById('adult_nationality' + nomor_pax).value == ''){
+                        error_log += 'Please fill title name for passenger '+ nomor_pax + ' !</br>\n';
+                        document.getElementById('adult_nationality' + nomor_pax).style['border-color'] = 'red';
                     }else{
-                        document.getElementById('adult_nationality' + (i + 1)).style['border-color'] = '#EFEFEF';
+                        document.getElementById('adult_nationality' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
-                    if(check_date(document.getElementById('adult_birth_date'+ (i + 1)).value)==false){
-                        error_log+= 'Birth date wrong for passenger passenger '+(i+1)+'!</br>\n';
-                        document.getElementById('adult_birth_date'+ (i + 1)).style['border-color'] = 'red';
+                    if(check_date(document.getElementById('adult_birth_date'+ nomor_pax).value)==false){
+                        error_log+= 'Birth date wrong for passenger passenger '+nomor_pax+'!</br>\n';
+                        document.getElementById('adult_birth_date'+ nomor_pax).style['border-color'] = 'red';
                     }else{
-                        document.getElementById('adult_birth_date'+ (i + 1)).style['border-color'] = '#EFEFEF';
+                        document.getElementById('adult_birth_date'+ nomor_pax).style['border-color'] = '#EFEFEF';
                     }
-                    if(check_phone_number(document.getElementById('adult_phone' + (i + 1)).value)==false){
-                        error_log+= 'Phone number only contain number 8 - 12 digits for passenger '+(i+1)+'!</br>\n';
-                        document.getElementById('adult_phone' + (i + 1)).style['border-color'] = 'red';
+                    if(check_phone_number(document.getElementById('adult_phone' + nomor_pax).value)==false){
+                        error_log+= 'Phone number only contain number 8 - 12 digits for passenger '+nomor_pax+'!</br>\n';
+                        document.getElementById('adult_phone' + nomor_pax).style['border-color'] = 'red';
                     }else{
-                        document.getElementById('adult_phone' + (i + 1)).style['border-color'] = '#EFEFEF';
+                        document.getElementById('adult_phone' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
-                    if(check_email(document.getElementById('adult_email' + (i + 1)).value)==false){
-                        error_log+= 'Invalid Passenger '+(i+1)+' email!</br>\n';
-                        document.getElementById('adult_email' + (i + 1)).style['border-color'] = 'red';
+                    if(check_email(document.getElementById('adult_email' + nomor_pax).value)==false){
+                        error_log+= 'Invalid Passenger '+ nomor_pax +' email!</br>\n';
+                        document.getElementById('adult_email' + nomor_pax).style['border-color'] = 'red';
                     }else{
-                        document.getElementById('adult_email' + (i + 1)).style['border-color'] = '#EFEFEF';
+                        document.getElementById('adult_email' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
-                    if(document.getElementById('adult_identity_type' + (i + 1)).value != ''){
-                        document.getElementById('adult_identity_type' + (i + 1)).style['border-color'] = '#EFEFEF';
-                        if(document.getElementById('adult_identity_type' + (i + 1)).value == 'ktp'){
-                            if(document.getElementById('adult_identity_number'+ (i + 1)).value == ''){
-                                error_log+= 'Please fill identity number for passenger '+(i + 1)+'!</br>\n';
-                                document.getElementById('adult_identity_number'+ (i + 1)).style['border-color'] = 'red';
-                            }else if(check_ktp(document.getElementById('adult_identity_number'+ (i + 1)).value) == false){
-                                error_log+= 'Please fill identity number, ktp only contain 16 digits for passenger adult '+(i+1)+'!</br>\n';
-                                document.getElementById('adult_identity_number'+ (i + 1)).style['border-color'] = 'red';
+                    if(document.getElementById('adult_sample_method' + nomor_pax).value == ''){
+                        error_log+= 'Please choose sample method for passenger '+nomor_pax+'!</br>\n';
+                        document.getElementById('adult_sample_method' + nomor_pax).style['border-color'] = 'red';
+                    }else{
+                        document.getElementById('adult_sample_method' + nomor_pax).style['border-color'] = '#EFEFEF';
+                    }
+                    if(document.getElementById('adult_identity_type' + nomor_pax).value != ''){
+                        document.getElementById('adult_identity_type' + nomor_pax).style['border-color'] = '#EFEFEF';
+                        if(document.getElementById('adult_identity_type' + nomor_pax).value == 'ktp'){
+                            if(document.getElementById('adult_identity_number'+ nomor_pax).value == ''){
+                                error_log+= 'Please fill identity number for passenger '+nomor_pax+'!</br>\n';
+                                document.getElementById('adult_identity_number'+ nomor_pax).style['border-color'] = 'red';
+                            }else if(check_ktp(document.getElementById('adult_identity_number'+ nomor_pax).value) == false){
+                                error_log+= 'Please fill identity number, ktp only contain 16 digits for passenger adult '+nomor_pax+'!</br>\n';
+                                document.getElementById('adult_identity_number'+ nomor_pax).style['border-color'] = 'red';
                             }else{
-                                document.getElementById('adult_identity_number'+ (i + 1)).style['border-color'] = '#EFEFEF';
+                                document.getElementById('adult_identity_number'+ nomor_pax).style['border-color'] = '#EFEFEF';
                             }
-                            if(document.getElementById('adult_country_of_issued'+ (i + 1)).value == ''){
+                            if(document.getElementById('adult_country_of_issued'+ nomor_pax).value == ''){
                                 error_log+= 'Please fill country of issued for passenger '+i+'!</br>\n';
-                                document.getElementById('adult_country_of_issued'+ (i + 1)).style['border-color'] = 'red';
+                                document.getElementById('adult_country_of_issued'+ nomor_pax).style['border-color'] = 'red';
                             }else{
-                                document.getElementById('adult_country_of_issued'+ (i + 1)).style['border-color'] = '#EFEFEF';
+                                document.getElementById('adult_country_of_issued'+ nomor_pax).style['border-color'] = '#EFEFEF';
                             }
                         }
                     }else{
-                        error_log+= 'Please fill identity type for passenger '+(i+1)+'!</br>\n';
-                        document.getElementById('adult_identity_type' + (i + 1)).style['border-color'] = 'red';
+                        error_log+= 'Please fill identity type for passenger '+nomor_pax+'!</br>\n';
+                        document.getElementById('adult_identity_type' + nomor_pax).style['border-color'] = 'red';
+                    }
+                    if(i == 0 && document.getElementsByName('myRadios')[0].checked == true){
+                        is_also_booker = true;
+                        is_also_contact = true;
+                    }else{
+                        is_also_booker = false;
+                        is_also_contact = false;
                     }
                     check_passenger = true;
                     request['passenger'].push({
                         "pax_type": "ADT",
-                        "first_name": document.getElementById('adult_first_name' + (i + 1)).value,
-                        "last_name": document.getElementById('adult_last_name' + (i + 1)).value,
-                        "title": document.getElementById('adult_title' + (i + 1)).value,
-                        "birth_date": document.getElementById('adult_birth_date' + (i + 1)).value,
-                        "nationality_name": document.getElementById('adult_nationality' + (i + 1)).value,
-                        "identity_country_of_issued_name": document.getElementById('adult_country_of_issued' + (i + 1)).value,
-                        "identity_expdate": '',
-                        "identity_number": document.getElementById('adult_identity_number' + (i + 1)).value,
-                        "passenger_seq_id": document.getElementById('adult_id' + (i + 1)).value,
-                        "identity_type": document.getElementById('adult_identity_type' + (i + 1)).value,
-                        "sample_method": document.getElementById('adult_sample_method' + (i + 1)).value,
-                        "email": document.getElementById('adult_email' + (i + 1)).value,
-                        "phone_number": document.getElementById('adult_phone_code'+(i + 1)+'_id').value + document.getElementById('adult_phone'+(i + 1)).value,
-                        'is_also_booker': false,
-                        'is_also_contact': false,
+                        "first_name": document.getElementById('adult_first_name' + nomor_pax).value,
+                        "last_name": document.getElementById('adult_last_name' + nomor_pax).value,
+                        "title": document.getElementById('adult_title' + nomor_pax).value,
+                        "birth_date": document.getElementById('adult_birth_date' + nomor_pax).value,
+                        "nationality_name": document.getElementById('adult_nationality' + nomor_pax).value,
+                        "identity": {
+                            "identity_country_of_issued_name": document.getElementById('adult_country_of_issued' + nomor_pax).value,
+                            "identity_expdate": '',
+                            "identity_number": document.getElementById('adult_identity_number' + nomor_pax).value,
+                        },
+                        "passenger_seq_id": document.getElementById('adult_id' + nomor_pax).value,
+                        "identity_type": document.getElementById('adult_identity_type' + nomor_pax).value,
+                        "sample_method": document.getElementById('adult_sample_method' + nomor_pax).value,
+                        "email": document.getElementById('adult_email' + nomor_pax).value,
+                        "phone_number": document.getElementById('adult_phone_code'+nomor_pax+'_id').value + document.getElementById('adult_phone'+nomor_pax).value,
+                        'is_also_booker': is_also_booker,
+                        'is_also_contact': is_also_contact
 
                     })
                 }catch(err){}
@@ -1141,6 +1166,14 @@ function check_passenger(){
                     last_name = ''
                     if(first_name.length > 1)
                         last_name = first_name.pop();
+                    if(i == 0 && document.getElementsByName('myRadios')[0].checked == true){
+                        is_also_booker = true;
+                        is_also_contact = true;
+                    }else{
+                        is_also_booker = false;
+                        is_also_contact = false;
+                    }
+
                     request['passenger'].push({
                         "pax_type": "ADT",
                         "first_name": first_name.join(' '),
@@ -1154,8 +1187,8 @@ function check_passenger(){
                         "passenger_seq_id": '',
                         "identity_type": 'ktp',
                         "sample_method": "-",
-                        'is_also_booker': false,
-                        'is_also_contact': false
+                        'is_also_booker': is_also_booker,
+                        'is_also_contact': is_also_contact
                     });
                     request['data']['kontrak'].push({
                         "inp_nm_pasien_blmpernah": document.getElementById('inp_nm_pasien_blmpernah_'+(i)).value,
@@ -1293,9 +1326,10 @@ function add_table(){
             }
         }
     }else{
-        for(counting=last_counter;counting>=tempcounter;counting--){
+        for(counting=last_counter-1;counting>=tempcounter;counting--){
             delete_table_of_passenger(counting);
         }
+        counter_passenger = tempcounter;
     }
     document.getElementById('medical_detail').style.display = 'none';
     document.getElementById('next_medical').style.display = 'none';

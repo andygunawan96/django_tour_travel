@@ -683,13 +683,10 @@ def admin(request):
                     if text != {}:
                         write_cache_with_folder(text, "font")
 
-                    text = []
+                    text = {}
                     for idx, data in enumerate(request.session.get('provider'), start=1):
                         try:
-                            text.append({
-                                'sequence': request.POST['product_sequence'+str(idx)],
-                                'name': request.POST['product_name'+str(idx)]
-                            })
+                            text[request.POST['product_name'+str(idx)]] = request.POST['product_sequence'+str(idx)]
                         except Exception as e:
                             pass
                     if len(text) > 0:
@@ -1264,11 +1261,7 @@ def get_data_template(request, type='home', provider_type = []):
         if file:
             provider_types_sequence_file = file
             for rec in provider_types_sequence:
-                if rec['name'] not in [x['name'] for x in provider_types_sequence_file]:
-                    provider_types_sequence_file.append({
-                        'name': rec['name'],
-                        'sequence': rec['sequence']
-                    })
+                rec['sequence'] = provider_types_sequence_file.get(rec['name'], '')
         #check sequence
         last_sequence = 0
         empty_sequence = False
@@ -1283,7 +1276,7 @@ def get_data_template(request, type='home', provider_type = []):
                 empty_sequence = True
         if empty_sequence:
             for provider_obj in provider_types_sequence:
-                if provider_obj['sequence'] == '' :
+                if provider_obj['sequence'] == '':
                     last_sequence += 1
                     provider_obj['sequence'] = str(last_sequence)
 
