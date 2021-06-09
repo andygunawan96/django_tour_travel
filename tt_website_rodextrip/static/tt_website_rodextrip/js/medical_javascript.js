@@ -43,13 +43,12 @@ function add_other_time(){
     node.id = 'test' + test_time
     document.getElementById('test').appendChild(node);
     $('#booker_timeslot_id'+test_time).niceSelect();
-    var now = moment().format('DD MMM YYYY');
     $('input[name="booker_test_date'+test_time+'"]').daterangepicker({
         singleDatePicker: true,
         autoUpdateInput: true,
-        startDate: now,
-        minDate: now,
-        maxDate: moment(medical_get_availability_response.max_date),
+        startDate: moment(medical_get_availability_response[document.getElementById('booker_area').value].min_date),
+        minDate: moment(medical_get_availability_response[document.getElementById('booker_area').value].min_date),
+        maxDate: moment(medical_get_availability_response[document.getElementById('booker_area').value].max_date),
         showDropdowns: true,
         opens: 'center',
         locale: {
@@ -68,8 +67,18 @@ function add_other_time(){
 
 function update_timeslot(val){
     var text = '';
-    for(i in medical_get_availability_response.timeslots[document.getElementById('booker_area').value][moment(document.getElementById('booker_test_date'+val).value).format('YYYY-MM-DD')]){
-        text+= `<option value="`+medical_get_availability_response.timeslots[document.getElementById('booker_area').value][moment(document.getElementById('booker_test_date'+val).value).format('YYYY-MM-DD')][i].seq_id+`~`+medical_get_availability_response.timeslots[document.getElementById('booker_area').value][moment(document.getElementById('booker_test_date'+val).value).format('YYYY-MM-DD')][i].time+`">`+medical_get_availability_response.timeslots[document.getElementById('booker_area').value][moment(document.getElementById('booker_test_date'+val).value).format('YYYY-MM-DD')][i].time+`</option>`;
+    var medical_date_pick = moment(document.getElementById('booker_test_date'+val).value).format('YYYY-MM-DD');
+    var now = moment()
+    for(i in medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick]){
+        if(medical_date_pick == now.format('YYYY-MM-DD')){
+            if(now.diff(moment(medical_date_pick+' '+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].time), 'hours') > -5){
+                text+= `<option disabled value="`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].seq_id+`~`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].time+`">`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].time+`</option>`;
+            }else{
+                text+= `<option value="`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].seq_id+`~`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].time+`">`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].time+`</option>`;
+            }
+        }else{
+            text+= `<option value="`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].seq_id+`~`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].time+`">`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].time+`</option>`;
+        }
     }
     console.log(text);
     document.getElementById('booker_timeslot_id'+val).innerHTML = text;
@@ -900,9 +909,10 @@ function check_passenger(){
     }else{
         document.getElementById('booker_area').style['border-color'] = '#EFEFEF';
     }
-
-    if(web_url == '' && google_api_key != ''){
-        error_log+= 'Please choose your test place in google maps!</br>\n';
+    if(use_google_map == true){
+        if(web_url == '' && google_api_key != ''){
+            error_log+= 'Please choose your test place in google maps!</br>\n';
+        }
     }
 
     if(error_log == ''){
@@ -1219,6 +1229,7 @@ function reset_other_time(){
     test_time = 1;
     document.getElementById('test').innerHTML = '';
     reset_pax();
+    radio_timeslot_type_func();
 }
 
 function reset_pax(){
@@ -1254,5 +1265,16 @@ function show_commission(val){
     else{
         sc.style.display = "none";
         scs.value = "Show Commission";
+    }
+}
+
+function radio_timeslot_type_func(val){
+    if(val == 'fix'){
+        document.getElementById('add_test_time_button').hidden = true;
+    }else if(val == 'flexible'){
+        document.getElementById('add_test_time_button').hidden = false;
+    }
+    if(test_time == 1){
+        add_other_time();
     }
 }
