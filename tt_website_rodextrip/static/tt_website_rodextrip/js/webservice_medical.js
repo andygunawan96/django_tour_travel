@@ -206,7 +206,6 @@ function medical_get_availability(){
 function medical_check_price(){
     var timeslot_list = [];
     document.getElementById('check_price_medical').disabled = true;
-    reset_pax();
     for(i=1;i <= test_time; i++){
         try{
             timeslot_list.push(document.getElementById('booker_timeslot_id'+i).value.split('~')[0])
@@ -274,7 +273,6 @@ function medical_check_price(){
                     document.getElementById('medical_detail').innerHTML = text;
                     document.getElementById('medical_detail').style.display = 'block';
                     document.getElementById('next_medical').style.display = 'block';
-                    document.getElementById('table_passenger_list').style.display = 'block';
                     document.getElementById('check_price_medical').disabled = false;
                     //print harga
                 }

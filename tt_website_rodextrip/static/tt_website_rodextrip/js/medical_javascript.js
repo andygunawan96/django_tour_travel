@@ -24,7 +24,7 @@ function add_other_time(){
                     <div class="col-lg-8">
                         <div class="input-container-search-ticket">
                             <div class="form-select">
-                                <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot" onclick="reset_pax();">
+                                <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot">
 
                                 </select>
                             </div>
@@ -63,8 +63,6 @@ function add_other_time(){
     });
     $('input[name="booker_test_date'+test_time+'"]').on('apply.daterangepicker', function(ev, picker) {
         var val = parseInt(ev.target.id.replace('booker_test_date',''));
-        reset_pax();
-
         update_timeslot(val);
     });
     update_timeslot(test_time);
@@ -1234,7 +1232,6 @@ function check_passenger(){
 function reset_other_time(){
     test_time = 1;
     document.getElementById('test').innerHTML = '';
-    reset_pax();
     radio_timeslot_type_func();
 }
 
@@ -1303,8 +1300,8 @@ function add_table(){
         for(counting=last_counter;counting>=tempcounter;counting--){
             delete_table_of_passenger(counting);
         }
-
-        table_passenger0
     }
+    document.getElementById('medical_detail').style.display = 'none';
+    document.getElementById('next_medical').style.display = 'none';
     last_counter = tempcounter;
 }
