@@ -1110,10 +1110,10 @@ function check_passenger(){
                         "identity": {
                             "identity_country_of_issued_name": document.getElementById('adult_country_of_issued' + nomor_pax).value,
                             "identity_expdate": '',
+                            "identity_type": document.getElementById('adult_identity_type' + nomor_pax).value,
                             "identity_number": document.getElementById('adult_identity_number' + nomor_pax).value,
                         },
                         "passenger_seq_id": document.getElementById('adult_id' + nomor_pax).value,
-                        "identity_type": document.getElementById('adult_identity_type' + nomor_pax).value,
                         "sample_method": document.getElementById('adult_sample_method' + nomor_pax).value,
                         "email": document.getElementById('adult_email' + nomor_pax).value,
                         "phone_number": document.getElementById('adult_phone_code'+nomor_pax+'_id').value + document.getElementById('adult_phone'+nomor_pax).value,
