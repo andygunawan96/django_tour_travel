@@ -363,7 +363,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-12 mt-4" style="padding:15px; background:white; border:1px solid #cdcdcd;">
+                    <div class="col-lg-12 mt-4" style="padding:15px; background:white; border:1px solid #cdcdcd;display:none;" id="medical_timeslot">
                         <div class="row">
                             <div class="col-lg-12" id="timeslot_type" style="padding:0px; text-align:left;margin-bottom:10px;">
                                 <label class="radio-button-custom" style="margin-left:15px;">
@@ -442,10 +442,11 @@
                                 <div style="margin-top:15px;">
                                     <table id="table_of_passenger" name="table_of_passenger" style="width:100%;background:white;" class="list-of-table">
                                         <tr>
+                                            <th style="width:10%;">No</th>
                                             <th style="width:40%;">Name</th>
                                             <th style="width:20%;">Birth Date</th>
                                             <th style="width:15%;">Sample Method</th>
-                                            <th style="width:20%;"></th>
+                                            <th style="width:10%;"></th>
                                         </tr>
                                     </table>
                                 </div>
@@ -3330,15 +3331,20 @@
     $('.loader-rodextrip').fadeOut();
     use_google_map = false;
     last_counter = 0;
-    $( document ).ready(function() {
-      vendor = `{{vendor}}`;
+    vendor = `{{vendor}}`;
       test_type = `{{test_type}}`;
+      if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCHCKATG')
+        document.getElementById('medical_timeslot').style.display = 'block';
+      if(vendor == 'phc' && test_type == 'PHCDTKATG'){
+        document.getElementById('booker_address').readOnly = true;
+        document.getElementById('booker_address').value = 'Jl. Raya Bukit Darmo No.22-24, Putat Gede, Kec. Sukomanunggal, Kota SBY, Jawa Timur 60189';
+      }
+    $( document ).ready(function() {
       $('.js-example-basic-single').niceSelect('destroy');
       $('.js-example-basic-single').select2();
       auto_complete('booker_nationality');
       auto_complete('booker_phone_code');
       medical_signin('passenger');
-      add_table();
     });
     $(function() {
       breadcrumb_create("medical", 2, 0);
@@ -3366,15 +3372,23 @@
         {
             "name": "surabaya",
             "lat": -7.2756141,
-            "long": 112.6426418
+            "long": 112.6426418,
+            "zoom" : 12
         }, {
             "name": "sidoarjo",
             "lat": -7.4472392,
-            "long": 112.6718014
+            "long": 112.6718014,
+            "zoom" : 12
         }, {
             "name": "malang",
             "lat": -7.9786395,
-            "long": 112.5617411
+            "long": 112.5617411,
+            "zoom" : 12
+        }, {
+            "name": "static",
+            "lat": -7.2885671,
+            "long": 112.6971183,
+            "zoom" : 18
         }
     ];
     function initMap() {
@@ -3385,7 +3399,9 @@
         {% if google_api_key != ''%}
         var list_map_choose = {};
         web_url = '';
-        if(document.getElementById('booker_area').value == 'surabaya' || document.getElementById('booker_area').value == 'Surabaya'){
+        if(vendor == 'phc' && test_type == 'PHCDTKATG'){
+            list_map_choose = list_map[3];
+        }else if(document.getElementById('booker_area').value == 'surabaya' || document.getElementById('booker_area').value == 'Surabaya'){
             list_map_choose = list_map[0];
         }else if(document.getElementById('booker_area').value == 'sidoarjo' || document.getElementById('booker_area').value == 'Sidoarjo'){
             list_map_choose = list_map[1];
@@ -3396,7 +3412,7 @@
         }
         var mapProp= {
             center:new google.maps.LatLng(list_map_choose.lat,list_map_choose.long),
-            zoom:12,
+            zoom:list_map_choose.zoom,
             mapTypeId: "roadmap"
         };
         if(!map){
@@ -3407,54 +3423,64 @@
                                                   placeholder="Search Box"
                                                 />`;
             map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
-            map.addListener('click', function(event) {
-               placeMarker(event.latLng);
-            });
-
-            var input = document.getElementById("pac-input");
-            var searchBox = new google.maps.places.SearchBox(input);
-            map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-            map.addListener("bounds_changed", () => {
-                searchBox.setBounds(map.getBounds());
-            });
-            // Listen for the event fired when the user selects a prediction and retrieve
-            // more details for that place.
-            searchBox.addListener("places_changed", () => {
-                const places = searchBox.getPlaces();
-                if (places.length == 0) {
-                  return;
-                }
-                // Clear out the old markers.
-                if(marker){
-                    marker.setMap(null);
-                    marker = '';
-                }
-                // For each place, get the icon, name and location.
-                const bounds = new google.maps.LatLngBounds();
-                places.forEach((place) => {
-                    console.log(place);
-                    if (!place.geometry || !place.geometry.location) {
-                        console.log("Returned place contains no geometry");
-                        return;
-                    }
-                    // Create a marker for each place.
-                    marker = new google.maps.Marker({
-                        map,
-                        title: place.name,
-                        position: place.geometry.location,
-                    })
-                    web_url = 'http://www.google.com/maps/place/';
-                    web_url += place.geometry.location.lat() + ',' + place.geometry.location.lng();
-
-                    if (place.geometry.viewport) {
-                        // Only geocodes have viewport.
-                        bounds.union(place.geometry.viewport);
-                    } else {
-                        bounds.extend(place.geometry.location);
-                    }
+            if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCHCKATG'){
+                map.addListener('click', function(event) {
+                   placeMarker(event.latLng);
                 });
-                map.fitBounds(bounds);
-            });
+                var input = document.getElementById("pac-input");
+                var searchBox = new google.maps.places.SearchBox(input);
+                map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+                map.addListener("bounds_changed", () => {
+                    searchBox.setBounds(map.getBounds());
+                });
+                // Listen for the event fired when the user selects a prediction and retrieve
+                // more details for that place.
+                searchBox.addListener("places_changed", () => {
+                    const places = searchBox.getPlaces();
+                    if (places.length == 0) {
+                      return;
+                    }
+                    // Clear out the old markers.
+                    if(marker){
+                        marker.setMap(null);
+                        marker = '';
+                    }
+                    // For each place, get the icon, name and location.
+                    const bounds = new google.maps.LatLngBounds();
+                    places.forEach((place) => {
+                        console.log(place);
+                        if (!place.geometry || !place.geometry.location) {
+                            console.log("Returned place contains no geometry");
+                            return;
+                        }
+                        // Create a marker for each place.
+                        marker = new google.maps.Marker({
+                            map,
+                            title: place.name,
+                            position: place.geometry.location,
+                        })
+                        web_url = 'http://www.google.com/maps/place/';
+                        web_url += place.geometry.location.lat() + ',' + place.geometry.location.lng();
+
+                        if (place.geometry.viewport) {
+                            // Only geocodes have viewport.
+                            bounds.union(place.geometry.viewport);
+                        } else {
+                            bounds.extend(place.geometry.location);
+                        }
+                    });
+                    map.fitBounds(bounds);
+                });
+            }else{
+                document.getElementById("pac-input").hidden = true;
+                web_url = 'http://www.google.com/maps/place/';
+                web_url += list_map_choose.lat + ',' + list_map_choose.long;
+                marker = new google.maps.Marker({
+                    position: {"lat": list_map_choose.lat,"lng": list_map_choose.long},
+                    map,
+                    title: "Hello World!",
+                });
+            }
         }else{
             web_url = '';
             map.setCenter(new google.maps.LatLng(list_map_choose.lat,list_map_choose.long));
@@ -3470,7 +3496,7 @@
 
 <!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAe6gdP_fFFJn0IYMJ1inYmJyG8xpL3CMo&callback=myMap"></script>-->
 <!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAe6gdP_fFFJn0IYMJ1inYmJyG8xpL3CMo&callback=initMap"></script>-->
-{% if google_api_key != ''%}
+{% if google_api_key != '' %}
 <script src="https://maps.googleapis.com/maps/api/js?key={{google_api_key}}&callback=initMap&libraries=places&v=weekly"></script>
 <script>
     var marker;

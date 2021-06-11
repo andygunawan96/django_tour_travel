@@ -66,10 +66,11 @@ Licence URI: http://www.os-templates.com/template-terms
                 signin_btc();
             else if(type == 'signin_btb')
                 signin();
-            else if(type == 'medical1')
+            else if(type == 'medical1'){
+                document.getElementById('medical_searchForm1').action = 'periksain/passenger/' + document.getElementById('medical_type_periksain').value;
                 document.getElementById('medical_searchForm1').submit();
-            else if(type == 'medical2'){
-                document.getElementById('medical_searchForm2').action = '/phc/passenger/' + document.getElementById('medical_type').value;
+            }else if(type == 'medical2'){
+                document.getElementById('medical_searchForm2').action = '/phc/passenger/' + document.getElementById('medical_type_phc').value;
                 document.getElementById('medical_searchForm2').submit();
             }
         }

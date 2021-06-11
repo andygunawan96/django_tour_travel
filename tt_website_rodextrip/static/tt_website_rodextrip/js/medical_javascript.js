@@ -15,8 +15,9 @@ function add_other_time(){
                 <div class="input-container-search-ticket">
                     <input type="text" class="form-control" style="cursor:pointer;" name="booker_test_date`+test_time+`" id="booker_test_date`+test_time+`" placeholder="Test Date" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Test Date '" autocomplete="off" readonly>
                 </div>
-            </div>
-
+            </div>`;
+    if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCHCKATG')
+    text+=`
             <div class="col-lg-6">
                 <label style="color:red !important;">*</label>
                 <label>Timeslot</label>
@@ -29,14 +30,15 @@ function add_other_time(){
                                 </select>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-2">`;
+                    </div>`;
     if(test_time == 1){
-        text+=` </div>
+        text+=` <div class="col-lg-2">
+                </div>
             </div>
         </div>`;
     }else{
         text+=`
+                <div class="col-lg-2">
                     <button type="button" class="primary-delete-date" onclick="delete_other_time('test`+test_time+`')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                 </div>
             </div>
@@ -48,7 +50,10 @@ function add_other_time(){
     node.innerHTML = text;
     node.id = 'test' + test_time
     document.getElementById('test').appendChild(node);
-    $('#booker_timeslot_id'+test_time).niceSelect();
+    if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCHCKATG'){
+        $('#booker_timeslot_id'+test_time).niceSelect();
+        update_timeslot(test_time);
+    }
     $('input[name="booker_test_date'+test_time+'"]').daterangepicker({
         singleDatePicker: true,
         autoUpdateInput: true,
@@ -63,9 +68,11 @@ function add_other_time(){
     });
     $('input[name="booker_test_date'+test_time+'"]').on('apply.daterangepicker', function(ev, picker) {
         var val = parseInt(ev.target.id.replace('booker_test_date',''));
-        update_timeslot(val);
+        if(vendor == 'periksain'){
+            update_timeslot(val);
+        }
     });
-    update_timeslot(test_time);
+
     test_time++;
 }
 
@@ -95,6 +102,10 @@ function add_table_of_passenger(type){
     set_passenger_number(counter_passenger);
     var node = document.createElement("tr");
     text += `
+        <td>
+            <span id='no_passenger`+counter_passenger+`' name='no_passenger`+counter_passenger+`'>`+parseInt(counter_passenger+1)+`</span>
+            <input id="id_passenger`+counter_passenger+`" name="id_passenger`+counter_passenger+`" type="hidden"/>
+        </td>
         <td>
             <span id='name_pax`+counter_passenger+`' name='name_pax`+counter_passenger+`'></span>
             <input id="id_passenger`+counter_passenger+`" name="id_passenger`+counter_passenger+`" type="hidden"/>
@@ -344,36 +355,343 @@ function add_table_of_passenger(type){
                                                         text+=`</div>`;
                                                     }
                                                 text+=`
-                                                </div>
+                                                </div>`;
+                                                if(vendor == 'periksain'){
+                                                    text+=`
 
-                                                <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    <label style="color:red !important">*</label>
-                                                    <label>Sample Method</label>`;
-                                                    if(template == 1){
-                                                        text+=`<div class="input-container-search-ticket">`;
-                                                    }else if(template == 2){
-                                                        text+=`<div>`;
-                                                    }else if(template == 3){
-                                                        text+=`<div class="default-select">`;
-                                                    }else if(template == 4){
-                                                        text+=`<div class="input-container-search-ticket">`;
-                                                    }else if(template == 5){
-                                                        text+=`<div class="input-container-search-ticket">`;
-                                                    }
-                                                    text+=`<div class="form-select-2">`;
-                                                    if(template == 4){
-                                                        text+=`<select class="nice-select-default rounded" id="adult_sample_method`+parseInt(counter_passenger+1)+`" name="adult_sample_method`+parseInt(counter_passenger+1)+`">`;
-                                                    }else{
-                                                        text+=`<select id="adult_sample_method`+parseInt(counter_passenger+1)+`" name="adult_sample_method`+parseInt(counter_passenger+1)+`">`;
-                                                    }
-                                                        text+=`
-                                                            <option value=""></option>
-                                                            <option value="saliva">Saliva</option>
-                                                            <option value="nasal_swab">Nasal Swab</option>`;
-                                                            text+=`</select>
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Sample Method</label>`;
+                                                        if(template == 1){
+                                                            text+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text+=`<div class="form-select-2">`;
+                                                        if(template == 4){
+                                                            text+=`<select class="nice-select-default rounded" id="adult_sample_method`+parseInt(counter_passenger+1)+`" name="adult_sample_method`+parseInt(counter_passenger+1)+`">`;
+                                                        }else{
+                                                            text+=`<select id="adult_sample_method`+parseInt(counter_passenger+1)+`" name="adult_sample_method`+parseInt(counter_passenger+1)+`">`;
+                                                        }
+                                                            text+=`
+                                                                <option value=""></option>
+                                                                <option value="saliva">Saliva</option>
+                                                                <option value="nasal_swab">Nasal Swab</option>`;
+                                                                text+=`</select>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+                                                }else if(vendor == 'phc'){
+                                                    text+=`
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Tempat Lahir</label>`;
+                                                        if(template == 1){
+                                                            text+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text+=`<div class="form-select-2">`;
+                                                        if(template == 4){
+                                                            text+=`<select class="nice-select-default rounded" id="adult_tempat_lahir`+parseInt(counter_passenger+1)+`" name="adult_tempat_lahir`+parseInt(counter_passenger+1)+`" >`;
+                                                        }else{
+                                                        }
+                                                            text+=`<select id="adult_tempat_lahir`+parseInt(counter_passenger+1)+`" name="adult_tempat_lahir`+parseInt(counter_passenger+1)+`" >`;
+                                                        text += '<option value="">Choose</option>';
+                                                            for(i in medical_config.result.response.kota)
+                                                                text+=`<option value="`+medical_config.result.response.kota[i]+`">`+medical_config.result.response.kota[i]+`</option>`;
+                                                                text+=`</select>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+
+                                                    text+=`
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Profession</label>`;
+                                                        if(template == 1){
+                                                            text+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text+=`<div class="form-select-2">`;
+                                                        if(template == 4){
+                                                            text+=`<select class="nice-select-default rounded" id="adult_profession`+parseInt(counter_passenger+1)+`" name="adult_profession`+parseInt(counter_passenger+1)+`">`;
+                                                        }else{
+                                                            text+=`<select id="adult_profession`+parseInt(counter_passenger+1)+`" name="adult_profession`+parseInt(counter_passenger+1)+`">`;
+                                                        }
+                                                        text += '<option value="">Choose</option>';
+                                                            for(i in medical_config.result.response.profession)
+                                                                text+=`<option value="`+medical_config.result.response.profession[i]+`">`+medical_config.result.response.profession[i]+`</option>`;
+                                                                text+=`</select>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+
+                                                    text+=`
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Work Place</label>
+                                                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                                                            <input type="text" class="form-control" name="adult_work_place`+parseInt(counter_passenger+1)+`" id="adult_work_place`+parseInt(counter_passenger+1)+`" placeholder="Work Place " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Work Place '">
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Address</label>
+                                                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                                                            <input type="text" class="form-control" name="adult_address`+parseInt(counter_passenger+1)+`" id="adult_address`+parseInt(counter_passenger+1)+`" placeholder="Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address '" onchange="auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">
                                                         </div>
                                                     </div>
-                                                </div>`;
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>RT</label>
+                                                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                                                            <input type="text" class="form-control" name="adult_rt`+parseInt(counter_passenger+1)+`" id="adult_rt`+parseInt(counter_passenger+1)+`" placeholder="RT " onfocus="this.placeholder = ''" onblur="this.placeholder = 'RT '"  onchange="auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>RW</label>
+                                                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                                                            <input type="text" class="form-control" name="adult_rw`+parseInt(counter_passenger+1)+`" id="adult_rw`+parseInt(counter_passenger+1)+`" placeholder="RW " onfocus="this.placeholder = ''" onblur="this.placeholder = 'RW '"  onchange="auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">
+                                                        </div>
+                                                    </div>`;
+
+                                                    text+=`
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Kabupaten</label>`;
+                                                        if(template == 1){
+                                                            text+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text+=`<div class="form-select-2">`;
+                                                        if(template == 4){
+                                                            text+=`<select class="nice-select-default rounded" id="adult_kabupaten`+parseInt(counter_passenger+1)+`" name="adult_kabupaten`+parseInt(counter_passenger+1)+`" onchange="get_kecamatan('adult_kabupaten`+parseInt(counter_passenger+1)+`','adult_kecamatan`+parseInt(counter_passenger+1)+`');auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">`;
+                                                        }else{
+                                                            text+=`<select id="adult_kabupaten`+parseInt(counter_passenger+1)+`" name="adult_kabupaten`+parseInt(counter_passenger+1)+`" onchange="get_kecamatan('adult_kabupaten`+parseInt(counter_passenger+1)+`','adult_kecamatan`+parseInt(counter_passenger+1)+`');auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">`;
+                                                        }
+                                                        text += '<option value="">Choose</option>';
+                                                            for(i in medical_config.result.response.kota)
+                                                                text+=`<option value="`+medical_config.result.response.kota[i]+`">`+medical_config.result.response.kota[i]+`</option>`;
+                                                                text+=`</select>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+
+                                                    text+=`
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Kecamatan</label>`;
+                                                        if(template == 1){
+                                                            text+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text+=`<div class="form-select-2">`;
+                                                        if(template == 4){
+                                                            text+=`<select class="nice-select-default rounded" id="adult_kecamatan`+parseInt(counter_passenger+1)+`" name="adult_kecamatan`+parseInt(counter_passenger+1)+`" onchange="get_kelurahan('adult_kecamatan`+parseInt(counter_passenger+1)+`','adult_kelurahan`+parseInt(counter_passenger+1)+`');auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">`;
+                                                        }else{
+                                                            text+=`<select id="adult_kecamatan`+parseInt(counter_passenger+1)+`" name="adult_kecamatan`+parseInt(counter_passenger+1)+`" onchange="get_kelurahan('adult_kecamatan`+parseInt(counter_passenger+1)+`','adult_kelurahan`+parseInt(counter_passenger+1)+`');auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">`;
+                                                        }
+                                                                text+=`</select>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+
+                                                    text+=`
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Kelurahan</label>`;
+                                                        if(template == 1){
+                                                            text+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text+=`<div class="form-select-2">`;
+                                                        if(template == 4){
+                                                            text+=`<select class="nice-select-default rounded" id="adult_kelurahan`+parseInt(counter_passenger+1)+`" name="adult_kelurahan`+parseInt(counter_passenger+1)+`" onchange="auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">`;
+                                                        }else{
+                                                            text+=`<select id="adult_kelurahan`+parseInt(counter_passenger+1)+`" name="adult_kelurahan`+parseInt(counter_passenger+1)+`" onchange="auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">`;
+                                                        }
+                                                                text+=`</select>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+
+                                                    //copy to ktp
+                                                    text+= `
+                                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                                        <br/><br/>
+                                                        <label>Copy to KTP?</label>
+                                                        <label class="radio-button-custom">
+                                                            Yes
+                                                            <input type="radio" name="adult_copy`+parseInt(counter_passenger+1)+`" onchange="copy_ktp(`+parseInt(counter_passenger+1)+`);" value="true"/>
+                                                            <span class="checkmark-radio"></span>
+                                                        </label>
+
+                                                        <label class="radio-button-custom">
+                                                            No
+                                                            <input type="radio" name="adult_copy`+parseInt(counter_passenger+1)+`" onchange="copy_ktp(`+parseInt(counter_passenger+1)+`);" value="false" checked="checked"/>
+                                                            <span class="checkmark-radio"></span>
+                                                        </label>
+                                                    </div>
+                                                    `
+                                                    text+=`
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <br/>
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Address KTP</label>
+                                                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                                                            <input type="text" class="form-control" name="adult_address_ktp`+parseInt(counter_passenger+1)+`" id="adult_address_ktp`+parseInt(counter_passenger+1)+`" placeholder="Address KTP " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address KTP '">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <br/>
+                                                        <label style="color:red !important">*</label>
+                                                        <label>RT KTP</label>
+                                                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                                                            <input type="text" class="form-control" name="adult_rt_ktp`+parseInt(counter_passenger+1)+`" id="adult_rt_ktp`+parseInt(counter_passenger+1)+`" placeholder="RT KTP " onfocus="this.placeholder = ''" onblur="this.placeholder = 'RT KTP '">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>RW KTP</label>
+                                                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                                                            <input type="text" class="form-control" name="adult_rw_ktp`+parseInt(counter_passenger+1)+`" id="adult_rw_ktp`+parseInt(counter_passenger+1)+`" placeholder="RW KTP " onfocus="this.placeholder = ''" onblur="this.placeholder = 'RW KTP '">
+                                                        </div>
+                                                    </div>`;
+
+                                                    text+=`
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Kabupaten KTP</label>`;
+                                                        if(template == 1){
+                                                            text+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text+=`<div class="form-select-2">`;
+                                                        if(template == 4){
+                                                            text+=`<select class="nice-select-default rounded" id="adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`" name="adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`" onchange="get_kecamatan('adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`','adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`')">`;
+                                                        }else{
+                                                            text+=`<select id="adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`" name="adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`" onchange="get_kecamatan('adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`','adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`')">`;
+                                                        }
+                                                        text += '<option value="">Choose</option>';
+                                                            for(i in medical_config.result.response.kota)
+                                                                text+=`<option value="`+medical_config.result.response.kota[i]+`">`+medical_config.result.response.kota[i]+`</option>`;
+                                                                text+=`</select>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+
+                                                    text+=`
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Kecamatan KTP</label>`;
+                                                        if(template == 1){
+                                                            text+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text+=`<div class="form-select-2">`;
+                                                        if(template == 4){
+                                                            text+=`<select class="nice-select-default rounded" id="adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`" name="adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`" onchange="get_kelurahan('adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`','adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`')">`;
+                                                        }else{
+                                                            text+=`<select id="adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`" name="adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`" onchange="get_kelurahan('adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`','adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`')">`;
+                                                        }
+                                                                text+=`</select>
+                                                            </div>
+                                                        </div>
+                                                        <br/>
+                                                    </div>`;
+
+                                                    text+=`
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Kelurahan KTP</label>`;
+                                                        if(template == 1){
+                                                            text+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text+=`<div class="form-select-2">`;
+                                                        if(template == 4){
+                                                            text+=`<select class="nice-select-default rounded" id="adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`" name="adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`">`;
+                                                        }else{
+                                                            text+=`<select id="adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`" name="adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`">`;
+                                                        }
+                                                                text+=`</select>
+                                                            </div>
+                                                        </div>
+                                                        <br/>
+                                                    </div>`;
+                                                }
                                                 text+=`
                                                 <div class="col-lg-6" id="adult_cp_hidden1_`+parseInt(counter_passenger+1)+`">
                                                     <label style="color:red !important">*</label>
@@ -452,14 +770,88 @@ function add_table_of_passenger(type){
     $('#adult_nationality'+parseInt(counter_passenger+1)+'_id').select2();
     $('#adult_country_of_issued'+parseInt(counter_passenger+1)+'_id').select2();
     $('#adult_phone_code'+parseInt(counter_passenger+1)+'_id').select2();
+    if(vendor == 'phc'){
+        $('#adult_tempat_lahir'+parseInt(counter_passenger+1)).niceSelect();
+        $('#adult_kabupaten'+parseInt(counter_passenger+1)).niceSelect();
+        $('#adult_kecamatan'+parseInt(counter_passenger+1)).niceSelect();
+        $('#adult_kelurahan'+parseInt(counter_passenger+1)).niceSelect();
+        $('#adult_kabupaten_ktp'+parseInt(counter_passenger+1)).niceSelect();
+        $('#adult_kecamatan_ktp'+parseInt(counter_passenger+1)).niceSelect();
+        $('#adult_kelurahan_ktp'+parseInt(counter_passenger+1)).niceSelect();
+        $('#adult_profession'+parseInt(counter_passenger+1)).niceSelect();
+    }else if(vendor == 'periksain'){
+        $('#adult_sample_method'+parseInt(counter_passenger+1)).niceSelect();
+    }
+//    get_kecamatan(`adult_kabupaten`+parseInt(counter_passenger+1),`adult_kecamatan`+parseInt(counter_passenger+1));
 //    $('#adult_nationality'+parseInt(counter_passenger+1)).select2();
     if(type == 'open')
         $('#myModalPassenger'+parseInt(parseInt(counter_passenger))).modal('show');
     $('#adult_title'+parseInt(counter_passenger+1)).niceSelect();
-    $('#adult_sample_method'+parseInt(counter_passenger+1)).niceSelect();
     $('#adult_identity_type'+parseInt(counter_passenger+1)).niceSelect();
     auto_complete(`adult_nationality`+parseInt(counter_passenger+1));
     counter_passenger++;
+}
+
+function auto_change_copy_to_ktp(val){
+    var radios = document.getElementsByName('adult_copy'+val);
+    for(i=0, length = radios.length; i < length; i++){
+        if(radios[i].checked){
+            if(radios[i].value == 'true'){
+                copy_ktp(val);
+            }
+            break;
+        }
+    }
+}
+
+function copy_ktp(val){
+    var radios = document.getElementsByName('adult_copy'+val);
+    for(i=0, length = radios.length; i < length; i++){
+        if(radios[i].checked){
+            if(radios[i].value == 'true'){
+                document.getElementById('adult_address_ktp'+val).value = document.getElementById('adult_address'+val).value;
+                document.getElementById('adult_address_ktp'+val).readonly = true;
+                document.getElementById('adult_address_ktp'+val).value = document.getElementById('adult_address'+val).value;
+                document.getElementById('adult_address_ktp'+val).readonly = true;
+                document.getElementById('adult_rt_ktp'+val).value = document.getElementById('adult_rt'+val).value;
+                document.getElementById('adult_rt_ktp'+val).readonly = true;
+                document.getElementById('adult_rw_ktp'+val).value = document.getElementById('adult_rw'+val).value;
+                document.getElementById('adult_rw_ktp'+val).readonly = true;
+                document.getElementById('adult_kabupaten_ktp'+val).value = document.getElementById('adult_kabupaten'+val).value;
+                document.getElementById('adult_kabupaten_ktp'+val).readonly = true;
+                document.getElementById('adult_kecamatan_ktp'+val).innerHTML = document.getElementById('adult_kecamatan'+val).innerHTML
+                document.getElementById('adult_kecamatan_ktp'+val).value = document.getElementById('adult_kecamatan'+val).value;
+                document.getElementById('adult_kecamatan_ktp'+val).readonly = true;
+                document.getElementById('adult_kelurahan_ktp'+val).innerHTML = document.getElementById('adult_kelurahan'+val).innerHTML
+                document.getElementById('adult_kelurahan_ktp'+val).value = document.getElementById('adult_kelurahan'+val).value;
+                document.getElementById('adult_kelurahan_ktp'+val).readonly = true;
+                $('#adult_kabupaten_ktp'+val).niceSelect('update');
+                $('#adult_kecamatan_ktp'+val).niceSelect('update');
+                $('#adult_kelurahan_ktp'+val).niceSelect('update');
+            }else if(radios[i].value == 'false'){
+                document.getElementById('adult_address_ktp'+val).value = '';
+                document.getElementById('adult_address_ktp'+val).readonly = false;
+                document.getElementById('adult_address_ktp'+val).value = '';
+                document.getElementById('adult_address_ktp'+val).readonly = false;
+                document.getElementById('adult_rt_ktp'+val).value = '';
+                document.getElementById('adult_rt_ktp'+val).readonly = false;
+                document.getElementById('adult_rw_ktp'+val).value = '';
+                document.getElementById('adult_rw_ktp'+val).readonly = false;
+                document.getElementById('adult_kabupaten_ktp'+val).value = '';
+                document.getElementById('adult_kabupaten_ktp'+val).readonly = false;
+                document.getElementById('adult_kecamatan_ktp'+val).innerHTML = '';
+                document.getElementById('adult_kecamatan_ktp'+val).value = '';
+                document.getElementById('adult_kecamatan_ktp'+val).readonly = false;
+                document.getElementById('adult_kelurahan_ktp'+val).innerHTML = '';
+                document.getElementById('adult_kelurahan_ktp'+val).value = '';
+                document.getElementById('adult_kelurahan_ktp'+val).readonly = false;
+                $('#adult_kabupaten_ktp'+counter_line).niceSelect('update');
+                $('#adult_kecamatan_ktp'+counter_line).niceSelect('update');
+                $('#adult_kelurahan_ktp'+counter_line).niceSelect('update');
+            }
+            break;
+        }
+    }
 }
 
 function check_identity(val){
@@ -744,10 +1136,10 @@ function add_table_passenger_phc(type){
     }
 
     document.getElementById( "inp_kab_kot_domis_blmpernah_" + counter_passenger ).setAttribute( "onChange", "javascript: get_kecamatan('inp_kab_kot_domis_blmpernah_"+counter_passenger+"','inp_kec_domis_blmpernah_"+counter_passenger+"');" );
-    document.getElementById( "inp_kec_domis_blmpernah_" + counter_passenger ).setAttribute( "onChange", "javascript: get_desa('inp_kec_domis_blmpernah_"+counter_passenger+"','inp_desa_domis_blmpernah_"+counter_passenger+"');" );
+    document.getElementById( "inp_kec_domis_blmpernah_" + counter_passenger ).setAttribute( "onChange", "javascript: get_kelurahan('inp_kec_domis_blmpernah_"+counter_passenger+"','inp_kelurahan_domis_blmpernah_"+counter_passenger+"');" );
 
     document.getElementById( "inp_kab_kot_ktp_blmpernah_" + counter_passenger ).setAttribute( "onChange", "javascript: get_kecamatan('inp_kab_kot_ktp_blmpernah_"+counter_passenger+"','inp_kec_ktp_blmpernah_"+counter_passenger+"');" );
-    document.getElementById( "inp_kec_ktp_blmpernah_" + counter_passenger ).setAttribute( "onChange", "javascript: get_desa('inp_kec_ktp_blmpernah_"+counter_passenger+"','inp_desa_ktp_blmpernah_"+counter_passenger+"');" );
+    document.getElementById( "inp_kec_ktp_blmpernah_" + counter_passenger ).setAttribute( "onChange", "javascript: get_kelurahan('inp_kec_ktp_blmpernah_"+counter_passenger+"','inp_kelurahan_ktp_blmpernah_"+counter_passenger+"');" );
 
     document.getElementById('alamat_sama_' + counter_passenger).setAttribute( "onChange", "javascript: copy_alamat("+counter_passenger+");" );
 
@@ -794,7 +1186,7 @@ function copy_alamat(counter){
         document.getElementById('inp_rw_ktp_blmpernah_'+counter).value = document.getElementById('inp_rw_domis_blmpernah_'+counter).value;
         document.getElementById('inp_kab_kot_ktp_blmpernah_'+counter).value = document.getElementById('inp_kab_kot_domis_blmpernah_'+counter).value;
         document.getElementById('inp_kec_ktp_blmpernah_'+counter).innerHTML = document.getElementById('inp_kec_domis_blmpernah_'+counter).innerHTML;
-        document.getElementById('inp_desa_ktp_blmpernah_'+counter).innerHTML = document.getElementById('inp_desa_domis_blmpernah_'+counter).innerHTML;
+        document.getElementById('inp_kelurahan_ktp_blmpernah_'+counter).innerHTML = document.getElementById('inp_kelurahan_domis_blmpernah_'+counter).innerHTML;
 
         if(test_type == 'swab_pcr'){
             document.getElementById('inp_lamat_ktp_blmpernah_copy_'+counter).value = document.getElementById('inp_lamat_domis_blmpernah_'+counter).value;
@@ -802,7 +1194,7 @@ function copy_alamat(counter){
             document.getElementById('inp_rw_ktp_blmpernah_copy_'+counter).value = document.getElementById('inp_rw_domis_blmpernah_'+counter).value;
             document.getElementById('inp_kab_kot_ktp_blmpernah_copy_'+counter).value = document.getElementById('inp_kab_kot_domis_blmpernah_'+counter).value;
             document.getElementById('inp_kec_ktp_blmpernah_copy_'+counter).value = document.getElementById('inp_kec_domis_blmpernah_'+counter).value;
-            document.getElementById('inp_desa_ktp_blmpernah_copy_'+counter).value = document.getElementById('inp_desa_domis_blmpernah_'+counter).value;
+            document.getElementById('inp_kelurahan_ktp_blmpernah_copy_'+counter).value = document.getElementById('inp_kelurahan_domis_blmpernah_'+counter).value;
         }
     }else{
         document.getElementById('inp_lamat_ktp_blmpernah_'+counter).value = '';
@@ -810,21 +1202,21 @@ function copy_alamat(counter){
         document.getElementById('inp_rw_ktp_blmpernah_'+counter).value = '';
         document.getElementById('inp_kab_kot_ktp_blmpernah_'+counter).value = '';
         document.getElementById('inp_kec_ktp_blmpernah_'+counter).innerHTML = '';
-        document.getElementById('inp_desa_ktp_blmpernah_'+counter).innerHTML = '';
+        document.getElementById('inp_kelurahan_ktp_blmpernah_'+counter).innerHTML = '';
         if(test_type == 'swab_pcr')
             document.getElementById('inp_lamat_ktp_blmpernah_copy_'+counter).value = '';
         document.getElementById('inp_rt_ktp_blmpernah_copy_'+counter).value = '';
         document.getElementById('inp_rw_ktp_blmpernah_copy_'+counter).value = '';
         document.getElementById('inp_kab_kot_ktp_blmpernah_copy_'+counter).value = '';
         document.getElementById('inp_kec_ktp_blmpernah_copy_'+counter).innerHTML = '';
-        document.getElementById('inp_desa_ktp_blmpernah_copy_'+counter).innerHTML = '';
+        document.getElementById('inp_kelurahan_ktp_blmpernah_copy_'+counter).innerHTML = '';
     }
 //    inp_lamat_domis_blmpernah_0
 //    inp_rt_domis_blmpernah_0
 //    inp_rw_domis_blmpernah_0
 //    inp_kab_kot_domis_blmpernah_0
 //    inp_kec_domis_blmpernah_0
-//    inp_desa_domis_blmpernah_0
+//    inp_kelurahan_domis_blmpernah_0
 }
 
 function delete_table_of_passenger(counter){
@@ -837,39 +1229,26 @@ function delete_table_of_passenger(counter){
 }
 
 function update_contact(type,val){
-    if(vendor == 'periksain'){
-        if(type == 'booker'){
-            if(document.getElementById('booker_title').value != '' && document.getElementById('booker_first_name').value != '' && document.getElementById('booker_last_name').value != '')
-                document.getElementById('contact_person').value = document.getElementById('booker_title').value + ' ' + document.getElementById('booker_first_name').value + ' ' + document.getElementById('booker_last_name').value;
-        }else if(type == 'passenger'){
-            if(document.getElementById('adult_title'+val).value != '')
-                document.getElementById('name_pax'+parseInt(val-1)).innerHTML = document.getElementById('adult_title'+val).value + ' ';
-            if(document.getElementById('adult_first_name'+val).value != '')
-                document.getElementById('name_pax'+parseInt(val-1)).innerHTML += document.getElementById('adult_first_name'+val).value + ' ' ;
-            if(document.getElementById('adult_last_name'+val).value != '')
-                document.getElementById('name_pax'+parseInt(val-1)).innerHTML += document.getElementById('adult_last_name'+val).value;
-            if(document.getElementById('adult_birth_date'+val).value != ''){
-                document.getElementById('birth_date'+parseInt(val-1)).innerHTML = document.getElementById('adult_birth_date'+val).value;
-            }
+    if(type == 'booker'){
+        if(document.getElementById('booker_title').value != '' && document.getElementById('booker_first_name').value != '' && document.getElementById('booker_last_name').value != '')
+            document.getElementById('contact_person').value = document.getElementById('booker_title').value + ' ' + document.getElementById('booker_first_name').value + ' ' + document.getElementById('booker_last_name').value;
+    }else if(type == 'passenger'){
+        if(document.getElementById('adult_title'+val).value != '')
+            document.getElementById('name_pax'+parseInt(val-1)).innerHTML = document.getElementById('adult_title'+val).value + ' ';
+        if(document.getElementById('adult_first_name'+val).value != '')
+            document.getElementById('name_pax'+parseInt(val-1)).innerHTML += document.getElementById('adult_first_name'+val).value + ' ' ;
+        if(document.getElementById('adult_last_name'+val).value != '')
+            document.getElementById('name_pax'+parseInt(val-1)).innerHTML += document.getElementById('adult_last_name'+val).value;
+        if(document.getElementById('adult_birth_date'+val).value != ''){
+            document.getElementById('birth_date'+parseInt(val-1)).innerHTML = document.getElementById('adult_birth_date'+val).value;
+        }
+        try{
             if(document.getElementById('adult_sample_method'+val).value != ''){
                 document.getElementById('sample_method'+parseInt(val-1)).innerHTML = document.getElementById('adult_sample_method'+val).value;
             }
-        }
-    }else if(vendor == 'phc'){
-        if(type == 'booker'){
-            if(document.getElementById('booker_title').value != '' && document.getElementById('booker_first_name').value != '' && document.getElementById('booker_last_name').value != '')
-                document.getElementById('contact_person').value = document.getElementById('booker_title').value + ' ' + document.getElementById('booker_first_name').value + ' ' + document.getElementById('booker_last_name').value;
-        }else if(type == 'passenger'){
-            if(document.getElementById('title_'+parseInt(val-1)).value != '')
-                document.getElementById('name_pax'+parseInt(val-1)).innerHTML = document.getElementById('title_'+parseInt(val-1)).value + ' ';
-            if(document.getElementById('inp_nm_pasien_blmpernah_'+parseInt(val-1)).value != '')
-                document.getElementById('name_pax'+parseInt(val-1)).innerHTML += document.getElementById('inp_nm_pasien_blmpernah_'+parseInt(val-1)).value;
-            if(document.getElementById('inp_tgl_lahir_blmpernah_'+parseInt(val-1)).value != ''){
-                document.getElementById('birth_date'+parseInt(val-1)).innerHTML = document.getElementById('inp_tgl_lahir_blmpernah_'+parseInt(val-1)).value;
-            }
-            document.getElementById('sample_method'+parseInt(val-1)).innerHTML = "-";
-        }
+        }catch(err){}
     }
+
 }
 
 function check_passenger(){
@@ -929,8 +1308,6 @@ function check_passenger(){
             'address': document.getElementById('booker_address').value,
             'area': document.getElementById('booker_area').value,
             'test_list': [],
-            'kontrak': [],
-            'questioner': [],
             'place_url_by_google': web_url
         }
     }
@@ -943,7 +1320,7 @@ function check_passenger(){
             if(now.format('DD MMM YYYY') == document.getElementById('booker_test_date'+i).value){
                 if(now.diff(moment(document.getElementById('booker_test_date'+i).value+' '+document.getElementById('booker_timeslot_id'+i).value.split('~')[1]), 'hours') > -5){
                     add_list = false;
-                    error_log += 'Test time reservation only can be book 3 hours before test please change test ' + test_list_counter + '!</br>\n';
+                    error_log += 'Test time reservation only can be book 5 hours before test please change test ' + test_list_counter + '!</br>\n';
                 }
             }
             if(add_list == true){
@@ -1125,47 +1502,165 @@ function check_passenger(){
             }
         }else if(vendor == 'phc'){
             for(i=0; i < counter_passenger; i++){
+                nomor_pax = (i + 1)
                 try{
                     //kasi if kosong
-                    if(document.getElementById('inp_nm_pasien_blmpernah_' + (i)).value == '' || check_word(document.getElementById('inp_nm_pasien_blmpernah_' + (i)).value) == false){
-                        error_log += 'Please fill or use alpha characters for name for passenger '+ (i + 1) + ' !</br>\n';
-                        document.getElementById('inp_nm_pasien_blmpernah_' + (i)).style['border-color'] = 'red';
+                    if(document.getElementById('adult_first_name' + nomor_pax).value == '' || check_word(document.getElementById('adult_first_name' + nomor_pax).value) == false){
+                        error_log += 'Please fill or use alpha characters for first name for passenger '+ nomor_pax + ' !</br>\n';
+                        document.getElementById('adult_first_name' + nomor_pax).style['border-color'] = 'red';
                     }else{
-                        document.getElementById('inp_nm_pasien_blmpernah_' + (i)).style['border-color'] = '#EFEFEF';
+                        document.getElementById('adult_first_name' + nomor_pax).style['border-color'] = '#EFEFEF';
+                    }
+                    if(document.getElementById('adult_last_name' + nomor_pax).value == '' || check_word(document.getElementById('adult_last_name' + nomor_pax).value) == false){
+                        error_log += 'Please fill or use alpha characters for last name for passenger '+ nomor_pax + ' !</br>\n';
+                        document.getElementById('adult_last_name' + nomor_pax).style['border-color'] = 'red';
+                    }else{
+                        document.getElementById('adult_last_name' + nomor_pax).style['border-color'] = '#EFEFEF';
+                    }
+                    if(document.getElementById('adult_title' + nomor_pax).value == ''){
+                        error_log += 'Please fill title name for passenger '+ nomor_pax + ' !</br>\n';
+                        document.getElementById('adult_title' + nomor_pax).style['border-color'] = 'red';
+                    }else{
+                        document.getElementById('adult_title' + nomor_pax).style['border-color'] = '#EFEFEF';
+                    }
+                    if(document.getElementById('adult_nationality' + nomor_pax).value == ''){
+                        error_log += 'Please fill title name for passenger '+ nomor_pax + ' !</br>\n';
+                        document.getElementById('adult_nationality' + nomor_pax).style['border-color'] = 'red';
+                    }else{
+                        document.getElementById('adult_nationality' + nomor_pax).style['border-color'] = '#EFEFEF';
+                    }
+                    if(check_date(document.getElementById('adult_birth_date'+ nomor_pax).value)==false){
+                        error_log+= 'Birth date wrong for passenger passenger '+nomor_pax+'!</br>\n';
+                        document.getElementById('adult_birth_date'+ nomor_pax).style['border-color'] = 'red';
+                    }else{
+                        document.getElementById('adult_birth_date'+ nomor_pax).style['border-color'] = '#EFEFEF';
+                    }
+                    if(check_phone_number(document.getElementById('adult_phone' + nomor_pax).value)==false){
+                        error_log+= 'Phone number only contain number 8 - 12 digits for passenger '+nomor_pax+'!</br>\n';
+                        document.getElementById('adult_phone' + nomor_pax).style['border-color'] = 'red';
+                    }else{
+                        document.getElementById('adult_phone' + nomor_pax).style['border-color'] = '#EFEFEF';
+                    }
+                    if(check_email(document.getElementById('adult_email' + nomor_pax).value)==false){
+                        error_log+= 'Invalid Passenger '+ nomor_pax +' email!</br>\n';
+                        document.getElementById('adult_email' + nomor_pax).style['border-color'] = 'red';
+                    }else{
+                        document.getElementById('adult_email' + nomor_pax).style['border-color'] = '#EFEFEF';
+                    }
+                    if(document.getElementById('adult_profession' + nomor_pax).value == ''){
+                        error_log+= 'Please choose profession for passenger '+nomor_pax+'!</br>\n';
+                        document.getElementById('adult_profession' + nomor_pax).style['border-color'] = 'red';
+                    }else{
+                        document.getElementById('adult_profession' + nomor_pax).style['border-color'] = '#EFEFEF';
+                    }
+                    if(document.getElementById('adult_work_place' + nomor_pax).value == ''){
+                        error_log+= 'Please fill work place for passenger '+nomor_pax+'!</br>\n';
+                        document.getElementById('adult_work_place' + nomor_pax).style['border-color'] = 'red';
+                    }else{
+                        document.getElementById('adult_work_place' + nomor_pax).style['border-color'] = '#EFEFEF';
+                    }
+                    if(document.getElementById('adult_address' + nomor_pax).value == ''){
+                        error_log+= 'Please fill Address for passenger '+nomor_pax+'!</br>\n';
+                        document.getElementById('adult_address' + nomor_pax).style['border-color'] = 'red';
+                    }else{
+                        document.getElementById('adult_address' + nomor_pax).style['border-color'] = '#EFEFEF';
+                    }
+                    if(document.getElementById('adult_rt' + nomor_pax).value == ''){
+                        error_log+= 'Please fill RT for passenger '+nomor_pax+'!</br>\n';
+                        document.getElementById('adult_rt' + nomor_pax).style['border-color'] = 'red';
+                    }else{
+                        document.getElementById('adult_rt' + nomor_pax).style['border-color'] = '#EFEFEF';
+                    }
+                    if(document.getElementById('adult_rw' + nomor_pax).value == ''){
+                        error_log+= 'Please fill RW for passenger '+nomor_pax+'!</br>\n';
+                        document.getElementById('adult_rw' + nomor_pax).style['border-color'] = 'red';
+                    }else{
+                        document.getElementById('adult_rw' + nomor_pax).style['border-color'] = '#EFEFEF';
+                    }
+                    if(document.getElementById('adult_kabupaten' + nomor_pax).value == ''){
+                        error_log+= 'Please choose Kabupaten for passenger '+nomor_pax+'!</br>\n';
+                        document.getElementById('adult_kabupaten' + nomor_pax).style['border-color'] = 'red';
+                    }else{
+                        document.getElementById('adult_kabupaten' + nomor_pax).style['border-color'] = '#EFEFEF';
+                    }
+                    if(document.getElementById('adult_kecamatan' + nomor_pax).value == ''){
+                        error_log+= 'Please choose Kecamatan for passenger '+nomor_pax+'!</br>\n';
+                        document.getElementById('adult_kecamatan' + nomor_pax).style['border-color'] = 'red';
+                    }else{
+                        document.getElementById('adult_kecamatan' + nomor_pax).style['border-color'] = '#EFEFEF';
+                    }
+                    if(document.getElementById('adult_kelurahan' + nomor_pax).value == ''){
+                        error_log+= 'Please choose Kelurahan for passenger '+nomor_pax+'!</br>\n';
+                        document.getElementById('adult_kelurahan' + nomor_pax).style['border-color'] = 'red';
+                    }else{
+                        document.getElementById('adult_kelurahan' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
 
-                    if(check_date(document.getElementById('inp_tgl_lahir_blmpernah_'+ (i)).value)==false){
-                        error_log+= 'Birth date wrong for passenger passenger '+(i + 1)+'</br>!\n';
-                        document.getElementById('inp_tgl_lahir_blmpernah_'+ (i)).style['border-color'] = 'red';
+                    if(document.getElementById('adult_address_ktp' + nomor_pax).value == ''){
+                        error_log+= 'Please fill Address KTP for passenger '+nomor_pax+'!</br>\n';
+                        document.getElementById('adult_address_ktp' + nomor_pax).style['border-color'] = 'red';
                     }else{
-                        document.getElementById('inp_tgl_lahir_blmpernah_'+ (i)).style['border-color'] = '#EFEFEF';
+                        document.getElementById('adult_address_ktp' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
-                    if(check_phone_number(document.getElementById('inp_nomor_hp_blmpernah_' + (i)).value)==false){
-                        error_log+= 'Phone number only contain number 8 - 12 digits for passenger '+(i+1)+'!</br>\n';
-                        document.getElementById('inp_nomor_hp_blmpernah_' + (i)).style['border-color'] = 'red';
+                    if(document.getElementById('adult_rt_ktp' + nomor_pax).value == ''){
+                        error_log+= 'Please fill RT KTP for passenger '+nomor_pax+'!</br>\n';
+                        document.getElementById('adult_rt_ktp' + nomor_pax).style['border-color'] = 'red';
                     }else{
-                        document.getElementById('inp_nomor_hp_blmpernah_' + (i)).style['border-color'] = '#EFEFEF';
+                        document.getElementById('adult_rt_ktp' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
-                    if(check_email(document.getElementById('inp_email_blmpernah_' + (i)).value)==false){
-                        error_log+= 'Invalid Passenger '+(i+1)+' email!</br>\n';
-                        document.getElementById('inp_email_blmpernah_' + (i)).style['border-color'] = 'red';
+                    if(document.getElementById('adult_rw_ktp' + nomor_pax).value == ''){
+                        error_log+= 'Please fill RW KTP for passenger '+nomor_pax+'!</br>\n';
+                        document.getElementById('adult_rw_ktp' + nomor_pax).style['border-color'] = 'red';
                     }else{
-                        document.getElementById('inp_email_blmpernah_' + (i)).style['border-color'] = '#EFEFEF';
+                        document.getElementById('adult_rw_ktp' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
-
-                    if(document.getElementById('inp_nomor_nik_blmpernah_'+ (i)).value == ''){
-                        error_log+= 'Please fill identity number for passenger '+(i + 1)+'!</br>\n';
-                        document.getElementById('inp_nomor_nik_blmpernah_'+ (i)).style['border-color'] = 'red';
-                    }else if(check_ktp(document.getElementById('inp_nomor_nik_blmpernah_'+ (i)).value) == false){
-                        error_log+= 'Please fill identity number, ktp only contain 16 digits for passenger adult '+(i+1)+'!</br>\n';
-                        document.getElementById('inp_nomor_nik_blmpernah_'+ (i)).style['border-color'] = 'red';
+                    if(document.getElementById('adult_kabupaten_ktp' + nomor_pax).value == ''){
+                        error_log+= 'Please choose Kabupaten KTP for passenger '+nomor_pax+'!</br>\n';
+                        document.getElementById('adult_kabupaten_ktp' + nomor_pax).style['border-color'] = 'red';
                     }else{
-                        document.getElementById('inp_nomor_nik_blmpernah_'+ (i)).style['border-color'] = '#EFEFEF';
+                        document.getElementById('adult_kabupaten_ktp' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
-                    first_name = document.getElementById('inp_nm_pasien_blmpernah_' + (i)).value.split(' ');
-                    last_name = ''
-                    if(first_name.length > 1)
-                        last_name = first_name.pop();
+                    if(document.getElementById('adult_kecamatan_ktp' + nomor_pax).value == ''){
+                        error_log+= 'Please choose Kecamatan KTP for passenger '+nomor_pax+'!</br>\n';
+                        document.getElementById('adult_kecamatan_ktp' + nomor_pax).style['border-color'] = 'red';
+                    }else{
+                        document.getElementById('adult_kecamatan_ktp' + nomor_pax).style['border-color'] = '#EFEFEF';
+                    }
+                    if(document.getElementById('adult_kelurahan_ktp' + nomor_pax).value == ''){
+                        error_log+= 'Please choose Kelurahan KTP for passenger '+nomor_pax+'!</br>\n';
+                        document.getElementById('adult_kelurahan_ktp' + nomor_pax).style['border-color'] = 'red';
+                    }else{
+                        document.getElementById('adult_kelurahan_ktp' + nomor_pax).style['border-color'] = '#EFEFEF';
+                    }
+                    if(document.getElementById('adult_tempat_lahir' + nomor_pax).value == ''){
+                        error_log+= 'Please choose Tempat Lahir for passenger '+nomor_pax+'!</br>\n';
+                        document.getElementById('adult_tempat_lahir' + nomor_pax).style['border-color'] = 'red';
+                    }else{
+                        document.getElementById('adult_tempat_lahir' + nomor_pax).style['border-color'] = '#EFEFEF';
+                    }
+                    if(document.getElementById('adult_identity_type' + nomor_pax).value != ''){
+                        document.getElementById('adult_identity_type' + nomor_pax).style['border-color'] = '#EFEFEF';
+                        if(document.getElementById('adult_identity_type' + nomor_pax).value == 'ktp'){
+                            if(document.getElementById('adult_identity_number'+ nomor_pax).value == ''){
+                                error_log+= 'Please fill identity number for passenger '+nomor_pax+'!</br>\n';
+                                document.getElementById('adult_identity_number'+ nomor_pax).style['border-color'] = 'red';
+                            }else if(check_ktp(document.getElementById('adult_identity_number'+ nomor_pax).value) == false){
+                                error_log+= 'Please fill identity number, ktp only contain 16 digits for passenger adult '+nomor_pax+'!</br>\n';
+                                document.getElementById('adult_identity_number'+ nomor_pax).style['border-color'] = 'red';
+                            }else{
+                                document.getElementById('adult_identity_number'+ nomor_pax).style['border-color'] = '#EFEFEF';
+                            }
+                            if(document.getElementById('adult_country_of_issued'+ nomor_pax).value == ''){
+                                error_log+= 'Please fill country of issued for passenger '+i+'!</br>\n';
+                                document.getElementById('adult_country_of_issued'+ nomor_pax).style['border-color'] = 'red';
+                            }else{
+                                document.getElementById('adult_country_of_issued'+ nomor_pax).style['border-color'] = '#EFEFEF';
+                            }
+                        }
+                    }else{
+                        error_log+= 'Please fill identity type for passenger '+nomor_pax+'!</br>\n';
+                        document.getElementById('adult_identity_type' + nomor_pax).style['border-color'] = 'red';
+                    }
                     if(i == 0 && document.getElementsByName('myRadios')[0].checked == true){
                         is_also_booker = true;
                         is_also_contact = true;
@@ -1173,69 +1668,43 @@ function check_passenger(){
                         is_also_booker = false;
                         is_also_contact = false;
                     }
-
+                    check_passenger = true;
                     request['passenger'].push({
                         "pax_type": "ADT",
-                        "first_name": first_name.join(' '),
-                        "last_name": last_name,
-                        "title": document.getElementById('title_' + (i)).value,
-                        "birth_date": document.getElementById('inp_tgl_lahir_blmpernah_' + (i)).value,
-                        "nationality_name": "ID - Indonesia",
-                        "identity_country_of_issued_name": 'ID - Indonesia',
-                        "identity_expdate": '',
-                        "identity_number": document.getElementById('inp_nomor_nik_blmpernah_'+ (i)).value,
-                        "passenger_seq_id": '',
-                        "identity_type": 'ktp',
-                        "sample_method": "-",
+                        "first_name": document.getElementById('adult_first_name' + nomor_pax).value,
+                        "last_name": document.getElementById('adult_last_name' + nomor_pax).value,
+                        "title": document.getElementById('adult_title' + nomor_pax).value,
+                        "birth_date": document.getElementById('adult_birth_date' + nomor_pax).value,
+                        "nationality_name": document.getElementById('adult_nationality' + nomor_pax).value,
+                        "identity": {
+                            "identity_country_of_issued_name": document.getElementById('adult_country_of_issued' + nomor_pax).value,
+                            "identity_expdate": '',
+                            "identity_type": document.getElementById('adult_identity_type' + nomor_pax).value,
+                            "identity_number": document.getElementById('adult_identity_number' + nomor_pax).value,
+                        },
+                        "passenger_seq_id": document.getElementById('adult_id' + nomor_pax).value,
+                        "tempat_lahir": document.getElementById('adult_tempat_lahir' + nomor_pax).value,
+                        "profession": document.getElementById('adult_profession' + nomor_pax).value,
+                        "work_place": document.getElementById('adult_work_place' + nomor_pax).value,
+                        "address": document.getElementById('adult_address' + nomor_pax).value,
+                        "rt": document.getElementById('adult_rt' + nomor_pax).value,
+                        "rw": document.getElementById('adult_rw' + nomor_pax).value,
+                        "kabupaten": document.getElementById('adult_kabupaten' + nomor_pax).value,
+                        "kecamatan": document.getElementById('adult_kecamatan' + nomor_pax).value,
+                        "kelurahan": document.getElementById('adult_kelurahan' + nomor_pax).value,
+                        "address_ktp": document.getElementById('adult_address_ktp' + nomor_pax).value,
+                        "rt_ktp": document.getElementById('adult_rt_ktp' + nomor_pax).value,
+                        "rw_ktp": document.getElementById('adult_rw_ktp' + nomor_pax).value,
+                        "kabupaten_ktp": document.getElementById('adult_kabupaten_ktp' + nomor_pax).value,
+                        "kecamatan_ktp": document.getElementById('adult_kecamatan_ktp' + nomor_pax).value,
+                        "kelurahan_ktp": document.getElementById('adult_kelurahan_ktp' + nomor_pax).value,
+                        "email": document.getElementById('adult_email' + nomor_pax).value,
+                        "phone_number": document.getElementById('adult_phone_code'+nomor_pax+'_id').value + document.getElementById('adult_phone'+nomor_pax).value,
                         'is_also_booker': is_also_booker,
                         'is_also_contact': is_also_contact
-                    });
-                    request['data']['kontrak'].push({
-                        "inp_nm_pasien_blmpernah": document.getElementById('inp_nm_pasien_blmpernah_'+(i)).value,
-                        "inp_nomor_nik_blmpernah": document.getElementById('inp_nomor_nik_blmpernah_'+(i)).value,
-                        "inp_nomor_paspor_blmpernah": document.getElementById('inp_nomor_paspor_blmpernah_'+(i)).value,
-                        "inp_tgl_lahir_blmpernah": document.getElementById('inp_tgl_lahir_blmpernah_'+(i)).value,
-                        "inp_jns_kel_blmpernah": document.getElementById('inp_jns_kel_blmpernah_'+(i)).value,
-                        "inp_tgl_pemeriksaan": document.getElementById('inp_tgl_pemeriksaan_'+(i)).value,
-                        "inp_lamat_domis_blmpernah": document.getElementById('inp_lamat_domis_blmpernah_'+(i)).value,
-                        "inp_rt_domis_blmpernah": document.getElementById('inp_rt_domis_blmpernah_'+(i)).value,
-                        "inp_rw_domis_blmpernah": document.getElementById('inp_rw_domis_blmpernah_'+(i)).value,
-                        "inp_desa_domis_blmpernah": document.getElementById('inp_desa_domis_blmpernah_'+(i)).value,
-                        "inp_kec_domis_blmpernah": document.getElementById('inp_kec_domis_blmpernah_'+(i)).value,
-                        "inp_kab_kot_domis_blmpernah": document.getElementById('inp_kab_kot_domis_blmpernah_'+(i)).value,
-                        "inp_lamat_ktp_blmpernah": document.getElementById('inp_lamat_ktp_blmpernah_'+(i)).value,
-                        "inp_rt_ktp_blmpernah": document.getElementById('inp_rt_ktp_blmpernah_'+(i)).value,
-                        "inp_rw_ktp_blmpernah": document.getElementById('inp_rw_ktp_blmpernah_'+(i)).value,
-                        "inp_desa_ktp_blmpernah": document.getElementById('inp_desa_ktp_blmpernah_'+(i)).value,
-                        "inp_kec_ktp_blmpernah": document.getElementById('inp_kec_ktp_blmpernah_'+(i)).value,
-                        "inp_kab_kot_ktp_blmpernah": document.getElementById('inp_kab_kot_ktp_blmpernah_'+(i)).value,
-                        "inp_desa_ktp_blmpernah_copy": document.getElementById('inp_desa_ktp_blmpernah_copy_'+(i)).value,
-                        "inp_kec_ktp_blmpernah_copy": document.getElementById('inp_kec_ktp_blmpernah_copy_'+(i)).value,
-                        "inp_kab_kot_ktp_blmpernah_copy": document.getElementById('inp_kab_kot_ktp_blmpernah_copy_'+(i)).value,
-                        "inp_nomor_hp_blmpernah": document.getElementById('inp_nomor_hp_blmpernah_'+(i)).value,
-                        "inp_email_blmpernah": document.getElementById('inp_email_blmpernah_'+(i)).value,
-                        "ip_komputer": document.getElementById('ip_komputer_'+(i)).value
+
                     })
-
-
-                    if(test_type == 'swab_pcr'){
-                        request['data']['passengers'][request['data']['passengers'].length-1]["inp_kewarganegaraan_blmpernah"] = document.getElementById('inp_kewarganegaraan_blmpernah_'+(i)).value;
-                        request['data']['passengers'][request['data']['passengers'].length-1]["input_maskapai_blmpernah"] = document.getElementById('pilih_daftar_maskapai_'+(i)).value;
-                        request['data']['passengers'][request['data']['passengers'].length-1]["inp_nomor_id_blmpernah"] = document.getElementById('inp_nomor_id_blmpernah_'+(i)).value;
-                        request['data']['passengers'][request['data']['passengers'].length-1]["inp_nama_ortu_blmpernah"] = document.getElementById('inp_nama_ortu_blmpernah_'+(i)).value;
-                        request['data']['passengers'][request['data']['passengers'].length-1]["inp_umur_blmpernah"] = document.getElementById('inp_umur_blmpernah_'+(i)).value;
-                        request['data']['passengers'][request['data']['passengers'].length-1]["inp_pekerjaan_blmpernah"] =  document.getElementById('inp_pekerjaan_blmpernah_'+(i)).value;
-                        request['data']['passengers'][request['data']['passengers'].length-1]["inp_kriteria_blmpernah"] = document.getElementById('inp_kriteria_blmpernah_'+(i)).value;
-                        request['data']['passengers'][request['data']['passengers'].length-1]["periksa_swab_keberapa"] = document.getElementById('periksa_swab_keberapa_'+(i)).value;
-                        request['data']['passengers'][request['data']['passengers'].length-1]["asal_perusahaan_rs"] = document.getElementById('asal_perusahaan_rs_'+(i)).value;
-                        request['data']['passengers'][request['data']['passengers'].length-1]["nm_perusahaan_rs"] = document.getElementById('nm_perusahaan_rs_'+(i)).value;
-//                        questioner pcr
-                        request['data']['questioner'].push({
-
-                        })
-                    }
-                    check_passenger = true;
-                }catch(err){console.log(err);}
+                }catch(err){}
             }
         }
     }
@@ -1268,10 +1737,11 @@ function reset_pax(){
     counter_passenger = 0;
     document.getElementById('table_of_passenger').innerHTML = `
     <tr>
+        <th style="width:10%;">No</th>
         <th style="width:40%;">Name</th>
         <th style="width:20%;">Birth Date</th>
         <th style="width:15%;">Sample Method</th>
-        <th style="width:20%;"></th>
+        <th style="width:10%;"></th>
     </tr>`;
     document.getElementById('table_passenger_list').style.display = 'none';
     document.getElementById('next_medical').style.display = 'none';
@@ -1319,11 +1789,8 @@ function add_table(){
     if(tempcounter > last_counter){
         document.getElementById('table_passenger_list').style.display = 'block';
         for(counting=last_counter;counting<tempcounter;counting++){
-            if(vendor == 'phc'){
-                add_table_passenger_phc();
-            }else if(vendor == 'periksain'){
-                add_table_of_passenger();
-            }
+            add_table_of_passenger();
+
         }
     }else{
         for(counting=last_counter-1;counting>=tempcounter;counting--){
