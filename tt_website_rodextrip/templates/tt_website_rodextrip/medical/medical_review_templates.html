@@ -118,10 +118,11 @@
                                 <hr/>
                                 <table style="width:100%;">
                                     <tr>
-                                        <th>Area</th>
-                                        <th>Address</th>
-                                        <th>Test Date</th>
+                                        <th style="width:30%">Area</th>
+                                        <th style="width:50%">Address</th>
+                                        <th style="width:20%">Test Date</th>
                                     </tr>
+                                    {% if data.data.test_list|length != 0 %}
                                     {% for rec in data.data.test_list %}
                                     <tr>
                                         {% if forloop.counter == 1 %}
@@ -134,6 +135,13 @@
                                         <td>{{rec.date}} {{rec.time}}</td>
                                     </tr>
                                     {% endfor %}
+                                    {% else %}
+                                    <tr>
+                                        <td>{{data.data.area}}</td>
+                                        <td>{{data.data.address}}</td>
+                                        <td>-</td>
+                                    </tr>
+                                    {% endif %}
                                 </table>
 
                             </div>
@@ -176,15 +184,19 @@
                                         <th>{% trans 'Birth Date' %}</th>
                                         <th>{% trans 'ID Type' %}</th>
                                         <th>{% trans 'ID Number' %}</th>
+                                        {% if vendor == 'periksain' %}
                                         <th>{% trans 'Sample Method' %}</th>
+                                        {% endif %}
                                     </tr>
                                     {% for adult in data.passengers%}
                                     <tr>
                                         <td>{{adult.title}} {{adult.first_name}} {{adult.last_name}}</td>
                                         <td>{{adult.birth_date}}</td>
-                                        <td>{{adult.identity_type}}</td>
-                                        <td>{{adult.identity_number}}</td>
+                                        <td>{{adult.identity.identity_type}}</td>
+                                        <td>{{adult.identity.identity_number}}</td>
+                                        {% if vendor == 'periksain' %}
                                         <td>{{adult.sample_method}}</td>
+                                        {% endif %}
                                     </tr>
                                     {% endfor %}
 

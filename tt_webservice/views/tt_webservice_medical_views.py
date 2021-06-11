@@ -113,14 +113,14 @@ def get_config(request):
     try:
         additional_url = ''
         if request.POST['provider'] == 'phc':
-            provider = 'phc_web'
+            provider = 'phc'
             additional_url = 'booking/'
-            additional_url += 'medical'
+            additional_url += 'phc'
             data = {
                 'provider': provider
             }
             action = 'get_config_vendor'
-        else:
+        elif request.POST['provider'] == 'periksain':
             provider = request.POST['provider']
             additional_url += 'content'
             data = {
@@ -183,12 +183,12 @@ def get_kecamatan(request):
 
         data = {
             'kabupaten': request.POST['kabupaten'],
-            'provider': 'phc_web'
+            'provider': 'phc'
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/medical', data=data, headers=headers, method='POST')
+    res = util.send_request(url=url + 'booking/phc', data=data, headers=headers, method='POST')
 
     return res
 
@@ -204,12 +204,12 @@ def get_desa(request):
 
         data = {
             'kecamatan': request.POST['kecamatan'],
-            'provider': 'phc_web'
+            'provider': 'phc'
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/medical', data=data, headers=headers, method='POST')
+    res = util.send_request(url=url + 'booking/phc', data=data, headers=headers, method='POST')
 
     return res
 
@@ -218,8 +218,8 @@ def get_availability(request):
         provider = ''
         additional_url = 'booking/'
         if request.POST['provider'] == 'phc':
-            provider = 'phc_web'
-            additional_url += 'medical'
+            provider = 'phc'
+            additional_url += 'phc'
         else:
             provider = request.POST['provider']
             additional_url += 'periksain'
@@ -247,8 +247,8 @@ def get_price(request):
         provider = ''
         additional_url = 'booking/'
         if request.POST['provider'] == 'phc':
-            provider = 'phc_web'
-            additional_url += 'medical'
+            provider = 'phc'
+            additional_url += 'phc'
         else:
             provider = request.POST['provider']
             additional_url += 'periksain'
@@ -262,7 +262,8 @@ def get_price(request):
         data = {
             'timeslot_list': json.loads(request.POST['timeslot_list']),
             'pax_count': int(request.POST['pax_count']),
-            'provider': provider
+            'provider': provider,
+            'carrier_code': request.POST['carrier_code']
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
@@ -288,17 +289,17 @@ def commit_booking(request):
         provider = ''
         additional_url = 'booking/'
         if request.POST.get('provider') == 'phc':
-            provider = 'phc_web'
-            additional_url += 'medical'
+            provider = 'phc'
+            additional_url += 'phc'
         elif request.POST.get('provider') == 'periksain':
             provider = request.POST['provider']
             additional_url += 'periksain'
         elif request.session.get('vendor_%s' % request.POST['signature']) == 'periksain':
             provider = request.POST['provider']
             additional_url += 'periksain'
-        elif request.session.get('vendor_%s' % request.POST['signature']) == 'periksain':
+        elif request.session.get('vendor_%s' % request.POST['signature']) == 'phc':
             provider = request.POST['provider']
-            additional_url += 'periksain'
+            additional_url += 'phc'
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -371,7 +372,7 @@ def get_booking(request):
         if 'PK' in request.POST['order_number']:
             additional_url += 'periksain'
         else:
-            additional_url += 'medical'
+            additional_url += 'phc'
         sync = False
         try:
             if request.POST['sync'] == 'true':
@@ -444,25 +445,27 @@ def issued(request):
             'voucher': {}
         }
         provider = []
-
+        provider_char = ''
         try:
             medical_get_booking = request.session['medical_get_booking_response'] if request.session.get('medical_get_booking_response') else json.loads(request.POST['booking'])
+
             for provider_type in medical_get_booking['result']['response']['provider_bookings']:
                 if not provider_type['provider'] in provider:
                     provider.append(provider_type['provider'])
+                    provider_char = provider_type['provider']
         except:
             pass
 
         if request.POST['voucher_code'] != '':
             data.update({
-                'voucher': data_voucher(request.POST['voucher_code'], 'medical', provider),
+                'voucher': data_voucher(request.POST['voucher_code'], provider_char, provider),
             })
 
         additional_url = 'booking/'
         if 'PK' in request.POST['order_number']:
             additional_url += 'periksain'
         else:
-            additional_url += 'medical'
+            additional_url += 'phc'
 
         headers = {
             "Accept": "application/json,text/html,application/xml",

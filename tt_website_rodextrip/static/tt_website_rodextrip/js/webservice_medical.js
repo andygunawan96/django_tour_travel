@@ -44,7 +44,7 @@ function medical_signin(data){
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-          error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline signin');
+          error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error medical signin');
           $("#barFlightSearch").hide();
           $("#waitFlightSearch").hide();
           $('.loader-rodextrip').fadeOut();
@@ -72,17 +72,20 @@ function get_config_medical(type='', vendor=''){
             if(msg.result.error_code == 0){
                 if(type == 'passenger'){
                     medical_config = msg;
+                    add_table();
                 }else if(type == 'home'){
                     var text = '';
                     if(vendor == 'phc'){
-                        for(i in msg.result.response.carrier_type){
-                            text += '<option value="'+i+'">' + msg.result.response.carrier_type[i].name + '</option>';
+                        for(i in msg.result.response.carriers_code){
+                            text += '<option value="'+msg.result.response.carriers_code[i].code+'">' + msg.result.response.carriers_code[i].name + '</option>';
                         }
-                        document.getElementById('medical_type').innerHTML += text;
-                        $('#medical_type').niceSelect('update');
+                        document.getElementById('medical_type_phc').innerHTML += text;
+                        $('#medical_type_phc').niceSelect('update');
                     }else if(vendor == 'periksain'){
                         for(i in msg.result.response)
-                            document.getElementById('medical_searchForm1').action = 'periksain/passenger/' + i;
+                            text += '<option value="'+i+'">Antigen</option>';
+                        document.getElementById('medical_type_periksain').innerHTML += text;
+                        $('#medical_type_periksain').niceSelect('update');
                     }
                 }
             }
@@ -108,11 +111,13 @@ function get_kecamatan(id_kabupaten,id_kecamatan){
             console.log(msg);
             if(msg.result.error_code == 0){
                 var text = '';
+                text += '<option value="">Choose</option>';
                 for(i in msg.result.response.kecamatan){
-                    text += '<option value="'+msg.result.response.kecamatan[i].code+'">'+msg.result.response.kecamatan[i].value+"</option>";
+                    text += '<option value="'+msg.result.response.kecamatan[i]+'">'+msg.result.response.kecamatan[i]+"</option>";
                 }
                 document.getElementById(id_kecamatan).innerHTML = text;
-                get_desa(id_kecamatan, id_kecamatan.replace('kec','desa'));
+                $('#'+id_kecamatan).niceSelect('update');
+//                get_desa(id_kecamatan, id_kecamatan.replace('kecamatan','kelurahan'));
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -121,7 +126,7 @@ function get_kecamatan(id_kabupaten,id_kecamatan){
     });
 }
 
-function get_desa(id_kecamatan,id_desa){
+function get_kelurahan(id_kecamatan,id_kelurahan){
     $.ajax({
        type: "POST",
        url: "/webservice/medical",
@@ -136,10 +141,12 @@ function get_desa(id_kecamatan,id_desa){
             console.log(msg);
             if(msg.result.error_code == 0){
                 var text = '';
+                text += '<option value="">Choose</option>';
                 for(i in msg.result.response.desa){
-                    text += '<option value="'+msg.result.response.desa[i].code+'">'+msg.result.response.desa[i].value+"</option>";
+                    text += '<option value="'+msg.result.response.desa[i]+'">'+msg.result.response.desa[i]+"</option>";
                 }
-                document.getElementById(id_desa).innerHTML = text;
+                document.getElementById(id_kelurahan).innerHTML = text;
+                $('#'+id_kelurahan).niceSelect('update');
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -184,6 +191,11 @@ function medical_get_availability(){
                     document.getElementById('booker_area').innerHTML = text_innerHTML;
                     $('#booker_area').niceSelect('update');
                     add_other_time();
+                }else if(vendor == 'phc' && test_type == 'PHCDTKATG'){
+                    var text_innerHTML = '';
+                    text_innerHTML += `<option value='surabaya' selected>Surabaya</option>`;
+                    document.getElementById('booker_area').innerHTML = text_innerHTML;
+                    $('#booker_area').niceSelect('update');
                 }else{
                     Swal.fire({
                       type: 'error',
@@ -215,6 +227,7 @@ function medical_check_price(){
     var test_list_counter = 1;
     var add_list = true;
     var error_log = '';
+    if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCHCKATG')
     for(i=1; i <= test_time; i++){
         try{
             add_list = true;
@@ -230,7 +243,7 @@ function medical_check_price(){
         }
 
     }
-    if(timeslot_list.length != 0 && error_log == ''){
+    if(timeslot_list.length != 0 && error_log == '' || vendor == 'phc' && test_type == 'PHCDTKATG'){
         $.ajax({
            type: "POST",
            url: "/webservice/medical",
@@ -241,7 +254,8 @@ function medical_check_price(){
                 'signature': signature,
                 'provider': vendor,
                 'pax_count': document.getElementById('passenger').value,
-                'timeslot_list': JSON.stringify(timeslot_list)
+                'timeslot_list': JSON.stringify(timeslot_list),
+                'carrier_code': test_type
            },
            success: function(msg) {
                 console.log(msg);
@@ -834,7 +848,7 @@ function medical_issued_booking(data){
                    Swal.fire({
                       type: 'error',
                       title: 'Oops!',
-                      html: '<span style="color: #ff9900;">Error airline issued </span>' + msg.result.error_msg,
+                      html: '<span style="color: #ff9900;">Error medical issued </span>' + msg.result.error_msg,
                     }).then((result) => {
                       if (result.value) {
                         hide_modal_waiting_transaction();
@@ -845,12 +859,12 @@ function medical_issued_booking(data){
 
                     $('.hold-seat-booking-train').prop('disabled', false);
                     $('.hold-seat-booking-train').removeClass("running");
-                    airline_get_booking(data);
+                    medical_get_booking(data);
                }else if(msg.result.error_code == 4006){
                     Swal.fire({
                       type: 'error',
                       title: 'Oops!',
-                      html: '<span style="color: #ff9900;">Error airline issued </span>' + msg.result.error_msg,
+                      html: '<span style="color: #ff9900;">Error medical issued </span>' + msg.result.error_msg,
                     }).then((result) => {
                       if (result.value) {
                         hide_modal_waiting_transaction();
@@ -1091,7 +1105,7 @@ function medical_issued_booking(data){
 
                     $('.hold-seat-booking-train').prop('disabled', false);
                     $('.hold-seat-booking-train').removeClass("running");
-                    airline_get_booking(data);
+                    medical_get_booking(data);
                     $(".issued_booking_btn").hide();
                }
            },
@@ -1115,7 +1129,7 @@ function medical_issued_booking(data){
                 $('.hold-seat-booking-train').prop('disabled', false);
                 $('.hold-seat-booking-train').removeClass("running");
                 $(".issued_booking_btn").hide();
-                airline_get_booking(data);
+                medical_get_booking(data);
            },timeout: 300000
         });
       }

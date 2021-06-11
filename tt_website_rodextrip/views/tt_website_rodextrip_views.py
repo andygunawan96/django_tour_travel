@@ -1249,7 +1249,8 @@ def get_data_template(request, type='home', provider_type = []):
             "event": 7,
             "visa": 8,
             "passport": 9,
-            "medical": 10
+            "periksain": 10,
+            "phc": 11,
         }
         for idx, rec in enumerate(sequence, start=1):
             temp_provider_types_sequence.append({
