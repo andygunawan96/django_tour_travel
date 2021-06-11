@@ -15,9 +15,7 @@ function medical_signin(data){
                medical_signature = msg.result.response.signature;
                signature = msg.result.response.signature;
                if(data == 'passenger'){
-                    if(vendor == "phc"){
-                        get_config_medical(data, vendor);
-                    }
+                    get_config_medical(data, vendor);
                     medical_get_availability();
                }else{
                     //get booking
