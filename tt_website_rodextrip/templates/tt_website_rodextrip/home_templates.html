@@ -349,7 +349,7 @@
                                 <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'PASSPORT' %} </span>
                             </a>
                         </li>
-                            {% elif "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security and rec.name == "medical" %}
+                            {% elif "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security and rec.name == "periksain" %}
                             {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                         <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'medical1');" id="nav_scroll_menu_medical1">
                             <a class="nav-link {%if forloop.counter == 1 %}active{%endif%}" id="medical1-tab" data-toggle="tab" href="#medical1" role="tab" aria-controls="medical1" aria-selected="false">
