@@ -387,7 +387,8 @@ function add_table_of_passenger(type){
                                                             </div>
                                                         </div>
                                                     </div>`;
-                                                }else if(vendor == 'phc'){
+                                                }
+                                                else if(vendor == 'phc'){
                                                     text+=`
 
                                                     <div class="col-lg-6 col-md-6 col-sm-6">

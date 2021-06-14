@@ -35,7 +35,9 @@ provider_type = {
     'TR': 'tour',
     'RESV': 'hotel',
     'BT': 'ppob',
-    'VT': 'event'
+    'VT': 'event',
+    'PK': 'medical',
+    'PH': 'medical'
 }
 
 def check_captcha(request):

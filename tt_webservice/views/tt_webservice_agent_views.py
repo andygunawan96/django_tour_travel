@@ -692,6 +692,55 @@ def get_new_cache(signature, type='all'):
             except:
                 airline.get_carriers_search('', signature)
                 pass
+
+            try:
+                file = open("tt_webservice/static/tt_webservice/phc_city.json", "r")
+                data_kota = json.loads(file.read())
+            except:
+                data_kota = {}
+            provider = 'phc'
+            additional_url = 'booking/'
+            additional_url += 'phc'
+            data = {
+                'provider': provider
+            }
+            action = 'get_config_vendor'
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
+                "action": action,
+                "signature": signature
+            }
+            res = util.send_request(url=url + additional_url, data=data, headers=headers, method='POST',
+                                    timeout=480)
+            try:
+                if res['result']['error_code'] == 0:
+                    res['result']['response']['kota'] = data_kota
+                    write_cache_with_folder(res['result']['response'], "medical_cache_data_%s" % provider)
+            except Exception as e:
+                _logger.info("ERROR UPDATE CACHE medical " + provider + ' ' + json.dumps(res) + '\n' + str(e) + '\n' + traceback.format_exc())
+
+            provider = 'periksain'
+            additional_url = 'content'
+            data = {
+                'provider_type': provider
+            }
+            action = "get_carriers"
+
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
+                "action": action,
+                "signature": signature
+            }
+            res = util.send_request(url=url + additional_url, data=data, headers=headers, method='POST',
+                                    timeout=480)
+            try:
+                if res['result']['error_code'] == 0:
+                    res['result']['response']['kota'] = data_kota
+                    write_cache_with_folder(res['result']['response'], "medical_cache_data_%s" % provider)
+            except Exception as e:
+                _logger.info("ERROR UPDATE CACHE medical " + provider + ' ' + json.dumps(res) + '\n' + str(e) + '\n' + traceback.format_exc())
         if type == 'all' or type == 'image':
             #banner
             headers = {
