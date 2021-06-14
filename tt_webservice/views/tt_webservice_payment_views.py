@@ -107,9 +107,9 @@ def get_payment_acquirer(request):
             url_post = 'booking/periksain'
         elif 'PH' in data['order_number']:
             url_post = 'booking/phc'
-        elif request.session.get('vendor') == 'periksain':
+        elif request.session.get('vendor_%s' % request.POST['signature']) == 'periksain': #force issued
             url_post = 'booking/periksain'
-        elif request.session.get('vendor') == 'phc':
+        elif request.session.get('vendor_%s' % request.POST['signature']) == 'phc': #force issued
             url_post = 'booking/phc'
     res = util.send_request(url=url + url_post, data=data, headers=headers, method='POST')
     try:
