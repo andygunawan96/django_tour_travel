@@ -490,6 +490,13 @@ function medical_commit_booking(val){
                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true){
                     send_url_booking('medical', btoa(msg.result.response.order_number), msg.result.response.order_number);
                     document.getElementById('order_number').value = msg.result.response.order_number;
+                    document.getElementById("passengers").value = JSON.stringify(passengers);
+                    document.getElementById("signature").value = signature;
+                    document.getElementById("provider").value = 'medical';
+                    document.getElementById("type").value = 'medical_review';
+                    document.getElementById("voucher_code").value = voucher_code;
+                    document.getElementById("discount").value = JSON.stringify(discount_voucher);
+                    document.getElementById("session_time_input").value = time_limit;
                     document.getElementById('medical_issued').submit();
                }else{
                    if(val == 0){
