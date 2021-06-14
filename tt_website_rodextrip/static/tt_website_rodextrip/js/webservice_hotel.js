@@ -2146,7 +2146,7 @@ function hotel_get_booking(data){
 
                         text=`<div class="col-sm-4">
                                     <button type="button" id="button-choose-print" style="width:100%;" class="primary-btn ld-ext-right" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket','hotel');">
-                                        Print Ticket
+                                        Print Voucher
                                         <div class="ld ld-ring ld-cycle"></div>
                                     </button>
                                </div>`;
