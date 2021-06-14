@@ -70,6 +70,7 @@ function get_config_medical(type='', vendor=''){
             if(msg.result.error_code == 0){
                 if(type == 'passenger'){
                     medical_config = msg;
+                    data_kota = medical_config['result']['response']['kota']
                     var product = '';
                     for(i in medical_config.result.response.carriers_code){
                         if(medical_config.result.response.carriers_code[i].code == test_type)
@@ -100,74 +101,122 @@ function get_config_medical(type='', vendor=''){
     });
 }
 
-function get_kecamatan(id_kabupaten,id_kecamatan){
-    $.ajax({
-       type: "POST",
-       url: "/webservice/medical",
-       headers:{
-            'action': 'get_kecamatan',
-       },
-       data: {
-            'signature': signature,
-            'kabupaten': document.getElementById(id_kabupaten).value
-       },
-       success: function(msg) {
-            console.log(msg);
-            if(msg.result.error_code == 0){
-                var text = '';
-                text += '<option value="">Choose</option>';
-                for(i in msg.result.response.kecamatan){
-                    text += '<option value="'+msg.result.response.kecamatan[i]+'">'+msg.result.response.kecamatan[i]+"</option>";
-                }
-                document.getElementById(id_kecamatan).innerHTML = text;
-                $('#'+id_kecamatan).select2();
-                text = '';
-                if(id_kecamatan.includes('ktp'))
-                    text = `<option value="">Select Kelurahan KTP</option>`;
-                else{
-                    text = `<option value="">Select Kelurahan</option>`;
-                }
-                document.getElementById(id_kecamatan.replace('kecamatan','kelurahan')).innerHTML = text;
-                $('#'+id_kecamatan.replace('kecamatan','kelurahan')).select2();
+//function get_kota(){
+//    $.ajax({
+//       type: "POST",
+//       url: "/webservice/medical",
+//       headers:{
+//            'action': 'get_kota',
+//       },
+//       data: {
+//            'signature': signature,
+//       },
+//       success: function(msg) {
+//            console.log(msg);
+//            data_kota = msg;
+//       },
+//       error: function(XMLHttpRequest, textStatus, errorThrown) {
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get config medical');
+//       },timeout: 300000
+//    });
+//}
 
-                //$('#'+id_kecamatan).niceSelect('update');
-//                get_desa(id_kecamatan, id_kecamatan.replace('kecamatan','kelurahan'));
-            }
-       },
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get config medical');
-       },timeout: 300000
-    });
+function get_kecamatan(id_kabupaten,id_kecamatan){
+    var text = '';
+    text += '<option value="">Choose</option>';
+    for(i in data_kota[document.getElementById(id_kabupaten).value]){
+        text += '<option value="'+i+'">'+i+"</option>";
+    }
+    document.getElementById(id_kecamatan).innerHTML = text;
+    $('#'+id_kecamatan).select2();
+    text = '';
+    if(id_kecamatan.includes('ktp'))
+        text = `<option value="">Select Kelurahan KTP</option>`;
+    else{
+        text = `<option value="">Select Kelurahan</option>`;
+    }
+    document.getElementById(id_kecamatan.replace('kecamatan','kelurahan')).innerHTML = text;
+    $('#'+id_kecamatan.replace('kecamatan','kelurahan')).select2();
 }
 
 function get_kelurahan(id_kecamatan,id_kelurahan){
-    $.ajax({
-       type: "POST",
-       url: "/webservice/medical",
-       headers:{
-            'action': 'get_desa',
-       },
-       data: {
-            'signature': signature,
-            'kecamatan': document.getElementById(id_kecamatan).value
-       },
-       success: function(msg) {
-            console.log(msg);
-            if(msg.result.error_code == 0){
-                var text = '';
-                text += '<option value="">Choose</option>';
-                for(i in msg.result.response.desa){
-                    text += '<option value="'+msg.result.response.desa[i]+'">'+msg.result.response.desa[i]+"</option>";
-                }
-                document.getElementById(id_kelurahan).innerHTML = text;
-                $('#'+id_kelurahan).select2();
-            }
-       },
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get config medical');
-       },timeout: 300000
-    });
+    var text = '';
+    text += '<option value="">Choose</option>';
+    for(i in data_kota[document.getElementById(id_kecamatan.replace('kecamatan','kabupaten')).value][document.getElementById(id_kecamatan).value]){
+        text += '<option value="'+data_kota[document.getElementById(id_kecamatan.replace('kecamatan','kabupaten')).value][document.getElementById(id_kecamatan).value][i]+'">'+data_kota[document.getElementById(id_kecamatan.replace('kecamatan','kabupaten')).value][document.getElementById(id_kecamatan).value][i]+"</option>";
+    }
+    document.getElementById(id_kelurahan).innerHTML = text;
+    $('#'+id_kelurahan).select2();
 }
+
+//function get_kecamatan(id_kabupaten,id_kecamatan){
+//    $.ajax({
+//       type: "POST",
+//       url: "/webservice/medical",
+//       headers:{
+//            'action': 'get_kecamatan',
+//       },
+//       data: {
+//            'signature': signature,
+//            'kabupaten': document.getElementById(id_kabupaten).value
+//       },
+//       success: function(msg) {
+//            console.log(msg);
+//            if(msg.result.error_code == 0){
+//                var text = '';
+//                text += '<option value="">Choose</option>';
+//                for(i in msg.result.response.kecamatan){
+//                    text += '<option value="'+msg.result.response.kecamatan[i]+'">'+msg.result.response.kecamatan[i]+"</option>";
+//                }
+//                document.getElementById(id_kecamatan).innerHTML = text;
+//                $('#'+id_kecamatan).select2();
+//                text = '';
+//                if(id_kecamatan.includes('ktp'))
+//                    text = `<option value="">Select Kelurahan KTP</option>`;
+//                else{
+//                    text = `<option value="">Select Kelurahan</option>`;
+//                }
+//                document.getElementById(id_kecamatan.replace('kecamatan','kelurahan')).innerHTML = text;
+//                $('#'+id_kecamatan.replace('kecamatan','kelurahan')).select2();
+//
+//                //$('#'+id_kecamatan).niceSelect('update');
+////                get_desa(id_kecamatan, id_kecamatan.replace('kecamatan','kelurahan'));
+//            }
+//       },
+//       error: function(XMLHttpRequest, textStatus, errorThrown) {
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get config medical');
+//       },timeout: 300000
+//    });
+//}
+//
+//function get_kelurahan(id_kecamatan,id_kelurahan){
+//    $.ajax({
+//       type: "POST",
+//       url: "/webservice/medical",
+//       headers:{
+//            'action': 'get_desa',
+//       },
+//       data: {
+//            'signature': signature,
+//            'kecamatan': document.getElementById(id_kecamatan).value
+//       },
+//       success: function(msg) {
+//            console.log(msg);
+//            if(msg.result.error_code == 0){
+//                var text = '';
+//                text += '<option value="">Choose</option>';
+//                for(i in msg.result.response.desa){
+//                    text += '<option value="'+msg.result.response.desa[i]+'">'+msg.result.response.desa[i]+"</option>";
+//                }
+//                document.getElementById(id_kelurahan).innerHTML = text;
+//                $('#'+id_kelurahan).select2();
+//            }
+//       },
+//       error: function(XMLHttpRequest, textStatus, errorThrown) {
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get config medical');
+//       },timeout: 300000
+//    });
+//}
 
 function medical_get_availability(){
     $.ajax({
@@ -735,9 +784,9 @@ function medical_get_booking(order_number, sync=false){
             //==================== Print Button =====================
             var print_text = '<div class="col-lg-4" style="padding-bottom:10px;">';
             // === Button 1 ===
-            if (msg.result.response.state  == 'issued') {
+            if (msg.result.response.state  == 'issued' || msg.result.response.state  == 'issued_pending') {
                 print_text+=`
-                <button class="primary-btn hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="get_printout('` + msg.result.response.name + `','ticket','event');" style="width:100%;">
+                <button class="primary-btn hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="get_printout('` + msg.result.response.order_number + `','ticket','medical');" style="width:100%;">
                     Print Ticket
                     <div class="ld ld-ring ld-cycle"></div>
                 </button>`;
@@ -746,20 +795,20 @@ function medical_get_booking(order_number, sync=false){
             // === Button 2 ===
             if (msg.result.response.state  == 'booked'){
                 print_text+=`
-                <button class="primary-btn hold-seat-booking-train ld-ext-right" id="button-print-print" type="button" onclick="get_printout('` + msg.result.response.name + `','itinerary','event');" style="width:100%;">
+                <button class="primary-btn hold-seat-booking-train ld-ext-right" id="button-print-print" type="button" onclick="get_printout('` + msg.result.response.order_number + `','itinerary','medical');" style="width:100%;">
                     Print Itinerary Form
                     <div class="ld ld-ring ld-cycle"></div>
                 </button>`;
             }else{
                 print_text+=`
-                <button class="primary-btn hold-seat-booking-train ld-ext-right" type="button" id="button-print-print" onclick="get_printout('` + msg.result.response.name + `','ticket_price','event');" style="width:100%;">
+                <button class="primary-btn hold-seat-booking-train ld-ext-right" type="button" id="button-print-print" onclick="get_printout('` + msg.result.response.order_number + `','ticket_price','medical');" style="width:100%;">
                     Print Ticket (With Price)
                     <div class="ld ld-ring ld-cycle"></div>
                 </button>`;
             }
             print_text += '</div><div class="col-lg-4" style="padding-bottom:10px;">';
             // === Button 3 ===
-            if (msg.result.response.state  == 'issued') {
+            if (msg.result.response.state  == 'issued' || msg.result.response.state  == 'issued_pending') {
                 print_text+=`
                 <button class="primary-btn hold-seat-booking-train ld-ext-right" type="button" onclick="window.location.href='https://backend.rodextrip.com/rodextrip/report/pdf/tt.agent.invoice/`+msg.result.response.name+`'" style="width:100%;" >
                     Print Invoice
