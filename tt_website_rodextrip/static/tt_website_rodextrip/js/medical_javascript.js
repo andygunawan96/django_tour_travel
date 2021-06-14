@@ -864,53 +864,53 @@ function copy_ktp(val){
     for(i=0, length = radios.length; i < length; i++){
         if(radios[i].checked){
             if(radios[i].value == 'true'){
-                document.getElementById('adult_address_ktp'+val).value = document.getElementById('adult_address'+val).value;
-                document.getElementById('adult_address_ktp'+val).readOnly = true;
-                document.getElementById('adult_rt_ktp'+val).value = document.getElementById('adult_rt'+val).value;
-                document.getElementById('adult_rt_ktp'+val).readOnly = true;
-                document.getElementById('adult_rw_ktp'+val).value = document.getElementById('adult_rw'+val).value;
-                document.getElementById('adult_rw_ktp'+val).readOnly = true;
-                document.getElementById('adult_kecamatan_ktp'+val).innerHTML = document.getElementById('adult_kecamatan'+val).innerHTML
-                document.getElementById('adult_kelurahan_ktp'+val).innerHTML = document.getElementById('adult_kelurahan'+val).innerHTML
-                $('#adult_kabupaten_ktp'+val+'_id').select2();
-                $('#adult_kecamatan_ktp'+val+'_id').select2();
-                $('#adult_kelurahan_ktp'+val+'_id').select2();
-                $('#adult_kabupaten_ktp'+val).val(document.getElementById('adult_kabupaten'+val).value);
-                document.getElementById('select2-adult_kabupaten_ktp'+val+'_id-container').innerHTML = document.getElementById('adult_kabupaten'+val).value;
-                document.getElementById('adult_kabupaten_ktp'+val+'_id').disabled = true
+                document.getElementById('adult_address'+val).value = document.getElementById('adult_address_ktp'+val).value;
+                document.getElementById('adult_address'+val).readOnly = true;
+                document.getElementById('adult_rt'+val).value = document.getElementById('adult_rt_ktp'+val).value;
+                document.getElementById('adult_rt'+val).readOnly = true;
+                document.getElementById('adult_rw'+val).value = document.getElementById('adult_rw_ktp'+val).value;
+                document.getElementById('adult_rw'+val).readOnly = true;
+                document.getElementById('adult_kecamatan'+val).innerHTML = document.getElementById('adult_kecamatan_ktp'+val).innerHTML
+                document.getElementById('adult_kelurahan'+val).innerHTML = document.getElementById('adult_kelurahan_ktp'+val).innerHTML
+                $('#adult_kabupaten'+val+'_id').select2();
+                $('#adult_kecamatan'+val+'_id').select2();
+                $('#adult_kelurahan'+val+'_id').select2();
+                $('#adult_kabupaten'+val).val(document.getElementById('adult_kabupaten'+val).value);
+                document.getElementById('select2-adult_kabupaten'+val+'_id-container').innerHTML = document.getElementById('adult_kabupaten_ktp'+val).value;
+                document.getElementById('adult_kabupaten'+val+'_id').disabled = true
 
-                $('#adult_kecamatan_ktp'+val).val(document.getElementById('adult_kecamatan'+val).value);
-                $('#adult_kecamatan_ktp'+val+'_id').val(document.getElementById('adult_kecamatan'+val).value);
-                document.getElementById('select2-adult_kecamatan_ktp'+val+'_id-container').innerHTML = document.getElementById('adult_kecamatan'+val).value;
-                document.getElementById('adult_kecamatan_ktp'+val+'_id').disabled = true
+                $('#adult_kecamatan'+val).val(document.getElementById('adult_kecamatan_ktp'+val).value);
+                $('#adult_kecamatan'+val+'_id').val(document.getElementById('adult_kecamatan_ktp'+val).value);
+                document.getElementById('select2-adult_kecamatan'+val+'_id-container').innerHTML = document.getElementById('adult_kecamatan_ktp'+val).value;
+                document.getElementById('adult_kecamatan'+val+'_id').disabled = true
 
-                $('#adult_kelurahan_ktp'+val).val(document.getElementById('adult_kelurahan'+val).value);
-                $('#adult_kelurahan_ktp'+val+'_id').val(document.getElementById('adult_kelurahan'+val).value);
-                document.getElementById('select2-adult_kelurahan_ktp'+val+'_id-container').innerHTML = document.getElementById('adult_kelurahan'+val).value;
-                document.getElementById('adult_kelurahan_ktp'+val+'_id').disabled = true
+                $('#adult_kelurahan'+val).val(document.getElementById('adult_kelurahan_ktp'+val).value);
+                $('#adult_kelurahan'+val+'_id').val(document.getElementById('adult_kelurahan_ktp'+val).value);
+                document.getElementById('select2-adult_kelurahan'+val+'_id-container').innerHTML = document.getElementById('adult_kelurahan_ktp'+val).value;
+                document.getElementById('adult_kelurahan'+val+'_id').disabled = true
 
             }else if(radios[i].value == 'false'){
-                document.getElementById('adult_address_ktp'+val).value = '';
-                document.getElementById('adult_address_ktp'+val).readOnly = false;
-                document.getElementById('adult_rt_ktp'+val).value = '';
-                document.getElementById('adult_rt_ktp'+val).readOnly = false;
-                document.getElementById('adult_rw_ktp'+val).value = '';
-                document.getElementById('adult_rw_ktp'+val).readOnly = false;
-                $('#adult_kabupaten_ktp'+val+'_id').val('');
-                document.getElementById('select2-adult_kabupaten_ktp'+val+'_id-container').innerHTML = 'Select Kabupaten KTP';
+                document.getElementById('adult_address'+val).value = '';
+                document.getElementById('adult_address'+val).readOnly = false;
+                document.getElementById('adult_rt'+val).value = '';
+                document.getElementById('adult_rt'+val).readOnly = false;
+                document.getElementById('adult_rw'+val).value = '';
+                document.getElementById('adult_rw'+val).readOnly = false;
+                $('#adult_kabupaten'+val+'_id').val('');
+                document.getElementById('select2-adult_kabupaten'+val+'_id-container').innerHTML = 'Select Kabupaten';
                 text = `<option value="">Select Kecamatan</option>`;
-                document.getElementById('adult_kecamatan_ktp'+val+'_id').innerHTML = text;
-                document.getElementById('select2-adult_kecamatan_ktp'+val+'_id-container').innerHTML = 'Select Kecamatan KTP';
-                $('#adult_kecamatan_ktp'+val+'_id').select2();
-                $('#adult_kecamatan_ktp'+val+'_id').val('');
-                text = `<option value="">Select Kelurahan KTP</option>`;
-                document.getElementById('adult_kelurahan_ktp'+val+'_id').innerHTML = text;
-                $('#adult_kelurahan_ktp'+val+'_id').select2();
-                $('#adult_kelurahan_ktp'+val+'_id').val('');
-                document.getElementById('select2-adult_kelurahan_ktp'+val+'_id-container').innerHTML = 'Select Kelurahan KTP';
-                document.getElementById('adult_kabupaten_ktp'+val+'_id').disabled = false;
-                document.getElementById('adult_kecamatan_ktp'+val+'_id').disabled = false;
-                document.getElementById('adult_kelurahan_ktp'+val+'_id').disabled = false;
+                document.getElementById('adult_kecamatan'+val+'_id').innerHTML = text;
+                document.getElementById('select2-adult_kecamatan'+val+'_id-container').innerHTML = 'Select Kecamatan';
+                $('#adult_kecamatan'+val+'_id').select2();
+                $('#adult_kecamatan'+val+'_id').val('');
+                text = `<option value="">Select Kelurahan</option>`;
+                document.getElementById('adult_kelurahan'+val+'_id').innerHTML = text;
+                $('#adult_kelurahan'+val+'_id').select2();
+                $('#adult_kelurahan'+val+'_id').val('');
+                document.getElementById('select2-adult_kelurahan'+val+'_id-container').innerHTML = 'Select Kelurahan';
+                document.getElementById('adult_kabupaten'+val+'_id').disabled = false;
+                document.getElementById('adult_kecamatan'+val+'_id').disabled = false;
+                document.getElementById('adult_kelurahan'+val+'_id').disabled = false;
             }
             break;
         }
