@@ -128,7 +128,7 @@ function add_table_of_passenger(type){
                   <!-- Modal content-->
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title" style="color:white;">Passenger `+(counter_passenger+1)+`</h4>
+                            <h4 class="modal-title" style="color:white;">Customer `+(counter_passenger+1)+`</h4>
                             <button type="button" class="close" data-dismiss="modal" onclick="update_contact('passenger',`+parseInt(counter_passenger+1)+`);">&times;</button>
                         </div>
                         <div class="modal-body">
@@ -165,7 +165,7 @@ function add_table_of_passenger(type){
                                         <div style="background-color:`+color+`; padding:5px; cursor: pointer; box-shadow: 0px 5px #888888;">
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                                    <span style="font-size:16px;color:white;">Passenger - `+parseInt(counter_passenger+1)+`</span>
+                                                    <span style="font-size:16px;color:white;">Customer - `+parseInt(counter_passenger+1)+`</span>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
 
@@ -454,7 +454,138 @@ function add_table_of_passenger(type){
                                                             <input type="text" class="form-control" name="adult_work_place`+parseInt(counter_passenger+1)+`" id="adult_work_place`+parseInt(counter_passenger+1)+`" placeholder="Work Place " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Work Place '">
                                                         </div>
 
+                                                    </div>`;
+
+                                                    text += `
+                                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                                        <label>KTP</label>
+                                                    </div>`
+
+                                                    text+=`
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Address KTP</label>
+                                                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                                                            <input type="text" class="form-control" name="adult_address_ktp`+parseInt(counter_passenger+1)+`" id="adult_address_ktp`+parseInt(counter_passenger+1)+`" placeholder="Address KTP " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address KTP '">
+                                                        </div>
                                                     </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>RT KTP</label>
+                                                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                                                            <input type="text" class="form-control" name="adult_rt_ktp`+parseInt(counter_passenger+1)+`" id="adult_rt_ktp`+parseInt(counter_passenger+1)+`" placeholder="RT KTP " onfocus="this.placeholder = ''" onblur="this.placeholder = 'RT KTP '">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>RW KTP</label>
+                                                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                                                            <input type="text" class="form-control" name="adult_rw_ktp`+parseInt(counter_passenger+1)+`" id="adult_rw_ktp`+parseInt(counter_passenger+1)+`" placeholder="RW KTP " onfocus="this.placeholder = ''" onblur="this.placeholder = 'RW KTP '">
+                                                        </div>
+                                                    </div>`;
+
+                                                    text+=`
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Kabupaten KTP</label>`;
+                                                        if(template == 1){
+                                                            text+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text+=` <div class="form-select">
+                                                                    <select class="form-control js-example-basic-single" name="adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`_id" placeholder="Kabupaten" onchange="auto_complete('adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`');get_kecamatan('adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`','adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`_id');auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);" >
+                                                                        <option value="">Select Kabupaten KTP</option>`;
+                                                                    for(i in medical_config.result.response.kota)
+                                                                    text+=`<option value="`+medical_config.result.response.kota[i]+`">`+medical_config.result.response.kota[i]+`</option>`;
+                                                                text+=`</select>
+                                                                </div>
+                                                                <input type="hidden" name="adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`" id="adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`" />
+                                                                <button type="button" class="primary-delete-date" onclick="delete_type('adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`_id', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                            </div>
+                                                            </div>`;
+
+                                                    text+=`
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Kecamatan KTP</label>`;
+                                                        if(template == 1){
+                                                            text+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text+=` <div class="form-select">
+                                                                    <select class="form-control js-example-basic-single" name="adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`_id" placeholder="Kecamatan" onchange="auto_complete('adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`');get_kelurahan('adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`','adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`_id');auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">
+                                                                        <option value="">Select Kecamatan KTP</option>`;
+                                                                text+=`</select>
+                                                                </div>
+                                                                <input type="hidden" name="adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`" id="adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`" />
+                                                                <button type="button" class="primary-delete-date" onclick="delete_type('adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`_id', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                            </div>
+                                                            </div>`;
+
+                                                    text+=`
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Kelurahan KTP</label>`;
+                                                        if(template == 1){
+                                                            text+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text+=` <div class="form-select">
+                                                                    <select class="form-control js-example-basic-single" name="adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`_id" placeholder="Kelurahan" onchange="auto_complete('adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`');">
+                                                                        <option value="">Select Kelurahan KTP</option>`;
+                                                                text+=`</select>
+                                                                </div>
+                                                                <input type="hidden" name="adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`" id="adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`" />
+                                                                <button type="button" class="primary-delete-date" onclick="delete_type('adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`_id', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                            </div>
+                                                            </div>`;
+
+                                                    //copy to ktp
+                                                    text+= `
+                                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                                        <label>Copy KTP to Domisili?</label>
+                                                        <label class="radio-button-custom">
+                                                            Yes
+                                                            <input type="radio" name="adult_copy`+parseInt(counter_passenger+1)+`" onchange="copy_ktp(`+parseInt(counter_passenger+1)+`);" value="true"/>
+                                                            <span class="checkmark-radio"></span>
+                                                        </label>
+
+                                                        <label class="radio-button-custom">
+                                                            No
+                                                            <input type="radio" name="adult_copy`+parseInt(counter_passenger+1)+`" onchange="copy_ktp(`+parseInt(counter_passenger+1)+`);" value="false" checked="checked"/>
+                                                            <span class="checkmark-radio"></span>
+                                                        </label>
+                                                    </div>`;
+
+                                                    text += `
+                                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                                        <label>Domisili</label>
+                                                    </div>`
+                                                    text+=`
                                                     <div class="col-lg-6 col-md-6 col-sm-6">
                                                         <label style="color:red !important">*</label>
                                                         <label>Address</label>
@@ -554,129 +685,6 @@ function add_table_of_passenger(type){
                                                                 </div>
                                                                 <input type="hidden" name="adult_kelurahan`+parseInt(counter_passenger+1)+`" id="adult_kelurahan`+parseInt(counter_passenger+1)+`" />
                                                                 <button type="button" class="primary-delete-date" onclick="delete_type('adult_kelurahan`+parseInt(counter_passenger+1)+`_id', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                            </div>
-                                                            </div>`;
-
-                                                    //copy to ktp
-                                                    text+= `
-                                                    <div class="col-lg-12 col-md-12 col-sm-12">
-                                                        <br/><br/>
-                                                        <label>Copy to KTP?</label>
-                                                        <label class="radio-button-custom">
-                                                            Yes
-                                                            <input type="radio" name="adult_copy`+parseInt(counter_passenger+1)+`" onchange="copy_ktp(`+parseInt(counter_passenger+1)+`);" value="true"/>
-                                                            <span class="checkmark-radio"></span>
-                                                        </label>
-
-                                                        <label class="radio-button-custom">
-                                                            No
-                                                            <input type="radio" name="adult_copy`+parseInt(counter_passenger+1)+`" onchange="copy_ktp(`+parseInt(counter_passenger+1)+`);" value="false" checked="checked"/>
-                                                            <span class="checkmark-radio"></span>
-                                                        </label>
-                                                    </div>
-                                                    `
-                                                    text+=`
-                                                    <div class="col-lg-6 col-md-6 col-sm-6">
-                                                        <br/>
-                                                        <label style="color:red !important">*</label>
-                                                        <label>Address KTP</label>
-                                                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
-                                                            <input type="text" class="form-control" name="adult_address_ktp`+parseInt(counter_passenger+1)+`" id="adult_address_ktp`+parseInt(counter_passenger+1)+`" placeholder="Address KTP " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address KTP '">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6 col-md-6 col-sm-6">
-                                                        <br/>
-                                                        <label style="color:red !important">*</label>
-                                                        <label>RT KTP</label>
-                                                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
-                                                            <input type="text" class="form-control" name="adult_rt_ktp`+parseInt(counter_passenger+1)+`" id="adult_rt_ktp`+parseInt(counter_passenger+1)+`" placeholder="RT KTP " onfocus="this.placeholder = ''" onblur="this.placeholder = 'RT KTP '">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6 col-md-6 col-sm-6">
-                                                        <label style="color:red !important">*</label>
-                                                        <label>RW KTP</label>
-                                                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
-                                                            <input type="text" class="form-control" name="adult_rw_ktp`+parseInt(counter_passenger+1)+`" id="adult_rw_ktp`+parseInt(counter_passenger+1)+`" placeholder="RW KTP " onfocus="this.placeholder = ''" onblur="this.placeholder = 'RW KTP '">
-                                                        </div>
-                                                    </div>`;
-
-                                                    text+=`
-
-                                                    <div class="col-lg-6 col-md-6 col-sm-6">
-                                                        <label style="color:red !important">*</label>
-                                                        <label>Kabupaten KTP</label>`;
-                                                        if(template == 1){
-                                                            text+=`<div class="input-container-search-ticket">`;
-                                                        }else if(template == 2){
-                                                            text+=`<div>`;
-                                                        }else if(template == 3){
-                                                            text+=`<div class="default-select">`;
-                                                        }else if(template == 4){
-                                                            text+=`<div class="input-container-search-ticket">`;
-                                                        }else if(template == 5){
-                                                            text+=`<div class="input-container-search-ticket">`;
-                                                        }
-                                                        text+=` <div class="form-select">
-                                                                    <select class="form-control js-example-basic-single" name="adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`_id" placeholder="Kabupaten" onchange="auto_complete('adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`');get_kecamatan('adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`','adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`_id');auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);" >
-                                                                        <option value="">Select Kabupaten KTP</option>`;
-                                                                    for(i in medical_config.result.response.kota)
-                                                                    text+=`<option value="`+medical_config.result.response.kota[i]+`">`+medical_config.result.response.kota[i]+`</option>`;
-                                                                text+=`</select>
-                                                                </div>
-                                                                <input type="hidden" name="adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`" id="adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`" />
-                                                                <button type="button" class="primary-delete-date" onclick="delete_type('adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`_id', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                            </div>
-                                                            </div>`;
-
-                                                    text+=`
-
-                                                    <div class="col-lg-6 col-md-6 col-sm-6">
-                                                        <label style="color:red !important">*</label>
-                                                        <label>Kecamatan KTP</label>`;
-                                                        if(template == 1){
-                                                            text+=`<div class="input-container-search-ticket">`;
-                                                        }else if(template == 2){
-                                                            text+=`<div>`;
-                                                        }else if(template == 3){
-                                                            text+=`<div class="default-select">`;
-                                                        }else if(template == 4){
-                                                            text+=`<div class="input-container-search-ticket">`;
-                                                        }else if(template == 5){
-                                                            text+=`<div class="input-container-search-ticket">`;
-                                                        }
-                                                        text+=` <div class="form-select">
-                                                                    <select class="form-control js-example-basic-single" name="adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`_id" placeholder="Kecamatan" onchange="auto_complete('adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`');get_kelurahan('adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`','adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`_id');auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">
-                                                                        <option value="">Select Kecamatan KTP</option>`;
-                                                                text+=`</select>
-                                                                </div>
-                                                                <input type="hidden" name="adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`" id="adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`" />
-                                                                <button type="button" class="primary-delete-date" onclick="delete_type('adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`_id', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                            </div>
-                                                            </div>`;
-
-                                                    text+=`
-
-                                                    <div class="col-lg-6 col-md-6 col-sm-6">
-                                                        <label style="color:red !important">*</label>
-                                                        <label>Kelurahan KTP</label>`;
-                                                        if(template == 1){
-                                                            text+=`<div class="input-container-search-ticket">`;
-                                                        }else if(template == 2){
-                                                            text+=`<div>`;
-                                                        }else if(template == 3){
-                                                            text+=`<div class="default-select">`;
-                                                        }else if(template == 4){
-                                                            text+=`<div class="input-container-search-ticket">`;
-                                                        }else if(template == 5){
-                                                            text+=`<div class="input-container-search-ticket">`;
-                                                        }
-                                                        text+=` <div class="form-select">
-                                                                    <select class="form-control js-example-basic-single" name="adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`_id" placeholder="Kelurahan" onchange="auto_complete('adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`');">
-                                                                        <option value="">Select Kelurahan KTP</option>`;
-                                                                text+=`</select>
-                                                                </div>
-                                                                <input type="hidden" name="adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`" id="adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`" />
-                                                                <button type="button" class="primary-delete-date" onclick="delete_type('adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`_id', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                             </div>
                                                             </div>`;
                                                 }
