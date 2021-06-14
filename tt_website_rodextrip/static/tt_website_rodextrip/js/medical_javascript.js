@@ -408,8 +408,8 @@ function add_table_of_passenger(type){
                                                             <div class="form-select">
                                                                 <select class="form-control js-example-basic-single" name="adult_tempat_lahir`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_tempat_lahir`+parseInt(counter_passenger+1)+`_id" placeholder="Tempat Lahir" onchange="auto_complete('adult_tempat_lahir`+parseInt(counter_passenger+1)+`');">
                                                                     <option value="">Select Tempat Lahir</option>`;
-                                                                for(i in medical_config.result.response.kota)
-                                                                text+=`<option value="`+medical_config.result.response.kota[i]+`">`+medical_config.result.response.kota[i]+`</option>`;
+                                                                for(i in data_kota)
+                                                                text+=`<option value="`+i+`">`+i+`</option>`;
                                                             text+=`</select>
                                                                 </div>
                                                                 <input type="hidden" name="adult_tempat_lahir`+parseInt(counter_passenger+1)+`" id="adult_tempat_lahir`+parseInt(counter_passenger+1)+`" />
@@ -503,8 +503,8 @@ function add_table_of_passenger(type){
                                                         text+=` <div class="form-select">
                                                                     <select class="form-control js-example-basic-single" name="adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`_id" placeholder="Kabupaten" onchange="auto_complete('adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`');get_kecamatan('adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`','adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`_id');auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);" >
                                                                         <option value="">Select Kabupaten KTP</option>`;
-                                                                    for(i in medical_config.result.response.kota)
-                                                                    text+=`<option value="`+medical_config.result.response.kota[i]+`">`+medical_config.result.response.kota[i]+`</option>`;
+                                                                    for(i in data_kota)
+                                                                    text+=`<option value="`+i+`">`+i+`</option>`;
                                                                 text+=`</select>
                                                                 </div>
                                                                 <input type="hidden" name="adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`" id="adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`" />
@@ -627,8 +627,8 @@ function add_table_of_passenger(type){
                                                         text+=` <div class="form-select">
                                                                     <select class="form-control js-example-basic-single" name="adult_kabupaten`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_kabupaten`+parseInt(counter_passenger+1)+`_id" placeholder="Kabupaten" onchange="auto_complete('adult_kabupaten`+parseInt(counter_passenger+1)+`');get_kecamatan('adult_kabupaten`+parseInt(counter_passenger+1)+`','adult_kecamatan`+parseInt(counter_passenger+1)+`_id');auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);" >
                                                                         <option value="">Select Kabupaten</option>`;
-                                                                    for(i in medical_config.result.response.kota)
-                                                                    text+=`<option value="`+medical_config.result.response.kota[i]+`">`+medical_config.result.response.kota[i]+`</option>`;
+                                                                    for(i in data_kota)
+                                                                    text+=`<option value="`+i+`">`+i+`</option>`;
                                                                 text+=`</select>
                                                                 </div>
                                                                 <input type="hidden" name="adult_kabupaten`+parseInt(counter_passenger+1)+`" id="adult_kabupaten`+parseInt(counter_passenger+1)+`" />

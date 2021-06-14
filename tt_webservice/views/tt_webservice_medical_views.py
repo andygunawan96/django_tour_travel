@@ -140,6 +140,8 @@ def get_config(request):
             res = util.send_request(url=url + additional_url, data=data, headers=headers, method='POST', timeout=480)
             try:
                 if res['result']['error_code'] == 0:
+                    file = open("tt_webservice/static/tt_webservice/phc_city.json", "r")
+                    res['result']['response']['kota'] = json.loads(file.read())
                     write_cache_with_folder(res['result']['response'], "medical_cache_data_%s" % provider)
             except Exception as e:
                 _logger.info("ERROR GET CACHE medical " + provider + ' ' + json.dumps(res) + '\n' + str(e) + '\n' + traceback.format_exc())
