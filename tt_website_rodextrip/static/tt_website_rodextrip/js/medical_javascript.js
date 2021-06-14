@@ -875,7 +875,7 @@ function copy_ktp(val){
                 $('#adult_kabupaten'+val+'_id').select2();
                 $('#adult_kecamatan'+val+'_id').select2();
                 $('#adult_kelurahan'+val+'_id').select2();
-                $('#adult_kabupaten'+val).val(document.getElementById('adult_kabupaten'+val).value);
+                $('#adult_kabupaten'+val).val(document.getElementById('adult_kabupaten_ktp'+val).value);
                 document.getElementById('select2-adult_kabupaten'+val+'_id-container').innerHTML = document.getElementById('adult_kabupaten_ktp'+val).value;
                 document.getElementById('adult_kabupaten'+val+'_id').disabled = true
 
