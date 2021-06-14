@@ -70,6 +70,12 @@ function get_config_medical(type='', vendor=''){
             if(msg.result.error_code == 0){
                 if(type == 'passenger'){
                     medical_config = msg;
+                    var product = '';
+                    for(i in medical_config.result.response.carriers_code){
+                        if(medical_config.result.response.carriers_code[i].code == test_type)
+                            product = medical_config.result.response.carriers_code[i].name
+                    }
+                    document.getElementById('medical_product').innerHTML = product;
                     add_table();
                 }else if(type == 'home'){
                     var text = '';
