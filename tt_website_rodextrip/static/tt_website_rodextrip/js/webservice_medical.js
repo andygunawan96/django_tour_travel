@@ -479,6 +479,9 @@ function medical_get_cache_price(){
 function pre_medical_commit_booking(val){
     if(val == 0){
         medical_commit_booking(val);
+        $('.hold-seat-booking-train').addClass("running");
+        $('.hold-seat-booking-train').attr("disabled", true);
+        please_wait_transaction();
     }else{
         Swal.fire({
           title: 'Are you sure want to Request this booking?',
@@ -490,6 +493,10 @@ function pre_medical_commit_booking(val){
         }).then((result) => {
             if (result.value) {
                 try{
+                    $('.hold-seat-booking-train').attr("disabled", true);
+                    $('.issued_booking_btn').prop('disabled', true);
+                    please_wait_transaction();
+
                     document.getElementById("passengers").value = JSON.stringify(passengers);
                     document.getElementById("signature").value = signature;
                     document.getElementById("provider").value = 'medical';
@@ -562,6 +569,11 @@ function medical_commit_booking(val){
                    }
                }
             }else if(msg.result.error_code == 1011 || msg.result.error_code == 4014){
+
+                   $('.hold-seat-booking-train').prop('disabled', false);
+                   $('.hold-seat-booking-train').removeClass("running");
+                   hide_modal_waiting_transaction();
+
                    Swal.fire({
                       type: 'error',
                       title: 'Oops!',
@@ -580,11 +592,16 @@ function medical_commit_booking(val){
                         }
                    })
             }else{
-                   Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      html: msg.result.error_msg,
-                   })
+
+               $('.hold-seat-booking-train').prop('disabled', false);
+               $('.hold-seat-booking-train').removeClass("running");
+               hide_modal_waiting_transaction();
+
+               Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: msg.result.error_msg,
+               })
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
