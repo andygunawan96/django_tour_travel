@@ -404,19 +404,17 @@ function add_table_of_passenger(type){
                                                         }else if(template == 5){
                                                             text+=`<div class="input-container-search-ticket">`;
                                                         }
-                                                        text+=`<div class="form-select-2">`;
-                                                        if(template == 4){
-                                                            text+=`<select class="nice-select-default rounded" id="adult_tempat_lahir`+parseInt(counter_passenger+1)+`" name="adult_tempat_lahir`+parseInt(counter_passenger+1)+`" >`;
-                                                        }else{
-                                                        }
-                                                            text+=`<select id="adult_tempat_lahir`+parseInt(counter_passenger+1)+`" name="adult_tempat_lahir`+parseInt(counter_passenger+1)+`" >`;
-                                                        text += '<option value="">Choose</option>';
-                                                            for(i in medical_config.result.response.kota)
+                                                        text+=`
+                                                            <div class="form-select">
+                                                                <select class="form-control js-example-basic-single" name="adult_tempat_lahir`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_tempat_lahir`+parseInt(counter_passenger+1)+`_id" placeholder="Tempat Lahir" onchange="auto_complete('adult_tempat_lahir`+parseInt(counter_passenger+1)+`');">
+                                                                    <option value="">Select Tempat Lahir</option>`;
+                                                                for(i in medical_config.result.response.kota)
                                                                 text+=`<option value="`+medical_config.result.response.kota[i]+`">`+medical_config.result.response.kota[i]+`</option>`;
-                                                                text+=`</select>
+                                                            text+=`</select>
+                                                                </div>
+                                                                <input type="hidden" name="adult_tempat_lahir`+parseInt(counter_passenger+1)+`" id="adult_tempat_lahir`+parseInt(counter_passenger+1)+`" />
                                                             </div>
-                                                        </div>
-                                                    </div>`;
+                                                        </div>`;
 
                                                     text+=`
 
@@ -495,19 +493,17 @@ function add_table_of_passenger(type){
                                                         }else if(template == 5){
                                                             text+=`<div class="input-container-search-ticket">`;
                                                         }
-                                                        text+=`<div class="form-select-2">`;
-                                                        if(template == 4){
-                                                            text+=`<select class="nice-select-default rounded" id="adult_kabupaten`+parseInt(counter_passenger+1)+`" name="adult_kabupaten`+parseInt(counter_passenger+1)+`" onchange="get_kecamatan('adult_kabupaten`+parseInt(counter_passenger+1)+`','adult_kecamatan`+parseInt(counter_passenger+1)+`');auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">`;
-                                                        }else{
-                                                            text+=`<select id="adult_kabupaten`+parseInt(counter_passenger+1)+`" name="adult_kabupaten`+parseInt(counter_passenger+1)+`" onchange="get_kecamatan('adult_kabupaten`+parseInt(counter_passenger+1)+`','adult_kecamatan`+parseInt(counter_passenger+1)+`');auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">`;
-                                                        }
-                                                        text += '<option value="">Choose</option>';
-                                                            for(i in medical_config.result.response.kota)
-                                                                text+=`<option value="`+medical_config.result.response.kota[i]+`">`+medical_config.result.response.kota[i]+`</option>`;
+                                                        text+=` <div class="form-select">
+                                                                    <select class="form-control js-example-basic-single" name="adult_kabupaten`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_kabupaten`+parseInt(counter_passenger+1)+`_id" placeholder="Kabupaten" onchange="auto_complete('adult_kabupaten`+parseInt(counter_passenger+1)+`');get_kecamatan('adult_kabupaten`+parseInt(counter_passenger+1)+`','adult_kecamatan`+parseInt(counter_passenger+1)+`_id');auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);" >
+                                                                        <option value="">Select Kabupaten</option>`;
+                                                                    for(i in medical_config.result.response.kota)
+                                                                    text+=`<option value="`+medical_config.result.response.kota[i]+`">`+medical_config.result.response.kota[i]+`</option>`;
                                                                 text+=`</select>
+                                                                </div>
+                                                                <input type="hidden" name="adult_kabupaten`+parseInt(counter_passenger+1)+`" id="adult_kabupaten`+parseInt(counter_passenger+1)+`" />
+                                                                <button type="button" class="primary-delete-date" onclick="delete_type('adult_kabupaten`+parseInt(counter_passenger+1)+`_id', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                             </div>
-                                                        </div>
-                                                    </div>`;
+                                                            </div>`;
 
                                                     text+=`
 
@@ -525,16 +521,15 @@ function add_table_of_passenger(type){
                                                         }else if(template == 5){
                                                             text+=`<div class="input-container-search-ticket">`;
                                                         }
-                                                        text+=`<div class="form-select-2">`;
-                                                        if(template == 4){
-                                                            text+=`<select class="nice-select-default rounded" id="adult_kecamatan`+parseInt(counter_passenger+1)+`" name="adult_kecamatan`+parseInt(counter_passenger+1)+`" onchange="get_kelurahan('adult_kecamatan`+parseInt(counter_passenger+1)+`','adult_kelurahan`+parseInt(counter_passenger+1)+`');auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">`;
-                                                        }else{
-                                                            text+=`<select id="adult_kecamatan`+parseInt(counter_passenger+1)+`" name="adult_kecamatan`+parseInt(counter_passenger+1)+`" onchange="get_kelurahan('adult_kecamatan`+parseInt(counter_passenger+1)+`','adult_kelurahan`+parseInt(counter_passenger+1)+`');auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">`;
-                                                        }
+                                                        text+=` <div class="form-select">
+                                                                    <select class="form-control js-example-basic-single" name="adult_kecamatan`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_kecamatan`+parseInt(counter_passenger+1)+`_id" placeholder="Kecamatan" onchange="auto_complete('adult_kecamatan`+parseInt(counter_passenger+1)+`');get_kelurahan('adult_kecamatan`+parseInt(counter_passenger+1)+`','adult_kelurahan`+parseInt(counter_passenger+1)+`_id');auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">
+                                                                        <option value="">Select Kecamatan</option>`;
                                                                 text+=`</select>
+                                                                </div>
+                                                                <input type="hidden" name="adult_kecamatan`+parseInt(counter_passenger+1)+`" id="adult_kecamatan`+parseInt(counter_passenger+1)+`" />
+                                                                <button type="button" class="primary-delete-date" onclick="delete_type('adult_kecamatan`+parseInt(counter_passenger+1)+`_id', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                             </div>
-                                                        </div>
-                                                    </div>`;
+                                                            </div>`;
 
                                                     text+=`
 
@@ -552,16 +547,15 @@ function add_table_of_passenger(type){
                                                         }else if(template == 5){
                                                             text+=`<div class="input-container-search-ticket">`;
                                                         }
-                                                        text+=`<div class="form-select-2">`;
-                                                        if(template == 4){
-                                                            text+=`<select class="nice-select-default rounded" id="adult_kelurahan`+parseInt(counter_passenger+1)+`" name="adult_kelurahan`+parseInt(counter_passenger+1)+`" onchange="auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">`;
-                                                        }else{
-                                                            text+=`<select id="adult_kelurahan`+parseInt(counter_passenger+1)+`" name="adult_kelurahan`+parseInt(counter_passenger+1)+`" onchange="auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">`;
-                                                        }
+                                                        text+=` <div class="form-select">
+                                                                    <select class="form-control js-example-basic-single" name="adult_kelurahan`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_kelurahan`+parseInt(counter_passenger+1)+`_id" placeholder="Kelurahan" onchange="auto_complete('adult_kelurahan`+parseInt(counter_passenger+1)+`');auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">
+                                                                        <option value="">Select Kelurahan</option>`;
                                                                 text+=`</select>
+                                                                </div>
+                                                                <input type="hidden" name="adult_kelurahan`+parseInt(counter_passenger+1)+`" id="adult_kelurahan`+parseInt(counter_passenger+1)+`" />
+                                                                <button type="button" class="primary-delete-date" onclick="delete_type('adult_kelurahan`+parseInt(counter_passenger+1)+`_id', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                             </div>
-                                                        </div>
-                                                    </div>`;
+                                                            </div>`;
 
                                                     //copy to ktp
                                                     text+= `
@@ -622,19 +616,17 @@ function add_table_of_passenger(type){
                                                         }else if(template == 5){
                                                             text+=`<div class="input-container-search-ticket">`;
                                                         }
-                                                        text+=`<div class="form-select-2">`;
-                                                        if(template == 4){
-                                                            text+=`<select class="nice-select-default rounded" id="adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`" name="adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`" onchange="get_kecamatan('adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`','adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`')">`;
-                                                        }else{
-                                                            text+=`<select id="adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`" name="adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`" onchange="get_kecamatan('adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`','adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`')">`;
-                                                        }
-                                                        text += '<option value="">Choose</option>';
-                                                            for(i in medical_config.result.response.kota)
-                                                                text+=`<option value="`+medical_config.result.response.kota[i]+`">`+medical_config.result.response.kota[i]+`</option>`;
+                                                        text+=` <div class="form-select">
+                                                                    <select class="form-control js-example-basic-single" name="adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`_id" placeholder="Kabupaten" onchange="auto_complete('adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`');get_kecamatan('adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`','adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`_id');auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);" >
+                                                                        <option value="">Select Kabupaten KTP</option>`;
+                                                                    for(i in medical_config.result.response.kota)
+                                                                    text+=`<option value="`+medical_config.result.response.kota[i]+`">`+medical_config.result.response.kota[i]+`</option>`;
                                                                 text+=`</select>
+                                                                </div>
+                                                                <input type="hidden" name="adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`" id="adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`" />
+                                                                <button type="button" class="primary-delete-date" onclick="delete_type('adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`_id', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                             </div>
-                                                        </div>
-                                                    </div>`;
+                                                            </div>`;
 
                                                     text+=`
 
@@ -652,17 +644,15 @@ function add_table_of_passenger(type){
                                                         }else if(template == 5){
                                                             text+=`<div class="input-container-search-ticket">`;
                                                         }
-                                                        text+=`<div class="form-select-2">`;
-                                                        if(template == 4){
-                                                            text+=`<select class="nice-select-default rounded" id="adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`" name="adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`" onchange="get_kelurahan('adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`','adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`')">`;
-                                                        }else{
-                                                            text+=`<select id="adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`" name="adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`" onchange="get_kelurahan('adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`','adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`')">`;
-                                                        }
+                                                        text+=` <div class="form-select">
+                                                                    <select class="form-control js-example-basic-single" name="adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`_id" placeholder="Kecamatan" onchange="auto_complete('adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`');get_kelurahan('adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`','adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`_id');auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">
+                                                                        <option value="">Select Kecamatan KTP</option>`;
                                                                 text+=`</select>
+                                                                </div>
+                                                                <input type="hidden" name="adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`" id="adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`" />
+                                                                <button type="button" class="primary-delete-date" onclick="delete_type('adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`_id', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                             </div>
-                                                        </div>
-                                                        <br/>
-                                                    </div>`;
+                                                            </div>`;
 
                                                     text+=`
 
@@ -680,17 +670,15 @@ function add_table_of_passenger(type){
                                                         }else if(template == 5){
                                                             text+=`<div class="input-container-search-ticket">`;
                                                         }
-                                                        text+=`<div class="form-select-2">`;
-                                                        if(template == 4){
-                                                            text+=`<select class="nice-select-default rounded" id="adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`" name="adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`">`;
-                                                        }else{
-                                                            text+=`<select id="adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`" name="adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`">`;
-                                                        }
+                                                        text+=` <div class="form-select">
+                                                                    <select class="form-control js-example-basic-single" name="adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`_id" placeholder="Kelurahan" onchange="auto_complete('adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`');">
+                                                                        <option value="">Select Kelurahan KTP</option>`;
                                                                 text+=`</select>
+                                                                </div>
+                                                                <input type="hidden" name="adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`" id="adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`" />
+                                                                <button type="button" class="primary-delete-date" onclick="delete_type('adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`_id', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                             </div>
-                                                        </div>
-                                                        <br/>
-                                                    </div>`;
+                                                            </div>`;
                                                 }
                                                 text+=`
                                                 <div class="col-lg-6" id="adult_cp_hidden1_`+parseInt(counter_passenger+1)+`">
@@ -771,13 +759,21 @@ function add_table_of_passenger(type){
     $('#adult_country_of_issued'+parseInt(counter_passenger+1)+'_id').select2();
     $('#adult_phone_code'+parseInt(counter_passenger+1)+'_id').select2();
     if(vendor == 'phc'){
-        $('#adult_tempat_lahir'+parseInt(counter_passenger+1)).niceSelect();
-        $('#adult_kabupaten'+parseInt(counter_passenger+1)).niceSelect();
-        $('#adult_kecamatan'+parseInt(counter_passenger+1)).niceSelect();
-        $('#adult_kelurahan'+parseInt(counter_passenger+1)).niceSelect();
-        $('#adult_kabupaten_ktp'+parseInt(counter_passenger+1)).niceSelect();
-        $('#adult_kecamatan_ktp'+parseInt(counter_passenger+1)).niceSelect();
-        $('#adult_kelurahan_ktp'+parseInt(counter_passenger+1)).niceSelect();
+
+        $('#adult_tempat_lahir'+parseInt(counter_passenger+1)+'_id').select2();
+        $('#adult_kabupaten'+parseInt(counter_passenger+1)+'_id').select2();
+        $('#adult_kecamatan'+parseInt(counter_passenger+1)+'_id').select2();
+        $('#adult_kelurahan'+parseInt(counter_passenger+1)+'_id').select2();
+        $('#adult_kabupaten_ktp'+parseInt(counter_passenger+1)+'_id').select2();
+        $('#adult_kecamatan_ktp'+parseInt(counter_passenger+1)+'_id').select2();
+        $('#adult_kelurahan_ktp'+parseInt(counter_passenger+1)+'_id').select2();
+//        $('#adult_tempat_lahir'+parseInt(counter_passenger+1)).niceSelect();
+//        $('#adult_kabupaten'+parseInt(counter_passenger+1)).niceSelect();
+//        $('#adult_kecamatan'+parseInt(counter_passenger+1)).niceSelect();
+//        $('#adult_kelurahan'+parseInt(counter_passenger+1)).niceSelect();
+//        $('#adult_kabupaten_ktp'+parseInt(counter_passenger+1)).niceSelect();
+//        $('#adult_kecamatan_ktp'+parseInt(counter_passenger+1)).niceSelect();
+//        $('#adult_kelurahan_ktp'+parseInt(counter_passenger+1)).niceSelect();
         $('#adult_profession'+parseInt(counter_passenger+1)).niceSelect();
     }else if(vendor == 'periksain'){
         $('#adult_sample_method'+parseInt(counter_passenger+1)).niceSelect();
@@ -790,6 +786,57 @@ function add_table_of_passenger(type){
     $('#adult_identity_type'+parseInt(counter_passenger+1)).niceSelect();
     auto_complete(`adult_nationality`+parseInt(counter_passenger+1));
     counter_passenger++;
+}
+
+function delete_type(type, val){
+    if(type.includes('ktp')){
+        if(type.includes('kabupaten')){
+            $('#adult_kabupaten_ktp'+val+'_id').val('');
+            document.getElementById('select2-adult_kabupaten_ktp'+val+'_id-container').innerHTML = 'Select Kabupaten KTP';
+            text = `<option value="">Select Kecamatan KTP</option>`;
+            document.getElementById('adult_kecamatan_ktp'+val+'_id').innerHTML = text;
+            document.getElementById('select2-adult_kecamatan_ktp'+val+'_id-container').innerHTML = 'Select Kecamatan KTP';
+            $('#adult_kecamatan_ktp'+val+'_id').select2();
+            $('#adult_kecamatan_ktp'+val+'_id').val('');
+            text = `<option value="">Select Kelurahan KTP</option>`;
+            document.getElementById('adult_kelurahan_ktp'+val+'_id').innerHTML = text;
+            $('#adult_kelurahan_ktp'+val+'_id').select2();
+
+        }
+        if(type.includes('kecamatan')){
+            $('#adult_kecamatan_ktp'+val+'_id').val('');
+            document.getElementById('select2-adult_kecamatan_ktp'+val+'_id-container').innerHTML = 'Select Kecamatan KTP';
+            text = `<option value="">Select Kelurahan KTP</option>`;
+            document.getElementById('adult_kelurahan_ktp'+val+'_id').innerHTML = text;
+            $('#adult_kelurahan_ktp'+val+'_id').select2();
+        }
+        $('#adult_kelurahan_ktp'+val+'_id').val('');
+        document.getElementById('select2-adult_kelurahan_ktp'+val+'_id-container').innerHTML = 'Select Kelurahan KTP';
+    }else{
+        if(type.includes('kabupaten')){
+            $('#adult_kabupaten'+val+'_id').val('');
+            document.getElementById('select2-adult_kabupaten'+val+'_id-container').innerHTML = 'Select Kabupaten';
+            text = `<option value="">Select Kecamatan</option>`;
+            document.getElementById('adult_kecamatan'+val+'_id').innerHTML = text;
+            document.getElementById('select2-adult_kecamatan'+val+'_id-container').innerHTML = 'Select Kecamatan';
+            $('#adult_kecamatan'+val+'_id').select2();
+            $('#adult_kecamatan'+val+'_id').val('');
+            text = `<option value="">Select Kelurahan</option>`;
+            document.getElementById('adult_kelurahan'+val+'_id').innerHTML = text;
+            $('#adult_kelurahan'+val+'_id').select2();
+
+        }
+        if(type.includes('kecamatan')){
+            $('#adult_kecamatan'+val+'_id').val('');
+            document.getElementById('select2-adult_kecamatan'+val+'_id-container').innerHTML = 'Select Kecamatan';
+            text = `<option value="">Select Kelurahan</option>`;
+            document.getElementById('adult_kelurahan'+val+'_id').innerHTML = text;
+            $('#adult_kelurahan'+val+'_id').select2();
+        }
+        $('#adult_kelurahan'+val+'_id').val('');
+        document.getElementById('select2-adult_kelurahan'+val+'_id-container').innerHTML = 'Select Kelurahan';
+    }
+    //auto_change_copy_to_ktp(val);
 }
 
 function auto_change_copy_to_ktp(val){
@@ -810,44 +857,52 @@ function copy_ktp(val){
         if(radios[i].checked){
             if(radios[i].value == 'true'){
                 document.getElementById('adult_address_ktp'+val).value = document.getElementById('adult_address'+val).value;
-                document.getElementById('adult_address_ktp'+val).readonly = true;
-                document.getElementById('adult_address_ktp'+val).value = document.getElementById('adult_address'+val).value;
-                document.getElementById('adult_address_ktp'+val).readonly = true;
+                document.getElementById('adult_address_ktp'+val).readOnly = true;
                 document.getElementById('adult_rt_ktp'+val).value = document.getElementById('adult_rt'+val).value;
-                document.getElementById('adult_rt_ktp'+val).readonly = true;
+                document.getElementById('adult_rt_ktp'+val).readOnly = true;
                 document.getElementById('adult_rw_ktp'+val).value = document.getElementById('adult_rw'+val).value;
-                document.getElementById('adult_rw_ktp'+val).readonly = true;
-                document.getElementById('adult_kabupaten_ktp'+val).value = document.getElementById('adult_kabupaten'+val).value;
-                document.getElementById('adult_kabupaten_ktp'+val).readonly = true;
+                document.getElementById('adult_rw_ktp'+val).readOnly = true;
                 document.getElementById('adult_kecamatan_ktp'+val).innerHTML = document.getElementById('adult_kecamatan'+val).innerHTML
-                document.getElementById('adult_kecamatan_ktp'+val).value = document.getElementById('adult_kecamatan'+val).value;
-                document.getElementById('adult_kecamatan_ktp'+val).readonly = true;
                 document.getElementById('adult_kelurahan_ktp'+val).innerHTML = document.getElementById('adult_kelurahan'+val).innerHTML
-                document.getElementById('adult_kelurahan_ktp'+val).value = document.getElementById('adult_kelurahan'+val).value;
-                document.getElementById('adult_kelurahan_ktp'+val).readonly = true;
-                $('#adult_kabupaten_ktp'+val).niceSelect('update');
-                $('#adult_kecamatan_ktp'+val).niceSelect('update');
-                $('#adult_kelurahan_ktp'+val).niceSelect('update');
+                $('#adult_kabupaten_ktp'+val+'_id').select2();
+                $('#adult_kecamatan_ktp'+val+'_id').select2();
+                $('#adult_kelurahan_ktp'+val+'_id').select2();
+                $('#adult_kabupaten_ktp'+val).val(document.getElementById('adult_kabupaten'+val).value);
+                document.getElementById('select2-adult_kabupaten_ktp'+val+'_id-container').innerHTML = document.getElementById('adult_kabupaten'+val).value;
+                document.getElementById('adult_kabupaten_ktp'+val+'_id').disabled = true
+
+                $('#adult_kecamatan_ktp'+val).val(document.getElementById('adult_kecamatan'+val).value);
+                $('#adult_kecamatan_ktp'+val+'_id').val(document.getElementById('adult_kecamatan'+val).value);
+                document.getElementById('select2-adult_kecamatan_ktp'+val+'_id-container').innerHTML = document.getElementById('adult_kecamatan'+val).value;
+                document.getElementById('adult_kecamatan_ktp'+val+'_id').disabled = true
+
+                $('#adult_kelurahan_ktp'+val).val(document.getElementById('adult_kelurahan'+val).value);
+                $('#adult_kelurahan_ktp'+val+'_id').val(document.getElementById('adult_kelurahan'+val).value);
+                document.getElementById('select2-adult_kelurahan_ktp'+val+'_id-container').innerHTML = document.getElementById('adult_kelurahan'+val).value;
+                document.getElementById('adult_kelurahan_ktp'+val+'_id').disabled = true
+
             }else if(radios[i].value == 'false'){
                 document.getElementById('adult_address_ktp'+val).value = '';
-                document.getElementById('adult_address_ktp'+val).readonly = false;
-                document.getElementById('adult_address_ktp'+val).value = '';
-                document.getElementById('adult_address_ktp'+val).readonly = false;
+                document.getElementById('adult_address_ktp'+val).readOnly = false;
                 document.getElementById('adult_rt_ktp'+val).value = '';
-                document.getElementById('adult_rt_ktp'+val).readonly = false;
+                document.getElementById('adult_rt_ktp'+val).readOnly = false;
                 document.getElementById('adult_rw_ktp'+val).value = '';
-                document.getElementById('adult_rw_ktp'+val).readonly = false;
-                document.getElementById('adult_kabupaten_ktp'+val).value = '';
-                document.getElementById('adult_kabupaten_ktp'+val).readonly = false;
-                document.getElementById('adult_kecamatan_ktp'+val).innerHTML = '';
-                document.getElementById('adult_kecamatan_ktp'+val).value = '';
-                document.getElementById('adult_kecamatan_ktp'+val).readonly = false;
-                document.getElementById('adult_kelurahan_ktp'+val).innerHTML = '';
-                document.getElementById('adult_kelurahan_ktp'+val).value = '';
-                document.getElementById('adult_kelurahan_ktp'+val).readonly = false;
-                $('#adult_kabupaten_ktp'+counter_line).niceSelect('update');
-                $('#adult_kecamatan_ktp'+counter_line).niceSelect('update');
-                $('#adult_kelurahan_ktp'+counter_line).niceSelect('update');
+                document.getElementById('adult_rw_ktp'+val).readOnly = false;
+                $('#adult_kabupaten_ktp'+val+'_id').val('');
+                document.getElementById('select2-adult_kabupaten_ktp'+val+'_id-container').innerHTML = 'Select Kabupaten KTP';
+                text = `<option value="">Select Kecamatan</option>`;
+                document.getElementById('adult_kecamatan_ktp'+val+'_id').innerHTML = text;
+                document.getElementById('select2-adult_kecamatan_ktp'+val+'_id-container').innerHTML = 'Select Kecamatan KTP';
+                $('#adult_kecamatan_ktp'+val+'_id').select2();
+                $('#adult_kecamatan_ktp'+val+'_id').val('');
+                text = `<option value="">Select Kelurahan KTP</option>`;
+                document.getElementById('adult_kelurahan_ktp'+val+'_id').innerHTML = text;
+                $('#adult_kelurahan_ktp'+val+'_id').select2();
+                $('#adult_kelurahan_ktp'+val+'_id').val('');
+                document.getElementById('select2-adult_kelurahan_ktp'+val+'_id-container').innerHTML = 'Select Kelurahan KTP';
+                document.getElementById('adult_kabupaten_ktp'+val+'_id').disabled = false;
+                document.getElementById('adult_kecamatan_ktp'+val+'_id').disabled = false;
+                document.getElementById('adult_kelurahan_ktp'+val+'_id').disabled = false;
             }
             break;
         }
