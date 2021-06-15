@@ -140,8 +140,9 @@ def get_config(request):
             res = util.send_request(url=url + additional_url, data=data, headers=headers, method='POST', timeout=480)
             try:
                 if res['result']['error_code'] == 0:
-                    file = open("tt_webservice/static/tt_webservice/phc_city.json", "r")
-                    res['result']['response']['kota'] = json.loads(file.read())
+                    if request.POST['provider'] == 'phc':
+                        file = open("tt_webservice/static/tt_webservice/phc_city.json", "r")
+                        res['result']['response']['kota'] = json.loads(file.read())
                     write_cache_with_folder(res['result']['response'], "medical_cache_data_%s" % provider)
             except Exception as e:
                 _logger.info("ERROR GET CACHE medical " + provider + ' ' + json.dumps(res) + '\n' + str(e) + '\n' + traceback.format_exc())
@@ -398,16 +399,6 @@ def get_booking(request):
     try:
         javascript_version = get_cache_version()
         response = get_cache_data(javascript_version)
-        file = read_cache_with_folder_path("airline_destination", 90911)
-        if file:
-            response = file
-        airline_destinations = []
-        for country in response:
-            airline_destinations.append({
-                'code': country['code'],
-                'name': country['name'],
-                'city': country['city']
-            })
         if res['result']['error_code'] == 0:
             for pax in res['result']['response']['passengers']:
                 try:
@@ -423,14 +414,14 @@ def get_booking(request):
             time.sleep(2)
             set_session(request, 'medical_get_booking_response', response)
 
-            _logger.info(json.dumps(request.session['airline_get_booking_response']))
+            _logger.info(json.dumps(request.session['medical_get_booking_response']))
 
-            _logger.info("SUCCESS get_booking AIRLINE SIGNATURE " + request.POST['signature'])
+            _logger.info("SUCCESS get_booking MEDICAL SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("ERROR get_booking_airline AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR get_booking_MEDICAL SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         print(str(e))
-        set_session(request, 'airline_get_booking_response', res)
+        set_session(request, 'medical_get_booking_response', res)
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
