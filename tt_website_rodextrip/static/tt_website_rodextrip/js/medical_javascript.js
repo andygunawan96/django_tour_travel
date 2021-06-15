@@ -807,7 +807,7 @@ function add_table_of_passenger(type){
                                                         }else{
                                                             text_modal_paxs+=`<select id="adult_kriteria_pasien`+parseInt(counter_passenger+1)+`" name="adult_kriteria_pasien`+parseInt(counter_passenger+1)+`" onchange="change_kriteria(`+parseInt(counter_passenger+1)+`)">`;
                                                         }
-                                                        text += '<option value="">Choose</option>';
+                                                        text_modal_paxs += '<option value="">Choose</option>';
                                                             for(i in medical_config.result.response.kriteria_pasien)
                                                                 text_modal_paxs+=`<option value="`+medical_config.result.response.kriteria_pasien[i].name+`">`+medical_config.result.response.kriteria_pasien[i].name+`</option>`;
                                                                 text_modal_paxs+=`</select>
@@ -822,7 +822,7 @@ function add_table_of_passenger(type){
                                                         <label style="color:red !important">*</label>
                                                         <label>Pemeriksaan Swab Ke</label>
                                                         <div class="input-container-search-ticket" style="margin-bottom:5px;">
-                                                            <input type="text" class="form-control" name="adult_pemeriksaan_swab_ke`+parseInt(counter_passenger+1)+`" id="adult_mother_name`+parseInt(counter_passenger+1)+`" placeholder="Mother Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Mother Name '">
+                                                            <input type="text" class="form-control" name="adult_pemeriksaan_swab_ke`+parseInt(counter_passenger+1)+`" id="adult_pemeriksaan_swab_ke`+parseInt(counter_passenger+1)+`" placeholder="Mother Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Mother Name '">
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-6">
@@ -850,7 +850,7 @@ function add_table_of_passenger(type){
                                                         }else{
                                                             text_modal_paxs+=`<select id="adult_perusahaan`+parseInt(counter_passenger+1)+`" name="adult_perusahaan`+parseInt(counter_passenger+1)+`">`;
                                                         }
-                                                        text += '<option value="">Choose</option>';
+                                                        text_modal_paxs += '<option value="">Choose</option>';
                                                             for(i in medical_config.result.response.perusahaan)
                                                                 text_modal_paxs+=`<option value="`+medical_config.result.response.perusahaan[i]+`">`+medical_config.result.response.perusahaan[i]+`</option>`;
                                                                 text_modal_paxs+=`</select>
@@ -1215,6 +1215,36 @@ function add_table_of_passenger(type){
                                                             text_modal_paxs+=`<select class="nice-select-default rounded" id="adult_klinis_ada_diare`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_diare`+parseInt(counter_passenger+1)+`">`;
                                                         }else{
                                                             text_modal_paxs+=`<select id="adult_klinis_ada_diare`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_diare`+parseInt(counter_passenger+1)+`">`;
+                                                        }
+                                                        text_modal_paxs += '<option value="">Choose</option>';
+                                                            for(i in medical_config.result.response.pilihan_jawaban)
+                                                                text_modal_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                                text_modal_paxs+=`</select>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Gangguan Penciuman</label>`;
+                                                        if(template == 1){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text_modal_paxs+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text_modal_paxs+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text_modal_paxs+=`<div class="form-select-2">`;
+                                                        if(template == 4){
+                                                            text_modal_paxs+=`<select class="nice-select-default rounded" id="adult_klinis_ada_gangguan_penciuman`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_gangguan_penciuman`+parseInt(counter_passenger+1)+`">`;
+                                                        }else{
+                                                            text_modal_paxs+=`<select id="adult_klinis_ada_gangguan_penciuman`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_gangguan_penciuman`+parseInt(counter_passenger+1)+`">`;
                                                         }
                                                         text_modal_paxs += '<option value="">Choose</option>';
                                                             for(i in medical_config.result.response.pilihan_jawaban)
@@ -1593,7 +1623,7 @@ function add_table_of_passenger(type){
                                                 text_modal_paxs+=`
                                                     <div class="col-lg-6 col-md-6 col-sm-6">
                                                         <label style="color:red !important">*</label>
-                                                        <label>Nama RS</label>
+                                                        <label>Nama Ruang Perawatan</label>
                                                         <div class="input-container-search-ticket" style="margin-bottom:5px;">
                                                             <input type="text" class="form-control date-picker-birth" name="adult_nama_ruang_perawatan`+parseInt(counter_passenger+1)+`" id="adult_nama_ruang_perawatan`+parseInt(counter_passenger+1)+`" placeholder="Nama Ruang Perawatan " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Nama Ruang Perawatan '" autocomplete="off">
                                                         </div>
@@ -1759,7 +1789,37 @@ function add_table_of_passenger(type){
                                                     </div>`;
 
                                                 text_modal_paxs+=`
-                                                    <div class="col-lg-6 col-md-6 col-sm-6" hidden>
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Ards</label>`;
+                                                        if(template == 1){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text_modal_paxs+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text_modal_paxs+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text_modal_paxs+=`<div class="form-select-2">`;
+                                                        if(template == 4){
+                                                            text_modal_paxs+=`<select class="nice-select-default rounded" id="adult_klinis_ada_ards`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_ards`+parseInt(counter_passenger+1)+`">`;
+                                                        }else{
+                                                            text_modal_paxs+=`<select id="adult_klinis_ada_ards`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_ards`+parseInt(counter_passenger+1)+`">`;
+                                                        }
+                                                        text_modal_paxs += '<option value="">Choose</option>';
+                                                            for(i in medical_config.result.response.pilihan_jawaban)
+                                                                text_modal_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                                text_modal_paxs+=`</select>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
                                                         <label style="color:red !important">*</label>
                                                         <label>Ards Detail</label>
                                                         <div class="input-container-search-ticket" style="margin-bottom:5px;">
@@ -2135,15 +2195,15 @@ function add_table_of_passenger(type){
                                                             text_modal_paxs+=`<select id="adult_prosedur_menimbulkan_aerosol`+parseInt(counter_passenger+1)+`" name="adult_prosedur_menimbulkan_aerosol`+parseInt(counter_passenger+1)+`">`;
                                                         }
                                                         text_modal_paxs += '<option value="">Choose</option>';
-                                                            for(i in medical_config.result.response.apd)
-                                                                text_modal_paxs+=`<option value="`+medical_config.result.response.apd[i]+`">`+medical_config.result.response.apd[i]+`</option>`;
+                                                            for(i in medical_config.result.response.pilihan_jawaban)
+                                                                text_modal_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
                                                                 text_modal_paxs+=`</select>
                                                             </div>
                                                         </div>
                                                     </div>`;
 
                                                 text_modal_paxs+=`
-                                                    <div class="col-lg-6 col-md-6 col-sm-6" hidden>
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
                                                         <label style="color:red !important">*</label>
                                                         <label>Tindakan Aerosol</label>
                                                         <div class="input-container-search-ticket" style="margin-bottom:5px;">
@@ -2152,7 +2212,7 @@ function add_table_of_passenger(type){
                                                     </div>`;
 
                                                 text_modal_paxs+=`
-                                                    <div class="col-lg-6 col-md-6 col-sm-6" hidden>
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
                                                         <label style="color:red !important">*</label>
                                                         <label>Faktor Lain</label>
                                                         <div class="input-container-search-ticket" style="margin-bottom:5px;">
@@ -2262,6 +2322,7 @@ function add_table_of_passenger(type){
             $('#adult_klinis_ada_mual'+parseInt(counter_passenger+1)).niceSelect();
             $('#adult_klinis_ada_nyeri_abdomen'+parseInt(counter_passenger+1)).niceSelect();
             $('#adult_klinis_ada_diare'+parseInt(counter_passenger+1)).niceSelect();
+            $('#adult_klinis_ada_gangguan_penciuman'+parseInt(counter_passenger+1)).niceSelect();
             $('#adult_klinis_golongan_darah'+parseInt(counter_passenger+1)).niceSelect();
             $('#adult_klinis_sedang_hamil'+parseInt(counter_passenger+1)).niceSelect();
             $('#adult_klinis_ada_diabetes'+parseInt(counter_passenger+1)).niceSelect();
@@ -2278,6 +2339,7 @@ function add_table_of_passenger(type){
             $('#adult_menggunakan_emco'+parseInt(counter_passenger+1)).niceSelect();
             $('#adult_status_terakhir'+parseInt(counter_passenger+1)).niceSelect();
             $('#adult_klinis_ada_penumonia'+parseInt(counter_passenger+1)).niceSelect();
+            $('#adult_klinis_ada_ards'+parseInt(counter_passenger+1)).niceSelect();
             $('#adult_klinis_ada_penyakit_pernafasan'+parseInt(counter_passenger+1)).niceSelect();
             $('#adult_perjalanan_keluar_negeri'+parseInt(counter_passenger+1)).niceSelect();
             $('#adult_perjalanan_ke_transmisi_lokal'+parseInt(counter_passenger+1)).niceSelect();
@@ -2294,6 +2356,7 @@ function add_table_of_passenger(type){
                   singleDatePicker: true,
                   autoUpdateInput: true,
                   showDropdowns: true,
+                  maxDate: moment(),
                   opens: 'center',
                   drops: 'up',
                   locale: {
@@ -2353,13 +2416,13 @@ function onchange_perjalanan_keluar_negeri(val){
         document.getElementById('daftar_perjalanan_keluar_negeri'+val).hidden = false;
         document.getElementById('daftar_perjalanan_keluar_negeri'+val).innerHTML = `
         <br/>
-        <table style="width:100%;background:white;" class="list-of-table">
+        <table style="width:100%;background:white;" class="list-of-table" id="perjalanan_keluar_negeri_div`+val+`">
             <tr>
                 <th>Nama Negara</th>
                 <th>Nama Kota</th>
                 <th>Tanggal Perjalanan</th>
                 <th>Tiba Di Indonesia</th>
-                <th>Add</th>
+                <th onclick="add_pcr_table('perjalanan_keluar_negeri',`+val+`)">Add</th>
             </tr>
         </table>
         `;
@@ -2373,7 +2436,7 @@ function onchange_perjalanan_ke_transmisi_lokal(val){
         document.getElementById('perjalanan_ke_transmisi_lokal'+val).hidden = false;
         document.getElementById('perjalanan_ke_transmisi_lokal'+val).innerHTML = `
         <br/>
-        <table  style="width:100%;background:white;" class="list-of-table">
+        <table  style="width:100%;background:white;" class="list-of-table" id="perjalanan_ke_transmisi_lokal_div`+val+`">
             <tr>
                 <th>Nama Provinsi</th>
                 <th>Nama Kota</th>
@@ -2393,7 +2456,7 @@ function onchange_berkunjung_ke_fasilitas_kesehatan(val){
         document.getElementById('berkunjung_ke_fasilitas_kesehatan'+val).hidden = false;
         document.getElementById('berkunjung_ke_fasilitas_kesehatan'+val).innerHTML = `
         <br/>
-        <table  style="width:100%;background:white;" class="list-of-table">
+        <table  style="width:100%;background:white;" class="list-of-table" id="berkunjung_ke_fasilitas_kesehatan_div`+val+`">
             <tr>
                 <th>Nama Rumah Sakit</th>
                 <th>Nama Kota</th>
@@ -2413,7 +2476,7 @@ function onchange_berkunjung_ke_pasar_hewan(val){
         document.getElementById('berkunjung_ke_pasar_hewan'+val).hidden = false;
         document.getElementById('berkunjung_ke_pasar_hewan'+val).innerHTML = `
         <br/>
-        <table style="width:100%;background:white;" class="list-of-table">
+        <table style="width:100%;background:white;" class="list-of-table" id="berkunjung_ke_pasar_hewan_div`+val+`">
             <tr>
                 <th>Nama Lokasi Pasar</th>
                 <th>Nama Kota</th>
@@ -2433,7 +2496,7 @@ function onchange_berkunjung_ke_pasien_dalam_pengawasan(val){
         document.getElementById('berkunjung_ke_pasien_dalam_pengawasan'+val).hidden = false;
         document.getElementById('berkunjung_ke_pasien_dalam_pengawasan'+val).innerHTML = `
         <br/>
-        <table style="width:100%;background:white;" class="list-of-table">
+        <table style="width:100%;background:white;" class="list-of-table" id="berkunjung_ke_pasien_dalam_pengawasan_div`+val+`">
             <tr>
                 <th>Nama Pasien</th>
                 <th>Alamat</th>
@@ -2454,7 +2517,7 @@ function onchange_berkunjung_ke_pasien_konfirmasi(val){
         document.getElementById('berkunjung_ke_pasien_konfirmasi'+val).hidden = false;
         document.getElementById('berkunjung_ke_pasien_konfirmasi'+val).innerHTML = `
         <br/>
-        <table style="width:100%;background:white;" class="list-of-table">
+        <table style="width:100%;background:white;" class="list-of-table" id="berkunjung_ke_pasien_konfirmasi_div`+val+`">
             <tr>
                 <th>Nama Pasien</th>
                 <th>Alamat</th>
@@ -2471,19 +2534,318 @@ function onchange_berkunjung_ke_pasien_konfirmasi(val){
 }
 
 function add_pcr_table(type, val){
+    var node = document.createElement("tr");
+    var text = '';
     if(type == 'perjalanan_keluar_negeri'){
+        text = `<tr>
+                    <td>
+                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                            <input type="text" class="form-control" name="adult_perjalanan_keluar_negeri_nama_negara`+val+`_`+perjalanan_keluar_negeri+`" id="adult_perjalanan_keluar_negeri_nama_negara`+val+`_`+perjalanan_keluar_negeri+`" placeholder="Faktor Lain " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Faktor Lain '" autocomplete="off">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                            <input type="text" class="form-control" name="adult_perjalanan_keluar_negeri_nama_kota`+val+`_`+perjalanan_keluar_negeri+`" id="adult_perjalanan_keluar_negeri_nama_kota`+val+`_`+perjalanan_keluar_negeri+`" placeholder="Faktor Lain " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Faktor Lain '" autocomplete="off">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                            <input type="text" class="form-control date-picker-birth" name="adult_perjalanan_keluar_negeri_tanggal_perjalanan`+val+`_`+perjalanan_keluar_negeri+`" id="adult_perjalanan_keluar_negeri_tanggal_perjalanan`+val+`_`+perjalanan_keluar_negeri+`" placeholder="Tanggal Masuk RS " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tanggal Masuk RS '" autocomplete="off">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                            <input type="text" class="form-control date-picker-birth" name="adult_perjalanan_keluar_negeri_tiba_di_indonesia`+val+`_`+perjalanan_keluar_negeri+`" id="adult_perjalanan_keluar_negeri_tiba_di_indonesia`+val+`_`+perjalanan_keluar_negeri+`" placeholder="Tanggal Masuk RS " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tanggal Masuk RS '" autocomplete="off">
+                        </div>
+                    </td>
+                    <td onclick="delete_pcr_table('perjalanan_keluar_negeri',`+val+`,`+perjalanan_keluar_negeri+`)">Delete</td>
+                </tr>`;
+        node.innerHTML = text;
+        node.setAttribute('id', 'perjalanan_keluar_negeri_table'+val+'_'+ perjalanan_keluar_negeri);
+        document.getElementById("perjalanan_keluar_negeri_div"+val).appendChild(node);
 
+        $('input[name="adult_perjalanan_keluar_negeri_tanggal_perjalanan'+val+'_'+perjalanan_keluar_negeri+'"]').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              showDropdowns: true,
+              opens: 'center',
+              drops: 'up',
+              locale: {
+                  format: 'DD MMM YYYY',
+              }
+        });
+        $('input[name="adult_perjalanan_keluar_negeri_tanggal_perjalanan'+val+'_'+perjalanan_keluar_negeri+'"]').val("");
+
+        $('input[name="adult_perjalanan_keluar_negeri_tiba_di_indonesia'+val+'_'+perjalanan_keluar_negeri+'"]').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              showDropdowns: true,
+              opens: 'center',
+              drops: 'up',
+              locale: {
+                  format: 'DD MMM YYYY',
+              }
+        });
+        $('input[name="adult_perjalanan_keluar_negeri_tiba_di_indonesia'+val+'_'+perjalanan_keluar_negeri+'"]').val("");
+
+        perjalanan_keluar_negeri++;
     }else if(type == 'perjalanan_ke_transmisi_lokal'){
+        text = `<tr>
+                    <td>
+                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                            <input type="text" class="form-control" name="adult_perjalanan_ke_transmisi_lokal_nama_provinsi`+val+`_`+perjalanan_keluar_negeri+`" id="adult_perjalanan_ke_transmisi_lokal_nama_provinsi`+val+`_`+perjalanan_ke_transmisi_lokal+`" placeholder="Faktor Lain " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Faktor Lain '" autocomplete="off">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                            <input type="text" class="form-control" name="adult_perjalanan_ke_transmisi_lokal_nama_kota`+val+`_`+perjalanan_keluar_negeri+`" id="adult_perjalanan_ke_transmisi_lokal_nama_kota`+val+`_`+perjalanan_ke_transmisi_lokal+`" placeholder="Faktor Lain " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Faktor Lain '" autocomplete="off">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                            <input type="text" class="form-control date-picker-birth" name="adult_perjalanan_ke_transmisi_lokal_tanggal_perjalanan`+val+`_`+perjalanan_keluar_negeri+`" id="adult_perjalanan_ke_transmisi_lokal_tanggal_perjalanan`+val+`_`+perjalanan_ke_transmisi_lokal+`" placeholder="Tanggal Masuk RS " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tanggal Masuk RS '" autocomplete="off">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                            <input type="text" class="form-control date-picker-birth" name="adult_perjalanan_ke_transmisi_lokal_tiba_di_sini`+val+`_`+perjalanan_keluar_negeri+`" id="adult_perjalanan_ke_transmisi_lokal_tiba_di_sini`+val+`_`+perjalanan_ke_transmisi_lokal+`" placeholder="Tanggal Masuk RS " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tanggal Masuk RS '" autocomplete="off">
+                        </div>
+                    </td>
+                    <td onclick="delete_pcr_table('perjalanan_ke_transmisi_lokal',`+val+`,`+perjalanan_ke_transmisi_lokal+`)">Delete</td>
+                </tr>`;
+        node.innerHTML = text;
+        node.setAttribute('id', 'perjalanan_ke_transmisi_lokal_table'+val+'_'+ perjalanan_keluar_negeri);
+        document.getElementById("perjalanan_ke_transmisi_lokal_div"+val).appendChild(node);
+        $('input[name="adult_perjalanan_ke_transmisi_lokal_tanggal_perjalanan'+val+'_'+perjalanan_ke_transmisi_lokal+'"]').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              showDropdowns: true,
+              opens: 'center',
+              drops: 'up',
+              locale: {
+                  format: 'DD MMM YYYY',
+              }
+        });
+        $('input[name="adult_perjalanan_ke_transmisi_lokal_tanggal_perjalanan'+val+'_'+perjalanan_ke_transmisi_lokal+'"]').val("");
 
+        $('input[name="adult_perjalanan_keluar_negeri_tiba_di_sini'+val+'_'+perjalanan_ke_transmisi_lokal+'"]').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              showDropdowns: true,
+              opens: 'center',
+              drops: 'up',
+              locale: {
+                  format: 'DD MMM YYYY',
+              }
+        });
+        $('input[name="adult_perjalanan_keluar_negeri_tiba_di_sini'+val+'_'+perjalanan_ke_transmisi_lokal+'"]').val("");
+
+        perjalanan_ke_transmisi_lokal++;
     }else if(type == 'berkunjung_ke_fasilitas_kesehatan'){
+        text = `<tr>
+                    <td>
+                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                            <input type="text" class="form-control" name="adult_berkunjung_ke_fasilitas_kesehatan_nama_rumah_sakit`+val+`_`+berkunjung_ke_fasilitas_kesehatan+`" id="adult_berkunjung_ke_fasilitas_kesehatan_nama_rumah_sakit`+val+`_`+berkunjung_ke_fasilitas_kesehatan+`" placeholder="Faktor Lain " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Faktor Lain '" autocomplete="off">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                            <input type="text" class="form-control" name="adult_berkunjung_ke_fasilitas_kesehatan_nama_kota`+val+`_`+berkunjung_ke_fasilitas_kesehatan+`" id="adult_berkunjung_ke_fasilitas_kesehatan_nama_kota`+val+`_`+berkunjung_ke_fasilitas_kesehatan+`" placeholder="Faktor Lain " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Faktor Lain '" autocomplete="off">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                            <input type="text" class="form-control" name="adult_berkunjung_ke_fasilitas_kesehatan_nama_provinsi`+val+`_`+berkunjung_ke_fasilitas_kesehatan+`" id="adult_berkunjung_ke_fasilitas_kesehatan_nama_provinsi`+val+`_`+berkunjung_ke_fasilitas_kesehatan+`" placeholder="Faktor Lain " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Faktor Lain '" autocomplete="off">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                            <input type="text" class="form-control date-picker-birth" name="adult_berkunjung_ke_fasilitas_kesehatan_tanggal_kunjungan`+val+`_`+berkunjung_ke_fasilitas_kesehatan+`" id="adult_berkunjung_ke_fasilitas_kesehatan_tanggal_kunjungan`+val+`_`+berkunjung_ke_fasilitas_kesehatan+`" placeholder="Tanggal Masuk RS " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tanggal Masuk RS '" autocomplete="off">
+                        </div>
+                    </td>
+                    <td onclick="delete_pcr_table('berkunjung_ke_fasilitas_kesehatan',`+val+`,`+berkunjung_ke_fasilitas_kesehatan+`)">Delete</td>
+                </tr>`;
+        node.innerHTML = text;
+        node.setAttribute('id', 'berkunjung_ke_fasilitas_kesehatan_table'+val+'_'+ berkunjung_ke_fasilitas_kesehatan);
+        document.getElementById("berkunjung_ke_fasilitas_kesehatan_div"+val).appendChild(node);
 
+        $('input[name="adult_berkunjung_ke_fasilitas_kesehatan_tanggal_kunjungan'+val+'_'+berkunjung_ke_fasilitas_kesehatan+'"]').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              showDropdowns: true,
+              opens: 'center',
+              drops: 'up',
+              locale: {
+                  format: 'DD MMM YYYY',
+              }
+        });
+        $('input[name="adult_berkunjung_ke_fasilitas_kesehatan_tanggal_kunjungan'+val+'_'+berkunjung_ke_fasilitas_kesehatan+'"]').val("");
+
+        berkunjung_ke_fasilitas_kesehatan++;
     }else if(type == 'berkunjung_ke_pasar_hewan'){
+        text = `<tr>
+                    <td>
+                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                            <input type="text" class="form-control" name="adult_berkunjung_ke_pasar_hewan_nama_lokasi_pasar`+val+`_`+berkunjung_ke_pasar_hewan+`" id="adult_berkunjung_ke_pasar_hewan_nama_lokasi_pasar`+val+`_`+berkunjung_ke_pasar_hewan+`" placeholder="Faktor Lain " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Faktor Lain '" autocomplete="off">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                            <input type="text" class="form-control" name="adult_berkunjung_ke_pasar_hewan_nama_kota`+val+`_`+berkunjung_ke_pasar_hewan+`" id="adult_berkunjung_ke_pasar_hewan_nama_kota`+val+`_`+berkunjung_ke_pasar_hewan+`" placeholder="Faktor Lain " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Faktor Lain '" autocomplete="off">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                            <input type="text" class="form-control" name="adult_berkunjung_ke_pasar_hewan_nama_provinsi`+val+`_`+berkunjung_ke_pasar_hewan+`" id="adult_berkunjung_ke_pasar_hewan_nama_provinsi`+val+`_`+berkunjung_ke_pasar_hewan+`" placeholder="Faktor Lain " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Faktor Lain '" autocomplete="off">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                            <input type="text" class="form-control date-picker-birth" name="adult_berkunjung_ke_pasar_hewan_tanggal_kunjungan`+val+`_`+berkunjung_ke_pasar_hewan+`" id="adult_berkunjung_ke_pasar_hewan_tanggal_kunjungan`+val+`_`+berkunjung_ke_pasar_hewan+`" placeholder="Tanggal Masuk RS " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tanggal Masuk RS '" autocomplete="off">
+                        </div>
+                    </td>
+                    <td onclick="delete_pcr_table('berkunjung_ke_pasar_hewan',`+val+`,`+berkunjung_ke_pasar_hewan+`)">Delete</td>
+                </tr>`;
+        node.innerHTML = text;
+        node.setAttribute('id', 'berkunjung_ke_pasar_hewan_table'+val+'_'+ berkunjung_ke_pasar_hewan);
+        document.getElementById("berkunjung_ke_pasar_hewan_div"+val).appendChild(node);
 
+        $('input[name="adult_berkunjung_ke_pasar_hewan_tanggal_kunjungan'+val+'_'+berkunjung_ke_pasar_hewan+'"]').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              showDropdowns: true,
+              opens: 'center',
+              drops: 'up',
+              locale: {
+                  format: 'DD MMM YYYY',
+              }
+        });
+        $('input[name="adult_berkunjung_ke_pasar_hewan_tanggal_kunjungan'+val+'_'+berkunjung_ke_pasar_hewan+'"]').val("");
+
+        berkunjung_ke_pasar_hewan++;
     }else if(type == 'berkunjung_ke_pasien_dalam_pengawasan'){
+        text = `<tr>
+                    <td>
+                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                            <input type="text" class="form-control" name="adult_berkunjung_ke_pasien_dalam_pengawasan_nama_pasien`+val+`_`+berkunjung_ke_pasien_dalam_pengawasan+`" id="adult_berkunjung_ke_pasien_dalam_pengawasan_nama_pasien`+val+`_`+berkunjung_ke_pasien_dalam_pengawasan+`" placeholder="Faktor Lain " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Faktor Lain '" autocomplete="off">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                            <input type="text" class="form-control" name="adult_berkunjung_ke_pasien_dalam_pengawasan_alamat`+val+`_`+berkunjung_ke_pasien_dalam_pengawasan+`" id="adult_berkunjung_ke_pasien_dalam_pengawasan_alamat`+val+`_`+berkunjung_ke_pasien_dalam_pengawasan+`" placeholder="Faktor Lain " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Faktor Lain '" autocomplete="off">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                            <input type="text" class="form-control" name="adult_berkunjung_ke_pasien_dalam_pengawasan_hubungan`+val+`_`+berkunjung_ke_pasien_dalam_pengawasan+`" id="adult_berkunjung_ke_pasien_dalam_pengawasan_hubungan`+val+`_`+berkunjung_ke_pasien_dalam_pengawasan+`" placeholder="Faktor Lain " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Faktor Lain '" autocomplete="off">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                            <input type="text" class="form-control date-picker-birth" name="adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_pertama`+val+`_`+berkunjung_ke_pasien_dalam_pengawasan+`" id="adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_pertama`+val+`_`+berkunjung_ke_pasien_dalam_pengawasan+`" placeholder="Tanggal Masuk RS " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tanggal Masuk RS '" autocomplete="off">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                            <input type="text" class="form-control date-picker-birth" name="adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_terakhir`+val+`_`+berkunjung_ke_pasien_dalam_pengawasan+`" id="adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_terakhir`+val+`_`+berkunjung_ke_pasien_dalam_pengawasan+`" placeholder="Tanggal Masuk RS " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tanggal Masuk RS '" autocomplete="off">
+                        </div>
+                    </td>
+                    <td onclick="delete_pcr_table('berkunjung_ke_pasien_dalam_pengawasan',`+val+`,`+berkunjung_ke_pasien_dalam_pengawasan+`)">Delete</td>
+                </tr>`;
+        node.innerHTML = text;
+        node.setAttribute('id', 'berkunjung_ke_pasien_dalam_pengawasan_table'+val+'_'+ berkunjung_ke_pasien_dalam_pengawasan);
+        document.getElementById("berkunjung_ke_pasien_dalam_pengawasan_div"+val).appendChild(node);
 
+        $('input[name="adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_pertama'+val+'_'+berkunjung_ke_pasien_dalam_pengawasan+'"]').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              showDropdowns: true,
+              opens: 'center',
+              drops: 'up',
+              locale: {
+                  format: 'DD MMM YYYY',
+              }
+        });
+        $('input[name="adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_pertama'+val+'_'+berkunjung_ke_pasien_dalam_pengawasan+'"]').val("");
+
+        $('input[name="adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_terakhir'+val+'_'+berkunjung_ke_pasien_dalam_pengawasan+'"]').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              showDropdowns: true,
+              opens: 'center',
+              drops: 'up',
+              locale: {
+                  format: 'DD MMM YYYY',
+              }
+        });
+        $('input[name="adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_terakhir'+val+'_'+berkunjung_ke_pasien_dalam_pengawasan+'"]').val("");
+        berkunjung_ke_pasien_dalam_pengawasan++;
     }else if(type == 'berkunjung_ke_pasien_konfirmasi'){
+        text = `<tr>
+                    <td>
+                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                            <input type="text" class="form-control" name="adult_berkunjung_ke_pasien_konfirmasi_nama_pasien`+val+`_`+berkunjung_ke_pasien_konfirmasi+`" id="adult_berkunjung_ke_pasien_konfirmasi_nama_pasien`+val+`_`+berkunjung_ke_pasien_konfirmasi+`" placeholder="Faktor Lain " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Faktor Lain '" autocomplete="off">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                            <input type="text" class="form-control" name="adult_berkunjung_ke_pasien_konfirmasi_alamat`+val+`_`+berkunjung_ke_pasien_konfirmasi+`" id="adult_berkunjung_ke_pasien_konfirmasi_alamat`+val+`_`+berkunjung_ke_pasien_konfirmasi+`" placeholder="Faktor Lain " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Faktor Lain '" autocomplete="off">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                            <input type="text" class="form-control" name="adult_berkunjung_ke_pasien_konfirmasi_hubungan`+val+`_`+berkunjung_ke_pasien_konfirmasi+`" id="adult_berkunjung_ke_pasien_konfirmasi_hubungan`+val+`_`+berkunjung_ke_pasien_konfirmasi+`" placeholder="Faktor Lain " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Faktor Lain '" autocomplete="off">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                            <input type="text" class="form-control date-picker-birth" name="adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_pertama`+val+`_`+berkunjung_ke_pasien_konfirmasi+`" id="adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_pertama`+val+`_`+berkunjung_ke_pasien_konfirmasi+`" placeholder="Tanggal Masuk RS " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tanggal Masuk RS '" autocomplete="off">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                            <input type="text" class="form-control date-picker-birth" name="adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_terakhir`+val+`_`+berkunjung_ke_pasien_konfirmasi+`" id="adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_terakhir`+val+`_`+berkunjung_ke_pasien_konfirmasi+`" placeholder="Tanggal Masuk RS " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tanggal Masuk RS '" autocomplete="off">
+                        </div>
+                    </td>
+                    <td onclick="delete_pcr_table('berkunjung_ke_pasien_konfirmasi',`+val+`,`+berkunjung_ke_pasien_konfirmasi+`)">Delete</td>
+                </tr>`;
+        node.innerHTML = text;
+        node.setAttribute('id', 'berkunjung_ke_pasien_konfirmasi_table'+val+'_'+ berkunjung_ke_pasien_konfirmasi);
+        document.getElementById("berkunjung_ke_pasien_konfirmasi_div"+val).appendChild(node);
 
+        $('input[name="adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_pertama'+val+'_'+berkunjung_ke_pasien_konfirmasi+'"]').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              showDropdowns: true,
+              opens: 'center',
+              drops: 'up',
+              locale: {
+                  format: 'DD MMM YYYY',
+              }
+        });
+        $('input[name="adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_pertama'+val+'_'+berkunjung_ke_pasien_konfirmasi+'"]').val("");
+
+        $('input[name="adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_terakhir'+val+'_'+berkunjung_ke_pasien_konfirmasi+'"]').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              showDropdowns: true,
+              opens: 'center',
+              drops: 'up',
+              locale: {
+                  format: 'DD MMM YYYY',
+              }
+        });
+        $('input[name="adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_terakhir'+val+'_'+berkunjung_ke_pasien_konfirmasi+'"]').val("");
+        berkunjung_ke_pasien_konfirmasi++;
     }
+}
+
+function delete_pcr_table(type, val, nomor_table){
+    try{
+        var element = document.getElementById(type+'_table'+val+'_'+ nomor_table);
+        element.parentNode.removeChild(element);
+    }catch(err){}
+
 }
 
 function onchange_title(val){
@@ -3122,7 +3484,7 @@ function check_passenger(){
     if(check_name(document.getElementById('booker_title').value,
                     document.getElementById('booker_first_name').value,
                     document.getElementById('booker_last_name').value,
-                    25) == false){
+                    35) == false){
         error_log+= 'Total of Booker name maximum 25 characters!</br>\n';
         document.getElementById('booker_first_name').style['border-color'] = 'red';
         document.getElementById('booker_last_name').style['border-color'] = 'red';
@@ -3450,6 +3812,195 @@ function check_passenger(){
                         is_also_contact = false;
                     }
                     check_passenger = true;
+                    pcr_data = {};
+                    if(test_type == 'PHCDTKPCR' || test_type == 'PHCHCKPCR'){
+                        pcr_data = {
+                            "nama_orang_tua": document.getElementById('adult_mother_name' + nomor_pax).value,
+                            "kriteria_covid": document.getElementById('adult_kriteria_pasien' + nomor_pax).value,
+                            "pemeriksaan_swab_ke": document.getElementById('adult_pemeriksaan_swab_ke' + nomor_pax).value,
+                            "asal_perusahaan": document.getElementById('adult_perusahaan' + nomor_pax).value,
+                            "nama_perusahaan": document.getElementById('adult_nama_perusahaan' + nomor_pax).value,
+                            "tanggal_pertama_kali_gejala": document.getElementById('adult_tanggal_pertama_kali_gejala' + nomor_pax).value,
+                            "klinis_ada_demam": document.getElementById('adult_klinis_ada_demam' + nomor_pax).value,
+                            "klinis_suhu_tubuh": document.getElementById('adult_klinis_suhu_tubuh' + nomor_pax).value,
+                            "klinis_ada_batuk": document.getElementById('adult_klinis_ada_batuk' + nomor_pax).value,
+                            "klinis_ada_pilek": document.getElementById('adult_klinis_ada_pilek' + nomor_pax).value,
+                            "klinis_ada_sakit_tenggorokan": document.getElementById('adult_klinis_ada_sakit_tenggorokan' + nomor_pax).value,
+                            "klinis_ada_sesak": document.getElementById('adult_klinis_ada_sesak' + nomor_pax).value,
+                            "klinis_ada_sakit_kepala": document.getElementById('adult_klinis_ada_sakit_kepala' + nomor_pax).value,
+                            "klinis_ada_badan_lemah": document.getElementById('adult_klinis_ada_badan_lemah' + nomor_pax).value,
+                            "klinis_ada_nyeri_otot": document.getElementById('adult_klinis_ada_nyeri_otot' + nomor_pax).value,
+                            "klinis_ada_mual": document.getElementById('adult_klinis_ada_mual' + nomor_pax).value,
+                            "klinis_ada_nyeri_abdomen": document.getElementById('adult_klinis_ada_nyeri_abdomen' + nomor_pax).value,
+                            "klinis_ada_diare": document.getElementById('adult_klinis_ada_diare' + nomor_pax).value,
+                            "klinis_ada_gangguan_penciuman": document.getElementById('adult_klinis_ada_gangguan_penciuman' + nomor_pax).value,
+                            "klinis_golongan_darah": document.getElementById('adult_klinis_golongan_darah' + nomor_pax).value,
+                            "klinis_gejala_lainnya": document.getElementById('adult_klinis_gejala_lainnya' + nomor_pax).value,
+                            "klinis_sedang_hamil": document.getElementById('adult_klinis_sedang_hamil' + nomor_pax).value,
+                            "klinis_ada_diabetes": document.getElementById('adult_klinis_ada_diabetes' + nomor_pax).value,
+                            "klinis_ada_penyakit_jantung": document.getElementById('adult_klinis_ada_penyakit_jantung' + nomor_pax).value,
+                            "klinis_ada_hipertensi": document.getElementById('adult_klinis_ada_hipertensi' + nomor_pax).value,
+                            "klinis_ada_keganasan": document.getElementById('adult_klinis_ada_keganasan' + nomor_pax).value,
+                            "klinis_ada_gangguan_imunologi": document.getElementById('adult_klinis_ada_gangguan_imunologi' + nomor_pax).value,
+                            "klinis_ada_gangguan_ginjal": document.getElementById('adult_klinis_ada_gangguan_ginjal' + nomor_pax).value,
+                            "klinis_ada_gangguan_hati": document.getElementById('adult_klinis_ada_gangguan_hati' + nomor_pax).value,
+                            "klinis_ada_gangguan_paru_obstruksi_kronis": document.getElementById('adult_klinis_ada_gangguan_paru_obstruksi_kronis' + nomor_pax).value,
+                            "klinis_kondisi_penyerta_lainnya": document.getElementById('adult_klinis_kondisi_penyerta_lainnya' + nomor_pax).value,
+                            "sedang_dirawat_di_rs": document.getElementById('adult_sedang_dirawat_di_rs' + nomor_pax).value,
+                            "nama_rs": document.getElementById('adult_nama_rs' + nomor_pax).value,
+                            "tanggal_masuk_rs": document.getElementById('adult_tanggal_masuk_rs' + nomor_pax).value,
+                            "nama_ruang_perawatan": document.getElementById('adult_nama_ruang_perawatan' + nomor_pax).value,
+                            "sedang_dirawat_di_icu": document.getElementById('adult_sedang_dirawat_di_icu' + nomor_pax).value,
+                            "menggunakan_intubasi": document.getElementById('adult_menggunakan_intubasi' + nomor_pax).value,
+                            "menggunakan_emco": document.getElementById('adult_menggunakan_emco' + nomor_pax).value,
+                            "nama_rs_lainnya": '',
+                            "status_terakhir": document.getElementById('adult_status_terakhir' + nomor_pax).value,
+                            "klinis_ada_penumonia": document.getElementById('adult_klinis_ada_penumonia' + nomor_pax).value,
+                            "klinis_ada_ards": document.getElementById('adult_klinis_ada_ards' + nomor_pax).value,
+                            "klinis_ards_detil": document.getElementById('adult_klinis_ards_detil' + nomor_pax).value,
+                            "klinis_ada_penyakit_pernafasan": document.getElementById('adult_klinis_ada_penyakit_pernafasan' + nomor_pax).value,
+                            "klinis_penyakit_pernafasan_detil": document.getElementById('adult_klinis_penyakit_pernafasan_detil' + nomor_pax).value,
+                            "perjalanan_keluar_negeri": document.getElementById('adult_kriteria_pasien' + nomor_pax).value,
+                            "daftar_perjalanan_keluar_negeri": [],
+                            "perjalanan_ke_transmisi_lokal": document.getElementById('adult_kriteria_pasien' + nomor_pax).value,
+                            "daftar_perjalanan_ke_transmisi_lokal": [],
+                            "berkunjung_ke_fasilitas_kesehatan": document.getElementById('adult_kriteria_pasien' + nomor_pax).value,
+                            "daftar_perjalanan_ke_transmisi_lokal": [],
+                            "berkunjung_ke_pasar_hewan": document.getElementById('adult_kriteria_pasien' + nomor_pax).value,
+                            "daftar_ke_pasar_hewan": [],
+                            "berkunjung_ke_pasien_dalam_pengawasan": document.getElementById('adult_kriteria_pasien' + nomor_pax).value,
+                            "daftar_ke_pasien_dalam_pengawasan": [],
+                            "berkunjung_ke_pasien_konfirmasi": document.getElementById('adult_kriteria_pasien' + nomor_pax).value,
+                            "daftar_ke_pasien_konfirmasi": [],
+                            "termasuk_cluster_ispa": document.getElementById('adult_termasuk_cluster_ispa' + nomor_pax).value,
+                            "merupakan_petugas_kesehatan": document.getElementById('adult_merupakan_petugas_kesehatan' + nomor_pax).value,
+                            "apd_yang_digunakan": document.getElementById('adult_apd_yang_digunakan' + nomor_pax).value,
+                            "prosedur_menimbulkan_aerosol": document.getElementById('adult_prosedur_menimbulkan_aerosol' + nomor_pax).value,
+                            "tindakan_menimbulkan_aerosol": document.getElementById('adult_tindakan_menimbulkan_aerosol' + nomor_pax).value,
+                            "faktor_lain": document.getElementById('adult_faktor_lain' + nomor_pax).value
+
+                        }
+//                        if(document.getElementById('adult_mother_name' + nomor_pax).value == ''){
+//                            error_log+= 'Please fill mother name for passenger '+nomor_pax+'!</br>\n';
+//                            document.getElementById('adult_mother_name' + nomor_pax).style['border-color'] = 'red';
+//                        }else{
+//                            document.getElementById('adult_mother_name' + nomor_pax).style['border-color'] = '#EFEFEF';
+//
+//                        }
+//                        if(document.getElementById('adult_kriteria_pasien' + nomor_pax).value == ''){
+//                            error_log+= 'Please choose kriteria pasien for passenger '+nomor_pax+'!</br>\n';
+//                            document.getElementById('adult_kriteria_pasien' + nomor_pax).style['border-color'] = 'red';
+//                        }else{
+//                            document.getElementById('adult_kriteria_pasien' + nomor_pax).style['border-color'] = '#EFEFEF';
+//                        }
+//                        if(document.getElementById('adult_pemeriksaan_swab_ke' + nomor_pax).value == ''){
+//                            error_log+= 'Please fill pemeriksaan swab for passenger '+nomor_pax+'!</br>\n';
+//                            document.getElementById('adult_pemeriksaan_swab_ke' + nomor_pax).style['border-color'] = 'red';
+//                        }else{
+//                            document.getElementById('adult_pemeriksaan_swab_ke' + nomor_pax).style['border-color'] = '#EFEFEF';
+//                        }
+//                        if(document.getElementById('adult_perusahaan' + nomor_pax).value == ''){
+//                            error_log+= 'Please choose Asal Perusahaan for passenger '+nomor_pax+'!</br>\n';
+//                            document.getElementById('adult_perusahaan' + nomor_pax).style['border-color'] = 'red';
+//                        }else{
+//                            document.getElementById('adult_perusahaan' + nomor_pax).style['border-color'] = '#EFEFEF';
+//                        }
+//                        if(document.getElementById('adult_nama_perusahaan' + nomor_pax).value == ''){
+//                            error_log+= 'Please fill Nama Perusahaan for passenger '+nomor_pax+'!</br>\n';
+//                            document.getElementById('adult_nama_perusahaan' + nomor_pax).style['border-color'] = 'red';
+//                        }else{
+//                            document.getElementById('adult_nama_perusahaan' + nomor_pax).style['border-color'] = '#EFEFEF';
+//                        }
+//                        if(document.getElementById('adult_tanggal_pertama_kali_gejala' + nomor_pax).value == ''){
+//                            error_log+= 'Please fill Tanggal pertama kali gejala for passenger '+nomor_pax+'!</br>\n';
+//                            document.getElementById('adult_tanggal_pertama_kali_gejala' + nomor_pax).style['border-color'] = 'red';
+//                        }else{
+//                            document.getElementById('adult_tanggal_pertama_kali_gejala' + nomor_pax).style['border-color'] = '#EFEFEF';
+//                        }
+//                        if(document.getElementById('adult_klinis_ada_demam' + nomor_pax).value == ''){
+//                            error_log+= 'Please choose demam for passenger '+nomor_pax+'!</br>\n';
+//                            document.getElementById('adult_klinis_ada_demam' + nomor_pax).style['border-color'] = 'red';
+//                        }else{
+//                            document.getElementById('adult_klinis_ada_demam' + nomor_pax).style['border-color'] = '#EFEFEF';
+//                        }
+//                        if(document.getElementById('adult_klinis_ada_demam' + nomor_pax).value == 'IYA'){
+//                            if(document.getElementById('adult_klinis_suhu_tubuh' + nomor_pax).value == 'IYA'){
+//                                error_log+= 'Please fill suhu tubuh for passenger '+nomor_pax+'!</br>\n';
+//                                document.getElementById('adult_klinis_suhu_tubuh' + nomor_pax).style['border-color'] = 'red';
+//                            }else{
+//                                document.getElementById('adult_klinis_suhu_tubuh' + nomor_pax).style['border-color'] = '#EFEFEF';
+//                            }
+//                        }
+//                        if(document.getElementById('adult_klinis_ada_batuk' + nomor_pax).value == ''){
+//                            error_log+= 'Please choose batuk for passenger '+nomor_pax+'!</br>\n';
+//                            document.getElementById('adult_klinis_ada_batuk' + nomor_pax).style['border-color'] = 'red';
+//                        }else{
+//                            document.getElementById('adult_klinis_ada_batuk' + nomor_pax).style['border-color'] = '#EFEFEF';
+//                        }
+//                        if(document.getElementById('adult_klinis_ada_pilek' + nomor_pax).value == ''){
+//                            error_log+= 'Please choose Flu for passenger '+nomor_pax+'!</br>\n';
+//                            document.getElementById('adult_klinis_ada_pilek' + nomor_pax).style['border-color'] = 'red';
+//                        }else{
+//                            document.getElementById('adult_klinis_ada_pilek' + nomor_pax).style['border-color'] = '#EFEFEF';
+//                        }
+//                        if(document.getElementById('adult_klinis_ada_sakit_tenggorokan' + nomor_pax).value == ''){
+//                            error_log+= 'Please choose Sakit Tenggorokan for passenger '+nomor_pax+'!</br>\n';
+//                            document.getElementById('adult_klinis_ada_sakit_tenggorokan' + nomor_pax).style['border-color'] = 'red';
+//                        }else{
+//                            document.getElementById('adult_klinis_ada_sakit_tenggorokan' + nomor_pax).style['border-color'] = '#EFEFEF';
+//                        }
+//                        if(document.getElementById('adult_klinis_ada_sesak' + nomor_pax).value == ''){
+//                            error_log+= 'Please choose Sesak Nafas for passenger '+nomor_pax+'!</br>\n';
+//                            document.getElementById('adult_klinis_ada_sesak' + nomor_pax).style['border-color'] = 'red';
+//                        }else{
+//                            document.getElementById('adult_klinis_ada_sesak' + nomor_pax).style['border-color'] = '#EFEFEF';
+//                        }
+//                        if(document.getElementById('adult_klinis_ada_sakit_kepala' + nomor_pax).value == ''){
+//                            error_log+= 'Please choose Sakit Kepala for passenger '+nomor_pax+'!</br>\n';
+//                            document.getElementById('adult_klinis_ada_sakit_kepala' + nomor_pax).style['border-color'] = 'red';
+//                        }else{
+//                            document.getElementById('adult_klinis_ada_sakit_kepala' + nomor_pax).style['border-color'] = '#EFEFEF';
+//                        }
+//                        if(document.getElementById('adult_klinis_ada_badan_lemah' + nomor_pax).value == ''){
+//                            error_log+= 'Please choose Badan Lemah for passenger '+nomor_pax+'!</br>\n';
+//                            document.getElementById('adult_klinis_ada_badan_lemah' + nomor_pax).style['border-color'] = 'red';
+//                        }else{
+//                            document.getElementById('adult_klinis_ada_badan_lemah' + nomor_pax).style['border-color'] = '#EFEFEF';
+//                        }
+//                        if(document.getElementById('adult_klinis_ada_nyeri_otot' + nomor_pax).value == ''){
+//                            error_log+= 'Please choose Nyeri Otot for passenger '+nomor_pax+'!</br>\n';
+//                            document.getElementById('adult_klinis_ada_nyeri_otot' + nomor_pax).style['border-color'] = 'red';
+//                        }else{
+//                            document.getElementById('adult_klinis_ada_nyeri_otot' + nomor_pax).style['border-color'] = '#EFEFEF';
+//                        }
+//                        if(document.getElementById('adult_klinis_ada_mual' + nomor_pax).value == ''){
+//                            error_log+= 'Please choose Mual for passenger '+nomor_pax+'!</br>\n';
+//                            document.getElementById('adult_klinis_ada_mual' + nomor_pax).style['border-color'] = 'red';
+//                        }else{
+//                            document.getElementById('adult_klinis_ada_mual' + nomor_pax).style['border-color'] = '#EFEFEF';
+//                        }
+//                        if(document.getElementById('adult_klinis_ada_mual' + nomor_pax).value == ''){
+//                            error_log+= 'Please choose Mual for passenger '+nomor_pax+'!</br>\n';
+//                            document.getElementById('adult_klinis_ada_mual' + nomor_pax).style['border-color'] = 'red';
+//                        }else{
+//                            document.getElementById('adult_klinis_ada_mual' + nomor_pax).style['border-color'] = '#EFEFEF';
+//                        }
+//                        if(document.getElementById('adult_klinis_ada_nyeri_abdomen' + nomor_pax).value == ''){
+//                            error_log+= 'Please choose Nyeri Abdomen for passenger '+nomor_pax+'!</br>\n';
+//                            document.getElementById('adult_klinis_ada_nyeri_abdomen' + nomor_pax).style['border-color'] = 'red';
+//                        }else{
+//                            document.getElementById('adult_klinis_ada_nyeri_abdomen' + nomor_pax).style['border-color'] = '#EFEFEF';
+//                        }
+//                        if(document.getElementById('adult_klinis_ada_diare' + nomor_pax).value == ''){
+//                            error_log+= 'Please choose Diare for passenger '+nomor_pax+'!</br>\n';
+//                            document.getElementById('adult_klinis_ada_diare' + nomor_pax).style['border-color'] = 'red';
+//                        }else{
+//                            document.getElementById('adult_klinis_ada_diare' + nomor_pax).style['border-color'] = '#EFEFEF';
+//                        }
+                    }
+
+
+
                     request['passenger'].push({
                         "pax_type": "ADT",
                         "first_name": document.getElementById('adult_first_name' + nomor_pax).value,
@@ -3482,10 +4033,10 @@ function check_passenger(){
                         "email": document.getElementById('adult_email' + nomor_pax).value,
                         "phone_number": document.getElementById('adult_phone_code'+nomor_pax+'_id').value + document.getElementById('adult_phone'+nomor_pax).value,
                         'is_also_booker': is_also_booker,
-                        'is_also_contact': is_also_contact
-
+                        'is_also_contact': is_also_contact,
+                        'pcr_data': pcr_data
                     })
-                }catch(err){}
+                }catch(err){console.log(err);}
             }
         }
     }

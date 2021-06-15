@@ -308,7 +308,7 @@ function medical_check_price(){
         }
 
     }
-    if(timeslot_list.length != 0 && error_log == '' || vendor == 'phc' && test_type == 'PHCDTKATG'){
+    if(timeslot_list.length != 0 && error_log == '' || vendor == 'phc' && test_type == 'PHCDTKATG' || vendor == 'phc' && test_type == 'PHCDTKPCR'){
         $.ajax({
            type: "POST",
            url: "/webservice/medical",
