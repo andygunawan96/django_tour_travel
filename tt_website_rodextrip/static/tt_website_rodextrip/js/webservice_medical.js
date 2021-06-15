@@ -254,7 +254,7 @@ function medical_get_availability(){
                     document.getElementById('booker_area').innerHTML = text_innerHTML;
                     $('#booker_area').niceSelect('update');
                     add_other_time();
-                }else if(vendor == 'phc' && test_type == 'PHCDTKATG'){
+                }else if(vendor == 'phc' && test_type == 'PHCDTKATG' || vendor == 'phc' && test_type == 'PHCDTKPCR'){
                     var text_innerHTML = '';
                     text_innerHTML += `<option value='surabaya' selected>Surabaya</option>`;
                     document.getElementById('booker_area').innerHTML = text_innerHTML;
@@ -736,7 +736,7 @@ function medical_get_booking(order_number, sync=false){
                 document.getElementById('issued-breadcrumb').classList.add("br-active");
                 document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
                 document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
-                document.getElementById('show_title_event').hidden = true;
+                document.getElementById('show_title_medical').hidden = true;
                 document.getElementById('display_state').innerHTML = `Your Order Has Been Issued`;
                 //document.getElementById('display_prices').style.display = "none";
                 $text += 'Status: Issued\n';
