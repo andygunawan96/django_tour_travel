@@ -517,6 +517,10 @@ function pre_medical_commit_booking(val){
 }
 
 function medical_commit_booking(val){
+    $('.hold-seat-booking-train').addClass("running");
+    $('.hold-seat-booking-train').attr("disabled", true);
+    please_wait_transaction();
+
     if(typeof(vendor) === 'undefined')
         vendor = '';
     if(typeof(test_type) === 'undefined')
