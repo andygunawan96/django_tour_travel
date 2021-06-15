@@ -279,14 +279,15 @@ function add_table_of_passenger(type){
                                         }
 
                                         if(template == 4){
-                                            text_modal_paxs+=`<select style="width:100%;" class="nice-select-default rounded" id="adult_title`+parseInt(counter_passenger+1)+`" name="adult_title`+parseInt(counter_passenger+1)+`">`;
+                                            text_modal_paxs+=`<select style="width:100%;" class="nice-select-default rounded" id="adult_title`+parseInt(counter_passenger+1)+`" name="adult_title`+parseInt(counter_passenger+1)+`" onchange="onchange_title(`+parseInt(counter_passenger+1)+`)">`;
                                         }else{
-                                            text_modal_paxs+=`<select style="width:100%;" id="adult_title`+parseInt(counter_passenger+1)+`" name="adult_title`+parseInt(counter_passenger+1)+`">`;
+                                            text_modal_paxs+=`<select style="width:100%;" id="adult_title`+parseInt(counter_passenger+1)+`" name="adult_title`+parseInt(counter_passenger+1)+`" onchange="onchange_title(`+parseInt(counter_passenger+1)+`)">`;
                                         }
-                                                for(i in titles){
-                                                    text_modal_paxs+= `<option value="`+titles[i]+`">`+titles[i]+`</option>`;
-                                                }
+                                                text_modal_paxs+= `<option value="MR">MR (Male)</option>`;
+                                                text_modal_paxs+= `<option value="MRS">MRS (Female)</option>`;
+                                                text_modal_paxs+= `<option value="MS">MS (Female)</option>`;
                                                 text_modal_paxs+=`</select>
+
                                             </div>
                                         </div>
                                     </div>
@@ -775,6 +776,1391 @@ function add_table_of_passenger(type){
                                                     <button type="button" class="primary-delete-date" onclick="delete_type('adult_kelurahan`+parseInt(counter_passenger+1)+`_id', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                 </div>
                                                 </div>`;
+                                            if(test_type == 'PHCHCKPCR' || test_type == 'PHCDTKPCR'){
+                                                text_modal_paxs+=`
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Mother name</label>
+                                                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                                                            <input type="text" class="form-control" name="adult_mother_name`+parseInt(counter_passenger+1)+`" id="adult_mother_name`+parseInt(counter_passenger+1)+`" placeholder="Mother Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Mother Name '">
+                                                        </div>
+                                                    </div>`;
+                                                text_modal_paxs+=`
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Kriteria Covid</label>`;
+                                                        if(template == 1){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text_modal_paxs+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text_modal_paxs+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text_modal_paxs+=`<div class="form-select-2">`;
+                                                        if(template == 4){
+                                                            text_modal_paxs+=`<select class="nice-select-default rounded" id="adult_kriteria_pasien`+parseInt(counter_passenger+1)+`" name="adult_kriteria_pasien`+parseInt(counter_passenger+1)+`" onchange="change_kriteria(`+parseInt(counter_passenger+1)+`)">`;
+                                                        }else{
+                                                            text_modal_paxs+=`<select id="adult_kriteria_pasien`+parseInt(counter_passenger+1)+`" name="adult_kriteria_pasien`+parseInt(counter_passenger+1)+`" onchange="change_kriteria(`+parseInt(counter_passenger+1)+`)">`;
+                                                        }
+                                                        text += '<option value="">Choose</option>';
+                                                            for(i in medical_config.result.response.kriteria_pasien)
+                                                                text_modal_paxs+=`<option value="`+medical_config.result.response.kriteria_pasien[i].name+`">`+medical_config.result.response.kriteria_pasien[i].name+`</option>`;
+                                                                text_modal_paxs+=`</select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-sm-12" id="detail_kriteria`+parseInt(counter_passenger+1)+`" hidden>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Pemeriksaan Swab Ke</label>
+                                                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                                                            <input type="text" class="form-control" name="adult_pemeriksaan_swab_ke`+parseInt(counter_passenger+1)+`" id="adult_mother_name`+parseInt(counter_passenger+1)+`" placeholder="Mother Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Mother Name '">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Asal Perusahaan</label>`;
+                                                        if(template == 1){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text_modal_paxs+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text_modal_paxs+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text_modal_paxs+=`<div class="form-select-2">`;
+                                                        if(template == 4){
+                                                            text_modal_paxs+=`<select class="nice-select-default rounded" id="adult_perusahaan`+parseInt(counter_passenger+1)+`" name="adult_perusahaan`+parseInt(counter_passenger+1)+`">`;
+                                                        }else{
+                                                            text_modal_paxs+=`<select id="adult_perusahaan`+parseInt(counter_passenger+1)+`" name="adult_perusahaan`+parseInt(counter_passenger+1)+`">`;
+                                                        }
+                                                        text += '<option value="">Choose</option>';
+                                                            for(i in medical_config.result.response.perusahaan)
+                                                                text_modal_paxs+=`<option value="`+medical_config.result.response.perusahaan[i]+`">`+medical_config.result.response.perusahaan[i]+`</option>`;
+                                                                text_modal_paxs+=`</select>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Nama Perusahaan</label>
+                                                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                                                            <input type="text" class="form-control" name="adult_nama_perusahaan`+parseInt(counter_passenger+1)+`" id="adult_nama_perusahaan`+parseInt(counter_passenger+1)+`" placeholder="Mother Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Mother Name '">
+                                                        </div>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+                                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                                        <h5>Gejala</h5>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Tanggal pertama kali gejala</label>
+                                                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                                                            <input type="text" class="form-control date-picker-birth" name="adult_tanggal_pertama_kali_gejala`+parseInt(counter_passenger+1)+`" id="adult_tanggal_pertama_kali_gejala`+parseInt(counter_passenger+1)+`" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Demam</label>`;
+                                                        if(template == 1){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text_modal_paxs+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text_modal_paxs+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text_modal_paxs+=`<div class="form-select-2">`;
+                                                        if(template == 4){
+                                                            text_modal_paxs+=`<select class="nice-select-default rounded" id="adult_klinis_ada_demam`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_demam`+parseInt(counter_passenger+1)+`" onchange="onchange_demam(`+parseInt(counter_passenger+1)+`)">`;
+                                                        }else{
+                                                            text_modal_paxs+=`<select id="adult_klinis_ada_demam`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_demam`+parseInt(counter_passenger+1)+`">`;
+                                                        }
+                                                        text += '<option value="">Choose</option>';
+                                                            for(i in medical_config.result.response.pilihan_jawaban)
+                                                                text_modal_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                                text_modal_paxs+=`</select>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <div id="suhu_tubuh_div`+parseInt(counter_passenger+1)+`" hidden>
+                                                            <label style="color:red !important">*</label>
+                                                            <label>Suhu Tubuh</label>
+                                                            <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                                                                <input type="text" class="form-control date-picker-birth" name="adult_klinis_suhu_tubuh`+parseInt(counter_passenger+1)+`" id="adult_klinis_suhu_tubuh`+parseInt(counter_passenger+1)+`" placeholder="Suhu Tubuh " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off">
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Batuk</label>`;
+                                                        if(template == 1){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text_modal_paxs+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text_modal_paxs+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text_modal_paxs+=`<div class="form-select-2">`;
+                                                        if(template == 4){
+                                                            text_modal_paxs+=`<select class="nice-select-default rounded" id="adult_klinis_ada_batuk`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_batuk`+parseInt(counter_passenger+1)+`">`;
+                                                        }else{
+                                                            text_modal_paxs+=`<select id="adult_klinis_ada_batuk`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_batuk`+parseInt(counter_passenger+1)+`">`;
+                                                        }
+                                                        text += '<option value="">Choose</option>';
+                                                            for(i in medical_config.result.response.pilihan_jawaban)
+                                                                text_modal_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                                text_modal_paxs+=`</select>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Flu</label>`;
+                                                        if(template == 1){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text_modal_paxs+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text_modal_paxs+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text_modal_paxs+=`<div class="form-select-2">`;
+                                                        if(template == 4){
+                                                            text_modal_paxs+=`<select class="nice-select-default rounded" id="adult_klinis_ada_pilek`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_pilek`+parseInt(counter_passenger+1)+`">`;
+                                                        }else{
+                                                            text_modal_paxs+=`<select id="adult_klinis_ada_pilek`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_pilek`+parseInt(counter_passenger+1)+`">`;
+                                                        }
+                                                        text += '<option value="">Choose</option>';
+                                                            for(i in medical_config.result.response.pilihan_jawaban)
+                                                                text_modal_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                                text_modal_paxs+=`</select>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Sakit Tenggorokan</label>`;
+                                                        if(template == 1){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text_modal_paxs+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text_modal_paxs+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text_modal_paxs+=`<div class="form-select-2">`;
+                                                        if(template == 4){
+                                                            text_modal_paxs+=`<select class="nice-select-default rounded" id="adult_klinis_ada_sakit_tenggorokan`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_sakit_tenggorokan`+parseInt(counter_passenger+1)+`">`;
+                                                        }else{
+                                                            text_modal_paxs+=`<select id="adult_klinis_ada_sakit_tenggorokan`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_sakit_tenggorokan`+parseInt(counter_passenger+1)+`">`;
+                                                        }
+                                                        text += '<option value="">Choose</option>';
+                                                            for(i in medical_config.result.response.pilihan_jawaban)
+                                                                text_modal_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                                text_modal_paxs+=`</select>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Sesak Nafas</label>`;
+                                                        if(template == 1){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text_modal_paxs+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text_modal_paxs+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text_modal_paxs+=`<div class="form-select-2">`;
+                                                        if(template == 4){
+                                                            text_modal_paxs+=`<select class="nice-select-default rounded" id="adult_klinis_ada_sesak`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_sesak`+parseInt(counter_passenger+1)+`">`;
+                                                        }else{
+                                                            text_modal_paxs+=`<select id="adult_klinis_ada_sesak`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_sesak`+parseInt(counter_passenger+1)+`">`;
+                                                        }
+                                                        text += '<option value="">Choose</option>';
+                                                            for(i in medical_config.result.response.pilihan_jawaban)
+                                                                text_modal_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                                text_modal_paxs+=`</select>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Sakit Kepala</label>`;
+                                                        if(template == 1){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text_modal_paxs+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text_modal_paxs+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text_modal_paxs+=`<div class="form-select-2">`;
+                                                        if(template == 4){
+                                                            text_modal_paxs+=`<select class="nice-select-default rounded" id="adult_klinis_ada_sakit_kepala`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_sakit_kepala`+parseInt(counter_passenger+1)+`">`;
+                                                        }else{
+                                                            text_modal_paxs+=`<select id="adult_klinis_ada_sakit_kepala`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_sakit_kepala`+parseInt(counter_passenger+1)+`">`;
+                                                        }
+                                                        text += '<option value="">Choose</option>';
+                                                            for(i in medical_config.result.response.pilihan_jawaban)
+                                                                text_modal_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                                text_modal_paxs+=`</select>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Badan Lemah</label>`;
+                                                        if(template == 1){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text_modal_paxs+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text_modal_paxs+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text_modal_paxs+=`<div class="form-select-2">`;
+                                                        if(template == 4){
+                                                            text_modal_paxs+=`<select class="nice-select-default rounded" id="adult_klinis_ada_badan_lemah`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_badan_lemah`+parseInt(counter_passenger+1)+`">`;
+                                                        }else{
+                                                            text_modal_paxs+=`<select id="adult_klinis_ada_badan_lemah`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_badan_lemah`+parseInt(counter_passenger+1)+`">`;
+                                                        }
+                                                        text += '<option value="">Choose</option>';
+                                                            for(i in medical_config.result.response.pilihan_jawaban)
+                                                                text_modal_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                                text_modal_paxs+=`</select>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Nyeri Otot</label>`;
+                                                        if(template == 1){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text_modal_paxs+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text_modal_paxs+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text_modal_paxs+=`<div class="form-select-2">`;
+                                                        if(template == 4){
+                                                            text_modal_paxs+=`<select class="nice-select-default rounded" id="adult_klinis_ada_nyeri_otot`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_nyeri_otot`+parseInt(counter_passenger+1)+`">`;
+                                                        }else{
+                                                            text_modal_paxs+=`<select id="adult_klinis_ada_nyeri_otot`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_nyeri_otot`+parseInt(counter_passenger+1)+`">`;
+                                                        }
+                                                        text += '<option value="">Choose</option>';
+                                                            for(i in medical_config.result.response.pilihan_jawaban)
+                                                                text_modal_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                                text_modal_paxs+=`</select>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Mual</label>`;
+                                                        if(template == 1){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text_modal_paxs+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text_modal_paxs+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text_modal_paxs+=`<div class="form-select-2">`;
+                                                        if(template == 4){
+                                                            text_modal_paxs+=`<select class="nice-select-default rounded" id="adult_klinis_ada_mual`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_mual`+parseInt(counter_passenger+1)+`">`;
+                                                        }else{
+                                                            text_modal_paxs+=`<select id="adult_klinis_ada_mual`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_mual`+parseInt(counter_passenger+1)+`">`;
+                                                        }
+                                                        text += '<option value="">Choose</option>';
+                                                            for(i in medical_config.result.response.pilihan_jawaban)
+                                                                text_modal_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                                text_modal_paxs+=`</select>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Nyeri Abdomen</label>`;
+                                                        if(template == 1){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text_modal_paxs+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text_modal_paxs+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text_modal_paxs+=`<div class="form-select-2">`;
+                                                        if(template == 4){
+                                                            text_modal_paxs+=`<select class="nice-select-default rounded" id="adult_klinis_ada_nyeri_abdomen`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_nyeri_abdomen`+parseInt(counter_passenger+1)+`">`;
+                                                        }else{
+                                                            text_modal_paxs+=`<select id="adult_klinis_ada_nyeri_abdomen`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_nyeri_abdomen`+parseInt(counter_passenger+1)+`">`;
+                                                        }
+                                                        text += '<option value="">Choose</option>';
+                                                            for(i in medical_config.result.response.pilihan_jawaban)
+                                                                text_modal_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                                text_modal_paxs+=`</select>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Diare</label>`;
+                                                        if(template == 1){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text_modal_paxs+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text_modal_paxs+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text_modal_paxs+=`<div class="form-select-2">`;
+                                                        if(template == 4){
+                                                            text_modal_paxs+=`<select class="nice-select-default rounded" id="adult_klinis_ada_diare`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_diare`+parseInt(counter_passenger+1)+`">`;
+                                                        }else{
+                                                            text_modal_paxs+=`<select id="adult_klinis_ada_diare`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_diare`+parseInt(counter_passenger+1)+`">`;
+                                                        }
+                                                        text += '<option value="">Choose</option>';
+                                                            for(i in medical_config.result.response.pilihan_jawaban)
+                                                                text_modal_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                                text_modal_paxs+=`</select>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Golongan Darah</label>`;
+                                                        if(template == 1){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text_modal_paxs+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text_modal_paxs+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text_modal_paxs+=`<div class="form-select-2">`;
+                                                        if(template == 4){
+                                                            text_modal_paxs+=`<select class="nice-select-default rounded" id="adult_klinis_golongan_darah`+parseInt(counter_passenger+1)+`" name="adult_klinis_golongan_darah`+parseInt(counter_passenger+1)+`">`;
+                                                        }else{
+                                                            text_modal_paxs+=`<select id="adult_klinis_golongan_darah`+parseInt(counter_passenger+1)+`" name="adult_klinis_golongan_darah`+parseInt(counter_passenger+1)+`">`;
+                                                        }
+                                                        text += '<option value="">Choose</option>';
+                                                            for(i in medical_config.result.response.golongan_darah)
+                                                                text_modal_paxs+=`<option value="`+medical_config.result.response.golongan_darah[i]+`">`+medical_config.result.response.golongan_darah[i]+`</option>`;
+                                                                text_modal_paxs+=`</select>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Gejala Lainnya</label>
+                                                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                                                            <input type="text" class="form-control date-picker-birth" name="adult_klinis_gejala_lainnya`+parseInt(counter_passenger+1)+`" id="adult_klinis_gejala_lainnya`+parseInt(counter_passenger+1)+`" placeholder="Gejala Lainnya " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Gejala Lainnya '" autocomplete="off">
+                                                        </div>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-6" id="adult_hamil_div" hidden>
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Sedang Hamil</label>`;
+                                                        if(template == 1){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text_modal_paxs+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text_modal_paxs+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text_modal_paxs+=`<div class="form-select-2">`;
+                                                        if(template == 4){
+                                                            text_modal_paxs+=`<select class="nice-select-default rounded" id="adult_klinis_sedang_hamil`+parseInt(counter_passenger+1)+`" name="adult_klinis_sedang_hamil`+parseInt(counter_passenger+1)+`">`;
+                                                        }else{
+                                                            text_modal_paxs+=`<select id="adult_klinis_sedang_hamil`+parseInt(counter_passenger+1)+`" name="adult_klinis_sedang_hamil`+parseInt(counter_passenger+1)+`">`;
+                                                        }
+                                                        text += '<option value="">Choose</option>';
+                                                            for(i in medical_config.result.response.pilihan_jawaban)
+                                                                text_modal_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                                text_modal_paxs+=`</select>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Diabetes</label>`;
+                                                        if(template == 1){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text_modal_paxs+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text_modal_paxs+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text_modal_paxs+=`<div class="form-select-2">`;
+                                                        if(template == 4){
+                                                            text_modal_paxs+=`<select class="nice-select-default rounded" id="adult_klinis_ada_diabetes`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_diabetes`+parseInt(counter_passenger+1)+`">`;
+                                                        }else{
+                                                            text_modal_paxs+=`<select id="adult_klinis_ada_diabetes`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_diabetes`+parseInt(counter_passenger+1)+`">`;
+                                                        }
+                                                        text += '<option value="">Choose</option>';
+                                                            for(i in medical_config.result.response.pilihan_jawaban)
+                                                                text_modal_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                                text_modal_paxs+=`</select>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Penyakit Jantung</label>`;
+                                                        if(template == 1){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text_modal_paxs+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text_modal_paxs+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text_modal_paxs+=`<div class="form-select-2">`;
+                                                        if(template == 4){
+                                                            text_modal_paxs+=`<select class="nice-select-default rounded" id="adult_klinis_ada_penyakit_jantung`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_penyakit_jantung`+parseInt(counter_passenger+1)+`">`;
+                                                        }else{
+                                                            text_modal_paxs+=`<select id="adult_klinis_ada_penyakit_jantung`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_penyakit_jantung`+parseInt(counter_passenger+1)+`">`;
+                                                        }
+                                                        text += '<option value="">Choose</option>';
+                                                            for(i in medical_config.result.response.pilihan_jawaban)
+                                                                text_modal_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                                text_modal_paxs+=`</select>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Hipertensi</label>`;
+                                                        if(template == 1){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text_modal_paxs+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text_modal_paxs+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text_modal_paxs+=`<div class="form-select-2">`;
+                                                        if(template == 4){
+                                                            text_modal_paxs+=`<select class="nice-select-default rounded" id="adult_klinis_ada_hipertensi`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_penyakit_jantung`+parseInt(counter_passenger+1)+`">`;
+                                                        }else{
+                                                            text_modal_paxs+=`<select id="adult_klinis_ada_hipertensi`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_hipertensi`+parseInt(counter_passenger+1)+`">`;
+                                                        }
+                                                        text += '<option value="">Choose</option>';
+                                                            for(i in medical_config.result.response.pilihan_jawaban)
+                                                                text_modal_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                                text_modal_paxs+=`</select>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Keganasan</label>`;
+                                                        if(template == 1){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text_modal_paxs+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text_modal_paxs+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text_modal_paxs+=`<div class="form-select-2">`;
+                                                        if(template == 4){
+                                                            text_modal_paxs+=`<select class="nice-select-default rounded" id="adult_klinis_ada_keganasan`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_keganasan`+parseInt(counter_passenger+1)+`">`;
+                                                        }else{
+                                                            text_modal_paxs+=`<select id="adult_klinis_ada_keganasan`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_keganasan`+parseInt(counter_passenger+1)+`">`;
+                                                        }
+                                                        text += '<option value="">Choose</option>';
+                                                            for(i in medical_config.result.response.pilihan_jawaban)
+                                                                text_modal_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                                text_modal_paxs+=`</select>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Gangguan Imunologi</label>`;
+                                                        if(template == 1){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text_modal_paxs+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text_modal_paxs+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text_modal_paxs+=`<div class="form-select-2">`;
+                                                        if(template == 4){
+                                                            text_modal_paxs+=`<select class="nice-select-default rounded" id="adult_klinis_ada_gangguan_imunologi`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_gangguan_imunologi`+parseInt(counter_passenger+1)+`">`;
+                                                        }else{
+                                                            text_modal_paxs+=`<select id="adult_klinis_ada_gangguan_imunologi`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_gangguan_imunologi`+parseInt(counter_passenger+1)+`">`;
+                                                        }
+                                                        text += '<option value="">Choose</option>';
+                                                            for(i in medical_config.result.response.pilihan_jawaban)
+                                                                text_modal_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                                text_modal_paxs+=`</select>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Gangguan Ginjal</label>`;
+                                                        if(template == 1){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text_modal_paxs+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text_modal_paxs+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text_modal_paxs+=`<div class="form-select-2">`;
+                                                        if(template == 4){
+                                                            text_modal_paxs+=`<select class="nice-select-default rounded" id="adult_klinis_ada_gangguan_ginjal`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_gangguan_ginjal`+parseInt(counter_passenger+1)+`">`;
+                                                        }else{
+                                                            text_modal_paxs+=`<select id="adult_klinis_ada_gangguan_ginjal`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_gangguan_ginjal`+parseInt(counter_passenger+1)+`">`;
+                                                        }
+                                                        text += '<option value="">Choose</option>';
+                                                            for(i in medical_config.result.response.pilihan_jawaban)
+                                                                text_modal_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                                text_modal_paxs+=`</select>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Gangguan Hati</label>`;
+                                                        if(template == 1){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text_modal_paxs+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text_modal_paxs+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text_modal_paxs+=`<div class="form-select-2">`;
+                                                        if(template == 4){
+                                                            text_modal_paxs+=`<select class="nice-select-default rounded" id="adult_klinis_ada_gangguan_hati`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_gangguan_hati`+parseInt(counter_passenger+1)+`">`;
+                                                        }else{
+                                                            text_modal_paxs+=`<select id="adult_klinis_ada_gangguan_hati`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_gangguan_hati`+parseInt(counter_passenger+1)+`">`;
+                                                        }
+                                                        text += '<option value="">Choose</option>';
+                                                            for(i in medical_config.result.response.pilihan_jawaban)
+                                                                text_modal_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                                text_modal_paxs+=`</select>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Gangguan Paru Obstruksi Kronis</label>`;
+                                                        if(template == 1){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text_modal_paxs+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text_modal_paxs+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text_modal_paxs+=`<div class="form-select-2">`;
+                                                        if(template == 4){
+                                                            text_modal_paxs+=`<select class="nice-select-default rounded" id="adult_klinis_ada_gangguan_paru_obstruksi_kronis`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_gangguan_paru_obstruksi_kronis`+parseInt(counter_passenger+1)+`">`;
+                                                        }else{
+                                                            text_modal_paxs+=`<select id="adult_klinis_ada_gangguan_paru_obstruksi_kronis`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_gangguan_paru_obstruksi_kronis`+parseInt(counter_passenger+1)+`">`;
+                                                        }
+                                                        text += '<option value="">Choose</option>';
+                                                            for(i in medical_config.result.response.pilihan_jawaban)
+                                                                text_modal_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                                text_modal_paxs+=`</select>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Kondisi Penyerta Lainnya</label>
+                                                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                                                            <input type="text" class="form-control date-picker-birth" name="adult_klinis_kondisi_penyerta_lainnya`+parseInt(counter_passenger+1)+`" id="adult_klinis_kondisi_penyerta_lainnya`+parseInt(counter_passenger+1)+`" placeholder="Kondisi Penyerta Lainnya " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Kondisi Penyerta Lainnya '" autocomplete="off">
+                                                        </div>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Di Rawat di RS</label>`;
+                                                        if(template == 1){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text_modal_paxs+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text_modal_paxs+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text_modal_paxs+=`<div class="form-select-2">`;
+                                                        if(template == 4){
+                                                            text_modal_paxs+=`<select class="nice-select-default rounded" id="adult_sedang_dirawat_di_rs`+parseInt(counter_passenger+1)+`" name="adult_sedang_dirawat_di_rs`+parseInt(counter_passenger+1)+`">`;
+                                                        }else{
+                                                            text_modal_paxs+=`<select id="adult_sedang_dirawat_di_rs`+parseInt(counter_passenger+1)+`" name="adult_sedang_dirawat_di_rs`+parseInt(counter_passenger+1)+`">`;
+                                                        }
+                                                        text += '<option value="">Choose</option>';
+                                                            for(i in medical_config.result.response.pilihan_jawaban)
+                                                                text_modal_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                                text_modal_paxs+=`</select>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Nama RS</label>
+                                                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                                                            <input type="text" class="form-control date-picker-birth" name="adult_nama_rs`+parseInt(counter_passenger+1)+`" id="adult_nama_rs`+parseInt(counter_passenger+1)+`" placeholder="Nama RS " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Nama RS '" autocomplete="off">
+                                                        </div>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Tanggal Masuk RS</label>
+                                                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                                                            <input type="text" class="form-control date-picker-birth" name="adult_tanggal_masuk_rs`+parseInt(counter_passenger+1)+`" id="adult_tanggal_masuk_rs`+parseInt(counter_passenger+1)+`" placeholder="Tanggal Masuk RS " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tanggal Masuk RS '" autocomplete="off">
+                                                        </div>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Nama RS</label>
+                                                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                                                            <input type="text" class="form-control date-picker-birth" name="adult_nama_ruang_perawatan`+parseInt(counter_passenger+1)+`" id="adult_nama_ruang_perawatan`+parseInt(counter_passenger+1)+`" placeholder="Nama Ruang Perawatan " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Nama Ruang Perawatan '" autocomplete="off">
+                                                        </div>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Sedang Dirawat ICU</label>`;
+                                                        if(template == 1){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text_modal_paxs+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text_modal_paxs+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text_modal_paxs+=`<div class="form-select-2">`;
+                                                        if(template == 4){
+                                                            text_modal_paxs+=`<select class="nice-select-default rounded" id="adult_sedang_dirawat_di_icu`+parseInt(counter_passenger+1)+`" name="adult_sedang_dirawat_di_icu`+parseInt(counter_passenger+1)+`">`;
+                                                        }else{
+                                                            text_modal_paxs+=`<select id="adult_sedang_dirawat_di_icu`+parseInt(counter_passenger+1)+`" name="adult_sedang_dirawat_di_icu`+parseInt(counter_passenger+1)+`">`;
+                                                        }
+                                                        text += '<option value="">Choose</option>';
+                                                            for(i in medical_config.result.response.pilihan_jawaban)
+                                                                text_modal_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                                text_modal_paxs+=`</select>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Menggunakan Intubasi</label>`;
+                                                        if(template == 1){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text_modal_paxs+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text_modal_paxs+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text_modal_paxs+=`<div class="form-select-2">`;
+                                                        if(template == 4){
+                                                            text_modal_paxs+=`<select class="nice-select-default rounded" id="adult_menggunakan_intubasi`+parseInt(counter_passenger+1)+`" name="adult_menggunakan_intubasi`+parseInt(counter_passenger+1)+`">`;
+                                                        }else{
+                                                            text_modal_paxs+=`<select id="adult_menggunakan_intubasi`+parseInt(counter_passenger+1)+`" name="adult_menggunakan_intubasi`+parseInt(counter_passenger+1)+`">`;
+                                                        }
+                                                        text += '<option value="">Choose</option>';
+                                                            for(i in medical_config.result.response.pilihan_jawaban)
+                                                                text_modal_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                                text_modal_paxs+=`</select>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Menggunakan Emco</label>`;
+                                                        if(template == 1){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text_modal_paxs+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text_modal_paxs+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text_modal_paxs+=`<div class="form-select-2">`;
+                                                        if(template == 4){
+                                                            text_modal_paxs+=`<select class="nice-select-default rounded" id="adult_menggunakan_emco`+parseInt(counter_passenger+1)+`" name="adult_menggunakan_emco`+parseInt(counter_passenger+1)+`">`;
+                                                        }else{
+                                                            text_modal_paxs+=`<select id="adult_menggunakan_emco`+parseInt(counter_passenger+1)+`" name="adult_menggunakan_emco`+parseInt(counter_passenger+1)+`">`;
+                                                        }
+                                                        text += '<option value="">Choose</option>';
+                                                            for(i in medical_config.result.response.pilihan_jawaban)
+                                                                text_modal_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                                text_modal_paxs+=`</select>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+                                                    <div class="col-lg-6 col-md-6 col-sm-6" hidden>
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Nama RS Lainnya</label>
+                                                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                                                            <input type="text" class="form-control date-picker-birth" name="adult_nama_rs_lainnya`+parseInt(counter_passenger+1)+`" id="adult_nama_rs_lainnya`+parseInt(counter_passenger+1)+`" placeholder="Nama RS lainnya " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Nama RS lainnya '" autocomplete="off">
+                                                        </div>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Status Terakhir</label>`;
+                                                        if(template == 1){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text_modal_paxs+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text_modal_paxs+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text_modal_paxs+=`<div class="form-select-2">`;
+                                                        if(template == 4){
+                                                            text_modal_paxs+=`<select class="nice-select-default rounded" id="adult_status_terakhir`+parseInt(counter_passenger+1)+`" name="adult_status_terakhir`+parseInt(counter_passenger+1)+`">`;
+                                                        }else{
+                                                            text_modal_paxs+=`<select id="adult_status_terakhir`+parseInt(counter_passenger+1)+`" name="adult_status_terakhir`+parseInt(counter_passenger+1)+`">`;
+                                                        }
+                                                        text += '<option value="">Choose</option>';
+                                                            for(i in medical_config.result.response.status_pasien)
+                                                                text_modal_paxs+=`<option value="`+medical_config.result.response.status_pasien[i]+`">`+medical_config.result.response.status_pasien[i]+`</option>`;
+                                                                text_modal_paxs+=`</select>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Penumonia</label>`;
+                                                        if(template == 1){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text_modal_paxs+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text_modal_paxs+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text_modal_paxs+=`<div class="form-select-2">`;
+                                                        if(template == 4){
+                                                            text_modal_paxs+=`<select class="nice-select-default rounded" id="adult_klinis_ada_penumonia`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_penumonia`+parseInt(counter_passenger+1)+`">`;
+                                                        }else{
+                                                            text_modal_paxs+=`<select id="adult_klinis_ada_penumonia`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_penumonia`+parseInt(counter_passenger+1)+`">`;
+                                                        }
+                                                        text += '<option value="">Choose</option>';
+                                                            for(i in medical_config.result.response.pilihan_jawaban)
+                                                                text_modal_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                                text_modal_paxs+=`</select>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+                                                    <div class="col-lg-6 col-md-6 col-sm-6" hidden>
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Ards Detail</label>
+                                                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                                                            <input type="text" class="form-control date-picker-birth" name="adult_klinis_ards_detil`+parseInt(counter_passenger+1)+`" id="adult_klinis_ards_detil`+parseInt(counter_passenger+1)+`" placeholder="Ards Detail " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Ards Detail '" autocomplete="off">
+                                                        </div>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Penyakit Pernafasan</label>`;
+                                                        if(template == 1){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text_modal_paxs+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text_modal_paxs+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text_modal_paxs+=`<div class="form-select-2">`;
+                                                        if(template == 4){
+                                                            text_modal_paxs+=`<select class="nice-select-default rounded" id="adult_klinis_ada_penyakit_pernafasan`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_penyakit_pernafasan`+parseInt(counter_passenger+1)+`">`;
+                                                        }else{
+                                                            text_modal_paxs+=`<select id="adult_klinis_ada_penyakit_pernafasan`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_penyakit_pernafasan`+parseInt(counter_passenger+1)+`">`;
+                                                        }
+                                                        text += '<option value="">Choose</option>';
+                                                            for(i in medical_config.result.response.pilihan_jawaban)
+                                                                text_modal_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                                text_modal_paxs+=`</select>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+                                                    <div class="col-lg-6 col-md-6 col-sm-6" hidden>
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Penyakit Pernafasan Detail</label>
+                                                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                                                            <input type="text" class="form-control date-picker-birth" name="adult_klinis_penyakit_pernafasan_detil`+parseInt(counter_passenger+1)+`" id="adult_klinis_penyakit_pernafasan_detil`+parseInt(counter_passenger+1)+`" placeholder="Penyakit Pernafasan Detail " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Penyakit Pernafasan Detail '" autocomplete="off">
+                                                        </div>
+                                                    </div>`;
+
+                                                text += `
+                                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                                        <h5>Faktor Kontak/Paparan</h5>
+                                                    </div>
+                                                `;
+
+                                                text_modal_paxs+=`
+
+                                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Perjalanan Keluar Negeri</label>`;
+                                                        if(template == 1){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text_modal_paxs+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text_modal_paxs+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text_modal_paxs+=`<div class="form-select-2">`;
+                                                        if(template == 4){
+                                                            text_modal_paxs+=`<select class="nice-select-default rounded" id="adult_perjalanan_keluar_negeri`+parseInt(counter_passenger+1)+`" name="adult_perjalanan_keluar_negeri`+parseInt(counter_passenger+1)+`" onchange="onchange_perjalanan_keluar_negeri(`+parseInt(counter_passenger+1)+`)">`;
+                                                        }else{
+                                                            text_modal_paxs+=`<select id="adult_perjalanan_keluar_negeri`+parseInt(counter_passenger+1)+`" name="adult_perjalanan_keluar_negeri`+parseInt(counter_passenger+1)+`" onchange="onchange_perjalanan_keluar_negeri(`+parseInt(counter_passenger+1)+`)">`;
+                                                        }
+                                                        text += '<option value="">Choose</option>';
+                                                            for(i in medical_config.result.response.pilihan_jawaban)
+                                                                text_modal_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                                text_modal_paxs+=`</select>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+                                                    <div class="col-lg-12 col-md-12 col-sm-12" id="daftar_perjalanan_keluar_negeri`+parseInt(counter_passenger+1)+`">
+                                                    </div>
+                                                `;
+
+                                                text_modal_paxs+=`
+
+                                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Perjalanan Transmisi Lokal</label>`;
+                                                        if(template == 1){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text_modal_paxs+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text_modal_paxs+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text_modal_paxs+=`<div class="form-select-2">`;
+                                                        if(template == 4){
+                                                            text_modal_paxs+=`<select class="nice-select-default rounded" id="adult_perjalanan_ke_transmisi_lokal`+parseInt(counter_passenger+1)+`" name="adult_perjalanan_ke_transmisi_lokal`+parseInt(counter_passenger+1)+`" onchange="onchange_perjalanan_ke_transmisi_lokal(`+parseInt(counter_passenger+1)+`)">`;
+                                                        }else{
+                                                            text_modal_paxs+=`<select id="adult_perjalanan_ke_transmisi_lokal`+parseInt(counter_passenger+1)+`" name="adult_perjalanan_ke_transmisi_lokal`+parseInt(counter_passenger+1)+`" onchange="onchange_perjalanan_ke_transmisi_lokal(`+parseInt(counter_passenger+1)+`)">`;
+                                                        }
+                                                        text += '<option value="">Choose</option>';
+                                                            for(i in medical_config.result.response.pilihan_jawaban)
+                                                                text_modal_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                                text_modal_paxs+=`</select>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+                                                    <div class="col-lg-12 col-md-12 col-sm-12" id="perjalanan_ke_transmisi_lokal`+parseInt(counter_passenger+1)+`">
+                                                    </div>
+                                                `;
+
+                                                text_modal_paxs+=`
+
+                                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Berkunjung Ke Fasilitas Kesehatan</label>`;
+                                                        if(template == 1){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text_modal_paxs+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text_modal_paxs+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text_modal_paxs+=`<div class="form-select-2">`;
+                                                        if(template == 4){
+                                                            text_modal_paxs+=`<select class="nice-select-default rounded" id="adult_berkunjung_ke_fasilitas_kesehatan`+parseInt(counter_passenger+1)+`" name="adult_berkunjung_ke_fasilitas_kesehatan`+parseInt(counter_passenger+1)+`" onchange="onchange_berkunjung_ke_fasilitas_kesehatan(`+parseInt(counter_passenger+1)+`)">`;
+                                                        }else{
+                                                            text_modal_paxs+=`<select id="adult_berkunjung_ke_fasilitas_kesehatan`+parseInt(counter_passenger+1)+`" name="adult_berkunjung_ke_fasilitas_kesehatan`+parseInt(counter_passenger+1)+`" onchange="onchange_berkunjung_ke_fasilitas_kesehatan(`+parseInt(counter_passenger+1)+`)">`;
+                                                        }
+                                                        text += '<option value="">Choose</option>';
+                                                            for(i in medical_config.result.response.pilihan_jawaban)
+                                                                text_modal_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                                text_modal_paxs+=`</select>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+                                                    <div class="col-lg-12 col-md-12 col-sm-12" id="berkunjung_ke_fasilitas_kesehatan`+parseInt(counter_passenger+1)+`">
+                                                    </div>
+                                                `;
+
+                                                text_modal_paxs+=`
+
+                                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Berkunjung Ke Pasar Hewan</label>`;
+                                                        if(template == 1){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text_modal_paxs+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text_modal_paxs+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text_modal_paxs+=`<div class="form-select-2">`;
+                                                        if(template == 4){
+                                                            text_modal_paxs+=`<select class="nice-select-default rounded" id="adult_berkunjung_ke_pasar_hewan`+parseInt(counter_passenger+1)+`" name="adult_berkunjung_ke_pasar_hewan`+parseInt(counter_passenger+1)+`" onchange="onchange_berkunjung_ke_pasar_hewan(`+parseInt(counter_passenger+1)+`)">`;
+                                                        }else{
+                                                            text_modal_paxs+=`<select id="adult_berkunjung_ke_pasar_hewan`+parseInt(counter_passenger+1)+`" name="adult_berkunjung_ke_pasar_hewan`+parseInt(counter_passenger+1)+`" onchange="onchange_berkunjung_ke_pasar_hewan(`+parseInt(counter_passenger+1)+`)">`;
+                                                        }
+                                                        text += '<option value="">Choose</option>';
+                                                            for(i in medical_config.result.response.pilihan_jawaban)
+                                                                text_modal_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                                text_modal_paxs+=`</select>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+                                                    <div class="col-lg-12 col-md-12 col-sm-12" id="berkunjung_ke_pasar_hewan`+parseInt(counter_passenger+1)+`">
+                                                    </div>
+                                                `;
+
+                                                text_modal_paxs+=`
+
+                                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Berkunjung Ke Pasien Dalam Pengawasan Covid-19</label>`;
+                                                        if(template == 1){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text_modal_paxs+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text_modal_paxs+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text_modal_paxs+=`<div class="form-select-2">`;
+                                                        if(template == 4){
+                                                            text_modal_paxs+=`<select class="nice-select-default rounded" id="adult_berkunjung_ke_pasien_dalam_pengawasan`+parseInt(counter_passenger+1)+`" name="adult_berkunjung_ke_pasien_dalam_pengawasan`+parseInt(counter_passenger+1)+`" onchange="onchange_berkunjung_ke_pasien_dalam_pengawasan(`+parseInt(counter_passenger+1)+`)">`;
+                                                        }else{
+                                                            text_modal_paxs+=`<select id="adult_berkunjung_ke_pasien_dalam_pengawasan`+parseInt(counter_passenger+1)+`" name="adult_berkunjung_ke_pasien_dalam_pengawasan`+parseInt(counter_passenger+1)+`" onchange="onchange_berkunjung_ke_pasien_dalam_pengawasan(`+parseInt(counter_passenger+1)+`)">`;
+                                                        }
+                                                        text += '<option value="">Choose</option>';
+                                                            for(i in medical_config.result.response.pilihan_jawaban)
+                                                                text_modal_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                                text_modal_paxs+=`</select>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+                                                    <div class="col-lg-12 col-md-12 col-sm-12" id="berkunjung_ke_pasien_dalam_pengawasan`+parseInt(counter_passenger+1)+`">
+                                                    </div>
+                                                `;
+
+                                                text_modal_paxs+=`
+
+                                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Berkunjung Ke Pasien Positif Covid-19</label>`;
+                                                        if(template == 1){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text_modal_paxs+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text_modal_paxs+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text_modal_paxs+=`<div class="form-select-2">`;
+                                                        if(template == 4){
+                                                            text_modal_paxs+=`<select class="nice-select-default rounded" id="adult_berkunjung_ke_pasien_konfirmasi`+parseInt(counter_passenger+1)+`" name="adult_berkunjung_ke_pasien_konfirmasi`+parseInt(counter_passenger+1)+`" onchange="onchange_berkunjung_ke_pasien_konfirmasi(`+parseInt(counter_passenger+1)+`)">`;
+                                                        }else{
+                                                            text_modal_paxs+=`<select id="adult_berkunjung_ke_pasien_konfirmasi`+parseInt(counter_passenger+1)+`" name="adult_berkunjung_ke_pasien_konfirmasi`+parseInt(counter_passenger+1)+`" onchange="onchange_berkunjung_ke_pasien_konfirmasi(`+parseInt(counter_passenger+1)+`)">`;
+                                                        }
+                                                        text += '<option value="">Choose</option>';
+                                                            for(i in medical_config.result.response.pilihan_jawaban)
+                                                                text_modal_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                                text_modal_paxs+=`</select>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+                                                    <div class="col-lg-12 col-md-12 col-sm-12" id="berkunjung_ke_pasien_konfirmasi`+parseInt(counter_passenger+1)+`">
+                                                    </div>
+                                                `;
+
+                                                text_modal_paxs+=`
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Apakah pasien termasuk cluster ISPA berat (demam dan pneumonia membutuhkan perawatan Rumah Sakit) yang tdak diketahui penyebabnya dimana kasus COVID-19 diperiksa?</label>`;
+                                                        if(template == 1){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text_modal_paxs+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text_modal_paxs+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text_modal_paxs+=`<div class="form-select-2">`;
+                                                        if(template == 4){
+                                                            text_modal_paxs+=`<select class="nice-select-default rounded" id="adult_termasuk_cluster_ispa`+parseInt(counter_passenger+1)+`" name="adult_termasuk_cluster_ispa`+parseInt(counter_passenger+1)+`">`;
+                                                        }else{
+                                                            text_modal_paxs+=`<select id="adult_termasuk_cluster_ispa`+parseInt(counter_passenger+1)+`" name="adult_termasuk_cluster_ispa`+parseInt(counter_passenger+1)+`">`;
+                                                        }
+                                                        text += '<option value="">Choose</option>';
+                                                            for(i in medical_config.result.response.pilihan_jawaban)
+                                                                text_modal_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                                text_modal_paxs+=`</select>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Apakah pasien seorang petugas kesehatan?</label>`;
+                                                        if(template == 1){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text_modal_paxs+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text_modal_paxs+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text_modal_paxs+=`<div class="form-select-2">`;
+                                                        if(template == 4){
+                                                            text_modal_paxs+=`<select class="nice-select-default rounded" id="adult_merupakan_petugas_kesehatan`+parseInt(counter_passenger+1)+`" name="adult_merupakan_petugas_kesehatan`+parseInt(counter_passenger+1)+`">`;
+                                                        }else{
+                                                            text_modal_paxs+=`<select id="adult_merupakan_petugas_kesehatan`+parseInt(counter_passenger+1)+`" name="adult_merupakan_petugas_kesehatan`+parseInt(counter_passenger+1)+`">`;
+                                                        }
+                                                        text += '<option value="">Choose</option>';
+                                                            for(i in medical_config.result.response.pilihan_jawaban)
+                                                                text_modal_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                                text_modal_paxs+=`</select>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>APD yang digunakan?</label>`;
+                                                        if(template == 1){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text_modal_paxs+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text_modal_paxs+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text_modal_paxs+=`<div class="form-select-2">`;
+                                                        if(template == 4){
+                                                            text_modal_paxs+=`<select class="nice-select-default rounded" id="adult_apd_yang_digunakan`+parseInt(counter_passenger+1)+`" name="adult_apd_yang_digunakan`+parseInt(counter_passenger+1)+`">`;
+                                                        }else{
+                                                            text_modal_paxs+=`<select id="adult_apd_yang_digunakan`+parseInt(counter_passenger+1)+`" name="adult_apd_yang_digunakan`+parseInt(counter_passenger+1)+`">`;
+                                                        }
+                                                        text += '<option value="">Choose</option>';
+                                                            for(i in medical_config.result.response.apd)
+                                                                text_modal_paxs+=`<option value="`+medical_config.result.response.apd[i]+`">`+medical_config.result.response.apd[i]+`</option>`;
+                                                                text_modal_paxs+=`</select>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Apakah melakukan prosedur yang menimbulkan aerosol?</label>`;
+                                                        if(template == 1){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 2){
+                                                            text_modal_paxs+=`<div>`;
+                                                        }else if(template == 3){
+                                                            text_modal_paxs+=`<div class="default-select">`;
+                                                        }else if(template == 4){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }else if(template == 5){
+                                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                                        }
+                                                        text_modal_paxs+=`<div class="form-select-2">`;
+                                                        if(template == 4){
+                                                            text_modal_paxs+=`<select class="nice-select-default rounded" id="adult_prosedur_menimbulkan_aerosol`+parseInt(counter_passenger+1)+`" name="adult_prosedur_menimbulkan_aerosol`+parseInt(counter_passenger+1)+`">`;
+                                                        }else{
+                                                            text_modal_paxs+=`<select id="adult_prosedur_menimbulkan_aerosol`+parseInt(counter_passenger+1)+`" name="adult_prosedur_menimbulkan_aerosol`+parseInt(counter_passenger+1)+`">`;
+                                                        }
+                                                        text_modal_paxs += '<option value="">Choose</option>';
+                                                            for(i in medical_config.result.response.apd)
+                                                                text_modal_paxs+=`<option value="`+medical_config.result.response.apd[i]+`">`+medical_config.result.response.apd[i]+`</option>`;
+                                                                text_modal_paxs+=`</select>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+                                                    <div class="col-lg-6 col-md-6 col-sm-6" hidden>
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Tindakan Aerosol</label>
+                                                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                                                            <input type="text" class="form-control date-picker-birth" name="adult_tindakan_menimbulkan_aerosol`+parseInt(counter_passenger+1)+`" id="adult_tindakan_menimbulkan_aerosol`+parseInt(counter_passenger+1)+`" placeholder="Tindakan Aerosol " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tindakan Aerosol '" autocomplete="off">
+                                                        </div>
+                                                    </div>`;
+
+                                                text_modal_paxs+=`
+                                                    <div class="col-lg-6 col-md-6 col-sm-6" hidden>
+                                                        <label style="color:red !important">*</label>
+                                                        <label>Faktor Lain</label>
+                                                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                                                            <input type="text" class="form-control date-picker-birth" name="adult_faktor_lain`+parseInt(counter_passenger+1)+`" id="adult_faktor_lain`+parseInt(counter_passenger+1)+`" placeholder="Faktor Lain " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Faktor Lain '" autocomplete="off">
+                                                        </div>
+                                                    </div>`;
+
+                                            }
                                     }
                                     text_modal_paxs+=`
                                     <div class="col-lg-6" id="adult_cp_hidden1_`+parseInt(counter_passenger+1)+`">
@@ -862,6 +2248,71 @@ function add_table_of_passenger(type){
         $('#adult_kabupaten_ktp'+parseInt(counter_passenger+1)+'_id').select2();
         $('#adult_kecamatan_ktp'+parseInt(counter_passenger+1)+'_id').select2();
         $('#adult_kelurahan_ktp'+parseInt(counter_passenger+1)+'_id').select2();
+        if(test_type == 'PHCDTKPCR' || test_type == 'PHCHCKPCR'){
+            $('#adult_kriteria_pasien'+parseInt(counter_passenger+1)).niceSelect();
+            $('#adult_perusahaan'+parseInt(counter_passenger+1)).niceSelect();
+            $('#adult_klinis_ada_demam'+parseInt(counter_passenger+1)).niceSelect();
+            $('#adult_klinis_ada_batuk'+parseInt(counter_passenger+1)).niceSelect();
+            $('#adult_klinis_ada_pilek'+parseInt(counter_passenger+1)).niceSelect();
+            $('#adult_klinis_ada_sakit_tenggorokan'+parseInt(counter_passenger+1)).niceSelect();
+            $('#adult_klinis_ada_sesak'+parseInt(counter_passenger+1)).niceSelect();
+            $('#adult_klinis_ada_sakit_kepala'+parseInt(counter_passenger+1)).niceSelect();
+            $('#adult_klinis_ada_badan_lemah'+parseInt(counter_passenger+1)).niceSelect();
+            $('#adult_klinis_ada_nyeri_otot'+parseInt(counter_passenger+1)).niceSelect();
+            $('#adult_klinis_ada_mual'+parseInt(counter_passenger+1)).niceSelect();
+            $('#adult_klinis_ada_nyeri_abdomen'+parseInt(counter_passenger+1)).niceSelect();
+            $('#adult_klinis_ada_diare'+parseInt(counter_passenger+1)).niceSelect();
+            $('#adult_klinis_golongan_darah'+parseInt(counter_passenger+1)).niceSelect();
+            $('#adult_klinis_sedang_hamil'+parseInt(counter_passenger+1)).niceSelect();
+            $('#adult_klinis_ada_diabetes'+parseInt(counter_passenger+1)).niceSelect();
+            $('#adult_klinis_ada_penyakit_jantung'+parseInt(counter_passenger+1)).niceSelect();
+            $('#adult_klinis_ada_hipertensi'+parseInt(counter_passenger+1)).niceSelect();
+            $('#adult_klinis_ada_keganasan'+parseInt(counter_passenger+1)).niceSelect();
+            $('#adult_klinis_ada_gangguan_imunologi'+parseInt(counter_passenger+1)).niceSelect();
+            $('#adult_klinis_ada_gangguan_ginjal'+parseInt(counter_passenger+1)).niceSelect();
+            $('#adult_klinis_ada_gangguan_hati'+parseInt(counter_passenger+1)).niceSelect();
+            $('#adult_klinis_ada_gangguan_paru_obstruksi_kronis'+parseInt(counter_passenger+1)).niceSelect();
+            $('#adult_sedang_dirawat_di_rs'+parseInt(counter_passenger+1)).niceSelect();
+            $('#adult_sedang_dirawat_di_icu'+parseInt(counter_passenger+1)).niceSelect();
+            $('#adult_menggunakan_intubasi'+parseInt(counter_passenger+1)).niceSelect();
+            $('#adult_menggunakan_emco'+parseInt(counter_passenger+1)).niceSelect();
+            $('#adult_status_terakhir'+parseInt(counter_passenger+1)).niceSelect();
+            $('#adult_klinis_ada_penumonia'+parseInt(counter_passenger+1)).niceSelect();
+            $('#adult_klinis_ada_penyakit_pernafasan'+parseInt(counter_passenger+1)).niceSelect();
+            $('#adult_perjalanan_keluar_negeri'+parseInt(counter_passenger+1)).niceSelect();
+            $('#adult_perjalanan_ke_transmisi_lokal'+parseInt(counter_passenger+1)).niceSelect();
+            $('#adult_berkunjung_ke_fasilitas_kesehatan'+parseInt(counter_passenger+1)).niceSelect();
+            $('#adult_berkunjung_ke_pasar_hewan'+parseInt(counter_passenger+1)).niceSelect();
+            $('#adult_berkunjung_ke_pasien_dalam_pengawasan'+parseInt(counter_passenger+1)).niceSelect();
+            $('#adult_berkunjung_ke_pasien_konfirmasi'+parseInt(counter_passenger+1)).niceSelect();
+            $('#adult_termasuk_cluster_ispa'+parseInt(counter_passenger+1)).niceSelect();
+            $('#adult_merupakan_petugas_kesehatan'+parseInt(counter_passenger+1)).niceSelect();
+            $('#adult_apd_yang_digunakan'+parseInt(counter_passenger+1)).niceSelect();
+            $('#adult_prosedur_menimbulkan_aerosol'+parseInt(counter_passenger+1)).niceSelect();
+
+            $('input[name="adult_tanggal_pertama_kali_gejala'+parseInt(counter_passenger+1)+'"]').daterangepicker({
+                  singleDatePicker: true,
+                  autoUpdateInput: true,
+                  showDropdowns: true,
+                  opens: 'center',
+                  drops: 'up',
+                  locale: {
+                      format: 'DD MMM YYYY',
+                  }
+            });
+            $('input[name="adult_tanggal_pertama_kali_gejala'+parseInt(counter_passenger+1)+'"]').val("");
+            $('input[name="adult_tanggal_masuk_rs'+parseInt(counter_passenger+1)+'"]').daterangepicker({
+                  singleDatePicker: true,
+                  autoUpdateInput: true,
+                  showDropdowns: true,
+                  opens: 'center',
+                  drops: 'up',
+                  locale: {
+                      format: 'DD MMM YYYY',
+                  }
+            });
+            $('input[name="adult_tanggal_masuk_rs'+parseInt(counter_passenger+1)+'"]').val("");
+        }
 //        $('#adult_tempat_lahir'+parseInt(counter_passenger+1)).niceSelect();
 //        $('#adult_kabupaten'+parseInt(counter_passenger+1)).niceSelect();
 //        $('#adult_kecamatan'+parseInt(counter_passenger+1)).niceSelect();
@@ -881,6 +2332,156 @@ function add_table_of_passenger(type){
     $('#adult_identity_type'+parseInt(counter_passenger+1)).niceSelect();
     auto_complete(`adult_nationality`+parseInt(counter_passenger+1));
     counter_passenger++;
+}
+
+function onchange_demam(val){
+    if(document.getElementById('adult_klinis_ada_demam'+val).value == 'IYA'){
+        document.getElementById('suhu_tubuh_div'+val).hidden = false;
+    }else{
+        document.getElementById('suhu_tubuh_div'+val).hidden = true;
+    }
+}
+
+function onchange_perjalanan_keluar_negeri(val){
+    if(document.getElementById('adult_perjalanan_keluar_negeri'+val).value == 'IYA'){
+        document.getElementById('daftar_perjalanan_keluar_negeri'+val).hidden = false;
+        document.getElementById('daftar_perjalanan_keluar_negeri'+val).innerHTML = `
+        <table>
+            <tr>
+                <th>Nama Negara</th>
+                <th>Nama Kota</th>
+                <th>Tanggal Perjalanan</th>
+                <th>Tiba Di Indonesia</th>
+                <th>Add</th>
+            </tr>
+        </table>
+        `;
+    }else{
+        document.getElementById('daftar_perjalanan_keluar_negeri'+val).hidden = true;
+    }
+}
+
+function onchange_perjalanan_ke_transmisi_lokal(val){
+    if(document.getElementById('adult_perjalanan_ke_transmisi_lokal'+val).value == 'IYA'){
+        document.getElementById('perjalanan_ke_transmisi_lokal'+val).hidden = false;
+        document.getElementById('perjalanan_ke_transmisi_lokal'+val).innerHTML = `
+        <table>
+            <tr>
+                <th>Nama Provinsi</th>
+                <th>Nama Kota</th>
+                <th>Tanggal Perjalanan</th>
+                <th>Tiba Di Sini</th>
+                <th>Add</th>
+            </tr>
+        </table>
+        `;
+    }else{
+        document.getElementById('perjalanan_ke_transmisi_lokal'+val).hidden = true;
+    }
+}
+
+function onchange_berkunjung_ke_fasilitas_kesehatan(val){
+    if(document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan'+val).value == 'IYA'){
+        document.getElementById('berkunjung_ke_fasilitas_kesehatan'+val).hidden = false;
+        document.getElementById('berkunjung_ke_fasilitas_kesehatan'+val).innerHTML = `
+        <table>
+            <tr>
+                <th>Nama Rumah Sakit</th>
+                <th>Nama Kota</th>
+                <th>Nama Provinsi</th>
+                <th>Tanggal Kunjungan</th>
+                <th>Add</th>
+            </tr>
+        </table>
+        `;
+    }else{
+        document.getElementById('berkunjung_ke_fasilitas_kesehatan'+val).hidden = true;
+    }
+}
+
+function onchange_berkunjung_ke_pasar_hewan(val){
+    if(document.getElementById('adult_berkunjung_ke_pasar_hewan'+val).value == 'IYA'){
+        document.getElementById('berkunjung_ke_pasar_hewan'+val).hidden = false;
+        document.getElementById('berkunjung_ke_pasar_hewan'+val).innerHTML = `
+        <table>
+            <tr>
+                <th>Nama Lokasi Pasar</th>
+                <th>Nama Kota</th>
+                <th>Nama Provinsi</th>
+                <th>Tanggal Kunjungan</th>
+                <th>Add</th>
+            </tr>
+        </table>
+        `;
+    }else{
+        document.getElementById('berkunjung_ke_pasar_hewan'+val).hidden = true;
+    }
+}
+
+function onchange_berkunjung_ke_pasien_dalam_pengawasan(val){
+    if(document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan'+val).value == 'IYA'){
+        document.getElementById('berkunjung_ke_pasien_dalam_pengawasan'+val).hidden = false;
+        document.getElementById('berkunjung_ke_pasien_dalam_pengawasan'+val).innerHTML = `
+        <table>
+            <tr>
+                <th>Nama Pasien</th>
+                <th>Alamat</th>
+                <th>Hubungan</th>
+                <th>Tanggal Kontak Pertama</th>
+                <th>Tanggal Kontak Terakhir</th>
+                <th>Add</th>
+            </tr>
+        </table>
+        `;
+    }else{
+        document.getElementById('berkunjung_ke_pasien_dalam_pengawasan'+val).hidden = true;
+    }
+}
+
+function onchange_berkunjung_ke_pasien_konfirmasi(val){
+    if(document.getElementById('adult_berkunjung_ke_pasien_konfirmasi'+val).value == 'IYA'){
+        document.getElementById('berkunjung_ke_pasien_konfirmasi'+val).hidden = false;
+        document.getElementById('berkunjung_ke_pasien_konfirmasi'+val).innerHTML = `
+        <table>
+            <tr>
+                <th>Nama Pasien</th>
+                <th>Alamat</th>
+                <th>Hubungan</th>
+                <th>Tanggal Kontak Pertama</th>
+                <th>Tanggal Kontak Terakhir</th>
+                <th>Add</th>
+            </tr>
+        </table>
+        `;
+    }else{
+        document.getElementById('berkunjung_ke_pasien_konfirmasi'+val).hidden = true;
+    }
+}
+
+function onchange_title(val){
+    try{
+        if(document.getElementById('adult_title'+val).value != 'MR'){
+            document.getElementById('adult_hamil_div'+val).hidden = false;
+        }else{
+            document.getElementById('adult_hamil_div'+val).hidden = true;
+        }
+    }catch(err){}
+}
+
+function change_kriteria(val){
+    console.log('here');
+    if(document.getElementById('adult_kriteria_pasien'+val).value != ''){
+        document.getElementById('detail_kriteria'+val).hidden = false;
+        for(i in medical_config.result.response.kriteria_pasien){
+            if(document.getElementById('adult_kriteria_pasien'+val).value == medical_config.result.response.kriteria_pasien[i].name){
+                document.getElementById('detail_kriteria'+val).innerHTML = medical_config.result.response.kriteria_pasien[i].html;
+                break;
+            }
+        }
+    }else{
+        document.getElementById('detail_kriteria'+val).hidden = true;
+        document.getElementById('detail_kriteria'+val).innerHTML = '';
+    }
 }
 
 function delete_type(type, val){
@@ -1803,7 +3404,7 @@ function check_passenger(){
                                 document.getElementById('adult_identity_number'+ nomor_pax).style['border-color'] = '#EFEFEF';
                             }
                             if(document.getElementById('adult_country_of_issued'+ nomor_pax).value == ''){
-                                error_log+= 'Please fill country of issued for passenger '+i+'!</br>\n';
+                                error_log+= 'Please fill country of issued for passenger '+nomor_pax+'!</br>\n';
                                 document.getElementById('adult_country_of_issued'+ nomor_pax).style['border-color'] = 'red';
                             }else{
                                 document.getElementById('adult_country_of_issued'+ nomor_pax).style['border-color'] = '#EFEFEF';
@@ -1885,6 +3486,20 @@ function reset_other_time(){
     radio_timeslot_type_func();
 }
 
+function reset_pax(){
+    counter_passenger = 0;
+    document.getElementById('table_of_passenger').innerHTML = `
+    <tr>
+        <th style="width:10%;">No</th>
+        <th style="width:40%;">Name</th>
+        <th style="width:20%;">Birth Date</th>
+        <th style="width:15%;">Sample Method</th>
+        <th style="width:10%;"></th>
+    </tr>`;
+    document.getElementById('table_passenger_list').style.display = 'none';
+    document.getElementById('next_medical').style.display = 'none';
+}
+
 function show_commission(val){
     var sc = '';
     var scs = '';
@@ -1939,4 +3554,9 @@ function add_table(){
     document.getElementById('medical_detail').style.display = 'none';
     document.getElementById('next_medical').style.display = 'none';
     last_counter = tempcounter;
+}
+
+function clear_text_medical(sequence){
+    document.getElementById("name_pax"+sequence).textContent = "--Fill Passenger--";
+    document.getElementById("birth_date"+sequence).textContent = "";
 }
