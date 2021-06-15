@@ -1578,7 +1578,9 @@ function pick_passenger(type, sequence, product){
                 }
                 document.getElementById('adult_id'+passenger_number).value = passenger_data[sequence].seq_id;
     //            document.getElementById('pax_type'+sequence).innerHTML = passenger_data[sequence].pax_type;
-                document.getElementById('radio_passenger_input'+passenger_number).checked = true;
+//                document.getElementById('radio_passenger_input'+passenger_number).checked = true;
+                $("#myModalPassengerSearch"+(passenger_number-1)).modal('hide');
+
                 radio_button('passenger',passenger_number);
                 document.getElementById('search_result_'+passenger_number).innerHTML = '';
                 update_contact('passenger',passenger_number);
@@ -2304,6 +2306,8 @@ function copy_booker_to_passenger(val,type){
                document.getElementById('booker_nationality').value != '' &&
                document.getElementById('booker_email').value != '' &&
                document.getElementById('booker_phone').value != ''){
+               document.getElementById("button_search0").style.display = "none";
+               document.getElementById("button_clear0").style.display = "none";
                 try{
                     if(counter_passenger == 0){
                         add_table_of_passenger('');
@@ -2333,8 +2337,8 @@ function copy_booker_to_passenger(val,type){
                     document.getElementById('adult_first_name1').readOnly = true;
                     document.getElementById('adult_last_name1').value = document.getElementById('booker_last_name').value;
                     document.getElementById('adult_last_name1').readOnly = true;
-                    document.getElementById('name_pax0').innerHTML = document.getElementById('booker_title').value + ' ' + document.getElementById('booker_first_name').value + ' ' + document.getElementById('booker_last_name').value;
-                    document.getElementById('birth_date0').innerHTML = document.getElementById('booker_birth_date').value;
+                    document.getElementById('name_pax0').innerHTML = "<b>Name: </b>"+document.getElementById('booker_title').value + ' ' + document.getElementById('booker_first_name').value + ' ' + document.getElementById('booker_last_name').value;
+                    document.getElementById('birth_date0').innerHTML = "<b>Birth Date: </b>"+document.getElementById('booker_birth_date').value;
                     document.getElementById('adult_nationality1').value = document.getElementById('booker_nationality').value;
                     document.getElementById('select2-adult_nationality1_id-container').innerHTML = document.getElementById('booker_nationality').value;
                     document.getElementById('adult_birth_date1').value = document.getElementById('booker_birth_date').value;
@@ -2357,6 +2361,7 @@ function copy_booker_to_passenger(val,type){
                     if(document.getElementById('adult_birth_date1').value != '')
                         document.getElementById('adult_birth_date1').disabled = true;
                     document.getElementById('adult_id1').value = document.getElementById('booker_id').value;
+
                     $('#adult_identity_type1').niceSelect('update');
                 }catch(err){
                     console.log(err);
@@ -2479,6 +2484,7 @@ function copy_booker_to_passenger(val,type){
             })
         }
     }else{
+
         for(i in passenger_data_pick){
             if(passenger_data_pick[i].sequence == 'adult1'){
                 passenger_data_pick.splice(i,1);
@@ -2539,6 +2545,12 @@ function copy_booker_to_passenger(val,type){
             document.getElementById('sample_method0').innerHTML = '';
         }catch(err){}
         document.getElementById('adult_id1').value = '';
+
+        if(type == "medical"){
+            document.getElementById("button_search0").style.display = "unset";
+            document.getElementById("button_clear0").style.display = "unset";
+            document.getElementById("name_pax0").textContent = "--Fill Passenger--";
+        }
     }
 }
 
@@ -2573,7 +2585,8 @@ function clear_passenger(type, sequence){
         document.getElementById('booker_country_of_issued').value = '';
         document.getElementsByName('myRadios')[1].checked = true;
         clear_passenger('Adult', 1);
-    }else if(type == 'Adult'){
+    }
+    else if(type == 'Adult'){
         for(i in passenger_data_pick){
             if(passenger_data_pick[i].sequence == 'adult'+sequence){
                 passenger_data_pick.splice(i,1);
@@ -2614,7 +2627,8 @@ function clear_passenger(type, sequence){
 
         }catch(err){}
 
-    }else if(type == 'Infant'){
+    }
+    else if(type == 'Infant'){
         for(i in passenger_data_pick){
             if(passenger_data_pick[i].sequence == 'infant'+sequence){
                 passenger_data_pick.splice(i,1);
@@ -2644,7 +2658,8 @@ function clear_passenger(type, sequence){
             document.getElementById('infant_country_of_issued'+sequence).value = '';
             document.getElementById('select2-infant_country_of_issued'+sequence+'_id-container').innerHTML = 'Country Of Issued';
         }catch(err){}
-    }else if(type == 'Senior'){
+    }
+    else if(type == 'Senior'){
         for(i in passenger_data_pick){
             if(passenger_data_pick[i].sequence == 'senior'+sequence){
                 passenger_data_pick.splice(i,1);
@@ -2672,7 +2687,8 @@ function clear_passenger(type, sequence){
         document.getElementById('senior_passport_expired_date'+sequence).readOnly = false;
         document.getElementById('senior_country_of_issued'+sequence).value = '';
         document.getElementById('select2-senior_country_of_issued'+sequence+'_id-container').innerHTML = 'Country Of Issued';
-    }else if(type == 'Child'){
+    }
+    else if(type == 'Child'){
         for(i in passenger_data_pick){
             if(passenger_data_pick[i].sequence == 'child'+sequence){
                 passenger_data_pick.splice(i,1);
@@ -3436,6 +3452,7 @@ function del_passenger_cache(sequence){
 }
 
 function get_passenger_cache(type){
+    type = "chosen";
     $.ajax({
        type: "POST",
        url: "/webservice/agent",
