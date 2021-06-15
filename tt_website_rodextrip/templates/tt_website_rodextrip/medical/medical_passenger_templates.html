@@ -311,7 +311,7 @@
                     </div>
                     <div class="col-lg-4"></div>
                 </div>
-                <div class="row" style="padding-top:15px;">
+                <div class="row" style="padding-top:15px;" hidden id="copy_booker_to_pax_div">
                     <div class="col-lg-12">
                         <div style="background:white; padding:10px; border:1px solid #cdcdcd;">
                             <label>{% trans 'Do you book this reservation for you?' %}</label>
@@ -391,7 +391,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-12 mt-4" style="padding:15px; background:white; border:1px solid #cdcdcd;">
+                    <div class="col-lg-12 mt-4" style="padding:15px; background:white; border:1px solid #cdcdcd;" id="medical_pax_dix" hidden>
                         <div class="row ">
                             <div class="col-lg-6 col-xs-6">
                                 <label style="color:red !important;">*</label>
@@ -3403,7 +3403,7 @@
         {% if google_api_key != ''%}
         var list_map_choose = {};
         web_url = '';
-        if(vendor == 'phc' && test_type == 'PHCDTKATG'){
+        if(vendor == 'phc' && test_type == 'PHCDTKATG' || vendor == 'phc' && test_type == 'PHCDTKPCR'){
             list_map_choose = list_map[3];
         }else if(document.getElementById('booker_area').value == 'surabaya' || document.getElementById('booker_area').value == 'Surabaya'){
             list_map_choose = list_map[0];
