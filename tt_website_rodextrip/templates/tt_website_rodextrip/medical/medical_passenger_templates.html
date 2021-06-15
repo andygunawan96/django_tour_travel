@@ -3339,7 +3339,7 @@
       test_type = `{{test_type}}`;
       if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCHCKATG')
         document.getElementById('medical_timeslot').style.display = 'block';
-      if(vendor == 'phc' && test_type == 'PHCDTKATG'){
+      if(vendor == 'phc' && test_type == 'PHCDTKATG' || vendor == 'phc' && test_type == 'PHCDTKPCR'){
         document.getElementById('booker_address').readOnly = true;
         document.getElementById('booker_address').value = 'Jl. Raya Bukit Darmo No.22-24, Putat Gede, Kec. Sukomanunggal, Kota SBY, Jawa Timur 60189';
       }
@@ -3427,7 +3427,7 @@
                                                   placeholder="Search Box"
                                                 />`;
             map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
-            if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCHCKATG'){
+            if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCHCKATG' || vendor == 'phc' && test_type == 'PHCHCKPCR'){
                 map.addListener('click', function(event) {
                    placeMarker(event.latLng);
                 });
