@@ -13,7 +13,7 @@ function add_other_time(){
                 <label style="color:red !important">*</label>
                 <label>Test Date</label>
                 <div class="input-container-search-ticket">
-                    <input type="text" class="form-control" style="cursor:pointer;" name="booker_test_date`+test_time+`" id="booker_test_date`+test_time+`" placeholder="Test Date" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Test Date '" autocomplete="off" readonly>
+                    <input type="text" class="form-control" style="cursor:pointer; background:white;" name="booker_test_date`+test_time+`" id="booker_test_date`+test_time+`" placeholder="Test Date" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Test Date '" autocomplete="off" readonly>
                 </div>
             </div>`;
     if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCHCKATG')
@@ -22,23 +22,69 @@ function add_other_time(){
                 <label style="color:red !important;">*</label>
                 <label>Timeslot</label>
                 <div class="row">
-                    <div class="col-lg-8">
-                        <div class="input-container-search-ticket">
+                    <div class="col-lg-8">`;
+
+                    if(template == 1){
+                        text+=`
+                        <div class="form-select-2" id="default-select">
+                            <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot">
+
+                            </select>
+                        </div>`;
+                    }
+                    else if(template == 2){
+                        text+=`
                             <div class="form-select">
                                 <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot">
 
                                 </select>
                             </div>
-                        </div>
-                    </div>`;
+                        </div>`;
+                    }
+                    else if(template == 3){
+                        text+=`
+                        <div class="form-group">
+                            <div class="default-select">
+                                <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot">
+
+                                </select>
+                            </div>
+                        </div>`;
+                    }
+                    else if(template == 4){
+                        text+=`
+                        <div class="input-container-search-ticket">
+                            <div class="form-select" id="default-select" style="width:100%;">
+                                <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot">
+
+                                </select>
+                            </div>
+                        </div>`;
+                    }
+                    else if(template == 5){
+                        text+=`
+                        <div class="form-select">
+                            <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot">
+
+                            </select>
+                        </div>`;
+                    }
+                    else if(template == 6){
+                        text+=`
+                        <div class="form-select-2" id="default-select">
+                            <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot">
+
+                            </select>
+                        </div>`;
+                    }
+                    text+=`
+                    <div class="col-lg-2">`;
     if(test_time == 1){
-        text+=` <div class="col-lg-2">
-                </div>
+        text+=` </div>
             </div>
         </div>`;
     }else{
         text+=`
-                <div class="col-lg-2">
                     <button type="button" class="primary-delete-date" onclick="delete_other_time('test`+test_time+`')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                 </div>
             </div>
@@ -79,7 +125,7 @@ function add_other_time(){
 function update_timeslot(val){
     var text = '';
     var medical_date_pick = moment(document.getElementById('booker_test_date'+val).value).format('YYYY-MM-DD');
-    var now = moment()
+    var now = moment();
     for(i in medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick]){
         if(medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].availability == false){
             text+= `<option disabled value="`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].seq_id+`~`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].time+`">`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].time+`</option>`;
@@ -99,646 +145,686 @@ function delete_other_time(val){
 
 function add_table_of_passenger(type){
     text= '';
+    text_modal_paxs= '';
     set_passenger_number(counter_passenger);
     var node = document.createElement("tr");
     text += `
         <td>
-            <span id='no_passenger`+counter_passenger+`' name='no_passenger`+counter_passenger+`'>`+parseInt(counter_passenger+1)+`</span>
-            <input id="id_passenger`+counter_passenger+`" name="id_passenger`+counter_passenger+`" type="hidden"/>
-        </td>
-        <td>
-            <span id='name_pax`+counter_passenger+`' name='name_pax`+counter_passenger+`'></span>
-            <input id="id_passenger`+counter_passenger+`" name="id_passenger`+counter_passenger+`" type="hidden"/>
-        </td>
-        <td>
-            <span id='birth_date`+counter_passenger+`' name='birth_date`+counter_passenger+`'></span>
-        </td>
-        <td>
-            <span id='sample_method`+counter_passenger+`' name='sample_method`+counter_passenger+`'></span>
-        </td>
-        `;
-    text += `
-        <td>
-            <div style="text-align:center;">
-                <button type="button" class="primary-btn" style="margin-bottom:5px; line-height:34px;" data-toggle="modal" data-target="#myModalPassenger`+counter_passenger+`" onclick="set_passenger_number(`+counter_passenger+`);"><i class="fas fa-search"></i></button>
-            </div>
-            <!-- Modal -->
-            <div class="modal fade" id="myModalPassenger`+counter_passenger+`" role="dialog" data-keyboard="false">
-                <div class="modal-dialog">
-                  <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title" style="color:white;">Customer `+(counter_passenger+1)+`</h4>
-                            <button type="button" class="close" data-dismiss="modal" onclick="update_contact('passenger',`+parseInt(counter_passenger+1)+`);">&times;</button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="col-lg-12" id="radio_airline_search" style="padding:0px; text-align:left;margin-bottom:10px;">
-                                <label class="radio-button-custom">
-                                    <span style="font-size:14px;">Search</span>
-                                    <input type="radio" checked="checked" id="radio_passenger_search`+parseInt(counter_passenger+1)+`" name="radio_passenger`+parseInt(counter_passenger+1)+`" value="search" onclick="radio_button('passenger',`+(counter_passenger+1)+`);">
-                                    <span class="checkmark-radio"></span>
-                                </label>
-                                <label class="radio-button-custom">
-                                    <span style="font-size:14px;">Input Passenger</span>
-                                    <input type="radio" id="radio_passenger_input`+parseInt(counter_passenger+1)+`" name="radio_passenger`+parseInt(counter_passenger+1)+`" value="create" onclick="radio_button('passenger',`+(counter_passenger+1)+`);">
-                                    <span class="checkmark-radio"></span>
-                                </label>
-                            </div>
-                            <div id="passenger_content">
-                                <div id="passenger_search`+parseInt(counter_passenger+1)+`">
-                                    <div class="row">
-                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                            <input class="form-control" type="text" id="train_`+(counter_passenger+1)+`_search" placeholder="Search"/>
-                                        </div>
-                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                            <button type="button" class="primary-btn" id="passenger_btn_io_click`+(counter_passenger+1)+`" onclick="get_customer_list('','`+(counter_passenger+1)+`','medical')">Search</button>
-                                        </div>
-                                    </div>
-                                    <span><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Using this means you can't change title, first name, and last name</span>
-
-                                    <div id="search_result_`+(counter_passenger+1)+`">
-
-                                    </div>
-                                </div>
-                                <div id="passenger_input`+parseInt(counter_passenger+1)+`" style="background-color:white;" hidden>
-                                    <div class="col-lg-12" style="padding:0px;">
-                                        <div style="background-color:`+color+`; padding:5px; cursor: pointer; box-shadow: 0px 5px #888888;">
-                                            <div class="row">
-                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                                    <span style="font-size:16px;color:white;">Customer - `+parseInt(counter_passenger+1)+`</span>
-                                                </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid `+color+`;" id="adult_paxs`+parseInt(counter_passenger+1)+`">
-                                            <div class="row">
-                                                <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
-                                                    <label style="color:red !important">*</label>
-                                                    <label>Title</label>`;
-                                                    if(template == 1){
-                                                        text+=`<div class="input-container-search-ticket">`;
-                                                    }else if(template == 2){
-                                                        text+=`<div>`;
-                                                    }else if(template == 3){
-                                                        text+=`<div class="default-select">`;
-                                                    }else if(template == 4){
-                                                        text+=`<div class="input-container-search-ticket">`;
-                                                    }else if(template == 5){
-                                                        text+=`<div class="input-container-search-ticket">`;
-                                                    }
-                                                    text+=`<div class="form-select-2">`;
-                                                    if(template == 4){
-                                                        text+=`<select class="nice-select-default rounded" id="adult_title`+parseInt(counter_passenger+1)+`" name="adult_title`+parseInt(counter_passenger+1)+`">`;
-                                                    }else{
-                                                        text+=`<select id="adult_title`+parseInt(counter_passenger+1)+`" name="adult_title`+parseInt(counter_passenger+1)+`">`;
-                                                    }
-                                                            for(i in titles){
-                                                                text+= `<option value="`+titles[i]+`">`+titles[i]+`</option>`;
-                                                            }
-                                                            text+=`</select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6" style="float:left;"></div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    <br/>
-                                                    <label style="color:red !important">*</label>
-                                                    <label>First name and middle name (if any)</label>
-                                                    <div class="input-container-search-ticket" style="margin-bottom:5px;">
-                                                        <input type="text" class="form-control" name="adult_first_name`+parseInt(counter_passenger+1)+`" id="adult_first_name`+parseInt(counter_passenger+1)+`" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
-                                                        <input type="hidden" class="form-control" name="adult_id`+parseInt(counter_passenger+1)+`" id="adult_id`+parseInt(counter_passenger+1)+`">
-                                                    </div>
-                                                    <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
-                                                </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    <br/>
-                                                    <label>Last name</label>
-                                                    <div class="input-container-search-ticket" style="margin-bottom:5px;">
-                                                        <input type="text" class="form-control" name="adult_last_name`+parseInt(counter_passenger+1)+`" id="adult_last_name`+parseInt(counter_passenger+1)+`" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
-                                                    </div>
-                                                    <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <label style="color:red !important">*</label>
-                                                    <label>Nationality</label>`;
-                                                    if(template == 1 || template == 5){
-                                                        text+=`<div class="input-container-search-ticket">`;
-                                                    }
-                                                    text+=`
-                                                        <div class="form-select">
-                                                            <select class="form-control js-example-basic-single" name="adult_nationality`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_nationality`+parseInt(counter_passenger+1)+`_id" placeholder="Nationality" onchange="auto_complete('adult_nationality`+parseInt(counter_passenger+1)+`')">
-                                                                <option value="">Select Nationality</option>`;
-                                                                for(i in countries){
-                                                                    if(countries[i].code == 'ID')
-                                                                       text+=`<option value="`+countries[i].code+`" selected>`+countries[i].name+`</option>`;
-                                                                    else
-                                                                       text+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
-                                                                }
-                                                            text+=`</select>
-                                                        </div>
-                                                        <input type="hidden" name="adult_nationality`+parseInt(counter_passenger+1)+`" id="adult_nationality`+parseInt(counter_passenger+1)+`" />`;
-                                                    if(template == 1 || template == 5){
-                                                        text+=`</div>`;
-                                                    }
-                                                text+=`
-                                                </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    <label style="color:red !important">*</label>
-                                                    <label>Birth Date</label>
-                                                    <div class="input-container-search-ticket" style="margin-bottom:5px;">
-                                                        <input type="text" class="form-control date-picker-birth" name="adult_birth_date`+parseInt(counter_passenger+1)+`" id="adult_birth_date`+parseInt(counter_passenger+1)+`" onchange="check_years_old(`+parseInt(counter_passenger+1)+`)" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off">
-                                                        <input type="hidden" class="form-control" name="adult_years_old`+parseInt(counter_passenger+1)+`" id="adult_years_old`+parseInt(counter_passenger+1)+`">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    <label style="color:red !important">*</label>
-                                                    <label>ID Type</label>`;
-                                                    if(template == 1){
-                                                        text+=`<div class="input-container-search-ticket">`;
-                                                    }else if(template == 2){
-                                                        text+=`<div>`;
-                                                    }else if(template == 3){
-                                                        text+=`<div class="default-select">`;
-                                                    }else if(template == 4){
-                                                        text+=`<div class="input-container-search-ticket">`;
-                                                    }else if(template == 5){
-                                                        text+=`<div class="input-container-search-ticket">`;
-                                                    }
-                                                    text+=`<div class="form-select-2">`;
-                                                    if(template == 4){
-                                                        text+=`<select class="nice-select-default rounded" id="adult_identity_type`+parseInt(counter_passenger+1)+`" name="adult_identity_type`+parseInt(counter_passenger+1)+`" onchange="change_country_of_issued(`+parseInt(counter_passenger+1)+`);">`;
-                                                    }else{
-                                                        text+=`<select id="adult_identity_type`+parseInt(counter_passenger+1)+`" name="adult_identity_type`+parseInt(counter_passenger+1)+`">`;
-                                                    }
-                                                        text+=`
-                                                            <option value=""></option>
-                                                            <option value="ktp">KTP</option>`;
-                                                            text+=`</select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    <label>Identity Number</label>
-                                                    <div class="input-container-search-ticket" style="margin-bottom:5px;">
-                                                        <input type="text" class="form-control" name="adult_identity_number`+parseInt(counter_passenger+1)+`" id="adult_identity_number`+parseInt(counter_passenger+1)+`" placeholder="Identity Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-lg-6">
-                                                    <label style="color:red !important">*</label>
-                                                    <label>Country of Issued</label>`;
-                                                    if(template == 1){
-                                                        text+=`<div class="input-container-search-ticket">`;
-                                                        text+=`
-                                                            <div class="form-select">
-                                                                <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`');">
-                                                                    <option value="">Select Country Of Issued</option>`;
-                                                                    for(i in countries){
-                                                                       text+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
-                                                                    }
-                                                                text+=`</select>
-                                                            </div>
-                                                            <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                            <input type="hidden" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`" />`;
-                                                        text+=`</div>`;
-                                                    }else if(template == 2){
-                                                        text+=`<div class="input-container-search-ticket">`;
-                                                        text+=`
-                                                            <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`');">
-                                                                <option value="">Select Country Of Issued</option>`;
-                                                                for(i in countries){
-                                                                   text+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
-                                                                }
-                                                            text+=`</select>
-                                                            <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                            <input type="hidden" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`" />`;
-                                                        text+=`</div>`;
-                                                    }else if(template == 3){
-                                                        text+=`<div class="input-container-search-ticket" style="margin-bottom:5px;">`;
-                                                        text+=`
-                                                            <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`');">
-                                                                <option value="">Select Country Of Issued</option>`;
-                                                                for(i in countries){
-                                                                   text+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
-                                                                }
-                                                            text+=`</select>
-                                                            <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                            <input type="hidden" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`" />`;
-                                                        text+=`</div>`;
-                                                    }else if(template == 4){
-                                                        text+=`<div class="input-container-search-ticket" style="margin-bottom:5px;">`;
-                                                        text+=`
-                                                            <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`');">
-                                                                <option value="">Select Country Of Issued</option>`;
-                                                                for(i in countries){
-                                                                   text+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
-                                                                }
-                                                            text+=`</select>
-                                                            <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                            <input type="hidden" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`" />`;
-                                                        text+=`</div>`;
-                                                    }else if(template == 2){
-                                                        text+=`<div class="input-container-search-ticket">`;
-                                                        text+=`
-                                                            <div class="form-select">
-                                                                <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`');">
-                                                                    <option value="">Select Country Of Issued</option>`;
-                                                                    for(i in countries){
-                                                                       text+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
-                                                                    }
-                                                                text+=`</select>
-                                                            </div>
-                                                            <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                            <input type="hidden" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`" />`;
-                                                        text+=`</div>`;
-                                                    }
-                                                text+=`
-                                                </div>`;
-                                                if(vendor == 'periksain'){
-                                                    text+=`
-
-                                                    <div class="col-lg-6 col-md-6 col-sm-6">
-                                                        <label style="color:red !important">*</label>
-                                                        <label>Sample Method</label>`;
-                                                        if(template == 1){
-                                                            text+=`<div class="input-container-search-ticket">`;
-                                                        }else if(template == 2){
-                                                            text+=`<div>`;
-                                                        }else if(template == 3){
-                                                            text+=`<div class="default-select">`;
-                                                        }else if(template == 4){
-                                                            text+=`<div class="input-container-search-ticket">`;
-                                                        }else if(template == 5){
-                                                            text+=`<div class="input-container-search-ticket">`;
-                                                        }
-                                                        text+=`<div class="form-select-2">`;
-                                                        if(template == 4){
-                                                            text+=`<select class="nice-select-default rounded" id="adult_sample_method`+parseInt(counter_passenger+1)+`" name="adult_sample_method`+parseInt(counter_passenger+1)+`">`;
-                                                        }else{
-                                                            text+=`<select id="adult_sample_method`+parseInt(counter_passenger+1)+`" name="adult_sample_method`+parseInt(counter_passenger+1)+`">`;
-                                                        }
-                                                            text+=`
-                                                                <option value=""></option>
-                                                                <option value="saliva">Saliva</option>
-                                                                <option value="nasal_swab">Nasal Swab</option>`;
-                                                                text+=`</select>
-                                                            </div>
-                                                        </div>
-                                                    </div>`;
-                                                }
-                                                else if(vendor == 'phc'){
-                                                    text+=`
-
-                                                    <div class="col-lg-6 col-md-6 col-sm-6">
-                                                        <label style="color:red !important">*</label>
-                                                        <label>Tempat Lahir</label>`;
-                                                        if(template == 1){
-                                                            text+=`<div class="input-container-search-ticket">`;
-                                                        }else if(template == 2){
-                                                            text+=`<div>`;
-                                                        }else if(template == 3){
-                                                            text+=`<div class="default-select">`;
-                                                        }else if(template == 4){
-                                                            text+=`<div class="input-container-search-ticket">`;
-                                                        }else if(template == 5){
-                                                            text+=`<div class="input-container-search-ticket">`;
-                                                        }
-                                                        text+=`
-                                                            <div class="form-select">
-                                                                <select class="form-control js-example-basic-single" name="adult_tempat_lahir`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_tempat_lahir`+parseInt(counter_passenger+1)+`_id" placeholder="Tempat Lahir" onchange="auto_complete('adult_tempat_lahir`+parseInt(counter_passenger+1)+`');">
-                                                                    <option value="">Select Tempat Lahir</option>`;
-                                                                for(i in data_kota)
-                                                                text+=`<option value="`+i+`">`+i+`</option>`;
-                                                            text+=`</select>
-                                                                </div>
-                                                                <input type="hidden" name="adult_tempat_lahir`+parseInt(counter_passenger+1)+`" id="adult_tempat_lahir`+parseInt(counter_passenger+1)+`" />
-                                                            </div>
-                                                        </div>`;
-
-                                                    text+=`
-
-                                                    <div class="col-lg-6 col-md-6 col-sm-6">
-                                                        <label style="color:red !important">*</label>
-                                                        <label>Profession</label>`;
-                                                        if(template == 1){
-                                                            text+=`<div class="input-container-search-ticket">`;
-                                                        }else if(template == 2){
-                                                            text+=`<div>`;
-                                                        }else if(template == 3){
-                                                            text+=`<div class="default-select">`;
-                                                        }else if(template == 4){
-                                                            text+=`<div class="input-container-search-ticket">`;
-                                                        }else if(template == 5){
-                                                            text+=`<div class="input-container-search-ticket">`;
-                                                        }
-                                                        text+=`<div class="form-select-2">`;
-                                                        if(template == 4){
-                                                            text+=`<select class="nice-select-default rounded" id="adult_profession`+parseInt(counter_passenger+1)+`" name="adult_profession`+parseInt(counter_passenger+1)+`">`;
-                                                        }else{
-                                                            text+=`<select id="adult_profession`+parseInt(counter_passenger+1)+`" name="adult_profession`+parseInt(counter_passenger+1)+`">`;
-                                                        }
-                                                        text += '<option value="">Choose</option>';
-                                                            for(i in medical_config.result.response.profession)
-                                                                text+=`<option value="`+medical_config.result.response.profession[i]+`">`+medical_config.result.response.profession[i]+`</option>`;
-                                                                text+=`</select>
-                                                            </div>
-                                                        </div>
-                                                    </div>`;
-
-                                                    text+=`
-                                                    <div class="col-lg-6 col-md-6 col-sm-6">
-                                                        <label style="color:red !important">*</label>
-                                                        <label>Work Place</label>
-                                                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
-                                                            <input type="text" class="form-control" name="adult_work_place`+parseInt(counter_passenger+1)+`" id="adult_work_place`+parseInt(counter_passenger+1)+`" placeholder="Work Place " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Work Place '">
-                                                        </div>
-
-                                                    </div>`;
-
-                                                    text += `
-                                                    <div class="col-lg-12 col-md-12 col-sm-12">
-                                                        <label>KTP</label>
-                                                    </div>`
-
-                                                    text+=`
-                                                    <div class="col-lg-6 col-md-6 col-sm-6">
-                                                        <label style="color:red !important">*</label>
-                                                        <label>Address KTP</label>
-                                                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
-                                                            <input type="text" class="form-control" name="adult_address_ktp`+parseInt(counter_passenger+1)+`" id="adult_address_ktp`+parseInt(counter_passenger+1)+`" placeholder="Address KTP " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address KTP '">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6 col-md-6 col-sm-6">
-                                                        <label style="color:red !important">*</label>
-                                                        <label>RT KTP</label>
-                                                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
-                                                            <input type="text" class="form-control" name="adult_rt_ktp`+parseInt(counter_passenger+1)+`" id="adult_rt_ktp`+parseInt(counter_passenger+1)+`" placeholder="RT KTP " onfocus="this.placeholder = ''" onblur="this.placeholder = 'RT KTP '">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6 col-md-6 col-sm-6">
-                                                        <label style="color:red !important">*</label>
-                                                        <label>RW KTP</label>
-                                                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
-                                                            <input type="text" class="form-control" name="adult_rw_ktp`+parseInt(counter_passenger+1)+`" id="adult_rw_ktp`+parseInt(counter_passenger+1)+`" placeholder="RW KTP " onfocus="this.placeholder = ''" onblur="this.placeholder = 'RW KTP '">
-                                                        </div>
-                                                    </div>`;
-
-                                                    text+=`
-
-                                                    <div class="col-lg-6 col-md-6 col-sm-6">
-                                                        <label style="color:red !important">*</label>
-                                                        <label>Kabupaten KTP</label>`;
-                                                        if(template == 1){
-                                                            text+=`<div class="input-container-search-ticket">`;
-                                                        }else if(template == 2){
-                                                            text+=`<div>`;
-                                                        }else if(template == 3){
-                                                            text+=`<div class="default-select">`;
-                                                        }else if(template == 4){
-                                                            text+=`<div class="input-container-search-ticket">`;
-                                                        }else if(template == 5){
-                                                            text+=`<div class="input-container-search-ticket">`;
-                                                        }
-                                                        text+=` <div class="form-select">
-                                                                    <select class="form-control js-example-basic-single" name="adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`_id" placeholder="Kabupaten" onchange="auto_complete('adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`');get_kecamatan('adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`','adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`_id');auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);" >
-                                                                        <option value="">Select Kabupaten KTP</option>`;
-                                                                    for(i in data_kota)
-                                                                    text+=`<option value="`+i+`">`+i+`</option>`;
-                                                                text+=`</select>
-                                                                </div>
-                                                                <input type="hidden" name="adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`" id="adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`" />
-                                                                <button type="button" class="primary-delete-date" onclick="delete_type('adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`_id', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                            </div>
-                                                            </div>`;
-
-                                                    text+=`
-
-                                                    <div class="col-lg-6 col-md-6 col-sm-6">
-                                                        <label style="color:red !important">*</label>
-                                                        <label>Kecamatan KTP</label>`;
-                                                        if(template == 1){
-                                                            text+=`<div class="input-container-search-ticket">`;
-                                                        }else if(template == 2){
-                                                            text+=`<div>`;
-                                                        }else if(template == 3){
-                                                            text+=`<div class="default-select">`;
-                                                        }else if(template == 4){
-                                                            text+=`<div class="input-container-search-ticket">`;
-                                                        }else if(template == 5){
-                                                            text+=`<div class="input-container-search-ticket">`;
-                                                        }
-                                                        text+=` <div class="form-select">
-                                                                    <select class="form-control js-example-basic-single" name="adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`_id" placeholder="Kecamatan" onchange="auto_complete('adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`');get_kelurahan('adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`','adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`_id');auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">
-                                                                        <option value="">Select Kecamatan KTP</option>`;
-                                                                text+=`</select>
-                                                                </div>
-                                                                <input type="hidden" name="adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`" id="adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`" />
-                                                                <button type="button" class="primary-delete-date" onclick="delete_type('adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`_id', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                            </div>
-                                                            </div>`;
-
-                                                    text+=`
-
-                                                    <div class="col-lg-6 col-md-6 col-sm-6">
-                                                        <label style="color:red !important">*</label>
-                                                        <label>Kelurahan KTP</label>`;
-                                                        if(template == 1){
-                                                            text+=`<div class="input-container-search-ticket">`;
-                                                        }else if(template == 2){
-                                                            text+=`<div>`;
-                                                        }else if(template == 3){
-                                                            text+=`<div class="default-select">`;
-                                                        }else if(template == 4){
-                                                            text+=`<div class="input-container-search-ticket">`;
-                                                        }else if(template == 5){
-                                                            text+=`<div class="input-container-search-ticket">`;
-                                                        }
-                                                        text+=` <div class="form-select">
-                                                                    <select class="form-control js-example-basic-single" name="adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`_id" placeholder="Kelurahan" onchange="auto_complete('adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`');">
-                                                                        <option value="">Select Kelurahan KTP</option>`;
-                                                                text+=`</select>
-                                                                </div>
-                                                                <input type="hidden" name="adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`" id="adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`" />
-                                                                <button type="button" class="primary-delete-date" onclick="delete_type('adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`_id', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                            </div>
-                                                            </div>`;
-
-                                                    //copy to ktp
-                                                    text+= `
-                                                    <div class="col-lg-12 col-md-12 col-sm-12">
-                                                        <label>Copy KTP to Domisili?</label>
-                                                        <label class="radio-button-custom">
-                                                            Yes
-                                                            <input type="radio" name="adult_copy`+parseInt(counter_passenger+1)+`" onchange="copy_ktp(`+parseInt(counter_passenger+1)+`);" value="true"/>
-                                                            <span class="checkmark-radio"></span>
-                                                        </label>
-
-                                                        <label class="radio-button-custom">
-                                                            No
-                                                            <input type="radio" name="adult_copy`+parseInt(counter_passenger+1)+`" onchange="copy_ktp(`+parseInt(counter_passenger+1)+`);" value="false" checked="checked"/>
-                                                            <span class="checkmark-radio"></span>
-                                                        </label>
-                                                    </div>`;
-
-                                                    text += `
-                                                    <div class="col-lg-12 col-md-12 col-sm-12">
-                                                        <label>Domisili</label>
-                                                    </div>`
-                                                    text+=`
-                                                    <div class="col-lg-6 col-md-6 col-sm-6">
-                                                        <label style="color:red !important">*</label>
-                                                        <label>Address</label>
-                                                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
-                                                            <input type="text" class="form-control" name="adult_address`+parseInt(counter_passenger+1)+`" id="adult_address`+parseInt(counter_passenger+1)+`" placeholder="Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address '" onchange="auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6 col-md-6 col-sm-6">
-                                                        <label style="color:red !important">*</label>
-                                                        <label>RT</label>
-                                                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
-                                                            <input type="text" class="form-control" name="adult_rt`+parseInt(counter_passenger+1)+`" id="adult_rt`+parseInt(counter_passenger+1)+`" placeholder="RT " onfocus="this.placeholder = ''" onblur="this.placeholder = 'RT '"  onchange="auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6 col-md-6 col-sm-6">
-                                                        <label style="color:red !important">*</label>
-                                                        <label>RW</label>
-                                                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
-                                                            <input type="text" class="form-control" name="adult_rw`+parseInt(counter_passenger+1)+`" id="adult_rw`+parseInt(counter_passenger+1)+`" placeholder="RW " onfocus="this.placeholder = ''" onblur="this.placeholder = 'RW '"  onchange="auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">
-                                                        </div>
-                                                    </div>`;
-
-                                                    text+=`
-
-                                                    <div class="col-lg-6 col-md-6 col-sm-6">
-                                                        <label style="color:red !important">*</label>
-                                                        <label>Kabupaten</label>`;
-                                                        if(template == 1){
-                                                            text+=`<div class="input-container-search-ticket">`;
-                                                        }else if(template == 2){
-                                                            text+=`<div>`;
-                                                        }else if(template == 3){
-                                                            text+=`<div class="default-select">`;
-                                                        }else if(template == 4){
-                                                            text+=`<div class="input-container-search-ticket">`;
-                                                        }else if(template == 5){
-                                                            text+=`<div class="input-container-search-ticket">`;
-                                                        }
-                                                        text+=` <div class="form-select">
-                                                                    <select class="form-control js-example-basic-single" name="adult_kabupaten`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_kabupaten`+parseInt(counter_passenger+1)+`_id" placeholder="Kabupaten" onchange="auto_complete('adult_kabupaten`+parseInt(counter_passenger+1)+`');get_kecamatan('adult_kabupaten`+parseInt(counter_passenger+1)+`','adult_kecamatan`+parseInt(counter_passenger+1)+`_id');auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);" >
-                                                                        <option value="">Select Kabupaten</option>`;
-                                                                    for(i in data_kota)
-                                                                    text+=`<option value="`+i+`">`+i+`</option>`;
-                                                                text+=`</select>
-                                                                </div>
-                                                                <input type="hidden" name="adult_kabupaten`+parseInt(counter_passenger+1)+`" id="adult_kabupaten`+parseInt(counter_passenger+1)+`" />
-                                                                <button type="button" class="primary-delete-date" onclick="delete_type('adult_kabupaten`+parseInt(counter_passenger+1)+`_id', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                            </div>
-                                                            </div>`;
-
-                                                    text+=`
-
-                                                    <div class="col-lg-6 col-md-6 col-sm-6">
-                                                        <label style="color:red !important">*</label>
-                                                        <label>Kecamatan</label>`;
-                                                        if(template == 1){
-                                                            text+=`<div class="input-container-search-ticket">`;
-                                                        }else if(template == 2){
-                                                            text+=`<div>`;
-                                                        }else if(template == 3){
-                                                            text+=`<div class="default-select">`;
-                                                        }else if(template == 4){
-                                                            text+=`<div class="input-container-search-ticket">`;
-                                                        }else if(template == 5){
-                                                            text+=`<div class="input-container-search-ticket">`;
-                                                        }
-                                                        text+=` <div class="form-select">
-                                                                    <select class="form-control js-example-basic-single" name="adult_kecamatan`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_kecamatan`+parseInt(counter_passenger+1)+`_id" placeholder="Kecamatan" onchange="auto_complete('adult_kecamatan`+parseInt(counter_passenger+1)+`');get_kelurahan('adult_kecamatan`+parseInt(counter_passenger+1)+`','adult_kelurahan`+parseInt(counter_passenger+1)+`_id');auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">
-                                                                        <option value="">Select Kecamatan</option>`;
-                                                                text+=`</select>
-                                                                </div>
-                                                                <input type="hidden" name="adult_kecamatan`+parseInt(counter_passenger+1)+`" id="adult_kecamatan`+parseInt(counter_passenger+1)+`" />
-                                                                <button type="button" class="primary-delete-date" onclick="delete_type('adult_kecamatan`+parseInt(counter_passenger+1)+`_id', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                            </div>
-                                                            </div>`;
-
-                                                    text+=`
-
-                                                    <div class="col-lg-6 col-md-6 col-sm-6">
-                                                        <label style="color:red !important">*</label>
-                                                        <label>Kelurahan</label>`;
-                                                        if(template == 1){
-                                                            text+=`<div class="input-container-search-ticket">`;
-                                                        }else if(template == 2){
-                                                            text+=`<div>`;
-                                                        }else if(template == 3){
-                                                            text+=`<div class="default-select">`;
-                                                        }else if(template == 4){
-                                                            text+=`<div class="input-container-search-ticket">`;
-                                                        }else if(template == 5){
-                                                            text+=`<div class="input-container-search-ticket">`;
-                                                        }
-                                                        text+=` <div class="form-select">
-                                                                    <select class="form-control js-example-basic-single" name="adult_kelurahan`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_kelurahan`+parseInt(counter_passenger+1)+`_id" placeholder="Kelurahan" onchange="auto_complete('adult_kelurahan`+parseInt(counter_passenger+1)+`');auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">
-                                                                        <option value="">Select Kelurahan</option>`;
-                                                                text+=`</select>
-                                                                </div>
-                                                                <input type="hidden" name="adult_kelurahan`+parseInt(counter_passenger+1)+`" id="adult_kelurahan`+parseInt(counter_passenger+1)+`" />
-                                                                <button type="button" class="primary-delete-date" onclick="delete_type('adult_kelurahan`+parseInt(counter_passenger+1)+`_id', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                            </div>
-                                                            </div>`;
-                                                }
-                                                text+=`
-                                                <div class="col-lg-6" id="adult_cp_hidden1_`+parseInt(counter_passenger+1)+`">
-                                                    <label style="color:red !important">*</label>
-                                                    <label>Contact Email Address</label>
-                                                    <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" name="adult_email`+parseInt(counter_passenger+1)+`" id="adult_email`+parseInt(counter_passenger+1)+`" placeholder="Email Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '">
-                                                    </div>
-                                                    <label style="font-size:12px; padding:0;">Example: email@example.com</label>
-                                                </div>
-                                                <div class="col-lg-6" id="adult_cp_hidden2_`+parseInt(counter_passenger+1)+`">
-                                                    <label style="color:red !important">*</label>
-                                                    <label>Contact Person for Urgent Situation</label>
-                                                    <div class="row">
-                                                        <div class="col-lg-3">
-                                                            <div class="form-select">
-                                                                <select id="adult_phone_code`+parseInt(counter_passenger+1)+`_id" name="adult_phone_code`+parseInt(counter_passenger+1)+`_id" class="form-control js-example-basic-single">`;
-                                                                    for(i in countries){
-                                                                        if(countries[i].code == 'ID')
-                                                                           text+=`<option value="`+countries[i].phone_code+`" selected>`+countries[i].phone_code+`</option>`;
-                                                                        else
-                                                                           text+=`<option value="`+countries[i].phone_code+`">`+countries[i].phone_code+`</option>`;
-                                                                    }
-
-                                                        text+=` </select>
-                                                                <input type="hidden" name="adult_phone_code`+parseInt(counter_passenger+1)+`" id="adult_phone_code`+parseInt(counter_passenger+1)+`" />
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-9">
-                                                            <input type="text" class="form-control" name="adult_phone`+parseInt(counter_passenger+1)+`" id="adult_phone`+parseInt(counter_passenger+1)+`" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
-                                                        </div>
-                                                    </div>
-                                                    <label style="font-size:12px; padding:0;">Example: +62812345678</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-default" data-dismiss="modal" onclick="update_contact('passenger',`+parseInt(counter_passenger+1)+`);">Close</button>
-                        </div>
-                    </div>
+            <span style="padding-right:10px; font-weight:700; font-size:14px;">Passenger #`+(parseInt(counter_passenger)+1)+`</span>
+            <div class="row">
+                <div class="col-lg-8">
+                    <span style="padding-right:5px;" id='name_pax`+counter_passenger+`' name='name_pax`+counter_passenger+`'>
+                    --Fill Passenger--
+                    </span><br/>
+                    <span id='birth_date`+counter_passenger+`' name='birth_date`+counter_passenger+`'></span>
+                </div>
+                <div class="col-lg-4 mt-2" style="text-align:right;"">
+                    <button type="button" class="primary-btn" style="margin-bottom:5px; font-size:12px; padding-left:12px; padding-right:12px; line-height:24px; font-weight:700;" data-toggle="modal" data-target="#myModalPassenger`+counter_passenger+`" onclick="set_passenger_number(`+counter_passenger+`);">
+                        <i class="fas fa-pen"></i>
+                    </button>
+                    <button type="button" id="button_search`+counter_passenger+`" class="primary-btn" style="margin-bottom:5px; font-size:12px; padding-left:12px; padding-right:12px; line-height:24px; font-weight:700;" data-toggle="modal" data-target="#myModalPassengerSearch`+counter_passenger+`" onclick="set_passenger_number(`+counter_passenger+`);">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <button type="button" id="button_clear`+counter_passenger+`" class="primary-btn" style="background:#c73912; margin-bottom:5px; font-size:12px; padding-left:12px; padding-right:12px; line-height:24px; font-weight:700;" onclick="clear_passenger('Adult',`+(parseInt(counter_passenger)+1)+`); clear_text_medical(`+counter_passenger+`);">
+                        <i class="fas fa-times"></i>
+                    </button>
                 </div>
             </div>
-        </td>`;
+            <input id="id_passenger`+counter_passenger+`" name="id_passenger`+counter_passenger+`" type="hidden"/>
 
+        </td>`;
+        if(vendor == 'periksain'){
+            text+=`<td>`;
+            if(template == 1){
+                text+=`<div class="input-container-search-ticket">`;
+            }else if(template == 2){
+                text+=`<div>`;
+            }else if(template == 3){
+                text+=`<div class="default-select">`;
+            }else if(template == 4){
+                text+=`<div class="input-container-search-ticket">`;
+            }else if(template == 5){
+                text+=`<div class="input-container-search-ticket">`;
+            }else if(template == 6){
+                text+=`<div class="default-select">`;
+            }
+
+            if(template == 5){
+                text+=`<div class="form-select">`;
+            }else{
+                text+=`<div class="form-select-2">`;
+            }
+
+            if(template == 4){
+                text+=`<select class="nice-select-default rounded" id="adult_sample_method`+parseInt(counter_passenger+1)+`" name="adult_sample_method`+parseInt(counter_passenger+1)+`">`;
+            }else{
+                text+=`<select id="adult_sample_method`+parseInt(counter_passenger+1)+`" name="adult_sample_method`+parseInt(counter_passenger+1)+`">`;
+            }
+            text+=`
+                        <option value=""></option>
+                        <option value="saliva">Saliva</option>
+                        <option value="nasal_swab">Nasal Swab</option>`;
+                        text+=`</select>
+                    </div>
+                </div>
+            </td>`;
+        }
     node.innerHTML = text;
     node.setAttribute('id', 'table_passenger'+counter_passenger);
     document.getElementById("table_of_passenger").appendChild(node);
+
+    var node_modal = document.createElement("div");
+    text_modal_paxs += `
+    <div class="modal fade" id="myModalPassengerSearch`+counter_passenger+`" role="dialog" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="color:white;">Customer `+(counter_passenger+1)+`</h4>
+                    <button type="button" class="close" data-dismiss="modal" onclick="update_contact('passenger',`+parseInt(counter_passenger+1)+`);">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                            <input class="form-control" type="text" id="train_`+(counter_passenger+1)+`_search" placeholder="Search"/>
+                        </div>
+                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                            <button type="button" class="primary-btn" id="passenger_btn_io_click`+(counter_passenger+1)+`" onclick="get_customer_list('','`+(counter_passenger+1)+`','medical')">Search</button>
+                        </div>
+                    </div>
+                    <span><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Using this means you can't change title, first name, and last name</span>
+
+                    <div id="search_result_`+(counter_passenger+1)+`">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModalPassenger`+counter_passenger+`" role="dialog" data-keyboard="false">
+        <div class="modal-dialog">
+          <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="color:white;">Passenger `+(counter_passenger+1)+`</h4>
+                    <button type="button" class="close" data-dismiss="modal" onclick="update_contact('passenger',`+parseInt(counter_passenger+1)+`);">&times;</button>
+                </div>
+                <div class="modal-body" style="overflow:auto; height:650px;">
+                    <div id="passenger_content">
+                        <div class="row">
+                            <div class="col-lg-12" id="adult_paxs`+parseInt(counter_passenger+1)+`">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
+                                        <label style="color:red !important">*</label>
+                                        <label>Title</label>`;
+                                        if(template == 1){
+                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                        }else if(template == 2){
+                                            text_modal_paxs+=`<div>`;
+                                        }else if(template == 3){
+                                            text_modal_paxs+=`<div class="default-select">`;
+                                        }else if(template == 4){
+                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                        }else if(template == 5){
+                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                        }else if(template == 6){
+                                            text_modal_paxs+=`<div class="default-select">`;
+                                        }
+
+                                        if(template == 5){
+                                            text_modal_paxs+=`<div class="form-select">`;
+                                        }else{
+                                            text_modal_paxs+=`<div class="form-select-2">`;
+                                        }
+
+                                        if(template == 4){
+                                            text_modal_paxs+=`<select style="width:100%;" class="nice-select-default rounded" id="adult_title`+parseInt(counter_passenger+1)+`" name="adult_title`+parseInt(counter_passenger+1)+`">`;
+                                        }else{
+                                            text_modal_paxs+=`<select style="width:100%;" id="adult_title`+parseInt(counter_passenger+1)+`" name="adult_title`+parseInt(counter_passenger+1)+`">`;
+                                        }
+                                                for(i in titles){
+                                                    text_modal_paxs+= `<option value="`+titles[i]+`">`+titles[i]+`</option>`;
+                                                }
+                                                text_modal_paxs+=`</select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6" style="float:left;"></div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <br/>
+                                        <label style="color:red !important">*</label>
+                                        <label>First name and middle name (if any)</label>
+                                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                                            <input type="text" class="form-control" name="adult_first_name`+parseInt(counter_passenger+1)+`" id="adult_first_name`+parseInt(counter_passenger+1)+`" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                            <input type="hidden" class="form-control" name="adult_id`+parseInt(counter_passenger+1)+`" id="adult_id`+parseInt(counter_passenger+1)+`">
+                                        </div>
+                                        <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <br/>
+                                        <label>Last name</label>
+                                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                                            <input type="text" class="form-control" name="adult_last_name`+parseInt(counter_passenger+1)+`" id="adult_last_name`+parseInt(counter_passenger+1)+`" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                        </div>
+                                        <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label style="color:red !important">*</label>
+                                        <label>Nationality</label>`;
+                                        if(template == 1 || template == 5){
+                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                        }
+                                        text_modal_paxs+=`
+                                            <div class="form-select">
+                                                <select class="form-control js-example-basic-single" name="adult_nationality`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_nationality`+parseInt(counter_passenger+1)+`_id" placeholder="Nationality" onchange="auto_complete('adult_nationality`+parseInt(counter_passenger+1)+`')">
+                                                    <option value="">Select Nationality</option>`;
+                                                    for(i in countries){
+                                                        if(countries[i].code == 'ID')
+                                                           text_modal_paxs+=`<option value="`+countries[i].code+`" selected>`+countries[i].name+`</option>`;
+                                                        else
+                                                           text_modal_paxs+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
+                                                    }
+                                                text_modal_paxs+=`</select>
+                                            </div>
+                                            <input type="hidden" name="adult_nationality`+parseInt(counter_passenger+1)+`" id="adult_nationality`+parseInt(counter_passenger+1)+`" />`;
+                                        if(template == 1 || template == 5){
+                                            text_modal_paxs+=`</div>`;
+                                        }
+                                    text_modal_paxs+=`
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <label style="color:red !important">*</label>
+                                        <label>Birth Date</label>
+                                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                                            <input type="text" class="form-control date-picker-birth" name="adult_birth_date`+parseInt(counter_passenger+1)+`" id="adult_birth_date`+parseInt(counter_passenger+1)+`" onchange="check_years_old(`+parseInt(counter_passenger+1)+`)" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off">
+                                            <input type="hidden" class="form-control" name="adult_years_old`+parseInt(counter_passenger+1)+`" id="adult_years_old`+parseInt(counter_passenger+1)+`">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <label style="color:red !important">*</label>
+                                        <label>ID Type</label>`;
+                                        if(template == 1){
+                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                        }else if(template == 2){
+                                            text_modal_paxs+=`<div>`;
+                                        }else if(template == 3){
+                                            text_modal_paxs+=`<div class="default-select">`;
+                                        }else if(template == 4){
+                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                        }else if(template == 5){
+                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                        }else if(template == 6){
+                                            text_modal_paxs+=`<div class="default-select">`;
+                                        }
+
+                                        if(template == 5){
+                                            text_modal_paxs+=`<div class="form-select">`;
+                                        }else{
+                                            text_modal_paxs+=`<div class="form-select-2">`;
+                                        }
+
+                                        if(template == 4){
+                                            text_modal_paxs+=`<select class="nice-select-default rounded" id="adult_identity_type`+parseInt(counter_passenger+1)+`" name="adult_identity_type`+parseInt(counter_passenger+1)+`" onchange="change_country_of_issued(`+parseInt(counter_passenger+1)+`);">`;
+                                        }else{
+                                            text_modal_paxs+=`<select id="adult_identity_type`+parseInt(counter_passenger+1)+`" name="adult_identity_type`+parseInt(counter_passenger+1)+`">`;
+                                        }
+                                            text_modal_paxs+=`
+                                                <option value=""></option>
+                                                <option value="ktp">KTP</option>`;
+                                                text_modal_paxs+=`</select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <label>Identity Number</label>
+                                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                                            <input type="text" class="form-control" name="adult_identity_number`+parseInt(counter_passenger+1)+`" id="adult_identity_number`+parseInt(counter_passenger+1)+`" placeholder="Identity Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <label style="color:red !important">*</label>
+                                        <label>Country of Issued</label>`;
+                                        if(template == 1){
+                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                            text_modal_paxs+=`
+                                                <div class="form-select">
+                                                    <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`');">
+                                                        <option value="">Select Country Of Issued</option>`;
+                                                        for(i in countries){
+                                                           text_modal_paxs+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
+                                                        }
+                                                    text_modal_paxs+=`</select>
+                                                </div>
+                                                <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                <input type="hidden" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`" />`;
+                                            text_modal_paxs+=`</div>`;
+                                        }
+                                        else if(template == 2){
+                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                            text_modal_paxs+=`
+                                                <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`');">
+                                                    <option value="">Select Country Of Issued</option>`;
+                                                    for(i in countries){
+                                                       text_modal_paxs+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
+                                                    }
+                                                text_modal_paxs+=`</select>
+                                                <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                <input type="hidden" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`" />`;
+                                            text_modal_paxs+=`</div>`;
+                                        }
+                                        else if(template == 3){
+                                            text_modal_paxs+=`<div class="input-container-search-ticket" style="margin-bottom:5px;">`;
+                                            text_modal_paxs+=`
+                                                <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`');">
+                                                    <option value="">Select Country Of Issued</option>`;
+                                                    for(i in countries){
+                                                       text_modal_paxs+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
+                                                    }
+                                                text_modal_paxs+=`</select>
+                                                <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                <input type="hidden" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`" />`;
+                                            text_modal_paxs+=`</div>`;
+                                        }
+                                        else if(template == 4){
+                                            text_modal_paxs+=`<div class="input-container-search-ticket" style="margin-bottom:5px;">`;
+                                            text_modal_paxs+=`
+                                                <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`');">
+                                                    <option value="">Select Country Of Issued</option>`;
+                                                    for(i in countries){
+                                                       text_modal_paxs+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
+                                                    }
+                                                text_modal_paxs+=`</select>
+                                                <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                <input type="hidden" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`" />`;
+                                            text_modal_paxs+=`</div>`;
+                                        }
+                                        else if(template == 5){
+                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                            text_modal_paxs+=`
+                                                <div class="form-select">
+                                                    <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`');">
+                                                        <option value="">Select Country Of Issued</option>`;
+                                                        for(i in countries){
+                                                           text_modal_paxs+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
+                                                        }
+                                                    text_modal_paxs+=`</select>
+                                                </div>
+                                                <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                <input type="hidden" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`" />`;
+                                            text_modal_paxs+=`</div>`;
+                                        }
+                                        else if(template == 6){
+                                            text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                            text_modal_paxs+=`
+                                                <div class="form-select">
+                                                    <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`');">
+                                                        <option value="">Select Country Of Issued</option>`;
+                                                        for(i in countries){
+                                                           text_modal_paxs+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
+                                                        }
+                                                    text_modal_paxs+=`</select>
+                                                </div>
+                                                <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                <input type="hidden" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`" />`;
+                                            text_modal_paxs+=`</div>`;
+                                        }
+                                    text_modal_paxs+=`</div>`;
+
+
+                                    if(vendor == 'phc'){
+                                        text_modal_paxs+=`
+
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label style="color:red !important">*</label>
+                                            <label>Tempat Lahir</label>`;
+                                            if(template == 1){
+                                                text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                            }else if(template == 2){
+                                                text_modal_paxs+=`<div>`;
+                                            }else if(template == 3){
+                                                text_modal_paxs+=`<div class="default-select">`;
+                                            }else if(template == 4){
+                                                text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                            }else if(template == 5){
+                                                text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                            }
+                                            text_modal_paxs+=`
+                                                <div class="form-select">
+                                                    <select class="form-control js-example-basic-single" name="adult_tempat_lahir`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_tempat_lahir`+parseInt(counter_passenger+1)+`_id" placeholder="Tempat Lahir" onchange="auto_complete('adult_tempat_lahir`+parseInt(counter_passenger+1)+`');">
+                                                        <option value="">Select Tempat Lahir</option>`;
+                                                    for(i in data_kota)
+                                                    text_modal_paxs+=`<option value="`+i+`">`+i+`</option>`;
+                                                text_modal_paxs+=`</select>
+                                                    </div>
+                                                    <input type="hidden" name="adult_tempat_lahir`+parseInt(counter_passenger+1)+`" id="adult_tempat_lahir`+parseInt(counter_passenger+1)+`" />
+                                                </div>
+                                            </div>`;
+
+                                        text_modal_paxs+=`
+
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label style="color:red !important">*</label>
+                                            <label>Profession</label>`;
+                                            if(template == 1){
+                                                text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                            }else if(template == 2){
+                                                text_modal_paxs+=`<div>`;
+                                            }else if(template == 3){
+                                                text_modal_paxs+=`<div class="default-select">`;
+                                            }else if(template == 4){
+                                                text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                            }else if(template == 5){
+                                                text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                            }
+                                            text_modal_paxs+=`<div class="form-select-2">`;
+                                            if(template == 4){
+                                                text_modal_paxs+=`<select class="nice-select-default rounded" id="adult_profession`+parseInt(counter_passenger+1)+`" name="adult_profession`+parseInt(counter_passenger+1)+`">`;
+                                            }else{
+                                                text_modal_paxs+=`<select id="adult_profession`+parseInt(counter_passenger+1)+`" name="adult_profession`+parseInt(counter_passenger+1)+`">`;
+                                            }
+                                            text_modal_paxs += '<option value="">Choose</option>';
+                                                for(i in medical_config.result.response.profession)
+                                                    text_modal_paxs+=`<option value="`+medical_config.result.response.profession[i]+`">`+medical_config.result.response.profession[i]+`</option>`;
+                                                    text_modal_paxs+=`</select>
+                                                </div>
+                                            </div>
+                                        </div>`;
+
+                                        text_modal_paxs+=`
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label style="color:red !important">*</label>
+                                            <label>Work Place</label>
+                                            <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                                                <input type="text" class="form-control" name="adult_work_place`+parseInt(counter_passenger+1)+`" id="adult_work_place`+parseInt(counter_passenger+1)+`" placeholder="Work Place " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Work Place '">
+                                            </div>
+
+                                        </div>`;
+
+                                        text_modal_paxs += `
+                                        <div class="col-lg-12 col-md-12 col-sm-12 mt-2">
+                                            <hr/>
+                                            <h5>KTP</h5>
+                                        </div>`
+
+                                        text_modal_paxs+=`
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label style="color:red !important">*</label>
+                                            <label>Address KTP</label>
+                                            <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                                                <input type="text" class="form-control" name="adult_address_ktp`+parseInt(counter_passenger+1)+`" id="adult_address_ktp`+parseInt(counter_passenger+1)+`" placeholder="Address KTP " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address KTP '">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label style="color:red !important">*</label>
+                                            <label>RT KTP</label>
+                                            <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                                                <input type="text" class="form-control" name="adult_rt_ktp`+parseInt(counter_passenger+1)+`" id="adult_rt_ktp`+parseInt(counter_passenger+1)+`" placeholder="RT KTP " onfocus="this.placeholder = ''" onblur="this.placeholder = 'RT KTP '">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label style="color:red !important">*</label>
+                                            <label>RW KTP</label>
+                                            <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                                                <input type="text" class="form-control" name="adult_rw_ktp`+parseInt(counter_passenger+1)+`" id="adult_rw_ktp`+parseInt(counter_passenger+1)+`" placeholder="RW KTP " onfocus="this.placeholder = ''" onblur="this.placeholder = 'RW KTP '">
+                                            </div>
+                                        </div>`;
+
+                                        text_modal_paxs+=`
+
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label style="color:red !important">*</label>
+                                            <label>Kabupaten KTP</label>`;
+                                            if(template == 1){
+                                                text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                            }else if(template == 2){
+                                                text_modal_paxs+=`<div>`;
+                                            }else if(template == 3){
+                                                text_modal_paxs+=`<div class="default-select">`;
+                                            }else if(template == 4){
+                                                text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                            }else if(template == 5){
+                                                text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                            }
+                                            text_modal_paxs+=` <div class="form-select">
+                                                        <select class="form-control js-example-basic-single" name="adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`_id" placeholder="Kabupaten" onchange="auto_complete('adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`');get_kecamatan('adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`','adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`_id');auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);" >
+                                                            <option value="">Select Kabupaten KTP</option>`;
+                                                        for(i in data_kota)
+                                                        text_modal_paxs+=`<option value="`+i+`">`+i+`</option>`;
+                                                    text_modal_paxs+=`</select>
+                                                    </div>
+                                                    <input type="hidden" name="adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`" id="adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`" />
+                                                    <button type="button" class="primary-delete-date" onclick="delete_type('adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`_id', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                </div>
+                                                </div>`;
+
+                                        text_modal_paxs+=`
+
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label style="color:red !important">*</label>
+                                            <label>Kecamatan KTP</label>`;
+                                            if(template == 1){
+                                                text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                            }else if(template == 2){
+                                                text_modal_paxs+=`<div>`;
+                                            }else if(template == 3){
+                                                text_modal_paxs+=`<div class="default-select">`;
+                                            }else if(template == 4){
+                                                text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                            }else if(template == 5){
+                                                text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                            }
+                                            text_modal_paxs+=` <div class="form-select">
+                                                        <select class="form-control js-example-basic-single" name="adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`_id" placeholder="Kecamatan" onchange="auto_complete('adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`');get_kelurahan('adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`','adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`_id');auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">
+                                                            <option value="">Select Kecamatan KTP</option>`;
+                                                    text_modal_paxs+=`</select>
+                                                    </div>
+                                                    <input type="hidden" name="adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`" id="adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`" />
+                                                    <button type="button" class="primary-delete-date" onclick="delete_type('adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`_id', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                </div>
+                                                </div>`;
+
+                                        text_modal_paxs+=`
+
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label style="color:red !important">*</label>
+                                            <label>Kelurahan KTP</label>`;
+                                            if(template == 1){
+                                                text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                            }else if(template == 2){
+                                                text_modal_paxs+=`<div>`;
+                                            }else if(template == 3){
+                                                text_modal_paxs+=`<div class="default-select">`;
+                                            }else if(template == 4){
+                                                text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                            }else if(template == 5){
+                                                text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                            }
+                                            text_modal_paxs+=` <div class="form-select">
+                                                        <select class="form-control js-example-basic-single" name="adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`_id" placeholder="Kelurahan" onchange="auto_complete('adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`');">
+                                                            <option value="">Select Kelurahan KTP</option>`;
+                                                    text_modal_paxs+=`</select>
+                                                    </div>
+                                                    <input type="hidden" name="adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`" id="adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`" />
+                                                    <button type="button" class="primary-delete-date" onclick="delete_type('adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`_id', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                </div>
+                                                </div>`;
+
+                                        //copy to ktp
+                                        text_modal_paxs+= `
+                                        <div class="col-lg-12 col-md-12 col-sm-12 mt-2">
+                                            <hr/>
+                                            <label>Copy KTP to Domisili?</label>
+                                            <label class="radio-button-custom">
+                                                Yes
+                                                <input type="radio" name="adult_copy`+parseInt(counter_passenger+1)+`" onchange="copy_ktp(`+parseInt(counter_passenger+1)+`);" value="true"/>
+                                                <span class="checkmark-radio"></span>
+                                            </label>
+
+                                            <label class="radio-button-custom">
+                                                No
+                                                <input type="radio" name="adult_copy`+parseInt(counter_passenger+1)+`" onchange="copy_ktp(`+parseInt(counter_passenger+1)+`);" value="false" checked="checked"/>
+                                                <span class="checkmark-radio"></span>
+                                            </label>
+                                        </div>`;
+
+                                        text_modal_paxs += `
+                                        <div class="col-lg-12 col-md-12 col-sm-12">
+                                            <label>Domisili</label>
+                                        </div>`
+                                        text_modal_paxs+=`
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label style="color:red !important">*</label>
+                                            <label>Address</label>
+                                            <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                                                <input type="text" class="form-control" name="adult_address`+parseInt(counter_passenger+1)+`" id="adult_address`+parseInt(counter_passenger+1)+`" placeholder="Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address '" onchange="auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label style="color:red !important">*</label>
+                                            <label>RT</label>
+                                            <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                                                <input type="text" class="form-control" name="adult_rt`+parseInt(counter_passenger+1)+`" id="adult_rt`+parseInt(counter_passenger+1)+`" placeholder="RT " onfocus="this.placeholder = ''" onblur="this.placeholder = 'RT '"  onchange="auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label style="color:red !important">*</label>
+                                            <label>RW</label>
+                                            <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                                                <input type="text" class="form-control" name="adult_rw`+parseInt(counter_passenger+1)+`" id="adult_rw`+parseInt(counter_passenger+1)+`" placeholder="RW " onfocus="this.placeholder = ''" onblur="this.placeholder = 'RW '"  onchange="auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">
+                                            </div>
+                                        </div>`;
+
+                                        text_modal_paxs+=`
+
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label style="color:red !important">*</label>
+                                            <label>Kabupaten</label>`;
+                                            if(template == 1){
+                                                text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                            }else if(template == 2){
+                                                text_modal_paxs+=`<div>`;
+                                            }else if(template == 3){
+                                                text_modal_paxs+=`<div class="default-select">`;
+                                            }else if(template == 4){
+                                                text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                            }else if(template == 5){
+                                                text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                            }
+                                            text_modal_paxs+=` <div class="form-select">
+                                                        <select class="form-control js-example-basic-single" name="adult_kabupaten`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_kabupaten`+parseInt(counter_passenger+1)+`_id" placeholder="Kabupaten" onchange="auto_complete('adult_kabupaten`+parseInt(counter_passenger+1)+`');get_kecamatan('adult_kabupaten`+parseInt(counter_passenger+1)+`','adult_kecamatan`+parseInt(counter_passenger+1)+`_id');auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);" >
+                                                            <option value="">Select Kabupaten</option>`;
+                                                        for(i in data_kota)
+                                                        text_modal_paxs+=`<option value="`+i+`">`+i+`</option>`;
+                                                    text_modal_paxs+=`</select>
+                                                    </div>
+                                                    <input type="hidden" name="adult_kabupaten`+parseInt(counter_passenger+1)+`" id="adult_kabupaten`+parseInt(counter_passenger+1)+`" />
+                                                    <button type="button" class="primary-delete-date" onclick="delete_type('adult_kabupaten`+parseInt(counter_passenger+1)+`_id', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                </div>
+                                                </div>`;
+
+                                        text_modal_paxs+=`
+
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label style="color:red !important">*</label>
+                                            <label>Kecamatan</label>`;
+                                            if(template == 1){
+                                                text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                            }else if(template == 2){
+                                                text_modal_paxs+=`<div>`;
+                                            }else if(template == 3){
+                                                text_modal_paxs+=`<div class="default-select">`;
+                                            }else if(template == 4){
+                                                text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                            }else if(template == 5){
+                                                text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                            }
+                                            text_modal_paxs+=` <div class="form-select">
+                                                        <select class="form-control js-example-basic-single" name="adult_kecamatan`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_kecamatan`+parseInt(counter_passenger+1)+`_id" placeholder="Kecamatan" onchange="auto_complete('adult_kecamatan`+parseInt(counter_passenger+1)+`');get_kelurahan('adult_kecamatan`+parseInt(counter_passenger+1)+`','adult_kelurahan`+parseInt(counter_passenger+1)+`_id');auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">
+                                                            <option value="">Select Kecamatan</option>`;
+                                                    text_modal_paxs+=`</select>
+                                                    </div>
+                                                    <input type="hidden" name="adult_kecamatan`+parseInt(counter_passenger+1)+`" id="adult_kecamatan`+parseInt(counter_passenger+1)+`" />
+                                                    <button type="button" class="primary-delete-date" onclick="delete_type('adult_kecamatan`+parseInt(counter_passenger+1)+`_id', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                </div>
+                                                </div>`;
+
+                                        text_modal_paxs+=`
+
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label style="color:red !important">*</label>
+                                            <label>Kelurahan</label>`;
+                                            if(template == 1){
+                                                text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                            }else if(template == 2){
+                                                text_modal_paxs+=`<div>`;
+                                            }else if(template == 3){
+                                                text_modal_paxs+=`<div class="default-select">`;
+                                            }else if(template == 4){
+                                                text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                            }else if(template == 5){
+                                                text_modal_paxs+=`<div class="input-container-search-ticket">`;
+                                            }
+                                            text_modal_paxs+=` <div class="form-select">
+                                                        <select class="form-control js-example-basic-single" name="adult_kelurahan`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_kelurahan`+parseInt(counter_passenger+1)+`_id" placeholder="Kelurahan" onchange="auto_complete('adult_kelurahan`+parseInt(counter_passenger+1)+`');auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">
+                                                            <option value="">Select Kelurahan</option>`;
+                                                    text_modal_paxs+=`</select>
+                                                    </div>
+                                                    <input type="hidden" name="adult_kelurahan`+parseInt(counter_passenger+1)+`" id="adult_kelurahan`+parseInt(counter_passenger+1)+`" />
+                                                    <button type="button" class="primary-delete-date" onclick="delete_type('adult_kelurahan`+parseInt(counter_passenger+1)+`_id', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                </div>
+                                                </div>`;
+                                    }
+                                    text_modal_paxs+=`
+                                    <div class="col-lg-6" id="adult_cp_hidden1_`+parseInt(counter_passenger+1)+`">
+                                        <label style="color:red !important">*</label>
+                                        <label>Contact Email Address</label>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" class="form-control" name="adult_email`+parseInt(counter_passenger+1)+`" id="adult_email`+parseInt(counter_passenger+1)+`" placeholder="Email Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '">
+                                        </div>
+                                        <label style="font-size:12px; padding:0;">Example: email@example.com</label>
+                                    </div>
+                                    <div class="col-lg-6" id="adult_cp_hidden2_`+parseInt(counter_passenger+1)+`">
+                                        <label style="color:red !important">*</label>
+                                        <label>Contact Person for Urgent Situation</label>
+                                        <div class="row">
+                                            <div class="col-lg-3">
+                                                <div class="form-select">
+                                                    <select id="adult_phone_code`+parseInt(counter_passenger+1)+`_id" name="adult_phone_code`+parseInt(counter_passenger+1)+`_id" class="form-control js-example-basic-single">`;
+                                                        for(i in countries){
+                                                            if(countries[i].code == 'ID')
+                                                               text_modal_paxs+=`<option value="`+countries[i].phone_code+`" selected>`+countries[i].phone_code+`</option>`;
+                                                            else
+                                                               text_modal_paxs+=`<option value="`+countries[i].phone_code+`">`+countries[i].phone_code+`</option>`;
+                                                        }
+
+                                            text_modal_paxs+=` </select>
+                                                    <input type="hidden" name="adult_phone_code`+parseInt(counter_passenger+1)+`" id="adult_phone_code`+parseInt(counter_passenger+1)+`" />
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-9">
+                                                <input type="text" class="form-control" name="adult_phone`+parseInt(counter_passenger+1)+`" id="adult_phone`+parseInt(counter_passenger+1)+`" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
+                                            </div>
+                                        </div>
+                                        <label style="font-size:12px; padding:0;">Example: +62812345678</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="primary-btn" data-dismiss="modal" onclick="update_contact('passenger',`+parseInt(counter_passenger+1)+`);">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>`;
+
+    node_modal.innerHTML = text_modal_paxs;
+    node_modal.setAttribute('id', 'modal_passenger'+counter_passenger);
+    document.getElementById("modal_passenger_list").appendChild(node_modal);
+
     $('input[name="adult_birth_date'+parseInt(counter_passenger+1)+'"]').daterangepicker({
           singleDatePicker: true,
           autoUpdateInput: true,
@@ -1287,7 +1373,9 @@ function delete_table_of_passenger(counter){
     if(counter_passenger != 0){
         try{
             var element = document.getElementById('table_passenger'+counter);
+            var element_modal = document.getElementById('modal_passenger'+counter);
             element.parentNode.removeChild(element);
+            element_modal.parentNode.removeChild(element);
         }catch(err){}
     }
 }
@@ -1795,20 +1883,6 @@ function reset_other_time(){
     test_time = 1;
     document.getElementById('test').innerHTML = '';
     radio_timeslot_type_func();
-}
-
-function reset_pax(){
-    counter_passenger = 0;
-    document.getElementById('table_of_passenger').innerHTML = `
-    <tr>
-        <th style="width:10%;">No</th>
-        <th style="width:40%;">Name</th>
-        <th style="width:20%;">Birth Date</th>
-        <th style="width:15%;">Sample Method</th>
-        <th style="width:10%;"></th>
-    </tr>`;
-    document.getElementById('table_passenger_list').style.display = 'none';
-    document.getElementById('next_medical').style.display = 'none';
 }
 
 function show_commission(val){

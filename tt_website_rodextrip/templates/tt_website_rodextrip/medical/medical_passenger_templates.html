@@ -32,7 +32,7 @@
 {% include 'tt_website_rodextrip/loading_screen.html' %}
 {% include 'tt_website_rodextrip/check_connection.html' %}
 {% include 'tt_website_rodextrip/modal_balance_vendor.html' %}
-<title id="title_search">{{name}} {% trans 'Medical' %} - {% trans 'Passenger' %}</title>
+<title id="title_search">{{name}} {% trans 'Medical' %} - {% trans 'Customer' %}</title>
 <style>
     label{
         color:black !important;
@@ -443,17 +443,18 @@
                                 <div style="margin-top:15px;">
                                     <table id="table_of_passenger" name="table_of_passenger" style="width:100%;background:white;" class="list-of-table">
                                         <tr>
-                                            <th style="width:10%;">No</th>
-                                            <th style="width:40%;">Name</th>
-                                            <th style="width:20%;">Birth Date</th>
-                                            <th style="width:15%;">Sample Method</th>
-                                            <th style="width:10%;"></th>
+                                            {%if vendor == 'periksain'%}
+                                            <th style="width:55%;">Customer</th>
+                                            <th style="width:55%;">Sample Method</th>
+                                            {% else %}
+                                            <th style="width:100%;">Customer</th>
+                                            {% endif %}
                                         </tr>
                                     </table>
                                 </div>
                             </div>
 
-                            <div class="col-lg-12" style="text-align:center;">
+                            <div class="col-lg-12 mt-3" style="text-align:center;">
                                 <button id="check_price_medical" class="primary-btn-ticket" type="button" value="" onclick="medical_check_price();">
                                     Check Price
                                 </button>
@@ -3321,6 +3322,8 @@
     </div>
 </section>
 {% endif %}
+
+<div id="modal_passenger_list">
 
 {% include 'tt_website_rodextrip/footer.html' %}
 
