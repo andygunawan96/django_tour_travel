@@ -823,7 +823,7 @@ function add_table_of_passenger(type){
                                                         <label style="color:red !important">*</label>
                                                         <label>Pemeriksaan Swab Ke</label>
                                                         <div class="input-container-search-ticket" style="margin-bottom:5px;">
-                                                            <input type="text" class="form-control" name="adult_pemeriksaan_swab_ke`+parseInt(counter_passenger+1)+`" id="adult_pemeriksaan_swab_ke`+parseInt(counter_passenger+1)+`" placeholder="Pemeriksaan swab ke " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Pemeriksaan swab ke '">
+                                                            <input type="text" class="form-control" name="adult_pemeriksaan_swab_ke`+parseInt(counter_passenger+1)+`" id="adult_pemeriksaan_swab_ke`+parseInt(counter_passenger+1)+`" placeholder="Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Number '">
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-6">
@@ -2460,6 +2460,8 @@ function onchange_perjalanan_keluar_negeri(val){
         `;
     }else{
         document.getElementById('daftar_perjalanan_keluar_negeri'+val).hidden = true;
+        document.getElementById('daftar_perjalanan_keluar_negeri'+val).innerHTML = '';
+        perjalanan_keluar_negeri = 0;
     }
 }
 
@@ -2482,6 +2484,8 @@ function onchange_perjalanan_ke_transmisi_lokal(val){
         `;
     }else{
         document.getElementById('perjalanan_ke_transmisi_lokal'+val).hidden = true;
+        document.getElementById('perjalanan_ke_transmisi_lokal'+val).innerHTML = '';
+        perjalanan_ke_transmisi_lokal = 0;
     }
 }
 
@@ -2504,6 +2508,8 @@ function onchange_berkunjung_ke_fasilitas_kesehatan(val){
         `;
     }else{
         document.getElementById('berkunjung_ke_fasilitas_kesehatan'+val).hidden = true;
+        document.getElementById('berkunjung_ke_fasilitas_kesehatan'+val).innerHTML = '';
+        berkunjung_ke_fasilitas_kesehatan = 0;
     }
 }
 
@@ -2526,6 +2532,8 @@ function onchange_berkunjung_ke_pasar_hewan(val){
         `;
     }else{
         document.getElementById('berkunjung_ke_pasar_hewan'+val).hidden = true;
+        document.getElementById('berkunjung_ke_pasar_hewan'+val).innerHTML = '';
+        berkunjung_ke_pasar_hewan = 0;
     }
 }
 
@@ -2549,6 +2557,8 @@ function onchange_berkunjung_ke_pasien_dalam_pengawasan(val){
         `;
     }else{
         document.getElementById('berkunjung_ke_pasien_dalam_pengawasan'+val).hidden = true;
+        document.getElementById('berkunjung_ke_pasien_dalam_pengawasan'+val).innerHTML = '';
+        berkunjung_ke_pasien_dalam_pengawasan = 0;
     }
 }
 
@@ -2572,6 +2582,8 @@ function onchange_berkunjung_ke_pasien_konfirmasi(val){
         `;
     }else{
         document.getElementById('berkunjung_ke_pasien_konfirmasi'+val).hidden = true;
+        document.getElementById('berkunjung_ke_pasien_konfirmasi'+val).innerHTML = '';
+        berkunjung_ke_pasien_konfirmasi = 0;
     }
 }
 
@@ -3523,10 +3535,19 @@ function check_passenger(){
     for(i=1; i <= test_time; i++){
         try{
             add_list = true;
-            if(now.format('DD MMM YYYY') == document.getElementById('booker_test_date'+i).value){
-                if(now.diff(moment(document.getElementById('booker_test_date'+i).value+' '+document.getElementById('booker_timeslot_id'+i).value.split('~')[1]), 'hours') > -5){
-                    add_list = false;
-                    error_log += 'Test time reservation only can be book 5 hours before test please change test ' + test_list_counter + '!</br>\n';
+            if(vendor == 'periksain'){
+                if(now.format('DD MMM YYYY') == document.getElementById('booker_test_date'+i).value){
+                    if(now.diff(moment(document.getElementById('booker_test_date'+i).value+' '+document.getElementById('booker_timeslot_id'+i).value.split('~')[1]), 'hours') > -5){
+                        add_list = false;
+                        error_log += 'Test time reservation only can be book 5 hours before test please change test ' + test_list_counter + '!</br>\n';
+                    }
+                }
+            }else{
+                if(now.format('DD MMM YYYY') == document.getElementById('booker_test_date'+i).value){
+                    if(now.diff(moment(document.getElementById('booker_test_date'+i).value+' '+document.getElementById('booker_timeslot_id'+i).value.split('~')[1]), 'hours') > -2){
+                        add_list = false;
+                        error_log += 'Test time reservation only can be book 2 hours before test please change test ' + test_list_counter + '!</br>\n';
+                    }
                 }
             }
             if(add_list == true){
@@ -3892,8 +3913,8 @@ function check_passenger(){
                         }else{
                             document.getElementById('adult_kriteria_pasien' + nomor_pax).style['border-color'] = '#EFEFEF';
                         }
-                        if(document.getElementById('adult_pemeriksaan_swab_ke' + nomor_pax).value == ''){
-                            error_log+= 'Please fill pemeriksaan swab for passenger '+nomor_pax+'!</br>\n';
+                        if(document.getElementById('adult_pemeriksaan_swab_ke' + nomor_pax).value == '' || check_number(document.getElementById('adult_pemeriksaan_swab_ke' + nomor_pax).value) == false){
+                            error_log+= 'Please pemeriksaan swab contain number only for passenger '+nomor_pax+'!</br>\n';
                             document.getElementById('adult_pemeriksaan_swab_ke' + nomor_pax).style['border-color'] = 'red';
                         }else{
                             document.getElementById('adult_pemeriksaan_swab_ke' + nomor_pax).style['border-color'] = '#EFEFEF';
