@@ -4422,3 +4422,13 @@ function clear_text_medical(sequence){
     document.getElementById("name_pax"+sequence).textContent = "--Fill Passenger--";
     document.getElementById("birth_date"+sequence).textContent = "";
 }
+
+function share_data(){
+    const el = document.createElement('textarea');
+    el.value = $text;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+    $text_share = window.encodeURIComponent($text);
+}

@@ -102,7 +102,7 @@
                 <div class="col-lg-12">
                     <h3 id="display_state"></h3>
                 </div>
-                <div class="mb-3" id="medical_booking" style="padding:15px; background:white; border:1px solid #cdcdcd;">
+                <div id="medical_booking">
 
                 </div>
                 <div class="row review-detail" style="margin-bottom:15px;" id="medical_btn_printout">
@@ -134,7 +134,7 @@
                 <button type="button" class="primary-btn" id="button-home" style="width:100%;margin-top:15px;" onclick="window.location.href='/'" hidden>
                     {% trans 'Home' %}
                 </button>
-                <button type="button" class="primary-btn" id="button-new-reservation" style="width:100%;margin-top:15px;" onclick="window.location.href='/'+window.location.href.split('/')[3]" hidden>
+                <button type="button" class="primary-btn" id="button-new-reservation" style="width:100%;margin-top:15px;" onclick="window.location.href='/'+window.location.href.split('/')[3]+'/'+window.location.href.split('/')[3]" hidden>
                     {% trans 'Book New Reservation' %}
                 </button>
             </div>

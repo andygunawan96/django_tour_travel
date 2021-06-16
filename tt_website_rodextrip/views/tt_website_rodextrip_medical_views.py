@@ -104,13 +104,7 @@ def medical(request, vendor=''):
         else:
             return no_session_logout(request)
     else:
-        if vendor == 'login':
-            return login(request)
-        try:
-            language = request.session['_language']
-        except:
-            language = ''
-        return redirect(language + '/')
+        return no_session_logout(request)
 
 def passenger(request, vendor, test_type=''):
     if 'user_account' in request.session._session:
