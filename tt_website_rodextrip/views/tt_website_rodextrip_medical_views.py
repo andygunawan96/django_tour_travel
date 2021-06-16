@@ -162,7 +162,7 @@ def passenger(request, vendor, test_type=''):
     else:
         return no_session_logout(request)
 
-def review(request):
+def review(request, vendor):
     if 'user_account' in request.session._session:
         try:
             javascript_version = get_javascript_version()
