@@ -103,7 +103,7 @@ def login(request):
         if res['result']['error_code'] == 0:
             set_session(request, 'medical_signature', res['result']['response']['signature'])
             set_session(request, 'signature', res['result']['response']['signature'])
-            _logger.info(json.dumps(request.session['event_signature']))
+            _logger.info(json.dumps(request.session['medical_signature']))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
