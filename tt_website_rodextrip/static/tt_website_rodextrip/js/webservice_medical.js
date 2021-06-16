@@ -292,19 +292,29 @@ function medical_check_price(){
     var test_list_counter = 1;
     var add_list = true;
     var error_log = '';
-    if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCHCKATG')
-    for(i=1; i <= test_time; i++){
-        try{
-            add_list = true;
-            if(now.format('DD MMM YYYY') == document.getElementById('booker_test_date'+i).value){
-                if(now.diff(moment(document.getElementById('booker_test_date'+i).value+' '+document.getElementById('booker_timeslot_id'+i).value.split('~')[1]), 'hours') > -5){
-                    add_list = false;
-                    error_log += 'Test time reservation only can be book 5 hours before test please change test ' + test_list_counter + '!</br>\n';
+    if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCHCKATG' || vendor == 'phc' && test_type == 'PHCHCKPCR'){
+        for(i=1; i <= test_time; i++){
+            try{
+                add_list = true;
+                if(vendor == 'periksain'){
+                    if(now.format('DD MMM YYYY') == document.getElementById('booker_test_date'+i).value){
+                        if(now.diff(moment(document.getElementById('booker_test_date'+i).value+' '+document.getElementById('booker_timeslot_id'+i).value.split('~')[1]), 'hours') > -5){
+                            add_list = false;
+                            error_log += 'Test time reservation only can be book 5 hours before test please change test ' + test_list_counter + '!</br>\n';
+                        }
+                    }
+                }else{
+                    if(now.format('DD MMM YYYY') == document.getElementById('booker_test_date'+i).value){
+                        if(now.diff(moment(document.getElementById('booker_test_date'+i).value+' '+document.getElementById('booker_timeslot_id'+i).value.split('~')[1]), 'hours') > -2){
+                            add_list = false;
+                            error_log += 'Test time reservation only can be book 2 hours before test please change test ' + test_list_counter + '!</br>\n';
+                        }
+                    }
                 }
-            }
-            test_list_counter++;
-        }catch(err){
+                test_list_counter++;
+            }catch(err){
 
+            }
         }
 
     }
@@ -349,6 +359,25 @@ function medical_check_price(){
                     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                         text+=`
                             <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"><br/>`;
+                    text += `</div>`;
+
+                    if(msg.result.response.extra_cost == true){
+                        text += `
+                            <label style="color:red !important;">* </label>
+                            <label>Extra Cost</label>
+                            <br/>`;
+                        if(vendor == 'periksain'){
+                            text+=`
+                                <label style="margin-left:5px;">- 5 hours before test</label>
+                                <br/>`;
+                            text+=`
+                                <label style="margin-left:5px;">- After 19:00 WIB</label>
+                                <br/>`;
+                        }
+                        text+=`
+                            <label style="margin-left:5px;">- Only 1 customer</label>`;
+                    }
+
                     document.getElementById('medical_detail').innerHTML = text;
                     document.getElementById('medical_detail').style.display = 'block';
                     document.getElementById('next_medical').style.display = 'block';
