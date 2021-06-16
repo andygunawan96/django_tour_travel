@@ -36,7 +36,7 @@
                             {% endif %}
                             {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                 {% if provider_type != 'payment' and  provider_type != 'bank' %}
-                            <li><a href="/{{provider_type}}"><script>
+                            <li><a href="/{% if provider_type == 'phc' or provider_type == 'periksain' %}medical/{% endif %}{{provider_type}}"><script>
                             temp = `{{provider_type}}`;
                             temp = temp.split('_');
                             data = '';

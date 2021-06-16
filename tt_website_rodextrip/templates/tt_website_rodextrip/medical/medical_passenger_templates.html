@@ -404,7 +404,9 @@
                                 <div class="input-container-search-ticket">
                                     <div class="form-select-2" id="default-select">
                                         <select id="passenger" name="passenger" class="nice-select-default" onchange="add_table();">
+                                            {% if vendor == 'periksain' or vendor == 'phc' and test_type == 'PHCDTKATG' or vendor == 'phc' and test_type == 'PHCDTKPCR' %}
                                             <option value="1">1</option>
+                                            {% endif %}
                                             <option value="2">2</option>
                                             <option value="3">3</option>
                                             <option value="4">4</option>
