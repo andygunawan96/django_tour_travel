@@ -3794,14 +3794,14 @@ function check_passenger(){
                     }else{
                         document.getElementById('adult_address' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
-                    if(document.getElementById('adult_rt' + nomor_pax).value == ''){
-                        error_log+= 'Please fill RT for passenger '+nomor_pax+'!</br>\n';
+                    if(document.getElementById('adult_rt' + nomor_pax).value == '' && check_number(document.getElementById('adult_rt' + nomor_pax).value == '') == false){
+                        error_log+= 'RT only contain number for passenger '+nomor_pax+'!</br>\n';
                         document.getElementById('adult_rt' + nomor_pax).style['border-color'] = 'red';
                     }else{
                         document.getElementById('adult_rt' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
-                    if(document.getElementById('adult_rw' + nomor_pax).value == ''){
-                        error_log+= 'Please fill RW for passenger '+nomor_pax+'!</br>\n';
+                    if(document.getElementById('adult_rw' + nomor_pax).value == '' && check_number(document.getElementById('adult_rw' + nomor_pax).value == '') == false){
+                        error_log+= 'RW only contain number for passenger '+nomor_pax+'!</br>\n';
                         document.getElementById('adult_rw' + nomor_pax).style['border-color'] = 'red';
                     }else{
                         document.getElementById('adult_rw' + nomor_pax).style['border-color'] = '#EFEFEF';
@@ -3831,14 +3831,14 @@ function check_passenger(){
                     }else{
                         document.getElementById('adult_address_ktp' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
-                    if(document.getElementById('adult_rt_ktp' + nomor_pax).value == ''){
-                        error_log+= 'Please fill RT KTP for passenger '+nomor_pax+'!</br>\n';
+                    if(document.getElementById('adult_rt_ktp' + nomor_pax).value == '' && check_number(document.getElementById('adult_rt_ktp' + nomor_pax).value == '') == false){
+                        error_log+= 'RT KTP only contain number for passenger '+nomor_pax+'!</br>\n';
                         document.getElementById('adult_rt_ktp' + nomor_pax).style['border-color'] = 'red';
                     }else{
                         document.getElementById('adult_rt_ktp' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
-                    if(document.getElementById('adult_rw_ktp' + nomor_pax).value == ''){
-                        error_log+= 'Please fill RW KTP for passenger '+nomor_pax+'!</br>\n';
+                    if(document.getElementById('adult_rw_ktp' + nomor_pax).value == '' && check_number(document.getElementById('adult_rw_ktp' + nomor_pax).value == '') == false){
+                        error_log+= 'RW KTP only contain number for passenger '+nomor_pax+'!</br>\n';
                         document.getElementById('adult_rw_ktp' + nomor_pax).style['border-color'] = 'red';
                     }else{
                         document.getElementById('adult_rw_ktp' + nomor_pax).style['border-color'] = '#EFEFEF';
@@ -3914,7 +3914,7 @@ function check_passenger(){
                             document.getElementById('adult_kriteria_pasien' + nomor_pax).style['border-color'] = '#EFEFEF';
                         }
                         if(document.getElementById('adult_pemeriksaan_swab_ke' + nomor_pax).value == '' || check_number(document.getElementById('adult_pemeriksaan_swab_ke' + nomor_pax).value) == false){
-                            error_log+= 'Please pemeriksaan swab contain number only for passenger '+nomor_pax+'!</br>\n';
+                            error_log+= 'Pemeriksaan swab only contain number for passenger '+nomor_pax+'!</br>\n';
                             document.getElementById('adult_pemeriksaan_swab_ke' + nomor_pax).style['border-color'] = 'red';
                         }else{
                             document.getElementById('adult_pemeriksaan_swab_ke' + nomor_pax).style['border-color'] = '#EFEFEF';
