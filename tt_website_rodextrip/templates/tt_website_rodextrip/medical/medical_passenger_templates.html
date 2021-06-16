@@ -118,7 +118,7 @@
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
     <div class="container">
         <div class="banner-right">
-            <form id="medical_review" class="form-wrap" action="{% url 'tt_website_rodextrip:medical_review'%}" method="POST" style="padding:0; text-align:unset;">
+            <form id="medical_review" class="form-wrap" action="/medical/{{vendor}}/review" method="POST" style="padding:0; text-align:unset;">
                 {% csrf_token %}
                 <div class="row">
                     <div class="col-lg-8" style="margin-top:10px;">
