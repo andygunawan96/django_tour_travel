@@ -845,7 +845,9 @@ function medical_get_booking(order_number, sync=false){
                                                 <td>`+msg.result.response.passengers[i].title+` `+msg.result.response.passengers[i].name+`</td>
                                                 <td>`+msg.result.response.passengers[i].email+`</td>
                                                 <td>`+msg.result.response.passengers[i].phone_number+`</td>
-                                            </tr>
+                                            </tr>`;
+                            if(i == msg.result.response.passengers.length-1)
+                            text+=`
                                         </table>
                                     </div>`;
                         }
