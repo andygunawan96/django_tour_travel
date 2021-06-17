@@ -256,6 +256,7 @@ function medical_get_availability(){
                     document.getElementById('booker_area').innerHTML = text_innerHTML;
                     $('#booker_area').niceSelect('update');
                     add_other_time();
+                    change_area();
                 }else if(vendor == 'phc' && test_type == 'PHCDTKATG' || vendor == 'phc' && test_type == 'PHCDTKPCR'){
                     var text_innerHTML = '';
                     text_innerHTML += `<option value='surabaya' selected>Surabaya</option>`;
