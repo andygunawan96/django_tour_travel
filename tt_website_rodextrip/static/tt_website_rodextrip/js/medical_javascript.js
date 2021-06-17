@@ -503,7 +503,7 @@ function add_table_of_passenger(type){
                                             <div class="input-container-search-ticket" style="margin-bottom:5px;">
                                                 <input type="text" class="form-control" name="adult_address_ktp`+parseInt(counter_passenger+1)+`" id="adult_address_ktp`+parseInt(counter_passenger+1)+`" placeholder="Address KTP " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address KTP '" onchange="auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">
                                             </div>
-                                        </div>
+                                        </div>`;
                                     }else if(vendor == 'phc'){
                                         text_modal_paxs+=`
 
