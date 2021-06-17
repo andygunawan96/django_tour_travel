@@ -495,8 +495,16 @@ function add_table_of_passenger(type){
                                         }
                                     text_modal_paxs+=`</div>`;
 
-
-                                    if(vendor == 'phc'){
+                                    if(vendor == 'periksain'){
+                                        text_modal_paxs+=`
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label style="color:red !important">*</label>
+                                            <label>Address KTP</label>
+                                            <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                                                <input type="text" class="form-control" name="adult_address_ktp`+parseInt(counter_passenger+1)+`" id="adult_address_ktp`+parseInt(counter_passenger+1)+`" placeholder="Address KTP " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address KTP '" onchange="auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">
+                                            </div>
+                                        </div>
+                                    }else if(vendor == 'phc'){
                                         text_modal_paxs+=`
 
                                         <div class="col-lg-6 col-md-6 col-sm-6">
@@ -3697,6 +3705,13 @@ function check_passenger(){
                     }else{
                         document.getElementById('adult_sample_method' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
+                    if(document.getElementById('adult_address_ktp' + nomor_pax).value == ''){
+                        error_log+= 'Please fill address ktp for passenger '+nomor_pax+'!</br>\n';
+                        document.getElementById('adult_address_ktp' + nomor_pax).style['border-color'] = 'red';
+                    }else{
+                        document.getElementById('adult_address_ktp' + nomor_pax).style['border-color'] = '#EFEFEF';
+                    }
+
                     if(document.getElementById('adult_identity_type' + nomor_pax).value != ''){
                         document.getElementById('adult_identity_type' + nomor_pax).style['border-color'] = '#EFEFEF';
                         if(document.getElementById('adult_identity_type' + nomor_pax).value == 'ktp'){
@@ -3710,7 +3725,7 @@ function check_passenger(){
                                 document.getElementById('adult_identity_number'+ nomor_pax).style['border-color'] = '#EFEFEF';
                             }
                             if(document.getElementById('adult_country_of_issued'+ nomor_pax).value == ''){
-                                error_log+= 'Please fill country of issued for passenger '+i+'!</br>\n';
+                                error_log+= 'Please fill country of issued for passenger '+ nomor_pax +'!</br>\n';
                                 document.getElementById('adult_country_of_issued'+ nomor_pax).style['border-color'] = 'red';
                             }else{
                                 document.getElementById('adult_country_of_issued'+ nomor_pax).style['border-color'] = '#EFEFEF';
@@ -3743,6 +3758,7 @@ function check_passenger(){
                         },
                         "passenger_seq_id": document.getElementById('adult_id' + nomor_pax).value,
                         "sample_method": document.getElementById('adult_sample_method' + nomor_pax).value,
+                        "address_ktp": document.getElementById('adult_address_ktp' + nomor_pax).value,
                         "email": document.getElementById('adult_email' + nomor_pax).value,
                         "phone_number": document.getElementById('adult_phone_code'+nomor_pax+'_id').value + document.getElementById('adult_phone'+nomor_pax).value,
                         'is_also_booker': is_also_booker,
