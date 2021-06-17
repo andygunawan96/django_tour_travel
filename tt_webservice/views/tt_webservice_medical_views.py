@@ -70,6 +70,8 @@ def api_models(request):
             res = issued(request)
         elif req_data['action'] == 'get_result':
             res = get_result(request)
+        elif req_data['action'] == 'get_transaction_by_analyst':
+            res = get_transaction_by_analyst(request)
 
         else:
             res = ERR.get_error_api(1001)
@@ -496,6 +498,33 @@ def get_result(request):
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "get_result",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    res = util.send_request(url=url + additional_url, data=data, headers=headers, method='POST', timeout=300)
+    try:
+        if res['result']['error_code'] == 0:
+            _logger.info("SUCCESS get result SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("ERROR medical_getresult SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def get_transaction_by_analyst(request):
+    try:
+        data = {
+            'date_from': request.POST['date_from'],
+            'date_to': request.POST['date_to'],
+        }
+        additional_url = 'booking/%s' % request.POST['vendor']
+
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_transaction_by_analyst",
             "signature": request.POST['signature'],
         }
     except Exception as e:

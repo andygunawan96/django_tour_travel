@@ -809,14 +809,16 @@ function medical_get_booking(order_number, sync=false){
                                             </tr>`;
                                 }
                                 text+=`<tr>
-                                                <td class="list-of-passenger-left">`+(1)+`</td>
+                                                <td class="list-of-passenger-left">`+(parseInt(j)+1)+`</td>
                                                 <td>`+pax.title+` `+pax.name+`</td>
                                                 <td>`+pax.email+`</td>
                                                 <td>`+pax.phone_number+`</td>
                                                 <td>`+msg.result.response.provider_bookings[i].tickets[j].ticket_number+`</td>
                                             </tr>
-                                        </table>
-                                    </div>`;
+                                `;
+                                if(j == msg.result.response.provider_bookings[i].tickets.length -1)
+                                text += `</table>
+                                    </div>`
                             }
                             print_provider = true
                         }
