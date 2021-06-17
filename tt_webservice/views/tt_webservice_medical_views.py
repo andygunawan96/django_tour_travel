@@ -68,6 +68,8 @@ def api_models(request):
             res = get_booking(request)
         elif req_data['action'] == 'issued':
             res = issued(request)
+        elif req_data['action'] == 'get_result':
+            res = get_result(request)
 
         else:
             res = ERR.get_error_api(1001)
@@ -464,6 +466,36 @@ def issued(request):
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "issued",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    res = util.send_request(url=url + additional_url, data=data, headers=headers, method='POST', timeout=300)
+    try:
+        if res['result']['error_code'] == 0:
+            _logger.info("SUCCESS issued MEDICAL SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("ERROR medical_airline AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def get_result(request):
+    try:
+        data = {
+            'order_number': request.POST['order_number'],
+        }
+        additional_url = 'booking/'
+        if 'PK' in request.POST['order_number']:
+            additional_url += 'periksain'
+        else:
+            additional_url += 'phc'
+
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_result",
             "signature": request.POST['signature'],
         }
     except Exception as e:
