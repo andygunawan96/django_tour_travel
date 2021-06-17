@@ -1107,7 +1107,15 @@ function medical_get_booking(order_number, sync=false){
                     text_detail+=`
                     <div style="margin-bottom:5px;">
                         <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"/>
-                    </div>
+                    </div>`;
+                    if (msg.result.response.state  == 'issued' && msg.result.response.order_number.includes('PH')) {
+                        text_detail+=`
+                        <button class="primary-btn hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="medical_get_result('` + msg.result.response.order_number + `');" style="width:100%;">
+                            Get Result
+                            <div class="ld ld-ring ld-cycle"></div>
+                        </button>`;
+                    }
+                    text_detail+=`
                 </div>`;
                 }catch(err){console.log(err);}
                 console.log(text_detail);
@@ -1648,4 +1656,53 @@ function medical_issued_booking(data){
         });
       }
     })
+}
+
+function medical_get_result(data){
+    var temp_data = {}
+    if(typeof(medical_get_detail) !== 'undefined')
+        temp_data = JSON.stringify(medical_get_detail)
+    show_loading();
+    please_wait_transaction();
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/medical",
+       headers:{
+            'action': 'get_result',
+       },
+       data: {
+           'order_number': data,
+           'booking': temp_data,
+           'signature': signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           hide_modal_waiting_transaction();
+           if(msg.result.error_code == 0){
+                if(msg.result.response.length != medical_get_detail.result.response.passengers.length){
+                    Swal.fire({
+                      type: 'warning',
+                      title: 'Notification!',
+                      html: 'Result still not ready for some customer!',
+                   })
+                }
+                for(i in msg.result.response)
+                    window.open(msg.result.response[i],'_blank');
+           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                auto_logout();
+           }else{
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error PHC get result </span>' + msg.result.error_msg,
+                })
+
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            hide_modal_waiting_transaction();
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get price medical');
+       },timeout: 300000
+    });
 }

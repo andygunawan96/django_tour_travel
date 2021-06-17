@@ -381,6 +381,14 @@ def get_transactions(request):
                 start_date = request.POST['start_date']
             if request.POST['end_date'] != 'Invalid date':
                 end_date = request.POST['end_date']
+
+            tmp_pnr = request.POST['pnr']
+            if '.' in tmp_pnr:
+                pnr = ''
+                order_number = tmp_pnr
+            else:
+                pnr = tmp_pnr
+                order_number = ''
             data = {
                 'minimum': int(request.POST['offset']) * int(request.POST['limit']),
                 'maximum': (int(request.POST['offset']) + 1) * int(request.POST['limit']),
@@ -389,7 +397,8 @@ def get_transactions(request):
                 "type": request.POST['type'],
                 # "name": request.POST['name'],
                 "passenger_name": request.POST['passenger_name'],
-                'pnr': request.POST['pnr'],
+                'pnr': pnr,
+                'order_number': order_number,
                 "date_from": start_date,
                 "date_to": end_date,
                 "state": request.POST['state']
