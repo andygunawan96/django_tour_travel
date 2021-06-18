@@ -177,6 +177,13 @@ function add_table_of_passenger(type){
 
         </td>`;
         if(vendor == 'periksain'){
+            text+=`<td>
+                        <label style="color:red !important">*</label>
+                        <label>Address KTP</label>
+                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                            <input type="text" class="form-control" name="adult_address_ktp`+parseInt(counter_passenger+1)+`" id="adult_address_ktp`+parseInt(counter_passenger+1)+`" placeholder="Address KTP " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address KTP '" onchange="auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">
+                        </div>
+                   </td>`;
             text+=`<td>`;
             if(template == 1){
                 text+=`<div class="input-container-search-ticket">`;
@@ -495,16 +502,8 @@ function add_table_of_passenger(type){
                                         }
                                     text_modal_paxs+=`</div>`;
 
-                                    if(vendor == 'periksain'){
-                                        text_modal_paxs+=`
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
-                                            <label style="color:red !important">*</label>
-                                            <label>Address KTP</label>
-                                            <div class="input-container-search-ticket" style="margin-bottom:5px;">
-                                                <input type="text" class="form-control" name="adult_address_ktp`+parseInt(counter_passenger+1)+`" id="adult_address_ktp`+parseInt(counter_passenger+1)+`" placeholder="Address KTP " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address KTP '" onchange="auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">
-                                            </div>
-                                        </div>`;
-                                    }else if(vendor == 'phc'){
+
+                                    if(vendor == 'phc'){
                                         text_modal_paxs+=`
 
                                         <div class="col-lg-6 col-md-6 col-sm-6">
@@ -3569,7 +3568,7 @@ function check_passenger(){
             add_list = true;
             if(vendor == 'periksain'){
                 if(now.format('DD MMM YYYY') == document.getElementById('booker_test_date'+i).value){
-                    if(now.diff(moment(document.getElementById('booker_test_date'+i).value+' '+document.getElementById('booker_timeslot_id'+i).value.split('~')[1]), 'hours') > -5){
+                    if(now.diff(moment(document.getElementById('booker_test_date'+i).value+' '+document.getElementById('booker_timeslot_id'+i).value.split('~')[1]), 'hours') > -3){
                         add_list = false;
                         error_log += 'Test time reservation only can be book 5 hours before test please change test ' + test_list_counter + '!</br>\n';
                     }
