@@ -90,7 +90,7 @@ function get_config_medical(type='', vendor=''){
                         $('#medical_type_phc').niceSelect('update');
                     }else if(vendor == 'periksain'){
                         for(i in msg.result.response)
-                            text += '<option value="'+i+'">Antigen</option>';
+                            text += '<option value="'+i+'">'+msg.result.response[i].name+'</option>';
                         document.getElementById('medical_type_periksain').innerHTML += text;
                         $('#medical_type_periksain').niceSelect('update');
                     }
