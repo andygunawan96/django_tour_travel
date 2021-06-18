@@ -1128,12 +1128,12 @@ function medical_get_booking(order_number, sync=false){
                 }catch(err){console.log(err);}
 
 //                if(user_login.co_agent_frontend_security.includes('view_map')) //map comment dulu
-//                    if(msg.result.response.test_address_map_link){
-                map = msg.result.response.test_address_map_link.split('/')[msg.result.response.test_address_map_link.split('/').length-1]
-                lat = parseFloat(map.split(',')[0]);
-                long = parseFloat(map.split(',')[1]);
+                if(msg.result.response.test_address_map_link){
+                    map = msg.result.response.test_address_map_link.split('/')[msg.result.response.test_address_map_link.split('/').length-1]
+                    lat = parseFloat(map.split(',')[0]);
+                    long = parseFloat(map.split(',')[1]);
 //                        change_area();
-//                    }
+                }
 
                 document.getElementById('medical_detail').innerHTML = text_detail;
                     //======================= Button Issued ==================
@@ -1152,9 +1152,11 @@ function medical_get_booking(order_number, sync=false){
                         document.getElementById('show_title_medical').hidden = true;
                         document.getElementById('display_state').innerHTML = `Your Order Has Been Issued`;
                         //check permission klo ada button di update
-                        document.getElementById('div_sync_status').hidden = false;
-                        document.getElementById('div_sync_status').innerHTML =`
-                            <input type="button" class="primary-btn" id="button-sync-status" style="width:100%;" value="Map" onclick="window.open('http://maps.google.com/?q=`+lat+`,`+long+`','_blank');">`
+                        if(msg.result.response.test_address_map_link){
+                            document.getElementById('div_sync_status').hidden = false;
+                            document.getElementById('div_sync_status').innerHTML =`
+                                <input type="button" class="primary-btn" id="button-sync-status" style="width:100%;" value="Map" onclick="window.open('http://maps.google.com/?q=`+lat+`,`+long+`','_blank');">`
+                        }
                         //document.getElementById('display_prices').style.display = "none";
                         $text += 'Status: Issued\n';
                     }
@@ -1761,7 +1763,8 @@ function get_transaction_by_analyst(){
                         <th style="width:15%;">Agent</th>
                         <th style="width:15%;">Test Time</th>
                         <th style="width:10%;">Status</th>
-                        <th style="width:28%;">Test Address</th>
+                        <th style="width:23%;">Test Address</th>
+                        <th style="width:5%;">Map</th>
                         <th style="width:7%;">Action</th>
                     </tr>`;;
                 document.getElementById("table_reservation").appendChild(node);
@@ -1773,7 +1776,7 @@ function get_transaction_by_analyst(){
                         var node = document.createElement("tr");
                         node.innerHTML = `
                         <tr>
-                            <td colspan=6 style="text-align:center;">`+moment(i).format('DD MMM YYYY')+`</td>
+                            <td colspan=8 style="text-align:center;">`+moment(i).format('DD MMM YYYY')+`</td>
                         <tr/>`;
                         document.getElementById("table_reservation").appendChild(node);
                     }
@@ -1788,6 +1791,7 @@ function get_transaction_by_analyst(){
                             timezone = timezone.filter(item => item !== '0')
                         }
                         test_time = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
+                        map = msg.result.response[i][j].test_address_map_link.split('/')[msg.result.response[i][j].test_address_map_link.split('/').length-1]
                         var node = document.createElement("tr");
                         node.innerHTML = `
                         <tr>
@@ -1797,6 +1801,7 @@ function get_transaction_by_analyst(){
                             <td>`+test_time+`</td>
                             <td>`+msg.result.response[i][j].state_description+`</td>
                             <td>`+msg.result.response[i][j].test_address+`</td>
+                            <td><input type="button" class="primary-btn" id="button-sync-status" style="width:100%;" value="Map" onclick="window.open('http://maps.google.com/?q=`+map+`','_blank');"></td>
                             <td><button type='button' class="primary-btn-custom" onclick="goto_detail_reservation('`+msg.result.response[i][j].order_number+`')"><i class="fas fa-search"></button></td>
                         <tr/>`;
                         document.getElementById("table_reservation").appendChild(node);

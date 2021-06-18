@@ -3494,12 +3494,14 @@
                 });
             }
         }else{
-            web_url = '';
-            map.setCenter(new google.maps.LatLng(list_map_choose.lat,list_map_choose.long));
-            document.getElementById('pac-input').value = '';
-            if(marker){
-                marker.visible = false;
-                marker.setPosition();
+            if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCHCKATG' || vendor == 'phc' && test_type == 'PHCHCKPCR'){
+                web_url = '';
+                map.setCenter(new google.maps.LatLng(list_map_choose.lat,list_map_choose.long));
+                document.getElementById('pac-input').value = '';
+                if(marker){
+                    marker.visible = false;
+                    marker.setPosition();
+                }
             }
         }
         {% endif %}
