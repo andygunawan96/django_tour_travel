@@ -3410,7 +3410,6 @@
     function change_area(){
         {% if google_api_key != ''%}
         var list_map_choose = {};
-        web_url = '';
         if(vendor == 'phc' && test_type == 'PHCDTKATG' || vendor == 'phc' && test_type == 'PHCDTKPCR'){
             list_map_choose = list_map[3];
         }else if(document.getElementById('booker_area').value == 'surabaya' || document.getElementById('booker_area').value == 'Surabaya'){
