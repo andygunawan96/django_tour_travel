@@ -673,15 +673,20 @@ function medical_get_booking(order_number, sync=false){
                     document.getElementById('button-home').hidden = false;
                     document.getElementById('button-new-reservation').hidden = false;
                     hide_modal_waiting_transaction();
-                    tes = moment.utc(msg.result.response.hold_date).format('YYYY-MM-DD HH:mm:ss')
-                    localTime  = moment.utc(tes).toDate();
+                    gmt = '';
+                    timezone = '';
+                    if(msg.result.response.hold_date){
+                        tes = moment.utc(msg.result.response.hold_date).format('YYYY-MM-DD HH:mm:ss')
+                        localTime  = moment.utc(tes).toDate();
 
-                    data_gmt = moment(msg.result.response.hold_date)._d.toString().split(' ')[5];
-                    gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, '');
-                    timezone = data_gmt.replace (/[^\d.]/g, '');
-                    timezone = timezone.split('')
-                    timezone = timezone.filter(item => item !== '0')
-                    msg.result.response.hold_date = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
+                        data_gmt = moment(msg.result.response.hold_date)._d.toString().split(' ')[5];
+                        gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, '');
+                        timezone = data_gmt.replace (/[^\d.]/g, '');
+                        timezone = timezone.split('')
+                        timezone = timezone.filter(item => item !== '0')
+                        msg.result.response.hold_date = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
+                    }
+
                     if(msg.result.response.booked_date != ''){
                         tes = moment.utc(msg.result.response.booked_date).format('YYYY-MM-DD HH:mm:ss')
                         localTime  = moment.utc(tes).toDate();
@@ -884,8 +889,6 @@ function medical_get_booking(order_number, sync=false){
                     for(i in msg.result.response.provider_bookings){
                     csc = 0;
                     try{
-
-
                         for(j in msg.result.response.passengers){
                             price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
                             for(k in msg.result.response.passengers[j].sale_service_charges[msg.result.response.provider_bookings[i].pnr]){
@@ -1123,13 +1126,24 @@ function medical_get_booking(order_number, sync=false){
                     text_detail+=`
                 </div>`;
                 }catch(err){console.log(err);}
-                console.log(text_detail);
+
+//                if(user_login.co_agent_frontend_security.includes('view_map')) //map comment dulu
+//                    if(msg.result.response.test_address_map_link){
+                map = msg.result.response.test_address_map_link.split('/')[msg.result.response.test_address_map_link.split('/').length-1]
+                lat = parseFloat(map.split(',')[0]);
+                long = parseFloat(map.split(',')[1]);
+//                        change_area();
+//                    }
+
                 document.getElementById('medical_detail').innerHTML = text_detail;
                     //======================= Button Issued ==================
                     if(msg.result.response.state == 'booked'){
                        check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'medical', signature, msg.result.response.payment_acquirer_number);
                        $(".issued_booking_btn").show();
                        $text += 'Status: Booked\n';
+                       document.getElementById('div_sync_status').hidden = false;
+                       document.getElementById('div_sync_status').innerHTML =`
+                       <input type="button" class="primary-btn" id="button-sync-status" style="width:100%;" value="Sync Status" onclick="please_wait_transaction();medical_get_booking('`+order_number+`',true)">`
                     }
                     else if(msg.result.response.state == 'issued'){
                         document.getElementById('issued-breadcrumb').classList.add("br-active");
@@ -1137,6 +1151,10 @@ function medical_get_booking(order_number, sync=false){
                         document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
                         document.getElementById('show_title_medical').hidden = true;
                         document.getElementById('display_state').innerHTML = `Your Order Has Been Issued`;
+                        //check permission klo ada button di update
+                        document.getElementById('div_sync_status').hidden = false;
+                        document.getElementById('div_sync_status').innerHTML =`
+                            <input type="button" class="primary-btn" id="button-sync-status" style="width:100%;" value="Map" onclick="window.open('http://maps.google.com/?q=`+lat+`,`+long+`','_blank');">`
                         //document.getElementById('display_prices').style.display = "none";
                         $text += 'Status: Issued\n';
                     }
@@ -1149,6 +1167,7 @@ function medical_get_booking(order_number, sync=false){
                         document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
                         document.getElementById('issued-breadcrumb-span').innerHTML = `Expired`;
                         document.getElementById('display_state').innerHTML = `Your Order Has Been Expired`;
+                        document.getElementById('div_sync_status').hidden = true;
                     }
                     else if(msg.result.response.state == 'fail_issued'){
                         $text = 'Failed (Issue)';
@@ -1159,6 +1178,7 @@ function medical_get_booking(order_number, sync=false){
                         document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
                         document.getElementById('issued-breadcrumb-span').innerHTML = `Failed (Issue)`;
                         document.getElementById('display_state').innerHTML = `Your Order Has Been Failed (Issue)`;
+                        document.getElementById('div_sync_status').hidden = true;
                     }
                     else if(msg.result.response.state == 'fail_booked'){
                         $text = 'Failed (Book)';
@@ -1169,6 +1189,7 @@ function medical_get_booking(order_number, sync=false){
                         document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
                         document.getElementById('issued-breadcrumb-span').innerHTML = `Failed (Book)`;
                         document.getElementById('display_state').innerHTML = `Your Order Has Been Failed (Book)`;
+                        document.getElementById('div_sync_status').hidden = true;
                     }
                     else if(msg.result.response.state == 'fail_refunded'){
                         $text = 'Failed (Refunded)';
@@ -1179,6 +1200,7 @@ function medical_get_booking(order_number, sync=false){
                         document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
                         document.getElementById('issued-breadcrumb-span').innerHTML = `Failed (Refunded)`;
                         document.getElementById('display_state').innerHTML = `Your Order Has Been Failed (Refunded)`;
+                        document.getElementById('div_sync_status').hidden = true;
                     }
                     else if(msg.result.response.state == 'refund'){
                         $text = 'Refunded';
@@ -1187,6 +1209,7 @@ function medical_get_booking(order_number, sync=false){
                         document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
                         document.getElementById('issued-breadcrumb-span').innerHTML = `Refunded`;
                         document.getElementById('display_state').innerHTML = `Your Order Has Been Refunded`;
+                        document.getElementById('div_sync_status').hidden = true;
                     }
 
 
@@ -1284,7 +1307,6 @@ function medical_get_booking(order_number, sync=false){
 
                     //======================= Other =========================
                     add_repricing();
-                    console.log($text);
                 }else{
                     //swal
                 }
@@ -1704,6 +1726,94 @@ function medical_get_result(data){
                 })
 
            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            hide_modal_waiting_transaction();
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get price medical');
+       },timeout: 300000
+    });
+}
+
+
+function get_transaction_by_analyst(){
+    $('#loading-search-reservation').show();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/medical",
+       headers:{
+            'action': 'get_transaction_by_analyst',
+       },
+       data: {
+           'date_from': moment(document.getElementById('start_date').value).format('YYYY-MM-DD'),
+           'date_to': moment(document.getElementById('end_date').value).format('YYYY-MM-DD'),
+           'signature': signature,
+           'vendor': vendor
+       },
+       success: function(msg) {
+           console.log(msg);
+           if(msg.result.error_code == 0){
+                document.getElementById("table_reservation").innerHTML = '';
+                var node = document.createElement("tr");
+                node.innerHTML = `
+                    <tr>
+                        <th style="width:5%;">No.</th>
+                        <th style="width:20%;">Order Number</th>
+                        <th style="width:15%;">Agent</th>
+                        <th style="width:15%;">Test Time</th>
+                        <th style="width:10%;">Status</th>
+                        <th style="width:28%;">Test Address</th>
+                        <th style="width:7%;">Action</th>
+                    </tr>`;;
+                document.getElementById("table_reservation").appendChild(node);
+                var test_time = '';
+                var gmt = '';
+                var number = 1;
+                for(i in msg.result.response){
+                    if(Object.keys(msg.result.response).length>1){
+                        var node = document.createElement("tr");
+                        node.innerHTML = `
+                        <tr>
+                            <td colspan=6 style="text-align:center;">`+moment(i).format('DD MMM YYYY')+`</td>
+                        <tr/>`;
+                        document.getElementById("table_reservation").appendChild(node);
+                    }
+                    for(j in msg.result.response[i]){
+                        date = moment.utc(msg.result.response[i][j].time_test, 'YYYY-MM-DD HH:mm').format('YYYY-MM-DD HH:mm:ss');
+                        localTime  = moment.utc(date).toDate();
+                        if(gmt == ''){
+                            data_gmt = moment(msg.result.response[i][j].time_test)._d.toString().split(' ')[5];
+                            gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, '');
+                            timezone = data_gmt.replace (/[^\d.]/g, '');
+                            timezone = timezone.split('')
+                            timezone = timezone.filter(item => item !== '0')
+                        }
+                        test_time = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
+                        var node = document.createElement("tr");
+                        node.innerHTML = `
+                        <tr>
+                            <td>`+number+`</td>
+                            <td>`+msg.result.response[i][j].order_number+`</td>
+                            <td>`+msg.result.response[i][j].agent+`</td>
+                            <td>`+test_time+`</td>
+                            <td>`+msg.result.response[i][j].state_description+`</td>
+                            <td>`+msg.result.response[i][j].test_address+`</td>
+                            <td><button type='button' class="primary-btn-custom" onclick="goto_detail_reservation('`+msg.result.response[i][j].order_number+`')"><i class="fas fa-search"></button></td>
+                        <tr/>`;
+                        document.getElementById("table_reservation").appendChild(node);
+                        number++;
+                    }
+
+                }
+           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                auto_logout();
+           }else{
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error '+vendor+' get result </span>' + msg.result.error_msg,
+                })
+           }
+           $('#loading-search-reservation').hide();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             hide_modal_waiting_transaction();
