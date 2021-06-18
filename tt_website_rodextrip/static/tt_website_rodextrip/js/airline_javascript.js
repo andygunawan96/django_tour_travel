@@ -2101,7 +2101,7 @@ function sort(){
                                                         if(j != 0){
                                                             text+=`<hr style="margin-top:unset; margin-bottom:unset;"/>`;
                                                         }
-                                                        if(airline[i].segments[j].carrier_code != airline[i].segments[j].operating_airline_code){
+                                                        if(airline[i].segments[j].carrier_code != airline[i].segments[j].operating_airline_code && airline[i].segments[j].operating_airline_code != ''){
                                                             try{
                                                                 text += `<span class="copy_operated_by" style="float:left; font-weight: 700; font-size:12px;">Operated by `+airline_carriers[0][airline[i].segments[j].operating_airline_code].name+`</span><br/>`;
 
@@ -2187,7 +2187,7 @@ function sort(){
                                                         text+=`
                                                         <div class="row"><div class="col-lg-12" id="copy_provider_operated`+i+``+j+`">
                                                         <span class="copy_po" hidden>`+j+`</span>`;
-                                                        if(airline[i].segments[j].carrier_code != airline[i].segments[j].operating_airline_code){
+                                                        if(airline[i].segments[j].carrier_code != airline[i].segments[j].operating_airline_code && airline[i].segments[j].operating_airline_code != ''){
                                                             if(j != 0){
                                                                 text+=`<hr/>`;
                                                             }
@@ -2369,10 +2369,17 @@ function sort(){
                                        <div class="row" id="journey0segment0" style="padding:10px;">
                                            <div class="col-lg-2">`;
                                        try{
-                                       text+=`
+                                       if(airline[i].segments[j].carrier_code != airline[i].segments[j].operating_airline_code && airline[i].segments[j].operating_airline_code != ''){
+                                            text+=`
                                            <span style="font-weight: 500; font-size:12px;" class="copy_carrier_provider_details">`+airline_carriers[0][airline[i].segments[j].operating_airline_code].name+`</span><br/>
                                            <span class="carrier_code_template">`+airline[i].segments[j].carrier_name+`</span><br/>
                                            <img data-toggle="tooltip" alt="`+airline[i].segments[j].operating_airline_code+`" style="width:50px; height:50px;" title="`+airline_carriers[0][airline[i].segments[j].operating_airline_code].name+`" src="`+static_path_url_server+`/public/airline_logo/`+airline[i].segments[j].operating_airline_code+`.png"><br/>`;
+                                       }else{
+                                            text+=`
+                                           <span style="font-weight: 500; font-size:12px;" class="copy_carrier_provider_details">`+airline_carriers[0][airline[i].segments[j].carrier_code].name+`</span><br/>
+                                           <span class="carrier_code_template">`+airline[i].segments[j].carrier_name+`</span><br/>
+                                           <img data-toggle="tooltip" alt="`+airline[i].segments[j].operating_airline_code+`" style="width:50px; height:50px;" title="`+airline_carriers[0][airline[i].segments[j].carrier_code].name+`" src="`+static_path_url_server+`/public/airline_logo/`+airline[i].segments[j].carrier_code+`.png"><br/>`;
+                                       }
                                        }catch(err){
                                        text+=`
                                            <span style="font-weight: 500;" class="copy_carrier_provider_details">`+airline[i].segments[j].carrier_code+`</span><br/>
@@ -2807,7 +2814,7 @@ function airline_pick_mc(type){
                         <div class="col-lg-12">
                             <div class="row">
                                 <div class="col-lg-2" style="padding-top:10px;">`;
-                                    if(airline_pick_list[i].segments[j].carrier_code != airline_pick_list[i].segments[j].operating_airline_code){
+                                    if(airline_pick_list[i].segments[j].carrier_code != airline_pick_list[i].segments[j].operating_airline_code && airline_pick_list[i].segments[j].operating_airline_code != ''){
                                         try{
                                             text += `<span class="copy_operated_by" style="float:left; font-weight: 700; font-size:12px;">Operated By `+airline_carriers[0][airline_pick_list[i].segments[j].operating_airline_code].name+`</span><br/>`;
 
@@ -2891,7 +2898,7 @@ function airline_pick_mc(type){
                         <div class="row">
                             <div class="col-lg-2">`;
                                 for(j in airline_pick_list[i].segments){
-                                    if(airline_pick_list[i].segments[j].carrier_code != airline_pick_list[i].segments[j].operating_airline_code){
+                                    if(airline_pick_list[i].segments[j].carrier_code != airline_pick_list[i].segments[j].operating_airline_code && airline_pick_list[i].segments[j].operating_airline_code != ''){
                                         try{
                                             text += `<span class="copy_operated_by" style="float:left; font-weight: 700; font-size:12px;">Operated by `+airline_carriers[0][airline_pick_list[i].segments[j].operating_airline_code].name+`</span><br/>`;
                                         }catch(err){
@@ -3143,7 +3150,7 @@ function airline_pick_mc(type){
                         <div class="row" id="journeypick0segment0">
 
                         <div class="col-lg-2">`;
-                        if(airline_pick_list[i].segments[j].carrier_code != airline_pick_list[i].segments[j].operating_airline_code){
+                        if(airline_pick_list[i].segments[j].carrier_code != airline_pick_list[i].segments[j].operating_airline_code && airline_pick_list[i].segments[j].operating_airline_code != ''){
                         try{
                             text += `<span class="copy_operated_by" style="float:left; font-weight: 700; font-size:12px;">Operated by `+airline_carriers[0][airline_pick_list[i].segments[j].operating_airline_code].name+`</span><br/>`;
 
