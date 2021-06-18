@@ -11,16 +11,12 @@
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_printout.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_medical.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/medical_javascript.js?version={{javascript_version}}"></script>
 <script>
-    static_path_url_server = '{{static_path_url_server}}'
-    airline_carriers = `{{airline_carriers}}`;
-    airline_carriers = airline_carriers.replace(/&#39;/g, '"');
-    airline_carriers = airline_carriers.replace(/&quot;/g, '"');
-    airline_carriers = airline_carriers.replace(/False/g, 'false');
-    airline_carriers = airline_carriers.replace(/True/g, 'true');
-    airline_carriers = JSON.parse(airline_carriers);
+    static_path_url_server = '{{static_path_url_server}}';
     signature = `{{signature}}`;
-
+    vendor = `{{vendor}}`;
     function reset_filter(){
         document.getElementById('name').value = '';
         document.getElementById('pnr').value = '';
@@ -35,6 +31,8 @@
 {% include 'tt_website_rodextrip/logout.html' %}
 {% include 'tt_website_rodextrip/header.html' %}
 {% include 'tt_website_rodextrip/booking_from_vendor_airline.html' %}
+<form action="" method="POST" id="gotobooking">
+</form>
 {% if template == 1%}
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
 {% elif template == 2%}
@@ -49,59 +47,23 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <div class="form-wrap" style="margin-bottom:15px;">
-                    <h4>{% trans 'Reservation Type' %}</h4>
-                    <div class="row banner-right" style="margin-top:15px;">
-                        <div class="col-lg-12" id="type">
-
-                        </div>
-                    </div>
-                </div>
                 <div class="form-wrap" style="margin-bottom:25px;">
                     <h4>{% trans 'Search by' %}</h4>
                     {%if template == 1%}
                     <div class="row banner-right">
                         <div class="col-lg-12 form-wrap" style="padding:15px; text-align:left;" id="search">
                             <div class="row">
-                                <div class="col-lg-4 col-md-6">
-                                    <input type="text" id="pnr" class="form-control enter_reservation" placeholder="PNR or Order Number" onfocus="this.placeholder = ''" onblur="this.placeholder = 'PNR or Order Number'" autocomplete="off"/>
-                                </div>
-                                <div class="col-lg-4 col-md-6">
-                                    <input type="text" id="booker_name" class="form-control enter_reservation" placeholder="{% trans 'Booker name' %}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Booker name'" autocomplete="off"/>
-                                </div>
-                                <div class="col-lg-4 col-md-6">
-                                    <input type="text" id="name" class="form-control enter_reservation" placeholder="{% trans 'Passenger name' %}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passenger Name'" autocomplete="off"/>
-                                </div>
-                                <div class="col-lg-4 col-md-6">
-                                    <span><i class="fas fa-calendar-alt"></i> {% trans 'Start Book Date' %}</span>
+
+                                <div class="col-lg-6 col-md-6">
+                                    <span><i class="fas fa-calendar-alt"></i> {% trans 'Start Date' %}</span>
                                     <div class="input-container-search-ticket">
                                         <input type="text" class="form-control" name="start_date" id="start_date" placeholder="{% trans 'Start Book Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Start Date '" autocomplete="off" readonly>
                                     </div>
                                 </div>
-                                <div class="col-lg-4 col-md-6">
-                                    <span><i class="fas fa-calendar-alt"></i> {% trans 'End Book Date' %}</span>
+                                <div class="col-lg-6 col-md-6">
+                                    <span><i class="fas fa-calendar-alt"></i> {% trans 'End Date' %}</span>
                                     <div class="input-container-search-ticket">
                                         <input type="text" class="form-control" name="end_date" id="end_date" placeholder="{% trans 'End Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'End Date '" autocomplete="off" readonly>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-6">
-                                    <span>{% trans 'State' %}</span>
-                                    <div class="input-container-search-ticket btn-group">
-                                        <div class="form-select" id="default-select">
-                                            <select id="state" class="nice-select-default">
-                                                <option value="all">All</option>
-                                                <option value="draft">Draft</option>
-                                                <option value="booked">Booked</option>
-                                                <option value="issued">Issued</option>
-                                                <option value="pending">Pending</option>
-                                                <option value="done">Done</option>
-                                                <option value="rejected">Rejected</option>
-                                                <option value="refund">Refund</option>
-                                                <option value="cancel">Cancelled</option>
-                                                <option value="cancel2">Expired</option>
-                                                <option value="fail_booked">Failed (Book)</option>
-                                            </select>
-                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-12" style="text-align:right;">
@@ -109,7 +71,7 @@
                                 </div>
 
                                 <div class="col-lg-12" style="text-align:center;">
-                                    <input type="button" class="primary-btn-custom" value="Search" onclick="get_transactions('filter');" id="button"/>
+                                    <input type="button" class="primary-btn-custom" value="Search" onclick="get_transaction_by_analyst();" id="button"/>
                                 </div>
                             </div>
                         </div>
@@ -161,7 +123,7 @@
                                 </div>
 
                                 <div class="col-lg-12" style="text-align:center;">
-                                    <input type="button" class="primary-btn-custom" value="Search" onclick="get_transactions('filter');" id="button"/>
+                                    <input type="button" class="primary-btn-custom" value="Search" onclick="get_transaction_by_analyst();" id="button"/>
                                 </div>
                             </div>
                         </div>
@@ -215,7 +177,7 @@
                                 </div>
 
                                 <div class="col-lg-12" style="text-align:center;">
-                                    <input type="button" class="primary-btn-custom" value="Search" onclick="get_transactions('filter');" id="button"/>
+                                    <input type="button" class="primary-btn-custom" value="Search" onclick="get_transaction_by_analyst();" id="button"/>
                                 </div>
                             </div>
                         </div>
@@ -269,7 +231,7 @@
                                 </div>
 
                                 <div class="col-lg-12" style="text-align:center;">
-                                    <input type="button" class="primary-btn-custom" value="Search" onclick="get_transactions('filter');" id="button"/>
+                                    <input type="button" class="primary-btn-custom" value="Search" onclick="get_transaction_by_analyst();" id="button"/>
                                 </div>
                             </div>
                         </div>
@@ -323,7 +285,7 @@
                                 </div>
 
                                 <div class="col-lg-12" style="text-align:center;">
-                                    <input type="button" class="primary-btn-custom" value="Search" onclick="get_transactions('filter');" id="button"/>
+                                    <input type="button" class="primary-btn-custom" value="Search" onclick="get_transaction_by_analyst();" id="button"/>
                                 </div>
                             </div>
                         </div>
@@ -363,54 +325,15 @@
 
 
 <script>
-    signin_rodextrip('reservation');
-    //get_transactions('reset');
     function goto_detail_reservation(key){
-        document.getElementById('gotobooking'+key).innerHTML += `{% csrf_token %}`;
-        document.getElementById('gotobooking'+key).innerHTML += `<input type=hidden name="order_number" value="`+data_search[key].order_number+`" />`;
+        document.getElementById('gotobooking').innerHTML += `{% csrf_token %}`;
+        document.getElementById('gotobooking').innerHTML += `<input type=hidden name="order_number" value="`+key+`" />`;
 
-        if(data_search[key].provider_type == 'airline'){
-            document.getElementById('gotobooking'+key).action = '/airline/booking/' + btoa(data_search[key].order_number);
-        }else if(data_search[key].provider_type == 'train'){
-            document.getElementById('gotobooking'+key).action = '/train/booking/' + btoa(data_search[key].order_number);
-        }else if(data_search[key].provider_type == 'activity'){
-            document.getElementById('gotobooking'+key).action = '/activity/booking/' + btoa(data_search[key].order_number);
-        }else if(data_search[key].provider_type == 'hotel'){
-            document.getElementById('gotobooking'+key).action = '/hotel/booking/' + btoa(data_search[key].order_number);
-        }else if(data_search[key].provider_type == 'visa'){
-            document.getElementById('gotobooking'+key).action = '/visa/booking/' + btoa(data_search[key].order_number);
-        }else if(data_search[key].provider_type == 'tour'){
-            document.getElementById('gotobooking'+key).action = '/tour/booking/' + btoa(data_search[key].order_number);
-        }else if(data_search[key].provider_type == 'offline'){
-            document.getElementById('gotobooking'+key).action = '/issued_offline/booking/' + btoa(data_search[key].order_number);
-        }else if(data_search[key].provider_type == 'passport'){
-            document.getElementById('gotobooking'+key).action = '/passport/booking/' + btoa(data_search[key].order_number);
-        }else if(data_search[key].provider_type == 'ppob'){
-            document.getElementById('gotobooking'+key).action = '/ppob/booking/' + btoa(data_search[key].order_number);
-        }else if(data_search[key].provider_type == 'event'){
-            document.getElementById('gotobooking'+key).action = '/event/booking/' + btoa(data_search[key].order_number);
-        }else if(data_search[key].provider_type == 'periksain' || data_search[key].provider_type == 'phc'){
-            document.getElementById('gotobooking'+key).action = '/medical/booking/' + btoa(data_search[key].order_number);
-        }
-        document.getElementById('gotobooking'+key).submit();
+        document.getElementById('gotobooking').action = '/medical/booking/' + btoa(key);
 
+        document.getElementById('gotobooking').submit();
     }
     $(document).ready(function () {
-        $(window).scroll(function() {
-            if($(window).scrollTop() >= $(document).height() - ($(window).height() + 600)) {
-                if(load_more == true){
-                    //get_agent_booking();
-                    get_transactions();
-                }
-            }
-        });
-
-        $(".enter_reservation").keypress(function(event) {
-            if (event.keyCode === 13) {
-                $("#button").click();
-            }
-        });
-
         try{
             $('input[name="start_date"]').daterangepicker({
               singleDatePicker: true,
@@ -429,7 +352,6 @@
               autoUpdateInput: true,
               startDate: moment(),
               minDate: moment(),
-              maxDate: moment(),
               showDropdowns: true,
               opens: 'center',
               locale: {
@@ -473,16 +395,14 @@
                   opens: 'center',
                   startDate: pick_date,
                   minDate: min_date,
-                  maxDate: moment(),
                   showDropdowns: true,
                   locale: {
                       format: 'DD MMM YYYY',
                   }
                 });
             });
+            get_transaction_by_analyst();
         }catch(err){}
-        $('input[name="start_date"]').val("");
-        $('input[name="end_date"]').val("");
     });
 </script>
 {% include 'tt_website_rodextrip/footer.html' %}

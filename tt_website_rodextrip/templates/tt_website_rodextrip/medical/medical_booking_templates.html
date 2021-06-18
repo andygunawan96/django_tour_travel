@@ -98,13 +98,18 @@
             <div class="col-lg-8">
                 <div class="row">
                     <input type="text" id="order_number" name="order_number" hidden value="{{order_number}}"/>
-                </div>
-                <div class="col-lg-12">
-                    <h3 id="display_state"></h3>
+
+                    <div class="col-lg-8">
+                        <h3 id="display_state"></h3>
+                    </div>
+                    <div class="col-lg-4" id="div_sync_status" style="margin-bottom:1rem;" hidden>
+
+                    </div>
                 </div>
                 <div id="medical_booking">
 
                 </div>
+                <div id="googleMap" style=""></div>
                 <div class="row review-detail" style="margin-bottom:15px;" id="medical_btn_printout">
 
                 </div>
@@ -201,6 +206,42 @@
 </section>
 {% include 'tt_website_rodextrip/footer.html' %}
 
+<script>
+    /*
+    var map;
+    lat = '';
+    long = '';
+    function initMap() {
+        if(lat != '')
+            change_area();
+    }
+    function change_area(){
+        document.getElementById('googleMap').style.width = '100%';
+        document.getElementById('googleMap').style.height = '400px';
+        document.getElementById('googleMap').style.marginBottom = '1rem';
+
+        {% if google_api_key != '' %}
+        var mapProp= {
+            center:new google.maps.LatLng(lat,long),
+            zoom:18,
+            mapTypeId: "roadmap"
+        };
+        map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+        marker = new google.maps.Marker({
+            position: {"lat": lat,"lng": long},
+            map,
+            title: "Hello World!",
+        });
+        console.log('done');
+        {% endif %}
+    }
+    */
+</script>
+{% if google_api_key != ''  %}
+<!--<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>-->
+<!--<script src="https://maps.googleapis.com/maps/api/js?key={{google_api_key}}&callback=initMap&libraries=places&v=weekly"></script>-->
+
+{% endif %}
 <script>
     try{
         document.getElementById('voucher_discount').style.display = 'none';

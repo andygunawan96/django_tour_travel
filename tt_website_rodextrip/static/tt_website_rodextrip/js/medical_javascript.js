@@ -110,9 +110,7 @@ function add_other_time(){
     });
     $('input[name="booker_test_date'+test_time+'"]').on('apply.daterangepicker', function(ev, picker) {
         var val = parseInt(ev.target.id.replace('booker_test_date',''));
-        if(vendor == 'periksain'){
-            update_timeslot(val);
-        }
+        update_timeslot(val);
     });
     if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCHCKATG' || vendor == 'phc' && test_type == 'PHCHCKPCR'){
         $('#booker_timeslot_id'+test_time).niceSelect();
@@ -161,10 +159,13 @@ function add_table_of_passenger(type){
                 <div class="col-lg-4 mt-2" style="text-align:right;"">
                     <button type="button" class="primary-btn" style="margin-bottom:5px; font-size:12px; padding-left:12px; padding-right:12px; line-height:24px; font-weight:700;" data-toggle="modal" data-target="#myModalPassenger`+counter_passenger+`" onclick="set_passenger_number(`+counter_passenger+`);">
                         <i class="fas fa-pen"></i>
-                    </button>
+                    </button>`;
+    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+        text +=`
                     <button type="button" id="button_search`+counter_passenger+`" class="primary-btn" style="margin-bottom:5px; font-size:12px; padding-left:12px; padding-right:12px; line-height:24px; font-weight:700;" data-toggle="modal" data-target="#myModalPassengerSearch`+counter_passenger+`" onclick="set_passenger_number(`+counter_passenger+`);">
                         <i class="fas fa-search"></i>
-                    </button>
+                    </button>`;
+    text +=`
                     <button type="button" id="button_clear`+counter_passenger+`" class="primary-btn" style="background:#c73912; margin-bottom:5px; font-size:12px; padding-left:12px; padding-right:12px; line-height:24px; font-weight:700;" onclick="clear_passenger('Adult',`+(parseInt(counter_passenger)+1)+`); clear_text_medical(`+counter_passenger+`);">
                         <i class="fas fa-times"></i>
                     </button>
@@ -174,6 +175,13 @@ function add_table_of_passenger(type){
 
         </td>`;
         if(vendor == 'periksain'){
+            text+=`<td>
+                        <label style="color:red !important">*</label>
+                        <label>Address KTP</label>
+                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                            <input type="text" class="form-control" name="adult_address_ktp`+parseInt(counter_passenger+1)+`" id="adult_address_ktp`+parseInt(counter_passenger+1)+`" placeholder="Address KTP " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address KTP '" onchange="auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">
+                        </div>
+                   </td>`;
             text+=`<td>`;
             if(template == 1){
                 text+=`<div class="input-container-search-ticket">`;
@@ -328,7 +336,7 @@ function add_table_of_passenger(type){
                                                     }
                                                 text_modal_paxs+=`</select>
                                             </div>
-                                            <input type="hidden" name="adult_nationality`+parseInt(counter_passenger+1)+`" id="adult_nationality`+parseInt(counter_passenger+1)+`" />`;
+                                            <input type="hidden" name="adult_nationality`+parseInt(counter_passenger+1)+`" id="adult_nationality`+parseInt(counter_passenger+1)+`" value="Indonesia" />`;
                                         if(template == 1 || template == 5){
                                             text_modal_paxs+=`</div>`;
                                         }
@@ -395,12 +403,15 @@ function add_table_of_passenger(type){
                                                     <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`');">
                                                         <option value="">Select Country Of Issued</option>`;
                                                         for(i in countries){
-                                                           text_modal_paxs+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
+                                                           if(countries[i].code == 'ID')
+                                                               text_modal_paxs+=`<option value="`+countries[i].code+`" selected>`+countries[i].name+`</option>`;
+                                                            else
+                                                               text_modal_paxs+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
                                                         }
                                                     text_modal_paxs+=`</select>
                                                 </div>
                                                 <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                <input type="hidden" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`" />`;
+                                                <input type="hidden" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`" value="Indonesia" />`;
                                             text_modal_paxs+=`</div>`;
                                         }
                                         else if(template == 2){
@@ -409,11 +420,14 @@ function add_table_of_passenger(type){
                                                 <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`');">
                                                     <option value="">Select Country Of Issued</option>`;
                                                     for(i in countries){
-                                                       text_modal_paxs+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
+                                                       if(countries[i].code == 'ID')
+                                                           text_modal_paxs+=`<option value="`+countries[i].code+`" selected>`+countries[i].name+`</option>`;
+                                                       else
+                                                           text_modal_paxs+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
                                                     }
                                                 text_modal_paxs+=`</select>
                                                 <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                <input type="hidden" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`" />`;
+                                                <input type="hidden" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`" value="Indonesia" />`;
                                             text_modal_paxs+=`</div>`;
                                         }
                                         else if(template == 3){
@@ -422,11 +436,14 @@ function add_table_of_passenger(type){
                                                 <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`');">
                                                     <option value="">Select Country Of Issued</option>`;
                                                     for(i in countries){
-                                                       text_modal_paxs+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
+                                                       if(countries[i].code == 'ID')
+                                                           text_modal_paxs+=`<option value="`+countries[i].code+`" selected>`+countries[i].name+`</option>`;
+                                                        else
+                                                           text_modal_paxs+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
                                                     }
                                                 text_modal_paxs+=`</select>
                                                 <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                <input type="hidden" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`" />`;
+                                                <input type="hidden" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`" value="Indonesia" />`;
                                             text_modal_paxs+=`</div>`;
                                         }
                                         else if(template == 4){
@@ -435,11 +452,14 @@ function add_table_of_passenger(type){
                                                 <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`');">
                                                     <option value="">Select Country Of Issued</option>`;
                                                     for(i in countries){
-                                                       text_modal_paxs+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
+                                                       if(countries[i].code == 'ID')
+                                                           text_modal_paxs+=`<option value="`+countries[i].code+`" selected>`+countries[i].name+`</option>`;
+                                                       else
+                                                           text_modal_paxs+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
                                                     }
                                                 text_modal_paxs+=`</select>
                                                 <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                <input type="hidden" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`" />`;
+                                                <input type="hidden" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`" value="Indonesia" />`;
                                             text_modal_paxs+=`</div>`;
                                         }
                                         else if(template == 5){
@@ -449,12 +469,15 @@ function add_table_of_passenger(type){
                                                     <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`');">
                                                         <option value="">Select Country Of Issued</option>`;
                                                         for(i in countries){
-                                                           text_modal_paxs+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
+                                                           if(countries[i].code == 'ID')
+                                                               text_modal_paxs+=`<option value="`+countries[i].code+`" selected>`+countries[i].name+`</option>`;
+                                                           else
+                                                               text_modal_paxs+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
                                                         }
                                                     text_modal_paxs+=`</select>
                                                 </div>
                                                 <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                <input type="hidden" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`" />`;
+                                                <input type="hidden" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`" value="Indonesia" />`;
                                             text_modal_paxs+=`</div>`;
                                         }
                                         else if(template == 6){
@@ -464,12 +487,15 @@ function add_table_of_passenger(type){
                                                     <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`');">
                                                         <option value="">Select Country Of Issued</option>`;
                                                         for(i in countries){
-                                                           text_modal_paxs+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
+                                                            if(countries[i].code == 'ID')
+                                                               text_modal_paxs+=`<option value="`+countries[i].code+`" selected>`+countries[i].name+`</option>`;
+                                                            else
+                                                               text_modal_paxs+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
                                                         }
                                                     text_modal_paxs+=`</select>
                                                 </div>
                                                 <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                <input type="hidden" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`" />`;
+                                                <input type="hidden" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`" value="Indonesia" />`;
                                             text_modal_paxs+=`</div>`;
                                         }
                                     text_modal_paxs+=`</div>`;
@@ -823,7 +849,7 @@ function add_table_of_passenger(type){
                                                         <label style="color:red !important">*</label>
                                                         <label>Pemeriksaan Swab Ke</label>
                                                         <div class="input-container-search-ticket" style="margin-bottom:5px;">
-                                                            <input type="text" class="form-control" name="adult_pemeriksaan_swab_ke`+parseInt(counter_passenger+1)+`" id="adult_pemeriksaan_swab_ke`+parseInt(counter_passenger+1)+`" placeholder="Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Number '">
+                                                            <input type="number" class="form-control" name="adult_pemeriksaan_swab_ke`+parseInt(counter_passenger+1)+`" id="adult_pemeriksaan_swab_ke`+parseInt(counter_passenger+1)+`" placeholder="Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Number '">
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-6">
@@ -920,7 +946,7 @@ function add_table_of_passenger(type){
                                                             <label style="color:red !important">*</label>
                                                             <label>Suhu Tubuh</label>
                                                             <div class="input-container-search-ticket" style="margin-bottom:5px;">
-                                                                <input type="text" class="form-control date-picker-birth" name="adult_klinis_suhu_tubuh`+parseInt(counter_passenger+1)+`" id="adult_klinis_suhu_tubuh`+parseInt(counter_passenger+1)+`" placeholder="Suhu Tubuh " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off">
+                                                                <input type="number" class="form-control date-picker-birth" name="adult_klinis_suhu_tubuh`+parseInt(counter_passenger+1)+`" id="adult_klinis_suhu_tubuh`+parseInt(counter_passenger+1)+`" placeholder="Suhu Tubuh " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off">
                                                             </div>
                                                         </div>
                                                     </div>`;
@@ -2963,7 +2989,8 @@ function delete_type(type, val){
             text = `<option value="">Select Kelurahan KTP</option>`;
             document.getElementById('adult_kelurahan_ktp'+val+'_id').innerHTML = text;
             $('#adult_kelurahan_ktp'+val+'_id').select2();
-
+            document.getElementById('adult_kabupaten_ktp'+val).value = '';
+            document.getElementById('adult_kecamatan_ktp'+val).value = '';
         }
         if(type.includes('kecamatan')){
             $('#adult_kecamatan_ktp'+val+'_id').val('');
@@ -2971,9 +2998,11 @@ function delete_type(type, val){
             text = `<option value="">Select Kelurahan KTP</option>`;
             document.getElementById('adult_kelurahan_ktp'+val+'_id').innerHTML = text;
             $('#adult_kelurahan_ktp'+val+'_id').select2();
+            document.getElementById('adult_kecamatan_ktp'+val).value = '';
         }
         $('#adult_kelurahan_ktp'+val+'_id').val('');
         document.getElementById('select2-adult_kelurahan_ktp'+val+'_id-container').innerHTML = 'Select Kelurahan KTP';
+        document.getElementById('adult_kelurahan_ktp'+val).value = '';
     }else{
         if(type.includes('kabupaten')){
             $('#adult_kabupaten'+val+'_id').val('');
@@ -3537,7 +3566,7 @@ function check_passenger(){
             add_list = true;
             if(vendor == 'periksain'){
                 if(now.format('DD MMM YYYY') == document.getElementById('booker_test_date'+i).value){
-                    if(now.diff(moment(document.getElementById('booker_test_date'+i).value+' '+document.getElementById('booker_timeslot_id'+i).value.split('~')[1]), 'hours') > -5){
+                    if(now.diff(moment(document.getElementById('booker_test_date'+i).value+' '+document.getElementById('booker_timeslot_id'+i).value.split('~')[1]), 'hours') > -3){
                         add_list = false;
                         error_log += 'Test time reservation only can be book 5 hours before test please change test ' + test_list_counter + '!</br>\n';
                     }
@@ -3673,6 +3702,13 @@ function check_passenger(){
                     }else{
                         document.getElementById('adult_sample_method' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
+                    if(document.getElementById('adult_address_ktp' + nomor_pax).value == ''){
+                        error_log+= 'Please fill address ktp for passenger '+nomor_pax+'!</br>\n';
+                        document.getElementById('adult_address_ktp' + nomor_pax).style['border-color'] = 'red';
+                    }else{
+                        document.getElementById('adult_address_ktp' + nomor_pax).style['border-color'] = '#EFEFEF';
+                    }
+
                     if(document.getElementById('adult_identity_type' + nomor_pax).value != ''){
                         document.getElementById('adult_identity_type' + nomor_pax).style['border-color'] = '#EFEFEF';
                         if(document.getElementById('adult_identity_type' + nomor_pax).value == 'ktp'){
@@ -3686,7 +3722,7 @@ function check_passenger(){
                                 document.getElementById('adult_identity_number'+ nomor_pax).style['border-color'] = '#EFEFEF';
                             }
                             if(document.getElementById('adult_country_of_issued'+ nomor_pax).value == ''){
-                                error_log+= 'Please fill country of issued for passenger '+i+'!</br>\n';
+                                error_log+= 'Please fill country of issued for passenger '+ nomor_pax +'!</br>\n';
                                 document.getElementById('adult_country_of_issued'+ nomor_pax).style['border-color'] = 'red';
                             }else{
                                 document.getElementById('adult_country_of_issued'+ nomor_pax).style['border-color'] = '#EFEFEF';
@@ -3719,6 +3755,7 @@ function check_passenger(){
                         },
                         "passenger_seq_id": document.getElementById('adult_id' + nomor_pax).value,
                         "sample_method": document.getElementById('adult_sample_method' + nomor_pax).value,
+                        "address_ktp": document.getElementById('adult_address_ktp' + nomor_pax).value,
                         "email": document.getElementById('adult_email' + nomor_pax).value,
                         "phone_number": document.getElementById('adult_phone_code'+nomor_pax+'_id').value + document.getElementById('adult_phone'+nomor_pax).value,
                         'is_also_booker': is_also_booker,
@@ -3794,13 +3831,13 @@ function check_passenger(){
                     }else{
                         document.getElementById('adult_address' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
-                    if(document.getElementById('adult_rt' + nomor_pax).value == '' && check_number(document.getElementById('adult_rt' + nomor_pax).value == '') == false){
+                    if(document.getElementById('adult_rt' + nomor_pax).value == '' && check_number(document.getElementById('adult_rt' + nomor_pax).value) == false){
                         error_log+= 'RT only contain number for passenger '+nomor_pax+'!</br>\n';
                         document.getElementById('adult_rt' + nomor_pax).style['border-color'] = 'red';
                     }else{
                         document.getElementById('adult_rt' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
-                    if(document.getElementById('adult_rw' + nomor_pax).value == '' && check_number(document.getElementById('adult_rw' + nomor_pax).value == '') == false){
+                    if(document.getElementById('adult_rw' + nomor_pax).value == '' && check_number(document.getElementById('adult_rw' + nomor_pax).value) == false){
                         error_log+= 'RW only contain number for passenger '+nomor_pax+'!</br>\n';
                         document.getElementById('adult_rw' + nomor_pax).style['border-color'] = 'red';
                     }else{
@@ -3831,13 +3868,13 @@ function check_passenger(){
                     }else{
                         document.getElementById('adult_address_ktp' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
-                    if(document.getElementById('adult_rt_ktp' + nomor_pax).value == '' && check_number(document.getElementById('adult_rt_ktp' + nomor_pax).value == '') == false){
+                    if(document.getElementById('adult_rt_ktp' + nomor_pax).value == '' && check_number(document.getElementById('adult_rt_ktp' + nomor_pax).value) == false){
                         error_log+= 'RT KTP only contain number for passenger '+nomor_pax+'!</br>\n';
                         document.getElementById('adult_rt_ktp' + nomor_pax).style['border-color'] = 'red';
                     }else{
                         document.getElementById('adult_rt_ktp' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
-                    if(document.getElementById('adult_rw_ktp' + nomor_pax).value == '' && check_number(document.getElementById('adult_rw_ktp' + nomor_pax).value == '') == false){
+                    if(document.getElementById('adult_rw_ktp' + nomor_pax).value == '' && check_number(document.getElementById('adult_rw_ktp' + nomor_pax).value) == false){
                         error_log+= 'RW KTP only contain number for passenger '+nomor_pax+'!</br>\n';
                         document.getElementById('adult_rw_ktp' + nomor_pax).style['border-color'] = 'red';
                     }else{

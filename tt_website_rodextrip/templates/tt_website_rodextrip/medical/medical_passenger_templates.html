@@ -452,7 +452,8 @@
                                         <tr>
                                             {%if vendor == 'periksain'%}
                                             <th style="width:55%;">Customer</th>
-                                            <th style="width:55%;">Sample Method</th>
+                                            <th style="width:30%;">Address KTP</th>
+                                            <th style="width:20%;">Sample Method</th>
                                             {% else %}
                                             <th style="width:100%;">Customer</th>
                                             {% endif %}
@@ -3409,7 +3410,6 @@
     function change_area(){
         {% if google_api_key != ''%}
         var list_map_choose = {};
-        web_url = '';
         if(vendor == 'phc' && test_type == 'PHCDTKATG' || vendor == 'phc' && test_type == 'PHCDTKPCR'){
             list_map_choose = list_map[3];
         }else if(document.getElementById('booker_area').value == 'surabaya' || document.getElementById('booker_area').value == 'Surabaya'){
@@ -3493,12 +3493,14 @@
                 });
             }
         }else{
-            web_url = '';
-            map.setCenter(new google.maps.LatLng(list_map_choose.lat,list_map_choose.long));
-            document.getElementById('pac-input').value = '';
-            if(marker){
-                marker.visible = false;
-                marker.setPosition();
+            if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCHCKATG' || vendor == 'phc' && test_type == 'PHCHCKPCR'){
+                web_url = '';
+                map.setCenter(new google.maps.LatLng(list_map_choose.lat,list_map_choose.long));
+                document.getElementById('pac-input').value = '';
+                if(marker){
+                    marker.visible = false;
+                    marker.setPosition();
+                }
             }
         }
         {% endif %}
