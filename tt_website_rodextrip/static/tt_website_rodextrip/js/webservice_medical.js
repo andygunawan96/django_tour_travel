@@ -299,9 +299,9 @@ function medical_check_price(){
                 add_list = true;
                 if(vendor == 'periksain'){
                     if(now.format('DD MMM YYYY') == document.getElementById('booker_test_date'+i).value){
-                        if(now.diff(moment(document.getElementById('booker_test_date'+i).value+' '+document.getElementById('booker_timeslot_id'+i).value.split('~')[1]), 'hours') > -5){
+                        if(now.diff(moment(document.getElementById('booker_test_date'+i).value+' '+document.getElementById('booker_timeslot_id'+i).value.split('~')[1]), 'hours') > -3){
                             add_list = false;
-                            error_log += 'Test time reservation only can be book 5 hours before test please change test ' + test_list_counter + '!</br>\n';
+                            error_log += 'Test time reservation only can be book 3 hours before test please change test ' + test_list_counter + '!</br>\n';
                         }
                     }
                 }else{
