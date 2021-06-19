@@ -2268,11 +2268,11 @@ function add_table_of_passenger(type){
                                             <div class="col-lg-3">
                                                 <div class="form-select">
                                                     <select id="adult_phone_code`+parseInt(counter_passenger+1)+`_id" name="adult_phone_code`+parseInt(counter_passenger+1)+`_id" class="form-control js-example-basic-single">`;
-                                                        text_modal_paxs+=`<option value="0" selected>0</option>`; //ganti default 0
+                                                        
                                                         for(i in countries){
-//                                                            if(countries[i].code == 'ID')
-//                                                               text_modal_paxs+=`<option value="`+countries[i].phone_code+`" selected>`+countries[i].phone_code+`</option>`;
-//                                                            else
+                                                            if(countries[i].phone_code == 0)
+                                                              text_modal_paxs+=`<option value="`+countries[i].phone_code+`" selected>`+countries[i].phone_code+`</option>`;
+                                                            else
                                                            text_modal_paxs+=`<option value="`+countries[i].phone_code+`">`+countries[i].phone_code+`</option>`;
                                                         }
 
