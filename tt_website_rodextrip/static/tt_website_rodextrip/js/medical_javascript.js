@@ -1646,6 +1646,7 @@ function add_table_of_passenger(type){
                                                         <label>Tanggal Masuk RS</label>
                                                         <div class="input-container-search-ticket" style="margin-bottom:5px;">
                                                             <input type="text" class="form-control date-picker-birth" name="adult_tanggal_masuk_rs`+parseInt(counter_passenger+1)+`" id="adult_tanggal_masuk_rs`+parseInt(counter_passenger+1)+`" placeholder="Tanggal Masuk RS " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tanggal Masuk RS '" autocomplete="off">
+                                                            <button type="button" class="primary-delete-date" onclick="clear_date('adult_tanggal_masuk_rs`+parseInt(counter_passenger+1)+`')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                         </div>
                                                     </div>`;
 
@@ -2267,11 +2268,12 @@ function add_table_of_passenger(type){
                                             <div class="col-lg-3">
                                                 <div class="form-select">
                                                     <select id="adult_phone_code`+parseInt(counter_passenger+1)+`_id" name="adult_phone_code`+parseInt(counter_passenger+1)+`_id" class="form-control js-example-basic-single">`;
+                                                        
                                                         for(i in countries){
-                                                            if(countries[i].code == 'ID')
-                                                               text_modal_paxs+=`<option value="`+countries[i].phone_code+`" selected>`+countries[i].phone_code+`</option>`;
+                                                            if(countries[i].phone_code == 0)
+                                                              text_modal_paxs+=`<option value="`+countries[i].phone_code+`" selected>`+countries[i].phone_code+`</option>`;
                                                             else
-                                                               text_modal_paxs+=`<option value="`+countries[i].phone_code+`">`+countries[i].phone_code+`</option>`;
+                                                           text_modal_paxs+=`<option value="`+countries[i].phone_code+`">`+countries[i].phone_code+`</option>`;
                                                         }
 
                                             text_modal_paxs+=` </select>
