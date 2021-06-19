@@ -21,6 +21,8 @@ function medical_signin(data){
                     //get booking
                     medical_get_booking(data);
                }
+           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                auto_logout();
            }else{
                Swal.fire({
                   type: 'error',
@@ -100,6 +102,17 @@ function get_config_medical(type='', vendor=''){
                         $('#medical_type_periksain').niceSelect('update');
                     }
                 }
+            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                auto_logout();
+            }else{
+               Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: msg.result.error_msg,
+               })
+               try{
+                $("#show_loading_booking_airline").hide();
+               }catch(err){}
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -188,6 +201,17 @@ function medical_get_availability(){
                       //redirect ke phc
                     })
                 }
+            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                auto_logout();
+            }else{
+               Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: msg.result.error_msg,
+               })
+               try{
+                $("#show_loading_booking_airline").hide();
+               }catch(err){}
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -299,6 +323,17 @@ function medical_check_price(){
                     document.getElementById('next_medical').style.display = 'block';
                     document.getElementById('check_price_medical').disabled = false;
                     //print harga
+                }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                    auto_logout();
+                }else{
+                   Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: msg.result.error_msg,
+                   })
+                   try{
+                    $("#show_loading_booking_airline").hide();
+                   }catch(err){}
                 }
                 }catch(err){console.log(err);}
            },
@@ -414,6 +449,18 @@ function medical_get_cache_price(){
 //                    text+=`<div style="text-align:right;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
 //                }
                 //print harga
+            }
+            else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                auto_logout();
+            }else{
+               Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: msg.result.error_msg,
+               })
+               try{
+                $("#show_loading_booking_airline").hide();
+               }catch(err){}
             }
             }catch(err){console.log(err);}
        },
@@ -542,6 +589,8 @@ function medical_commit_booking(val){
                             }
                         }
                    })
+            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                auto_logout();
             }else{
 
                $('.hold-seat-booking-train').prop('disabled', false);
@@ -1224,8 +1273,17 @@ function medical_get_booking(order_number, sync=false){
 
                     //======================= Other =========================
                     add_repricing();
+                }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                    auto_logout();
                 }else{
-                    //swal
+                   Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: msg.result.error_msg,
+                   })
+                   try{
+                    $("#show_loading_booking_airline").hide();
+                   }catch(err){}
                 }
             }catch(err){
                 console.log(err);
@@ -1739,4 +1797,214 @@ function get_transaction_by_analyst(){
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get price medical');
        },timeout: 300000
     });
+}
+
+//function triggered_auto_signin(){
+//    autoSigninInterval = setInterval(function() {
+//        if(new Date() > signin_date){
+//            re_medical_signin();
+//            signin_date.setMinutes(signin_date.getMinutes()+14);
+//        }
+//    }, 300000);
+//
+//}
+
+
+// re fungsi untuk panggil ulang // create new session
+function re_medical_signin(type=''){
+    if(type == 'next'){
+//        clearInterval(autoSigninInterval);
+        try{
+        $('.loader-rodextrip').fadeIn();
+        please_wait_transaction();
+        }catch(err){}
+    }
+
+    $.ajax({
+       type: "POST",
+       url: "/webservice/medical",
+       headers:{
+            'action': 'signin',
+       },
+//       url: "{% url 'tt_backend_rodextrip:social_media_tree_update' %}",
+       data: {},
+       success: function(msg) {
+       try{
+           console.log(msg);
+           if(msg.result.error_code == 0){
+               medical_signature = msg.result.response.signature;
+               signature = msg.result.response.signature;
+               if(type == 'next')
+                    re_medical_get_availability();
+           }else{
+               Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: msg.result.error_msg,
+               })
+               try{
+               hide_modal_waiting_transaction();
+               }catch(err){}
+               $('.loader-rodextrip').fadeOut();
+               try{
+                $("#show_loading_booking_airline").hide();
+               }catch(err){}
+           }
+       }catch(err){
+            console.log(err);
+           Swal.fire({
+               type: 'error',
+               title: 'Oops...',
+               text: 'Something went wrong, please try again or check your internet connection',
+           })
+           try{
+           hide_modal_waiting_transaction();
+           }catch(err){}
+           $('.loader-rodextrip').fadeOut();
+        }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+          error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error medical signin');
+          $("#barFlightSearch").hide();
+          $("#waitFlightSearch").hide();
+          $('.loader-rodextrip').fadeOut();
+          try{
+            $("#show_loading_booking_airline").hide();
+          }catch(err){}
+          $('.next-passenger-train').removeClass("running");
+          $('.next-passenger-train').attr("disabled", false);
+          hide_modal_waiting_transaction();
+       },timeout: 60000
+    });
+}
+
+function re_medical_get_availability(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/medical",
+       headers:{
+            'action': 'get_availability',
+       },
+       data: {
+            'signature': signature,
+            'provider': vendor,
+       },
+       success: function(msg) {
+            console.log(msg);
+            if(msg.result.error_code == 0){
+                re_medical_check_price();
+            }else{
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: msg.result.error_msg,
+                })
+                try{
+                hide_modal_waiting_transaction();
+                }catch(err){}
+                $('.next-passenger-train').removeClass("running");
+                $('.next-passenger-train').attr("disabled", false);
+                $('.loader-rodextrip').fadeOut();
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get availability medical');
+       },timeout: 300000
+    });
+}
+
+function re_medical_check_price(){
+    var timeslot_list = [];
+    document.getElementById('check_price_medical').disabled = true;
+    for(i=1;i <= test_time; i++){
+        try{
+            timeslot_list.push(document.getElementById('booker_timeslot_id'+i).value.split('~')[0])
+        }catch(err){}
+    }
+    var now = moment();
+    var test_list_counter = 1;
+    var add_list = true;
+    var error_log = '';
+    if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCHCKATG' || vendor == 'phc' && test_type == 'PHCHCKPCR'){
+        for(i=1; i <= test_time; i++){
+            try{
+                add_list = true;
+                if(vendor == 'periksain'){
+                    if(now.format('DD MMM YYYY') == document.getElementById('booker_test_date'+i).value){
+                        if(now.diff(moment(document.getElementById('booker_test_date'+i).value+' '+document.getElementById('booker_timeslot_id'+i).value.split('~')[1]), 'hours') > -3){
+                            add_list = false;
+                            error_log += 'Test time reservation only can be book 3 hours before test please change test ' + test_list_counter + '!</br>\n';
+                        }
+                    }
+                }else{
+                    if(now.format('DD MMM YYYY') == document.getElementById('booker_test_date'+i).value){
+                        if(now.diff(moment(document.getElementById('booker_test_date'+i).value+' '+document.getElementById('booker_timeslot_id'+i).value.split('~')[1]), 'hours') > -2){
+                            add_list = false;
+                            error_log += 'Test time reservation only can be book 2 hours before test please change test ' + test_list_counter + '!</br>\n';
+                        }
+                    }
+                }
+                test_list_counter++;
+            }catch(err){
+
+            }
+        }
+
+    }
+    if(timeslot_list.length != 0 && error_log == '' || vendor == 'phc' && test_type == 'PHCDTKATG' || vendor == 'phc' && test_type == 'PHCDTKPCR'){
+        $.ajax({
+           type: "POST",
+           url: "/webservice/medical",
+           headers:{
+                'action': 'get_price',
+           },
+           data: {
+                'signature': signature,
+                'provider': vendor,
+                'pax_count': document.getElementById('passenger').value,
+                'timeslot_list': JSON.stringify(timeslot_list),
+                'carrier_code': test_type
+           },
+           success: function(msg) {
+                console.log(msg);
+                if(msg.result.error_code == 0){
+                    document.getElementById('time_limit_input').value = 200;
+                    document.getElementById('data').value = JSON.stringify(request);
+                    document.getElementById('signature').value = signature;
+                    document.getElementById('vendor').value = vendor;
+                    document.getElementById('test_type').value = test_type;
+                    document.getElementById('medical_review').submit();
+                }else{
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: msg.result.error_msg,
+                    })
+                    try{
+                    hide_modal_waiting_transaction();
+                    }catch(err){}
+                    $('.next-passenger-train').removeClass("running");
+                    $('.next-passenger-train').attr("disabled", false);
+                    $('.loader-rodextrip').fadeOut();
+                }
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get price medical');
+           },timeout: 300000
+        });
+    }else if(error_log != ''){
+        Swal.fire({
+            type: 'error',
+            title: 'Oops!',
+            html: error_log,
+        })
+        document.getElementById('check_price_medical').disabled = false;
+    }else{
+        Swal.fire({
+            type: 'error',
+            title: 'Oops!',
+            html: 'Please choose timeslot!',
+        })
+        document.getElementById('check_price_medical').disabled = false;
+    }
 }
