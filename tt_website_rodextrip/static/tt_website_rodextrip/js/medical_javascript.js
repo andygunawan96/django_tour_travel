@@ -3507,6 +3507,8 @@ function update_contact(type,val){
 }
 
 function check_passenger(){
+    $('.next-passenger-train').addClass("running");
+    $('.next-passenger-train').attr("disabled", true);
     //booker
     request = {
         "data": {},
@@ -4391,15 +4393,11 @@ function check_passenger(){
     }
 
    if(error_log=='' && check_passenger == true){
-       document.getElementById('time_limit_input').value = time_limit;
-       console.log(request);
-       document.getElementById('data').value = JSON.stringify(request);
-       document.getElementById('signature').value = signature;
-       document.getElementById('vendor').value = vendor;
-       document.getElementById('test_type').value = test_type;
-       document.getElementById('medical_review').submit();
+       re_medical_signin('next');
    }else{
        document.getElementById('show_error_log').innerHTML = error_log;
+       $('.next-passenger-train').removeClass("running");
+       $('.next-passenger-train').attr("disabled", false);
        $("#myModalErrorPassenger").modal('show');
        $('.next-loading').removeClass("running");
        $('.next-loading').prop('disabled', false);
