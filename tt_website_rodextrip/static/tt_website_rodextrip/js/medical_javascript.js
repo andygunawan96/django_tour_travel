@@ -905,7 +905,9 @@ function add_table_of_passenger(type){
                                                         <label>Tanggal pertama kali gejala</label>
                                                         <div class="input-container-search-ticket" style="margin-bottom:5px;">
                                                             <input type="text" class="form-control date-picker-birth" name="adult_tanggal_pertama_kali_gejala`+parseInt(counter_passenger+1)+`" id="adult_tanggal_pertama_kali_gejala`+parseInt(counter_passenger+1)+`" placeholder="Tanggal pertama kali gejala " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tanggal pertama kali gejala '" autocomplete="off">
+                                                            <button type="button" class="primary-delete-date" onclick="clear_date('adult_tanggal_pertama_kali_gejala`+parseInt(counter_passenger+1)+`')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                         </div>
+
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-6">
                                                     </div>`;
@@ -2976,6 +2978,10 @@ function change_kriteria(val){
     }
 }
 
+
+function clear_date(id){
+    document.getElementById(id).value = '';
+}
 function delete_type(type, val){
     if(type.includes('ktp')){
         if(type.includes('kabupaten')){

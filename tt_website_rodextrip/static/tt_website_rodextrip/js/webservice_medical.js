@@ -72,10 +72,15 @@ function get_config_medical(type='', vendor=''){
                     medical_config = msg;
                     data_kota = medical_config['result']['response']['kota']
                     var product = '';
-                    for(i in medical_config.result.response.carriers_code){
-                        if(medical_config.result.response.carriers_code[i].code == test_type)
-                            product = medical_config.result.response.carriers_code[i].name
-                    }
+                    if(vendor == 'phc')
+                        for(i in medical_config.result.response.carriers_code){
+                            if(medical_config.result.response.carriers_code[i].code == test_type){
+                                product = medical_config.result.response.carriers_code[i].name;
+                                break;
+                            }
+                        }
+                    else
+                        product = medical_config.result.response[test_type].name;
                     document.getElementById('medical_product').innerHTML = product;
                     document.getElementById('copy_booker_to_pax_div').hidden = false;
                     document.getElementById('medical_pax_dix').hidden = false;
@@ -103,25 +108,6 @@ function get_config_medical(type='', vendor=''){
     });
 }
 
-//function get_kota(){
-//    $.ajax({
-//       type: "POST",
-//       url: "/webservice/medical",
-//       headers:{
-//            'action': 'get_kota',
-//       },
-//       data: {
-//            'signature': signature,
-//       },
-//       success: function(msg) {
-//            console.log(msg);
-//            data_kota = msg;
-//       },
-//       error: function(XMLHttpRequest, textStatus, errorThrown) {
-//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get config medical');
-//       },timeout: 300000
-//    });
-//}
 
 function get_kecamatan(id_kabupaten,id_kecamatan){
     var text = '';
@@ -150,75 +136,6 @@ function get_kelurahan(id_kecamatan,id_kelurahan){
     document.getElementById(id_kelurahan).innerHTML = text;
     $('#'+id_kelurahan).select2();
 }
-
-//function get_kecamatan(id_kabupaten,id_kecamatan){
-//    $.ajax({
-//       type: "POST",
-//       url: "/webservice/medical",
-//       headers:{
-//            'action': 'get_kecamatan',
-//       },
-//       data: {
-//            'signature': signature,
-//            'kabupaten': document.getElementById(id_kabupaten).value
-//       },
-//       success: function(msg) {
-//            console.log(msg);
-//            if(msg.result.error_code == 0){
-//                var text = '';
-//                text += '<option value="">Choose</option>';
-//                for(i in msg.result.response.kecamatan){
-//                    text += '<option value="'+msg.result.response.kecamatan[i]+'">'+msg.result.response.kecamatan[i]+"</option>";
-//                }
-//                document.getElementById(id_kecamatan).innerHTML = text;
-//                $('#'+id_kecamatan).select2();
-//                text = '';
-//                if(id_kecamatan.includes('ktp'))
-//                    text = `<option value="">Select Kelurahan KTP</option>`;
-//                else{
-//                    text = `<option value="">Select Kelurahan</option>`;
-//                }
-//                document.getElementById(id_kecamatan.replace('kecamatan','kelurahan')).innerHTML = text;
-//                $('#'+id_kecamatan.replace('kecamatan','kelurahan')).select2();
-//
-//                //$('#'+id_kecamatan).niceSelect('update');
-////                get_desa(id_kecamatan, id_kecamatan.replace('kecamatan','kelurahan'));
-//            }
-//       },
-//       error: function(XMLHttpRequest, textStatus, errorThrown) {
-//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get config medical');
-//       },timeout: 300000
-//    });
-//}
-//
-//function get_kelurahan(id_kecamatan,id_kelurahan){
-//    $.ajax({
-//       type: "POST",
-//       url: "/webservice/medical",
-//       headers:{
-//            'action': 'get_desa',
-//       },
-//       data: {
-//            'signature': signature,
-//            'kecamatan': document.getElementById(id_kecamatan).value
-//       },
-//       success: function(msg) {
-//            console.log(msg);
-//            if(msg.result.error_code == 0){
-//                var text = '';
-//                text += '<option value="">Choose</option>';
-//                for(i in msg.result.response.desa){
-//                    text += '<option value="'+msg.result.response.desa[i]+'">'+msg.result.response.desa[i]+"</option>";
-//                }
-//                document.getElementById(id_kelurahan).innerHTML = text;
-//                $('#'+id_kelurahan).select2();
-//            }
-//       },
-//       error: function(XMLHttpRequest, textStatus, errorThrown) {
-//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get config medical');
-//       },timeout: 300000
-//    });
-//}
 
 function medical_get_availability(){
     $.ajax({
@@ -278,8 +195,6 @@ function medical_get_availability(){
        },timeout: 300000
     });
 }
-
-
 
 function medical_check_price(){
     var timeslot_list = [];
@@ -1735,7 +1650,6 @@ function medical_get_result(data){
        },timeout: 300000
     });
 }
-
 
 function get_transaction_by_analyst(){
     $('#loading-search-reservation').show();
