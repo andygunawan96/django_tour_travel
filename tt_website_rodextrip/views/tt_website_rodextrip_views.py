@@ -1265,7 +1265,7 @@ def get_data_template(request, type='home', provider_type = []):
     try:
         if type != 'login':
             if request.session.get('keep_me_signin') == True:
-                request.session.set_expiry(1200)
+                request.session.set_expiry(3 * 60 * 60) # jam detik menit
                 request.session.modified = True
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
