@@ -108,6 +108,7 @@ def signin(request):
                 if key != '_language':
                     del request.session[key]
             request.session.create()
+            request.session.set_expiry(3 * 60 * 60)  # jam detik menit
             set_session(request, 'signature', res['result']['response']['signature'])
             set_session(request, 'username', request.POST.get('username') or user_default)
             set_session(request, 'password', request.POST.get('password') or password_default)
@@ -235,6 +236,7 @@ def signin_btc(request):
             #     if key != '_language':
             #         del request.session[key]
             request.session.create()
+            request.session.set_expiry(3 * 60 * 60)  # jam detik menit
             set_session(request, 'signature', res['result']['response']['signature'])
             set_session(request, 'username', request.POST.get('username') or user_default)
             set_session(request, 'password', request.POST.get('password') or password_default)
