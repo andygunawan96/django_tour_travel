@@ -374,13 +374,16 @@ function add_table_of_passenger(type){
                                         }
 
                                         if(template == 4){
-                                            text_modal_paxs+=`<select class="nice-select-default rounded" id="adult_identity_type`+parseInt(counter_passenger+1)+`" name="adult_identity_type`+parseInt(counter_passenger+1)+`" onchange="change_country_of_issued(`+parseInt(counter_passenger+1)+`);">`;
+                                            text_modal_paxs+=`<select class="nice-select-default rounded" id="adult_identity_type`+parseInt(counter_passenger+1)+`" name="adult_identity_type`+parseInt(counter_passenger+1)+`" onchange="change_country_of_issued(`+parseInt(counter_passenger+1)+`);set_exp_identity(`+parseInt(counter_passenger+1)+`);">`;
                                         }else{
-                                            text_modal_paxs+=`<select id="adult_identity_type`+parseInt(counter_passenger+1)+`" name="adult_identity_type`+parseInt(counter_passenger+1)+`">`;
+                                            text_modal_paxs+=`<select id="adult_identity_type`+parseInt(counter_passenger+1)+`" name="adult_identity_type`+parseInt(counter_passenger+1)+`" onchange="change_country_of_issued(`+parseInt(counter_passenger+1)+`);set_exp_identity(`+parseInt(counter_passenger+1)+`);">`;
                                         }
                                             text_modal_paxs+=`
                                                 <option value="">Choose Identity</option>
                                                 <option value="ktp">KTP</option>`;
+                                            if(test_type != 'PHCHCKATG' && test_type != 'PHCDTKATG')
+                                            text_modal_paxs+=`
+                                                <option value="passport">Passport</option>`;
                                                 text_modal_paxs+=`</select>
                                             </div>
                                         </div>
@@ -390,6 +393,15 @@ function add_table_of_passenger(type){
                                         <label>Identity Number</label>
                                         <div class="input-container-search-ticket" style="margin-bottom:5px;">
                                             <input type="text" class="form-control" name="adult_identity_number`+parseInt(counter_passenger+1)+`" id="adult_identity_number`+parseInt(counter_passenger+1)+`" placeholder="Identity Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6 col-md-6 col-sm-6" id="identity_exp_date_hidden`+parseInt(counter_passenger+1)+`" hidden>
+                                        <label style="color:red !important">*</label>
+                                        <label>Identity Expired Date</label>
+                                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                                            <input type="text" class="form-control date-picker-passport" name="adult_identity_expired_date`+parseInt(counter_passenger+1)+`" id="adult_identity_expired_date`+parseInt(counter_passenger+1)+`" placeholder="Identity Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Expired Date '">
+                                            <button type="button" class="primary-delete-date" onclick="clear_date('adult_identity_expired_date`+parseInt(counter_passenger+1)+`')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                         </div>
                                     </div>
 
@@ -2268,12 +2280,12 @@ function add_table_of_passenger(type){
                                             <div class="col-lg-3">
                                                 <div class="form-select">
                                                     <select id="adult_phone_code`+parseInt(counter_passenger+1)+`_id" name="adult_phone_code`+parseInt(counter_passenger+1)+`_id" class="form-control js-example-basic-single">`;
-                                                        
+
                                                         for(i in countries){
                                                             if(countries[i].phone_code == 0)
-                                                              text_modal_paxs+=`<option value="`+countries[i].phone_code+`" selected>`+countries[i].phone_code+`</option>`;
+                                                                text_modal_paxs+=`<option value="`+countries[i].phone_code+`" selected>`+countries[i].phone_code+`</option>`;
                                                             else
-                                                           text_modal_paxs+=`<option value="`+countries[i].phone_code+`">`+countries[i].phone_code+`</option>`;
+                                                                text_modal_paxs+=`<option value="`+countries[i].phone_code+`">`+countries[i].phone_code+`</option>`;
                                                         }
 
                                             text_modal_paxs+=` </select>
@@ -2314,6 +2326,19 @@ function add_table_of_passenger(type){
               format: 'DD MMM YYYY',
           }
     });
+    $('input[name="adult_identity_expired_date'+parseInt(counter_passenger+1)+'"]').daterangepicker({
+          singleDatePicker: true,
+          autoUpdateInput: true,
+          startDate: moment(),
+          minDate: moment(),
+          showDropdowns: true,
+          opens: 'center',
+          drops: 'up',
+          locale: {
+              format: 'DD MMM YYYY',
+          }
+    });
+    $('input[name="adult_identity_expired_date'+parseInt(counter_passenger+1)+'"]').val("");
 
     document.getElementById("train_"+parseInt(counter_passenger+1)+"_search").addEventListener("keyup", function(event) {
       // Number 13 is the "Enter" key on the keyboard
@@ -2432,6 +2457,28 @@ function add_table_of_passenger(type){
     $('#adult_identity_type'+parseInt(counter_passenger+1)).niceSelect();
     auto_complete(`adult_nationality`+parseInt(counter_passenger+1));
     counter_passenger++;
+}
+
+function change_country_of_issued(val){
+    if(document.getElementById('adult_identity_type'+val).value != ''){
+        if(document.getElementById('adult_country_of_issued'+val).value == '' || document.getElementById('adult_country_of_issued1').value != ''){
+            document.getElementById('select2-adult_country_of_issued'+val+'_id-container').innerHTML = 'Indonesia';
+            document.getElementById('adult_country_of_issued'+val).value = 'Indonesia'
+        }
+    }else{
+        document.getElementById('select2-adult_country_of_issued'+val+'_id-container').innerHTML = 'Select Country Of Issued';
+        document.getElementById('adult_country_of_issued'+val).value = '';
+    }
+    $('#adult_country_of_issued'+val+'_id').niceSelect('update');
+}
+
+function set_exp_identity(val){
+    if(document.getElementById('adult_identity_type'+val).value == 'passport'){
+        document.getElementById('identity_exp_date_hidden'+val).hidden = false;
+    }else{
+        document.getElementById('identity_exp_date_hidden'+val).hidden = true;
+        document.getElementById('adult_identity_expired_date'+val).value = '';
+    }
 }
 
 function onchange_demam(val){
@@ -3665,37 +3712,37 @@ function check_passenger(){
                 try{
                     //kasi if kosong
                     if(document.getElementById('adult_first_name' + nomor_pax).value == '' || check_word(document.getElementById('adult_first_name' + nomor_pax).value) == false){
-                        error_log += 'Please fill or use alpha characters for first name for passenger '+ nomor_pax + ' !</br>\n';
+                        error_log += 'Please fill or use alpha characters for first name for customer '+ nomor_pax + ' !</br>\n';
                         document.getElementById('adult_first_name' + nomor_pax).style['border-color'] = 'red';
                     }else{
                         document.getElementById('adult_first_name' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
                     if(document.getElementById('adult_last_name' + nomor_pax).value == '' || check_word(document.getElementById('adult_last_name' + nomor_pax).value) == false){
-                        error_log += 'Please fill or use alpha characters for last name for passenger '+ nomor_pax + ' !</br>\n';
+                        error_log += 'Please fill or use alpha characters for last name for customer '+ nomor_pax + ' !</br>\n';
                         document.getElementById('adult_last_name' + nomor_pax).style['border-color'] = 'red';
                     }else{
                         document.getElementById('adult_last_name' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
                     if(document.getElementById('adult_title' + nomor_pax).value == ''){
-                        error_log += 'Please fill title name for passenger '+ nomor_pax + ' !</br>\n';
+                        error_log += 'Please fill title name for customer '+ nomor_pax + ' !</br>\n';
                         document.getElementById('adult_title' + nomor_pax).style['border-color'] = 'red';
                     }else{
                         document.getElementById('adult_title' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
                     if(document.getElementById('adult_nationality' + nomor_pax).value == ''){
-                        error_log += 'Please fill title name for passenger '+ nomor_pax + ' !</br>\n';
+                        error_log += 'Please fill title name for customer '+ nomor_pax + ' !</br>\n';
                         document.getElementById('adult_nationality' + nomor_pax).style['border-color'] = 'red';
                     }else{
                         document.getElementById('adult_nationality' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
                     if(check_date(document.getElementById('adult_birth_date'+ nomor_pax).value)==false){
-                        error_log+= 'Birth date wrong for passenger passenger '+nomor_pax+'!</br>\n';
+                        error_log+= 'Birth date wrong for customer passenger '+nomor_pax+'!</br>\n';
                         document.getElementById('adult_birth_date'+ nomor_pax).style['border-color'] = 'red';
                     }else{
                         document.getElementById('adult_birth_date'+ nomor_pax).style['border-color'] = '#EFEFEF';
                     }
                     if(check_phone_number(document.getElementById('adult_phone' + nomor_pax).value)==false){
-                        error_log+= 'Phone number only contain number 8 - 12 digits for passenger '+nomor_pax+'!</br>\n';
+                        error_log+= 'Phone number only contain number 8 - 12 digits for customer '+nomor_pax+'!</br>\n';
                         document.getElementById('adult_phone' + nomor_pax).style['border-color'] = 'red';
                     }else{
                         document.getElementById('adult_phone' + nomor_pax).style['border-color'] = '#EFEFEF';
@@ -3707,13 +3754,13 @@ function check_passenger(){
                         document.getElementById('adult_email' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
                     if(document.getElementById('adult_sample_method' + nomor_pax).value == ''){
-                        error_log+= 'Please choose sample method for passenger '+nomor_pax+'!</br>\n';
+                        error_log+= 'Please choose sample method for customer '+nomor_pax+'!</br>\n';
                         document.getElementById('adult_sample_method' + nomor_pax).style['border-color'] = 'red';
                     }else{
                         document.getElementById('adult_sample_method' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
                     if(document.getElementById('adult_address_ktp' + nomor_pax).value == ''){
-                        error_log+= 'Please fill address ktp for passenger '+nomor_pax+'!</br>\n';
+                        error_log+= 'Please fill address ktp for customer '+nomor_pax+'!</br>\n';
                         document.getElementById('adult_address_ktp' + nomor_pax).style['border-color'] = 'red';
                     }else{
                         document.getElementById('adult_address_ktp' + nomor_pax).style['border-color'] = '#EFEFEF';
@@ -3723,23 +3770,23 @@ function check_passenger(){
                         document.getElementById('adult_identity_type' + nomor_pax).style['border-color'] = '#EFEFEF';
                         if(document.getElementById('adult_identity_type' + nomor_pax).value == 'ktp'){
                             if(document.getElementById('adult_identity_number'+ nomor_pax).value == ''){
-                                error_log+= 'Please fill identity number for passenger '+nomor_pax+'!</br>\n';
+                                error_log+= 'Please fill identity number for customer '+nomor_pax+'!</br>\n';
                                 document.getElementById('adult_identity_number'+ nomor_pax).style['border-color'] = 'red';
                             }else if(check_ktp(document.getElementById('adult_identity_number'+ nomor_pax).value) == false){
-                                error_log+= 'Please fill identity number, ktp only contain 16 digits for passenger adult '+nomor_pax+'!</br>\n';
+                                error_log+= 'Please fill identity number, ktp only contain 16 digits for customer adult '+nomor_pax+'!</br>\n';
                                 document.getElementById('adult_identity_number'+ nomor_pax).style['border-color'] = 'red';
                             }else{
                                 document.getElementById('adult_identity_number'+ nomor_pax).style['border-color'] = '#EFEFEF';
                             }
                             if(document.getElementById('adult_country_of_issued'+ nomor_pax).value == ''){
-                                error_log+= 'Please fill country of issued for passenger '+ nomor_pax +'!</br>\n';
+                                error_log+= 'Please fill country of issued for customer '+ nomor_pax +'!</br>\n';
                                 document.getElementById('adult_country_of_issued'+ nomor_pax).style['border-color'] = 'red';
                             }else{
                                 document.getElementById('adult_country_of_issued'+ nomor_pax).style['border-color'] = '#EFEFEF';
                             }
                         }
                     }else{
-                        error_log+= 'Please fill identity type for passenger '+nomor_pax+'!</br>\n';
+                        error_log+= 'Please fill identity type for customer '+nomor_pax+'!</br>\n';
                         document.getElementById('adult_identity_type' + nomor_pax).style['border-color'] = 'red';
                     }
                     if(i == 0 && document.getElementsByName('myRadios')[0].checked == true){
@@ -3759,7 +3806,7 @@ function check_passenger(){
                         "nationality_name": document.getElementById('adult_nationality' + nomor_pax).value,
                         "identity": {
                             "identity_country_of_issued_name": document.getElementById('adult_country_of_issued' + nomor_pax).value,
-                            "identity_expdate": '',
+                            "identity_expdate": document.getElementById('adult_identity_expired_date'+ nomor_pax).value,
                             "identity_type": document.getElementById('adult_identity_type' + nomor_pax).value,
                             "identity_number": document.getElementById('adult_identity_number' + nomor_pax).value,
                         },
@@ -3780,37 +3827,37 @@ function check_passenger(){
                 try{
                     //kasi if kosong
                     if(document.getElementById('adult_first_name' + nomor_pax).value == '' || check_word(document.getElementById('adult_first_name' + nomor_pax).value) == false){
-                        error_log += 'Please fill or use alpha characters for first name for passenger '+ nomor_pax + ' !</br>\n';
+                        error_log += 'Please fill or use alpha characters for first name for customer '+ nomor_pax + ' !</br>\n';
                         document.getElementById('adult_first_name' + nomor_pax).style['border-color'] = 'red';
                     }else{
                         document.getElementById('adult_first_name' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
                     if(document.getElementById('adult_last_name' + nomor_pax).value == '' || check_word(document.getElementById('adult_last_name' + nomor_pax).value) == false){
-                        error_log += 'Please fill or use alpha characters for last name for passenger '+ nomor_pax + ' !</br>\n';
+                        error_log += 'Please fill or use alpha characters for last name for customer '+ nomor_pax + ' !</br>\n';
                         document.getElementById('adult_last_name' + nomor_pax).style['border-color'] = 'red';
                     }else{
                         document.getElementById('adult_last_name' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
                     if(document.getElementById('adult_title' + nomor_pax).value == ''){
-                        error_log += 'Please fill title name for passenger '+ nomor_pax + ' !</br>\n';
+                        error_log += 'Please fill title name for customer '+ nomor_pax + ' !</br>\n';
                         document.getElementById('adult_title' + nomor_pax).style['border-color'] = 'red';
                     }else{
                         document.getElementById('adult_title' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
                     if(document.getElementById('adult_nationality' + nomor_pax).value == ''){
-                        error_log += 'Please fill title name for passenger '+ nomor_pax + ' !</br>\n';
+                        error_log += 'Please fill title name for customer '+ nomor_pax + ' !</br>\n';
                         document.getElementById('adult_nationality' + nomor_pax).style['border-color'] = 'red';
                     }else{
                         document.getElementById('adult_nationality' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
                     if(check_date(document.getElementById('adult_birth_date'+ nomor_pax).value)==false){
-                        error_log+= 'Birth date wrong for passenger passenger '+nomor_pax+'!</br>\n';
+                        error_log+= 'Birth date wrong for customer passenger '+nomor_pax+'!</br>\n';
                         document.getElementById('adult_birth_date'+ nomor_pax).style['border-color'] = 'red';
                     }else{
                         document.getElementById('adult_birth_date'+ nomor_pax).style['border-color'] = '#EFEFEF';
                     }
                     if(check_phone_number(document.getElementById('adult_phone' + nomor_pax).value)==false){
-                        error_log+= 'Phone number only contain number 8 - 12 digits for passenger '+nomor_pax+'!</br>\n';
+                        error_log+= 'Phone number only contain number 8 - 12 digits for customer '+nomor_pax+'!</br>\n';
                         document.getElementById('adult_phone' + nomor_pax).style['border-color'] = 'red';
                     }else{
                         document.getElementById('adult_phone' + nomor_pax).style['border-color'] = '#EFEFEF';
@@ -3822,94 +3869,94 @@ function check_passenger(){
                         document.getElementById('adult_email' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
                     if(document.getElementById('adult_profession' + nomor_pax).value == ''){
-                        error_log+= 'Please choose profession for passenger '+nomor_pax+'!</br>\n';
+                        error_log+= 'Please choose profession for customer '+nomor_pax+'!</br>\n';
                         document.getElementById('adult_profession' + nomor_pax).style['border-color'] = 'red';
                     }else{
                         document.getElementById('adult_profession' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
                     if(document.getElementById('adult_profession' + nomor_pax).value != '' && document.getElementById('adult_profession' + nomor_pax).value != 'BELUM BEKERJA'){
                         if(document.getElementById('adult_work_place' + nomor_pax).value == ''){
-                            error_log+= 'Please fill work place for passenger '+nomor_pax+'!</br>\n';
+                            error_log+= 'Please fill work place for customer '+nomor_pax+'!</br>\n';
                             document.getElementById('adult_work_place' + nomor_pax).style['border-color'] = 'red';
                         }else{
                             document.getElementById('adult_work_place' + nomor_pax).style['border-color'] = '#EFEFEF';
                         }
                     }
                     if(document.getElementById('adult_address' + nomor_pax).value == ''){
-                        error_log+= 'Please fill Address for passenger '+nomor_pax+'!</br>\n';
+                        error_log+= 'Please fill Address for customer '+nomor_pax+'!</br>\n';
                         document.getElementById('adult_address' + nomor_pax).style['border-color'] = 'red';
                     }else{
                         document.getElementById('adult_address' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
                     if(document.getElementById('adult_rt' + nomor_pax).value == '' && check_number(document.getElementById('adult_rt' + nomor_pax).value) == false){
-                        error_log+= 'RT only contain number for passenger '+nomor_pax+'!</br>\n';
+                        error_log+= 'RT only contain number for customer '+nomor_pax+'!</br>\n';
                         document.getElementById('adult_rt' + nomor_pax).style['border-color'] = 'red';
                     }else{
                         document.getElementById('adult_rt' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
                     if(document.getElementById('adult_rw' + nomor_pax).value == '' && check_number(document.getElementById('adult_rw' + nomor_pax).value) == false){
-                        error_log+= 'RW only contain number for passenger '+nomor_pax+'!</br>\n';
+                        error_log+= 'RW only contain number for customer '+nomor_pax+'!</br>\n';
                         document.getElementById('adult_rw' + nomor_pax).style['border-color'] = 'red';
                     }else{
                         document.getElementById('adult_rw' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
                     if(document.getElementById('adult_kabupaten' + nomor_pax).value == ''){
-                        error_log+= 'Please choose Kabupaten for passenger '+nomor_pax+'!</br>\n';
+                        error_log+= 'Please choose Kabupaten for customer '+nomor_pax+'!</br>\n';
                         document.getElementById('adult_kabupaten' + nomor_pax).style['border-color'] = 'red';
                     }else{
                         document.getElementById('adult_kabupaten' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
                     if(document.getElementById('adult_kecamatan' + nomor_pax).value == ''){
-                        error_log+= 'Please choose Kecamatan for passenger '+nomor_pax+'!</br>\n';
+                        error_log+= 'Please choose Kecamatan for customer '+nomor_pax+'!</br>\n';
                         document.getElementById('adult_kecamatan' + nomor_pax).style['border-color'] = 'red';
                     }else{
                         document.getElementById('adult_kecamatan' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
                     if(document.getElementById('adult_kelurahan' + nomor_pax).value == ''){
-                        error_log+= 'Please choose Kelurahan for passenger '+nomor_pax+'!</br>\n';
+                        error_log+= 'Please choose Kelurahan for customer '+nomor_pax+'!</br>\n';
                         document.getElementById('adult_kelurahan' + nomor_pax).style['border-color'] = 'red';
                     }else{
                         document.getElementById('adult_kelurahan' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
 
                     if(document.getElementById('adult_address_ktp' + nomor_pax).value == ''){
-                        error_log+= 'Please fill Address KTP for passenger '+nomor_pax+'!</br>\n';
+                        error_log+= 'Please fill Address KTP for customer '+nomor_pax+'!</br>\n';
                         document.getElementById('adult_address_ktp' + nomor_pax).style['border-color'] = 'red';
                     }else{
                         document.getElementById('adult_address_ktp' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
                     if(document.getElementById('adult_rt_ktp' + nomor_pax).value == '' && check_number(document.getElementById('adult_rt_ktp' + nomor_pax).value) == false){
-                        error_log+= 'RT KTP only contain number for passenger '+nomor_pax+'!</br>\n';
+                        error_log+= 'RT KTP only contain number for customer '+nomor_pax+'!</br>\n';
                         document.getElementById('adult_rt_ktp' + nomor_pax).style['border-color'] = 'red';
                     }else{
                         document.getElementById('adult_rt_ktp' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
                     if(document.getElementById('adult_rw_ktp' + nomor_pax).value == '' && check_number(document.getElementById('adult_rw_ktp' + nomor_pax).value) == false){
-                        error_log+= 'RW KTP only contain number for passenger '+nomor_pax+'!</br>\n';
+                        error_log+= 'RW KTP only contain number for customer '+nomor_pax+'!</br>\n';
                         document.getElementById('adult_rw_ktp' + nomor_pax).style['border-color'] = 'red';
                     }else{
                         document.getElementById('adult_rw_ktp' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
                     if(document.getElementById('adult_kabupaten_ktp' + nomor_pax).value == ''){
-                        error_log+= 'Please choose Kabupaten KTP for passenger '+nomor_pax+'!</br>\n';
+                        error_log+= 'Please choose Kabupaten KTP for customer '+nomor_pax+'!</br>\n';
                         document.getElementById('adult_kabupaten_ktp' + nomor_pax).style['border-color'] = 'red';
                     }else{
                         document.getElementById('adult_kabupaten_ktp' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
                     if(document.getElementById('adult_kecamatan_ktp' + nomor_pax).value == ''){
-                        error_log+= 'Please choose Kecamatan KTP for passenger '+nomor_pax+'!</br>\n';
+                        error_log+= 'Please choose Kecamatan KTP for customer '+nomor_pax+'!</br>\n';
                         document.getElementById('adult_kecamatan_ktp' + nomor_pax).style['border-color'] = 'red';
                     }else{
                         document.getElementById('adult_kecamatan_ktp' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
                     if(document.getElementById('adult_kelurahan_ktp' + nomor_pax).value == ''){
-                        error_log+= 'Please choose Kelurahan KTP for passenger '+nomor_pax+'!</br>\n';
+                        error_log+= 'Please choose Kelurahan KTP for customer '+nomor_pax+'!</br>\n';
                         document.getElementById('adult_kelurahan_ktp' + nomor_pax).style['border-color'] = 'red';
                     }else{
                         document.getElementById('adult_kelurahan_ktp' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
                     if(document.getElementById('adult_tempat_lahir' + nomor_pax).value == ''){
-                        error_log+= 'Please choose Tempat Lahir for passenger '+nomor_pax+'!</br>\n';
+                        error_log+= 'Please choose Tempat Lahir for customer '+nomor_pax+'!</br>\n';
                         document.getElementById('adult_tempat_lahir' + nomor_pax).style['border-color'] = 'red';
                     }else{
                         document.getElementById('adult_tempat_lahir' + nomor_pax).style['border-color'] = '#EFEFEF';
@@ -3918,23 +3965,47 @@ function check_passenger(){
                         document.getElementById('adult_identity_type' + nomor_pax).style['border-color'] = '#EFEFEF';
                         if(document.getElementById('adult_identity_type' + nomor_pax).value == 'ktp'){
                             if(document.getElementById('adult_identity_number'+ nomor_pax).value == ''){
-                                error_log+= 'Please fill identity number for passenger '+nomor_pax+'!</br>\n';
+                                error_log+= 'Please fill identity number for customer '+nomor_pax+'!</br>\n';
                                 document.getElementById('adult_identity_number'+ nomor_pax).style['border-color'] = 'red';
                             }else if(check_ktp(document.getElementById('adult_identity_number'+ nomor_pax).value) == false){
-                                error_log+= 'Please fill identity number, ktp only contain 16 digits for passenger adult '+nomor_pax+'!</br>\n';
+                                error_log+= 'Please fill identity number, ktp only contain 16 digits for customer adult '+nomor_pax+'!</br>\n';
                                 document.getElementById('adult_identity_number'+ nomor_pax).style['border-color'] = 'red';
                             }else{
                                 document.getElementById('adult_identity_number'+ nomor_pax).style['border-color'] = '#EFEFEF';
                             }
                             if(document.getElementById('adult_country_of_issued'+ nomor_pax).value == ''){
-                                error_log+= 'Please fill country of issued for passenger '+nomor_pax+'!</br>\n';
+                                error_log+= 'Please fill country of issued for customer '+nomor_pax+'!</br>\n';
                                 document.getElementById('adult_country_of_issued'+ nomor_pax).style['border-color'] = 'red';
                             }else{
                                 document.getElementById('adult_country_of_issued'+ nomor_pax).style['border-color'] = '#EFEFEF';
                             }
+                        }else if(document.getElementById('adult_identity_type' + nomor_pax).value == 'passport'){
+                            console.log('passport')
+                            if(document.getElementById('adult_identity_number'+ nomor_pax).value == ''){
+                                error_log+= 'Please fill identity number for customer '+nomor_pax+'!</br>\n';
+                                document.getElementById('adult_identity_number'+ nomor_pax).style['border-color'] = 'red';
+                            }else if(check_passport(document.getElementById('adult_identity_number'+ nomor_pax).value) == false){
+                                error_log+= 'Please fill identity number, passport only contain more than 6 digits for customer adult '+nomor_pax+'!</br>\n';
+                                document.getElementById('adult_identity_number'+ nomor_pax).style['border-color'] = 'red';
+                            }else{
+                                document.getElementById('adult_identity_number'+ nomor_pax).style['border-color'] = '#EFEFEF';
+                            }
+                            if(document.getElementById('adult_country_of_issued'+ nomor_pax).value == ''){
+                                error_log+= 'Please fill country of issued for customer '+ nomor_pax +'!</br>\n';
+                                document.getElementById('adult_country_of_issued'+ nomor_pax).style['border-color'] = 'red';
+                            }else{
+                                document.getElementById('adult_country_of_issued'+ nomor_pax).style['border-color'] = '#EFEFEF';
+                            }
+                            console.log('expired')
+                            if(document.getElementById('adult_identity_expired_date'+nomor_pax).value == ''){
+                                error_log+= 'Please fill identity expired date for customer '+ nomor_pax +'!</br>\n';
+                                document.getElementById('adult_identity_expired_date'+ nomor_pax).style['border-color'] = 'red';
+                            }else{
+                                document.getElementById('adult_identity_expired_date'+ nomor_pax).style['border-color'] = '#EFEFEF';
+                            }
                         }
                     }else{
-                        error_log+= 'Please fill identity type for passenger '+nomor_pax+'!</br>\n';
+                        error_log+= 'Please fill identity type for customer '+nomor_pax+'!</br>\n';
                         document.getElementById('adult_identity_type' + nomor_pax).style['border-color'] = 'red';
                     }
                     if(i == 0 && document.getElementsByName('myRadios')[0].checked == true){
@@ -3948,250 +4019,250 @@ function check_passenger(){
                     pcr_data = {};
                     if(test_type == 'PHCDTKPCR' || test_type == 'PHCHCKPCR'){
                         if(document.getElementById('adult_mother_name' + nomor_pax).value == ''){
-                            error_log+= 'Please fill mother name for passenger '+nomor_pax+'!</br>\n';
+                            error_log+= 'Please fill mother name for customer '+nomor_pax+'!</br>\n';
                             document.getElementById('adult_mother_name' + nomor_pax).style['border-color'] = 'red';
                         }else{
                             document.getElementById('adult_mother_name' + nomor_pax).style['border-color'] = '#EFEFEF';
 
                         }
                         if(document.getElementById('adult_kriteria_pasien' + nomor_pax).value == ''){
-                            error_log+= 'Please choose kriteria pasien for passenger '+nomor_pax+'!</br>\n';
+                            error_log+= 'Please choose kriteria pasien for customer '+nomor_pax+'!</br>\n';
                             document.getElementById('adult_kriteria_pasien' + nomor_pax).style['border-color'] = 'red';
                         }else{
                             document.getElementById('adult_kriteria_pasien' + nomor_pax).style['border-color'] = '#EFEFEF';
                         }
                         if(document.getElementById('adult_pemeriksaan_swab_ke' + nomor_pax).value == '' || check_number(document.getElementById('adult_pemeriksaan_swab_ke' + nomor_pax).value) == false){
-                            error_log+= 'Pemeriksaan swab only contain number for passenger '+nomor_pax+'!</br>\n';
+                            error_log+= 'Pemeriksaan swab only contain number for customer '+nomor_pax+'!</br>\n';
                             document.getElementById('adult_pemeriksaan_swab_ke' + nomor_pax).style['border-color'] = 'red';
                         }else{
                             document.getElementById('adult_pemeriksaan_swab_ke' + nomor_pax).style['border-color'] = '#EFEFEF';
                         }
                         if(document.getElementById('adult_perusahaan' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Asal Perusahaan/Rumah Sakit/Pribadi for passenger '+nomor_pax+'!</br>\n';
+                            error_log+= 'Please choose Asal Perusahaan/Rumah Sakit/Pribadi for customer '+nomor_pax+'!</br>\n';
                             document.getElementById('adult_perusahaan' + nomor_pax).style['border-color'] = 'red';
                         }else{
                             document.getElementById('adult_perusahaan' + nomor_pax).style['border-color'] = '#EFEFEF';
                         }
                         if(document.getElementById('adult_nama_perusahaan' + nomor_pax).value == ''){
-                            error_log+= 'Please fill Nama Perusahaan/Rumah Sakit/Pribadi for passenger '+nomor_pax+'!</br>\n';
+                            error_log+= 'Please fill Nama Perusahaan/Rumah Sakit/Pribadi for customer '+nomor_pax+'!</br>\n';
                             document.getElementById('adult_nama_perusahaan' + nomor_pax).style['border-color'] = 'red';
                         }else{
                             document.getElementById('adult_nama_perusahaan' + nomor_pax).style['border-color'] = '#EFEFEF';
                         }
 //                        if(document.getElementById('adult_tanggal_pertama_kali_gejala' + nomor_pax).value == ''){
-//                            error_log+= 'Please fill Tanggal pertama kali gejala for passenger '+nomor_pax+'!</br>\n';
+//                            error_log+= 'Please fill Tanggal pertama kali gejala for customer '+nomor_pax+'!</br>\n';
 //                            document.getElementById('adult_tanggal_pertama_kali_gejala' + nomor_pax).style['border-color'] = 'red';
 //                        }else{
 //                            document.getElementById('adult_tanggal_pertama_kali_gejala' + nomor_pax).style['border-color'] = '#EFEFEF';
 //                        }
                         if(document.getElementById('adult_klinis_ada_demam' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Gejala Demam for passenger '+nomor_pax+'!</br>\n';
+                            error_log+= 'Please choose Gejala Demam for customer '+nomor_pax+'!</br>\n';
                             document.getElementById('adult_klinis_ada_demam' + nomor_pax).style['border-color'] = 'red';
                         }else{
                             document.getElementById('adult_klinis_ada_demam' + nomor_pax).style['border-color'] = '#EFEFEF';
                         }
                         if(document.getElementById('adult_klinis_ada_demam' + nomor_pax).value == 'IYA'){
                             if(document.getElementById('adult_klinis_suhu_tubuh' + nomor_pax).value == 'IYA'){
-                                error_log+= 'Please fill Suhu Tubuh for passenger '+nomor_pax+'!</br>\n';
+                                error_log+= 'Please fill Suhu Tubuh for customer '+nomor_pax+'!</br>\n';
                                 document.getElementById('adult_klinis_suhu_tubuh' + nomor_pax).style['border-color'] = 'red';
                             }else{
                                 document.getElementById('adult_klinis_suhu_tubuh' + nomor_pax).style['border-color'] = '#EFEFEF';
                             }
                         }
                         if(document.getElementById('adult_klinis_ada_batuk' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Gejala Batuk for passenger '+nomor_pax+'!</br>\n';
+                            error_log+= 'Please choose Gejala Batuk for customer '+nomor_pax+'!</br>\n';
                             document.getElementById('adult_klinis_ada_batuk' + nomor_pax).style['border-color'] = 'red';
                         }else{
                             document.getElementById('adult_klinis_ada_batuk' + nomor_pax).style['border-color'] = '#EFEFEF';
                         }
                         if(document.getElementById('adult_klinis_ada_pilek' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Gejala Flu for passenger '+nomor_pax+'!</br>\n';
+                            error_log+= 'Please choose Gejala Flu for customer '+nomor_pax+'!</br>\n';
                             document.getElementById('adult_klinis_ada_pilek' + nomor_pax).style['border-color'] = 'red';
                         }else{
                             document.getElementById('adult_klinis_ada_pilek' + nomor_pax).style['border-color'] = '#EFEFEF';
                         }
                         if(document.getElementById('adult_klinis_ada_sakit_tenggorokan' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Gejala Sakit Tenggorokan for passenger '+nomor_pax+'!</br>\n';
+                            error_log+= 'Please choose Gejala Sakit Tenggorokan for customer '+nomor_pax+'!</br>\n';
                             document.getElementById('adult_klinis_ada_sakit_tenggorokan' + nomor_pax).style['border-color'] = 'red';
                         }else{
                             document.getElementById('adult_klinis_ada_sakit_tenggorokan' + nomor_pax).style['border-color'] = '#EFEFEF';
                         }
                         if(document.getElementById('adult_klinis_ada_sesak' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Gejala Sesak Nafas for passenger '+nomor_pax+'!</br>\n';
+                            error_log+= 'Please choose Gejala Sesak Nafas for customer '+nomor_pax+'!</br>\n';
                             document.getElementById('adult_klinis_ada_sesak' + nomor_pax).style['border-color'] = 'red';
                         }else{
                             document.getElementById('adult_klinis_ada_sesak' + nomor_pax).style['border-color'] = '#EFEFEF';
                         }
                         if(document.getElementById('adult_klinis_ada_sakit_kepala' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Gejala Sakit Kepala for passenger '+nomor_pax+'!</br>\n';
+                            error_log+= 'Please choose Gejala Sakit Kepala for customer '+nomor_pax+'!</br>\n';
                             document.getElementById('adult_klinis_ada_sakit_kepala' + nomor_pax).style['border-color'] = 'red';
                         }else{
                             document.getElementById('adult_klinis_ada_sakit_kepala' + nomor_pax).style['border-color'] = '#EFEFEF';
                         }
                         if(document.getElementById('adult_klinis_ada_badan_lemah' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Gejala Badan Lemah for passenger '+nomor_pax+'!</br>\n';
+                            error_log+= 'Please choose Gejala Badan Lemah for customer '+nomor_pax+'!</br>\n';
                             document.getElementById('adult_klinis_ada_badan_lemah' + nomor_pax).style['border-color'] = 'red';
                         }else{
                             document.getElementById('adult_klinis_ada_badan_lemah' + nomor_pax).style['border-color'] = '#EFEFEF';
                         }
                         if(document.getElementById('adult_klinis_ada_nyeri_otot' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Gejala Nyeri Otot for passenger '+nomor_pax+'!</br>\n';
+                            error_log+= 'Please choose Gejala Nyeri Otot for customer '+nomor_pax+'!</br>\n';
                             document.getElementById('adult_klinis_ada_nyeri_otot' + nomor_pax).style['border-color'] = 'red';
                         }else{
                             document.getElementById('adult_klinis_ada_nyeri_otot' + nomor_pax).style['border-color'] = '#EFEFEF';
                         }
                         if(document.getElementById('adult_klinis_ada_mual' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Gejala Mual for passenger '+nomor_pax+'!</br>\n';
+                            error_log+= 'Please choose Gejala Mual for customer '+nomor_pax+'!</br>\n';
                             document.getElementById('adult_klinis_ada_mual' + nomor_pax).style['border-color'] = 'red';
                         }else{
                             document.getElementById('adult_klinis_ada_mual' + nomor_pax).style['border-color'] = '#EFEFEF';
                         }
                         if(document.getElementById('adult_klinis_ada_nyeri_abdomen' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Gejala Nyeri Abdomen for passenger '+nomor_pax+'!</br>\n';
+                            error_log+= 'Please choose Gejala Nyeri Abdomen for customer '+nomor_pax+'!</br>\n';
                             document.getElementById('adult_klinis_ada_nyeri_abdomen' + nomor_pax).style['border-color'] = 'red';
                         }else{
                             document.getElementById('adult_klinis_ada_nyeri_abdomen' + nomor_pax).style['border-color'] = '#EFEFEF';
                         }
                         if(document.getElementById('adult_klinis_ada_diare' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Gejala Diare for passenger '+nomor_pax+'!</br>\n';
+                            error_log+= 'Please choose Gejala Diare for customer '+nomor_pax+'!</br>\n';
                             document.getElementById('adult_klinis_ada_diare' + nomor_pax).style['border-color'] = 'red';
                         }else{
                             document.getElementById('adult_klinis_ada_diare' + nomor_pax).style['border-color'] = '#EFEFEF';
                         }
                         if(document.getElementById('adult_klinis_ada_gangguan_penciuman' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Gejala Gangguan Penciuman for passenger '+nomor_pax+'!</br>\n';
+                            error_log+= 'Please choose Gejala Gangguan Penciuman for customer '+nomor_pax+'!</br>\n';
                             document.getElementById('adult_klinis_ada_gangguan_penciuman' + nomor_pax).style['border-color'] = 'red';
                         }else{
                             document.getElementById('adult_klinis_ada_gangguan_penciuman' + nomor_pax).style['border-color'] = '#EFEFEF';
                         }
                         if(document.getElementById('adult_klinis_golongan_darah' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Golongan Darah for passenger '+nomor_pax+'!</br>\n';
+                            error_log+= 'Please choose Golongan Darah for customer '+nomor_pax+'!</br>\n';
                             document.getElementById('adult_klinis_golongan_darah' + nomor_pax).style['border-color'] = 'red';
                         }else{
                             document.getElementById('adult_klinis_golongan_darah' + nomor_pax).style['border-color'] = '#EFEFEF';
                         }
                         if(document.getElementById('adult_klinis_ada_diabetes' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Gejala Diabetes for passenger '+nomor_pax+'!</br>\n';
+                            error_log+= 'Please choose Gejala Diabetes for customer '+nomor_pax+'!</br>\n';
                             document.getElementById('adult_klinis_ada_diabetes' + nomor_pax).style['border-color'] = 'red';
                         }else{
                             document.getElementById('adult_klinis_ada_diabetes' + nomor_pax).style['border-color'] = '#EFEFEF';
                         }
                         if(document.getElementById('adult_klinis_ada_penyakit_jantung' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Gejala Penyakit Jantung for passenger '+nomor_pax+'!</br>\n';
+                            error_log+= 'Please choose Gejala Penyakit Jantung for customer '+nomor_pax+'!</br>\n';
                             document.getElementById('adult_klinis_ada_penyakit_jantung' + nomor_pax).style['border-color'] = 'red';
                         }else{
                             document.getElementById('adult_klinis_ada_penyakit_jantung' + nomor_pax).style['border-color'] = '#EFEFEF';
                         }
                         if(document.getElementById('adult_klinis_ada_hipertensi' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Gejala Hipertensi for passenger '+nomor_pax+'!</br>\n';
+                            error_log+= 'Please choose Gejala Hipertensi for customer '+nomor_pax+'!</br>\n';
                             document.getElementById('adult_klinis_ada_hipertensi' + nomor_pax).style['border-color'] = 'red';
                         }else{
                             document.getElementById('adult_klinis_ada_hipertensi' + nomor_pax).style['border-color'] = '#EFEFEF';
                         }
                         if(document.getElementById('adult_klinis_ada_keganasan' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Gejala Keganasan for passenger '+nomor_pax+'!</br>\n';
+                            error_log+= 'Please choose Gejala Keganasan for customer '+nomor_pax+'!</br>\n';
                             document.getElementById('adult_klinis_ada_keganasan' + nomor_pax).style['border-color'] = 'red';
                         }else{
                             document.getElementById('adult_klinis_ada_keganasan' + nomor_pax).style['border-color'] = '#EFEFEF';
                         }
                         if(document.getElementById('adult_klinis_ada_gangguan_imunologi' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Gejala Gangguan Imunologi for passenger '+nomor_pax+'!</br>\n';
+                            error_log+= 'Please choose Gejala Gangguan Imunologi for customer '+nomor_pax+'!</br>\n';
                             document.getElementById('adult_klinis_ada_gangguan_imunologi' + nomor_pax).style['border-color'] = 'red';
                         }else{
                             document.getElementById('adult_klinis_ada_gangguan_imunologi' + nomor_pax).style['border-color'] = '#EFEFEF';
                         }
                         if(document.getElementById('adult_klinis_ada_gangguan_hati' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Gejala Gangguan Hati for passenger '+nomor_pax+'!</br>\n';
+                            error_log+= 'Please choose Gejala Gangguan Hati for customer '+nomor_pax+'!</br>\n';
                             document.getElementById('adult_klinis_ada_gangguan_hati' + nomor_pax).style['border-color'] = 'red';
                         }else{
                             document.getElementById('adult_klinis_ada_gangguan_hati' + nomor_pax).style['border-color'] = '#EFEFEF';
                         }
                         if(document.getElementById('adult_klinis_ada_gangguan_paru_obstruksi_kronis' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Gejala Gangguan Paru Obstruksi for passenger '+nomor_pax+'!</br>\n';
+                            error_log+= 'Please choose Gejala Gangguan Paru Obstruksi for customer '+nomor_pax+'!</br>\n';
                             document.getElementById('adult_klinis_ada_gangguan_paru_obstruksi_kronis' + nomor_pax).style['border-color'] = 'red';
                         }else{
                             document.getElementById('adult_klinis_ada_gangguan_paru_obstruksi_kronis' + nomor_pax).style['border-color'] = '#EFEFEF';
                         }
                         if(document.getElementById('adult_sedang_dirawat_di_icu' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Sedang Dirawat Di ICU for passenger '+nomor_pax+'!</br>\n';
+                            error_log+= 'Please choose Sedang Dirawat Di ICU for customer '+nomor_pax+'!</br>\n';
                             document.getElementById('adult_sedang_dirawat_di_icu' + nomor_pax).style['border-color'] = 'red';
                         }else{
                             document.getElementById('adult_sedang_dirawat_di_icu' + nomor_pax).style['border-color'] = '#EFEFEF';
                         }
                         if(document.getElementById('adult_menggunakan_emco' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Menggunakan Emco for passenger '+nomor_pax+'!</br>\n';
+                            error_log+= 'Please choose Menggunakan Emco for customer '+nomor_pax+'!</br>\n';
                             document.getElementById('adult_menggunakan_emco' + nomor_pax).style['border-color'] = 'red';
                         }else{
                             document.getElementById('adult_menggunakan_emco' + nomor_pax).style['border-color'] = '#EFEFEF';
                         }
                         if(document.getElementById('adult_klinis_ada_penumonia' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Gejala Penumonia for passenger '+nomor_pax+'!</br>\n';
+                            error_log+= 'Please choose Gejala Penumonia for customer '+nomor_pax+'!</br>\n';
                             document.getElementById('adult_klinis_ada_penumonia' + nomor_pax).style['border-color'] = 'red';
                         }else{
                             document.getElementById('adult_klinis_ada_penumonia' + nomor_pax).style['border-color'] = '#EFEFEF';
                         }
                         if(document.getElementById('adult_klinis_ada_ards' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Gejala ARDS for passenger '+nomor_pax+'!</br>\n';
+                            error_log+= 'Please choose Gejala ARDS for customer '+nomor_pax+'!</br>\n';
                             document.getElementById('adult_klinis_ada_ards' + nomor_pax).style['border-color'] = 'red';
                         }else{
                             document.getElementById('adult_klinis_ada_ards' + nomor_pax).style['border-color'] = '#EFEFEF';
                         }
                         if(document.getElementById('adult_klinis_ada_penyakit_pernafasan' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Gejala Penyakit Pernafasan for passenger '+nomor_pax+'!</br>\n';
+                            error_log+= 'Please choose Gejala Penyakit Pernafasan for customer '+nomor_pax+'!</br>\n';
                             document.getElementById('adult_klinis_ada_penyakit_pernafasan' + nomor_pax).style['border-color'] = 'red';
                         }else{
                             document.getElementById('adult_klinis_ada_penyakit_pernafasan' + nomor_pax).style['border-color'] = '#EFEFEF';
                         }
                         if(document.getElementById('adult_perjalanan_keluar_negeri' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Perjalanan Keluar Negeri for passenger '+nomor_pax+'!</br>\n';
+                            error_log+= 'Please choose Perjalanan Keluar Negeri for customer '+nomor_pax+'!</br>\n';
                             document.getElementById('adult_perjalanan_keluar_negeri' + nomor_pax).style['border-color'] = 'red';
                         }else{
                             document.getElementById('adult_perjalanan_keluar_negeri' + nomor_pax).style['border-color'] = '#EFEFEF';
                         }
                         if(document.getElementById('adult_perjalanan_ke_transmisi_lokal' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Perjalanan Ke Transmisi Lokal for passenger '+nomor_pax+'!</br>\n';
+                            error_log+= 'Please choose Perjalanan Ke Transmisi Lokal for customer '+nomor_pax+'!</br>\n';
                             document.getElementById('adult_perjalanan_ke_transmisi_lokal' + nomor_pax).style['border-color'] = 'red';
                         }else{
                             document.getElementById('adult_perjalanan_ke_transmisi_lokal' + nomor_pax).style['border-color'] = '#EFEFEF';
                         }
                         if(document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Berkunjung Ke Fasilitas Kesehatan for passenger '+nomor_pax+'!</br>\n';
+                            error_log+= 'Please choose Berkunjung Ke Fasilitas Kesehatan for customer '+nomor_pax+'!</br>\n';
                             document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan' + nomor_pax).style['border-color'] = 'red';
                         }else{
                             document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan' + nomor_pax).style['border-color'] = '#EFEFEF';
                         }
                         if(document.getElementById('adult_berkunjung_ke_pasar_hewan' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Berkunjung Ke Pasar Hewan for passenger '+nomor_pax+'!</br>\n';
+                            error_log+= 'Please choose Berkunjung Ke Pasar Hewan for customer '+nomor_pax+'!</br>\n';
                             document.getElementById('adult_berkunjung_ke_pasar_hewan' + nomor_pax).style['border-color'] = 'red';
                         }else{
                             document.getElementById('adult_berkunjung_ke_pasar_hewan' + nomor_pax).style['border-color'] = '#EFEFEF';
                         }
                         if(document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Berkunjung Ke Pasien Dalam Pengawasan for passenger '+nomor_pax+'!</br>\n';
+                            error_log+= 'Please choose Berkunjung Ke Pasien Dalam Pengawasan for customer '+nomor_pax+'!</br>\n';
                             document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan' + nomor_pax).style['border-color'] = 'red';
                         }else{
                             document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan' + nomor_pax).style['border-color'] = '#EFEFEF';
                         }
                         if(document.getElementById('adult_berkunjung_ke_pasien_konfirmasi' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Berkunjung Ke Pasien Konfirmasi for passenger '+nomor_pax+'!</br>\n';
+                            error_log+= 'Please choose Berkunjung Ke Pasien Konfirmasi for customer '+nomor_pax+'!</br>\n';
                             document.getElementById('adult_berkunjung_ke_pasien_konfirmasi' + nomor_pax).style['border-color'] = 'red';
                         }else{
                             document.getElementById('adult_berkunjung_ke_pasien_konfirmasi' + nomor_pax).style['border-color'] = '#EFEFEF';
                         }
                         if(document.getElementById('adult_termasuk_cluster_ispa' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Cluster ISPA (Saluran Pernapasan Akut) for passenger '+nomor_pax+'!</br>\n';
+                            error_log+= 'Please choose Cluster ISPA (Saluran Pernapasan Akut) for customer '+nomor_pax+'!</br>\n';
                             document.getElementById('adult_termasuk_cluster_ispa' + nomor_pax).style['border-color'] = 'red';
                         }else{
                             document.getElementById('adult_termasuk_cluster_ispa' + nomor_pax).style['border-color'] = '#EFEFEF';
                         }
                         if(document.getElementById('adult_merupakan_petugas_kesehatan' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Petugas Kesehatan for passenger '+nomor_pax+'!</br>\n';
+                            error_log+= 'Please choose Petugas Kesehatan for customer '+nomor_pax+'!</br>\n';
                             document.getElementById('adult_merupakan_petugas_kesehatan' + nomor_pax).style['border-color'] = 'red';
                         }else{
                             document.getElementById('adult_merupakan_petugas_kesehatan' + nomor_pax).style['border-color'] = '#EFEFEF';
                         }
                         if(document.getElementById('adult_prosedur_menimbulkan_aerosol' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Prosedur Menimbulkan Aerosol for passenger '+nomor_pax+'!</br>\n';
+                            error_log+= 'Please choose Prosedur Menimbulkan Aerosol for customer '+nomor_pax+'!</br>\n';
                             document.getElementById('adult_prosedur_menimbulkan_aerosol' + nomor_pax).style['border-color'] = 'red';
                         }else{
                             document.getElementById('adult_prosedur_menimbulkan_aerosol' + nomor_pax).style['border-color'] = '#EFEFEF';
@@ -4361,7 +4432,7 @@ function check_passenger(){
                         "nationality_name": document.getElementById('adult_nationality' + nomor_pax).value,
                         "identity": {
                             "identity_country_of_issued_name": document.getElementById('adult_country_of_issued' + nomor_pax).value,
-                            "identity_expdate": '',
+                            "identity_number": document.getElementById('adult_identity_number' + nomor_pax).value,
                             "identity_type": document.getElementById('adult_identity_type' + nomor_pax).value,
                             "identity_number": document.getElementById('adult_identity_number' + nomor_pax).value,
                         },
