@@ -15,7 +15,6 @@ function get_data_issued_offline(){
            issued_offline_data = msg;
            text = '<option value="">Select</option>';
            for(i in issued_offline_data.transaction_type){
-               if(issued_offline_data.transaction_type[i].code != 'phc' && issued_offline_data.transaction_type[i].code != 'periksain')
                text+= `<option value='`+issued_offline_data.transaction_type[i].code+`'>`+issued_offline_data.transaction_type[i].name+`</option>`;
            }
            document.getElementById('transaction_type').innerHTML = text;
