@@ -381,7 +381,7 @@ function add_table_of_passenger(type){
                                             text_modal_paxs+=`
                                                 <option value="">Choose Identity</option>
                                                 <option value="ktp">KTP</option>`;
-                                            if(test_type != 'PHCHCKATG' && test_type != 'PHCDTKATG')
+                                            if(vendor != 'periksain' && test_type != 'PHCHCKATG' && test_type != 'PHCDTKATG')
                                             text_modal_paxs+=`
                                                 <option value="passport">Passport</option>`;
                                                 text_modal_paxs+=`</select>
