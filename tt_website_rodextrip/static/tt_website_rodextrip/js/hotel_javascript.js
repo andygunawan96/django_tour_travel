@@ -942,6 +942,8 @@ function sort(response, check_filter){
 //                                        else
 //                                            text+=`<span class="price_hotel" hidden>Waiting price</span>`;
                                     } else {
+                                        var arr = [];
+                                        content_price_pop = ``;
                                         for(j in response.hotel_ids[i].external_code){
                                             text += `<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                             <span style="font-size:13px; font-weight: 500; text-align:left;">` + j +`</span>
@@ -957,7 +959,9 @@ function sort(response, check_filter){
 
                                     text += `
                                     </div>
-                                    <div class="col-lg-12 search_hotel_button" style="text-align:right; position:absolute; bottom:0px; right:0px;">
+                                    <div class="col-lg-12 search_hotel_button" style="text-align:right; position:absolute; bottom:0px; right:0px;">`;
+                                    if(arr.length != 0)
+                                    text+=`
                                         <span style="font-size:16px; font-weight: 700;">`+arr[0][1]['currency']+` ` + getrupiah(arr[0][1]['price']) + `</span>
                                         <span style="font-size:16px; font-weight: 700; color:`+color+`;">` + arr[0][0] +`</span>`;
                                         if(arr.length > 1){
