@@ -80,7 +80,7 @@
                                 <div class="form-select">
                                     <select class="form-control js-example-basic-single" name="product" style="width:100%;" id="product" onchange="change_product();" class="nice-select-default">
                                         {% for rec in provider_types_sequence %}
-                                        {% if rec.name == 'airline' or rec.name == 'hotel' or rec.name == 'train' %}
+                                        {% if rec.name == 'airline' or rec.name == 'hotel' or rec.name == 'train' or rec.name == 'phc' %}
                                         <option value="{{rec.name}}" {%if rec.name == 'airline'%} selected{% endif %}>{{rec.name}}</option>
                                         {% endif %}
                                         {% endfor%}
@@ -441,6 +441,13 @@
                     }
                 });
                 $('input[name="departure"]').val("");
+            }else if(product == 'phc'){
+                document.getElementById('departure_get_booking_b2c').innerHTML = `
+                    <label style="color:red">*</label>
+                    <label>{% trans 'Departure Date' %}</label>
+                    <div class="input-container-search-ticket" hidden>
+                        <input type="text" class="form-control" style="background:white;" name="departure" id="departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+                    </div>`;
             }else{
                 document.getElementById('departure_get_booking_b2c').innerHTML = '';
             }
@@ -568,6 +575,12 @@
            document.getElementById('phone').value != '' &&
            document.getElementById('city_b2c').value != '' &&
            document.getElementById('departure').value != ''){
+            var product = document.getElementById('product').value;
+            get_booking_product(product);
+        }else if(var_toggle_forget_booking == false &&
+           document.getElementById('product').value != '' &&
+           document.getElementById('phone').value != '' &&
+           document.getElementById('order_number_b2c').value != ''){
             var product = document.getElementById('product').value;
             get_booking_product(product);
         }else{

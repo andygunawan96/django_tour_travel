@@ -27,7 +27,7 @@ function add_other_time(){
                     if(template == 1){
                         text+=`
                         <div class="form-select-2" id="default-select">
-                            <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot">
+                            <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot" onclick="change_timeslot(`+test_time+`)">
 
                             </select>
                         </div>`;
@@ -35,7 +35,7 @@ function add_other_time(){
                     else if(template == 2){
                         text+=`
                             <div class="form-select">
-                                <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot">
+                                <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot" onclick="change_timeslot(`+test_time+`)">
 
                                 </select>
                             </div>
@@ -45,7 +45,7 @@ function add_other_time(){
                         text+=`
                         <div class="form-group">
                             <div class="default-select">
-                                <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot">
+                                <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot" onclick="change_timeslot(`+test_time+`)">
 
                                 </select>
                             </div>
@@ -55,7 +55,7 @@ function add_other_time(){
                         text+=`
                         <div class="input-container-search-ticket">
                             <div class="form-select" id="default-select" style="width:100%;">
-                                <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot">
+                                <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot" onclick="change_timeslot(`+test_time+`)">
 
                                 </select>
                             </div>
@@ -64,7 +64,7 @@ function add_other_time(){
                     else if(template == 5){
                         text+=`
                         <div class="form-select">
-                            <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot">
+                            <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot" onclick="change_timeslot(`+test_time+`)">
 
                             </select>
                         </div>`;
@@ -72,7 +72,7 @@ function add_other_time(){
                     else if(template == 6){
                         text+=`
                         <div class="form-select-2" id="default-select">
-                            <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot">
+                            <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot" onclick="change_timeslot(`+test_time+`)">
 
                             </select>
                         </div>`;
@@ -126,15 +126,17 @@ function update_timeslot(val){
     var now = moment();
     for(i in medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick]){
         if(medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].availability == false){
-            text+= `<option disabled value="`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].seq_id+`~`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].time+`">`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].time+`</option>`;
+            text+= `<option disabled value="`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].seq_id+`~`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].time+`">`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].time+``;
         }else{
-            text+= `<option value="`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].seq_id+`~`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].time+`">`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].time+`</option>`;
+            text+= `<option value="`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].seq_id+`~`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].time+`">`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].time+``;
         }
+        if(medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].group_booking == true)
+            text+= ` Group Booking`;
+        text+=`</option>`;
     }
-    console.log(text);
     document.getElementById('booker_timeslot_id'+val).innerHTML = text;
     $('#booker_timeslot_id'+val).niceSelect('update');
-    //change_timeslot(val);
+    change_timeslot(val);
 }
 
 function change_timeslot(val){
@@ -143,7 +145,7 @@ function change_timeslot(val){
         if(medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].seq_id == document.getElementById('booker_timeslot_id'+val).value.split('~')[0]){
             if(medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].group_booking == true){
                 text = '';
-                for(i=1;1<=200;i++){
+                for(i=1;i<=200;i++){
                     text+= `<option value="`+i+`">`+i+`</option>`;
                 }
             }else{
@@ -168,13 +170,12 @@ function change_timeslot(val){
                         <option value="19">19</option>
                         <option value="20">20</option>`;
             }
-            console.log(text);
             document.getElementById('passenger').innerHTML = text;
             $('#passenger').niceSelect('update');
-            add_table();
             break;
         }
     }
+    add_table();
 }
 
 function delete_other_time(val){
