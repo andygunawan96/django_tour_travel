@@ -257,6 +257,8 @@ function medical_check_price(){
             }
         }
 
+    }else if(vendor == 'phc' && test_type == 'PHCDTKATG' || vendor == 'phc' && test_type == 'PHCDTKPCR'){
+        timeslot_list.push('drive_thru')
     }
     if(timeslot_list.length != 0 && error_log == '' || vendor == 'phc' && test_type == 'PHCDTKATG' || vendor == 'phc' && test_type == 'PHCDTKPCR'){
         $.ajax({
@@ -1950,6 +1952,8 @@ function re_medical_check_price(){
             }
         }
 
+    }else if(vendor == 'phc' && test_type == 'PHCDTKATG' || vendor == 'phc' && test_type == 'PHCDTKPCR'){
+        timeslot_list.push('drive_thru')
     }
     if(timeslot_list.length != 0 && error_log == '' || vendor == 'phc' && test_type == 'PHCDTKATG' || vendor == 'phc' && test_type == 'PHCDTKPCR'){
         $.ajax({

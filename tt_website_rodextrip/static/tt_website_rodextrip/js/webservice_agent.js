@@ -2346,13 +2346,15 @@ function copy_booker_to_passenger(val,type){
                     document.getElementById('adult_phone1').value = document.getElementById('booker_phone').value;
                     document.getElementById('adult_phone_code1').value = document.getElementById('booker_phone_code').value;
 
-                    if(document.getElementById('booker_id_number').value != 'undefined' && document.getElementById('booker_id_number').value != '')
-                        document.getElementById('adult_identity_number1').value = document.getElementById('booker_id_number').value;
-                    if(document.getElementById('booker_id_type').value != 'undefined' && document.getElementById('booker_id_type').value != '')
-                        document.getElementById('adult_identity_type1').value = document.getElementById('booker_id_type').value;
-                    if(document.getElementById('booker_country_of_issued').value != 'undefined' && document.getElementById('booker_country_of_issued').value != ''){
-                        document.getElementById('select2-adult_country_of_issued1_id-container').innerHTML = document.getElementById('booker_country_of_issued').value;
-                        document.getElementById('adult_country_of_issued1').value = document.getElementById('booker_country_of_issued').value;
+                    if(document.getElementById('booker_id_type').value == 'ktp' && vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCDTKATG' && document.getElementById('booker_id_type').value == 'ktp' || vendor == 'phc' && test_type == 'PHCHCKATG' && document.getElementById('booker_id_type').value == 'ktp'){
+                        if(document.getElementById('booker_id_number').value != 'undefined' && document.getElementById('booker_id_number').value != '')
+                            document.getElementById('adult_identity_number1').value = document.getElementById('booker_id_number').value;
+                        if(document.getElementById('booker_id_type').value != 'undefined' && document.getElementById('booker_id_type').value != '')
+                            document.getElementById('adult_identity_type1').value = document.getElementById('booker_id_type').value;
+                        if(document.getElementById('booker_country_of_issued').value != 'undefined' && document.getElementById('booker_country_of_issued').value != ''){
+                            document.getElementById('select2-adult_country_of_issued1_id-container').innerHTML = document.getElementById('booker_country_of_issued').value;
+                            document.getElementById('adult_country_of_issued1').value = document.getElementById('booker_country_of_issued').value;
+                        }
                     }
                     document.getElementById('adult_nationality1_id').disabled = true;
                     document.getElementById('adult_email1').readOnly = true;
