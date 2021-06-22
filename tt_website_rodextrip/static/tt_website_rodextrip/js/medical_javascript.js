@@ -2362,7 +2362,7 @@ function add_table_of_passenger(type){
           maxDate: moment(),
           showDropdowns: true,
           opens: 'center',
-          drops: 'up',
+          drops: 'down',
           locale: {
               format: 'DD MMM YYYY',
           }
@@ -2374,7 +2374,7 @@ function add_table_of_passenger(type){
           minDate: moment(),
           showDropdowns: true,
           opens: 'center',
-          drops: 'up',
+          drops: 'down',
           locale: {
               format: 'DD MMM YYYY',
           }
@@ -2455,7 +2455,7 @@ function add_table_of_passenger(type){
                   showDropdowns: true,
                   maxDate: moment(),
                   opens: 'center',
-                  drops: 'up',
+                  drops: 'down',
                   locale: {
                       format: 'DD MMM YYYY',
                   }
@@ -2466,7 +2466,7 @@ function add_table_of_passenger(type){
                   autoUpdateInput: true,
                   showDropdowns: true,
                   opens: 'center',
-                  drops: 'up',
+                  drops: 'down',
                   locale: {
                       format: 'DD MMM YYYY',
                   }
@@ -2744,7 +2744,7 @@ function add_pcr_table(type, val){
               maxDate: moment(),
               showDropdowns: true,
               opens: 'center',
-              drops: 'up',
+              drops: 'down',
               locale: {
                   format: 'DD MMM YYYY',
               }
@@ -2757,7 +2757,7 @@ function add_pcr_table(type, val){
               showDropdowns: true,
               maxDate: moment(),
               opens: 'center',
-              drops: 'up',
+              drops: 'down',
               locale: {
                   format: 'DD MMM YYYY',
               }
@@ -2800,7 +2800,7 @@ function add_pcr_table(type, val){
               showDropdowns: true,
               maxDate: moment(),
               opens: 'center',
-              drops: 'up',
+              drops: 'down',
               locale: {
                   format: 'DD MMM YYYY',
               }
@@ -2813,7 +2813,7 @@ function add_pcr_table(type, val){
               showDropdowns: true,
               maxDate: moment(),
               opens: 'center',
-              drops: 'up',
+              drops: 'down',
               locale: {
                   format: 'DD MMM YYYY',
               }
@@ -2857,7 +2857,7 @@ function add_pcr_table(type, val){
               showDropdowns: true,
               maxDate: moment(),
               opens: 'center',
-              drops: 'up',
+              drops: 'down',
               locale: {
                   format: 'DD MMM YYYY',
               }
@@ -2901,7 +2901,7 @@ function add_pcr_table(type, val){
               showDropdowns: true,
               maxDate: moment(),
               opens: 'center',
-              drops: 'up',
+              drops: 'down',
               locale: {
                   format: 'DD MMM YYYY',
               }
@@ -2950,7 +2950,7 @@ function add_pcr_table(type, val){
               showDropdowns: true,
               maxDate: moment(),
               opens: 'center',
-              drops: 'up',
+              drops: 'down',
               locale: {
                   format: 'DD MMM YYYY',
               }
@@ -2963,7 +2963,7 @@ function add_pcr_table(type, val){
               showDropdowns: true,
               maxDate: moment(),
               opens: 'center',
-              drops: 'up',
+              drops: 'down',
               locale: {
                   format: 'DD MMM YYYY',
               }
@@ -3011,7 +3011,7 @@ function add_pcr_table(type, val){
               showDropdowns: true,
               maxDate: moment(),
               opens: 'center',
-              drops: 'up',
+              drops: 'down',
               locale: {
                   format: 'DD MMM YYYY',
               }
@@ -3024,7 +3024,7 @@ function add_pcr_table(type, val){
               showDropdowns: true,
               maxDate: moment(),
               opens: 'center',
-              drops: 'up',
+              drops: 'down',
               locale: {
                   format: 'DD MMM YYYY',
               }
@@ -3329,7 +3329,7 @@ function add_table_passenger_phc(type){
           maxDate: moment(),
           showDropdowns: true,
           opens: 'center',
-          drops: 'up',
+          drops: 'down',
           locale: {
               format: 'DD MMM YYYY',
           }
@@ -3350,7 +3350,7 @@ function add_table_passenger_phc(type){
               maxDate: moment(),
               showDropdowns: true,
               opens: 'center',
-              drops: 'up',
+              drops: 'down',
               locale: {
                   format: 'DD MMM YYYY',
               }
@@ -3363,7 +3363,7 @@ function add_table_passenger_phc(type){
               maxDate: moment(),
               showDropdowns: true,
               opens: 'center',
-              drops: 'up',
+              drops: 'down',
               locale: {
                   format: 'DD MMM YYYY',
               }
@@ -3843,7 +3843,7 @@ function check_passenger(){
                         "nationality_name": document.getElementById('adult_nationality' + nomor_pax).value,
                         "identity": {
                             "identity_country_of_issued_name": document.getElementById('adult_country_of_issued' + nomor_pax).value,
-                            "identity_expdate": document.getElementById('adult_identity_expired_date'+ nomor_pax).value,
+                            "identity_expdate": '',
                             "identity_type": document.getElementById('adult_identity_type' + nomor_pax).value,
                             "identity_number": document.getElementById('adult_identity_number' + nomor_pax).value,
                         },
@@ -4465,7 +4465,7 @@ function check_passenger(){
                             "identity_country_of_issued_name": document.getElementById('adult_country_of_issued' + nomor_pax).value,
                             "identity_number": document.getElementById('adult_identity_number' + nomor_pax).value,
                             "identity_type": document.getElementById('adult_identity_type' + nomor_pax).value,
-                            "identity_number": document.getElementById('adult_identity_number' + nomor_pax).value,
+                            "identity_expdate": document.getElementById('adult_identity_expired_date'+ nomor_pax).value,
                         },
                         "passenger_seq_id": document.getElementById('adult_id' + nomor_pax).value,
                         "tempat_lahir": document.getElementById('adult_tempat_lahir' + nomor_pax).value,
