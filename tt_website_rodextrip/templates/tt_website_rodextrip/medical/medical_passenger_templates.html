@@ -115,6 +115,13 @@
             <form id="medical_review" class="form-wrap" action="/medical/{{vendor}}/review" method="POST" style="padding:0; text-align:unset;">
                 {% csrf_token %}
                 <div class="row">
+                    <div class="col-lg-12 for-show-mobile">
+                        {% if vendor == 'periksain' %}
+                        <img src="{{static_path}}images/icon/periksain.jpeg" alt="Periksain" style="margin-bottom:15px;background:white; width:auto; height:100px;">
+                        {% elif vendor == 'phc' %}
+                        <img src="{{static_path}}images/icon/phc.png" alt="PHC" style="margin-bottom:15px;background:white; width:auto; height:100px;">
+                        {% endif %}
+                    </div>
                     <div class="col-lg-8" style="margin-top:10px;">
                         <div class="row">
                             <div class="col-lg-12">
@@ -308,10 +315,16 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4"></div>
+                    <div class="col-lg-4 for-show-website" style="margin-top:10px;">
+                        {% if vendor == 'periksain' %}
+                        <img src="{{static_path}}images/icon/periksain.jpeg" alt="Periksain" style="margin-bottom:15px;background:white; width:100%; height:auto;">
+                        {% elif vendor == 'phc' %}
+                        <img src="{{static_path}}images/icon/phc.png" alt="PHC" style="margin-bottom:15px;background:white; width:100%; height:auto;">
+                        {% endif %}
+                    </div>
                 </div>
-                <div class="row" style="padding-top:15px;" hidden id="copy_booker_to_pax_div">
-                    <div class="col-lg-12">
+                <div class="row" style="padding-top:15px;" id="copy_booker_to_pax_div" hidden>
+                    <div class="col-lg-8">
                         <div style="background:white; padding:10px; border:1px solid #cdcdcd;">
                             <label>{% trans 'Do you book this reservation for you?' %}</label>
                             <label class="radio-button-custom">
@@ -334,6 +347,7 @@
                             </ul>
                         </div>
                     </div>
+                    <div class="col-lg-4"></div>
                 </div>
                 <div class="row mt-3" style="padding:15px;">
                     <div class="col-lg-12" style="padding:15px; background:white; border:1px solid #cdcdcd;">
@@ -452,18 +466,8 @@
                                     </div>
                                 </div>
                                 <h4>List of Customer</h4><hr/>
-                                <div style="margin-top:15px;">
-                                    <table id="table_of_passenger" name="table_of_passenger" style="width:100%;background:white;" class="list-of-table">
-                                        <tr>
-                                            {%if vendor == 'periksain'%}
-                                            <th style="width:55%;">Customer</th>
-                                            <th style="width:30%;">Address KTP</th>
-                                            <th style="width:20%;">Sample Method</th>
-                                            {% else %}
-                                            <th style="width:100%;">Customer</th>
-                                            {% endif %}
-                                        </tr>
-                                    </table>
+                                <div class="row" id="div_of_passenger">
+
                                 </div>
                             </div>
 
