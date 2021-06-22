@@ -134,6 +134,47 @@ function update_timeslot(val){
     console.log(text);
     document.getElementById('booker_timeslot_id'+val).innerHTML = text;
     $('#booker_timeslot_id'+val).niceSelect('update');
+    //change_timeslot(val);
+}
+
+function change_timeslot(val){
+    var medical_date_pick = moment(document.getElementById('booker_test_date'+val).value).format('YYYY-MM-DD');
+    for(i in medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick]){
+        if(medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].seq_id == document.getElementById('booker_timeslot_id'+val).value.split('~')[0]){
+            if(medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].group_booking == true){
+                text = '';
+                for(i=1;1<=200;i++){
+                    text+= `<option value="`+i+`">`+i+`</option>`;
+                }
+            }else{
+                text = `<option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="13">13</option>
+                        <option value="14">14</option>
+                        <option value="15">15</option>
+                        <option value="16">16</option>
+                        <option value="17">17</option>
+                        <option value="18">18</option>
+                        <option value="19">19</option>
+                        <option value="20">20</option>`;
+            }
+            console.log(text);
+            document.getElementById('passenger').innerHTML = text;
+            $('#passenger').niceSelect('update');
+            add_table();
+            break;
+        }
+    }
 }
 
 function delete_other_time(val){
@@ -3618,36 +3659,38 @@ function check_passenger(){
     var now = moment();
     var test_list_counter = 1;
     var add_list = true;
-    for(i=1; i <= test_time; i++){
-        try{
-            add_list = true;
-            if(vendor == 'periksain'){
-                if(now.format('DD MMM YYYY') == document.getElementById('booker_test_date'+i).value){
-                    if(now.diff(moment(document.getElementById('booker_test_date'+i).value+' '+document.getElementById('booker_timeslot_id'+i).value.split('~')[1]), 'hours') > -3){
-                        add_list = false;
-                        error_log += 'Test time reservation only can be book 5 hours before test please change test ' + test_list_counter + '!</br>\n';
+    if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCHCKATG' || vendor == 'phc' && test_type == 'PHCHCKPCR'){
+        for(i=1; i <= test_time; i++){
+            try{
+                add_list = true;
+                if(vendor == 'periksain'){
+                    if(now.format('DD MMM YYYY') == document.getElementById('booker_test_date'+i).value){
+                        if(now.diff(moment(document.getElementById('booker_test_date'+i).value+' '+document.getElementById('booker_timeslot_id'+i).value.split('~')[1]), 'hours') > -3){
+                            add_list = false;
+                            error_log += 'Test time reservation only can be book 3 hours before test please change test ' + test_list_counter + '!</br>\n';
+                        }
+                    }
+                }else{
+                    if(now.format('DD MMM YYYY') == document.getElementById('booker_test_date'+i).value){
+                        if(now.diff(moment(document.getElementById('booker_test_date'+i).value+' '+document.getElementById('booker_timeslot_id'+i).value.split('~')[1]), 'hours') > -2){
+                            add_list = false;
+                            error_log += 'Test time reservation only can be book 2 hours before test please change test ' + test_list_counter + '!</br>\n';
+                        }
                     }
                 }
-            }else{
-                if(now.format('DD MMM YYYY') == document.getElementById('booker_test_date'+i).value){
-                    if(now.diff(moment(document.getElementById('booker_test_date'+i).value+' '+document.getElementById('booker_timeslot_id'+i).value.split('~')[1]), 'hours') > -2){
-                        add_list = false;
-                        error_log += 'Test time reservation only can be book 2 hours before test please change test ' + test_list_counter + '!</br>\n';
-                    }
+                if(add_list == true){
+                    request['data']['test_list'].push({
+                        "date": document.getElementById('booker_test_date'+i).value,
+                        "time": document.getElementById('booker_timeslot_id'+i).value.split('~')[1],
+                        "seq_id": document.getElementById('booker_timeslot_id'+i).value.split('~')[0]
+                    })
                 }
+                test_list_counter++;
+            }catch(err){
+
             }
-            if(add_list == true){
-                request['data']['test_list'].push({
-                    "date": document.getElementById('booker_test_date'+i).value,
-                    "time": document.getElementById('booker_timeslot_id'+i).value.split('~')[1],
-                    "seq_id": document.getElementById('booker_timeslot_id'+i).value.split('~')[0]
-                })
-            }
-            test_list_counter++;
-        }catch(err){
 
         }
-
     }
 
 
@@ -3716,12 +3759,6 @@ function check_passenger(){
                         document.getElementById('adult_first_name' + nomor_pax).style['border-color'] = 'red';
                     }else{
                         document.getElementById('adult_first_name' + nomor_pax).style['border-color'] = '#EFEFEF';
-                    }
-                    if(document.getElementById('adult_last_name' + nomor_pax).value == '' || check_word(document.getElementById('adult_last_name' + nomor_pax).value) == false){
-                        error_log += 'Please fill or use alpha characters for last name for customer '+ nomor_pax + ' !</br>\n';
-                        document.getElementById('adult_last_name' + nomor_pax).style['border-color'] = 'red';
-                    }else{
-                        document.getElementById('adult_last_name' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
                     if(document.getElementById('adult_title' + nomor_pax).value == ''){
                         error_log += 'Please fill title name for customer '+ nomor_pax + ' !</br>\n';
@@ -3831,12 +3868,6 @@ function check_passenger(){
                         document.getElementById('adult_first_name' + nomor_pax).style['border-color'] = 'red';
                     }else{
                         document.getElementById('adult_first_name' + nomor_pax).style['border-color'] = '#EFEFEF';
-                    }
-                    if(document.getElementById('adult_last_name' + nomor_pax).value == '' || check_word(document.getElementById('adult_last_name' + nomor_pax).value) == false){
-                        error_log += 'Please fill or use alpha characters for last name for customer '+ nomor_pax + ' !</br>\n';
-                        document.getElementById('adult_last_name' + nomor_pax).style['border-color'] = 'red';
-                    }else{
-                        document.getElementById('adult_last_name' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
                     if(document.getElementById('adult_title' + nomor_pax).value == ''){
                         error_log += 'Please fill title name for customer '+ nomor_pax + ' !</br>\n';

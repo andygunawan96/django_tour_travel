@@ -223,16 +223,16 @@ function medical_get_availability(){
 function medical_check_price(){
     var timeslot_list = [];
     document.getElementById('check_price_medical').disabled = true;
-    for(i=1;i <= test_time; i++){
-        try{
-            timeslot_list.push(document.getElementById('booker_timeslot_id'+i).value.split('~')[0])
-        }catch(err){}
-    }
     var now = moment();
     var test_list_counter = 1;
     var add_list = true;
     var error_log = '';
     if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCHCKATG' || vendor == 'phc' && test_type == 'PHCHCKPCR'){
+        for(i=1;i <= test_time; i++){
+            try{
+                timeslot_list.push(document.getElementById('booker_timeslot_id'+i).value.split('~')[0])
+            }catch(err){}
+        }
         for(i=1; i <= test_time; i++){
             try{
                 add_list = true;
@@ -321,7 +321,6 @@ function medical_check_price(){
                     document.getElementById('medical_detail').innerHTML = text;
                     document.getElementById('medical_detail').style.display = 'block';
                     document.getElementById('next_medical').style.display = 'block';
-                    document.getElementById('check_price_medical').disabled = false;
                     //print harga
                 }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                     auto_logout();
@@ -336,6 +335,7 @@ function medical_check_price(){
                    }catch(err){}
                 }
                 }catch(err){console.log(err);}
+                document.getElementById('check_price_medical').disabled = false;
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
                 error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get price medical');
@@ -1916,16 +1916,16 @@ function re_medical_get_availability(){
 function re_medical_check_price(){
     var timeslot_list = [];
     document.getElementById('check_price_medical').disabled = true;
-    for(i=1;i <= test_time; i++){
-        try{
-            timeslot_list.push(document.getElementById('booker_timeslot_id'+i).value.split('~')[0])
-        }catch(err){}
-    }
     var now = moment();
     var test_list_counter = 1;
     var add_list = true;
     var error_log = '';
     if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCHCKATG' || vendor == 'phc' && test_type == 'PHCHCKPCR'){
+        for(i=1;i <= test_time; i++){
+            try{
+                timeslot_list.push(document.getElementById('booker_timeslot_id'+i).value.split('~')[0])
+            }catch(err){}
+        }
         for(i=1; i <= test_time; i++){
             try{
                 add_list = true;
