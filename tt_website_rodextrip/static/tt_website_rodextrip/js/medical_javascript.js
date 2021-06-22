@@ -3693,6 +3693,8 @@ function check_passenger(){
             }
 
         }
+    }else if(vendor == 'phc' && test_type == 'PHCDTKATG' || vendor == 'phc' && test_type == 'PHCDTKPCR'){
+        timeslot_list.push('drive_thru')
     }
 
 
