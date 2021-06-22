@@ -172,10 +172,11 @@ function change_timeslot(val){
             }
             document.getElementById('passenger').innerHTML = text;
             $('#passenger').niceSelect('update');
+            add_table();
             break;
         }
     }
-    add_table();
+
 }
 
 function delete_other_time(val){
