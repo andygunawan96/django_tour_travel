@@ -19,13 +19,11 @@
     data = data.replace(/False/g, 'false');
     data = data.replace(/True/g, 'true');
     data = JSON.parse(data);
-    console.log(data);
     passengers = data;
 
-
-    time_limit = {{time_limit}};
-    session_time_limit();
     signature = `{{signature}}`;
+    vendor = `{{vendor}}`;
+    test_type = `{{test_type}}`;
 </script>
 {% include 'tt_website_rodextrip/logout.html' %}
 {% include 'tt_website_rodextrip/loading_screen.html' %}
@@ -44,15 +42,6 @@
 
                 </div>
             </div>
-            <div class="row">
-                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px">
-                    <span style="font-size:13px; font-weight:500; padding-right:10px;">{% trans 'Session Time' %} <span class="count_time" id="session_time"></span></span>
-                </div>
-                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px">
-                    <span style="font-size:13px; font-weight:500;">{% trans 'Elapsed Time' %} <span class="count_time" id="elapse_time"> </span></span>
-                </div>
-                {% include 'tt_website_rodextrip/balance_credit.html' %}
-            </div>
         </div>
     </div>
     {% if username.co_user_login == 'agent_b2c' %}
@@ -70,15 +59,6 @@
                 <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
 
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px">
-                    <span style="font-size:13px; font-weight:500; padding-right:10px;">{% trans 'Session Time' %} <span class="count_time" id="session_time"></span></span>
-                </div>
-                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px">
-                    <span style="font-size:13px; font-weight:500;">{% trans 'Elapsed Time' %} <span class="count_time" id="elapse_time"> </span></span>
-                </div>
-                {% include 'tt_website_rodextrip/balance_credit.html' %}
             </div>
         </div>
     </div>
@@ -315,8 +295,6 @@
 {% include 'tt_website_rodextrip/modal_signin_signup.html' %}
 {% endif %}
 <script>
-    vendor = `{{vendor}}`;
-    test_type = `{{test_type}}`;
     $( document ).ready(function() {
         breadcrumb_create("medical", 3, 0);
         medical_get_cache_price();
