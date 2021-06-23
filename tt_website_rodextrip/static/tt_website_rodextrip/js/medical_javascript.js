@@ -259,7 +259,7 @@ function add_table_of_passenger(type){
                         <br/>
                     </div>
                     <div class="col-lg-6 pt-2" style="text-align:right;">
-                        <button type="button" id="button_pax`+counter_passenger+`" class="primary-btn" style="margin-bottom:5px; font-size:12px; width:90px; height:40px; padding-left:12px; padding-right:12px; line-height:30px; font-weight:700;" onclick="set_passenger_number(`+counter_passenger+`); update_customer_fill(`+counter_passenger+`);">
+                        <button type="button" id="button_pax`+counter_passenger+`" class="primary-btn" style="margin-bottom:5px; font-size:12px; width:90px; height:40px; padding-left:12px; padding-right:12px; line-height:30px; font-weight:700;" onclick="set_passenger_number(`+counter_passenger+`); update_customer_fill('fill',`+counter_passenger+`);">
                             Fill <i class="fas fa-pen"></i>
                         </button>`;
 
@@ -337,7 +337,7 @@ function add_table_of_passenger(type){
                     if(vendor != 'phc'){
                         text_div_paxs+=`
                         <div class="col-lg-12" style="text-align:right;">
-                            <button type="button" class="primary-btn prev-next-form" style="margin-bottom:5px; font-size:12px; font-weight:700;" onclick="update_customer_fill(`+counter_passenger+`)">
+                            <button type="button" class="primary-btn prev-next-form" style="margin-bottom:5px; font-size:12px; font-weight:700;" onclick="update_customer_fill('save',`+counter_passenger+`)">
                                 Save <i class="fas fa-save"></i>
                             </button>
                         </div>`;
@@ -391,7 +391,7 @@ function add_table_of_passenger(type){
                                 }else{
                                     text_div_paxs+=`
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:center;">
-                                        <button type="button" class="primary-btn prev-next-form" style="margin-bottom:5px; font-size:12px; font-weight:700;" onclick="update_customer_fill(`+counter_passenger+`)">
+                                        <button type="button" class="primary-btn prev-next-form" style="margin-bottom:5px; font-size:12px; font-weight:700;" onclick="update_customer_fill('save',`+counter_passenger+`)">
                                             Save <i class="fas fa-save"></i>
                                         </button>
                                     </div>
@@ -1092,7 +1092,7 @@ function add_table_of_passenger(type){
                                 }else{
                                     text_div_paxs+=`
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mt-3" style="text-align:center;">
-                                        <button type="button" class="primary-btn prev-next-form" style="margin-bottom:5px; font-size:12px; font-weight:700;" onclick="update_customer_fill(`+counter_passenger+`)">
+                                        <button type="button" class="primary-btn prev-next-form" style="margin-bottom:5px; font-size:12px; font-weight:700;" onclick="update_customer_fill('save',`+counter_passenger+`)">
                                             Save <i class="fas fa-save"></i>
                                         </button>
                                     </div>
@@ -2146,7 +2146,7 @@ function add_table_of_passenger(type){
                                         </button>
                                     </div>
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:center;">
-                                        <button type="button" class="primary-btn prev-next-form" style="margin-bottom:5px; font-size:12px; font-weight:700;" onclick="update_customer_fill(`+counter_passenger+`)">
+                                        <button type="button" class="primary-btn prev-next-form" style="margin-bottom:5px; font-size:12px; font-weight:700;" onclick="update_customer_fill('save',`+counter_passenger+`)">
                                             Save <i class="fas fa-save"></i>
                                         </button>
                                     </div>
@@ -2506,7 +2506,7 @@ function add_table_of_passenger(type){
                                         </button>
                                     </div>
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mt-2" style="text-align:center;">
-                                        <button type="button" class="primary-btn prev-next-form" style="margin-bottom:5px; font-size:12px; font-weight:700;" onclick="update_customer_fill(`+counter_passenger+`)">
+                                        <button type="button" class="primary-btn prev-next-form" style="margin-bottom:5px; font-size:12px; font-weight:700;" onclick="update_customer_fill('save',`+counter_passenger+`)">
                                             Save <i class="fas fa-save"></i>
                                         </button>
                                     </div>
@@ -2519,7 +2519,7 @@ function add_table_of_passenger(type){
                     if(vendor != 'phc'){
                         text_div_paxs+=`
                         <div class="col-lg-12 mt-3 mb-3" style="text-align:right;">
-                            <button type="button" class="primary-btn prev-next-form" style="margin-bottom:5px; font-size:12px; font-weight:700;" onclick="update_customer_fill(`+counter_passenger+`)">
+                            <button type="button" class="primary-btn prev-next-form" style="margin-bottom:5px; font-size:12px; font-weight:700;" onclick="update_customer_fill('save',`+counter_passenger+`)">
                                 Save <i class="fas fa-save"></i>
                             </button>
                         </div>`;
@@ -4770,26 +4770,36 @@ function add_table(){
     last_counter = tempcounter;
 }
 
-function update_customer_fill(seq){
+function update_customer_fill(type,seq){
     if(vendor == 'phc'){
         if(test_type == 'PHCHCKPCR' || test_type == 'PHCDTKPCR'){
-            document.getElementById("progress_tab1"+seq).click();
+            if(type == 'fill'){
+                next_prev_form_medical(type, 1, seq);
+            }
         }
     }
     var form_show = document.getElementById('div_passenger_list'+seq);
 
     if (form_show.style.display === "none") {
         form_show.style.display = "block";
+        document.getElementById("button_pax"+seq).innerHTML = `Close <i class="fas fa-chevron-up"></i>`;
     }
 
     else {
         form_show.style.display = "none";
         update_contact('passenger', (parseInt(seq)+1));
+        document.getElementById("button_pax"+seq).innerHTML = `Fill <i class="fas fa-pen"></i>`;
     }
 
-    $('html, body').animate({
-        scrollTop: $("#div_passenger_list"+seq).offset().top - 100
-    }, 500);
+    if(type == 'save'){
+        max_seq = parseInt(document.getElementById('passenger').value);
+        next_seq = parseInt(seq+1);
+        if(next_seq < max_seq){
+            $('html, body').animate({
+                scrollTop: $("#table_passenger"+next_seq).offset().top - 120
+            }, 500);
+        }
+    }
 }
 
 function clear_text_medical(sequence){
@@ -4825,7 +4835,9 @@ function next_prev_form_medical(type, counter, id){
         }
     }
 
-    $('html, body').animate({
-        scrollTop: $("#div_passenger_list"+pax).offset().top - 100
-    }, 500);
+    if(type != 'fill'){
+        $('html, body').animate({
+            scrollTop: $("#div_passenger_list"+pax).offset().top - 120
+        }, 500);
+    }
 }
