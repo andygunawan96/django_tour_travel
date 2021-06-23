@@ -190,7 +190,7 @@ function add_table_of_passenger(type){
     <div class="col-lg-12" style="padding:15px; background:`+color+`;">
         <span style="width:100%; font-weight:700; font-size:18px; color:`+text_color+`;">Customer #`+(parseInt(counter_passenger)+1)+`</span>
     </div>
-    <div class="col-lg-12 mb-4" style="border:1px solid `+color+`; padding:0px 15px;">
+    <div class="col-lg-12 mb-4" style="border:1px solid `+color+`; padding:20px 15px 0px 15px;">
         <div class="row">`;
             if(vendor == 'periksain'){
                 text+=`
@@ -333,7 +333,7 @@ function add_table_of_passenger(type){
                     if(vendor != 'phc'){
                         text_div_paxs+=`
                         <div class="col-lg-12" style="text-align:right;">
-                            <button type="button" class="primary-btn" style="margin-bottom:5px; font-size:12px; width:auto; height:60px; padding-left:12px; padding-right:12px; line-height:30px; font-weight:700;" onclick="update_customer_fill(`+counter_passenger+`)">
+                            <button type="button" class="primary-btn prev-next-form" style="margin-bottom:5px; font-size:12px; font-weight:700;" onclick="update_customer_fill(`+counter_passenger+`)">
                                 Save <i class="fas fa-save"></i>
                             </button>
                         </div>`;
@@ -2515,7 +2515,7 @@ function add_table_of_passenger(type){
                     if(vendor != 'phc'){
                         text_div_paxs+=`
                         <div class="col-lg-12 mb-3" style="text-align:right;">
-                            <button type="button" class="primary-btn" style="margin-bottom:5px; font-size:12px; width:auto; height:60px; padding-left:12px; padding-right:12px; line-height:30px; font-weight:700;" onclick="update_customer_fill(`+counter_passenger+`)">
+                            <button type="button" class="primary-btn prev-next-form" style="margin-bottom:5px; font-size:12px; font-weight:700;" onclick="update_customer_fill(`+counter_passenger+`)">
                                 Save <i class="fas fa-save"></i>
                             </button>
                         </div>`;
@@ -4810,4 +4810,8 @@ function next_prev_form_medical(type, counter, id){
             document.getElementById("progress_div"+i+pax).style.display = "none";
         }
     }
+
+    $('html, body').animate({
+        scrollTop: $("#div_passenger_list"+pax).offset().top - 200
+    }, 500);
 }
