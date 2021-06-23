@@ -187,8 +187,10 @@ function add_table_of_passenger(type){
     set_passenger_number(counter_passenger);
     var node = document.createElement("div");
     text += `
-    <div class="col-lg-12 mb-4" style="border:1px solid #cdcdcd; padding:20px 15px 0px 15px;">
-        <span style="width:100%; font-weight:700; font-size:18px; color:`+color+`;">Customer #`+(parseInt(counter_passenger)+1)+`</span>
+    <div class="col-lg-12" style="padding:15px; background:`+color+`;">
+        <span style="width:100%; font-weight:700; font-size:18px; color:`+text_color+`;">Customer #`+(parseInt(counter_passenger)+1)+`</span>
+    </div>
+    <div class="col-lg-12 mb-4" style="border:1px solid `+color+`; padding:0px 15px;">
         <div class="row">`;
             if(vendor == 'periksain'){
                 text+=`
@@ -324,8 +326,8 @@ function add_table_of_passenger(type){
         <div class="row">
             <div class="col-lg-12" id="adult_paxs`+parseInt(counter_passenger+1)+`" style="padding:15px 15px 0px 15px; border-top:1px solid #cdcdcd; border-bottom:1px solid #cdcdcd;">
                 <div class="row">
-                    <div class="col-lg-12 mb-3" style="text-align:left;">
-                        <h3 style="color:`+color+`;">Customer #`+(parseInt(counter_passenger)+1)+`</h3>
+                    <div class="col-lg-12 mb-3" style="text-align:center;">
+                        <h3 style="color:`+color+`; border-bottom:2px solid `+color+`;">Fill the Form</h3>
                     </div>`;
 
                     if(vendor != 'phc'){
@@ -378,14 +380,14 @@ function add_table_of_passenger(type){
                                     text_div_paxs+=`
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:center;"></div>
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
-                                        <button type="button" class="primary-btn" style="margin-bottom:5px; font-size:12px; width:auto; height:60px; padding-left:12px; padding-right:12px; line-height:30px; font-weight:700;" onclick="next_prev_form_medical('next', 2, `+counter_passenger+`);">
+                                        <button type="button" class="primary-btn prev-next-form" style="margin-bottom:5px; font-size:12px; font-weight:700;" onclick="next_prev_form_medical('next', 2, `+counter_passenger+`);">
                                             Next <i class="fas fa-arrow-right"></i>
                                         </button>
                                     </div>`;
                                 }else{
                                     text_div_paxs+=`
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:center;">
-                                        <button type="button" class="primary-btn" style="margin-bottom:5px; font-size:12px; width:auto; height:60px; padding-left:12px; padding-right:12px; line-height:30px; font-weight:700;" onclick="update_customer_fill(`+counter_passenger+`)">
+                                        <button type="button" class="primary-btn prev-next-form" style="margin-bottom:5px; font-size:12px; font-weight:700;" onclick="update_customer_fill(`+counter_passenger+`)">
                                             Save <i class="fas fa-save"></i>
                                         </button>
                                     </div>
@@ -431,7 +433,7 @@ function add_table_of_passenger(type){
 
                     if(test_type == 'PHCHCKPCR' || test_type == 'PHCDTKPCR'){
                         text_div_paxs+=`
-                        <div class="col-lg-6 col-md-6 col-sm-6" id="adult_hamil_div`+parseInt(counter_passenger+1)+`" hidden>
+                        <div class="col-lg-6 col-md-6 col-sm-6" id="adult_hamil_div`+parseInt(counter_passenger+1)+`" style="margin-top:15px;" hidden>
                             <label style="color:red !important">*</label>
                             <label>Sedang Hamil</label>`;
                             if(template == 1){
@@ -466,6 +468,8 @@ function add_table_of_passenger(type){
                             </div>
                         </div>
                         <div class="col-lg-12"></div>`;
+                    }else{
+                        text_div_paxs+=`<div class="col-lg-6 col-md-6 col-sm-6"></div>`;
                     }
 
 
@@ -524,9 +528,9 @@ function add_table_of_passenger(type){
                                     <input type="text" class="form-control" name="adult_mother_name`+parseInt(counter_passenger+1)+`" id="adult_mother_name`+parseInt(counter_passenger+1)+`" placeholder="Mother Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Mother Name '">
                                 </div>
                             </div>`;
-                        }else{
-                            text_div_paxs+=`<div class="col-lg-6"></div>`;
                         }
+                    }else{
+                        text_div_paxs += `<div class="col-lg-6 col-md-6 col-sm-6"></div>`;
                     }
 
                     text_div_paxs+=`
@@ -1077,14 +1081,14 @@ function add_table_of_passenger(type){
                                     text_div_paxs+=`
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mt-2" style="text-align:center;"></div>
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mt-2" style="text-align:right;">
-                                        <button type="button" class="primary-btn" style="margin-bottom:5px; font-size:12px; width:auto; height:60px; padding-left:12px; padding-right:12px; line-height:30px; font-weight:700;" onclick="next_prev_form_medical('next', 2, `+counter_passenger+`);">
+                                        <button type="button" class="primary-btn prev-next-form" style="margin-bottom:5px; font-size:12px; font-weight:700;" onclick="next_prev_form_medical('next', 2, `+counter_passenger+`);">
                                             Next <i class="fas fa-arrow-right"></i>
                                         </button>
                                     </div>`;
                                 }else{
                                     text_div_paxs+=`
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:center;">
-                                        <button type="button" class="primary-btn" style="margin-bottom:5px; font-size:12px; width:auto; height:60px; padding-left:12px; padding-right:12px; line-height:30px; font-weight:700;" onclick="update_customer_fill(`+counter_passenger+`)">
+                                        <button type="button" class="primary-btn prev-next-form" style="margin-bottom:5px; font-size:12px; font-weight:700;" onclick="update_customer_fill(`+counter_passenger+`)">
                                             Save <i class="fas fa-save"></i>
                                         </button>
                                     </div>
@@ -1101,13 +1105,13 @@ function add_table_of_passenger(type){
                                 <div id="progress_div2`+counter_passenger+`" style="background:#fcfcfc; border-top:1px solid #cdcdcd; display:none; padding:15px;">
                                     <div class="row">
                                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:left;">
-                                            <button type="button" class="primary-btn" style="margin-bottom:5px; font-size:12px; width:auto; height:60px; padding-left:12px; padding-right:12px; line-height:30px; font-weight:700;" onclick="next_prev_form_medical('prev', 1, `+counter_passenger+`);">
+                                            <button type="button" class="primary-btn prev-next-form" style="margin-bottom:5px; font-size:12px; font-weight:700;" onclick="next_prev_form_medical('prev', 1, `+counter_passenger+`);">
                                                 <i class="fas fa-arrow-left"></i> Prev
                                             </button>
                                         </div>
                                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:center;"></div>
                                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
-                                            <button type="button" class="primary-btn" style="margin-bottom:5px; font-size:12px; width:auto; height:60px; padding-left:12px; padding-right:12px; line-height:30px; font-weight:700;" onclick="next_prev_form_medical('next', 3, `+counter_passenger+`);">
+                                            <button type="button" class="primary-btn prev-next-form" style="margin-bottom:5px; font-size:12px; font-weight:700;" onclick="next_prev_form_medical('next', 3, `+counter_passenger+`);">
                                                 Next <i class="fas fa-arrow-right"></i>
                                             </button>
                                         </div>`;
@@ -2115,13 +2119,13 @@ function add_table_of_passenger(type){
 
                                 text_div_paxs+=`
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mt-2" style="text-align:left;">
-                                        <button type="button" class="primary-btn" style="margin-bottom:5px; font-size:12px; width:auto; height:60px; padding-left:12px; padding-right:12px; line-height:30px; font-weight:700;" onclick="next_prev_form_medical('prev', 1, `+counter_passenger+`);">
+                                        <button type="button" class="primary-btn prev-next-form" style="margin-bottom:5px; font-size:12px; font-weight:700;" onclick="next_prev_form_medical('prev', 1, `+counter_passenger+`);">
                                             <i class="fas fa-arrow-left"></i> Prev
                                         </button>
                                     </div>
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mt-2" style="text-align:center;"></div>
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mt-2" style="text-align:right;">
-                                        <button type="button" class="primary-btn" style="margin-bottom:5px; font-size:12px; width:auto; height:60px; padding-left:12px; padding-right:12px; line-height:30px; font-weight:700;" onclick="next_prev_form_medical('next', 3, `+counter_passenger+`);">
+                                        <button type="button" class="primary-btn prev-next-form" style="margin-bottom:5px; font-size:12px; font-weight:700;" onclick="next_prev_form_medical('next', 3, `+counter_passenger+`);">
                                             Next <i class="fas fa-arrow-right"></i>
                                         </button>
                                     </div>
@@ -2133,12 +2137,12 @@ function add_table_of_passenger(type){
                             <div id="progress_div3`+counter_passenger+`" style="background:#fcfcfc; border-top:1px solid #cdcdcd; display:none; padding:15px;">
                                 <div class="row">
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:left;">
-                                        <button type="button" class="primary-btn" style="margin-bottom:5px; font-size:12px; width:auto; height:60px; padding-left:12px; padding-right:12px; line-height:30px; font-weight:700;" onclick="next_prev_form_medical('prev', 2, `+counter_passenger+`);">
+                                        <button type="button" class="primary-btn prev-next-form" style="margin-bottom:5px; font-size:12px; font-weight:700;" onclick="next_prev_form_medical('prev', 2, `+counter_passenger+`);">
                                             <i class="fas fa-arrow-left"></i> Prev
                                         </button>
                                     </div>
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:center;">
-                                        <button type="button" class="primary-btn" style="margin-bottom:5px; font-size:12px; width:auto; height:60px; padding-left:12px; padding-right:12px; line-height:30px; font-weight:700;" onclick="update_customer_fill(`+counter_passenger+`)">
+                                        <button type="button" class="primary-btn prev-next-form" style="margin-bottom:5px; font-size:12px; font-weight:700;" onclick="update_customer_fill(`+counter_passenger+`)">
                                             Save <i class="fas fa-save"></i>
                                         </button>
                                     </div>
@@ -2493,12 +2497,12 @@ function add_table_of_passenger(type){
 
                                     <div class="col-lg-12"></div>
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mt-2" style="text-align:left;">
-                                        <button type="button" class="primary-btn" style="margin-bottom:5px; font-size:12px; width:auto; height:60px; padding-left:12px; padding-right:12px; line-height:30px; font-weight:700;" onclick="next_prev_form_medical('prev', 2, `+counter_passenger+`);">
+                                        <button type="button" class="primary-btn prev-next-form" style="margin-bottom:5px; font-size:12px; font-weight:700;" onclick="next_prev_form_medical('prev', 2, `+counter_passenger+`);">
                                             <i class="fas fa-arrow-left"></i> Prev
                                         </button>
                                     </div>
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mt-2" style="text-align:center;">
-                                        <button type="button" class="primary-btn" style="margin-bottom:5px; font-size:12px; width:auto; height:60px; padding-left:12px; padding-right:12px; line-height:30px; font-weight:700;" onclick="update_customer_fill(`+counter_passenger+`)">
+                                        <button type="button" class="primary-btn prev-next-form" style="margin-bottom:5px; font-size:12px; font-weight:700;" onclick="update_customer_fill(`+counter_passenger+`)">
                                             Save <i class="fas fa-save"></i>
                                         </button>
                                     </div>

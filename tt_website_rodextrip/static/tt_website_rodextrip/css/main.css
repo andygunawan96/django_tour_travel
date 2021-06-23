@@ -9172,3 +9172,11 @@ ul.progress_tabs li.current .image-rounded-icon{
 .br-icon-done {
     background-color: #f15a22;
 }
+
+.prev-next-form{
+    width:110px;
+    height:46px;
+    padding-left:12px;
+    padding-right:12px;
+    line-height:30px;
+}
