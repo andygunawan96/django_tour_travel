@@ -4788,7 +4788,7 @@ function update_customer_fill(seq){
     }
 
     $('html, body').animate({
-        scrollTop: $("#table_passenger"+seq).offset().top - 200
+        scrollTop: $("#div_passenger_list"+seq).offset().top - 100
     }, 500);
 }
 
@@ -4826,6 +4826,6 @@ function next_prev_form_medical(type, counter, id){
     }
 
     $('html, body').animate({
-        scrollTop: $("#table_passenger"+pax).offset().top - 200
+        scrollTop: $("#div_passenger_list"+pax).offset().top - 100
     }, 500);
 }
