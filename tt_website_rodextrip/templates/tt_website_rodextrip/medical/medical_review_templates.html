@@ -256,7 +256,7 @@
                 </div>
                 <div class="col-lg-9">
                     <div class="row">
-                        <div class="col-lg-4" style="padding-bottom:10px;">
+                        <div class="col-lg-6" style="padding-bottom:10px;">
                             {% if 'book_reservation' in username.co_agent_frontend_security %}
                             <button type="button" class="primary-btn hold-seat-booking-train ld-ext-right" id="btn-search-train" onclick="pre_medical_commit_booking(0);" style="width:100%;">
                                 {% trans 'Hold Booking' %}
@@ -264,14 +264,7 @@
                             </button>
                             {% endif %}
                         </div>
-                        <div class="col-lg-4" style="padding-bottom:10px;">
-                        </div>
-                        <div class="col-lg-4" style="padding-bottom:10px;">
-                            {% if 'issued_reservation' in username.co_agent_frontend_security and 'b2c_limitation' not in username.co_agent_frontend_security %}
-                            <button class="btn-next for-show-website primary-btn issued_booking_btn" type="button" style="width:100%;" id="force_issued_btn" onclick="pre_medical_commit_booking(1);">
-                                 {% trans 'Issued Booking' %}
-                            </button>
-                            {% endif %}
+                        <div class="col-lg-6" style="padding-bottom:10px;">
                         </div>
                     </div>
                 </div>

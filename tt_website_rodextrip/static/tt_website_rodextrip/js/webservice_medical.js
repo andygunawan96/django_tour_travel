@@ -160,6 +160,7 @@ function medical_get_availability(){
        data: {
             'signature': signature,
             'provider': vendor,
+            'carrier_code': test_type
        },
        success: function(msg) {
             console.log(msg);
@@ -227,38 +228,34 @@ function medical_check_price(){
     var test_list_counter = 1;
     var add_list = true;
     var error_log = '';
-    if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCHCKATG' || vendor == 'phc' && test_type == 'PHCHCKPCR'){
-        for(i=1;i <= test_time; i++){
-            try{
-                timeslot_list.push(document.getElementById('booker_timeslot_id'+i).value.split('~')[0])
-            }catch(err){}
-        }
-        for(i=1; i <= test_time; i++){
-            try{
-                add_list = true;
-                if(vendor == 'periksain'){
-                    if(now.format('DD MMM YYYY') == document.getElementById('booker_test_date'+i).value){
-                        if(now.diff(moment(document.getElementById('booker_test_date'+i).value+' '+document.getElementById('booker_timeslot_id'+i).value.split('~')[1]), 'hours') > -3){
-                            add_list = false;
-                            error_log += 'Test time reservation only can be book 3 hours before test please change test ' + test_list_counter + '!</br>\n';
-                        }
-                    }
-                }else{
-                    if(now.format('DD MMM YYYY') == document.getElementById('booker_test_date'+i).value){
-                        if(now.diff(moment(document.getElementById('booker_test_date'+i).value+' '+document.getElementById('booker_timeslot_id'+i).value.split('~')[1]), 'hours') > -2){
-                            add_list = false;
-                            error_log += 'Test time reservation only can be book 2 hours before test please change test ' + test_list_counter + '!</br>\n';
-                        }
+
+    for(i=1;i <= test_time; i++){
+        try{
+            timeslot_list.push(document.getElementById('booker_timeslot_id'+i).value.split('~')[0])
+        }catch(err){}
+    }
+    for(i=1; i <= test_time; i++){
+        try{
+            add_list = true;
+            if(vendor == 'periksain'){
+                if(now.format('DD MMM YYYY') == document.getElementById('booker_test_date'+i).value){
+                    if(now.diff(moment(document.getElementById('booker_test_date'+i).value+' '+document.getElementById('booker_timeslot_id'+i).value.split('~')[1]), 'hours') > -3){
+                        add_list = false;
+                        error_log += 'Test time reservation only can be book 3 hours before test please change test ' + test_list_counter + '!</br>\n';
                     }
                 }
-                test_list_counter++;
-            }catch(err){
-
+            }else{
+                if(now.format('DD MMM YYYY') == document.getElementById('booker_test_date'+i).value){
+                    if(now.diff(moment(document.getElementById('booker_test_date'+i).value+' '+document.getElementById('booker_timeslot_id'+i).value.split('~')[1]), 'hours') > -2){
+                        add_list = false;
+                        error_log += 'Test time reservation only can be book 2 hours before test please change test ' + test_list_counter + '!</br>\n';
+                    }
+                }
             }
-        }
+            test_list_counter++;
+        }catch(err){
 
-    }else if(vendor == 'phc' && test_type == 'PHCDTKATG' || vendor == 'phc' && test_type == 'PHCDTKPCR'){
-        timeslot_list.push('drive_thru')
+        }
     }
     if(timeslot_list.length != 0 && error_log == '' || vendor == 'phc' && test_type == 'PHCDTKATG' || vendor == 'phc' && test_type == 'PHCDTKPCR'){
         $.ajax({
@@ -724,6 +721,21 @@ function medical_get_booking(order_number, sync=false){
                                     text+=`<b>-</b>`;
                                 }
                                 text+=`
+                            </div>
+                        </div>
+                        <hr/>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h6>Test</h6>
+                                <span>Area: <b>`;
+                                    text+=msg.result.response.picked_timeslot.area;
+
+                                    text+=`</b>
+                                </span><br/>`;
+                                text+=`<span>Date: <b>`;
+                                text+=moment(msg.result.response.picked_timeslot.datetimeslot.split(' ')[0], 'YYYY-MM-DD').format('DD MMM YYYY');
+
+                                    text+=`</b>
                             </div>
                         </div>
                         <hr/>
@@ -1893,6 +1905,7 @@ function re_medical_get_availability(){
        data: {
             'signature': signature,
             'provider': vendor,
+            'carrier_code': test_type
        },
        success: function(msg) {
             console.log(msg);
