@@ -172,7 +172,9 @@ function change_timeslot(val){
             }
             document.getElementById('passenger').innerHTML = text;
             $('#passenger').niceSelect('update');
-            add_table();
+            if (typeof data_kota !== 'undefined') {
+                add_table();
+            }
             break;
         }
     }
