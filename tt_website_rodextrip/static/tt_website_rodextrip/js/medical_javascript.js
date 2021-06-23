@@ -3853,7 +3853,7 @@ function check_passenger(){
                     }
                 }
             }else{
-                if(test_type == 'PHCHCKATG' || test_type == 'PHCDTKPCR'){
+                if(test_type == 'PHCHCKATG' || test_type == 'PHCHCKPCR'){
                     if(now.format('DD MMM YYYY') == document.getElementById('booker_test_date'+i).value){
                         if(now.diff(moment(document.getElementById('booker_test_date'+i).value+' '+document.getElementById('booker_timeslot_id'+i).value.split('~')[1]), 'hours') > -2){
                             add_list = false;
