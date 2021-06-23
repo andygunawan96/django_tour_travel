@@ -349,20 +349,20 @@ function add_table_of_passenger(type){
                             <ul class="progress_tabs">`;
                                 if(test_type == 'PHCHCKPCR' || test_type == 'PHCDTKPCR'){
                                     text_div_paxs+=`
-                                    <li class="progress_medical" id="progress_tab1`+counter_passenger+`" onclick="next_prev_form_medical('tab', 1, `+counter_passenger+`)">
+                                    <li class="progress_medical`+counter_passenger+`" id="progress_tab1`+counter_passenger+`" onclick="next_prev_form_medical('tab', 1, `+counter_passenger+`)">
                                         <label id="progress_label1`+counter_passenger+`" style="cursor:pointer;">
                                             <span class="progress_icon progress_icon-active" id="progress_med1`+counter_passenger+`">1</span>
                                             Personal Data
                                         </label>
                                     </li>
-                                    <li class="progress_medical" id="progress_tab2`+counter_passenger+`" onclick="next_prev_form_medical('tab', 2, `+counter_passenger+`)">
+                                    <li class="progress_medical`+counter_passenger+`" id="progress_tab2`+counter_passenger+`" onclick="next_prev_form_medical('tab', 2, `+counter_passenger+`)">
                                         <label id="progress_label2`+counter_passenger+`" style="cursor:pointer;">
                                             <span class="progress_icon" id="progress_med2`+counter_passenger+`">2</span>
                                             Medical Data
                                         </label>
                                     </li>`;
                                     text_div_paxs+=`
-                                    <li class="progress_medical" id="progress_tab3`+counter_passenger+`" onclick="next_prev_form_medical('tab', 3, `+counter_passenger+`)">
+                                    <li class="progress_medical`+counter_passenger+`" id="progress_tab3`+counter_passenger+`" onclick="next_prev_form_medical('tab', 3, `+counter_passenger+`)">
                                         <label id="progress_label3`+counter_passenger+`" style="cursor:pointer;">
                                             <span class="progress_icon" id="progress_med3`+counter_passenger+`">3</span>
                                             Faktor Kontak/Paparan
@@ -1091,7 +1091,7 @@ function add_table_of_passenger(type){
                                     </div>`;
                                 }else{
                                     text_div_paxs+=`
-                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:center;">
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mt-3" style="text-align:center;">
                                         <button type="button" class="primary-btn prev-next-form" style="margin-bottom:5px; font-size:12px; font-weight:700;" onclick="update_customer_fill(`+counter_passenger+`)">
                                             Save <i class="fas fa-save"></i>
                                         </button>
@@ -2518,7 +2518,7 @@ function add_table_of_passenger(type){
 
                     if(vendor != 'phc'){
                         text_div_paxs+=`
-                        <div class="col-lg-12 mb-3" style="text-align:right;">
+                        <div class="col-lg-12 mt-3 mb-3" style="text-align:right;">
                             <button type="button" class="primary-btn prev-next-form" style="margin-bottom:5px; font-size:12px; font-weight:700;" onclick="update_customer_fill(`+counter_passenger+`)">
                                 Save <i class="fas fa-save"></i>
                             </button>
@@ -4786,6 +4786,10 @@ function update_customer_fill(seq){
         form_show.style.display = "none";
         update_contact('passenger', (parseInt(seq)+1));
     }
+
+    $('html, body').animate({
+        scrollTop: $("#table_passenger"+seq).offset().top - 200
+    }, 500);
 }
 
 function clear_text_medical(sequence){
@@ -4811,7 +4815,7 @@ function next_prev_form_medical(type, counter, id){
     document.getElementById("progress_label"+counter+pax).style = "cursor:pointer; color:"+text_color+" !important;";
     document.getElementById("progress_div"+counter+pax).style.display = "block";
 
-    length_progress = $(".progress_medical").length;
+    length_progress = $(".progress_medical"+pax).length;
     for (var i = 1; i <= length_progress; i++) {
         if(i != counter){
             document.getElementById("progress_med"+i+pax).style = "background-color: #9B9B9B; color:white;";
@@ -4822,6 +4826,6 @@ function next_prev_form_medical(type, counter, id){
     }
 
     $('html, body').animate({
-        scrollTop: $("#div_passenger_list"+pax).offset().top - 200
+        scrollTop: $("#table_passenger"+pax).offset().top - 200
     }, 500);
 }
