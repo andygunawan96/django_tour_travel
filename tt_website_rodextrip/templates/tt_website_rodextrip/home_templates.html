@@ -1153,7 +1153,7 @@
                             {% endif %}
                         {% endif %}
                         {% if "phc" in provider and "ticketing_phc" in username.co_agent_frontend_security %}
-                        <div class="tab-pane fade {%if provider_types_sequence.0.name == 'phc' and 'b2c_limitation' in username.co_agent_frontend_security %}show active {% endif %}" id="medical2" role="tabpanel" aria-labelledby="medical2-tab">
+                        <div class="tab-pane fade {%if provider_types_sequence.0.name == 'phc' %}show active {% endif %}" id="medical2" role="tabpanel" aria-labelledby="medical2-tab">
                             <form action="/medical/passenger/phc" class="form-wrap" id="medical_searchForm2" method="post">
                                 {% csrf_token %}
                                 <input type="hidden" name="g-recaptcha-response" id='recaptcha_medical2'>
