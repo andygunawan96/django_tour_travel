@@ -2520,6 +2520,7 @@ function add_table_of_passenger(type){
                             </button>
                         </div>`;
                     }
+
                 text_div_paxs+=`
                 </div>
             </div>
