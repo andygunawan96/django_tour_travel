@@ -17,8 +17,12 @@ function add_other_time(){
                 </div>
             </div>`;
     if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCHCKATG' || vendor == 'phc' && test_type == 'PHCHCKPCR')
+        text+=`
+            <div class="col-lg-6">`;
+    else
+        text+=`
+            <div class="col-lg-6" hidden>`;
     text+=`
-            <div class="col-lg-6">
                 <label style="color:red !important;">*</label>
                 <label>Timeslot</label>
                 <div class="row">
@@ -112,10 +116,8 @@ function add_other_time(){
         var val = parseInt(ev.target.id.replace('booker_test_date',''));
         update_timeslot(val);
     });
-    if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCHCKATG' || vendor == 'phc' && test_type == 'PHCHCKPCR'){
-        $('#booker_timeslot_id'+test_time).niceSelect();
-        update_timeslot(test_time);
-    }
+    $('#booker_timeslot_id'+test_time).niceSelect();
+    update_timeslot(test_time);
 
     test_time++;
 }
@@ -755,7 +757,8 @@ function add_table_of_passenger(type){
                                 <input type="text" class="form-control" name="adult_phone`+parseInt(counter_passenger+1)+`" id="adult_phone`+parseInt(counter_passenger+1)+`" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
                             </div>
                         </div>
-                        <label style="font-size:12px; padding:0;">Example: +62812345678</label>
+                        <label style="font-size:12px; padding:0;">Example: 0 812345678</label>
+                        <label>Please make sure register with whatsapp number for result test</label>
                     </div>`;
 
                     if(vendor == 'phc'){
@@ -3839,18 +3842,18 @@ function check_passenger(){
     var now = moment();
     var test_list_counter = 1;
     var add_list = true;
-    if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCHCKATG' || vendor == 'phc' && test_type == 'PHCHCKPCR'){
-        for(i=1; i <= test_time; i++){
-            try{
-                add_list = true;
-                if(vendor == 'periksain'){
-                    if(now.format('DD MMM YYYY') == document.getElementById('booker_test_date'+i).value){
-                        if(now.diff(moment(document.getElementById('booker_test_date'+i).value+' '+document.getElementById('booker_timeslot_id'+i).value.split('~')[1]), 'hours') > -3){
-                            add_list = false;
-                            error_log += 'Test time reservation only can be book 3 hours before test please change test ' + test_list_counter + '!</br>\n';
-                        }
+    for(i=1; i <= test_time; i++){
+        try{
+            add_list = true;
+            if(vendor == 'periksain'){
+                if(now.format('DD MMM YYYY') == document.getElementById('booker_test_date'+i).value){
+                    if(now.diff(moment(document.getElementById('booker_test_date'+i).value+' '+document.getElementById('booker_timeslot_id'+i).value.split('~')[1]), 'hours') > -3){
+                        add_list = false;
+                        error_log += 'Test time reservation only can be book 3 hours before test please change test ' + test_list_counter + '!</br>\n';
                     }
-                }else{
+                }
+            }else{
+                if(test_type == 'PHCHCKATG' || test_type == 'PHCDTKPCR'){
                     if(now.format('DD MMM YYYY') == document.getElementById('booker_test_date'+i).value){
                         if(now.diff(moment(document.getElementById('booker_test_date'+i).value+' '+document.getElementById('booker_timeslot_id'+i).value.split('~')[1]), 'hours') > -2){
                             add_list = false;
@@ -3858,25 +3861,19 @@ function check_passenger(){
                         }
                     }
                 }
-                if(add_list == true){
-                    request['data']['test_list'].push({
-                        "date": document.getElementById('booker_test_date'+i).value,
-                        "time": document.getElementById('booker_timeslot_id'+i).value.split('~')[1],
-                        "seq_id": document.getElementById('booker_timeslot_id'+i).value.split('~')[0]
-                    })
-                }
-                test_list_counter++;
-            }catch(err){
-
             }
+            if(add_list == true){
+                request['data']['test_list'].push({
+                    "date": document.getElementById('booker_test_date'+i).value,
+                    "time": document.getElementById('booker_timeslot_id'+i).value.split('~')[1],
+                    "seq_id": document.getElementById('booker_timeslot_id'+i).value.split('~')[0]
+                })
+            }
+            test_list_counter++;
+        }catch(err){
 
         }
-    }else if(vendor == 'phc' && test_type == 'PHCDTKATG' || vendor == 'phc' && test_type == 'PHCDTKPCR'){
-        request['data']['test_list'].push({
-            "date": '',
-            "time": '',
-            "seq_id": 'drive_thru'
-        })
+
     }
 
 

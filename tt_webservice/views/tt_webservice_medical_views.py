@@ -238,7 +238,8 @@ def get_availability(request):
         }
 
         data = {
-            'provider': provider
+            'provider': provider,
+            'carrier_code': request.POST['carrier_code']
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
