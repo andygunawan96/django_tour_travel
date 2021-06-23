@@ -2302,12 +2302,13 @@ function copy_booker_to_passenger(val,type){
         }else if(type == 'medical'){
             if(document.getElementById('booker_title').value != '' &&
                document.getElementById('booker_first_name').value != '' &&
-               document.getElementById('booker_last_name').value != '' &&
                document.getElementById('booker_nationality').value != '' &&
                document.getElementById('booker_email').value != '' &&
                document.getElementById('booker_phone').value != ''){
-               document.getElementById("button_search0").style.display = "none";
-               document.getElementById("button_clear0").style.display = "none";
+               try{
+                   document.getElementById("button_search0").style.display = "none";
+                   document.getElementById("button_clear0").style.display = "none";
+               }catch(err){}
                 try{
                     if(counter_passenger == 0){
                         add_table_of_passenger('');
