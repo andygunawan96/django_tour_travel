@@ -9176,7 +9176,14 @@ ul.progress_tabs li.current .image-rounded-icon{
 .prev-next-form{
     width:110px;
     height:46px;
-    padding-left:12px;
-    padding-right:12px;
-    line-height:30px;
+    padding-left:15px !important;
+    padding-right:15px !important;
+    line-height:30px !important;
+}
+
+@media (max-width: 481px) {
+    .prev-next-form{
+        width:auto;
+        height:60px;
+    }
 }
