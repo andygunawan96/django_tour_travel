@@ -19,6 +19,12 @@ function medical_signin(data){
                     medical_get_availability();
                }else{
                     //get booking
+                    vendor = '';
+                    if(data.includes('PH'))
+                        vendor = 'phc';
+                    else
+                        vendor = 'periksain';
+                    get_config_medical('', vendor);
                     medical_get_booking(data);
                }
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
@@ -70,8 +76,8 @@ function get_config_medical(type='', vendor=''){
        success: function(msg) {
             console.log(msg);
             if(msg.result.error_code == 0){
+                medical_config = msg;
                 if(type == 'passenger'){
-                    medical_config = msg;
                     data_kota = medical_config['result']['response']['kota']
                     var product = '';
                     if(vendor == 'phc')
@@ -86,7 +92,8 @@ function get_config_medical(type='', vendor=''){
                     document.getElementById('medical_product').innerHTML = product;
                     document.getElementById('copy_booker_to_pax_div').hidden = false;
                     document.getElementById('medical_pax_dix').hidden = false;
-                    add_table();
+                    if(last_counter == 0)
+                        add_table();
                 }else if(type == 'home'){
                     var text = '';
                     if(vendor == 'phc'){
@@ -239,16 +246,16 @@ function medical_check_price(){
             add_list = true;
             if(vendor == 'periksain'){
                 if(now.format('DD MMM YYYY') == document.getElementById('booker_test_date'+i).value){
-                    if(now.diff(moment(document.getElementById('booker_test_date'+i).value+' '+document.getElementById('booker_timeslot_id'+i).value.split('~')[1]), 'hours') > -3){
+                    if(new Date() > new Date(document.getElementById('booker_test_date'+i).value+' '+document.getElementById('booker_timeslot_id'+i).value.split('~')[1])){
                         add_list = false;
-                        error_log += 'Test time reservation only can be book 3 hours before test please change test ' + test_list_counter + '!</br>\n';
+                        error_log += 'Test time reservation already pass please change test time ' + test_list_counter + '!</br>\n';
                     }
                 }
             }else{
                 if(now.format('DD MMM YYYY') == document.getElementById('booker_test_date'+i).value){
-                    if(now.diff(moment(document.getElementById('booker_test_date'+i).value+' '+document.getElementById('booker_timeslot_id'+i).value.split('~')[1]), 'hours') > -2){
+                    if(new Date() > new Date(document.getElementById('booker_test_date'+i).value+' '+document.getElementById('booker_timeslot_id'+i).value.split('~')[1])){
                         add_list = false;
-                        error_log += 'Test time reservation only can be book 2 hours before test please change test ' + test_list_counter + '!</br>\n';
+                        error_log += 'Test time reservation already pass please change test time ' + test_list_counter + '!</br>\n';
                     }
                 }
             }
@@ -496,7 +503,7 @@ function pre_medical_commit_booking(val){
                     document.getElementById("type").value = 'medical_review';
                     document.getElementById("voucher_code").value = voucher_code;
                     document.getElementById("discount").value = JSON.stringify(discount_voucher);
-                    document.getElementById("session_time_input").value = time_limit;
+                    //document.getElementById("session_time_input").value = 300;
                     document.getElementById('medical_issued').submit();
                 }catch(err){
                     console.log(err)
@@ -607,6 +614,14 @@ function medical_commit_booking(val){
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get price medical');
        },timeout: 300000
     });
+}
+
+function goto_edit_passenger(){
+    if(medical_get_detail.result.response.state == 'booked'){
+        document.getElementById('data').value = JSON.stringify(medical_get_detail);
+        document.getElementById('medical_edit_passenger').action += medical_get_detail.result.response.order_number;
+        document.getElementById('medical_edit_passenger').submit();
+    }
 }
 
 function medical_get_booking(order_number, sync=false){
@@ -723,7 +738,9 @@ function medical_get_booking(order_number, sync=false){
                                 text+=`
                             </div>
                         </div>
-                        <hr/>
+                        <hr/>`;
+                        if(Object.keys(msg.result.response.picked_timeslot)>0){
+                        text+=`
                         <div class="row">
                             <div class="col-lg-12">
                                 <h6>Test</h6>
@@ -738,8 +755,8 @@ function medical_get_booking(order_number, sync=false){
                                     text+=`</b>
                             </div>
                         </div>
-                        <hr/>
-                   `;
+                        <hr/>`;
+                        }
                    text+=`<div class="row">`;
                    text+=`<div class="col-lg-12"></div>`;
                    text+=`<div class="col-lg-3 col-md-4 col-sm-6">`;
@@ -1949,16 +1966,16 @@ function re_medical_check_price(){
                 add_list = true;
                 if(vendor == 'periksain'){
                     if(now.format('DD MMM YYYY') == document.getElementById('booker_test_date'+i).value){
-                        if(now.diff(moment(document.getElementById('booker_test_date'+i).value+' '+document.getElementById('booker_timeslot_id'+i).value.split('~')[1]), 'hours') > -3){
+                        if(new Date() > new Date(document.getElementById('booker_test_date'+i).value+' '+document.getElementById('booker_timeslot_id'+i).value.split('~')[1])){
                             add_list = false;
-                            error_log += 'Test time reservation only can be book 3 hours before test please change test ' + test_list_counter + '!</br>\n';
+                            error_log += 'Test time reservation already pass please change test time ' + test_list_counter + '!</br>\n';
                         }
                     }
                 }else{
                     if(now.format('DD MMM YYYY') == document.getElementById('booker_test_date'+i).value){
-                        if(now.diff(moment(document.getElementById('booker_test_date'+i).value+' '+document.getElementById('booker_timeslot_id'+i).value.split('~')[1]), 'hours') > -2){
+                        if(new Date() > new Date(document.getElementById('booker_test_date'+i).value+' '+document.getElementById('booker_timeslot_id'+i).value.split('~')[1])){
                             add_list = false;
-                            error_log += 'Test time reservation only can be book 2 hours before test please change test ' + test_list_counter + '!</br>\n';
+                            error_log += 'Test time reservation already pass please change test time ' + test_list_counter + '!</br>\n';
                         }
                     }
                 }
@@ -2027,4 +2044,143 @@ function re_medical_check_price(){
         })
         document.getElementById('check_price_medical').disabled = false;
     }
+}
+
+function create_new_reservation(){
+    //pilihan carrier
+    var text = '';
+    var option = '';
+    for(i in medical_get_detail.result.response.provider_bookings){
+        if(vendor == 'phc'){
+            for(j in medical_config.result.response.carriers_code){
+                if(medical_get_detail.result.response.provider_bookings[i].carrier_code == 'PHCDTKATG' && medical_config.result.response.carriers_code[j].code == 'PHCDTKATG' ||
+                   medical_get_detail.result.response.provider_bookings[i].carrier_code == 'PHCDTKATG' && medical_config.result.response.carriers_code[j].code == 'PHCHCKATG' ||
+                   medical_get_detail.result.response.provider_bookings[i].carrier_code == 'PHCHCKATG' && medical_config.result.response.carriers_code[j].code == 'PHCDTKATG' ||
+                   medical_get_detail.result.response.provider_bookings[i].carrier_code == 'PHCHCKATG' && medical_config.result.response.carriers_code[j].code == 'PHCHCKATG'){
+                    option += `<option value="`+medical_config.result.response.carriers_code[j].code+`">`+medical_config.result.response.carriers_code[j].name+`</option>`;
+                }else if(medical_get_detail.result.response.provider_bookings[i].carrier_code == 'PHCDTKPCR' && medical_config.result.response.carriers_code[j].code == 'PHCDTKPCR' ||
+                   medical_get_detail.result.response.provider_bookings[i].carrier_code == 'PHCDTKPCR' && medical_config.result.response.carriers_code[j].code == 'PHCHCKPCR' ||
+                   medical_get_detail.result.response.provider_bookings[i].carrier_code == 'PHCHCKPCR' && medical_config.result.response.carriers_code[j].code == 'PHCDTKPCR' ||
+                   medical_get_detail.result.response.provider_bookings[i].carrier_code == 'PHCHCKPCR' && medical_config.result.response.carriers_code[j].code == 'PHCHCKPCR'){
+                    option += `<option value="`+medical_config.result.response.carriers_code[j].code+`">`+medical_config.result.response.carriers_code[j].name+`</option>`;
+                }
+            }
+        }else{
+            // PERIKSAIN
+
+        }
+    }
+    text += `<div style="background:white;margin-top:15px;padding:5px 10px;">
+                <h5>Re Order</h5>`;
+    text+=`
+        <div style="margin-top:15px;">
+            <label style="color:red !important">*</label>
+            <label>Test Type</label>`;
+            if(template == 1){
+                text+=`<div class="input-container-search-ticket">`;
+            }else if(template == 2){
+                text+=`<div>`;
+            }else if(template == 3){
+                text+=`<div class="default-select">`;
+            }else if(template == 4){
+                text+=`<div class="input-container-search-ticket">`;
+            }else if(template == 5){
+                text+=`<div class="input-container-search-ticket">`;
+            }else if(template == 6){
+                text+=`<div class="default-select">`;
+            }
+
+            if(template == 5){
+                text+=`<div class="form-select">`;
+            }else{
+                text+=`<div class="form-select-2">`;
+            }
+
+            if(template == 4){
+                text+=`<select style="width:100%;" class="nice-select-default rounded" id="test_type" name="test_type">`;
+            }else{
+                text+=`<select style="width:100%;" id="test_type" name="test_type">`;
+            }
+            text += option
+                    text+= `</select>
+                </div>
+            </div>
+        </div>`;
+    //orang
+    text += `<table style="width:100%;background:white;margin-top:15px;" class="list-of-table">
+                <tr>
+                    <th style="width:70%">Name</th>
+                    <th style="width:30%">Re-Order</th>
+                </tr>`;
+    for(i in medical_get_detail.result.response.passengers){
+        text += `<tr>
+                    <td>`+medical_get_detail.result.response.passengers[i].name+`</td>
+                    <td><input type="checkbox" id="copy`+i+`" name="copy`+i+`" checked /></td>
+                 </tr>`
+    }
+    text+= `</table>`;
+
+
+    //button
+    text += `<button type="button" class="primary-btn" id="button-home" style="width:100%;margin-top:15px;" onclick="medical_reorder();">
+                Re Order
+            </button>`
+
+    document.getElementById('button-new-reservation').innerHTML = text;
+    $('#test_type').niceSelect();
+}
+
+function medical_reorder(){
+    //check all pax
+    var checked = false;
+    var passenger_list_copy = [];
+    for(i in medical_get_detail.result.response.passengers){
+        if(document.getElementById('copy'+i).checked){
+            passenger_list_copy.push(medical_get_detail.result.response.passengers[i]);
+            checked = true; // ada pax yg mau re order
+        }
+    }
+    if(checked){
+        var path = '/'+medical_get_detail.result.response.provider_bookings[0].provider+'/passenger/' + document.getElementById('test_type').value;
+        document.getElementById('data').value = JSON.stringify(passenger_list_copy);
+        document.getElementById('medical_edit_passenger').action = path;
+        document.getElementById('medical_edit_passenger').submit();
+    }else{
+        Swal.fire({
+            type: 'error',
+            title: 'Oops!',
+            html: 'Minimal Re-Order with 1 pax!',
+        })
+    }
+}
+
+
+function get_data_cache_passenger_medical(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/medical",
+       headers:{
+            'action': 'get_data_cache_passenger_medical',
+       },
+       data: {
+            'signature': signature,
+       },
+       success: function(msg) {
+            console.log(msg);
+            passenger_data_cache_medical = msg;
+            if(vendor == 'periksain'){
+                auto_fill_periksain();
+            }else if(vendor == 'phc'){
+                if(test_type.includes('PCR')){
+                    auto_fill_phc_pcr();
+                }else{
+                    auto_fill_phc_antigen();
+                }
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get price medical');
+       },timeout: 300000
+    });
+
 }

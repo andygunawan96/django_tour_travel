@@ -137,6 +137,15 @@ def passenger(request, vendor, test_type=''):
 
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
+
+            try:
+                passengers = json.loads(request.POST['data'])
+                set_session(request, 'medical_passenger_cache', passengers)
+            except:
+                try:
+                    passengers = request.session['passengers']
+                except:
+                    passengers = []
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
@@ -153,7 +162,8 @@ def passenger(request, vendor, test_type=''):
                 'javascript_version': javascript_version,
                 'static_path_url_server': get_url_static_path(),
                 'vendor': vendor,
-                'test_type': test_type
+                'test_type': test_type,
+                'total_passengers_rebooking': len(passengers)
             })
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
