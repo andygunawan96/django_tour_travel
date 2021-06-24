@@ -680,7 +680,14 @@ function medical_get_booking(order_number, sync=false){
                     $text += 'Order Number: '+ msg.result.response.order_number + '\n';
                     text = `
                         <div class="mb-3" style="padding:15px; background:white; border:1px solid #cdcdcd;">
-                            <h6 class="carrier_code_template">Order Number : </h6><h6>`+msg.result.response.order_number+`</h6><br/>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <h6 class="carrier_code_template">Order Number : </h6><h6>`+msg.result.response.order_number+`</h6><br/>
+                                </div>
+                                <div class="col-lg-6" style="text-align:right">
+                                    <h5>`+msg.result.response.provider_bookings[0].carrier_name+`</h5>
+                                </div>
+                            </div>
                             <table style="width:100%;">
                                 <tr>
                                     <th>Status</th>`;
@@ -739,7 +746,7 @@ function medical_get_booking(order_number, sync=false){
                             </div>
                         </div>
                         <hr/>`;
-                        if(Object.keys(msg.result.response.picked_timeslot)>0){
+                        if(Object.keys(msg.result.response.picked_timeslot).length>0){
                         text+=`
                         <div class="row">
                             <div class="col-lg-12">
