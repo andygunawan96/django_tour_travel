@@ -2364,6 +2364,7 @@ function copy_booker_to_passenger(val,type){
                     if(document.getElementById('adult_birth_date1').value != '')
                         document.getElementById('adult_birth_date1').disabled = true;
                     document.getElementById('adult_id1').value = document.getElementById('booker_id').value;
+                    document.getElementById('button_clear0').hidden = true;
 
                     $('#adult_identity_type1').niceSelect('update');
                 }catch(err){
@@ -2550,9 +2551,12 @@ function copy_booker_to_passenger(val,type){
         document.getElementById('adult_id1').value = '';
 
         if(type == "medical"){
+            document.getElementById('button_clear0').hidden = false;
+            try{
             document.getElementById("button_search0").style.display = "unset";
             document.getElementById("button_clear0").style.display = "unset";
             document.getElementById("name_pax0").textContent = "--Fill Passenger--";
+            }catch(err){}
         }
     }
 }

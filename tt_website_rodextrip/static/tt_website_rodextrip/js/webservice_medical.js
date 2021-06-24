@@ -2075,6 +2075,9 @@ function create_new_reservation(){
             }
         }else{
             // PERIKSAIN
+            for(j in medical_config.result.response){
+                option += `<option value="`+j+`">`+medical_config.result.response[j].name+`</option>`;
+            }
 
         }
     }
