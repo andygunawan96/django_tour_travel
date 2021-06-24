@@ -107,8 +107,11 @@
 
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6" id="booking_id">
+                            <div class="col-lg-6 col-md-6">
+                                <div id="booking_id">
 
+                                </div>
+                                <label style="font-size:12px; padding:0;" id="example_booking_id">{% trans 'Example' %}: AL.2000002000</label>
                             </div>
                             <div class="col-lg-6 col-md-6" id="booking_id_hidden" style="display:none;">
 
@@ -165,8 +168,11 @@
 
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6 mb-2" id="booking_id">
+                            <div class="col-lg-6 col-md-6">
+                                <div id="booking_id">
 
+                                </div>
+                                <label style="font-size:12px; padding:0;" id="example_booking_id">{% trans 'Example' %}: AL.2000002000</label>
                             </div>
                             <div class="col-lg-6 col-md-6 mb-2" id="booking_id_hidden">
 
@@ -223,8 +229,11 @@
 
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6 mb-2" id="booking_id">
+                            <div class="col-lg-6 col-md-6">
+                                <div id="booking_id">
 
+                                </div>
+                                <label style="font-size:12px; padding:0;" id="example_booking_id">{% trans 'Example' %}: AL.2000002000</label>
                             </div>
                             <div class="col-lg-6 col-md-6 mb-2" id="booking_id_hidden">
                             </div>
@@ -280,8 +289,11 @@
 
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6" id="booking_id">
+                            <div class="col-lg-6 col-md-6">
+                                <div id="booking_id">
 
+                                </div>
+                                <label style="font-size:12px; padding:0;" id="example_booking_id">{% trans 'Example' %}: AL.2000002000</label>
                             </div>
                             <div class="col-lg-6 col-md-6 mb-2" id="booking_id_hidden">
                             </div>
@@ -337,8 +349,11 @@
 
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6" id="booking_id">
+                            <div class="col-lg-6 col-md-6">
+                                <div id="booking_id">
 
+                                </div>
+                                <label style="font-size:12px; padding:0;" id="example_booking_id">{% trans 'Example' %}: AL.2000002000</label>
                             </div>
                             <div class="col-lg-6 col-md-6" id="booking_id_hidden">
                             </div>
@@ -443,8 +458,8 @@
                 $('input[name="departure"]').val("");
             }else if(product == 'phc'){
                 document.getElementById('departure_get_booking_b2c').innerHTML = `
-                    <label style="color:red">*</label>
-                    <label>{% trans 'Departure Date' %}</label>
+                    <label style="color:red" hidden>*</label>
+                    <label hidden>{% trans 'Departure Date' %}</label>
                     <div class="input-container-search-ticket" hidden>
                         <input type="text" class="form-control" style="background:white;" name="departure" id="departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
                     </div>`;
@@ -544,6 +559,26 @@
     }
 
     function change_product(){
+        if(var_toggle_forget_booking == false){
+            var code_type = '';
+            if(document.getElementById('product').value == 'phc')
+                code_type = 'PH';
+            else if(document.getElementById('product').value == 'airline')
+                code_type = 'AL';
+            else if(document.getElementById('product').value == 'hotel')
+                code_type = 'RESV';
+            else if(document.getElementById('product').value == 'train')
+                code_type = 'TN';
+            document.getElementById('example_booking_id').innerHTML = 'Example ' + code_type + '.2000002000';
+            document.getElementById('example_booking_id').hidden = false;
+        }else{
+            document.getElementById('example_booking_id').hidden = true;
+        }
+        if(document.getElementById('product').value == 'phc'){
+            document.getElementById('toggle_forget').hidden = true;
+        }else{
+            document.getElementById('toggle_forget').hidden = false;
+        }
         var_toggle_forget_booking = false;
         toggle_forget_view();
     }
