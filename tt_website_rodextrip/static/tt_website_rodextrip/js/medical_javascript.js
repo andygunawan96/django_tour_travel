@@ -4916,6 +4916,7 @@ function auto_fill_phc_antigen(){
         document.getElementById('adult_kelurahan'+counter).value = passenger_data_cache_medical[idx].kelurahan;
         document.getElementById('select2-adult_kelurahan'+counter+'_id-container').innerHTML = passenger_data_cache_medical[idx].kelurahan;
 
+        $('#adult_title'+counter).niceSelect('update');
         $('#adult_identity_type'+counter).niceSelect('update');
         $('#adult_profession'+counter).niceSelect('update');
         update_contact('passenger',counter);
@@ -5113,7 +5114,7 @@ function auto_fill_phc_pcr(){
         document.getElementById('adult_tindakan_menimbulkan_aerosol'+counter).value = passenger_data_cache_medical[idx].pcr_data.tindakan_menimbulkan_aerosol;
         document.getElementById('adult_faktor_lain'+counter).value = passenger_data_cache_medical[idx].pcr_data.faktor_lain;
 
-
+        $('#adult_title'+counter).niceSelect('update');
         $('#adult_identity_type'+counter).niceSelect('update');
         $('#adult_profession'+counter).niceSelect('update');
         $('#adult_perusahaan'+counter).niceSelect('update');
@@ -5194,6 +5195,8 @@ function auto_fill_periksain(){
         document.getElementById('adult_email'+counter).value = passenger_data_cache_medical[idx].email;
         document.getElementById('adult_sample_method'+counter).value = passenger_data_cache_medical[idx].sample_method_code;
         document.getElementById('adult_address_ktp'+counter).value = passenger_data_cache_medical[idx].address_ktp;
+
+        $('#adult_title'+counter).niceSelect('update');
         $('#adult_sample_method'+counter).niceSelect('update');
         update_contact('passenger',counter);
         counter++;
