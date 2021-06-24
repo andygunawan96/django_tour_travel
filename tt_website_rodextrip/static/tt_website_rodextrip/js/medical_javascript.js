@@ -5174,13 +5174,10 @@ function auto_fill_periksain(){
     for(idx in passenger_data_cache_medical){
         document.getElementById('adult_title'+counter).value = passenger_data_cache_medical[idx].title;
         document.getElementById('adult_first_name'+counter).value = passenger_data_cache_medical[idx].first_name;
-        document.getElementById('adult_klinis_sedang_hamil'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_sedang_hamil;
         document.getElementById('adult_last_name'+counter).value = passenger_data_cache_medical[idx].last_name;
         document.getElementById('adult_nationality'+counter).value = passenger_data_cache_medical[idx].nationality_name;
         document.getElementById('select2-adult_nationality'+counter+'_id-container').innerHTML = passenger_data_cache_medical[idx].nationality_name;
         document.getElementById('adult_birth_date'+counter).value = passenger_data_cache_medical[idx].birth_date;
-        document.getElementById('adult_tempat_lahir'+counter).value = passenger_data_cache_medical[idx].tempat_lahir;
-        document.getElementById('select2-adult_tempat_lahir'+counter+'_id-container').innerHTML = passenger_data_cache_medical[idx].tempat_lahir;
         document.getElementById('adult_identity_type'+counter).value = passenger_data_cache_medical[idx].identity_type;
         document.getElementById('adult_identity_number'+counter).value = passenger_data_cache_medical[idx].identity_number;
         document.getElementById('adult_country_of_issued'+counter).value = passenger_data_cache_medical[idx].identity_country_of_issued_name;
@@ -5195,5 +5192,10 @@ function auto_fill_periksain(){
             document.getElementById('adult_phone'+counter).value = passenger_data_cache_medical[idx].phone_number.substr(1,100);
         }
         document.getElementById('adult_email'+counter).value = passenger_data_cache_medical[idx].email;
+        document.getElementById('adult_sample_method'+counter).value = passenger_data_cache_medical[idx].sample_method_code;
+        document.getElementById('adult_address_ktp'+counter).value = passenger_data_cache_medical[idx].address_ktp;
+        $('#adult_sample_method'+counter).niceSelect('update');
+        update_contact('passenger',counter);
+        counter++;
     }
 }

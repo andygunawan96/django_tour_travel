@@ -650,6 +650,7 @@ function medical_get_booking(order_number, sync=false){
                     document.getElementById('show_loading_booking_medical').hidden = true;
                     document.getElementById('button-home').hidden = false;
                     document.getElementById('button-new-reservation').hidden = false;
+                    document.getElementById('new-reservation').hidden = false;
                     hide_modal_waiting_transaction();
                     gmt = '';
                     timezone = '';
@@ -2074,6 +2075,9 @@ function create_new_reservation(){
             }
         }else{
             // PERIKSAIN
+            for(j in medical_config.result.response){
+                option += `<option value="`+j+`">`+medical_config.result.response[j].name+`</option>`;
+            }
 
         }
     }
