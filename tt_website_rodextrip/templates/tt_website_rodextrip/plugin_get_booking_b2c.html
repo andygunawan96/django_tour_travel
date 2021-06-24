@@ -120,7 +120,7 @@
                                 <div id="departure_get_booking_b2c"></div>
                             </div>
                             <div class="col-lg-12 mb-2" style="text-align:right;">
-                                <a id="toggle_forget" style="cursor:pointer" onclick="toggle_forget_booking();">{% trans 'Forget Booking ID'%}</a>
+                                <a id="toggle_forget" style="cursor:pointer" onclick="toggle_forget_booking();">{% trans 'Forget Order Number'%}</a>
                             </div>
 
                             <div class="col-lg-12" style="text-align:right;">
@@ -181,7 +181,7 @@
                                 <div id="departure_get_booking_b2c"></div>
                             </div>
                             <div class="col-lg-12 mb-2" style="text-align:right;">
-                                <a id="toggle_forget" style="cursor:pointer" onclick="toggle_forget_booking();">{% trans 'Forget Booking ID'%}</a>
+                                <a id="toggle_forget" style="cursor:pointer" onclick="toggle_forget_booking();">{% trans 'Forget Order Number'%}</a>
                             </div>
 
                             <div class="col-lg-12" style="text-align:right;">
@@ -241,7 +241,7 @@
                                 <div id="departure_get_booking_b2c"></div>
                             </div>
                             <div class="col-lg-12 mb-2" style="text-align:right;">
-                                <a id="toggle_forget" style="cursor:pointer" onclick="toggle_forget_booking();">{% trans 'Forget Booking ID'%}</a>
+                                <a id="toggle_forget" style="cursor:pointer" onclick="toggle_forget_booking();">{% trans 'Forget Order Number'%}</a>
                             </div>
 
                             <div class="col-lg-12" style="text-align:right;">
@@ -301,7 +301,7 @@
                                 <div id="departure_get_booking_b2c"></div>
                             </div>
                             <div class="col-lg-12" style="text-align:right;">
-                                <a id="toggle_forget" style="cursor:pointer" onclick="toggle_forget_booking();">{% trans 'Forget Booking ID'%}</a>
+                                <a id="toggle_forget" style="cursor:pointer" onclick="toggle_forget_booking();">{% trans 'Forget Order Number'%}</a>
                             </div>
 
                             <div class="col-lg-12" style="text-align:right;">
@@ -361,7 +361,7 @@
                                 <div id="departure_get_booking_b2c"></div>
                             </div>
                             <div class="col-lg-12" style="text-align:right;">
-                                <a id="toggle_forget" style="cursor:pointer" onclick="toggle_forget_booking();">{% trans 'Forget Booking ID'%}</a>
+                                <a id="toggle_forget" style="cursor:pointer" onclick="toggle_forget_booking();">{% trans 'Forget Order Number'%}</a>
                             </div>
 
                             <div class="col-lg-12" style="text-align:right;">
@@ -409,12 +409,12 @@
     function toggle_forget_view(){
         var product = document.getElementById('product').value;
         if(var_toggle_forget_booking == false){
-            document.getElementById('toggle_forget').innerHTML = 'Forget Booking ID?';
+            document.getElementById('toggle_forget').innerHTML = 'Forget Order Number?';
             document.getElementById('booking_id').innerHTML = `
                 <label style="color:red">*</label>
-                <label>{% trans 'Booking ID' %}</label>
+                <label>{% trans 'Order Number (ref. Number)' %}</label>
                 <div class="input-container-search-ticket">
-                    <input type="text" class="form-control" name="order_number_b2c" id="order_number_b2c" placeholder="{% trans 'Booking ID' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Booking ID '">
+                    <input type="text" class="form-control" name="order_number_b2c" id="order_number_b2c" placeholder="{% trans 'Order Number (ref. Number)' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Booking ID (ref. Number)'">
                 </div>`;
             document.getElementById('booking_id_hidden').innerHTML = '';
             document.getElementById('booking_id_hidden').style.display = "none";
@@ -467,7 +467,7 @@
                 document.getElementById('departure_get_booking_b2c').innerHTML = '';
             }
         }else{
-            document.getElementById('toggle_forget').innerHTML = 'Remember Booking ID?';
+            document.getElementById('toggle_forget').innerHTML = 'Remember Order Number?';
             if(product == 'airline' || product == 'train'){
                 document.getElementById('booking_id').innerHTML = `
                 <label style="color:red">*</label>
@@ -627,7 +627,7 @@
 
             if(var_toggle_forget_booking == false){
                 if(document.getElementById('order_number_b2c').value == '')
-                    error_log += 'Please input booking id<br/>';
+                    error_log += 'Please input order number<br/>';
                 if(product == 'airline' || product == 'train'){
                     if(document.getElementById('departure').value == '')
                         error_log += 'Please input departure date<br/>';

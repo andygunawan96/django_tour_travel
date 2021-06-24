@@ -72,6 +72,10 @@
         </div>
     </div>
 </div>
+<form id="medical_edit_passenger" class="form-wrap" action="" method="POST" style="padding:0; text-align:unset;">
+    {% csrf_token %}
+    <input type="hidden" id="data" name="data" />
+</form>
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; background:#f7f7f7;">
     <div class="container">
 
@@ -139,9 +143,12 @@
                 <button type="button" class="primary-btn" id="button-home" style="width:100%;margin-top:15px;" onclick="window.location.href='/'" hidden>
                     {% trans 'Home' %}
                 </button>
-                <button type="button" class="primary-btn" id="button-new-reservation" style="width:100%;margin-top:15px;" onclick="window.location.href='/'+window.location.href.split('/')[3]+'/'+window.location.href.split('/')[3]" hidden>
-                    {% trans 'Book New Reservation' %}
-                </button>
+                <div id="button-new-reservation" hidden>
+                    <button type="button" class="primary-btn" style="width:100%;margin-top:15px;" onclick="create_new_reservation();">
+
+                        {% trans 'Book New Reservation' %}
+                    </button>
+                </div>
             </div>
             <div class="modal fade" id="myModalRepricing" role="dialog">
                 <div class="modal-dialog" style="width:100% !important; height:100% !important; max-width:1200px;padding: 0;">

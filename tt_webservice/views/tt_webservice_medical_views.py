@@ -72,6 +72,8 @@ def api_models(request):
             res = get_result(request)
         elif req_data['action'] == 'get_transaction_by_analyst':
             res = get_transaction_by_analyst(request)
+        elif req_data['action'] == 'get_data_cache_passenger_medical':
+            res = get_data_cache_passenger_medical(request)
 
         else:
             res = ERR.get_error_api(1001)
@@ -547,4 +549,24 @@ def get_transaction_by_analyst(request):
             _logger.error("ERROR medical_airline AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def get_data_cache_passenger_medical(request):
+    try:
+        res = request.session['medical_passenger_cache']
+        javascript_version = get_cache_version()
+        response = get_cache_data(javascript_version)
+        for rec in res:
+            for country in response['result']['response']['airline']['country']:
+                if rec['nationality_code'] == country['code']:
+                    rec['nationality_name'] = country['name']
+                    break
+
+            for country in response['result']['response']['airline']['country']:
+                if rec['identity_country_of_issued_code'] == country['code']:
+                    rec['identity_country_of_issued_name'] = country['name']
+                    break
+
+    except Exception as e:
+        res = []
     return res
