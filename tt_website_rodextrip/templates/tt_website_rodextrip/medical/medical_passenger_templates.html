@@ -116,6 +116,9 @@
             <form id="medical_review" class="form-wrap" action="/medical/{{vendor}}/review" method="POST" style="padding:0; text-align:unset;">
                 {% csrf_token %}
                 <div class="row">
+                    <div class="col-lg-12 mb-3">
+                        <h3 id="medical_product" style=""></h3>
+                    </div>
                     <div class="col-lg-12 for-show-mobile">
                         {% if vendor == 'periksain' %}
                         <img src="{{static_path}}images/icon/periksain.jpeg" alt="Periksain" style="margin-bottom:15px;background:white; width:auto; height:100px;">
@@ -129,7 +132,7 @@
                                 <div id="booker" style="background-color:white; padding:10px; border:1px solid #cdcdcd;">
                                     <div class="row">
                                         <div class="col-lg-12">
-                                            <h3 id="medical_product"></h3>
+
                                             <h4>{% trans 'Booker Information' %}</h4>
                                             <hr/>
                                         </div>
@@ -351,65 +354,12 @@
                     <div class="col-lg-4"></div>
                 </div>
                 <div class="row mt-3" style="padding:15px;">
-                    <div class="col-lg-12" style="padding:15px; background:white; border:1px solid #cdcdcd;">
-                        <div class="row">
-                            <!--testaddress-->
-                            <div class="col-lg-6">
-                                <label style="color:red !important;">*</label>
-                                <label>{% trans "Area Test" %}</label>
-                                <div class="input-container-search-ticket">
-                                    <div class="form-select-2" id="default-select">
-                                        <select id="booker_area" name="booker_area" class="nice-select-default" onchange="reset_other_time();change_area();">
-
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-12 mt-2">
-                                <label style="color:red !important;">*</label>
-                                <label>{% trans 'Test Address' %}</label>
-                                <div class="input-container-search-ticket">
-                                    <textarea type="text" class="form-control" style="height:120px;" name="booker_address" id="booker_address" placeholder="{% trans 'Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address '" onchange="change_booker_value('train');"></textarea>
-                                </div>
-                                <label style="font-size:12px; padding:0;">{% trans 'Example' %}: Jl. Raya Darmo 177b</label>
-                            </div>
-                            <div id="map"></div>
-                            <div id="googleMap" style=""></div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-12 mt-4" style="padding:15px; background:white; border:1px solid #cdcdcd;display:none;" id="medical_timeslot">
-                        <div class="row">
-                            <div class="col-lg-12" id="timeslot_type" style="padding:0px; text-align:left;margin-bottom:10px;">
-                                <label class="radio-button-custom" style="margin-left:15px;">
-                                    <span style="font-size:14px;">Fix Time</span>
-                                    <input type="radio" checked="checked" id="fix" name="timeslot_type" value="Fix" onclick="radio_timeslot_type_func('fix');">
-                                    <span class="checkmark-radio"></span>
-                                </label>
-                                <!--<label class="radio-button-custom">-->
-                                    <!--<span style="font-size:14px;">Flexible Time</span>-->
-                                    <!--<input type="radio" id="flexible" name="timeslot_type" value="Flexible" onclick="radio_timeslot_type_func('flexible');">-->
-                                    <!--<span class="checkmark-radio"></span>-->
-                                <!--</label>-->
-                            </div>
-
-                            <div id="test" class="col-lg-12">
-
-                            </div>
-
-                            <div class="col-lg-12 mt-2" style="text-align:center;" id="add_test_time_button" hidden>
-                                <button class="primary-btn-ticket" type="button" value="" onclick="add_other_time();">
-                                    Add more timeslot
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-12 mt-4" style="padding:15px; background:white; border:1px solid #cdcdcd;" id="medical_pax_dix" hidden>
+                    <div class="col-lg-12" style="padding:15px; background:white; border:1px solid #cdcdcd;" id="medical_pax_dix" hidden>
+                        <h4>Customer</h4><hr/>
                         <div class="row ">
                             <div class="col-lg-6 col-xs-6">
                                 <label style="color:red !important;">*</label>
-                                <label>{% trans "Passenger" %}</label>
+                                <label>{% trans "Number of Customers" %}</label>
                                 <div class="input-container-search-ticket">
                                     <div class="form-select-2" id="default-select">
                                         <select id="passenger" name="passenger" class="nice-select-default" onchange="add_table();">
@@ -466,26 +416,81 @@
                                         <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
                                     </div>
                                 </div>
-                                <h4>List of Customer</h4><hr/>
+
                                 <div class="row" id="div_of_passenger">
 
                                 </div>
                             </div>
-
-                            <div class="col-lg-12 mt-3" style="text-align:center;">
-                                <button id="check_price_medical" class="primary-btn-ticket" type="button" value="" onclick="medical_check_price();">
-                                    Check Price
-                                </button>
-                            </div>
-                            {% if vendor != 'phc' %}
-                            <div class="col-lg-12" style="margin-top:15px; text-align:center;">
-                                <a style="width:100%; color:{{color}}; text-decoration:underline; cursor:pointer;" onclick="window.location.href='/phc/passenger/swab_antigen'">
-                                    Can't find right time for test? Search other time here
-                                </a>
-                            </div>
-                            {% endif %}
-
                         </div>
+                    </div>
+
+                    <div class="col-lg-12 mt-4" style="padding:15px; background:white; border:1px solid #cdcdcd;">
+                        <h4>Schedule</h4><hr/>
+                        <div class="row">
+                            <!--testaddress-->
+                            <div class="col-lg-6">
+                                <label style="color:red !important;">*</label>
+                                <label>{% trans "Area Test" %}</label>
+                                <div class="input-container-search-ticket">
+                                    <div class="form-select-2" id="default-select">
+                                        <select id="booker_area" name="booker_area" class="nice-select-default" onchange="reset_other_time();change_area();">
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12 mt-4" style="padding:15px; border-top:1px solid #cdcdcd; border-bottom:1px solid #cdcdcd; display:none;" id="medical_timeslot">
+                                <div class="row">
+                                    <div class="col-lg-12" id="timeslot_type" style="padding:0px; text-align:left;margin-bottom:10px;">
+                                        <label class="radio-button-custom" style="margin-left:15px;">
+                                            <span style="font-size:14px;">Fix Time</span>
+                                            <input type="radio" checked="checked" id="fix" name="timeslot_type" value="Fix" onclick="radio_timeslot_type_func('fix');">
+                                            <span class="checkmark-radio"></span>
+                                        </label>
+                                        <!--<label class="radio-button-custom">-->
+                                            <!--<span style="font-size:14px;">Flexible Time</span>-->
+                                            <!--<input type="radio" id="flexible" name="timeslot_type" value="Flexible" onclick="radio_timeslot_type_func('flexible');">-->
+                                            <!--<span class="checkmark-radio"></span>-->
+                                        <!--</label>-->
+                                    </div>
+
+                                    <div id="test" class="col-lg-12">
+
+                                    </div>
+
+                                    <div class="col-lg-12 mt-2" style="text-align:center;" id="add_test_time_button" hidden>
+                                        <button class="primary-btn-ticket" type="button" value="" onclick="add_other_time();">
+                                            Add more timeslot
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12 mt-2">
+                                <label style="color:red !important;">*</label>
+                                <label>{% trans 'Test Address' %}</label>
+                                <div class="input-container-search-ticket">
+                                    <textarea type="text" class="form-control" style="height:120px;" name="booker_address" id="booker_address" placeholder="{% trans 'Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address '" onchange="change_booker_value('train');"></textarea>
+                                </div>
+                                <label style="font-size:12px; padding:0;">{% trans 'Example' %}: Jl. Raya Darmo 177b</label>
+                            </div>
+                            <div id="map"></div>
+                            <div id="googleMap" style=""></div>
+                        </div>
+
+                        <div class="col-lg-12 mt-3" style="text-align:center;">
+                            <button id="check_price_medical" class="primary-btn-ticket" type="button" value="" onclick="medical_check_price();">
+                                Check Price
+                            </button>
+                        </div>
+                        {% if vendor != 'phc' %}
+                        <div class="col-lg-12" style="margin-top:15px; text-align:center;">
+                            <a style="width:100%; color:{{color}}; text-decoration:underline; cursor:pointer;" onclick="window.location.href='/phc/passenger/swab_antigen'">
+                                Can't find right time for test? Search other time here
+                            </a>
+                        </div>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="row">
