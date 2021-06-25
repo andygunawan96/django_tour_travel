@@ -143,7 +143,7 @@ def passenger(request, vendor, test_type=''):
                 set_session(request, 'medical_passenger_cache', passengers)
             except:
                 try:
-                    passengers = request.session['passengers']
+                    passengers = request.session['medical_passenger_cache']
                 except:
                     passengers = []
             values.update({
@@ -251,6 +251,11 @@ def booking(request, vendor, order_number):
             set_session(request, 'medical_order_number', base64.b64decode(order_number).decode('ascii'))
         except:
             set_session(request, 'medical_order_number', order_number)
+        try:
+            if request.session.get('medical_passenger_cache'):
+                del request.session['medical_passenger_cache']
+        except:
+            pass
         values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'id_types': id_type,
