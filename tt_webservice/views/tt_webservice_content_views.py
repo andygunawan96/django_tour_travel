@@ -263,9 +263,9 @@ def get_booking(request):
                     for rec in res['result']['response']:
                         rec['checkin_date'] = convert_string_to_date_to_string_front_end(rec['checkin_date'])
                         rec['checkout_date'] = convert_string_to_date_to_string_front_end(rec['checkout_date'])
-            _logger.info("SUCCESS get booking b2c SIGNATURE " + request.POST['signature'])
+            _logger.info("SUCCESS get booking b2c SIGNATURE " + data['signature'])
         else:
-            _logger.error("ERROR get booking b2c SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR get booking b2c SIGNATURE " + data['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res

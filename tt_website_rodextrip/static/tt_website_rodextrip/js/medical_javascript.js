@@ -175,8 +175,7 @@ function change_timeslot(val){
             document.getElementById('passenger').innerHTML = text;
             $('#passenger').niceSelect('update');
             if (typeof data_kota !== 'undefined') {
-                if(last_counter == 0)
-                    add_table();
+                add_table();
             }
             break;
         }
