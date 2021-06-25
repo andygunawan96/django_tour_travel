@@ -4878,6 +4878,10 @@ function update_customer_fill(type,seq){
             $('html, body').animate({
                 scrollTop: $("#table_passenger"+next_seq).offset().top - 120
             }, 500);
+        }else{
+            $('html, body').animate({
+                scrollTop: $("#div_schedule_medical").offset().top - 120
+            }, 500);
         }
     }
 }
