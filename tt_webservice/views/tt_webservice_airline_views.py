@@ -1315,7 +1315,7 @@ def assign_seats(request):
         res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST',timeout=300)
     try:
         if res['result']['error_code'] == 0:
-            request.POST['airline_seat_request' + request.POST['signature']] = res
+            # request.POST['airline_seat_request' + request.POST['signature']] = res #BELUM DI TESTING
             _logger.info("SUCCESS update_passengers AIRLINE SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_passengers_airline AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))

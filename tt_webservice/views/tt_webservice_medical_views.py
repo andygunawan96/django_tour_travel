@@ -317,7 +317,8 @@ def commit_booking(request):
             "signature": request.POST['signature']
         }
 
-        data = request.session['medical_data_%s' % request.POST['signature']]
+        data = copy.deepcopy(request.session['medical_data_%s' % request.POST['signature']])
+        _logger.info(json.dumps(data))
         if request.POST.get('test_type'):
             data['data']['carrier_code'] = request.POST['test_type']
         elif request.session.get('test_type_%s' % request.POST['signature']):
@@ -428,8 +429,6 @@ def get_booking(request):
 
             time.sleep(2)
             set_session(request, 'medical_get_booking_response', response)
-
-            _logger.info(json.dumps(request.session['medical_get_booking_response']))
 
             _logger.info("SUCCESS get_booking MEDICAL SIGNATURE " + request.POST['signature'])
         else:
