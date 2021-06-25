@@ -761,7 +761,7 @@ function add_table_of_passenger(type){
                             </div>
                         </div>
                         <label style="font-size:12px; padding:0;">Example: 0 812345678</label>
-                        <label style="color:`+color+` !important;">Please make sure register with whatsapp number for result test</label>
+                        <label style="color:`+color+` !important;">Please make sure to register with whatsapp number for the result test</label>
                     </div>`;
 
                     if(vendor == 'phc'){
@@ -5067,7 +5067,7 @@ function auto_fill_phc_pcr(){
         document.getElementById('adult_kelurahan'+counter).value = passenger_data_cache_medical[idx].kelurahan;
         document.getElementById('select2-adult_kelurahan'+counter+'_id-container').innerHTML = passenger_data_cache_medical[idx].kelurahan;
 
-        try{
+        if(Object.keys(passenger_data_cache_medical[idx].pcr_data).length != 0){
             document.getElementById('adult_klinis_sedang_hamil'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_sedang_hamil;
             document.getElementById('adult_mother_name'+counter).value = passenger_data_cache_medical[idx].pcr_data.nama_orang_tua;
             document.getElementById('adult_perusahaan'+counter).value = passenger_data_cache_medical[idx].pcr_data.asal_perusahaan;
@@ -5188,7 +5188,7 @@ function auto_fill_phc_pcr(){
             onchange_aerosol(counter);
             document.getElementById('adult_tindakan_menimbulkan_aerosol'+counter).value = passenger_data_cache_medical[idx].pcr_data.tindakan_menimbulkan_aerosol;
             document.getElementById('adult_faktor_lain'+counter).value = passenger_data_cache_medical[idx].pcr_data.faktor_lain;
-        }catch(err){}
+        }
         $('#adult_title'+counter).niceSelect('update');
         $('#adult_identity_type'+counter).niceSelect('update');
         $('#adult_profession'+counter).niceSelect('update');
