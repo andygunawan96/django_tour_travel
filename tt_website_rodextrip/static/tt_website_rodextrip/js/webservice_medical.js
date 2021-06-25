@@ -283,7 +283,7 @@ function medical_check_price(){
                 try{
                 if(msg.result.error_code == 0){
                     var text = `
-                    <div style="background-color:white; padding:10px; border: 1px solid #cdcdcd; margin-bottom:15px;">
+                    <div style="background-color:white; padding:10px; margin-bottom:15px;">
                         <h5> Price Detail</h5>
                     <hr/>`;
                     text+=`
@@ -379,7 +379,7 @@ function medical_get_cache_price(){
             try{
             if(msg.result.error_code == 0){
                 var text = `
-                <div style="background-color:white; padding:10px; border: 1px solid #cdcdcd; margin-bottom:15px;">
+                <div style="background-color:white; padding:10px; margin-bottom:15px;">
                     <h5> Price Detail</h5>
                 <hr/>`;
                 text+=`
