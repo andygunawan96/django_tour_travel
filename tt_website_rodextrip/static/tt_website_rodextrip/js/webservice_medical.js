@@ -680,37 +680,34 @@ function medical_get_booking(order_number, sync=false){
                     $text = '';
                     $text += 'Order Number: '+ msg.result.response.order_number + '\n';
                     text = `
-                        <div class="mb-3" style="padding:15px; background:white; border:1px solid #cdcdcd;">
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <h6 class="carrier_code_template">Order Number : </h6><h6>`+msg.result.response.order_number+`</h6><br/>
-                                </div>
-                                <div class="col-lg-6" style="text-align:right">
-                                    <h5>`+msg.result.response.provider_bookings[0].carrier_name+`</h5>
-                                </div>
+                    <div class="mb-3" style="padding:15px; background:white; border:1px solid #cdcdcd;">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <h6 class="carrier_code_template">Order Number : </h6><h6>`+msg.result.response.order_number+`</h6><br/>
                             </div>
-                            <table style="width:100%;">
-                                <tr>
-                                    <th>Status</th>`;
-                                    if(msg.result.response.state == 'booked')
-                                        text+=`<th>Hold Date</th>`;
+                            <div class="col-lg-6" style="text-align:right">
+                                <h5>`+msg.result.response.provider_bookings[0].carrier_name+`</h5>
+                            </div>
+                        `;
+                            for(i in msg.result.response.provider_bookings){
                                 text+=`
-                                    <th>Test Place</th>
-                                </tr>`;
-                                for(i in msg.result.response.provider_bookings){
-                                    text+=`
-                                        <tr>
-                                            <td>`+msg.result.response.provider_bookings[i].state_description+`</td>`;
-
-                                            if(msg.result.response.state == 'booked')
-                                                text +=`
-                                                    <td>`+msg.result.response.hold_date+`</td>`;
+                                    <div class="col-lg-12">
+                                        <span style="font-weight:600;">Status: </span>
+                                        <span>`+msg.result.response.provider_bookings[i].state_description+`</span><br/>`;
+                                        if(msg.result.response.state == 'booked'){
                                             text+=`
-                                            <td>`+msg.result.response.test_address+`</td>
-                                        </tr>`;
+                                            <span style="font-weight:600;">Hold Date: </span>
+                                            <span>`+msg.result.response.hold_date+`</span><br/>`;
+                                        }
+                                    text+=`
+                                        <span style="font-weight:600;">Test Place: </span>
+                                        <span>`+msg.result.response.test_address+`</span>
+                                    `;
                             }
+                    text+=`</div>
+                        </div>`;
+
                     text+=`
-                        </table>
                         <hr/>
                         <div class="row">
                             <div class="col-lg-6">
@@ -2061,17 +2058,7 @@ function create_new_reservation(){
     for(i in medical_get_detail.result.response.provider_bookings){
         if(vendor == 'phc'){
             for(j in medical_config.result.response.carriers_code){
-                if(medical_get_detail.result.response.provider_bookings[i].carrier_code == 'PHCDTKATG' && medical_config.result.response.carriers_code[j].code == 'PHCDTKATG' ||
-                   medical_get_detail.result.response.provider_bookings[i].carrier_code == 'PHCDTKATG' && medical_config.result.response.carriers_code[j].code == 'PHCHCKATG' ||
-                   medical_get_detail.result.response.provider_bookings[i].carrier_code == 'PHCHCKATG' && medical_config.result.response.carriers_code[j].code == 'PHCDTKATG' ||
-                   medical_get_detail.result.response.provider_bookings[i].carrier_code == 'PHCHCKATG' && medical_config.result.response.carriers_code[j].code == 'PHCHCKATG'){
-                    option += `<option value="`+medical_config.result.response.carriers_code[j].code+`">`+medical_config.result.response.carriers_code[j].name+`</option>`;
-                }else if(medical_get_detail.result.response.provider_bookings[i].carrier_code == 'PHCDTKPCR' && medical_config.result.response.carriers_code[j].code == 'PHCDTKPCR' ||
-                   medical_get_detail.result.response.provider_bookings[i].carrier_code == 'PHCDTKPCR' && medical_config.result.response.carriers_code[j].code == 'PHCHCKPCR' ||
-                   medical_get_detail.result.response.provider_bookings[i].carrier_code == 'PHCHCKPCR' && medical_config.result.response.carriers_code[j].code == 'PHCDTKPCR' ||
-                   medical_get_detail.result.response.provider_bookings[i].carrier_code == 'PHCHCKPCR' && medical_config.result.response.carriers_code[j].code == 'PHCHCKPCR'){
-                    option += `<option value="`+medical_config.result.response.carriers_code[j].code+`">`+medical_config.result.response.carriers_code[j].name+`</option>`;
-                }
+                option += `<option value="`+medical_config.result.response.carriers_code[j].code+`">`+medical_config.result.response.carriers_code[j].name+`</option>`;
             }
         }else{
             // PERIKSAIN

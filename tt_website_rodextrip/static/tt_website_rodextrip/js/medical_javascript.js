@@ -4933,10 +4933,12 @@ function auto_fill_phc_antigen(){
         document.getElementById('adult_birth_date'+counter).value = passenger_data_cache_medical[idx].birth_date;
         document.getElementById('adult_tempat_lahir'+counter).value = passenger_data_cache_medical[idx].tempat_lahir;
         document.getElementById('select2-adult_tempat_lahir'+counter+'_id-container').innerHTML = passenger_data_cache_medical[idx].tempat_lahir;
-        document.getElementById('adult_identity_type'+counter).value = passenger_data_cache_medical[idx].identity_type;
-        document.getElementById('adult_identity_number'+counter).value = passenger_data_cache_medical[idx].identity_number;
-        document.getElementById('adult_country_of_issued'+counter).value = passenger_data_cache_medical[idx].identity_country_of_issued_name;
-        document.getElementById('select2-adult_country_of_issued'+counter+'_id-container').innerHTML = passenger_data_cache_medical[idx].identity_country_of_issued_name;
+        if(passenger_data_cache_medical[idx].identity_type != 'passport'){
+            document.getElementById('adult_identity_type'+counter).value = passenger_data_cache_medical[idx].identity_type;
+            document.getElementById('adult_identity_number'+counter).value = passenger_data_cache_medical[idx].identity_number;
+            document.getElementById('adult_country_of_issued'+counter).value = passenger_data_cache_medical[idx].identity_country_of_issued_name;
+            document.getElementById('select2-adult_country_of_issued'+counter+'_id-container').innerHTML = passenger_data_cache_medical[idx].identity_country_of_issued_name;
+        }
         if(passenger_data_cache_medical[idx].phone_number.substr(0,2) == '62'){
             document.getElementById('adult_phone_code'+counter).value = '62';
             document.getElementById('select2-adult_phone_code'+counter+'_id-container').innerHTML = '62';
@@ -4945,6 +4947,10 @@ function auto_fill_phc_antigen(){
             document.getElementById('adult_phone_code'+counter).value = '0';
             document.getElementById('select2-adult_phone_code'+counter+'_id-container').innerHTML = '0';
             document.getElementById('adult_phone'+counter).value = passenger_data_cache_medical[idx].phone_number.substr(1,100);
+        }else{
+            document.getElementById('adult_phone_code'+counter).value = passenger_data_cache_medical[idx].phone_number.substr(0,2);
+            document.getElementById('select2-adult_phone_code'+counter+'_id-container').innerHTML = passenger_data_cache_medical[idx].phone_number.substr(0,2);
+            document.getElementById('adult_phone'+counter).value = passenger_data_cache_medical[idx].phone_number.substr(2,100);
         }
         document.getElementById('adult_email'+counter).value = passenger_data_cache_medical[idx].email;
 
@@ -4997,7 +5003,7 @@ function auto_fill_phc_pcr(){
         document.getElementById('adult_title'+counter).value = passenger_data_cache_medical[idx].title;
         onchange_title(counter);
         document.getElementById('adult_first_name'+counter).value = passenger_data_cache_medical[idx].first_name;
-        document.getElementById('adult_klinis_sedang_hamil'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_sedang_hamil;
+
         document.getElementById('adult_last_name'+counter).value = passenger_data_cache_medical[idx].last_name;
         document.getElementById('adult_nationality'+counter).value = passenger_data_cache_medical[idx].nationality_name;
         document.getElementById('select2-adult_nationality'+counter+'_id-container').innerHTML = passenger_data_cache_medical[idx].nationality_name;
@@ -5061,126 +5067,128 @@ function auto_fill_phc_pcr(){
         document.getElementById('adult_kelurahan'+counter).value = passenger_data_cache_medical[idx].kelurahan;
         document.getElementById('select2-adult_kelurahan'+counter+'_id-container').innerHTML = passenger_data_cache_medical[idx].kelurahan;
 
-        document.getElementById('adult_mother_name'+counter).value = passenger_data_cache_medical[idx].pcr_data.nama_orang_tua;
-        document.getElementById('adult_perusahaan'+counter).value = passenger_data_cache_medical[idx].pcr_data.asal_perusahaan;
-        document.getElementById('adult_nama_perusahaan'+counter).value = passenger_data_cache_medical[idx].pcr_data.nama_perusahaan;
+        try{
+            document.getElementById('adult_klinis_sedang_hamil'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_sedang_hamil;
+            document.getElementById('adult_mother_name'+counter).value = passenger_data_cache_medical[idx].pcr_data.nama_orang_tua;
+            document.getElementById('adult_perusahaan'+counter).value = passenger_data_cache_medical[idx].pcr_data.asal_perusahaan;
+            document.getElementById('adult_nama_perusahaan'+counter).value = passenger_data_cache_medical[idx].pcr_data.nama_perusahaan;
 
 
-        document.getElementById('adult_kriteria_pasien'+counter).value = passenger_data_cache_medical[idx].pcr_data.kriteria_covid;
-        change_kriteria(counter);
-        document.getElementById('adult_pemeriksaan_swab_ke'+counter).value = passenger_data_cache_medical[idx].pcr_data.pemeriksaan_swab_ke;
-        document.getElementById('adult_sedang_dirawat_di_rs'+counter).value = passenger_data_cache_medical[idx].pcr_data.sedang_dirawat_di_rs;
-        document.getElementById('adult_nama_rs'+counter).value = passenger_data_cache_medical[idx].pcr_data.nama_rs;
-        document.getElementById('adult_tanggal_masuk_rs'+counter).value = passenger_data_cache_medical[idx].pcr_data.tanggal_masuk_rs;
-        document.getElementById('adult_nama_ruang_perawatan'+counter).value = passenger_data_cache_medical[idx].pcr_data.nama_ruang_perawatan;
-        document.getElementById('adult_sedang_dirawat_di_icu'+counter).value = passenger_data_cache_medical[idx].pcr_data.sedang_dirawat_di_icu;
-        document.getElementById('adult_menggunakan_intubasi'+counter).value = passenger_data_cache_medical[idx].pcr_data.menggunakan_intubasi;
-        document.getElementById('adult_menggunakan_emco'+counter).value = passenger_data_cache_medical[idx].pcr_data.menggunakan_emco;
-        document.getElementById('adult_status_terakhir'+counter).value = passenger_data_cache_medical[idx].pcr_data.status_terakhir;
-        document.getElementById('adult_klinis_ada_penumonia'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_ada_penumonia;
-        document.getElementById('adult_klinis_ada_ards'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_ada_ards;
-        onchange_ards(counter);
-        document.getElementById('adult_klinis_ards_detil'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_ards_detil;
-        document.getElementById('adult_klinis_ada_penyakit_pernafasan'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_ada_penyakit_pernafasan;
-        document.getElementById('adult_tanggal_pertama_kali_gejala'+counter).value = passenger_data_cache_medical[idx].pcr_data.tanggal_pertama_kali_gejala;
-        document.getElementById('adult_klinis_ada_demam'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_ada_demam;
-        onchange_demam(counter)
-        document.getElementById('adult_klinis_suhu_tubuh'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_suhu_tubuh;
-        document.getElementById('adult_klinis_ada_batuk'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_ada_batuk;
-        document.getElementById('adult_klinis_ada_pilek'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_ada_pilek;
-        document.getElementById('adult_klinis_ada_sakit_tenggorokan'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_ada_sakit_tenggorokan;
-        document.getElementById('adult_klinis_ada_sesak'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_ada_sesak;
-        document.getElementById('adult_klinis_ada_sakit_kepala'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_ada_sakit_kepala;
-        document.getElementById('adult_klinis_ada_badan_lemah'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_ada_badan_lemah;
-        document.getElementById('adult_klinis_ada_nyeri_otot'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_ada_nyeri_otot;
-        document.getElementById('adult_klinis_ada_mual'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_ada_mual;
-        document.getElementById('adult_klinis_ada_nyeri_abdomen'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_ada_nyeri_abdomen;
-        document.getElementById('adult_klinis_ada_gangguan_penciuman'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_ada_gangguan_penciuman;
-        document.getElementById('adult_klinis_golongan_darah'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_golongan_darah;
-        document.getElementById('adult_klinis_gejala_lainnya'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_gejala_lainnya;
-        document.getElementById('adult_klinis_ada_diabetes'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_ada_diabetes;
-        document.getElementById('adult_klinis_ada_penyakit_jantung'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_ada_penyakit_jantung;
-        document.getElementById('adult_klinis_ada_hipertensi'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_ada_hipertensi;
-        document.getElementById('adult_klinis_ada_keganasan'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_ada_keganasan;
-        document.getElementById('adult_klinis_ada_gangguan_imunologi'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_ada_gangguan_imunologi;
-        document.getElementById('adult_klinis_ada_gangguan_ginjal'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_ada_gangguan_ginjal;
-        document.getElementById('adult_klinis_ada_gangguan_hati'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_ada_gangguan_hati;
-        document.getElementById('adult_klinis_ada_diare'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_ada_gangguan_hati;
-        document.getElementById('adult_klinis_ada_gangguan_paru_obstruksi_kronis'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_ada_gangguan_paru_obstruksi_kronis;
-        document.getElementById('adult_klinis_kondisi_penyerta_lainnya'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_kondisi_penyerta_lainnya;
-        document.getElementById('adult_klinis_ada_hipertensi'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_ada_hipertensi;
+            document.getElementById('adult_kriteria_pasien'+counter).value = passenger_data_cache_medical[idx].pcr_data.kriteria_covid;
+            change_kriteria(counter);
+            document.getElementById('adult_pemeriksaan_swab_ke'+counter).value = passenger_data_cache_medical[idx].pcr_data.pemeriksaan_swab_ke;
+            document.getElementById('adult_sedang_dirawat_di_rs'+counter).value = passenger_data_cache_medical[idx].pcr_data.sedang_dirawat_di_rs;
+            document.getElementById('adult_nama_rs'+counter).value = passenger_data_cache_medical[idx].pcr_data.nama_rs;
+            document.getElementById('adult_tanggal_masuk_rs'+counter).value = passenger_data_cache_medical[idx].pcr_data.tanggal_masuk_rs;
+            document.getElementById('adult_nama_ruang_perawatan'+counter).value = passenger_data_cache_medical[idx].pcr_data.nama_ruang_perawatan;
+            document.getElementById('adult_sedang_dirawat_di_icu'+counter).value = passenger_data_cache_medical[idx].pcr_data.sedang_dirawat_di_icu;
+            document.getElementById('adult_menggunakan_intubasi'+counter).value = passenger_data_cache_medical[idx].pcr_data.menggunakan_intubasi;
+            document.getElementById('adult_menggunakan_emco'+counter).value = passenger_data_cache_medical[idx].pcr_data.menggunakan_emco;
+            document.getElementById('adult_status_terakhir'+counter).value = passenger_data_cache_medical[idx].pcr_data.status_terakhir;
+            document.getElementById('adult_klinis_ada_penumonia'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_ada_penumonia;
+            document.getElementById('adult_klinis_ada_ards'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_ada_ards;
+            onchange_ards(counter);
+            document.getElementById('adult_klinis_ards_detil'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_ards_detil;
+            document.getElementById('adult_klinis_ada_penyakit_pernafasan'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_ada_penyakit_pernafasan;
+            document.getElementById('adult_tanggal_pertama_kali_gejala'+counter).value = passenger_data_cache_medical[idx].pcr_data.tanggal_pertama_kali_gejala;
+            document.getElementById('adult_klinis_ada_demam'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_ada_demam;
+            onchange_demam(counter)
+            document.getElementById('adult_klinis_suhu_tubuh'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_suhu_tubuh;
+            document.getElementById('adult_klinis_ada_batuk'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_ada_batuk;
+            document.getElementById('adult_klinis_ada_pilek'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_ada_pilek;
+            document.getElementById('adult_klinis_ada_sakit_tenggorokan'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_ada_sakit_tenggorokan;
+            document.getElementById('adult_klinis_ada_sesak'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_ada_sesak;
+            document.getElementById('adult_klinis_ada_sakit_kepala'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_ada_sakit_kepala;
+            document.getElementById('adult_klinis_ada_badan_lemah'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_ada_badan_lemah;
+            document.getElementById('adult_klinis_ada_nyeri_otot'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_ada_nyeri_otot;
+            document.getElementById('adult_klinis_ada_mual'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_ada_mual;
+            document.getElementById('adult_klinis_ada_nyeri_abdomen'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_ada_nyeri_abdomen;
+            document.getElementById('adult_klinis_ada_gangguan_penciuman'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_ada_gangguan_penciuman;
+            document.getElementById('adult_klinis_golongan_darah'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_golongan_darah;
+            document.getElementById('adult_klinis_gejala_lainnya'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_gejala_lainnya;
+            document.getElementById('adult_klinis_ada_diabetes'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_ada_diabetes;
+            document.getElementById('adult_klinis_ada_penyakit_jantung'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_ada_penyakit_jantung;
+            document.getElementById('adult_klinis_ada_hipertensi'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_ada_hipertensi;
+            document.getElementById('adult_klinis_ada_keganasan'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_ada_keganasan;
+            document.getElementById('adult_klinis_ada_gangguan_imunologi'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_ada_gangguan_imunologi;
+            document.getElementById('adult_klinis_ada_gangguan_ginjal'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_ada_gangguan_ginjal;
+            document.getElementById('adult_klinis_ada_gangguan_hati'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_ada_gangguan_hati;
+            document.getElementById('adult_klinis_ada_diare'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_ada_gangguan_hati;
+            document.getElementById('adult_klinis_ada_gangguan_paru_obstruksi_kronis'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_ada_gangguan_paru_obstruksi_kronis;
+            document.getElementById('adult_klinis_kondisi_penyerta_lainnya'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_kondisi_penyerta_lainnya;
+            document.getElementById('adult_klinis_ada_hipertensi'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_ada_hipertensi;
 
 
-        document.getElementById('adult_perjalanan_keluar_negeri'+counter).value = passenger_data_cache_medical[idx].pcr_data.perjalanan_keluar_negeri;
-        onchange_perjalanan_keluar_negeri(counter);
-        for(idy in passenger_data_cache_medical[idx].pcr_data.daftar_perjalanan_keluar_negeri){
-            add_pcr_table('perjalanan_keluar_negeri', counter);
-            document.getElementById('adult_perjalanan_keluar_negeri_nama_negara'+counter+'_'+idy).value = passenger_data_cache_medical[idx].pcr_data.daftar_perjalanan_keluar_negeri[idy].nama_negara
-            document.getElementById('adult_perjalanan_keluar_negeri_nama_kota'+counter+'_'+idy).value = passenger_data_cache_medical[idx].pcr_data.daftar_perjalanan_keluar_negeri[idy].nama_kota
-            document.getElementById('adult_perjalanan_keluar_negeri_tanggal_perjalanan'+counter+'_'+idy).value = moment(passenger_data_cache_medical[idx].pcr_data.daftar_perjalanan_keluar_negeri[idy].tanggal_perjalanan, 'YYYY-MM-DD').format('DD MMM YYYY')
-            document.getElementById('adult_perjalanan_keluar_negeri_tiba_di_indonesia'+counter+'_'+idy).value = moment(passenger_data_cache_medical[idx].pcr_data.daftar_perjalanan_keluar_negeri[idy].tiba_di_indonesia, 'YYYY-MM-DD').format('DD MMM YYYY')
-        }
+            document.getElementById('adult_perjalanan_keluar_negeri'+counter).value = passenger_data_cache_medical[idx].pcr_data.perjalanan_keluar_negeri;
+            onchange_perjalanan_keluar_negeri(counter);
+            for(idy in passenger_data_cache_medical[idx].pcr_data.daftar_perjalanan_keluar_negeri){
+                add_pcr_table('perjalanan_keluar_negeri', counter);
+                document.getElementById('adult_perjalanan_keluar_negeri_nama_negara'+counter+'_'+idy).value = passenger_data_cache_medical[idx].pcr_data.daftar_perjalanan_keluar_negeri[idy].nama_negara
+                document.getElementById('adult_perjalanan_keluar_negeri_nama_kota'+counter+'_'+idy).value = passenger_data_cache_medical[idx].pcr_data.daftar_perjalanan_keluar_negeri[idy].nama_kota
+                document.getElementById('adult_perjalanan_keluar_negeri_tanggal_perjalanan'+counter+'_'+idy).value = moment(passenger_data_cache_medical[idx].pcr_data.daftar_perjalanan_keluar_negeri[idy].tanggal_perjalanan, 'YYYY-MM-DD').format('DD MMM YYYY')
+                document.getElementById('adult_perjalanan_keluar_negeri_tiba_di_indonesia'+counter+'_'+idy).value = moment(passenger_data_cache_medical[idx].pcr_data.daftar_perjalanan_keluar_negeri[idy].tiba_di_indonesia, 'YYYY-MM-DD').format('DD MMM YYYY')
+            }
 
-        document.getElementById('adult_perjalanan_ke_transmisi_lokal'+counter).value = passenger_data_cache_medical[idx].pcr_data.perjalanan_ke_transmisi_lokal;
-        onchange_perjalanan_ke_transmisi_lokal(counter)
-        for(idy in passenger_data_cache_medical[idx].pcr_data.daftar_perjalanan_ke_transmisi_lokal){
-            add_pcr_table('perjalanan_ke_transmisi_lokal', counter);
-            document.getElementById('adult_perjalanan_ke_transmisi_lokal_nama_provinsi'+counter+'_'+idy).value = passenger_data_cache_medical[idx].pcr_data.daftar_perjalanan_ke_transmisi_lokal[idy].nama_negara
-            document.getElementById('adult_perjalanan_ke_transmisi_lokal_nama_kota'+counter+'_'+idy).value = passenger_data_cache_medical[idx].pcr_data.daftar_perjalanan_ke_transmisi_lokal[idy].nama_kota
-            document.getElementById('adult_perjalanan_ke_transmisi_lokal_tanggal_perjalanan'+counter+'_'+idy).value = moment(passenger_data_cache_medical[idx].pcr_data.daftar_perjalanan_ke_transmisi_lokal[idy].tanggal_perjalanan, 'YYYY-MM-DD').format('DD MMM YYYY')
-            document.getElementById('adult_perjalanan_ke_transmisi_lokal_tiba_di_sini'+counter+'_'+idy).value = moment(passenger_data_cache_medical[idx].pcr_data.daftar_perjalanan_ke_transmisi_lokal[idy].tiba_disini, 'YYYY-MM-DD').format('DD MMM YYYY')
-        }
+            document.getElementById('adult_perjalanan_ke_transmisi_lokal'+counter).value = passenger_data_cache_medical[idx].pcr_data.perjalanan_ke_transmisi_lokal;
+            onchange_perjalanan_ke_transmisi_lokal(counter)
+            for(idy in passenger_data_cache_medical[idx].pcr_data.daftar_perjalanan_ke_transmisi_lokal){
+                add_pcr_table('perjalanan_ke_transmisi_lokal', counter);
+                document.getElementById('adult_perjalanan_ke_transmisi_lokal_nama_provinsi'+counter+'_'+idy).value = passenger_data_cache_medical[idx].pcr_data.daftar_perjalanan_ke_transmisi_lokal[idy].nama_negara
+                document.getElementById('adult_perjalanan_ke_transmisi_lokal_nama_kota'+counter+'_'+idy).value = passenger_data_cache_medical[idx].pcr_data.daftar_perjalanan_ke_transmisi_lokal[idy].nama_kota
+                document.getElementById('adult_perjalanan_ke_transmisi_lokal_tanggal_perjalanan'+counter+'_'+idy).value = moment(passenger_data_cache_medical[idx].pcr_data.daftar_perjalanan_ke_transmisi_lokal[idy].tanggal_perjalanan, 'YYYY-MM-DD').format('DD MMM YYYY')
+                document.getElementById('adult_perjalanan_ke_transmisi_lokal_tiba_di_sini'+counter+'_'+idy).value = moment(passenger_data_cache_medical[idx].pcr_data.daftar_perjalanan_ke_transmisi_lokal[idy].tiba_disini, 'YYYY-MM-DD').format('DD MMM YYYY')
+            }
 
-        document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan'+counter).value = passenger_data_cache_medical[idx].pcr_data.berkunjung_ke_fasilitas_kesehatan;
-        onchange_berkunjung_ke_fasilitas_kesehatan(counter)
-        for(idy in passenger_data_cache_medical[idx].pcr_data.daftar_ke_fasilitas_kesehatan){
-            add_pcr_table('berkunjung_ke_fasilitas_kesehatan',counter);
-            document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan_nama_rumah_sakit'+counter+'_'+idy).value = passenger_data_cache_medical[idx].pcr_data.daftar_ke_fasilitas_kesehatan[idy].nama_rumah_sakit
-            document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan_nama_kota'+counter+'_'+idy).value = passenger_data_cache_medical[idx].pcr_data.daftar_ke_fasilitas_kesehatan[idy].nama_kota
-            document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan_nama_provinsi'+counter+'_'+idy).value = passenger_data_cache_medical[idx].pcr_data.daftar_ke_fasilitas_kesehatan[idy].nama_provinsi
-            document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan_tanggal_kunjungan'+counter+'_'+idy).value = moment(passenger_data_cache_medical[idx].pcr_data.daftar_ke_fasilitas_kesehatan[idy].tanggal_kunjungan, 'YYYY-MM-DD').format('DD MMM YYYY')
-        }
+            document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan'+counter).value = passenger_data_cache_medical[idx].pcr_data.berkunjung_ke_fasilitas_kesehatan;
+            onchange_berkunjung_ke_fasilitas_kesehatan(counter)
+            for(idy in passenger_data_cache_medical[idx].pcr_data.daftar_ke_fasilitas_kesehatan){
+                add_pcr_table('berkunjung_ke_fasilitas_kesehatan',counter);
+                document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan_nama_rumah_sakit'+counter+'_'+idy).value = passenger_data_cache_medical[idx].pcr_data.daftar_ke_fasilitas_kesehatan[idy].nama_rumah_sakit
+                document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan_nama_kota'+counter+'_'+idy).value = passenger_data_cache_medical[idx].pcr_data.daftar_ke_fasilitas_kesehatan[idy].nama_kota
+                document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan_nama_provinsi'+counter+'_'+idy).value = passenger_data_cache_medical[idx].pcr_data.daftar_ke_fasilitas_kesehatan[idy].nama_provinsi
+                document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan_tanggal_kunjungan'+counter+'_'+idy).value = moment(passenger_data_cache_medical[idx].pcr_data.daftar_ke_fasilitas_kesehatan[idy].tanggal_kunjungan, 'YYYY-MM-DD').format('DD MMM YYYY')
+            }
 
-        document.getElementById('adult_berkunjung_ke_pasar_hewan'+counter).value = passenger_data_cache_medical[idx].pcr_data.berkunjung_ke_pasar_hewan;
-        onchange_berkunjung_ke_pasar_hewan(counter)
-        for(idy in passenger_data_cache_medical[idx].pcr_data.daftar_ke_pasar_hewan){
-            add_pcr_table('berkunjung_ke_pasar_hewan',counter);
-            document.getElementById('adult_berkunjung_ke_pasar_hewan_nama_lokasi_pasar'+counter+'_'+idy).value = passenger_data_cache_medical[idx].pcr_data.daftar_ke_pasar_hewan[idy].nama_lokasi_pasar
-            document.getElementById('adult_berkunjung_ke_pasar_hewan_nama_kota'+counter+'_'+idy).value = passenger_data_cache_medical[idx].pcr_data.daftar_ke_pasar_hewan[idy].nama_kota
-            document.getElementById('adult_berkunjung_ke_pasar_hewan_nama_provinsi'+counter+'_'+idy).value = passenger_data_cache_medical[idx].pcr_data.daftar_ke_pasar_hewan[idy].nama_provinsi
-            document.getElementById('adult_berkunjung_ke_pasar_hewan_tanggal_kunjungan'+counter+'_'+idy).value = moment(passenger_data_cache_medical[idx].pcr_data.daftar_ke_pasar_hewan[idy].tanggal_kunjungan, 'YYYY-MM-DD').format('DD MMM YYYY')
-        }
-        document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan'+counter).value = passenger_data_cache_medical[idx].pcr_data.berkunjung_ke_pasien_dalam_pengawasan;
-        onchange_berkunjung_ke_pasien_dalam_pengawasan(counter)
-        for(idy in passenger_data_cache_medical[idx].pcr_data.daftar_ke_pasien_dalam_pengawasan){
-            add_pcr_table('berkunjung_ke_pasien_dalam_pengawasan',counter);
-            document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_nama_pasien'+counter+'_'+idy).value = passenger_data_cache_medical[idx].pcr_data.daftar_ke_pasien_dalam_pengawasan[idy].nama_pasien
-            document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_alamat'+counter+'_'+idy).value = passenger_data_cache_medical[idx].pcr_data.daftar_ke_pasien_dalam_pengawasan[idy].alamat
-            document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_hubungan'+counter+'_'+idy).value = passenger_data_cache_medical[idx].pcr_data.daftar_ke_pasien_dalam_pengawasan[idy].hubungan
-            document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_pertama'+counter+'_'+idy).value = moment(passenger_data_cache_medical[idx].pcr_data.daftar_ke_pasien_dalam_pengawasan[idy].tanggal_kontak_pertama, 'YYYY-MM-DD').format('DD MMM YYYY')
-            document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_terakhir'+counter+'_'+idy).value = moment(passenger_data_cache_medical[idx].pcr_data.daftar_ke_pasien_dalam_pengawasan[idy].tanggal_kontak_terakhir, 'YYYY-MM-DD').format('DD MMM YYYY')
-        }
+            document.getElementById('adult_berkunjung_ke_pasar_hewan'+counter).value = passenger_data_cache_medical[idx].pcr_data.berkunjung_ke_pasar_hewan;
+            onchange_berkunjung_ke_pasar_hewan(counter)
+            for(idy in passenger_data_cache_medical[idx].pcr_data.daftar_ke_pasar_hewan){
+                add_pcr_table('berkunjung_ke_pasar_hewan',counter);
+                document.getElementById('adult_berkunjung_ke_pasar_hewan_nama_lokasi_pasar'+counter+'_'+idy).value = passenger_data_cache_medical[idx].pcr_data.daftar_ke_pasar_hewan[idy].nama_lokasi_pasar
+                document.getElementById('adult_berkunjung_ke_pasar_hewan_nama_kota'+counter+'_'+idy).value = passenger_data_cache_medical[idx].pcr_data.daftar_ke_pasar_hewan[idy].nama_kota
+                document.getElementById('adult_berkunjung_ke_pasar_hewan_nama_provinsi'+counter+'_'+idy).value = passenger_data_cache_medical[idx].pcr_data.daftar_ke_pasar_hewan[idy].nama_provinsi
+                document.getElementById('adult_berkunjung_ke_pasar_hewan_tanggal_kunjungan'+counter+'_'+idy).value = moment(passenger_data_cache_medical[idx].pcr_data.daftar_ke_pasar_hewan[idy].tanggal_kunjungan, 'YYYY-MM-DD').format('DD MMM YYYY')
+            }
+            document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan'+counter).value = passenger_data_cache_medical[idx].pcr_data.berkunjung_ke_pasien_dalam_pengawasan;
+            onchange_berkunjung_ke_pasien_dalam_pengawasan(counter)
+            for(idy in passenger_data_cache_medical[idx].pcr_data.daftar_ke_pasien_dalam_pengawasan){
+                add_pcr_table('berkunjung_ke_pasien_dalam_pengawasan',counter);
+                document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_nama_pasien'+counter+'_'+idy).value = passenger_data_cache_medical[idx].pcr_data.daftar_ke_pasien_dalam_pengawasan[idy].nama_pasien
+                document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_alamat'+counter+'_'+idy).value = passenger_data_cache_medical[idx].pcr_data.daftar_ke_pasien_dalam_pengawasan[idy].alamat
+                document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_hubungan'+counter+'_'+idy).value = passenger_data_cache_medical[idx].pcr_data.daftar_ke_pasien_dalam_pengawasan[idy].hubungan
+                document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_pertama'+counter+'_'+idy).value = moment(passenger_data_cache_medical[idx].pcr_data.daftar_ke_pasien_dalam_pengawasan[idy].tanggal_kontak_pertama, 'YYYY-MM-DD').format('DD MMM YYYY')
+                document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_terakhir'+counter+'_'+idy).value = moment(passenger_data_cache_medical[idx].pcr_data.daftar_ke_pasien_dalam_pengawasan[idy].tanggal_kontak_terakhir, 'YYYY-MM-DD').format('DD MMM YYYY')
+            }
 
-        document.getElementById('adult_berkunjung_ke_pasien_konfirmasi'+counter).value = passenger_data_cache_medical[idx].pcr_data.berkunjung_ke_pasien_konfirmasi;
-        onchange_berkunjung_ke_pasien_konfirmasi(counter)
-        for(idy in passenger_data_cache_medical[idx].pcr_data.daftar_ke_pasien_konfirmasi){
-            add_pcr_table('berkunjung_ke_pasien_konfirmasi',counter);
-            document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_nama_pasien'+counter+'_'+idy).value = passenger_data_cache_medical[idx].pcr_data.berkunjung_ke_pasien_konfirmasi[idy].nama_pasien
-            document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_alamat'+counter+'_'+idy).value = passenger_data_cache_medical[idx].pcr_data.berkunjung_ke_pasien_konfirmasi[idy].alamat
-            document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_hubungan'+counter+'_'+idy).value = passenger_data_cache_medical[idx].pcr_data.berkunjung_ke_pasien_konfirmasi[idy].hubungan
-            document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_pertama'+counter+'_'+idy).value = moment(passenger_data_cache_medical[idx].pcr_data.berkunjung_ke_pasien_konfirmasi[idy].tanggal_kontak_pertama, 'YYYY-MM-DD').format('DD MMM YYYY')
-            document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_terakhir'+counter+'_'+idy).value = moment(passenger_data_cache_medical[idx].pcr_data.berkunjung_ke_pasien_konfirmasi[idy].tanggal_kontak_terakhir, 'YYYY-MM-DD').format('DD MMM YYYY')
-        }
+            document.getElementById('adult_berkunjung_ke_pasien_konfirmasi'+counter).value = passenger_data_cache_medical[idx].pcr_data.berkunjung_ke_pasien_konfirmasi;
+            onchange_berkunjung_ke_pasien_konfirmasi(counter)
+            for(idy in passenger_data_cache_medical[idx].pcr_data.daftar_ke_pasien_konfirmasi){
+                add_pcr_table('berkunjung_ke_pasien_konfirmasi',counter);
+                document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_nama_pasien'+counter+'_'+idy).value = passenger_data_cache_medical[idx].pcr_data.berkunjung_ke_pasien_konfirmasi[idy].nama_pasien
+                document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_alamat'+counter+'_'+idy).value = passenger_data_cache_medical[idx].pcr_data.berkunjung_ke_pasien_konfirmasi[idy].alamat
+                document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_hubungan'+counter+'_'+idy).value = passenger_data_cache_medical[idx].pcr_data.berkunjung_ke_pasien_konfirmasi[idy].hubungan
+                document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_pertama'+counter+'_'+idy).value = moment(passenger_data_cache_medical[idx].pcr_data.berkunjung_ke_pasien_konfirmasi[idy].tanggal_kontak_pertama, 'YYYY-MM-DD').format('DD MMM YYYY')
+                document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_terakhir'+counter+'_'+idy).value = moment(passenger_data_cache_medical[idx].pcr_data.berkunjung_ke_pasien_konfirmasi[idy].tanggal_kontak_terakhir, 'YYYY-MM-DD').format('DD MMM YYYY')
+            }
 
-        document.getElementById('adult_termasuk_cluster_ispa'+counter).value = passenger_data_cache_medical[idx].pcr_data.termasuk_cluster_ispa;
-        document.getElementById('adult_merupakan_petugas_kesehatan'+counter).value = passenger_data_cache_medical[idx].pcr_data.merupakan_petugas_kesehatan;
-        onchange_petugas_medis(counter);
-        document.getElementById('adult_apd_yang_digunakan'+counter).value = passenger_data_cache_medical[idx].pcr_data.apd_yang_digunakan;
-        document.getElementById('adult_prosedur_menimbulkan_aerosol'+counter).value = passenger_data_cache_medical[idx].pcr_data.prosedur_menimbulkan_aerosol;
-        onchange_aerosol(counter);
-        document.getElementById('adult_tindakan_menimbulkan_aerosol'+counter).value = passenger_data_cache_medical[idx].pcr_data.tindakan_menimbulkan_aerosol;
-        document.getElementById('adult_faktor_lain'+counter).value = passenger_data_cache_medical[idx].pcr_data.faktor_lain;
-
+            document.getElementById('adult_termasuk_cluster_ispa'+counter).value = passenger_data_cache_medical[idx].pcr_data.termasuk_cluster_ispa;
+            document.getElementById('adult_merupakan_petugas_kesehatan'+counter).value = passenger_data_cache_medical[idx].pcr_data.merupakan_petugas_kesehatan;
+            onchange_petugas_medis(counter);
+            document.getElementById('adult_apd_yang_digunakan'+counter).value = passenger_data_cache_medical[idx].pcr_data.apd_yang_digunakan;
+            document.getElementById('adult_prosedur_menimbulkan_aerosol'+counter).value = passenger_data_cache_medical[idx].pcr_data.prosedur_menimbulkan_aerosol;
+            onchange_aerosol(counter);
+            document.getElementById('adult_tindakan_menimbulkan_aerosol'+counter).value = passenger_data_cache_medical[idx].pcr_data.tindakan_menimbulkan_aerosol;
+            document.getElementById('adult_faktor_lain'+counter).value = passenger_data_cache_medical[idx].pcr_data.faktor_lain;
+        }catch(err){}
         $('#adult_title'+counter).niceSelect('update');
         $('#adult_identity_type'+counter).niceSelect('update');
         $('#adult_profession'+counter).niceSelect('update');
@@ -5258,6 +5266,10 @@ function auto_fill_periksain(){
             document.getElementById('adult_phone_code'+counter).value = '0';
             document.getElementById('select2-adult_phone_code'+counter+'_id-container').innerHTML = '0';
             document.getElementById('adult_phone'+counter).value = passenger_data_cache_medical[idx].phone_number.substr(1,100);
+        }else{
+            document.getElementById('adult_phone_code'+counter).value = passenger_data_cache_medical[idx].phone_number.substr(0,2);
+            document.getElementById('select2-adult_phone_code'+counter+'_id-container').innerHTML = passenger_data_cache_medical[idx].phone_number.substr(0,2);
+            document.getElementById('adult_phone'+counter).value = passenger_data_cache_medical[idx].phone_number.substr(2,100);
         }
         document.getElementById('adult_email'+counter).value = passenger_data_cache_medical[idx].email;
         document.getElementById('adult_sample_method'+counter).value = passenger_data_cache_medical[idx].sample_method_code;
