@@ -5126,7 +5126,7 @@ function auto_fill_phc_pcr(){
             onchange_perjalanan_ke_transmisi_lokal(counter)
             for(idy in passenger_data_cache_medical[idx].pcr_data.daftar_perjalanan_ke_transmisi_lokal){
                 add_pcr_table('perjalanan_ke_transmisi_lokal', counter);
-                document.getElementById('adult_perjalanan_ke_transmisi_lokal_nama_provinsi'+counter+'_'+idy).value = passenger_data_cache_medical[idx].pcr_data.daftar_perjalanan_ke_transmisi_lokal[idy].nama_negara
+                document.getElementById('adult_perjalanan_ke_transmisi_lokal_nama_provinsi'+counter+'_'+idy).value = passenger_data_cache_medical[idx].pcr_data.daftar_perjalanan_ke_transmisi_lokal[idy].nama_provinsi
                 document.getElementById('adult_perjalanan_ke_transmisi_lokal_nama_kota'+counter+'_'+idy).value = passenger_data_cache_medical[idx].pcr_data.daftar_perjalanan_ke_transmisi_lokal[idy].nama_kota
                 document.getElementById('adult_perjalanan_ke_transmisi_lokal_tanggal_perjalanan'+counter+'_'+idy).value = moment(passenger_data_cache_medical[idx].pcr_data.daftar_perjalanan_ke_transmisi_lokal[idy].tanggal_perjalanan, 'YYYY-MM-DD').format('DD MMM YYYY')
                 document.getElementById('adult_perjalanan_ke_transmisi_lokal_tiba_di_sini'+counter+'_'+idy).value = moment(passenger_data_cache_medical[idx].pcr_data.daftar_perjalanan_ke_transmisi_lokal[idy].tiba_disini, 'YYYY-MM-DD').format('DD MMM YYYY')
