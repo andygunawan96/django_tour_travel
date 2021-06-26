@@ -4809,7 +4809,7 @@ function radio_timeslot_type_func(val){
     }
 }
 
-function add_table(){
+function add_table(change_rebooking=false){
     var tempcounter = parseInt(document.getElementById('passenger').value);
     if(tempcounter > last_counter){
         document.getElementById('table_passenger_list').style.display = 'block';
@@ -4825,7 +4825,7 @@ function add_table(){
     }
     document.getElementById('medical_detail').style.display = 'none';
     document.getElementById('next_medical').style.display = 'none';
-    if(last_counter == 0 && total_passengers_rebooking != 0){
+    if(change_rebooking == true && total_passengers_rebooking != 0){
         //readd change value pax add table
         document.getElementById('passenger').value = total_passengers_rebooking;
         $('#passenger').niceSelect('update');
