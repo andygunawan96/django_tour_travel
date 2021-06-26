@@ -92,8 +92,7 @@ function get_config_medical(type='', vendor=''){
                     document.getElementById('medical_product').innerHTML = product;
                     document.getElementById('copy_booker_to_pax_div').hidden = false;
                     document.getElementById('medical_pax_dix').hidden = false;
-                    if(last_counter == 0)
-                        add_table();
+                    add_table(true);
                 }else if(type == 'home'){
                     var text = '';
                     if(vendor == 'phc'){
