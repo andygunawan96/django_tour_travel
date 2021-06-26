@@ -145,32 +145,21 @@ function change_timeslot(val){
     var medical_date_pick = moment(document.getElementById('booker_test_date'+val).value).format('YYYY-MM-DD');
     for(i in medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick]){
         if(medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].seq_id == document.getElementById('booker_timeslot_id'+val).value.split('~')[0]){
+            var jumlah_pax = parseInt(document.getElementById('passenger').value);
+            if(jumlah_pax == NaN)
+                jumlah_pax = 1;
+            var max_pax = 200;
             if(medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].group_booking == true){
-                text = '';
-                for(i=1;i<=200;i++){
-                    text+= `<option value="`+i+`">`+i+`</option>`;
-                }
+                max_pax = 200;
             }else{
-                text = `<option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
-                        <option value="11">11</option>
-                        <option value="12">12</option>
-                        <option value="13">13</option>
-                        <option value="14">14</option>
-                        <option value="15">15</option>
-                        <option value="16">16</option>
-                        <option value="17">17</option>
-                        <option value="18">18</option>
-                        <option value="19">19</option>
-                        <option value="20">20</option>`;
+                max_pax = 20;
+            }
+            text = '';
+            for(i=1;i<=max_pax;i++){
+                if(jumlah_pax == i)
+                    text+= `<option value="`+i+`" selected>`+i+`</option>`;
+                else
+                    text+= `<option value="`+i+`">`+i+`</option>`;
             }
             document.getElementById('passenger').innerHTML = text;
             $('#passenger').niceSelect('update');
