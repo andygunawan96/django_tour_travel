@@ -4185,7 +4185,7 @@ function check_passenger(){
     }
     var check_passenger = false;
     var ktp = [];
-    var check_ktp = 1;
+    var check_ktp_value = 1;
 
     if(counter_passenger == 0)
         error_log += 'Please fill passengers\n';
@@ -4261,13 +4261,13 @@ function check_passenger(){
                                     "sequence": nomor_pax
                                 })
                             }
-                            check_ktp = 1;
+                            check_ktp_value = 1;
                             for(i in ktp){
                                 if(ktp[i].no_ktp == document.getElementById('adult_identity_number'+ nomor_pax).value){
-                                    check_ktp -= 1;
+                                    check_ktp_value -= 1;
                                 }
                             }
-                            if(check_ktp != 0){
+                            if(check_ktp_value != 0){
                                 error_log+= 'Duplicate identity number, for customer adult '+nomor_pax+'!</br>\n';
                                 document.getElementById('adult_identity_number'+ nomor_pax).style['border-color'] = 'red';
                             }
@@ -4464,13 +4464,13 @@ function check_passenger(){
                                     "sequence": nomor_pax
                                 })
                             }
-                            check_ktp = 1;
+                            check_ktp_value = 1;
                             for(i in ktp){
                                 if(ktp[i].no_ktp == document.getElementById('adult_identity_number'+ nomor_pax).value){
-                                    check_ktp -= 1;
+                                    check_ktp_value -= 1;
                                 }
                             }
-                            if(check_ktp != 0){
+                            if(check_ktp_value != 0){
                                 error_log+= 'Duplicate identity number, for customer adult '+nomor_pax+'!</br>\n';
                                 document.getElementById('adult_identity_number'+ nomor_pax).style['border-color'] = 'red';
                             }
@@ -4495,13 +4495,13 @@ function check_passenger(){
                                     "sequence": nomor_pax
                                 })
                             }
-                            check_ktp = 1;
+                            check_ktp_value = 1;
                             for(i in ktp){
                                 if(ktp[i].no_ktp == document.getElementById('adult_identity_number'+ nomor_pax).value){
-                                    check_ktp -= 1;
+                                    check_ktp_value -= 1;
                                 }
                             }
-                            if(check_ktp != 0){
+                            if(check_ktp_value != 0){
                                 error_log+= 'Duplicate identity number, for customer adult '+nomor_pax+'!</br>\n';
                                 document.getElementById('adult_identity_number'+ nomor_pax).style['border-color'] = 'red';
                             }
