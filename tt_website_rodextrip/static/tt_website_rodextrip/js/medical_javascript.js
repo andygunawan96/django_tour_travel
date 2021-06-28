@@ -134,6 +134,10 @@ function update_timeslot(val){
         }
         if(medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].group_booking == true)
             text+= ` Group Booking`;
+        if(medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].availability == false)
+            text+= ` Full`;
+        else if(medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].availability == true)
+            text+= ` Available`;
         text+=`</option>`;
     }
     document.getElementById('booker_timeslot_id'+val).innerHTML = text;
@@ -169,7 +173,8 @@ function change_timeslot(val){
             break;
         }
     }
-
+    document.getElementById('medical_detail').innerHTML = '';
+    document.getElementById('medical_detail').style.display = 'none';
 }
 
 function delete_other_time(val){
