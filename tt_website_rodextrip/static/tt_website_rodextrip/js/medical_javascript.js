@@ -4132,12 +4132,24 @@ function check_passenger(){
 
     }
 
+    var max_length = 0;
+    if(vendor == 'periksain')
+        max_length = medical_config.result.response[test_type].adult_length_name
+    else if(vendor == 'phc'){
+        for(i in medical_config.result.response.carriers_code){
+            if(medical_config.result.response.carriers_code[i].code == test_type){
+                max_length = medical_config.result.response.carriers_code.adult_length_name;
+                break;
+            }
+        }
+
+    }
 
     if(check_name(document.getElementById('booker_title').value,
                     document.getElementById('booker_first_name').value,
                     document.getElementById('booker_last_name').value,
-                    35) == false){
-        error_log+= 'Total of Booker name maximum 25 characters!</br>\n';
+                    max_length) == false){
+        error_log+= 'Total of Booker name maximum '+max_length+' characters!</br>\n';
         document.getElementById('booker_first_name').style['border-color'] = 'red';
         document.getElementById('booker_last_name').style['border-color'] = 'red';
     }else{
@@ -4196,6 +4208,17 @@ function check_passenger(){
                 nomor_pax = (i + 1)
                 try{
                     //kasi if kosong
+                    if(check_name(document.getElementById('adult_title'+nomor_pax).value,
+                                document.getElementById('adult_first_name'+nomor_pax).value,
+                                document.getElementById('adult_last_name'+nomor_pax).value,
+                                max_length) == false){
+                        error_log+= 'Total of Customer name '+nomor_pax+' maximum '+max_length+' characters!</br>\n';
+                        document.getElementById('adult_first_name'+nomor_pax).style['border-color'] = 'red';
+                        document.getElementById('adult_last_name'+nomor_pax).style['border-color'] = 'red';
+                    }else{
+                        document.getElementById('adult_first_name'+nomor_pax).style['border-color'] = '#EFEFEF';
+                        document.getElementById('adult_last_name'+nomor_pax).style['border-color'] = '#EFEFEF';
+                    }
                     if(document.getElementById('adult_first_name' + nomor_pax).value == '' || check_word(document.getElementById('adult_first_name' + nomor_pax).value) == false){
                         error_log += 'Please fill or use alpha characters for first name for customer '+ nomor_pax + ' !</br>\n';
                         document.getElementById('adult_first_name' + nomor_pax).style['border-color'] = 'red';
@@ -4319,6 +4342,17 @@ function check_passenger(){
                 nomor_pax = (i + 1)
                 try{
                     //kasi if kosong
+                    if(check_name(document.getElementById('adult_title'+nomor_pax).value,
+                                document.getElementById('adult_first_name'+nomor_pax).value,
+                                document.getElementById('adult_last_name'+nomor_pax).value,
+                                max_length) == false){
+                        error_log+= 'Total of Customer name '+nomor_pax+' maximum '+max_length+' characters!</br>\n';
+                        document.getElementById('adult_first_name'+nomor_pax).style['border-color'] = 'red';
+                        document.getElementById('adult_last_name'+nomor_pax).style['border-color'] = 'red';
+                    }else{
+                        document.getElementById('adult_first_name'+nomor_pax).style['border-color'] = '#EFEFEF';
+                        document.getElementById('adult_last_name'+nomor_pax).style['border-color'] = '#EFEFEF';
+                    }
                     if(document.getElementById('adult_first_name' + nomor_pax).value == '' || check_word(document.getElementById('adult_first_name' + nomor_pax).value) == false){
                         error_log += 'Please fill or use alpha characters for first name for customer '+ nomor_pax + ' !</br>\n';
                         document.getElementById('adult_first_name' + nomor_pax).style['border-color'] = 'red';
