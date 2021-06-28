@@ -1170,13 +1170,28 @@
                                     </div>
                                 </div>
                                 <br/>
-                                <center>
-                                    <button class="button-search primary-btn ld-ext-right" type="button" onclick="get_captcha('recaptcha_medical2','medical2');" value="Submit">
-                                        <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                        {% trans 'Search' %}
-                                        <div class="ld ld-ring ld-cycle"></div>
-                                    </button>
-                                </center>
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <button class="button-search primary-btn ld-ext-right" type="button" onclick="repeat_order_phc();" value="Submit">
+                                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                            {% trans 'Repeat Order' %}
+                                            <div class="ld ld-ring ld-cycle"></div>
+                                        </button>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <center>
+                                            <button class="button-search primary-btn ld-ext-right" type="button" onclick="get_captcha('recaptcha_medical2','medical2');" value="Submit">
+                                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                                {% trans 'Search' %}
+                                                <div class="ld ld-ring ld-cycle"></div>
+                                            </button>
+                                        </center>
+                                    </div>
+                                    <div class="col-lg-3">
+
+                                    </div>
+                                </div>
+
                             </form>
                         </div>
                         {% endif %}

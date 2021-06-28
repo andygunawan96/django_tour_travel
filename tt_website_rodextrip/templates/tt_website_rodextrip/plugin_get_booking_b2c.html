@@ -87,7 +87,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6">
+                            <div class="col-lg-6 col-md-6" id="phone_number_get_booking_b2c">
                                 <label style="color:red">*</label>
                                 <label>{% trans 'Phone Number' %}</label>
                                 <div class="row">
@@ -148,7 +148,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6 mb-2">
+                            <div class="col-lg-6 col-md-6 mb-2" id="phone_number_get_booking_b2c">
                                 <label style="color:red">*</label>
                                 <label>{% trans 'Phone Number' %}</label>
                                 <div class="row">
@@ -209,7 +209,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6 mb-2">
+                            <div class="col-lg-6 col-md-6 mb-2" id="phone_number_get_booking_b2c">
                                 <label style="color:red">*</label>
                                 <label>{% trans 'Phone Number' %}</label>
                                 <div class="row">
@@ -269,7 +269,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6">
+                            <div class="col-lg-6 col-md-6" id="phone_number_get_booking_b2c">
                                 <label style="color:red">*</label>
                                 <label>{% trans 'Phone Number' %}</label>
                                 <div class="row">
@@ -329,7 +329,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6">
+                            <div class="col-lg-6 col-md-6" id="phone_number_get_booking_b2c">
                                 <label style="color:red">*</label>
                                 <label>{% trans 'Phone Number' %}</label>
                                 <div class="row">
@@ -561,14 +561,19 @@
     function change_product(){
         if(var_toggle_forget_booking == false){
             var code_type = '';
-            if(document.getElementById('product').value == 'phc')
+            if(document.getElementById('product').value == 'phc'){
                 code_type = 'PH';
-            else if(document.getElementById('product').value == 'airline')
+                document.getElementById('phone_number_get_booking_b2c').style.display = 'none';
+            }else if(document.getElementById('product').value == 'airline'){
                 code_type = 'AL';
-            else if(document.getElementById('product').value == 'hotel')
+                document.getElementById('phone_number_get_booking_b2c').style.display = 'block';
+            }else if(document.getElementById('product').value == 'hotel'){
                 code_type = 'RESV';
-            else if(document.getElementById('product').value == 'train')
+                document.getElementById('phone_number_get_booking_b2c').style.display = 'block';
+            }else if(document.getElementById('product').value == 'train'){
                 code_type = 'TN';
+                document.getElementById('phone_number_get_booking_b2c').style.display = 'block';
+            }
             document.getElementById('example_booking_id').innerHTML = 'Example ' + code_type + '.2000002000';
             document.getElementById('example_booking_id').hidden = false;
         }else{
@@ -615,6 +620,11 @@
         }else if(var_toggle_forget_booking == false &&
            document.getElementById('product').value != '' &&
            document.getElementById('phone').value != '' &&
+           document.getElementById('order_number_b2c').value != ''){
+            var product = document.getElementById('product').value;
+            get_booking_product(product);
+        }else if(var_toggle_forget_booking == false &&
+           document.getElementById('product').value == 'phc' &&
            document.getElementById('order_number_b2c').value != ''){
             var product = document.getElementById('product').value;
             get_booking_product(product);
