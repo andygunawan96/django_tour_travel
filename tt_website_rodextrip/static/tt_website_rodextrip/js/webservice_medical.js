@@ -36,7 +36,7 @@ function medical_signin(data){
                   html: msg.result.error_msg,
                })
                try{
-                $("#show_loading_booking_airline").hide();
+                $("#show_loading_booking_medical").hide();
                }catch(err){}
            }
        }catch(err){
@@ -55,7 +55,7 @@ function medical_signin(data){
           $("#waitFlightSearch").hide();
           $('.loader-rodextrip').fadeOut();
           try{
-            $("#show_loading_booking_airline").hide();
+            $("#show_loading_booking_medical").hide();
           }catch(err){}
        },timeout: 60000
     });
@@ -117,7 +117,7 @@ function get_config_medical(type='', vendor=''){
                   html: msg.result.error_msg,
                })
                try{
-                $("#show_loading_booking_airline").hide();
+                $("#show_loading_booking_medical").hide();
                }catch(err){}
             }
        },
@@ -217,7 +217,7 @@ function medical_get_availability(){
                   html: msg.result.error_msg,
                })
                try{
-                $("#show_loading_booking_airline").hide();
+                $("#show_loading_booking_medical").hide();
                }catch(err){}
             }
        },
@@ -237,7 +237,8 @@ function medical_check_price(){
 
     for(i=1;i <= test_time; i++){
         try{
-            timeslot_list.push(document.getElementById('booker_timeslot_id'+i).value.split('~')[0])
+            if(document.getElementById('booker_timeslot_id'+i).value != '')
+                timeslot_list.push(document.getElementById('booker_timeslot_id'+i).value.split('~')[0])
         }catch(err){}
     }
     for(i=1; i <= test_time; i++){
@@ -336,7 +337,7 @@ function medical_check_price(){
                       html: msg.result.error_msg,
                    })
                    try{
-                    $("#show_loading_booking_airline").hide();
+                    $("#show_loading_booking_medical").hide();
                    }catch(err){}
                 }
                 }catch(err){console.log(err);}
@@ -464,7 +465,7 @@ function medical_get_cache_price(){
                   html: msg.result.error_msg,
                })
                try{
-                $("#show_loading_booking_airline").hide();
+                $("#show_loading_booking_medical").hide();
                }catch(err){}
             }
             }catch(err){console.log(err);}
@@ -1317,7 +1318,7 @@ function medical_get_booking(order_number, sync=false){
                       html: msg.result.error_msg,
                    })
                    try{
-                    $("#show_loading_booking_airline").hide();
+                    $("#show_loading_booking_medical").hide();
                    }catch(err){}
                 }
             }catch(err){
@@ -1394,14 +1395,14 @@ function medical_issued_booking(data){
                    price_arr_repricing = {};
                    pax_type_repricing = [];
                    hide_modal_waiting_transaction();
-                   document.getElementById('show_loading_booking_airline').hidden = false;
-                   document.getElementById('airline_booking').innerHTML = '';
-                   document.getElementById('airline_detail').innerHTML = '';
+                   document.getElementById('show_loading_booking_medical').hidden = false;
+                   document.getElementById('medical_booking').innerHTML = '';
+                   document.getElementById('medical_detail').innerHTML = '';
                    document.getElementById('payment_acq').innerHTML = '';
                    document.getElementById('voucher_div').style.display = 'none';
                    document.getElementById('ssr_request_after_sales').hidden = true;
-                   document.getElementById('show_loading_booking_airline').style.display = 'block';
-                   document.getElementById('show_loading_booking_airline').hidden = false;
+                   document.getElementById('show_loading_booking_medical').style.display = 'block';
+                   document.getElementById('show_loading_booking_medical').hidden = false;
                    document.getElementById('reissued').hidden = true;
                    document.getElementById('cancel').hidden = true;
                    document.getElementById('payment_acq').hidden = true;
@@ -1649,19 +1650,17 @@ function medical_issued_booking(data){
                     Swal.fire({
                       type: 'error',
                       title: 'Oops!',
-                      html: '<span style="color: #ff9900;">Error airline issued </span>' + msg.result.error_msg,
+                      html: '<span style="color: #ff9900;">Error medical issued </span>' + msg.result.error_msg,
                     })
                     price_arr_repricing = {};
                     pax_type_repricing = [];
-                    document.getElementById('show_loading_booking_airline').hidden = false;
-                    document.getElementById('airline_booking').innerHTML = '';
-                    document.getElementById('airline_detail').innerHTML = '';
+                    document.getElementById('show_loading_booking_medical').hidden = false;
+                    document.getElementById('medical_booking').innerHTML = '';
+                    document.getElementById('medical_detail').innerHTML = '';
                     document.getElementById('payment_acq').innerHTML = '';
-                    document.getElementById('show_loading_booking_airline').style.display = 'block';
-                    document.getElementById('show_loading_booking_airline').hidden = false;
+                    document.getElementById('show_loading_booking_medical').style.display = 'block';
+                    document.getElementById('show_loading_booking_medical').hidden = false;
                     document.getElementById('payment_acq').hidden = true;
-                    document.getElementById('reissued').hidden = true;
-                    document.getElementById('cancel').hidden = true;
                     hide_modal_waiting_transaction();
                     document.getElementById("overlay-div-box").style.display = "none";
 
@@ -1672,19 +1671,16 @@ function medical_issued_booking(data){
                }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline issued');
+                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error medical issued');
                 price_arr_repricing = {};
                 pax_type_repricing = [];
-                document.getElementById('show_loading_booking_airline').hidden = false;
-                document.getElementById('airline_booking').innerHTML = '';
-                document.getElementById('airline_detail').innerHTML = '';
+                document.getElementById('show_loading_booking_medical').hidden = false;
+                document.getElementById('medical_booking').innerHTML = '';
+                document.getElementById('medical_detail').innerHTML = '';
                 document.getElementById('payment_acq').innerHTML = '';
                 document.getElementById('voucher_div').style.display = 'none';
-                document.getElementById('ssr_request_after_sales').hidden = true;
-                document.getElementById('show_loading_booking_airline').style.display = 'block';
-                document.getElementById('show_loading_booking_airline').hidden = false;
-                document.getElementById('reissued').hidden = true;
-                document.getElementById('cancel').hidden = true;
+                document.getElementById('show_loading_booking_medical').style.display = 'block';
+                document.getElementById('show_loading_booking_medical').hidden = false;
                 document.getElementById('payment_acq').hidden = true;
                 hide_modal_waiting_transaction();
                 document.getElementById("overlay-div-box").style.display = "none";
@@ -1885,7 +1881,7 @@ function re_medical_signin(type=''){
                }catch(err){}
                $('.loader-rodextrip').fadeOut();
                try{
-                $("#show_loading_booking_airline").hide();
+                $("#show_loading_booking_medical").hide();
                }catch(err){}
            }
        }catch(err){
@@ -1907,7 +1903,7 @@ function re_medical_signin(type=''){
           $("#waitFlightSearch").hide();
           $('.loader-rodextrip').fadeOut();
           try{
-            $("#show_loading_booking_airline").hide();
+            $("#show_loading_booking_medical").hide();
           }catch(err){}
           $('.next-passenger-train').removeClass("running");
           $('.next-passenger-train').attr("disabled", false);
