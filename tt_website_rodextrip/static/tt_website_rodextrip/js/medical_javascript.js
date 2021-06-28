@@ -752,6 +752,37 @@ function add_table_of_passenger(type){
                         <label style="font-size:12px; padding:0;">Example: 0 812345678</label>
                         <label style="color:`+color+` !important;">Please make sure to register with whatsapp number for the result test</label>
                     </div>`;
+                    if(test_type == 'PHCHCKPCR' || test_type == 'PHCDTKPCR'){
+                        text_div_paxs+=`
+
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <label style="color:red !important">*</label>
+                            <label>Golongan Darah</label>`;
+                            if(template == 1){
+                                text_div_paxs+=`<div class="input-container-search-ticket">`;
+                            }else if(template == 2){
+                                text_div_paxs+=`<div>`;
+                            }else if(template == 3){
+                                text_div_paxs+=`<div class="default-select">`;
+                            }else if(template == 4){
+                                text_div_paxs+=`<div class="input-container-search-ticket">`;
+                            }else if(template == 5){
+                                text_div_paxs+=`<div class="input-container-search-ticket">`;
+                            }
+                            text_div_paxs+=`<div class="form-select-2">`;
+                            if(template == 4){
+                                text_div_paxs+=`<select class="nice-select-default rounded" id="adult_klinis_golongan_darah`+parseInt(counter_passenger+1)+`" name="adult_klinis_golongan_darah`+parseInt(counter_passenger+1)+`">`;
+                            }else{
+                                text_div_paxs+=`<select id="adult_klinis_golongan_darah`+parseInt(counter_passenger+1)+`" name="adult_klinis_golongan_darah`+parseInt(counter_passenger+1)+`">`;
+                            }
+                            text_div_paxs += '<option value="">Choose</option>';
+                                for(i in medical_config.result.response.golongan_darah)
+                                    text_div_paxs+=`<option value="`+medical_config.result.response.golongan_darah[i]+`">`+medical_config.result.response.golongan_darah[i]+`</option>`;
+                                    text_div_paxs+=`</select>
+                                </div>
+                            </div>
+                        </div>`;
+                    }
 
                     if(vendor == 'phc'){
                         text_div_paxs+=`
@@ -1156,7 +1187,7 @@ function add_table_of_passenger(type){
                                 </div>`;
 
                                 text_div_paxs+=`
-                                <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
+                                <div class="col-lg-6 col-md-6 col-sm-6" >
                                     <label style="color:red !important">*</label>
                                     <label>Di Rawat di RS</label>`;
                                     if(template == 1){
@@ -1172,9 +1203,9 @@ function add_table_of_passenger(type){
                                     }
                                     text_div_paxs+=`<div class="form-select-2">`;
                                     if(template == 4){
-                                        text_div_paxs+=`<select class="nice-select-default rounded" id="adult_sedang_dirawat_di_rs`+parseInt(counter_passenger+1)+`" name="adult_sedang_dirawat_di_rs`+parseInt(counter_passenger+1)+`">`;
+                                        text_div_paxs+=`<select class="nice-select-default rounded" id="adult_sedang_dirawat_di_rs`+parseInt(counter_passenger+1)+`" name="adult_sedang_dirawat_di_rs`+parseInt(counter_passenger+1)+`" onchange="onchange_rawat_rs(`+parseInt(counter_passenger+1)+`);">`;
                                     }else{
-                                        text_div_paxs+=`<select id="adult_sedang_dirawat_di_rs`+parseInt(counter_passenger+1)+`" name="adult_sedang_dirawat_di_rs`+parseInt(counter_passenger+1)+`">`;
+                                        text_div_paxs+=`<select id="adult_sedang_dirawat_di_rs`+parseInt(counter_passenger+1)+`" name="adult_sedang_dirawat_di_rs`+parseInt(counter_passenger+1)+`" onchange="onchange_rawat_rs(`+parseInt(counter_passenger+1)+`);">`;
                                     }
                                     text_div_paxs += '<option value="">Choose</option>';
                                         for(i in medical_config.result.response.pilihan_jawaban)
@@ -1185,7 +1216,7 @@ function add_table_of_passenger(type){
                                 </div>`;
 
                                 text_div_paxs+=`
-                                <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
+                                <div class="col-lg-6 col-md-6 col-sm-6" id="nama_rs_div`+parseInt(counter_passenger+1)+`" hidden>
                                     <label style="color:white !important">*</label>
                                     <label>Nama RS</label>
                                     <div class="input-container-search-ticket" style="margin-bottom:5px;">
@@ -1194,7 +1225,7 @@ function add_table_of_passenger(type){
                                 </div>`;
 
                                 text_div_paxs+=`
-                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="col-lg-6 col-md-6 col-sm-6" id="tanggal_masuk_rs`+parseInt(counter_passenger+1)+`" hidden>
                                     <label style="color:white !important">*</label>
                                     <label>Tanggal Masuk RS</label>
                                     <div class="input-container-search-ticket" style="margin-bottom:5px;">
@@ -1204,7 +1235,7 @@ function add_table_of_passenger(type){
                                 </div>`;
 
                                 text_div_paxs+=`
-                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="col-lg-6 col-md-6 col-sm-6" id="nama_ruang_perawatan`+parseInt(counter_passenger+1)+`" hidden>
                                     <label style="color:white !important">*</label>
                                     <label>Nama Ruang Perawatan</label>
                                     <div class="input-container-search-ticket" style="margin-bottom:5px;">
@@ -1242,7 +1273,7 @@ function add_table_of_passenger(type){
                                 </div>`;
 
                                 text_div_paxs+=`
-                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
                                     <label style="color:white !important">*</label>
                                     <label>Menggunakan Intubasi</label>`;
                                     if(template == 1){
@@ -1444,7 +1475,39 @@ function add_table_of_passenger(type){
 
 
                                 text_div_paxs+=`
-                                <div class="col-lg-12"><hr/></div>
+                                <div class="col-lg-12"><hr/></div>`;
+                                text_div_paxs+=`
+                                    <div class="col-lg-12 col-md-12 col-sm-12" style="margin-top:15px;">
+                                        <label style="color:red !important">*</label>
+                                        <label>Gejala Covid-19</label>`;
+                                        if(template == 1){
+                                            text_div_paxs+=`<div class="input-container-search-ticket">`;
+                                        }else if(template == 2){
+                                            text_div_paxs+=`<div>`;
+                                        }else if(template == 3){
+                                            text_div_paxs+=`<div class="default-select">`;
+                                        }else if(template == 4){
+                                            text_div_paxs+=`<div class="input-container-search-ticket">`;
+                                        }else if(template == 5){
+                                            text_div_paxs+=`<div class="input-container-search-ticket">`;
+                                        }
+                                        text_div_paxs+=`<div class="form-select-2">`;
+                                        if(template == 4){
+                                            text_div_paxs+=`<select class="nice-select-default rounded" id="adult_gejala`+parseInt(counter_passenger+1)+`" name="adult_gejala`+parseInt(counter_passenger+1)+`" onchange="onchange_gejala(`+parseInt(counter_passenger+1)+`);">`;
+                                        }else{
+                                            text_div_paxs+=`<select id="adult_gejala`+parseInt(counter_passenger+1)+`" name="adult_gejala`+parseInt(counter_passenger+1)+`" onchange="onchange_gejala(`+parseInt(counter_passenger+1)+`);">`;
+                                        }
+                                        text_div_paxs += '<option value="">Choose</option>';
+                                            for(i in medical_config.result.response.pilihan_jawaban)
+                                                text_div_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                text_div_paxs+=`</select>
+                                            </div>
+                                        </div>
+                                    </div>`;
+
+                                text_div_paxs+=`
+                                <div class="col-lg-12 col-md-12 col-sm-12" id="table_gejala_div`+parseInt(counter_passenger+1)+`" hidden>
+                                    <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
                                     <label style="color:white !important">*</label>
                                     <label>Tanggal pertama kali gejala</label>
@@ -1828,10 +1891,21 @@ function add_table_of_passenger(type){
                                     </div>`;
 
                                 text_div_paxs+=`
-
                                     <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
+                                        <label style="color:white !important">*</label>
+                                        <label>Gejala Lainnya</label>
+                                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                                            <input type="text" class="form-control date-picker-birth" name="adult_klinis_gejala_lainnya`+parseInt(counter_passenger+1)+`" id="adult_klinis_gejala_lainnya`+parseInt(counter_passenger+1)+`" placeholder="Gejala Lainnya " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Gejala Lainnya '" autocomplete="off">
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>`;
+
+                                text_div_paxs+=`
+
+                                    <div class="col-lg-12 col-md-12 col-sm-12" style="margin-top:15px;">
                                         <label style="color:red !important">*</label>
-                                        <label>Golongan Darah</label>`;
+                                        <label>Ada Penyakit Bawaan</label>`;
                                         if(template == 1){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }else if(template == 2){
@@ -1845,30 +1919,22 @@ function add_table_of_passenger(type){
                                         }
                                         text_div_paxs+=`<div class="form-select-2">`;
                                         if(template == 4){
-                                            text_div_paxs+=`<select class="nice-select-default rounded" id="adult_klinis_golongan_darah`+parseInt(counter_passenger+1)+`" name="adult_klinis_golongan_darah`+parseInt(counter_passenger+1)+`">`;
+                                            text_div_paxs+=`<select class="nice-select-default rounded" id="adult_penyakit_bawaan`+parseInt(counter_passenger+1)+`" name="adult_penyakit_bawaan`+parseInt(counter_passenger+1)+`" onchange="onchange_penyakit_bawaan(`+parseInt(counter_passenger+1)+`)">`;
                                         }else{
-                                            text_div_paxs+=`<select id="adult_klinis_golongan_darah`+parseInt(counter_passenger+1)+`" name="adult_klinis_golongan_darah`+parseInt(counter_passenger+1)+`">`;
+                                            text_div_paxs+=`<select id="adult_penyakit_bawaan`+parseInt(counter_passenger+1)+`" name="adult_penyakit_bawaan`+parseInt(counter_passenger+1)+`" onchange="onchange_penyakit_bawaan(`+parseInt(counter_passenger+1)+`)">`;
                                         }
                                         text_div_paxs += '<option value="">Choose</option>';
-                                            for(i in medical_config.result.response.golongan_darah)
-                                                text_div_paxs+=`<option value="`+medical_config.result.response.golongan_darah[i]+`">`+medical_config.result.response.golongan_darah[i]+`</option>`;
+                                            for(i in medical_config.result.response.pilihan_jawaban)
+                                                text_div_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
                                                 text_div_paxs+=`</select>
                                             </div>
                                         </div>
                                     </div>`;
 
-                                text_div_paxs+=`
-                                    <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
-                                        <label style="color:white !important">*</label>
-                                        <label>Gejala Lainnya</label>
-                                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
-                                            <input type="text" class="form-control date-picker-birth" name="adult_klinis_gejala_lainnya`+parseInt(counter_passenger+1)+`" id="adult_klinis_gejala_lainnya`+parseInt(counter_passenger+1)+`" placeholder="Gejala Lainnya " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Gejala Lainnya '" autocomplete="off">
-                                        </div>
-                                    </div>`;
-
 
                                 text_div_paxs+=`
-
+                                    <div class="col-lg-12 col-md-12 col-sm-12" id="table_penyakit_bawaan_div`+parseInt(counter_passenger+1)+`" hidden>
+                                        <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
                                         <label style="color:red !important">*</label>
                                         <label>Diabetes</label>`;
@@ -2114,7 +2180,9 @@ function add_table_of_passenger(type){
                                     <div class="input-container-search-ticket" style="margin-bottom:5px;">
                                         <input type="text" class="form-control date-picker-birth" name="adult_klinis_kondisi_penyerta_lainnya`+parseInt(counter_passenger+1)+`" id="adult_klinis_kondisi_penyerta_lainnya`+parseInt(counter_passenger+1)+`" placeholder="Kondisi Penyerta Lainnya " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Kondisi Penyerta Lainnya '" autocomplete="off">
                                     </div>
-                                </div>`;
+                                </div>
+                            </div>
+                        </div>`;
 
                                 text_div_paxs+=`
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mt-2" style="text-align:left;">
@@ -2149,6 +2217,37 @@ function add_table_of_passenger(type){
 
                                 text_div_paxs+=`
 
+                                    <div class="col-lg-12 col-md-12 col-sm-12" style="margin-top:15px;">
+                                        <label style="color:red !important">*</label>
+                                        <label>Pernah Melakukan Perjalanan? (Luar Negri, Dalam Negri)</label>`;
+                                        if(template == 1){
+                                            text_div_paxs+=`<div class="input-container-search-ticket">`;
+                                        }else if(template == 2){
+                                            text_div_paxs+=`<div>`;
+                                        }else if(template == 3){
+                                            text_div_paxs+=`<div class="default-select">`;
+                                        }else if(template == 4){
+                                            text_div_paxs+=`<div class="input-container-search-ticket">`;
+                                        }else if(template == 5){
+                                            text_div_paxs+=`<div class="input-container-search-ticket">`;
+                                        }
+                                        text_div_paxs+=`<div class="form-select-2">`;
+                                        if(template == 4){
+                                            text_div_paxs+=`<select class="nice-select-default rounded" id="adult_perjalanan`+parseInt(counter_passenger+1)+`" name="adult_perjalanan`+parseInt(counter_passenger+1)+`" onchange="onchange_perjalanan(`+parseInt(counter_passenger+1)+`)">`;
+                                        }else{
+                                            text_div_paxs+=`<select id="adult_perjalanan`+parseInt(counter_passenger+1)+`" name="adult_perjalanan`+parseInt(counter_passenger+1)+`" onchange="onchange_perjalanan(`+parseInt(counter_passenger+1)+`)">`;
+                                        }
+                                        text_div_paxs += '<option value="">Choose</option>';
+                                            for(i in medical_config.result.response.pilihan_jawaban)
+                                                text_div_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                text_div_paxs+=`</select>
+                                            </div>
+                                        </div>
+                                    </div>`;
+
+                                text_div_paxs+=`
+                                    <div class="col-lg-12 col-md-12 col-sm-12" style="margin-top:15px;" id="adult_perjalanan_div`+parseInt(counter_passenger+1)+`" hidden>
+                                        <div class="row">
                                     <div class="col-lg-12 col-md-12 col-sm-12" style="margin-top:15px;">
                                         <label style="color:red !important">*</label>
                                         <label>Perjalanan Keluar Negeri</label>`;
@@ -2215,10 +2314,42 @@ function add_table_of_passenger(type){
                                 text_div_paxs+=`
                                     <div class="col-lg-12 col-md-12 col-sm-12" style="margin-bottom:15px;" id="perjalanan_ke_transmisi_lokal`+parseInt(counter_passenger+1)+`">
                                     </div>
-                                `;
+                                </div>
+                            </div>`;
 
                                 text_div_paxs+=`
 
+                                    <div class="col-lg-12 col-md-12 col-sm-12" style="margin-top:15px;">
+                                        <label style="color:red !important">*</label>
+                                        <label>Pernah Melakukan Berkunjung? (Fasilitas Kesehatan, Pasar, Pasien)</label>`;
+                                        if(template == 1){
+                                            text_div_paxs+=`<div class="input-container-search-ticket">`;
+                                        }else if(template == 2){
+                                            text_div_paxs+=`<div>`;
+                                        }else if(template == 3){
+                                            text_div_paxs+=`<div class="default-select">`;
+                                        }else if(template == 4){
+                                            text_div_paxs+=`<div class="input-container-search-ticket">`;
+                                        }else if(template == 5){
+                                            text_div_paxs+=`<div class="input-container-search-ticket">`;
+                                        }
+                                        text_div_paxs+=`<div class="form-select-2">`;
+                                        if(template == 4){
+                                            text_div_paxs+=`<select class="nice-select-default rounded" id="adult_berkunjung`+parseInt(counter_passenger+1)+`" name="adult_berkunjung`+parseInt(counter_passenger+1)+`" onchange="onchange_berkunjung(`+parseInt(counter_passenger+1)+`)">`;
+                                        }else{
+                                            text_div_paxs+=`<select id="adult_berkunjung`+parseInt(counter_passenger+1)+`" name="adult_berkunjung`+parseInt(counter_passenger+1)+`" onchange="onchange_berkunjung(`+parseInt(counter_passenger+1)+`)">`;
+                                        }
+                                        text_div_paxs += '<option value="">Choose</option>';
+                                            for(i in medical_config.result.response.pilihan_jawaban)
+                                                text_div_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                text_div_paxs+=`</select>
+                                            </div>
+                                        </div>
+                                    </div>`;
+
+                                text_div_paxs+=`
+                                    <div class="col-lg-12 col-md-12 col-sm-12" style="margin-top:15px;" id="adult_berkunjung_div`+parseInt(counter_passenger+1)+`" hidden>
+                                        <div class="row">
                                     <div class="col-lg-12 col-md-12 col-sm-12" style="margin-top:15px;">
                                         <label style="color:red !important">*</label>
                                         <label>Berkunjung Ke Fasilitas Kesehatan</label>`;
@@ -2355,7 +2486,8 @@ function add_table_of_passenger(type){
                                 text_div_paxs+=`
                                     <div class="col-lg-12 col-md-12 col-sm-12" style="margin-bottom:15px;" id="berkunjung_ke_pasien_konfirmasi`+parseInt(counter_passenger+1)+`">
                                     </div>
-                                `;
+                                </div>
+                            </div>`;
 
                                 text_div_paxs+=`
 
@@ -2625,6 +2757,12 @@ function add_table_of_passenger(type){
             $('#adult_apd_yang_digunakan'+parseInt(counter_passenger+1)).niceSelect();
             $('#adult_prosedur_menimbulkan_aerosol'+parseInt(counter_passenger+1)).niceSelect();
 
+            $('#adult_gejala'+parseInt(counter_passenger+1)).niceSelect();
+            $('#adult_penyakit_bawaan'+parseInt(counter_passenger+1)).niceSelect();
+
+            $('#adult_perjalanan'+parseInt(counter_passenger+1)).niceSelect();
+            $('#adult_berkunjung'+parseInt(counter_passenger+1)).niceSelect();
+
             $('input[name="adult_tanggal_pertama_kali_gejala'+parseInt(counter_passenger+1)+'"]').daterangepicker({
                   singleDatePicker: true,
                   autoUpdateInput: true,
@@ -2674,6 +2812,55 @@ function add_table_of_passenger(type){
     $('#adult_identity_type'+parseInt(counter_passenger+1)).niceSelect();
     auto_complete(`adult_nationality`+parseInt(counter_passenger+1));
     counter_passenger++;
+}
+
+function onchange_rawat_rs(val){
+    if(document.getElementById('adult_sedang_dirawat_di_rs'+val).value == 'IYA'){
+        document.getElementById('nama_rs_div'+val).hidden = false;
+        document.getElementById('tanggal_masuk_rs'+val).hidden = false;
+        document.getElementById('nama_ruang_perawatan'+val).hidden = false;
+    }else{
+        document.getElementById('nama_rs_div'+val).hidden = true;
+        document.getElementById('adult_nama_rs'+val).value = '';
+        document.getElementById('tanggal_masuk_rs'+val).hidden = true;
+        document.getElementById('adult_tanggal_masuk_rs'+val).value = '';
+        document.getElementById('nama_ruang_perawatan'+val).hidden = true;
+        document.getElementById('adult_nama_ruang_perawatan'+val).value = '';
+    }
+}
+
+function onchange_gejala(val){
+    if(document.getElementById('adult_gejala'+val).value == 'IYA'){
+        document.getElementById('table_gejala_div'+val).hidden = false;
+
+    }else{
+        document.getElementById('table_gejala_div'+val).hidden = true;
+    }
+}
+
+function onchange_penyakit_bawaan(val){
+
+    if(document.getElementById('adult_penyakit_bawaan'+val).value == 'IYA'){
+        document.getElementById('table_penyakit_bawaan_div'+val).hidden = false;
+    }else{
+        document.getElementById('table_penyakit_bawaan_div'+val).hidden = true;
+    }
+}
+
+function onchange_perjalanan(val){
+    if(document.getElementById('adult_perjalanan'+val).value == 'IYA'){
+        document.getElementById('adult_perjalanan_div'+val).hidden = false;
+    }else{
+        document.getElementById('adult_perjalanan_div'+val).hidden = true;
+    }
+}
+
+function onchange_berkunjung(val){
+    if(document.getElementById('adult_berkunjung'+val).value == 'IYA'){
+        document.getElementById('adult_berkunjung_div'+val).hidden = false;
+    }else{
+        document.getElementById('adult_berkunjung_div'+val).hidden = true;
+    }
 }
 
 function change_country_of_issued(val){
@@ -4306,7 +4493,7 @@ function check_passenger(){
                         }else{
                             document.getElementById('adult_kriteria_pasien' + nomor_pax).style['border-color'] = '#EFEFEF';
                         }
-                        if(document.getElementById('adult_pemeriksaan_swab_ke' + nomor_pax).value == '' || check_number(document.getElementById('adult_pemeriksaan_swab_ke' + nomor_pax).value) == false){
+                        if(document.getElementById('adult_pemeriksaan_swab_ke' + nomor_pax).value == '' || check_number(document.getElementById('adult_pemeriksaan_swab_ke' + nomor_pax).value) == false || parseInt(document.getElementById('adult_pemeriksaan_swab_ke' + nomor_pax).value) > 10000 ){
                             error_log+= 'Pemeriksaan swab only contain number for customer '+nomor_pax+'!</br>\n';
                             document.getElementById('adult_pemeriksaan_swab_ke' + nomor_pax).style['border-color'] = 'red';
                         }else{
@@ -4324,206 +4511,229 @@ function check_passenger(){
                         }else{
                             document.getElementById('adult_nama_perusahaan' + nomor_pax).style['border-color'] = '#EFEFEF';
                         }
-//                        if(document.getElementById('adult_tanggal_pertama_kali_gejala' + nomor_pax).value == ''){
-//                            error_log+= 'Please fill Tanggal pertama kali gejala for customer '+nomor_pax+'!</br>\n';
-//                            document.getElementById('adult_tanggal_pertama_kali_gejala' + nomor_pax).style['border-color'] = 'red';
-//                        }else{
-//                            document.getElementById('adult_tanggal_pertama_kali_gejala' + nomor_pax).style['border-color'] = '#EFEFEF';
-//                        }
-                        if(document.getElementById('adult_klinis_ada_demam' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Gejala Demam for customer '+nomor_pax+'!</br>\n';
-                            document.getElementById('adult_klinis_ada_demam' + nomor_pax).style['border-color'] = 'red';
-                        }else{
-                            document.getElementById('adult_klinis_ada_demam' + nomor_pax).style['border-color'] = '#EFEFEF';
-                        }
-                        if(document.getElementById('adult_klinis_ada_demam' + nomor_pax).value == 'IYA'){
-                            if(document.getElementById('adult_klinis_suhu_tubuh' + nomor_pax).value == 'IYA'){
-                                error_log+= 'Please fill Suhu Tubuh for customer '+nomor_pax+'!</br>\n';
-                                document.getElementById('adult_klinis_suhu_tubuh' + nomor_pax).style['border-color'] = 'red';
-                            }else{
-                                document.getElementById('adult_klinis_suhu_tubuh' + nomor_pax).style['border-color'] = '#EFEFEF';
-                            }
-                        }
-                        if(document.getElementById('adult_klinis_ada_batuk' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Gejala Batuk for customer '+nomor_pax+'!</br>\n';
-                            document.getElementById('adult_klinis_ada_batuk' + nomor_pax).style['border-color'] = 'red';
-                        }else{
-                            document.getElementById('adult_klinis_ada_batuk' + nomor_pax).style['border-color'] = '#EFEFEF';
-                        }
-                        if(document.getElementById('adult_klinis_ada_pilek' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Gejala Flu for customer '+nomor_pax+'!</br>\n';
-                            document.getElementById('adult_klinis_ada_pilek' + nomor_pax).style['border-color'] = 'red';
-                        }else{
-                            document.getElementById('adult_klinis_ada_pilek' + nomor_pax).style['border-color'] = '#EFEFEF';
-                        }
-                        if(document.getElementById('adult_klinis_ada_sakit_tenggorokan' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Gejala Sakit Tenggorokan for customer '+nomor_pax+'!</br>\n';
-                            document.getElementById('adult_klinis_ada_sakit_tenggorokan' + nomor_pax).style['border-color'] = 'red';
-                        }else{
-                            document.getElementById('adult_klinis_ada_sakit_tenggorokan' + nomor_pax).style['border-color'] = '#EFEFEF';
-                        }
-                        if(document.getElementById('adult_klinis_ada_sesak' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Gejala Sesak Nafas for customer '+nomor_pax+'!</br>\n';
-                            document.getElementById('adult_klinis_ada_sesak' + nomor_pax).style['border-color'] = 'red';
-                        }else{
-                            document.getElementById('adult_klinis_ada_sesak' + nomor_pax).style['border-color'] = '#EFEFEF';
-                        }
-                        if(document.getElementById('adult_klinis_ada_sakit_kepala' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Gejala Sakit Kepala for customer '+nomor_pax+'!</br>\n';
-                            document.getElementById('adult_klinis_ada_sakit_kepala' + nomor_pax).style['border-color'] = 'red';
-                        }else{
-                            document.getElementById('adult_klinis_ada_sakit_kepala' + nomor_pax).style['border-color'] = '#EFEFEF';
-                        }
-                        if(document.getElementById('adult_klinis_ada_badan_lemah' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Gejala Badan Lemah for customer '+nomor_pax+'!</br>\n';
-                            document.getElementById('adult_klinis_ada_badan_lemah' + nomor_pax).style['border-color'] = 'red';
-                        }else{
-                            document.getElementById('adult_klinis_ada_badan_lemah' + nomor_pax).style['border-color'] = '#EFEFEF';
-                        }
-                        if(document.getElementById('adult_klinis_ada_nyeri_otot' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Gejala Nyeri Otot for customer '+nomor_pax+'!</br>\n';
-                            document.getElementById('adult_klinis_ada_nyeri_otot' + nomor_pax).style['border-color'] = 'red';
-                        }else{
-                            document.getElementById('adult_klinis_ada_nyeri_otot' + nomor_pax).style['border-color'] = '#EFEFEF';
-                        }
-                        if(document.getElementById('adult_klinis_ada_mual' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Gejala Mual for customer '+nomor_pax+'!</br>\n';
-                            document.getElementById('adult_klinis_ada_mual' + nomor_pax).style['border-color'] = 'red';
-                        }else{
-                            document.getElementById('adult_klinis_ada_mual' + nomor_pax).style['border-color'] = '#EFEFEF';
-                        }
-                        if(document.getElementById('adult_klinis_ada_nyeri_abdomen' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Gejala Nyeri Abdomen for customer '+nomor_pax+'!</br>\n';
-                            document.getElementById('adult_klinis_ada_nyeri_abdomen' + nomor_pax).style['border-color'] = 'red';
-                        }else{
-                            document.getElementById('adult_klinis_ada_nyeri_abdomen' + nomor_pax).style['border-color'] = '#EFEFEF';
-                        }
-                        if(document.getElementById('adult_klinis_ada_diare' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Gejala Diare for customer '+nomor_pax+'!</br>\n';
-                            document.getElementById('adult_klinis_ada_diare' + nomor_pax).style['border-color'] = 'red';
-                        }else{
-                            document.getElementById('adult_klinis_ada_diare' + nomor_pax).style['border-color'] = '#EFEFEF';
-                        }
-                        if(document.getElementById('adult_klinis_ada_gangguan_penciuman' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Gejala Gangguan Penciuman for customer '+nomor_pax+'!</br>\n';
-                            document.getElementById('adult_klinis_ada_gangguan_penciuman' + nomor_pax).style['border-color'] = 'red';
-                        }else{
-                            document.getElementById('adult_klinis_ada_gangguan_penciuman' + nomor_pax).style['border-color'] = '#EFEFEF';
-                        }
                         if(document.getElementById('adult_klinis_golongan_darah' + nomor_pax).value == ''){
                             error_log+= 'Please choose Golongan Darah for customer '+nomor_pax+'!</br>\n';
                             document.getElementById('adult_klinis_golongan_darah' + nomor_pax).style['border-color'] = 'red';
                         }else{
                             document.getElementById('adult_klinis_golongan_darah' + nomor_pax).style['border-color'] = '#EFEFEF';
                         }
-                        if(document.getElementById('adult_klinis_ada_diabetes' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Gejala Diabetes for customer '+nomor_pax+'!</br>\n';
-                            document.getElementById('adult_klinis_ada_diabetes' + nomor_pax).style['border-color'] = 'red';
-                        }else{
-                            document.getElementById('adult_klinis_ada_diabetes' + nomor_pax).style['border-color'] = '#EFEFEF';
+
+                        //GEJALA
+                        if(document.getElementById('adult_gejala'+nomor_pax).value == 'IYA'){
+                            if(document.getElementById('adult_klinis_ada_demam' + nomor_pax).value == ''){
+                                error_log+= 'Please choose Gejala Demam for customer '+nomor_pax+'!</br>\n';
+                                document.getElementById('adult_klinis_ada_demam' + nomor_pax).style['border-color'] = 'red';
+                            }else{
+                                document.getElementById('adult_klinis_ada_demam' + nomor_pax).style['border-color'] = '#EFEFEF';
+                            }
+                            if(document.getElementById('adult_klinis_ada_demam' + nomor_pax).value == 'IYA'){
+                                if(document.getElementById('adult_klinis_suhu_tubuh' + nomor_pax).value == 'IYA'){
+                                    error_log+= 'Please fill Suhu Tubuh for customer '+nomor_pax+'!</br>\n';
+                                    document.getElementById('adult_klinis_suhu_tubuh' + nomor_pax).style['border-color'] = 'red';
+                                }else{
+                                    document.getElementById('adult_klinis_suhu_tubuh' + nomor_pax).style['border-color'] = '#EFEFEF';
+                                }
+                            }
+                            if(document.getElementById('adult_klinis_ada_batuk' + nomor_pax).value == ''){
+                                error_log+= 'Please choose Gejala Batuk for customer '+nomor_pax+'!</br>\n';
+                                document.getElementById('adult_klinis_ada_batuk' + nomor_pax).style['border-color'] = 'red';
+                            }else{
+                                document.getElementById('adult_klinis_ada_batuk' + nomor_pax).style['border-color'] = '#EFEFEF';
+                            }
+                            if(document.getElementById('adult_klinis_ada_pilek' + nomor_pax).value == ''){
+                                error_log+= 'Please choose Gejala Flu for customer '+nomor_pax+'!</br>\n';
+                                document.getElementById('adult_klinis_ada_pilek' + nomor_pax).style['border-color'] = 'red';
+                            }else{
+                                document.getElementById('adult_klinis_ada_pilek' + nomor_pax).style['border-color'] = '#EFEFEF';
+                            }
+                            if(document.getElementById('adult_klinis_ada_sakit_tenggorokan' + nomor_pax).value == ''){
+                                error_log+= 'Please choose Gejala Sakit Tenggorokan for customer '+nomor_pax+'!</br>\n';
+                                document.getElementById('adult_klinis_ada_sakit_tenggorokan' + nomor_pax).style['border-color'] = 'red';
+                            }else{
+                                document.getElementById('adult_klinis_ada_sakit_tenggorokan' + nomor_pax).style['border-color'] = '#EFEFEF';
+                            }
+                            if(document.getElementById('adult_klinis_ada_sesak' + nomor_pax).value == ''){
+                                error_log+= 'Please choose Gejala Sesak Nafas for customer '+nomor_pax+'!</br>\n';
+                                document.getElementById('adult_klinis_ada_sesak' + nomor_pax).style['border-color'] = 'red';
+                            }else{
+                                document.getElementById('adult_klinis_ada_sesak' + nomor_pax).style['border-color'] = '#EFEFEF';
+                            }
+                            if(document.getElementById('adult_klinis_ada_sakit_kepala' + nomor_pax).value == ''){
+                                error_log+= 'Please choose Gejala Sakit Kepala for customer '+nomor_pax+'!</br>\n';
+                                document.getElementById('adult_klinis_ada_sakit_kepala' + nomor_pax).style['border-color'] = 'red';
+                            }else{
+                                document.getElementById('adult_klinis_ada_sakit_kepala' + nomor_pax).style['border-color'] = '#EFEFEF';
+                            }
+                            if(document.getElementById('adult_klinis_ada_badan_lemah' + nomor_pax).value == ''){
+                                error_log+= 'Please choose Gejala Badan Lemah for customer '+nomor_pax+'!</br>\n';
+                                document.getElementById('adult_klinis_ada_badan_lemah' + nomor_pax).style['border-color'] = 'red';
+                            }else{
+                                document.getElementById('adult_klinis_ada_badan_lemah' + nomor_pax).style['border-color'] = '#EFEFEF';
+                            }
+                            if(document.getElementById('adult_klinis_ada_nyeri_otot' + nomor_pax).value == ''){
+                                error_log+= 'Please choose Gejala Nyeri Otot for customer '+nomor_pax+'!</br>\n';
+                                document.getElementById('adult_klinis_ada_nyeri_otot' + nomor_pax).style['border-color'] = 'red';
+                            }else{
+                                document.getElementById('adult_klinis_ada_nyeri_otot' + nomor_pax).style['border-color'] = '#EFEFEF';
+                            }
+                            if(document.getElementById('adult_klinis_ada_mual' + nomor_pax).value == ''){
+                                error_log+= 'Please choose Gejala Mual for customer '+nomor_pax+'!</br>\n';
+                                document.getElementById('adult_klinis_ada_mual' + nomor_pax).style['border-color'] = 'red';
+                            }else{
+                                document.getElementById('adult_klinis_ada_mual' + nomor_pax).style['border-color'] = '#EFEFEF';
+                            }
+                            if(document.getElementById('adult_klinis_ada_nyeri_abdomen' + nomor_pax).value == ''){
+                                error_log+= 'Please choose Gejala Nyeri Abdomen for customer '+nomor_pax+'!</br>\n';
+                                document.getElementById('adult_klinis_ada_nyeri_abdomen' + nomor_pax).style['border-color'] = 'red';
+                            }else{
+                                document.getElementById('adult_klinis_ada_nyeri_abdomen' + nomor_pax).style['border-color'] = '#EFEFEF';
+                            }
+                            if(document.getElementById('adult_klinis_ada_diare' + nomor_pax).value == ''){
+                                error_log+= 'Please choose Gejala Diare for customer '+nomor_pax+'!</br>\n';
+                                document.getElementById('adult_klinis_ada_diare' + nomor_pax).style['border-color'] = 'red';
+                            }else{
+                                document.getElementById('adult_klinis_ada_diare' + nomor_pax).style['border-color'] = '#EFEFEF';
+                            }
+                            if(document.getElementById('adult_klinis_ada_gangguan_penciuman' + nomor_pax).value == ''){
+                                error_log+= 'Please choose Gejala Gangguan Penciuman for customer '+nomor_pax+'!</br>\n';
+                                document.getElementById('adult_klinis_ada_gangguan_penciuman' + nomor_pax).style['border-color'] = 'red';
+                            }else{
+                                document.getElementById('adult_klinis_ada_gangguan_penciuman' + nomor_pax).style['border-color'] = '#EFEFEF';
+                            }
+                        }else if(document.getElementById('adult_gejala'+nomor_pax).value == ''){
+                            error_log+= 'Please choose Gejala Covid-19 for customer '+nomor_pax+'!</br>\n';
+                            document.getElementById('adult_klinis_ada_gangguan_penciuman' + nomor_pax).style['border-color'] = 'red';
                         }
-                        if(document.getElementById('adult_klinis_ada_penyakit_jantung' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Gejala Penyakit Jantung for customer '+nomor_pax+'!</br>\n';
-                            document.getElementById('adult_klinis_ada_penyakit_jantung' + nomor_pax).style['border-color'] = 'red';
-                        }else{
-                            document.getElementById('adult_klinis_ada_penyakit_jantung' + nomor_pax).style['border-color'] = '#EFEFEF';
+
+                        //PENYAKIT BAWAAN
+                        if(document.getElementById('adult_penyakit_bawaan'+nomor_pax).value == 'IYA'){
+                            if(document.getElementById('adult_klinis_ada_diabetes' + nomor_pax).value == ''){
+                                error_log+= 'Please choose Gejala Diabetes for customer '+nomor_pax+'!</br>\n';
+                                document.getElementById('adult_klinis_ada_diabetes' + nomor_pax).style['border-color'] = 'red';
+                            }else{
+                                document.getElementById('adult_klinis_ada_diabetes' + nomor_pax).style['border-color'] = '#EFEFEF';
+                            }
+                            if(document.getElementById('adult_klinis_ada_penyakit_jantung' + nomor_pax).value == ''){
+                                error_log+= 'Please choose Gejala Penyakit Jantung for customer '+nomor_pax+'!</br>\n';
+                                document.getElementById('adult_klinis_ada_penyakit_jantung' + nomor_pax).style['border-color'] = 'red';
+                            }else{
+                                document.getElementById('adult_klinis_ada_penyakit_jantung' + nomor_pax).style['border-color'] = '#EFEFEF';
+                            }
+                            if(document.getElementById('adult_klinis_ada_hipertensi' + nomor_pax).value == ''){
+                                error_log+= 'Please choose Gejala Hipertensi for customer '+nomor_pax+'!</br>\n';
+                                document.getElementById('adult_klinis_ada_hipertensi' + nomor_pax).style['border-color'] = 'red';
+                            }else{
+                                document.getElementById('adult_klinis_ada_hipertensi' + nomor_pax).style['border-color'] = '#EFEFEF';
+                            }
+                            if(document.getElementById('adult_klinis_ada_keganasan' + nomor_pax).value == ''){
+                                error_log+= 'Please choose Gejala Keganasan for customer '+nomor_pax+'!</br>\n';
+                                document.getElementById('adult_klinis_ada_keganasan' + nomor_pax).style['border-color'] = 'red';
+                            }else{
+                                document.getElementById('adult_klinis_ada_keganasan' + nomor_pax).style['border-color'] = '#EFEFEF';
+                            }
+                            if(document.getElementById('adult_klinis_ada_gangguan_imunologi' + nomor_pax).value == ''){
+                                error_log+= 'Please choose Gejala Gangguan Imunologi for customer '+nomor_pax+'!</br>\n';
+                                document.getElementById('adult_klinis_ada_gangguan_imunologi' + nomor_pax).style['border-color'] = 'red';
+                            }else{
+                                document.getElementById('adult_klinis_ada_gangguan_imunologi' + nomor_pax).style['border-color'] = '#EFEFEF';
+                            }
+                            if(document.getElementById('adult_klinis_ada_gangguan_hati' + nomor_pax).value == ''){
+                                error_log+= 'Please choose Gejala Gangguan Hati for customer '+nomor_pax+'!</br>\n';
+                                document.getElementById('adult_klinis_ada_gangguan_hati' + nomor_pax).style['border-color'] = 'red';
+                            }else{
+                                document.getElementById('adult_klinis_ada_gangguan_hati' + nomor_pax).style['border-color'] = '#EFEFEF';
+                            }
+                            if(document.getElementById('adult_klinis_ada_gangguan_paru_obstruksi_kronis' + nomor_pax).value == ''){
+                                error_log+= 'Please choose Gejala Gangguan Paru Obstruksi for customer '+nomor_pax+'!</br>\n';
+                                document.getElementById('adult_klinis_ada_gangguan_paru_obstruksi_kronis' + nomor_pax).style['border-color'] = 'red';
+                            }else{
+                                document.getElementById('adult_klinis_ada_gangguan_paru_obstruksi_kronis' + nomor_pax).style['border-color'] = '#EFEFEF';
+                            }
+                            if(document.getElementById('adult_sedang_dirawat_di_icu' + nomor_pax).value == ''){
+                                error_log+= 'Please choose Sedang Dirawat Di ICU for customer '+nomor_pax+'!</br>\n';
+                                document.getElementById('adult_sedang_dirawat_di_icu' + nomor_pax).style['border-color'] = 'red';
+                            }else{
+                                document.getElementById('adult_sedang_dirawat_di_icu' + nomor_pax).style['border-color'] = '#EFEFEF';
+                            }
+                            if(document.getElementById('adult_menggunakan_emco' + nomor_pax).value == ''){
+                                error_log+= 'Please choose Menggunakan Emco for customer '+nomor_pax+'!</br>\n';
+                                document.getElementById('adult_menggunakan_emco' + nomor_pax).style['border-color'] = 'red';
+                            }else{
+                                document.getElementById('adult_menggunakan_emco' + nomor_pax).style['border-color'] = '#EFEFEF';
+                            }
+                            if(document.getElementById('adult_klinis_ada_penumonia' + nomor_pax).value == ''){
+                                error_log+= 'Please choose Gejala Penumonia for customer '+nomor_pax+'!</br>\n';
+                                document.getElementById('adult_klinis_ada_penumonia' + nomor_pax).style['border-color'] = 'red';
+                            }else{
+                                document.getElementById('adult_klinis_ada_penumonia' + nomor_pax).style['border-color'] = '#EFEFEF';
+                            }
+                            if(document.getElementById('adult_klinis_ada_ards' + nomor_pax).value == ''){
+                                error_log+= 'Please choose Gejala ARDS for customer '+nomor_pax+'!</br>\n';
+                                document.getElementById('adult_klinis_ada_ards' + nomor_pax).style['border-color'] = 'red';
+                            }else{
+                                document.getElementById('adult_klinis_ada_ards' + nomor_pax).style['border-color'] = '#EFEFEF';
+                            }
+                            if(document.getElementById('adult_klinis_ada_penyakit_pernafasan' + nomor_pax).value == ''){
+                                error_log+= 'Please choose Gejala Penyakit Pernafasan for customer '+nomor_pax+'!</br>\n';
+                                document.getElementById('adult_klinis_ada_penyakit_pernafasan' + nomor_pax).style['border-color'] = 'red';
+                            }else{
+                                document.getElementById('adult_klinis_ada_penyakit_pernafasan' + nomor_pax).style['border-color'] = '#EFEFEF';
+                            }
+                        }else if(document.getElementById('adult_penyakit_bawaan'+nomor_pax).value == ''){
+                            error_log+= 'Please choose Penyakit Bawaan for customer '+nomor_pax+'!</br>\n';
+                            document.getElementById('adult_klinis_ada_gangguan_penciuman' + nomor_pax).style['border-color'] = 'red';
                         }
-                        if(document.getElementById('adult_klinis_ada_hipertensi' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Gejala Hipertensi for customer '+nomor_pax+'!</br>\n';
-                            document.getElementById('adult_klinis_ada_hipertensi' + nomor_pax).style['border-color'] = 'red';
-                        }else{
-                            document.getElementById('adult_klinis_ada_hipertensi' + nomor_pax).style['border-color'] = '#EFEFEF';
+
+                        //PERJALANAN
+                        if(document.getElementById('adult_perjalanan'+nomor_pax).value == 'IYA'){
+                            if(document.getElementById('adult_perjalanan_keluar_negeri' + nomor_pax).value == ''){
+                                error_log+= 'Please choose Perjalanan Keluar Negeri for customer '+nomor_pax+'!</br>\n';
+                                document.getElementById('adult_perjalanan_keluar_negeri' + nomor_pax).style['border-color'] = 'red';
+                            }else{
+                                document.getElementById('adult_perjalanan_keluar_negeri' + nomor_pax).style['border-color'] = '#EFEFEF';
+                            }
+                            if(document.getElementById('adult_perjalanan_ke_transmisi_lokal' + nomor_pax).value == ''){
+                                error_log+= 'Please choose Perjalanan Ke Transmisi Lokal for customer '+nomor_pax+'!</br>\n';
+                                document.getElementById('adult_perjalanan_ke_transmisi_lokal' + nomor_pax).style['border-color'] = 'red';
+                            }else{
+                                document.getElementById('adult_perjalanan_ke_transmisi_lokal' + nomor_pax).style['border-color'] = '#EFEFEF';
+                            }
+                        }else if(document.getElementById('adult_perjalanan'+nomor_pax).value == ''){
+                            error_log+= 'Please choose Perjalan for customer '+nomor_pax+'!</br>\n';
+                            document.getElementById('adult_klinis_ada_gangguan_penciuman' + nomor_pax).style['border-color'] = 'red';
                         }
-                        if(document.getElementById('adult_klinis_ada_keganasan' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Gejala Keganasan for customer '+nomor_pax+'!</br>\n';
-                            document.getElementById('adult_klinis_ada_keganasan' + nomor_pax).style['border-color'] = 'red';
-                        }else{
-                            document.getElementById('adult_klinis_ada_keganasan' + nomor_pax).style['border-color'] = '#EFEFEF';
+
+                        //BERKUNJUNG
+                        if(document.getElementById('adult_berkunjung'+nomor_pax).value == 'IYA'){
+                            if(document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan' + nomor_pax).value == ''){
+                                error_log+= 'Please choose Berkunjung Ke Fasilitas Kesehatan for customer '+nomor_pax+'!</br>\n';
+                                document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan' + nomor_pax).style['border-color'] = 'red';
+                            }else{
+                                document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan' + nomor_pax).style['border-color'] = '#EFEFEF';
+                            }
+                            if(document.getElementById('adult_berkunjung_ke_pasar_hewan' + nomor_pax).value == ''){
+                                error_log+= 'Please choose Berkunjung Ke Pasar Hewan for customer '+nomor_pax+'!</br>\n';
+                                document.getElementById('adult_berkunjung_ke_pasar_hewan' + nomor_pax).style['border-color'] = 'red';
+                            }else{
+                                document.getElementById('adult_berkunjung_ke_pasar_hewan' + nomor_pax).style['border-color'] = '#EFEFEF';
+                            }
+                            if(document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan' + nomor_pax).value == ''){
+                                error_log+= 'Please choose Berkunjung Ke Pasien Dalam Pengawasan for customer '+nomor_pax+'!</br>\n';
+                                document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan' + nomor_pax).style['border-color'] = 'red';
+                            }else{
+                                document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan' + nomor_pax).style['border-color'] = '#EFEFEF';
+                            }
+                            if(document.getElementById('adult_berkunjung_ke_pasien_konfirmasi' + nomor_pax).value == ''){
+                                error_log+= 'Please choose Berkunjung Ke Pasien Konfirmasi for customer '+nomor_pax+'!</br>\n';
+                                document.getElementById('adult_berkunjung_ke_pasien_konfirmasi' + nomor_pax).style['border-color'] = 'red';
+                            }else{
+                                document.getElementById('adult_berkunjung_ke_pasien_konfirmasi' + nomor_pax).style['border-color'] = '#EFEFEF';
+                            }
+                        }else if(document.getElementById('adult_berkunjung'+nomor_pax).value == ''){
+                            error_log+= 'Please choose Melakukan Berkunjung for customer '+nomor_pax+'!</br>\n';
+                            document.getElementById('adult_klinis_ada_gangguan_penciuman' + nomor_pax).style['border-color'] = 'red';
                         }
-                        if(document.getElementById('adult_klinis_ada_gangguan_imunologi' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Gejala Gangguan Imunologi for customer '+nomor_pax+'!</br>\n';
-                            document.getElementById('adult_klinis_ada_gangguan_imunologi' + nomor_pax).style['border-color'] = 'red';
-                        }else{
-                            document.getElementById('adult_klinis_ada_gangguan_imunologi' + nomor_pax).style['border-color'] = '#EFEFEF';
-                        }
-                        if(document.getElementById('adult_klinis_ada_gangguan_hati' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Gejala Gangguan Hati for customer '+nomor_pax+'!</br>\n';
-                            document.getElementById('adult_klinis_ada_gangguan_hati' + nomor_pax).style['border-color'] = 'red';
-                        }else{
-                            document.getElementById('adult_klinis_ada_gangguan_hati' + nomor_pax).style['border-color'] = '#EFEFEF';
-                        }
-                        if(document.getElementById('adult_klinis_ada_gangguan_paru_obstruksi_kronis' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Gejala Gangguan Paru Obstruksi for customer '+nomor_pax+'!</br>\n';
-                            document.getElementById('adult_klinis_ada_gangguan_paru_obstruksi_kronis' + nomor_pax).style['border-color'] = 'red';
-                        }else{
-                            document.getElementById('adult_klinis_ada_gangguan_paru_obstruksi_kronis' + nomor_pax).style['border-color'] = '#EFEFEF';
-                        }
-                        if(document.getElementById('adult_sedang_dirawat_di_icu' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Sedang Dirawat Di ICU for customer '+nomor_pax+'!</br>\n';
-                            document.getElementById('adult_sedang_dirawat_di_icu' + nomor_pax).style['border-color'] = 'red';
-                        }else{
-                            document.getElementById('adult_sedang_dirawat_di_icu' + nomor_pax).style['border-color'] = '#EFEFEF';
-                        }
-                        if(document.getElementById('adult_menggunakan_emco' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Menggunakan Emco for customer '+nomor_pax+'!</br>\n';
-                            document.getElementById('adult_menggunakan_emco' + nomor_pax).style['border-color'] = 'red';
-                        }else{
-                            document.getElementById('adult_menggunakan_emco' + nomor_pax).style['border-color'] = '#EFEFEF';
-                        }
-                        if(document.getElementById('adult_klinis_ada_penumonia' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Gejala Penumonia for customer '+nomor_pax+'!</br>\n';
-                            document.getElementById('adult_klinis_ada_penumonia' + nomor_pax).style['border-color'] = 'red';
-                        }else{
-                            document.getElementById('adult_klinis_ada_penumonia' + nomor_pax).style['border-color'] = '#EFEFEF';
-                        }
-                        if(document.getElementById('adult_klinis_ada_ards' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Gejala ARDS for customer '+nomor_pax+'!</br>\n';
-                            document.getElementById('adult_klinis_ada_ards' + nomor_pax).style['border-color'] = 'red';
-                        }else{
-                            document.getElementById('adult_klinis_ada_ards' + nomor_pax).style['border-color'] = '#EFEFEF';
-                        }
-                        if(document.getElementById('adult_klinis_ada_penyakit_pernafasan' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Gejala Penyakit Pernafasan for customer '+nomor_pax+'!</br>\n';
-                            document.getElementById('adult_klinis_ada_penyakit_pernafasan' + nomor_pax).style['border-color'] = 'red';
-                        }else{
-                            document.getElementById('adult_klinis_ada_penyakit_pernafasan' + nomor_pax).style['border-color'] = '#EFEFEF';
-                        }
-                        if(document.getElementById('adult_perjalanan_keluar_negeri' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Perjalanan Keluar Negeri for customer '+nomor_pax+'!</br>\n';
-                            document.getElementById('adult_perjalanan_keluar_negeri' + nomor_pax).style['border-color'] = 'red';
-                        }else{
-                            document.getElementById('adult_perjalanan_keluar_negeri' + nomor_pax).style['border-color'] = '#EFEFEF';
-                        }
-                        if(document.getElementById('adult_perjalanan_ke_transmisi_lokal' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Perjalanan Ke Transmisi Lokal for customer '+nomor_pax+'!</br>\n';
-                            document.getElementById('adult_perjalanan_ke_transmisi_lokal' + nomor_pax).style['border-color'] = 'red';
-                        }else{
-                            document.getElementById('adult_perjalanan_ke_transmisi_lokal' + nomor_pax).style['border-color'] = '#EFEFEF';
-                        }
-                        if(document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Berkunjung Ke Fasilitas Kesehatan for customer '+nomor_pax+'!</br>\n';
-                            document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan' + nomor_pax).style['border-color'] = 'red';
-                        }else{
-                            document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan' + nomor_pax).style['border-color'] = '#EFEFEF';
-                        }
-                        if(document.getElementById('adult_berkunjung_ke_pasar_hewan' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Berkunjung Ke Pasar Hewan for customer '+nomor_pax+'!</br>\n';
-                            document.getElementById('adult_berkunjung_ke_pasar_hewan' + nomor_pax).style['border-color'] = 'red';
-                        }else{
-                            document.getElementById('adult_berkunjung_ke_pasar_hewan' + nomor_pax).style['border-color'] = '#EFEFEF';
-                        }
-                        if(document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Berkunjung Ke Pasien Dalam Pengawasan for customer '+nomor_pax+'!</br>\n';
-                            document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan' + nomor_pax).style['border-color'] = 'red';
-                        }else{
-                            document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan' + nomor_pax).style['border-color'] = '#EFEFEF';
-                        }
-                        if(document.getElementById('adult_berkunjung_ke_pasien_konfirmasi' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Berkunjung Ke Pasien Konfirmasi for customer '+nomor_pax+'!</br>\n';
-                            document.getElementById('adult_berkunjung_ke_pasien_konfirmasi' + nomor_pax).style['border-color'] = 'red';
-                        }else{
-                            document.getElementById('adult_berkunjung_ke_pasien_konfirmasi' + nomor_pax).style['border-color'] = '#EFEFEF';
-                        }
+
                         if(document.getElementById('adult_termasuk_cluster_ispa' + nomor_pax).value == ''){
                             error_log+= 'Please choose Cluster ISPA (Saluran Pernapasan Akut) for customer '+nomor_pax+'!</br>\n';
                             document.getElementById('adult_termasuk_cluster_ispa' + nomor_pax).style['border-color'] = 'red';
@@ -4550,83 +4760,87 @@ function check_passenger(){
                         berkunjung_ke_pasar_hewan_list = [];
                         berkunjung_ke_pasien_dalam_pengawasan_list = [];
                         berkunjung_ke_pasien_konfirmasi_list = [];
-                        for(j=0;j<perjalanan_keluar_negeri;j++){
-                            try{
-                                perjalanan_keluar_negeri_list.push({
-                                    "nama_negara": document.getElementById('adult_perjalanan_keluar_negeri_nama_negara'+nomor_pax+'_'+j).value,
-                                    "nama_kota": document.getElementById('adult_perjalanan_keluar_negeri_nama_kota'+nomor_pax+'_'+j).value,
-                                    "tanggal_perjalanan": moment(document.getElementById('adult_perjalanan_keluar_negeri_tanggal_perjalanan'+nomor_pax+'_'+j).value).format('YYYY-MM-DD'),
-                                    "tiba_di_indonesia": moment(document.getElementById('adult_perjalanan_keluar_negeri_tiba_di_indonesia'+nomor_pax+'_'+j).value).format('YYYY-MM-DD')
-                                });
-                            }catch(err){
+                        if(document.getElementById('adult_perjalanan'+nomor_pax).value == 'IYA'){
+                            for(j=0;j<perjalanan_keluar_negeri;j++){
+                                try{
+                                    perjalanan_keluar_negeri_list.push({
+                                        "nama_negara": document.getElementById('adult_perjalanan_keluar_negeri_nama_negara'+nomor_pax+'_'+j).value,
+                                        "nama_kota": document.getElementById('adult_perjalanan_keluar_negeri_nama_kota'+nomor_pax+'_'+j).value,
+                                        "tanggal_perjalanan": moment(document.getElementById('adult_perjalanan_keluar_negeri_tanggal_perjalanan'+nomor_pax+'_'+j).value).format('YYYY-MM-DD'),
+                                        "tiba_di_indonesia": moment(document.getElementById('adult_perjalanan_keluar_negeri_tiba_di_indonesia'+nomor_pax+'_'+j).value).format('YYYY-MM-DD')
+                                    });
+                                }catch(err){
 
+                                }
+                            }
+
+                            for(j=0;j<perjalanan_ke_transmisi_lokal;j++){
+                                try{
+                                    perjalanan_ke_transmisi_lokal_list.push({
+                                        "nama_negara": document.getElementById('adult_perjalanan_ke_transmisi_lokal_nama_provinsi'+nomor_pax+'_'+j).value,
+                                        "nama_kota": document.getElementById('adult_perjalanan_ke_transmisi_lokal_nama_kota'+nomor_pax+'_'+j).value,
+                                        "tanggal_perjalanan": moment(document.getElementById('adult_perjalanan_ke_transmisi_lokal_tanggal_perjalanan'+nomor_pax+'_'+j).value).format('YYYY-MM-DD'),
+                                        "tiba_disini": moment(document.getElementById('adult_perjalanan_ke_transmisi_lokal_tiba_di_sini'+nomor_pax+'_'+j).value).format('YYYY-MM-DD')
+                                    });
+                                }catch(err){
+
+                                }
                             }
                         }
 
-                        for(j=0;j<perjalanan_ke_transmisi_lokal;j++){
-                            try{
-                                perjalanan_ke_transmisi_lokal_list.push({
-                                    "nama_provinsi": document.getElementById('adult_perjalanan_ke_transmisi_lokal_nama_provinsi'+nomor_pax+'_'+j).value,
-                                    "nama_kota": document.getElementById('adult_perjalanan_ke_transmisi_lokal_nama_kota'+nomor_pax+'_'+j).value,
-                                    "tanggal_perjalanan": moment(document.getElementById('adult_perjalanan_ke_transmisi_lokal_tanggal_perjalanan'+nomor_pax+'_'+j).value).format('YYYY-MM-DD'),
-                                    "tiba_disini": moment(document.getElementById('adult_perjalanan_ke_transmisi_lokal_tiba_di_sini'+nomor_pax+'_'+j).value).format('YYYY-MM-DD')
-                                });
-                            }catch(err){
+                        if(document.getElementById('adult_berkunjung'+nomor_pax).value == 'IYA'){
+                            for(j=0;j<berkunjung_ke_fasilitas_kesehatan;j++){
+                                try{
+                                    berkunjung_ke_fasilitas_kesehatan_list.push({
+                                        "nama_rumah_sakit": document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan_nama_rumah_sakit'+nomor_pax+'_'+j).value,
+                                        "nama_kota": document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan_nama_kota'+nomor_pax+'_'+j).value,
+                                        "nama_provinsi": document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan_nama_provinsi'+nomor_pax+'_'+j).value,
+                                        "tanggal_kunjungan": moment(document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan_tanggal_kunjungan'+nomor_pax+'_'+j).value).format('YYYY-MM-DD')
+                                    });
+                                }catch(err){
 
+                                }
                             }
-                        }
 
-                        for(j=0;j<berkunjung_ke_fasilitas_kesehatan;j++){
-                            try{
-                                berkunjung_ke_fasilitas_kesehatan_list.push({
-                                    "nama_rumah_sakit": document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan_nama_rumah_sakit'+nomor_pax+'_'+j).value,
-                                    "nama_kota": document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan_nama_kota'+nomor_pax+'_'+j).value,
-                                    "nama_provinsi": document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan_nama_provinsi'+nomor_pax+'_'+j).value,
-                                    "tanggal_kunjungan": moment(document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan_tanggal_kunjungan'+nomor_pax+'_'+j).value).format('YYYY-MM-DD')
-                                });
-                            }catch(err){
+                            for(j=0;j<berkunjung_ke_pasar_hewan;j++){
+                                try{
+                                    berkunjung_ke_pasar_hewan_list.push({
+                                        "nama_lokasi_pasar": document.getElementById('adult_berkunjung_ke_pasar_hewan_nama_lokasi_pasar'+nomor_pax+'_'+j).value,
+                                        "nama_kota": document.getElementById('adult_berkunjung_ke_pasar_hewan_nama_kota'+nomor_pax+'_'+j).value,
+                                        "nama_provinsi": document.getElementById('adult_berkunjung_ke_pasar_hewan_nama_provinsi'+nomor_pax+'_'+j).value,
+                                        "tanggal_kunjungan": moment(document.getElementById('adult_berkunjung_ke_pasar_hewan_tanggal_kunjungan'+nomor_pax+'_'+j).value).format('YYYY-MM-DD')
+                                    });
+                                }catch(err){
 
+                                }
                             }
-                        }
 
-                        for(j=0;j<berkunjung_ke_pasar_hewan;j++){
-                            try{
-                                berkunjung_ke_pasar_hewan_list.push({
-                                    "nama_lokasi_pasar": document.getElementById('adult_berkunjung_ke_pasar_hewan_nama_lokasi_pasar'+nomor_pax+'_'+j).value,
-                                    "nama_kota": document.getElementById('adult_berkunjung_ke_pasar_hewan_nama_kota'+nomor_pax+'_'+j).value,
-                                    "nama_provinsi": document.getElementById('adult_berkunjung_ke_pasar_hewan_nama_provinsi'+nomor_pax+'_'+j).value,
-                                    "tanggal_kunjungan": moment(document.getElementById('adult_berkunjung_ke_pasar_hewan_tanggal_kunjungan'+nomor_pax+'_'+j).value).format('YYYY-MM-DD')
-                                });
-                            }catch(err){
+                            for(j=0;j<berkunjung_ke_pasien_dalam_pengawasan;j++){
+                                try{
+                                    berkunjung_ke_pasien_dalam_pengawasan_list.push({
+                                        "nama_pasien": document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_nama_pasien'+nomor_pax+'_'+j).value,
+                                        "nama_alamat": document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_alamat'+nomor_pax+'_'+j).value,
+                                        "hubungan": document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_hubungan'+nomor_pax+'_'+j).value,
+                                        "tanggal_kontak_pertama": moment(document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_pertama'+nomor_pax+'_'+j).value).format('YYYY-MM-DD'),
+                                        "tanggal_kontak_terakhir": moment(document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_terakhir'+nomor_pax+'_'+j).value).format('YYYY-MM-DD')
+                                    });
+                                }catch(err){
 
+                                }
                             }
-                        }
 
-                        for(j=0;j<berkunjung_ke_pasien_dalam_pengawasan;j++){
-                            try{
-                                berkunjung_ke_pasien_dalam_pengawasan_list.push({
-                                    "nama_pasien": document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_nama_pasien'+nomor_pax+'_'+j).value,
-                                    "nama_alamat": document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_alamat'+nomor_pax+'_'+j).value,
-                                    "hubungan": document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_hubungan'+nomor_pax+'_'+j).value,
-                                    "tanggal_kontak_pertama": moment(document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_pertama'+nomor_pax+'_'+j).value).format('YYYY-MM-DD'),
-                                    "tanggal_kontak_terakhir": moment(document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_terakhir'+nomor_pax+'_'+j).value).format('YYYY-MM-DD')
-                                });
-                            }catch(err){
+                            for(j=0;j<berkunjung_ke_pasien_konfirmasi;j++){
+                                try{
+                                    berkunjung_ke_pasien_konfirmasi_list.push({
+                                        "nama_pasien": document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_nama_pasien1_0'+nomor_pax+'_'+j).value,
+                                        "nama_alamat": document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_alamat'+nomor_pax+'_'+j).value,
+                                        "hubungan": document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_hubungan'+nomor_pax+'_'+j).value,
+                                        "tanggal_kontak_pertama": moment(document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_pertama'+nomor_pax+'_'+j).value).format('YYYY-MM-DD'),
+                                        "tanggal_kontak_terakhir": moment(document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_terakhir'+nomor_pax+'_'+j).value).format('YYYY-MM-DD')
+                                    });
+                                }catch(err){
 
-                            }
-                        }
-
-                        for(j=0;j<berkunjung_ke_pasien_konfirmasi;j++){
-                            try{
-                                berkunjung_ke_pasien_konfirmasi_list.push({
-                                    "nama_pasien": document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_nama_pasien1_0'+nomor_pax+'_'+j).value,
-                                    "nama_alamat": document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_alamat'+nomor_pax+'_'+j).value,
-                                    "hubungan": document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_hubungan'+nomor_pax+'_'+j).value,
-                                    "tanggal_kontak_pertama": moment(document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_pertama'+nomor_pax+'_'+j).value).format('YYYY-MM-DD'),
-                                    "tanggal_kontak_terakhir": moment(document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_terakhir'+nomor_pax+'_'+j).value).format('YYYY-MM-DD')
-                                });
-                            }catch(err){
-
+                                }
                             }
                         }
                         pcr_data = {
@@ -4635,32 +4849,9 @@ function check_passenger(){
                             "pemeriksaan_swab_ke": document.getElementById('adult_pemeriksaan_swab_ke' + nomor_pax).value,
                             "asal_perusahaan": document.getElementById('adult_perusahaan' + nomor_pax).value,
                             "nama_perusahaan": document.getElementById('adult_nama_perusahaan' + nomor_pax).value,
-                            "tanggal_pertama_kali_gejala": document.getElementById('adult_tanggal_pertama_kali_gejala' + nomor_pax).value,
-                            "klinis_ada_demam": document.getElementById('adult_klinis_ada_demam' + nomor_pax).value,
-                            "klinis_suhu_tubuh": document.getElementById('adult_klinis_suhu_tubuh' + nomor_pax).value,
-                            "klinis_ada_batuk": document.getElementById('adult_klinis_ada_batuk' + nomor_pax).value,
-                            "klinis_ada_pilek": document.getElementById('adult_klinis_ada_pilek' + nomor_pax).value,
-                            "klinis_ada_sakit_tenggorokan": document.getElementById('adult_klinis_ada_sakit_tenggorokan' + nomor_pax).value,
-                            "klinis_ada_sesak": document.getElementById('adult_klinis_ada_sesak' + nomor_pax).value,
-                            "klinis_ada_sakit_kepala": document.getElementById('adult_klinis_ada_sakit_kepala' + nomor_pax).value,
-                            "klinis_ada_badan_lemah": document.getElementById('adult_klinis_ada_badan_lemah' + nomor_pax).value,
-                            "klinis_ada_nyeri_otot": document.getElementById('adult_klinis_ada_nyeri_otot' + nomor_pax).value,
-                            "klinis_ada_mual": document.getElementById('adult_klinis_ada_mual' + nomor_pax).value,
-                            "klinis_ada_nyeri_abdomen": document.getElementById('adult_klinis_ada_nyeri_abdomen' + nomor_pax).value,
-                            "klinis_ada_diare": document.getElementById('adult_klinis_ada_diare' + nomor_pax).value,
-                            "klinis_ada_gangguan_penciuman": document.getElementById('adult_klinis_ada_gangguan_penciuman' + nomor_pax).value,
                             "klinis_golongan_darah": document.getElementById('adult_klinis_golongan_darah' + nomor_pax).value,
-                            "klinis_gejala_lainnya": document.getElementById('adult_klinis_gejala_lainnya' + nomor_pax).value,
                             "klinis_sedang_hamil": document.getElementById('adult_klinis_sedang_hamil' + nomor_pax).value,
-                            "klinis_ada_diabetes": document.getElementById('adult_klinis_ada_diabetes' + nomor_pax).value,
-                            "klinis_ada_penyakit_jantung": document.getElementById('adult_klinis_ada_penyakit_jantung' + nomor_pax).value,
-                            "klinis_ada_hipertensi": document.getElementById('adult_klinis_ada_hipertensi' + nomor_pax).value,
-                            "klinis_ada_keganasan": document.getElementById('adult_klinis_ada_keganasan' + nomor_pax).value,
-                            "klinis_ada_gangguan_imunologi": document.getElementById('adult_klinis_ada_gangguan_imunologi' + nomor_pax).value,
-                            "klinis_ada_gangguan_ginjal": document.getElementById('adult_klinis_ada_gangguan_ginjal' + nomor_pax).value,
-                            "klinis_ada_gangguan_hati": document.getElementById('adult_klinis_ada_gangguan_hati' + nomor_pax).value,
-                            "klinis_ada_gangguan_paru_obstruksi_kronis": document.getElementById('adult_klinis_ada_gangguan_paru_obstruksi_kronis' + nomor_pax).value,
-                            "klinis_kondisi_penyerta_lainnya": document.getElementById('adult_klinis_kondisi_penyerta_lainnya' + nomor_pax).value,
+
                             "sedang_dirawat_di_rs": document.getElementById('adult_sedang_dirawat_di_rs' + nomor_pax).value,
                             "nama_rs": document.getElementById('adult_nama_rs' + nomor_pax).value,
                             "tanggal_masuk_rs": document.getElementById('adult_tanggal_masuk_rs' + nomor_pax).value,
@@ -4670,32 +4861,107 @@ function check_passenger(){
                             "menggunakan_emco": document.getElementById('adult_menggunakan_emco' + nomor_pax).value,
                             "nama_rs_lainnya": '',
                             "status_terakhir": document.getElementById('adult_status_terakhir' + nomor_pax).value,
+
                             "klinis_ada_penumonia": document.getElementById('adult_klinis_ada_penumonia' + nomor_pax).value,
                             "klinis_ada_ards": document.getElementById('adult_klinis_ada_ards' + nomor_pax).value,
                             "klinis_ards_detil": document.getElementById('adult_klinis_ards_detil' + nomor_pax).value,
                             "klinis_ada_penyakit_pernafasan": document.getElementById('adult_klinis_ada_penyakit_pernafasan' + nomor_pax).value,
                             "klinis_penyakit_pernafasan_detil": document.getElementById('adult_klinis_penyakit_pernafasan_detil' + nomor_pax).value,
-                            "perjalanan_keluar_negeri": document.getElementById('adult_perjalanan_keluar_negeri' + nomor_pax).value,
-                            "daftar_perjalanan_keluar_negeri": perjalanan_keluar_negeri_list,
-                            "perjalanan_ke_transmisi_lokal": document.getElementById('adult_perjalanan_ke_transmisi_lokal' + nomor_pax).value,
-                            "daftar_perjalanan_ke_transmisi_lokal": perjalanan_ke_transmisi_lokal_list,
-                            "berkunjung_ke_fasilitas_kesehatan": document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan' + nomor_pax).value,
-                            "daftar_ke_fasilitas_kesehatan": berkunjung_ke_fasilitas_kesehatan_list,
-                            "berkunjung_ke_pasar_hewan": document.getElementById('adult_berkunjung_ke_pasar_hewan' + nomor_pax).value,
-                            "daftar_ke_pasar_hewan": berkunjung_ke_pasar_hewan_list,
-                            "berkunjung_ke_pasien_dalam_pengawasan": document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan' + nomor_pax).value,
-                            "daftar_ke_pasien_dalam_pengawasan": berkunjung_ke_pasien_dalam_pengawasan_list,
-                            "berkunjung_ke_pasien_konfirmasi": document.getElementById('adult_berkunjung_ke_pasien_konfirmasi' + nomor_pax).value,
-                            "daftar_ke_pasien_konfirmasi": berkunjung_ke_pasien_konfirmasi_list,
+
                             "termasuk_cluster_ispa": document.getElementById('adult_termasuk_cluster_ispa' + nomor_pax).value,
                             "merupakan_petugas_kesehatan": document.getElementById('adult_merupakan_petugas_kesehatan' + nomor_pax).value,
                             "apd_yang_digunakan": document.getElementById('adult_apd_yang_digunakan' + nomor_pax).value,
                             "prosedur_menimbulkan_aerosol": document.getElementById('adult_prosedur_menimbulkan_aerosol' + nomor_pax).value,
                             "tindakan_menimbulkan_aerosol": document.getElementById('adult_tindakan_menimbulkan_aerosol' + nomor_pax).value,
                             "faktor_lain": document.getElementById('adult_faktor_lain' + nomor_pax).value
-
+                        }
+                        if(document.getElementById('adult_gejala'+nomor_pax).value == 'IYA'){
+                            pcr_data["tanggal_pertama_kali_gejala"] = document.getElementById('adult_tanggal_pertama_kali_gejala' + nomor_pax).value;
+                            pcr_data["klinis_ada_demam"] = document.getElementById('adult_klinis_ada_demam' + nomor_pax).value;
+                            pcr_data["klinis_suhu_tubuh"] = document.getElementById('adult_klinis_suhu_tubuh' + nomor_pax).value;
+                            pcr_data["klinis_ada_batuk"] = document.getElementById('adult_klinis_ada_batuk' + nomor_pax).value;
+                            pcr_data["klinis_ada_pilek"] = document.getElementById('adult_klinis_ada_pilek' + nomor_pax).value;
+                            pcr_data["klinis_ada_sakit_tenggorokan"] = document.getElementById('adult_klinis_ada_sakit_tenggorokan' + nomor_pax).value;
+                            pcr_data["klinis_ada_sesak"] = document.getElementById('adult_klinis_ada_sesak' + nomor_pax).value;
+                            pcr_data["klinis_ada_sakit_kepala"] = document.getElementById('adult_klinis_ada_sakit_kepala' + nomor_pax).value;
+                            pcr_data["klinis_ada_badan_lemah"] = document.getElementById('adult_klinis_ada_badan_lemah' + nomor_pax).value;
+                            pcr_data["klinis_ada_nyeri_otot"] = document.getElementById('adult_klinis_ada_nyeri_otot' + nomor_pax).value;
+                            pcr_data["klinis_ada_mual"] = document.getElementById('adult_klinis_ada_mual' + nomor_pax).value;
+                            pcr_data["klinis_ada_nyeri_abdomen"] = document.getElementById('adult_klinis_ada_nyeri_abdomen' + nomor_pax).value;
+                            pcr_data["klinis_ada_diare"] = document.getElementById('adult_klinis_ada_diare' + nomor_pax).value;
+                            pcr_data["klinis_ada_gangguan_penciuman"] = document.getElementById('adult_klinis_ada_gangguan_penciuman' + nomor_pax).value;
+                            pcr_data["klinis_gejala_lainnya"] = document.getElementById('adult_klinis_gejala_lainnya' + nomor_pax).value;
+                        }else{
+                            pcr_data["tanggal_pertama_kali_gejala"] = '';
+                            pcr_data["klinis_ada_demam"] = 'TIDAK';
+                            pcr_data["klinis_suhu_tubuh"] = '';
+                            pcr_data["klinis_ada_batuk"] = 'TIDAK';
+                            pcr_data["klinis_ada_pilek"] = 'TIDAK';
+                            pcr_data["klinis_ada_sakit_tenggorokan"] = 'TIDAK';
+                            pcr_data["klinis_ada_sesak"] = 'TIDAK';
+                            pcr_data["klinis_ada_sakit_kepala"] = 'TIDAK';
+                            pcr_data["klinis_ada_badan_lemah"] = 'TIDAK';
+                            pcr_data["klinis_ada_nyeri_otot"] = 'TIDAK';
+                            pcr_data["klinis_ada_mual"] = 'TIDAK';
+                            pcr_data["klinis_ada_nyeri_abdomen"] = 'TIDAK';
+                            pcr_data["klinis_ada_diare"] = 'TIDAK';
+                            pcr_data["klinis_ada_gangguan_penciuman"] = 'TIDAK';
+                            pcr_data["klinis_gejala_lainnya"] = '';
                         }
 
+                        if(document.getElementById('adult_penyakit_bawaan'+nomor_pax).value == 'IYA'){
+                            pcr_data["klinis_ada_diabetes"] = document.getElementById('adult_klinis_ada_diabetes' + nomor_pax).value;
+                            pcr_data["klinis_ada_penyakit_jantung"] = document.getElementById('adult_klinis_ada_penyakit_jantung' + nomor_pax).value;
+                            pcr_data["klinis_ada_hipertensi"] = document.getElementById('adult_klinis_ada_hipertensi' + nomor_pax).value;
+                            pcr_data["klinis_ada_keganasan"] = document.getElementById('adult_klinis_ada_keganasan' + nomor_pax).value;
+                            pcr_data["klinis_ada_gangguan_imunologi"] = document.getElementById('adult_klinis_ada_gangguan_imunologi' + nomor_pax).value;
+                            pcr_data["klinis_ada_gangguan_ginjal"] = document.getElementById('adult_klinis_ada_gangguan_ginjal' + nomor_pax).value;
+                            pcr_data["klinis_ada_gangguan_hati"] = document.getElementById('adult_klinis_ada_gangguan_hati' + nomor_pax).value;
+                            pcr_data["klinis_ada_gangguan_paru_obstruksi_kronis"] = document.getElementById('adult_klinis_ada_gangguan_paru_obstruksi_kronis' + nomor_pax).value;
+                            pcr_data["klinis_kondisi_penyerta_lainnya"] = document.getElementById('adult_klinis_kondisi_penyerta_lainnya' + nomor_pax).value;
+                        }else{
+                            pcr_data["klinis_ada_diabetes"] = 'TIDAK';
+                            pcr_data["klinis_ada_penyakit_jantung"] = 'TIDAK';
+                            pcr_data["klinis_ada_hipertensi"] = 'TIDAK';
+                            pcr_data["klinis_ada_keganasan"] = 'TIDAK';
+                            pcr_data["klinis_ada_gangguan_imunologi"] = 'TIDAK';
+                            pcr_data["klinis_ada_gangguan_ginjal"] = 'TIDAK';
+                            pcr_data["klinis_ada_gangguan_hati"] = 'TIDAK';
+                            pcr_data["klinis_ada_gangguan_paru_obstruksi_kronis"] = 'TIDAK';
+                            pcr_data["klinis_kondisi_penyerta_lainnya"] = '';
+                        }
+
+                        if(document.getElementById('adult_perjalanan'+nomor_pax).value == 'IYA'){
+                            pcr_data["perjalanan_keluar_negeri"] = document.getElementById('adult_perjalanan_keluar_negeri' + nomor_pax).value;
+                            pcr_data["daftar_perjalanan_keluar_negeri"] = perjalanan_keluar_negeri_list;
+                            pcr_data["perjalanan_ke_transmisi_lokal"] = document.getElementById('adult_perjalanan_ke_transmisi_lokal' + nomor_pax).value;
+                            pcr_data["daftar_perjalanan_ke_transmisi_lokal"] = perjalanan_ke_transmisi_lokal_list;
+                        }else{
+                            pcr_data["perjalanan_keluar_negeri"] = 'TIDAK';
+                            pcr_data["daftar_perjalanan_keluar_negeri"] = perjalanan_keluar_negeri_list;
+                            pcr_data["perjalanan_ke_transmisi_lokal"] = 'TIDAK';
+                            pcr_data["daftar_perjalanan_ke_transmisi_lokal"] = perjalanan_ke_transmisi_lokal_list;
+                        }
+
+                        if(document.getElementById('adult_berkunjung'+nomor_pax).value == 'IYA'){
+                            pcr_data["berkunjung_ke_fasilitas_kesehatan"] = document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan' + nomor_pax).value;
+                            pcr_data["daftar_ke_fasilitas_kesehatan"] = berkunjung_ke_fasilitas_kesehatan_list;
+                            pcr_data["berkunjung_ke_pasar_hewan"] = document.getElementById('adult_berkunjung_ke_pasar_hewan' + nomor_pax).value;
+                            pcr_data["daftar_ke_pasar_hewan"] = berkunjung_ke_pasar_hewan_list;
+                            pcr_data["berkunjung_ke_pasien_dalam_pengawasan"] = document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan' + nomor_pax).value;
+                            pcr_data["daftar_ke_pasien_dalam_pengawasan"] = berkunjung_ke_pasien_dalam_pengawasan_list;
+                            pcr_data["berkunjung_ke_pasien_konfirmasi"] = document.getElementById('adult_berkunjung_ke_pasien_konfirmasi' + nomor_pax).value;
+                            pcr_data["daftar_ke_pasien_konfirmasi"] = berkunjung_ke_pasien_konfirmasi_list;
+                        }else{
+                            pcr_data["berkunjung_ke_fasilitas_kesehatan"] = 'TIDAK';
+                            pcr_data["daftar_ke_fasilitas_kesehatan"] = berkunjung_ke_fasilitas_kesehatan_list;
+                            pcr_data["berkunjung_ke_pasar_hewan"] = 'TIDAK';
+                            pcr_data["daftar_ke_pasar_hewan"] = berkunjung_ke_pasar_hewan_list;
+                            pcr_data["berkunjung_ke_pasien_dalam_pengawasan"] = 'TIDAK';
+                            pcr_data["daftar_ke_pasien_dalam_pengawasan"] = berkunjung_ke_pasien_dalam_pengawasan_list;
+                            pcr_data["berkunjung_ke_pasien_konfirmasi"] = 'TIDAK';
+                            pcr_data["daftar_ke_pasien_konfirmasi"] = berkunjung_ke_pasien_konfirmasi_list;
+                        }
                     }
                     check_passenger = true;
                     request['passenger'].push({
@@ -5273,4 +5539,13 @@ function auto_fill_periksain(){
         update_contact('passenger',counter);
         counter++;
     }
+}
+
+function repeat_order_phc(){
+    $("#myModalPluginGetBookingB2C").modal('show');
+    document.getElementById('product').value = 'phc';
+    document.getElementById('select2-product-container').innerHTML = 'phc';
+
+    $('#product').niceSelect('update');
+    change_product();
 }
