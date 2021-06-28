@@ -638,7 +638,10 @@ function add_table_of_passenger(type){
                                     <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`');">
                                         <option value="">Select Country Of Issued</option>`;
                                         for(i in countries){
-                                           text_div_paxs+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
+                                           if(countries[i].code == 'ID')
+                                                text_div_paxs+=`<option value="`+countries[i].code+`" selected>`+countries[i].name+`</option>`;
+                                           else
+                                                text_div_paxs+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
                                         }
                                     text_div_paxs+=`</select>
                                 </div>
@@ -652,7 +655,10 @@ function add_table_of_passenger(type){
                                 <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`');">
                                     <option value="">Select Country Of Issued</option>`;
                                     for(i in countries){
-                                       text_div_paxs+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
+                                       if(countries[i].code == 'ID')
+                                            text_div_paxs+=`<option value="`+countries[i].code+`" selected>`+countries[i].name+`</option>`;
+                                       else
+                                            text_div_paxs+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
                                     }
                                 text_div_paxs+=`</select>
                                 <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
@@ -665,7 +671,10 @@ function add_table_of_passenger(type){
                                 <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`');">
                                     <option value="">Select Country Of Issued</option>`;
                                     for(i in countries){
-                                       text_div_paxs+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
+                                       if(countries[i].code == 'ID')
+                                            text_div_paxs+=`<option value="`+countries[i].code+`" selected>`+countries[i].name+`</option>`;
+                                       else
+                                            text_div_paxs+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
                                     }
                                 text_div_paxs+=`</select>
                                 <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
@@ -678,7 +687,10 @@ function add_table_of_passenger(type){
                                 <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`');">
                                     <option value="">Select Country Of Issued</option>`;
                                     for(i in countries){
-                                       text_div_paxs+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
+                                       if(countries[i].code == 'ID')
+                                            text_div_paxs+=`<option value="`+countries[i].code+`" selected>`+countries[i].name+`</option>`;
+                                       else
+                                            text_div_paxs+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
                                     }
                                 text_div_paxs+=`</select>
                                 <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
@@ -692,7 +704,10 @@ function add_table_of_passenger(type){
                                     <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`');">
                                         <option value="">Select Country Of Issued</option>`;
                                         for(i in countries){
-                                           text_div_paxs+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
+                                           if(countries[i].code == 'ID')
+                                                text_div_paxs+=`<option value="`+countries[i].code+`" selected>`+countries[i].name+`</option>`;
+                                           else
+                                                text_div_paxs+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
                                         }
                                     text_div_paxs+=`</select>
                                 </div>
@@ -707,7 +722,10 @@ function add_table_of_passenger(type){
                                     <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`');">
                                         <option value="">Select Country Of Issued</option>`;
                                         for(i in countries){
-                                           text_div_paxs+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
+                                            if(countries[i].code == 'ID')
+                                                text_div_paxs+=`<option value="`+countries[i].code+`" selected>`+countries[i].name+`</option>`;
+                                            else
+                                                text_div_paxs+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
                                         }
                                     text_div_paxs+=`</select>
                                 </div>
