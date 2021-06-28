@@ -1955,38 +1955,34 @@ function re_medical_check_price(){
     var test_list_counter = 1;
     var add_list = true;
     var error_log = '';
-    if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCHCKATG' || vendor == 'phc' && test_type == 'PHCHCKPCR'){
-        for(i=1;i <= test_time; i++){
-            try{
+    for(i=1;i <= test_time; i++){
+        try{
+            if(document.getElementById('booker_timeslot_id'+i).value != '')
                 timeslot_list.push(document.getElementById('booker_timeslot_id'+i).value.split('~')[0])
-            }catch(err){}
-        }
-        for(i=1; i <= test_time; i++){
-            try{
-                add_list = true;
-                if(vendor == 'periksain'){
-                    if(now.format('DD MMM YYYY') == document.getElementById('booker_test_date'+i).value){
-                        if(new Date() > new Date(document.getElementById('booker_test_date'+i).value+' '+document.getElementById('booker_timeslot_id'+i).value.split('~')[1])){
-                            add_list = false;
-                            error_log += 'Test time reservation already pass please change test time ' + test_list_counter + '!</br>\n';
-                        }
-                    }
-                }else{
-                    if(now.format('DD MMM YYYY') == document.getElementById('booker_test_date'+i).value){
-                        if(new Date() > new Date(document.getElementById('booker_test_date'+i).value+' '+document.getElementById('booker_timeslot_id'+i).value.split('~')[1])){
-                            add_list = false;
-                            error_log += 'Test time reservation already pass please change test time ' + test_list_counter + '!</br>\n';
-                        }
+        }catch(err){}
+    }
+    for(i=1; i <= test_time; i++){
+        try{
+            add_list = true;
+            if(vendor == 'periksain'){
+                if(now.format('DD MMM YYYY') == document.getElementById('booker_test_date'+i).value){
+                    if(new Date() > new Date(document.getElementById('booker_test_date'+i).value+' '+document.getElementById('booker_timeslot_id'+i).value.split('~')[1])){
+                        add_list = false;
+                        error_log += 'Test time reservation already pass please change test time ' + test_list_counter + '!</br>\n';
                     }
                 }
-                test_list_counter++;
-            }catch(err){
-
+            }else{
+                if(now.format('DD MMM YYYY') == document.getElementById('booker_test_date'+i).value){
+                    if(new Date() > new Date(document.getElementById('booker_test_date'+i).value+' '+document.getElementById('booker_timeslot_id'+i).value.split('~')[1])){
+                        add_list = false;
+                        error_log += 'Test time reservation already pass please change test time ' + test_list_counter + '!</br>\n';
+                    }
+                }
             }
-        }
+            test_list_counter++;
+        }catch(err){
 
-    }else if(vendor == 'phc' && test_type == 'PHCDTKATG' || vendor == 'phc' && test_type == 'PHCDTKPCR'){
-        timeslot_list.push('drive_thru')
+        }
     }
     if(timeslot_list.length != 0 && error_log == '' || vendor == 'phc' && test_type == 'PHCDTKATG' || vendor == 'phc' && test_type == 'PHCDTKPCR'){
         $.ajax({
