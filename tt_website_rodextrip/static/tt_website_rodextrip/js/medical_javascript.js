@@ -4138,7 +4138,7 @@ function check_passenger(){
     else if(vendor == 'phc'){
         for(i in medical_config.result.response.carriers_code){
             if(medical_config.result.response.carriers_code[i].code == test_type){
-                max_length = medical_config.result.response.carriers_code.adult_length_name;
+                max_length = medical_config.result.response.carriers_code[i].adult_length_name;
                 break;
             }
         }
