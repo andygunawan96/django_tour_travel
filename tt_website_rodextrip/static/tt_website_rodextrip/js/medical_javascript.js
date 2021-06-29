@@ -5085,7 +5085,13 @@ function check_passenger(){
     }
 
    if(error_log=='' && check_passenger == true){
-       re_medical_signin('next');
+//       re_medical_signin('next');
+        document.getElementById('time_limit_input').value = 200;
+        document.getElementById('data').value = JSON.stringify(request);
+        document.getElementById('signature').value = signature;
+        document.getElementById('vendor').value = vendor;
+        document.getElementById('test_type').value = test_type;
+        document.getElementById('medical_review').submit();
    }else{
        document.getElementById('show_error_log').innerHTML = error_log;
        $('.next-passenger-train').removeClass("running");
