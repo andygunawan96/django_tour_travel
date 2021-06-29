@@ -4279,20 +4279,12 @@ function check_passenger(){
                                 document.getElementById('adult_identity_number'+ nomor_pax).style['border-color'] = 'red';
                             }else{
                                 document.getElementById('adult_identity_number'+ nomor_pax).style['border-color'] = '#EFEFEF';
-                                ktp.push({
-                                    "no_ktp": document.getElementById('adult_identity_number'+ nomor_pax).value,
-                                    "sequence": nomor_pax
-                                })
-                            }
-                            check_ktp_value = 1;
-                            for(i in ktp){
-                                if(ktp[i].no_ktp == document.getElementById('adult_identity_number'+ nomor_pax).value){
-                                    check_ktp_value -= 1;
+                                if(ktp.includes(document.getElementById('adult_identity_number'+ nomor_pax).value) == true){
+                                    error_log+= 'Duplicate identity number, for customer adult '+nomor_pax+'!</br>\n';
+                                    document.getElementById('adult_identity_number'+ nomor_pax).style['border-color'] = 'red';
+                                }else{
+                                    ktp.push(document.getElementById('adult_identity_number'+ nomor_pax).value)
                                 }
-                            }
-                            if(check_ktp_value != 0){
-                                error_log+= 'Duplicate identity number, for customer adult '+nomor_pax+'!</br>\n';
-                                document.getElementById('adult_identity_number'+ nomor_pax).style['border-color'] = 'red';
                             }
                             if(document.getElementById('adult_country_of_issued'+ nomor_pax).value == ''){
                                 error_log+= 'Please fill country of issued for customer '+ nomor_pax +'!</br>\n';
@@ -4493,20 +4485,12 @@ function check_passenger(){
                                 document.getElementById('adult_identity_number'+ nomor_pax).style['border-color'] = 'red';
                             }else{
                                 document.getElementById('adult_identity_number'+ nomor_pax).style['border-color'] = '#EFEFEF';
-                                ktp.push({
-                                    "no_ktp": document.getElementById('adult_identity_number'+ nomor_pax).value,
-                                    "sequence": nomor_pax
-                                })
-                            }
-                            check_ktp_value = 1;
-                            for(i in ktp){
-                                if(ktp[i].no_ktp == document.getElementById('adult_identity_number'+ nomor_pax).value){
-                                    check_ktp_value -= 1;
+                                if(ktp.includes(document.getElementById('adult_identity_number'+ nomor_pax).value) == true){
+                                    error_log+= 'Duplicate identity number, for customer adult '+nomor_pax+'!</br>\n';
+                                    document.getElementById('adult_identity_number'+ nomor_pax).style['border-color'] = 'red';
+                                }else{
+                                    ktp.push(document.getElementById('adult_identity_number'+ nomor_pax).value)
                                 }
-                            }
-                            if(check_ktp_value != 0){
-                                error_log+= 'Duplicate identity number, for customer adult '+nomor_pax+'!</br>\n';
-                                document.getElementById('adult_identity_number'+ nomor_pax).style['border-color'] = 'red';
                             }
                             if(document.getElementById('adult_country_of_issued'+ nomor_pax).value == ''){
                                 error_log+= 'Please fill country of issued for customer '+nomor_pax+'!</br>\n';
@@ -4524,20 +4508,12 @@ function check_passenger(){
                                 document.getElementById('adult_identity_number'+ nomor_pax).style['border-color'] = 'red';
                             }else{
                                 document.getElementById('adult_identity_number'+ nomor_pax).style['border-color'] = '#EFEFEF';
-                                ktp.push({
-                                    "no_ktp": document.getElementById('adult_identity_number'+ nomor_pax).value,
-                                    "sequence": nomor_pax
-                                })
-                            }
-                            check_ktp_value = 1;
-                            for(i in ktp){
-                                if(ktp[i].no_ktp == document.getElementById('adult_identity_number'+ nomor_pax).value){
-                                    check_ktp_value -= 1;
+                                if(ktp.includes(document.getElementById('adult_identity_number'+ nomor_pax).value) == true){
+                                    error_log+= 'Duplicate identity number, for customer adult '+nomor_pax+'!</br>\n';
+                                    document.getElementById('adult_identity_number'+ nomor_pax).style['border-color'] = 'red';
+                                }else{
+                                    ktp.push(document.getElementById('adult_identity_number'+ nomor_pax).value)
                                 }
-                            }
-                            if(check_ktp_value != 0){
-                                error_log+= 'Duplicate identity number, for customer adult '+nomor_pax+'!</br>\n';
-                                document.getElementById('adult_identity_number'+ nomor_pax).style['border-color'] = 'red';
                             }
                             if(document.getElementById('adult_country_of_issued'+ nomor_pax).value == ''){
                                 error_log+= 'Please fill country of issued for customer '+ nomor_pax +'!</br>\n';
