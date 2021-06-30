@@ -2552,6 +2552,8 @@ function copy_booker_to_passenger(val,type){
 
         if(type == "medical"){
             document.getElementById('button_clear0').hidden = false;
+            document.getElementById('adult_identity_type1').value = 'ktp';
+            $('#adult_identity_type1').niceSelect('update');
             try{
             document.getElementById("button_search0").style.display = "unset";
             document.getElementById("button_clear0").style.display = "unset";
