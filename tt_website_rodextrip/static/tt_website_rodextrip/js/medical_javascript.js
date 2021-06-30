@@ -4712,35 +4712,37 @@ function check_passenger(){
                             }else{
                                 document.getElementById('adult_klinis_ada_gangguan_paru_obstruksi_kronis' + nomor_pax).style['border-color'] = '#EFEFEF';
                             }
-                            if(document.getElementById('adult_sedang_dirawat_di_icu' + nomor_pax).value == ''){
-                                error_log+= 'Please choose Sedang Dirawat Di ICU for customer '+nomor_pax+'!</br>\n';
-                                document.getElementById('adult_sedang_dirawat_di_icu' + nomor_pax).style['border-color'] = 'red';
-                            }else{
-                                document.getElementById('adult_sedang_dirawat_di_icu' + nomor_pax).style['border-color'] = '#EFEFEF';
-                            }
-                            if(document.getElementById('adult_menggunakan_emco' + nomor_pax).value == ''){
-                                error_log+= 'Please choose Menggunakan Emco for customer '+nomor_pax+'!</br>\n';
-                                document.getElementById('adult_menggunakan_emco' + nomor_pax).style['border-color'] = 'red';
-                            }else{
-                                document.getElementById('adult_menggunakan_emco' + nomor_pax).style['border-color'] = '#EFEFEF';
-                            }
-                            if(document.getElementById('adult_klinis_ada_penumonia' + nomor_pax).value == ''){
-                                error_log+= 'Please choose Gejala Penumonia for customer '+nomor_pax+'!</br>\n';
-                                document.getElementById('adult_klinis_ada_penumonia' + nomor_pax).style['border-color'] = 'red';
-                            }else{
-                                document.getElementById('adult_klinis_ada_penumonia' + nomor_pax).style['border-color'] = '#EFEFEF';
-                            }
-                            if(document.getElementById('adult_klinis_ada_ards' + nomor_pax).value == ''){
-                                error_log+= 'Please choose Gejala ARDS for customer '+nomor_pax+'!</br>\n';
-                                document.getElementById('adult_klinis_ada_ards' + nomor_pax).style['border-color'] = 'red';
-                            }else{
-                                document.getElementById('adult_klinis_ada_ards' + nomor_pax).style['border-color'] = '#EFEFEF';
-                            }
-                            if(document.getElementById('adult_klinis_ada_penyakit_pernafasan' + nomor_pax).value == ''){
-                                error_log+= 'Please choose Gejala Penyakit Pernafasan for customer '+nomor_pax+'!</br>\n';
-                                document.getElementById('adult_klinis_ada_penyakit_pernafasan' + nomor_pax).style['border-color'] = 'red';
-                            }else{
-                                document.getElementById('adult_klinis_ada_penyakit_pernafasan' + nomor_pax).style['border-color'] = '#EFEFEF';
+                            if(document.getElementById('adult_sedang_dirawat_di_rs'+nomor_pax).value == 'IYA'){
+                                if(document.getElementById('adult_sedang_dirawat_di_icu' + nomor_pax).value == ''){
+                                    error_log+= 'Please choose Sedang Dirawat Di ICU for customer '+nomor_pax+'!</br>\n';
+                                    document.getElementById('adult_sedang_dirawat_di_icu' + nomor_pax).style['border-color'] = 'red';
+                                }else{
+                                    document.getElementById('adult_sedang_dirawat_di_icu' + nomor_pax).style['border-color'] = '#EFEFEF';
+                                }
+                                if(document.getElementById('adult_menggunakan_emco' + nomor_pax).value == ''){
+                                    error_log+= 'Please choose Menggunakan Emco for customer '+nomor_pax+'!</br>\n';
+                                    document.getElementById('adult_menggunakan_emco' + nomor_pax).style['border-color'] = 'red';
+                                }else{
+                                    document.getElementById('adult_menggunakan_emco' + nomor_pax).style['border-color'] = '#EFEFEF';
+                                }
+                                if(document.getElementById('adult_klinis_ada_penumonia' + nomor_pax).value == ''){
+                                    error_log+= 'Please choose Gejala Penumonia for customer '+nomor_pax+'!</br>\n';
+                                    document.getElementById('adult_klinis_ada_penumonia' + nomor_pax).style['border-color'] = 'red';
+                                }else{
+                                    document.getElementById('adult_klinis_ada_penumonia' + nomor_pax).style['border-color'] = '#EFEFEF';
+                                }
+                                if(document.getElementById('adult_klinis_ada_ards' + nomor_pax).value == ''){
+                                    error_log+= 'Please choose Gejala ARDS for customer '+nomor_pax+'!</br>\n';
+                                    document.getElementById('adult_klinis_ada_ards' + nomor_pax).style['border-color'] = 'red';
+                                }else{
+                                    document.getElementById('adult_klinis_ada_ards' + nomor_pax).style['border-color'] = '#EFEFEF';
+                                }
+                                if(document.getElementById('adult_klinis_ada_penyakit_pernafasan' + nomor_pax).value == ''){
+                                    error_log+= 'Please choose Gejala Penyakit Pernafasan for customer '+nomor_pax+'!</br>\n';
+                                    document.getElementById('adult_klinis_ada_penyakit_pernafasan' + nomor_pax).style['border-color'] = 'red';
+                                }else{
+                                    document.getElementById('adult_klinis_ada_penyakit_pernafasan' + nomor_pax).style['border-color'] = '#EFEFEF';
+                                }
                             }
                         }else if(document.getElementById('adult_penyakit_bawaan'+nomor_pax).value == ''){
                             error_log+= 'Please choose Penyakit Bawaan for customer '+nomor_pax+'!</br>\n';
