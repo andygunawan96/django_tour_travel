@@ -4749,6 +4749,9 @@ function check_passenger(){
                             }else{
                                 document.getElementById('adult_klinis_ada_penyakit_pernafasan' + nomor_pax).style['border-color'] = '#EFEFEF';
                             }
+                        }else if(document.getElementById('adult_sedang_dirawat_di_rs'+nomor_pax).value == ''){
+                            error_log+= 'Please choose Di rawat di RS for customer '+nomor_pax+'!</br>\n';
+                            document.getElementById('adult_penyakit_bawaan' + nomor_pax).style['border-color'] = 'red';
                         }
 
                         //PERJALANAN
