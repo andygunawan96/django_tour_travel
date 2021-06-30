@@ -5272,6 +5272,30 @@ function next_prev_form_medical(type, counter, id){
 function auto_fill_phc_antigen(){
     var counter = 1;
     for(idx in passenger_data_cache_medical){
+        if(idx == 0){
+            document.getElementById('booker_first_name').value = passenger_data_cache_medical[idx].first_name;
+            document.getElementById('booker_last_name').value = passenger_data_cache_medical[idx].last_name;
+            document.getElementById('booker_title').value = passenger_data_cache_medical[idx].title;
+            document.getElementById('booker_email').value = passenger_data_cache_medical[idx].email;
+            if(passenger_data_cache_medical[idx].phone_number.substr(0,2) == '62'){
+                document.getElementById('booker_phone_code_id').value = '62';
+                document.getElementById('select2-booker_phone_code_id-container').innerHTML = '62';
+                document.getElementById('booker_phone').value = passenger_data_cache_medical[idx].phone_number.substr(2,100);
+            }else if(passenger_data_cache_medical[idx].phone_number.substr(0,1) == '0'){
+                document.getElementById('booker_phone_code_id').value = '0';
+                document.getElementById('select2-booker_phone_code_id-container').innerHTML = '0';
+                document.getElementById('booker_phone').value = passenger_data_cache_medical[idx].phone_number.substr(1,100);
+            }else{
+                document.getElementById('booker_phone_code_id').value = passenger_data_cache_medical[idx].phone_number.substr(0,2);
+                document.getElementById('select2-booker_phone_code_id-container').innerHTML = passenger_data_cache_medical[idx].phone_number.substr(0,2);
+                document.getElementById('booker_phone').value = passenger_data_cache_medical[idx].phone_number.substr(2,100);
+            }
+            document.getElementById('booker_nationality_id').value = passenger_data_cache_medical[idx].nationality_name;
+            document.getElementById('select2-booker_nationality_id-container').innerHTML = passenger_data_cache_medical[idx].nationality_name;
+            document.getElementsByName('myRadios')[0].checked = 'checked';
+
+            copy_booker_to_passenger('copy','medical');
+        }
         document.getElementById('adult_title'+counter).value = passenger_data_cache_medical[idx].title;
         document.getElementById('adult_first_name'+counter).value = passenger_data_cache_medical[idx].first_name;
         document.getElementById('adult_last_name'+counter).value = passenger_data_cache_medical[idx].last_name;
@@ -5347,6 +5371,30 @@ function auto_fill_phc_antigen(){
 function auto_fill_phc_pcr(){
     var counter = 1;
     for(idx in passenger_data_cache_medical){
+        if(idx == 0){
+            document.getElementById('booker_first_name').value = passenger_data_cache_medical[idx].first_name;
+            document.getElementById('booker_last_name').value = passenger_data_cache_medical[idx].last_name;
+            document.getElementById('booker_title').value = passenger_data_cache_medical[idx].title;
+            document.getElementById('booker_email').value = passenger_data_cache_medical[idx].email;
+            if(passenger_data_cache_medical[idx].phone_number.substr(0,2) == '62'){
+                document.getElementById('booker_phone_code_id').value = '62';
+                document.getElementById('select2-booker_phone_code_id-container').innerHTML = '62';
+                document.getElementById('booker_phone').value = passenger_data_cache_medical[idx].phone_number.substr(2,100);
+            }else if(passenger_data_cache_medical[idx].phone_number.substr(0,1) == '0'){
+                document.getElementById('booker_phone_code_id').value = '0';
+                document.getElementById('select2-booker_phone_code_id-container').innerHTML = '0';
+                document.getElementById('booker_phone').value = passenger_data_cache_medical[idx].phone_number.substr(1,100);
+            }else{
+                document.getElementById('booker_phone_code_id').value = passenger_data_cache_medical[idx].phone_number.substr(0,2);
+                document.getElementById('select2-booker_phone_code_id-container').innerHTML = passenger_data_cache_medical[idx].phone_number.substr(0,2);
+                document.getElementById('booker_phone').value = passenger_data_cache_medical[idx].phone_number.substr(2,100);
+            }
+            document.getElementById('booker_nationality_id').value = passenger_data_cache_medical[idx].nationality_name;
+            document.getElementById('select2-booker_nationality_id-container').innerHTML = passenger_data_cache_medical[idx].nationality_name;
+            document.getElementsByName('myRadios')[0].checked = 'checked';
+
+            copy_booker_to_passenger('copy','medical');
+        }
         document.getElementById('adult_title'+counter).value = passenger_data_cache_medical[idx].title;
         onchange_title(counter);
         document.getElementById('adult_first_name'+counter).value = passenger_data_cache_medical[idx].first_name;
@@ -5609,6 +5657,30 @@ function auto_fill_phc_pcr(){
 function auto_fill_periksain(){
     var counter = 1;
     for(idx in passenger_data_cache_medical){
+        if(idx == 0){
+            document.getElementById('booker_first_name').value = passenger_data_cache_medical[idx].first_name;
+            document.getElementById('booker_last_name').value = passenger_data_cache_medical[idx].last_name;
+            document.getElementById('booker_title').value = passenger_data_cache_medical[idx].title;
+            document.getElementById('booker_email').value = passenger_data_cache_medical[idx].email;
+            if(passenger_data_cache_medical[idx].phone_number.substr(0,2) == '62'){
+                document.getElementById('booker_phone_code_id').value = '62';
+                document.getElementById('select2-booker_phone_code_id-container').innerHTML = '62';
+                document.getElementById('booker_phone').value = passenger_data_cache_medical[idx].phone_number.substr(2,100);
+            }else if(passenger_data_cache_medical[idx].phone_number.substr(0,1) == '0'){
+                document.getElementById('booker_phone_code_id').value = '0';
+                document.getElementById('select2-booker_phone_code_id-container').innerHTML = '0';
+                document.getElementById('booker_phone').value = passenger_data_cache_medical[idx].phone_number.substr(1,100);
+            }else{
+                document.getElementById('booker_phone_code_id').value = passenger_data_cache_medical[idx].phone_number.substr(0,2);
+                document.getElementById('select2-booker_phone_code_id-container').innerHTML = passenger_data_cache_medical[idx].phone_number.substr(0,2);
+                document.getElementById('booker_phone').value = passenger_data_cache_medical[idx].phone_number.substr(2,100);
+            }
+            document.getElementById('booker_nationality_id').value = passenger_data_cache_medical[idx].nationality_name;
+            document.getElementById('select2-booker_nationality_id-container').innerHTML = passenger_data_cache_medical[idx].nationality_name;
+            document.getElementsByName('myRadios')[0].checked = 'checked';
+
+            copy_booker_to_passenger('copy','medical');
+        }
         document.getElementById('adult_title'+counter).value = passenger_data_cache_medical[idx].title;
         document.getElementById('adult_first_name'+counter).value = passenger_data_cache_medical[idx].first_name;
         document.getElementById('adult_last_name'+counter).value = passenger_data_cache_medical[idx].last_name;
