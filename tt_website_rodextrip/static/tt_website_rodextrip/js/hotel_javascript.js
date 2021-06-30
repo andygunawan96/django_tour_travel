@@ -1580,7 +1580,7 @@ function goto_passenger(){
 
 function check_passenger(adult, child, room){
     //booker
-    length_name = 25;
+    length_name = 200;
     error_log = '';
     pax_list = [];
     try{
