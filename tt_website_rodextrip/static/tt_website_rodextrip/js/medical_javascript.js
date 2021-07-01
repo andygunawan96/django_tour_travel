@@ -4342,7 +4342,7 @@ function check_passenger(){
                             'calling_code': document.getElementById('adult_phone_code'+nomor_pax+'_id').value,
                             'mobile': document.getElementById('adult_phone'+nomor_pax).value,
                             'nationality_name': document.getElementById('adult_nationality' + nomor_pax).value,
-                            'contact_seq_id': document.getElementById('adult_id' + nomor_pax).value
+                            'contact_seq_id': document.getElementById('adult_id' + nomor_pax).value,
                             'is_also_booker': true
                         }]
                     }
@@ -5110,7 +5110,7 @@ function check_passenger(){
                             'calling_code': document.getElementById('adult_phone_code'+nomor_pax+'_id').value,
                             'mobile': document.getElementById('adult_phone'+nomor_pax).value,
                             'nationality_name': document.getElementById('adult_nationality' + nomor_pax).value,
-                            'contact_seq_id': document.getElementById('adult_id' + nomor_pax).value
+                            'contact_seq_id': document.getElementById('adult_id' + nomor_pax).value,
                             'is_also_booker': true
                         }]
                     }
