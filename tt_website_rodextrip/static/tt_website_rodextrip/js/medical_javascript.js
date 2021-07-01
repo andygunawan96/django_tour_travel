@@ -805,8 +805,11 @@ function add_table_of_passenger(type){
                             }
                             text_div_paxs += '<option value="">Choose</option>';
                                 for(i in medical_config.result.response.golongan_darah)
-                                    text_div_paxs+=`<option value="`+medical_config.result.response.golongan_darah[i]+`">`+medical_config.result.response.golongan_darah[i]+`</option>`;
-                                    text_div_paxs+=`</select>
+                                    if(medical_config.result.response.golongan_darah[i] == 'NA')
+                                        text_div_paxs+=`<option value="`+medical_config.result.response.golongan_darah[i]+`" selected>`+medical_config.result.response.golongan_darah[i]+`</option>`;
+                                    else
+                                        text_div_paxs+=`<option value="`+medical_config.result.response.golongan_darah[i]+`">`+medical_config.result.response.golongan_darah[i]+`</option>`;
+                                text_div_paxs+=`</select>
                                 </div>
                             </div>
                         </div>`;
