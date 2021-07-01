@@ -1103,7 +1103,7 @@ function check_payment_payment_method(order_number,btn_name,booker,type,provider
         timezone = data_gmt.replace (/[^\d.]/g, ''); //ambil timezone
         timezone = timezone.split('') //split per char
         timezone = timezone.filter(item => item !== '0') //hapus angka 0 di timezone
-        tes = moment.utc(payment_acq_booking.time_limit).format('YYYY-MM-DD HH:mm:ss')
+        tes = (moment.utc(payment_acq_booking.time_limit).subtract(16,"minutes")).format('YYYY-MM-DD HH:mm:ss');
         localTime  = moment.utc(tes).toDate();
         payment_acq_booking.time_limit = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
         text=`<h4 style="color:`+color+`;">Customer Payment Method</h4><hr/>`;
