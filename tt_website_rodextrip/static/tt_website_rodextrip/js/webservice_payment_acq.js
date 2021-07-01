@@ -185,12 +185,12 @@ function set_price(val, type, product_type){
     if(payment_method != 'credit_limit'){
         if(payment_method == 'payment_gateway' && payment_acq2[payment_method][selected].online_wallet == true){
             text+=`<div class='row'>
-                <div class="col-sm-5" style='text-align:left;'>
+                <div class="col-sm-12" style='text-align:left;'>
                 <span style="font-size:13px;"> Phone Number: </span>
 
                 </div>
-                <div class="col-sm-7" style='text-align:right;'>
-                    <input type='text' id="phone_number"/>
+                <div class="col-sm-12">
+                    <input class="form-control" placeholder="Phone Number" type='text' id="phone_number"/>
                 </div>`;
         }else{
         text+=`<div class='row'>
