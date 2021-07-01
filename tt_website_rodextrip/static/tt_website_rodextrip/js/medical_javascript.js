@@ -4448,13 +4448,13 @@ function check_passenger(){
                     }else{
                         document.getElementById('adult_address' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
-                    if(document.getElementById('adult_rt' + nomor_pax).value == '' && check_number(document.getElementById('adult_rt' + nomor_pax).value) == false && document.getElementById('adult_rt' + nomor_pax).value.length > 3){
+                    if(document.getElementById('adult_rt' + nomor_pax).value == '' && check_number(document.getElementById('adult_rt' + nomor_pax).value) == false || document.getElementById('adult_rt' + nomor_pax).value.length > 3){
                         error_log+= 'RT only contain number max 3 digit for customer '+nomor_pax+'!</br>\n';
                         document.getElementById('adult_rt' + nomor_pax).style['border-color'] = 'red';
                     }else{
                         document.getElementById('adult_rt' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
-                    if(document.getElementById('adult_rw' + nomor_pax).value == '' && check_number(document.getElementById('adult_rw' + nomor_pax).value) == false && document.getElementById('adult_rw' + nomor_pax).value.length > 3){
+                    if(document.getElementById('adult_rw' + nomor_pax).value == '' && check_number(document.getElementById('adult_rw' + nomor_pax).value) == false || document.getElementById('adult_rw' + nomor_pax).value.length > 3){
                         error_log+= 'RW only contain number max 3 digit for customer '+nomor_pax+'!</br>\n';
                         document.getElementById('adult_rw' + nomor_pax).style['border-color'] = 'red';
                     }else{
@@ -4485,13 +4485,13 @@ function check_passenger(){
                     }else{
                         document.getElementById('adult_address_ktp' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
-                    if(document.getElementById('adult_rt_ktp' + nomor_pax).value == '' && check_number(document.getElementById('adult_rt_ktp' + nomor_pax).value) == false && document.getElementById('adult_rt_ktp' + nomor_pax).value.length > 3){
+                    if(document.getElementById('adult_rt_ktp' + nomor_pax).value == '' && check_number(document.getElementById('adult_rt_ktp' + nomor_pax).value) == false || document.getElementById('adult_rt_ktp' + nomor_pax).value.length > 3){
                         error_log+= 'RT KTP only contain number max 3 digit for customer '+nomor_pax+'!</br>\n';
                         document.getElementById('adult_rt_ktp' + nomor_pax).style['border-color'] = 'red';
                     }else{
                         document.getElementById('adult_rt_ktp' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
-                    if(document.getElementById('adult_rw_ktp' + nomor_pax).value == '' && check_number(document.getElementById('adult_rw_ktp' + nomor_pax).value) == false && document.getElementById('adult_rw_ktp' + nomor_pax).value.length > 3){
+                    if(document.getElementById('adult_rw_ktp' + nomor_pax).value == '' && check_number(document.getElementById('adult_rw_ktp' + nomor_pax).value) == false || document.getElementById('adult_rw_ktp' + nomor_pax).value.length > 3){
                         error_log+= 'RW KTP only contain number max 3 digit for customer '+nomor_pax+'!</br>\n';
                         document.getElementById('adult_rw_ktp' + nomor_pax).style['border-color'] = 'red';
                     }else{
