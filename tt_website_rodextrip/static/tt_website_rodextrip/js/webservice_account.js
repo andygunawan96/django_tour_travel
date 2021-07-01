@@ -486,6 +486,7 @@ function get_transactions(type){
        },
        success: function(msg) {
         console.log(msg);
+        document.getElementById('search').style.display = 'block';
         document.getElementById('button').disabled = false;
         $('#loading-search-reservation').hide();
         try{
@@ -620,6 +621,13 @@ function get_transactions(type){
               title: 'Oops!',
               html: '<span style="color: #ff9900;">Error transactions </span>' + msg.result.error_msg,
             })
+        }
+        var radios = document.getElementsByName('filter');
+        for (var j = 0, length = radios.length; j < length; j++) {
+            if (radios[j].checked) {
+                filter = radios[j].value;
+            }
+            radios[j].disabled = false;
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
