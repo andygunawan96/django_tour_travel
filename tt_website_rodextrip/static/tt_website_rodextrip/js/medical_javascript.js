@@ -4062,7 +4062,7 @@ function check_passenger(){
         "contact_person": {}
     }
     error_log = '';
-    try{
+    /*try{
         for(i in passenger_data_pick){
             if(passenger_data_pick[i].sequence != 'booker'){
                 passenger_check = {
@@ -4084,7 +4084,7 @@ function check_passenger(){
         }
     }catch(err){
 
-    }
+    }*/
 
     if(document.getElementById('booker_address').value == ''){
         error_log+= 'Please fill address!</br>\n';
@@ -4163,7 +4163,7 @@ function check_passenger(){
 
     }
 
-    if(check_name(document.getElementById('booker_title').value,
+    /*if(check_name(document.getElementById('booker_title').value,
                     document.getElementById('booker_first_name').value,
                     document.getElementById('booker_last_name').value,
                     max_length) == false){
@@ -4188,9 +4188,9 @@ function check_passenger(){
         document.getElementById('booker_email').style['border-color'] = 'red';
     }else{
         document.getElementById('booker_email').style['border-color'] = '#EFEFEF';
-    }
-    length = 25;
-    if(error_log == ''){
+    }*/
+    
+    /*if(error_log == ''){
         request['booker'] = {
             "first_name": document.getElementById('booker_first_name').value,
             "last_name": document.getElementById('booker_last_name').value,
@@ -4212,7 +4212,7 @@ function check_passenger(){
             'contact_seq_id': document.getElementById('booker_id').value,
             'is_also_booker': true
         }]
-    }
+    }*/
     var check_passenger = false;
     var ktp = [];
     var check_ktp_value = 1;
@@ -4323,6 +4323,29 @@ function check_passenger(){
                         is_also_contact = false;
                     }
                     check_passenger = true;
+                    if(i == 0){
+                        request['booker'] = {
+                            "first_name": document.getElementById('adult_first_name' + nomor_pax).value,
+                            "last_name": document.getElementById('adult_last_name' + nomor_pax).value,
+                            "title": document.getElementById('adult_title' + nomor_pax).value,
+                            'email': document.getElementById('adult_email' + nomor_pax).value,
+                            'calling_code': document.getElementById('adult_phone_code'+nomor_pax+'_id').value,
+                            'mobile': document.getElementById('adult_phone'+nomor_pax).value,
+                            'nationality_name': document.getElementById('adult_nationality' + nomor_pax).value,
+                            'booker_seq_id': document.getElementById('adult_id' + nomor_pax).value
+                        }
+                        request['contact_person'] = [{
+                            "first_name": document.getElementById('adult_first_name' + nomor_pax).value,
+                            "last_name": document.getElementById('adult_last_name' + nomor_pax).value,
+                            "title": document.getElementById('adult_title' + nomor_pax).value,
+                            'email': document.getElementById('adult_email' + nomor_pax).value,
+                            'calling_code': document.getElementById('adult_phone_code'+nomor_pax+'_id').value,
+                            'mobile': document.getElementById('adult_phone'+nomor_pax).value,
+                            'nationality_name': document.getElementById('adult_nationality' + nomor_pax).value,
+                            'contact_seq_id': document.getElementById('adult_id' + nomor_pax).value
+                            'is_also_booker': true
+                        }]
+                    }
                     request['passenger'].push({
                         "pax_type": "ADT",
                         "first_name": document.getElementById('adult_first_name' + nomor_pax).value,
@@ -5067,6 +5090,29 @@ function check_passenger(){
                             pcr_data["daftar_ke_pasien_konfirmasi"] = berkunjung_ke_pasien_konfirmasi_list;
                         }
 
+                    }
+                    if(i == 0){
+                        request['booker'] = {
+                            "first_name": document.getElementById('adult_first_name' + nomor_pax).value,
+                            "last_name": document.getElementById('adult_last_name' + nomor_pax).value,
+                            "title": document.getElementById('adult_title' + nomor_pax).value,
+                            'email': document.getElementById('adult_email' + nomor_pax).value,
+                            'calling_code': document.getElementById('adult_phone_code'+nomor_pax+'_id').value,
+                            'mobile': document.getElementById('adult_phone'+nomor_pax).value,
+                            'nationality_name': document.getElementById('adult_nationality' + nomor_pax).value,
+                            'booker_seq_id': document.getElementById('adult_id' + nomor_pax).value
+                        }
+                        request['contact_person'] = [{
+                            "first_name": document.getElementById('adult_first_name' + nomor_pax).value,
+                            "last_name": document.getElementById('adult_last_name' + nomor_pax).value,
+                            "title": document.getElementById('adult_title' + nomor_pax).value,
+                            'email': document.getElementById('adult_email' + nomor_pax).value,
+                            'calling_code': document.getElementById('adult_phone_code'+nomor_pax+'_id').value,
+                            'mobile': document.getElementById('adult_phone'+nomor_pax).value,
+                            'nationality_name': document.getElementById('adult_nationality' + nomor_pax).value,
+                            'contact_seq_id': document.getElementById('adult_id' + nomor_pax).value
+                            'is_also_booker': true
+                        }]
                     }
                     check_passenger = true;
                     request['passenger'].push({
