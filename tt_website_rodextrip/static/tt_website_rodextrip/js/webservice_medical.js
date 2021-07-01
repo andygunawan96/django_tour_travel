@@ -93,6 +93,9 @@ function get_config_medical(type='', vendor=''){
                     document.getElementById('copy_booker_to_pax_div').hidden = false;
                     document.getElementById('medical_pax_dix').hidden = false;
                     add_table(true);
+                    try{
+                        $("#show_loading_booking_medical").hide();
+                    }catch(err){}
                 }else if(type == 'home'){
                     var text = '';
                     if(vendor == 'phc'){
