@@ -91,7 +91,7 @@ function get_config_medical(type='', vendor=''){
                         product = medical_config.result.response[test_type].name;
                     document.getElementById('medical_product').innerHTML = product;
                     document.getElementById('copy_booker_to_pax_div').hidden = false;
-                    document.getElementById('medical_pax_dix').hidden = false;
+                    document.getElementById('medical_pax_div').hidden = false;
                     add_table(true);
                     try{
                         $("#show_loading_booking_medical").hide();
@@ -654,6 +654,7 @@ function medical_get_booking(order_number, sync=false){
                     document.getElementById('show_loading_booking_medical').hidden = true;
                     document.getElementById('button-home').hidden = false;
                     document.getElementById('button-new-reservation').hidden = false;
+                    document.getElementById('button-re-order').hidden = false;
                     document.getElementById('new-reservation').hidden = false;
                     hide_modal_waiting_transaction();
                     gmt = '';
@@ -695,18 +696,18 @@ function medical_get_booking(order_number, sync=false){
                         `;
                             for(i in msg.result.response.provider_bookings){
                                 text+=`
-                                    <div class="col-lg-12">
-                                        <span style="font-weight:600;">Status: </span>
-                                        <span>`+msg.result.response.provider_bookings[i].state_description+`</span><br/>`;
-                                        if(msg.result.response.state == 'booked'){
-                                            text+=`
-                                            <span style="font-weight:600;">Hold Date: </span>
-                                            <span>`+msg.result.response.hold_date+`</span><br/>`;
-                                        }
-                                    text+=`
-                                        <span style="font-weight:600;">Test Place: </span>
-                                        <span>`+msg.result.response.test_address+`</span>
-                                    `;
+                                <div class="col-lg-12">
+                                    <span>Status: </span>
+                                    <span style="font-weight:600;">`+msg.result.response.provider_bookings[i].state_description+`</span><br/>`;
+                                    if(msg.result.response.state == 'booked'){
+                                        text+=`
+                                        <span>Hold Date: </span>
+                                        <span style="font-weight:600;">`+msg.result.response.hold_date+`</span><br/>`;
+                                    }
+                                text+=`
+                                    <span>Test Place: </span>
+                                    <span style="font-weight:600;">`+msg.result.response.test_address+`</span>
+                                `;
                             }
                     text+=`</div>
                         </div>`;
@@ -1117,7 +1118,7 @@ function medical_get_booking(order_number, sync=false){
 //                    </div>`;
                     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                     text_detail+=`
-                    <div style="margin-bottom:5px;">
+                    <div style="margin-bottom:15px;">
                         <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"/>
                     </div>`;
                     if (msg.result.response.state  == 'issued' && msg.result.response.order_number.includes('PH')) {
@@ -2063,7 +2064,7 @@ function create_new_reservation(){
 
         }
     }
-    text += `<div style="background:white;margin-top:15px;padding:5px 10px;">
+    text += `<div style="background:white;margin-top:15px;padding:5px 10px; border:1px solid #cdcdcd;">
                 <h5>Re Order</h5>`;
     text+=`
         <div style="margin-top:15px;">
@@ -2108,18 +2109,24 @@ function create_new_reservation(){
     for(i in medical_get_detail.result.response.passengers){
         text += `<tr>
                     <td>`+medical_get_detail.result.response.passengers[i].name+`</td>
-                    <td><input type="checkbox" id="copy`+i+`" name="copy`+i+`" checked /></td>
+                    <td>
+                        <label class="check_box_custom" style="margin-bottom:15px; float:left;">
+                            <input type="checkbox" id="copy`+i+`" name="copy`+i+`" checked />
+                            <span class="check_box_span_custom"></span>
+                        </label>
+                    </td>
                  </tr>`
     }
     text+= `</table>`;
 
 
     //button
-    text += `<button type="button" class="primary-btn" id="button-home" style="width:100%;margin-top:15px;" onclick="medical_reorder();">
+    text += `<button type="button" class="primary-btn mb-3" id="button-home" style="width:100%;margin-top:15px;" onclick="medical_reorder();">
                 Re Order
             </button>`
 
     document.getElementById('button-new-reservation').innerHTML = text;
+    document.getElementById('button-re-order').hidden = true;
     $('#test_type').niceSelect();
 }
 

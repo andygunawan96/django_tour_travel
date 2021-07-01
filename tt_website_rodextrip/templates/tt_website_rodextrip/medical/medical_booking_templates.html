@@ -103,11 +103,23 @@
                 <div class="row">
                     <input type="text" id="order_number" name="order_number" hidden value="{{order_number}}"/>
 
-                    <div class="col-lg-8">
-                        <h3 id="display_state"></h3>
+                    <div class="col-lg-12">
+                        <h3 id="display_state" class="mb-2"></h3>
                     </div>
-                    <div class="col-lg-4" id="div_sync_status" style="margin-bottom:1rem;" hidden>
+                    <div class="col-lg-4 mt-3">
+                        <div id="div_sync_status" hidden>
 
+                        </div>
+                    </div>
+                    <div class="col-lg-4"></div>
+                    <div class="col-lg-4 mt-3">
+                        <button type="button" id="button-re-order" class="primary-btn" style="width:100%;" onclick="create_new_reservation();" hidden>
+                            {% trans 'Re Order' %}
+                        </button>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="mb-3" id="button-new-reservation" hidden>
+                        </div>
                     </div>
                 </div>
                 <div id="medical_booking">
@@ -147,12 +159,6 @@
                 <button type="button" class="primary-btn" id="new-reservation" style="width:100%;margin-top:15px;" onclick="window.location.href='/'+window.location.href.split('/')[3]+'/'+window.location.href.split('/')[3]" hidden>
                     {% trans 'Book New Reservation' %}
                 </button>
-                <div id="button-new-reservation" hidden>
-                    <button type="button" class="primary-btn" style="width:100%;margin-top:15px;" onclick="create_new_reservation();">
-
-                        {% trans 'Re Order' %}
-                    </button>
-                </div>
             </div>
             <div class="modal fade" id="myModalRepricing" role="dialog">
                 <div class="modal-dialog" style="width:100% !important; height:100% !important; max-width:1200px;padding: 0;">
