@@ -1197,7 +1197,7 @@ function add_table_of_passenger(type){
                                     }
                                     text_div_paxs += '<option value="">Choose</option>';
                                         for(i in medical_config.result.response.kriteria_pasien){
-                                            if(medical_config.result.response.kriteria_pasien[i] == 'LAIN-LAIN')
+                                            if(medical_config.result.response.kriteria_pasien[i].name == 'LAIN-LAIN')
                                                 text_div_paxs+=`<option value="`+medical_config.result.response.kriteria_pasien[i].name+`" selected>`+medical_config.result.response.kriteria_pasien[i].name+`</option>`;
                                             else
                                                 text_div_paxs+=`<option value="`+medical_config.result.response.kriteria_pasien[i].name+`">`+medical_config.result.response.kriteria_pasien[i].name+`</option>`;
@@ -3892,7 +3892,10 @@ function add_table_passenger_phc(type){
 
         option = '';
         for(i in medical_config.result.response.golongan_darah){
-            option += `<option value="`+medical_config.result.response.golongan_darah[i].code+`">`+medical_config.result.response.golongan_darah[i].value+`</option>`;
+            if(medical_config.result.response.golongan_darah[i].code == 'NA')
+                option += `<option value="`+medical_config.result.response.golongan_darah[i].code+`" selected>`+medical_config.result.response.golongan_darah[i].value+`</option>`;
+            else
+                option += `<option value="`+medical_config.result.response.golongan_darah[i].code+`">`+medical_config.result.response.golongan_darah[i].value+`</option>`;
         }
         input_option('klinis_gol_darah_' + counter_passenger, option, counter_passenger)
 
