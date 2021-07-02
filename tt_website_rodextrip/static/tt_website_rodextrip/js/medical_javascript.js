@@ -920,7 +920,7 @@ function add_table_of_passenger_verify(type){
                             </div>`;
 
                         text_div_paxs+=`
-                        <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="col-lg-6 col-md-6 col-sm-6" style="display:none;">
                             <label style="color:white !important">*</label>
                             <label>ZIP CODE KTP</label>
                             <div class="input-container-search-ticket" style="margin-bottom:5px;">
@@ -1059,7 +1059,7 @@ function add_table_of_passenger_verify(type){
                                     </div>
                                 </div>`;
                             text_div_paxs+=`
-                            <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="col-lg-6 col-md-6 col-sm-6" style="display:none;">
                                 <label style="color:white !important">*</label>
                                 <label>ZIP CODE</label>
                                 <div class="input-container-search-ticket" style="margin-bottom:5px;">
@@ -2259,8 +2259,8 @@ function add_table_of_passenger(type){
                             </div>`;
 
                         text_div_paxs+=`
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <label style="color:red !important">*</label>
+                        <div class="col-lg-6 col-md-6 col-sm-6" style="display:none;">
+                            <label style="color:white !important">*</label>
                             <label>ZIP CODE KTP</label>
                             <div class="input-container-search-ticket" style="margin-bottom:5px;">
                                 <input type="text" class="form-control" name="adult_zip_code_ktp`+parseInt(counter_passenger+1)+`" id="adult_zip_code_ktp`+parseInt(counter_passenger+1)+`" placeholder="Zip Code KTP " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Zip Code KTP '">
@@ -2397,8 +2397,8 @@ function add_table_of_passenger(type){
                                     </div>
                                 </div>`;
                             text_div_paxs+=`
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <label style="color:red !important">*</label>
+                            <div class="col-lg-6 col-md-6 col-sm-6" style='display:none;'>
+                                <label style="color:white !important">*</label>
                                 <label>ZIP CODE</label>
                                 <div class="input-container-search-ticket" style="margin-bottom:5px;">
                                     <input type="text" class="form-control" name="adult_zip_code`+parseInt(counter_passenger+1)+`" id="adult_zip_code`+parseInt(counter_passenger+1)+`" placeholder="Zip Code " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Zip Code '">
