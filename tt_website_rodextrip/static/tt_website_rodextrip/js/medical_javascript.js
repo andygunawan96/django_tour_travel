@@ -2901,17 +2901,18 @@ function add_table_of_passenger(type){
 
 function regex_phone_medical(value){
   var regex_check = "^[1-9][0-9]*$";//number
-  if(value.match(regex_check)!=null){
-    return value
-  }else{
-    value = regex_phone_medical(value.slice(1,value.length));
-    return value;
-  }
+    if(value.match(regex_check)!=null){
+        return value
+    }else{
+        value = regex_phone_medical(value.slice(1,value.length));
+        return value;
+    }
 }
 
 function onchange_number_no_zero(val){
-  var data = regex_phone_medical(document.getElementById('adult_phone'+val).value)
-  document.getElementById('adult_phone'+val).value = data;
+    if(document.getElementById('adult_phone'+val).value != '')
+        var data = regex_phone_medical(document.getElementById('adult_phone'+val).value)
+    document.getElementById('adult_phone'+val).value = data;
 }
 
 function onchange_rawat_rs(val){
