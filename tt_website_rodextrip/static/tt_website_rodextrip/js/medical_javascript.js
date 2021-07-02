@@ -7496,11 +7496,12 @@ function share_data(){
 function next_prev_form_medical(type, counter, id){
     pax = parseInt(id);
     counter = parseInt(counter);
+    try{
     document.getElementById("progress_med"+counter+pax).style = "background-color:"+text_color+"; color:"+color+";";
     document.getElementById("progress_tab"+counter+pax).style = "background-color:"+color+"; color: white;";
     document.getElementById("progress_label"+counter+pax).style = "cursor:pointer; color:"+text_color+" !important;";
     document.getElementById("progress_div"+counter+pax).style.display = "block";
-
+    }catch(err){}
     length_progress = $(".progress_medical"+pax).length;
     for (var i = 1; i <= length_progress; i++) {
         if(i != counter){
