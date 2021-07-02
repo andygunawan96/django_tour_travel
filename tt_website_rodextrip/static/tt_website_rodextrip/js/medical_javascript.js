@@ -7445,13 +7445,10 @@ function add_table(change_rebooking=false){
 
 function add_table_verify(change_rebooking=false){
     var tempcounter = parseInt(document.getElementById('passenger').value);
-    console.log(tempcounter);
-    console.log(last_counter);
     if(tempcounter > last_counter){
         document.getElementById('table_passenger_list').style.display = 'block';
         for(counting=last_counter;counting<tempcounter;counting++){
             add_table_of_passenger_verify();
-
         }
     }else{
         for(counting=last_counter-1;counting>=tempcounter;counting--){
