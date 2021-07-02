@@ -2910,7 +2910,7 @@ function regex_phone_medical(value){
 }
 
 function onchange_number_no_zero(val){
-    if(document.getElementById('adult_phone'+val).value != '')
+    if(document.getElementById('adult_phone'+val).value != '' && document.getElementById('adult_phone'+val).value != 'undefined')
         var data = regex_phone_medical(document.getElementById('adult_phone'+val).value)
     document.getElementById('adult_phone'+val).value = data;
 }
