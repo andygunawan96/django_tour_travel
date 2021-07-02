@@ -1587,6 +1587,8 @@ function cancel_payment_method(order_number, provider_type){
                     event_get_booking(order_number);
                 }else if(provider_type == 'issued_offline'){
                     get_booking_offline(order_number);
+                }else if(provider_type == 'medical'){
+                    medical_get_booking(order_number);
                 }
             }else{
                 Swal.fire({

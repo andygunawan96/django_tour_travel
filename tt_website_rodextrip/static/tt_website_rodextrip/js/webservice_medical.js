@@ -91,7 +91,9 @@ function get_config_medical(type='', vendor=''){
                         product = medical_config.result.response[test_type].name;
                     document.getElementById('medical_product').innerHTML = product;
                     document.getElementById('copy_booker_to_pax_div').hidden = false;
+                    try{
                     document.getElementById('medical_pax_div').hidden = false;
+                    }catch(err){}
                     add_table(true);
                     try{
                         $("#show_loading_booking_medical").hide();
@@ -110,6 +112,9 @@ function get_config_medical(type='', vendor=''){
                         document.getElementById('medical_type_periksain').innerHTML += text;
                         $('#medical_type_periksain').niceSelect('update');
                     }
+                }else if(type == 'passenger_edit'){
+                    data_kota = medical_config['result']['response']['kota'];
+                    add_table_verify(true);
                 }
             }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 auto_logout();
@@ -635,6 +640,9 @@ function medical_get_booking(order_number, sync=false){
     try{
         show_loading();
     }catch(err){}
+    try{
+        close_div('payment_acq');
+    }catch(err){}
     $.ajax({
        type: "POST",
        url: "/webservice/medical",
@@ -648,6 +656,8 @@ function medical_get_booking(order_number, sync=false){
        success: function(msg) {
             console.log(msg);
             try{
+                hide_modal_waiting_transaction();
+
                 //======================= Resv =========================
                 if(msg.result.error_code == 0){
                     medical_get_detail = msg;
@@ -817,14 +827,31 @@ function medical_get_booking(order_number, sync=false){
                                                 <th style="width:30%;">Email</th>
                                                 <th style="width:30%;">Phone Number</th>
                                                 <th style="width:30%;">Ticket Number</th>
+                                                <th style="width:30%;">Karcis</th>
+                                                <th style="width:30%;">Result</th>
                                             </tr>`;
                                 }
                                 text+=`<tr>
                                                 <td class="list-of-passenger-left">`+(parseInt(j)+1)+`</td>
-                                                <td>`+pax.title+` `+pax.name+`</td>
+                                                <td>`+pax.title+` `+pax.name+` `;
+                                if(pax.verify)
+                                    text += '<i class="fas fa-check-square" style="color:blue"></i>';
+
+                                text+=`</td>
                                                 <td>`+pax.email+`</td>
                                                 <td>`+pax.phone_number+`</td>
-                                                <td>`+msg.result.response.provider_bookings[i].tickets[j].ticket_number+`</td>
+                                                <td>`+msg.result.response.provider_bookings[i].tickets[j].ticket_number+`</td>`;
+                                if(msg.result.response.passengers[i].label_url){
+                                    text+= `<td><button class="primary-btn-ticket" type="button" onclick="window.open('`+msg.result.response.provider_bookings[i].tickets[j].ticket_number+`','_blank');"><i class="fas fa-external-link-alt"></i> </button></td>`;
+                                }else{
+                                    text+= `<td>-</td>`;
+                                }
+                                if(msg.result.response.passengers[i].result_url){
+                                    text+= `<td><button class="primary-btn-ticket" type="button" onclick="window.open('`+msg.result.response.provider_bookings[i].tickets[j].ticket_number+`','_blank');"><i class="fas fa-external-link-alt"></i> </button></td>`;
+                                }else{
+                                    text+= `<td>-</td>`;
+                                }
+                                text+=`
                                             </tr>
                                 `;
                                 if(j == msg.result.response.provider_bookings[i].tickets.length -1)
@@ -1127,6 +1154,32 @@ function medical_get_booking(order_number, sync=false){
                             Get Result
                             <div class="ld ld-ring ld-cycle"></div>
                         </button>`;
+                        var verify = false;
+//                        var verify = true;
+//                        for(i in msg.result.response.passengers){
+//                            if(msg.result.response.passengers[i].verify == false){
+//                                verify = false;
+//                                break;
+//                            }
+//                        }
+                        if(verify == false){
+                            text_detail+=`<button class="primary-btn hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="update_data_passengers();" style="width:100%;margin-top:15px;">
+                            Update Data Passengers`;
+
+                            if(user_login.co_agent_frontend_security.includes('verify_phc') == true && verify == false){
+                                text_detail+= ` / Verify Data`;
+                            }
+                            text_detail+=`
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>`;
+                        }
+                        /*if(user_login.co_agent_frontend_security.includes('verify_phc') == true){
+                            text_detail+=`
+                            <button class="primary-btn hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="verify_passenger();" style="width:100%;margin-top:15px;">
+                                Verify Data
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>`;
+                        }*/
                     }
                     text_detail+=`
                 </div>`;
@@ -1324,7 +1377,7 @@ function medical_get_booking(order_number, sync=false){
                    })
                    try{
                     $("#show_loading_booking_medical").hide();
-                   }catch(err){}
+                   }catch(err){console.log(err);}
                 }
             }catch(err){
                 console.log(err);
@@ -2155,7 +2208,7 @@ function medical_reorder(){
 }
 
 
-function get_data_cache_passenger_medical(){
+function get_data_cache_passenger_medical(type){
     $.ajax({
        type: "POST",
        url: "/webservice/medical",
@@ -2168,7 +2221,10 @@ function get_data_cache_passenger_medical(){
        success: function(msg) {
             console.log(msg);
             passenger_data_cache_medical = msg;
-            if(vendor == 'periksain'){
+            console.log(type);
+            if(type == 'verify'){
+                auto_fill_verify_data();
+            }else if(vendor == 'periksain'){
                 auto_fill_periksain();
             }else if(vendor == 'phc'){
                 if(test_type.includes('PCR')){
@@ -2183,4 +2239,114 @@ function get_data_cache_passenger_medical(){
        },timeout: 300000
     });
 
+}
+
+function update_data_passengers(){
+    var path = '/'+medical_get_detail.result.response.provider_bookings[0].provider+'/passenger_edit/' + medical_get_detail.result.response.provider_bookings[0].carrier_code +'/'+ medical_get_detail.result.response.order_number;
+    document.getElementById('data').value = JSON.stringify(medical_get_detail.result.response.passengers);
+    document.getElementById('signature').value = signature;
+    document.getElementById('medical_edit_passenger').action = path;
+    document.getElementById('medical_edit_passenger').submit();
+}
+
+function verify_passenger(){
+    var check_verify = false;
+    for(i in medical_get_detail.result.response.passengers){
+        if(medical_get_detail.result.response.passengers[i].verify == false){
+            check_verify = true;
+            break;
+        }
+    }
+    if(check_verify){
+        update_data_passengers();
+    }else{
+        //verify ke phc
+        verify_phc();
+    }
+}
+
+function verify_data(){
+    $('.loader-rodextrip').fadeIn();
+    request = {}
+    if(document.URL.split('/').includes('passenger_edit'))
+        request = check_passenger_data();
+    request['order_number'] = order_number;
+    $.ajax({
+       type: "POST",
+       url: "/webservice/medical",
+       headers:{
+            'action': 'verify_data',
+       },
+       data: {
+            'signature': signature,
+            'request': JSON.stringify(request)
+       },
+       success: function(msg) {
+            console.log(msg);
+            if(msg.result.error_code == 0){
+                Swal.fire({
+                  type: 'success',
+                  title: 'Update!',
+                }).then((result) => {
+                  cancel_data();
+                })
+            }else{
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: msg.result.error_msg,
+               })
+            }
+            $('.loader-rodextrip').fadeOut();
+
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            $('.loader-rodextrip').fadeOut();
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error verified data to PHC');
+       },timeout: 300000
+    });
+}
+
+function save_data_pax_backend(){
+    $('.loader-rodextrip').fadeIn();
+    request = check_passenger_data();
+    request['order_number'] = order_number;
+    $.ajax({
+       type: "POST",
+       url: "/webservice/medical",
+       headers:{
+            'action': 'save_backend',
+       },
+       data: {
+            'signature': signature,
+            'request': JSON.stringify(request)
+       },
+       success: function(msg) {
+            console.log(msg);
+            if(msg.result.error_code == 0){
+                Swal.fire({
+                  type: 'success',
+                  title: 'Update!',
+                }).then((result) => {
+                  cancel_data();
+                })
+            }else{
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: msg.result.error_msg,
+               })
+            }
+            $('.loader-rodextrip').fadeOut();
+
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            $('.loader-rodextrip').fadeOut();
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error update data passenger backend');
+       },timeout: 300000
+    });
+}
+
+function cancel_data(){
+    window.location.href = '/medical/booking/' + btoa(document.URL.split('/')[document.URL.split('/').length-1]);
 }
