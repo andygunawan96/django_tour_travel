@@ -827,7 +827,7 @@ function medical_get_booking(order_number, sync=false){
                                                 <th style="width:30%;">Email</th>
                                                 <th style="width:30%;">Phone Number</th>
                                                 <th style="width:30%;">Ticket Number</th>
-                                                <th style="width:30%;">Karcis</th>
+                                                <th style="width:30%;">Label</th>
                                                 <th style="width:30%;">Result</th>
                                             </tr>`;
                                 }
