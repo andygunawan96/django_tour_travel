@@ -1852,6 +1852,9 @@ function add_table_of_passenger(type){
                         </div>
                         <label style="font-size:12px; padding:0;">Example: email@example.com</label>
                     </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <span style="padding-right:10px; font-weight:700; font-size:15px;font-weight:bold;color:red">DATA HARUS BENAR KARENA TIDAK BISA DIUBAH</span><br/>
+                    </div>
                     <div class="col-lg-6" id="adult_cp_hidden2_`+parseInt(counter_passenger+1)+`">
                         <label style="color:red !important">*</label>
                         <label>Whatsapp Number</label>
