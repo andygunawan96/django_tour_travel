@@ -198,7 +198,7 @@ function add_table_of_passenger_verify(type){
             text+=`
                 <div class="row">
                     <div class="col-lg-6">
-                        <span style="padding-right:10px; font-weight:700; font-size:15px;font-weight:bold">DATA HARUS BENAR KARENA TIDAK BISA DIUBAH</span><br/>
+                        <span style="padding-right:10px; font-weight:700; font-size:15px;font-weight:bold;color:red">DATA HARUS BENAR KARENA TIDAK BISA DIUBAH</span><br/>
                         <span style="padding-right:10px; font-weight:700; font-size:15px;">Customer Data</span><br/>
                         <span style="padding-right:5px; font-style: italic; font-weight:500;" id='name_pax`+counter_passenger+`' name='name_pax`+counter_passenger+`'>
                             -- Blank Customer Data --
@@ -1317,6 +1317,7 @@ function add_table_of_passenger(type){
             text+=`
                 <div class="row">
                     <div class="col-lg-6">
+                        <span style="padding-right:10px; font-weight:700; font-size:15px;font-weight:bold;color:red">DATA HARUS BENAR KARENA TIDAK BISA DIUBAH</span><br/>
                         <span style="padding-right:10px; font-weight:700; font-size:15px;">Customer Data</span><br/>
                         <span style="padding-right:5px; font-style: italic; font-weight:500;" id='name_pax`+counter_passenger+`' name='name_pax`+counter_passenger+`'>
                             -- Blank Customer Data --
@@ -7542,9 +7543,7 @@ function auto_fill_phc_antigen(){
             }
             document.getElementById('booker_nationality_id').value = passenger_data_cache_medical[idx].nationality_name;
             document.getElementById('select2-booker_nationality_id-container').innerHTML = passenger_data_cache_medical[idx].nationality_name;
-            document.getElementsByName('myRadios')[0].checked = 'checked';
-
-            copy_booker_to_passenger('copy','medical');
+            
         }
         document.getElementById('adult_title'+counter).value = passenger_data_cache_medical[idx].title;
         document.getElementById('adult_first_name'+counter).value = passenger_data_cache_medical[idx].first_name;
@@ -7653,9 +7652,7 @@ function auto_fill_phc_pcr(){
             }
             document.getElementById('booker_nationality_id').value = passenger_data_cache_medical[idx].nationality_name;
             document.getElementById('select2-booker_nationality_id-container').innerHTML = passenger_data_cache_medical[idx].nationality_name;
-            document.getElementsByName('myRadios')[0].checked = 'checked';
-
-            copy_booker_to_passenger('copy','medical');
+            
         }
         document.getElementById('adult_title'+counter).value = passenger_data_cache_medical[idx].title;
         onchange_title(counter);
@@ -7948,9 +7945,7 @@ function auto_fill_periksain(){
             }
             document.getElementById('booker_nationality_id').value = passenger_data_cache_medical[idx].nationality_name;
             document.getElementById('select2-booker_nationality_id-container').innerHTML = passenger_data_cache_medical[idx].nationality_name;
-            document.getElementsByName('myRadios')[0].checked = 'checked';
-
-            copy_booker_to_passenger('copy','medical');
+            
         }
         document.getElementById('adult_title'+counter).value = passenger_data_cache_medical[idx].title;
         document.getElementById('adult_first_name'+counter).value = passenger_data_cache_medical[idx].first_name;
