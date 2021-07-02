@@ -781,7 +781,7 @@ function add_table_of_passenger(type){
                                 </div>
                             </div>
                             <div class="col-lg-9">
-                                <input type="text" class="form-control" name="adult_phone`+parseInt(counter_passenger+1)+`" id="adult_phone`+parseInt(counter_passenger+1)+`" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" onchange="onchange_number_no_zero(`+parseInt(counter_passenger+1)+`)">
+                                <input type="text" class="form-control" name="adult_phone`+parseInt(counter_passenger+1)+`" id="adult_phone`+parseInt(counter_passenger+1)+`" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" onkeyup="onchange_number_no_zero(`+parseInt(counter_passenger+1)+`)">
                             </div>
                         </div>
                         <label style="font-size:12px; padding:0;">Example: 0 812345678</label>
