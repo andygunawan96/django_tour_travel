@@ -1625,7 +1625,10 @@ function add_table_of_passenger(type){
                             text_div_paxs += `<div class="col-lg-6 col-md-6 col-sm-6"></div>`;
                         }
                     }
-
+                    text_div_paxs += `
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <span style="padding-right:10px; font-weight:700; font-size:15px;font-weight:bold;color:red">DATA HARUS BENAR KARENA TIDAK BISA DIUBAH</span><br/>
+                    </div>`;
                     //ini phc
                     if(vendor == 'phc'){
                         text_div_paxs+=`
