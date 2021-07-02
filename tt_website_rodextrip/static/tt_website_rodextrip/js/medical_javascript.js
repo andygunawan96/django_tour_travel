@@ -338,14 +338,18 @@ function add_table_of_passenger_verify(type){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6"></div>`;
+                    <div class="col-lg-6 col-md-6 col-sm-6"></div>
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <span style="padding-right:10px; font-weight:700; font-size:15px;font-weight:bold;color:red">DATA HARUS BENAR KARENA TIDAK BISA DIUBAH</span><br/>
+                    </div>
+                    `;
 
 
                     text_div_paxs+=`
                     <div class="col-lg-6 col-md-6 col-sm-6">
                         <br/>
-                        <label style="color:red !important">*</label> <span style="padding-right:10px; font-weight:700; font-size:15px;font-weight:bold;color:red">DATA HARUS BENAR KARENA TIDAK BISA DIUBAH</span><br/>
-                        <label>First name and middle name (if any)</label> <span style="padding-right:10px; font-weight:700; font-size:15px;font-weight:bold;color:red">DATA HARUS BENAR KARENA TIDAK BISA DIUBAH</span><br/>
+                        <label style="color:red !important">*</label> 
+                        <label>First name and middle name (if any)</label>
                         <div class="input-container-search-ticket" style="margin-bottom:5px;">
                             <input type="text" class="form-control" name="adult_first_name`+parseInt(counter_passenger+1)+`" id="adult_first_name`+parseInt(counter_passenger+1)+`" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
                             <input type="hidden" class="form-control" name="adult_id`+parseInt(counter_passenger+1)+`" id="adult_id`+parseInt(counter_passenger+1)+`">
@@ -385,6 +389,9 @@ function add_table_of_passenger_verify(type){
                             text_div_paxs+=`</div>`;
                         }
                     text_div_paxs+=`
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <span style="padding-right:10px; font-weight:700; font-size:15px;font-weight:bold;color:red">DATA HARUS BENAR KARENA TIDAK BISA DIUBAH</span><br/>
                     </div>`;
 
                     text_div_paxs+=`
@@ -395,6 +402,8 @@ function add_table_of_passenger_verify(type){
                             <input type="text" class="form-control date-picker-birth" name="adult_birth_date`+parseInt(counter_passenger+1)+`" id="adult_birth_date`+parseInt(counter_passenger+1)+`" onchange="check_years_old(`+parseInt(counter_passenger+1)+`)" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off">
                             <input type="hidden" class="form-control" name="adult_years_old`+parseInt(counter_passenger+1)+`" id="adult_years_old`+parseInt(counter_passenger+1)+`">
                         </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12">
                         <span style="padding-right:10px; font-weight:700; font-size:15px;font-weight:bold;color:red">DATA HARUS BENAR KARENA TIDAK BISA DIUBAH</span><br/>
                     </div>`;
 
@@ -425,7 +434,6 @@ function add_table_of_passenger_verify(type){
                                 </div>
                                 <input type="hidden" name="adult_tempat_lahir`+parseInt(counter_passenger+1)+`" id="adult_tempat_lahir`+parseInt(counter_passenger+1)+`" />
                             </div>
-                            <span style="padding-right:10px; font-weight:700; font-size:15px;font-weight:bold;color:red">DATA HARUS BENAR KARENA TIDAK BISA DIUBAH</span><br/>
                         </div>`;
                     }
 
@@ -605,6 +613,9 @@ function add_table_of_passenger_verify(type){
                         </div>
                         <label style="font-size:12px; padding:0;">Example: email@example.com</label>
                     </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <span style="padding-right:10px; font-weight:700; font-size:15px;font-weight:bold;color:red">DATA HARUS BENAR KARENA TIDAK BISA DIUBAH</span><br/>
+                    </div>
                     <div class="col-lg-6" id="adult_cp_hidden2_`+parseInt(counter_passenger+1)+`">
                         <label style="color:red !important">*</label>
                         <label>Whatsapp Number</label>
@@ -621,7 +632,6 @@ function add_table_of_passenger_verify(type){
 
                             text_div_paxs+=` </select>
                                     <input type="hidden" name="adult_phone_code`+parseInt(counter_passenger+1)+`" id="adult_phone_code`+parseInt(counter_passenger+1)+`" />
-                                    <span style="padding-right:10px; font-weight:700; font-size:15px;font-weight:bold;color:red">DATA HARUS BENAR KARENA TIDAK BISA DIUBAH</span><br/>
                                 </div>
                             </div>
                             <div class="col-lg-9">
@@ -821,6 +831,9 @@ function add_table_of_passenger_verify(type){
                             <div class="input-container-search-ticket" style="margin-bottom:5px;">
                                 <input type="text" class="form-control" name="adult_rw_ktp`+parseInt(counter_passenger+1)+`" id="adult_rw_ktp`+parseInt(counter_passenger+1)+`" placeholder="RW KTP " onfocus="this.placeholder = ''" onblur="this.placeholder = 'RW KTP '" onchange="auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">
                             </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <span style="padding-right:10px; font-weight:700; font-size:15px;font-weight:bold;color:red">DATA HARUS BENAR KARENA TIDAK BISA DIUBAH</span><br/>
                         </div>`;
 
                         text_div_paxs+=`
@@ -849,7 +862,6 @@ function add_table_of_passenger_verify(type){
                                     <input type="hidden" name="adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`" id="adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`" />
                                     <button type="button" class="primary-delete-date" onclick="delete_type('adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`_id', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                 </div>
-                                <span style="padding-right:10px; font-weight:700; font-size:15px;font-weight:bold;color:red">DATA HARUS BENAR KARENA TIDAK BISA DIUBAH</span><br/>
                             </div>`;
 
                         text_div_paxs+=`
@@ -876,7 +888,6 @@ function add_table_of_passenger_verify(type){
                                     <input type="hidden" name="adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`" id="adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`" />
                                     <button type="button" class="primary-delete-date" onclick="delete_type('adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`_id', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                 </div>
-                                <span style="padding-right:10px; font-weight:700; font-size:15px;font-weight:bold;color:red">DATA HARUS BENAR KARENA TIDAK BISA DIUBAH</span><br/>
                             </div>`;
 
                         text_div_paxs+=`
@@ -903,7 +914,6 @@ function add_table_of_passenger_verify(type){
                                     <input type="hidden" name="adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`" id="adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`" />
                                     <button type="button" class="primary-delete-date" onclick="delete_type('adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`_id', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                 </div>
-                                <span style="padding-right:10px; font-weight:700; font-size:15px;font-weight:bold;color:red">DATA HARUS BENAR KARENA TIDAK BISA DIUBAH</span><br/>
                             </div>`;
 
                         text_div_paxs+=`
@@ -958,6 +968,9 @@ function add_table_of_passenger_verify(type){
                             <div class="input-container-search-ticket" style="margin-bottom:5px;">
                                 <input type="text" class="form-control" name="adult_rw`+parseInt(counter_passenger+1)+`" id="adult_rw`+parseInt(counter_passenger+1)+`" placeholder="RW " onfocus="this.placeholder = ''" onblur="this.placeholder = 'RW '" >
                             </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <span style="padding-right:10px; font-weight:700; font-size:15px;font-weight:bold;color:red">DATA HARUS BENAR KARENA TIDAK BISA DIUBAH</span><br/>
                         </div>`;
 
                         text_div_paxs+=`
@@ -986,7 +999,6 @@ function add_table_of_passenger_verify(type){
                                     <input type="hidden" name="adult_kabupaten`+parseInt(counter_passenger+1)+`" id="adult_kabupaten`+parseInt(counter_passenger+1)+`" />
                                     <button type="button" class="primary-delete-date" onclick="delete_type('adult_kabupaten`+parseInt(counter_passenger+1)+`_id', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                 </div>
-                                <span style="padding-right:10px; font-weight:700; font-size:15px;font-weight:bold;color:red">DATA HARUS BENAR KARENA TIDAK BISA DIUBAH</span><br/>
                             </div>`;
 
                         text_div_paxs+=`
@@ -1013,7 +1025,6 @@ function add_table_of_passenger_verify(type){
                                     <input type="hidden" name="adult_kecamatan`+parseInt(counter_passenger+1)+`" id="adult_kecamatan`+parseInt(counter_passenger+1)+`" />
                                     <button type="button" class="primary-delete-date" onclick="delete_type('adult_kecamatan`+parseInt(counter_passenger+1)+`_id', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                 </div>
-                                <span style="padding-right:10px; font-weight:700; font-size:15px;font-weight:bold;color:red">DATA HARUS BENAR KARENA TIDAK BISA DIUBAH</span><br/>
                             </div>`;
 
                         text_div_paxs+=`
@@ -1040,7 +1051,6 @@ function add_table_of_passenger_verify(type){
                                         <input type="hidden" name="adult_kelurahan`+parseInt(counter_passenger+1)+`" id="adult_kelurahan`+parseInt(counter_passenger+1)+`" />
                                         <button type="button" class="primary-delete-date" onclick="delete_type('adult_kelurahan`+parseInt(counter_passenger+1)+`_id', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                     </div>
-                                    <span style="padding-right:10px; font-weight:700; font-size:15px;font-weight:bold;color:red">DATA HARUS BENAR KARENA TIDAK BISA DIUBAH</span><br/>
                                 </div>`;
                             text_div_paxs+=`
                             <div class="col-lg-6 col-md-6 col-sm-6">
@@ -1549,10 +1559,13 @@ function add_table_of_passenger(type){
 
 
                     text_div_paxs+=`
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <span style="padding-right:10px; font-weight:700; font-size:15px;font-weight:bold;color:red">DATA HARUS BENAR KARENA TIDAK BISA DIUBAH</span><br/>
+                    </div>
                     <div class="col-lg-6 col-md-6 col-sm-6">
                         <br/>
                         <label style="color:red !important">*</label>
-                        <label>First name and middle name (if any)</label><span style="padding-right:10px; font-weight:700; font-size:15px;font-weight:bold;color:red">DATA HARUS BENAR KARENA TIDAK BISA DIUBAH</span><br/>
+                        <label>First name and middle name (if any)</label>
                         <div class="input-container-search-ticket" style="margin-bottom:5px;">
                             <input type="text" class="form-control" name="adult_first_name`+parseInt(counter_passenger+1)+`" id="adult_first_name`+parseInt(counter_passenger+1)+`" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
                             <input type="hidden" class="form-control" name="adult_id`+parseInt(counter_passenger+1)+`" id="adult_id`+parseInt(counter_passenger+1)+`">
