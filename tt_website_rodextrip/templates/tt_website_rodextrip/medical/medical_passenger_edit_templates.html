@@ -182,7 +182,7 @@
                                         <button class="primary-btn-ticket" type="button" onclick="save_data_pax_backend()"><i class="fas fa-save"></i> Save</button>
                                     </div>
                                     <div class="col-lg-4" style="text-align:right; margin-top:20px; margin-bottom:15px;">
-                                        {% if 'verify_phc' not in username.co_agent_frontend_security %}
+                                        {% if 'verify_phc' in username.co_agent_frontend_security %}
                                         <button class="primary-btn-ticket" type="button" style="background-color:green" onclick="verify_data()"><i class="fas fa-save"></i> Save & Verify <i class="fas fa-upload"></i></button>
                                         
                                         {% endif %}
