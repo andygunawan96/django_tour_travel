@@ -272,3 +272,70 @@ def booking(request, vendor, order_number):
         raise Exception('Make response code 500!')
     return render(request, MODEL_NAME+'/medical/medical_booking_templates.html', values)
 
+
+def passenger_edit(request, vendor,test_type, order_number):
+    if 'user_account' in request.session._session:
+        try:
+            if 'b2c_limitation' in request.session['user_account']['co_agent_frontend_security'] and vendor == 'periksain':
+                return no_session_logout(request)
+            javascript_version = get_javascript_version()
+            cache_version = get_cache_version()
+            response = get_cache_data(cache_version)
+
+            values = get_data_template(request)
+
+            # agent
+            adult_title = ['MR', 'MRS', 'MS']
+
+            infant_title = ['MSTR', 'MISS']
+
+            # agent
+
+            airline_country = response['result']['response']['airline']['country']
+            phone_code = []
+            for i in airline_country:
+                if i['phone_code'] not in phone_code:
+                    phone_code.append(i['phone_code'])
+            phone_code = sorted(phone_code)
+
+
+            set_session(request, 'time_limit', 1200)
+
+
+            if translation.LANGUAGE_SESSION_KEY in request.session:
+                del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
+
+            try:
+                passengers = json.loads(request.POST['data'])
+                set_session(request, 'medical_passenger_cache', passengers)
+            except:
+                try:
+                    passengers = request.session['medical_passenger_cache']
+                except:
+                    passengers = []
+            values.update({
+                'static_path': path_util.get_static_path(MODEL_NAME),
+                'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+                'countries': airline_country,
+                'phone_code': phone_code,
+                'adult_title': adult_title,
+                'infant_title': infant_title,
+                'id_types': id_type,
+                'time_limit': request.session['time_limit'],
+                'username': request.session['user_account'],
+                'signature': request.session['signature'],
+                'update_data': 'true',
+                # 'cookies': json.dumps(res['result']['cookies']),
+                'javascript_version': javascript_version,
+                'static_path_url_server': get_url_static_path(),
+                'vendor': vendor,
+                'order_number': order_number,
+                'test_type': test_type,
+                'total_passengers_rebooking': len(passengers)
+            })
+        except Exception as e:
+            _logger.error(str(e) + '\n' + traceback.format_exc())
+            raise Exception('Make response code 500!')
+        return render(request, MODEL_NAME+'/medical/medical_passenger_edit_templates.html', values)
+    else:
+        return no_session_logout(request)

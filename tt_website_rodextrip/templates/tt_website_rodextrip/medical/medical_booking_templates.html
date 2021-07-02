@@ -75,6 +75,7 @@
 <form id="medical_edit_passenger" class="form-wrap" action="" method="POST" style="padding:0; text-align:unset;">
     {% csrf_token %}
     <input type="hidden" id="data" name="data" />
+    <input type="hidden" id="signature" name="signature" />
 </form>
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; background:#f7f7f7;">
     <div class="container">
@@ -230,47 +231,11 @@
 {% include 'tt_website_rodextrip/footer.html' %}
 
 <script>
-    /*
-    var map;
-    lat = '';
-    long = '';
-    function initMap() {
-        if(lat != '')
-            change_area();
-    }
-    function change_area(){
-        document.getElementById('googleMap').style.width = '100%';
-        document.getElementById('googleMap').style.height = '400px';
-        document.getElementById('googleMap').style.marginBottom = '1rem';
-
-        {% if google_api_key != '' %}
-        var mapProp= {
-            center:new google.maps.LatLng(lat,long),
-            zoom:18,
-            mapTypeId: "roadmap"
-        };
-        map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
-        marker = new google.maps.Marker({
-            position: {"lat": lat,"lng": long},
-            map,
-            title: "Hello World!",
-        });
-        console.log('done');
-        {% endif %}
-    }
-    */
-</script>
-{% if google_api_key != ''  %}
-<!--<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>-->
-<!--<script src="https://maps.googleapis.com/maps/api/js?key={{google_api_key}}&callback=initMap&libraries=places&v=weekly"></script>-->
-
-{% endif %}
-<script>
     try{
         document.getElementById('voucher_discount').style.display = 'none';
     }catch(err){}
-    medical_signin('{{order_number}}');
     $( document ).ready(function() {
+        medical_signin('{{order_number}}');
         breadcrumb_create("medical", 4, 1);
     });
 </script>
