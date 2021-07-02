@@ -1084,7 +1084,7 @@ function add_table_of_passenger(type){
 
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <label style="color:red !important">*</label>
-                            <label>Kabupaten</label>`;
+                            <label>Kabupaten/Kota KTP</label>`;
                             if(template == 1){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 2){
