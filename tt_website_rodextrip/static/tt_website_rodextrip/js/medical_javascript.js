@@ -2904,7 +2904,7 @@ function regex_phone_medical(value){
   if(value.match(regex_check)!=null){
     return value
   }else{
-    value = regex_phone_medical(value);
+    value = regex_phone_medical(value.slice(1,value.length));
     return value;
   }
 }
