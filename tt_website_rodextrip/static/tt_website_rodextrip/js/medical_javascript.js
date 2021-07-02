@@ -808,6 +808,9 @@ function add_table_of_passenger_verify(type){
                         <div class="col-lg-12 col-md-12 col-sm-12 mt-2">
                             <hr/>
                             <h4>KTP</h4>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <span style="padding-right:10px; font-weight:700; font-size:15px;font-weight:bold;color:red">DATA HARUS BENAR KARENA TIDAK BISA DIUBAH</span><br/>
                         </div>`
 
                         text_div_paxs+=`
@@ -946,6 +949,9 @@ function add_table_of_passenger_verify(type){
                         text_div_paxs += `
                         <div class="col-lg-12 col-md-12 col-sm-12">
                             <h4>Domisili</h4>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <span style="padding-right:10px; font-weight:700; font-size:15px;font-weight:bold;color:red">DATA HARUS BENAR KARENA TIDAK BISA DIUBAH</span><br/>
                         </div>`
                         text_div_paxs+=`
                         <div class="col-lg-6 col-md-6 col-sm-6">
@@ -2139,6 +2145,9 @@ function add_table_of_passenger(type){
                         <div class="col-lg-12 col-md-12 col-sm-12 mt-2">
                             <hr/>
                             <h4>KTP</h4>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <span style="padding-right:10px; font-weight:700; font-size:15px;font-weight:bold;color:red">DATA HARUS BENAR KARENA TIDAK BISA DIUBAH</span><br/>
                         </div>`
 
                         text_div_paxs+=`
@@ -2276,6 +2285,9 @@ function add_table_of_passenger(type){
                         text_div_paxs += `
                         <div class="col-lg-12 col-md-12 col-sm-12">
                             <h4>Domisili</h4>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <span style="padding-right:10px; font-weight:700; font-size:15px;font-weight:bold;color:red">DATA HARUS BENAR KARENA TIDAK BISA DIUBAH</span><br/>
                         </div>`
                         text_div_paxs+=`
                         <div class="col-lg-6 col-md-6 col-sm-6">
