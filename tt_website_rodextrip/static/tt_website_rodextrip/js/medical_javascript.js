@@ -624,7 +624,7 @@ function add_table_of_passenger_verify(type){
                             </div>
                         </div>
                         <label style="font-size:12px; padding:0;">Example: 0 812345678</label>
-                        <label style="color:`+color+` !important;">Please make sure to register with whatsapp number for the result test</label>
+                        <label style="color:`+color+` !important;">Please make sure to register with WA(WhatsApp) number for the result test</label>
                     </div>`;
                     if(vendor == 'phc'){
                         text_div_paxs+=`
@@ -1841,7 +1841,7 @@ function add_table_of_passenger(type){
                             </div>
                         </div>
                         <label style="font-size:12px; padding:0;">Example: 0 812345678</label>
-                        <label style="color:`+color+` !important;">Please make sure to register with whatsapp number for the result test</label>
+                        <label style="color:`+color+` !important;">Please make sure to register with WA(WhatsApp) number for the result test</label>
                     </div>`;
                     if(vendor == 'phc'){
                         text_div_paxs+=`
