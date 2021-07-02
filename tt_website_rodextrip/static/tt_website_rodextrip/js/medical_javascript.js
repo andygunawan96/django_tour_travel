@@ -770,7 +770,7 @@ function add_table_of_passenger(type){
                                 <div class="form-select">
                                     <select id="adult_phone_code`+parseInt(counter_passenger+1)+`_id" name="adult_phone_code`+parseInt(counter_passenger+1)+`_id" class="form-control js-example-basic-single">`;
                                         for(i in countries){
-                                            if(countries[i].phone_code == 0)
+                                            if(countries[i].phone_code == 62)
                                                text_div_paxs+=`<option value="`+countries[i].phone_code+`" selected>`+countries[i].phone_code+`</option>`;
                                             else
                                                text_div_paxs+=`<option value="`+countries[i].phone_code+`">`+countries[i].phone_code+`</option>`;
@@ -781,7 +781,7 @@ function add_table_of_passenger(type){
                                 </div>
                             </div>
                             <div class="col-lg-9">
-                                <input type="text" class="form-control" name="adult_phone`+parseInt(counter_passenger+1)+`" id="adult_phone`+parseInt(counter_passenger+1)+`" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
+                                <input type="text" class="form-control" name="adult_phone`+parseInt(counter_passenger+1)+`" id="adult_phone`+parseInt(counter_passenger+1)+`" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" onchange="onchange_number_no_zero(`+parseInt(counter_passenger+1)+`)">
                             </div>
                         </div>
                         <label style="font-size:12px; padding:0;">Example: 0 812345678</label>
@@ -2897,6 +2897,21 @@ function add_table_of_passenger(type){
     $('#adult_identity_type'+parseInt(counter_passenger+1)).niceSelect();
     auto_complete(`adult_nationality`+parseInt(counter_passenger+1));
     counter_passenger++;
+}
+
+function regex_phone_medical(value){
+  var regex_check = "^[1-9][0-9]*$";//number
+  if(value.match(regex_check)!=null){
+    return value
+  }else{
+    value = regex_phone_medical(value);
+    return value;
+  }
+}
+
+function onchange_number_no_zero(val){
+  var data = regex_phone_medical(document.getElementById('adult_phone'+val).value)
+  document.getElementById('adult_phone'+val).value = data;
 }
 
 function onchange_rawat_rs(val){
