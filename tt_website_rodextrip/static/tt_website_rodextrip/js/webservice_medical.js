@@ -2271,45 +2271,47 @@ function verify_passenger(){
 }
 
 function verify_data(){
-    $('.loader-rodextrip').fadeIn();
     request = {}
     if(document.URL.split('/').includes('passenger_edit'))
         request = check_passenger_data();
-    request['order_number'] = order_number;
-    $.ajax({
-       type: "POST",
-       url: "/webservice/medical",
-       headers:{
-            'action': 'verify_data',
-       },
-       data: {
-            'signature': signature,
-            'request': JSON.stringify(request)
-       },
-       success: function(msg) {
-            console.log(msg);
-            if(msg.result.error_code == 0){
-                Swal.fire({
-                  type: 'success',
-                  title: 'Update!',
-                }).then((result) => {
-                  cancel_data();
-                })
-            }else{
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: msg.result.error_msg,
-               })
-            }
-            $('.loader-rodextrip').fadeOut();
+    if(Object.keys(request).length != 0){
+        $('.loader-rodextrip').fadeIn();
+        request['order_number'] = order_number;
+        $.ajax({
+           type: "POST",
+           url: "/webservice/medical",
+           headers:{
+                'action': 'verify_data',
+           },
+           data: {
+                'signature': signature,
+                'request': JSON.stringify(request)
+           },
+           success: function(msg) {
+                console.log(msg);
+                if(msg.result.error_code == 0){
+                    Swal.fire({
+                      type: 'success',
+                      title: 'Update!',
+                    }).then((result) => {
+                      cancel_data();
+                    })
+                }else{
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: msg.result.error_msg,
+                   })
+                }
+                $('.loader-rodextrip').fadeOut();
 
-       },
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
-            $('.loader-rodextrip').fadeOut();
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error verified data to PHC');
-       },timeout: 300000
-    });
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                $('.loader-rodextrip').fadeOut();
+                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error verified data to PHC');
+           },timeout: 300000
+        });
+    }
 }
 
 function save_data_pax_backend(){

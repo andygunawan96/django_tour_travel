@@ -348,7 +348,7 @@ function add_table_of_passenger_verify(type){
                     text_div_paxs+=`
                     <div class="col-lg-6 col-md-6 col-sm-6">
                         <br/>
-                        <label style="color:red !important">*</label> 
+                        <label style="color:red !important">*</label>
                         <label>First name and middle name (if any)</label>
                         <div class="input-container-search-ticket" style="margin-bottom:5px;">
                             <input type="text" class="form-control" name="adult_first_name`+parseInt(counter_passenger+1)+`" id="adult_first_name`+parseInt(counter_passenger+1)+`" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
@@ -825,14 +825,14 @@ function add_table_of_passenger_verify(type){
                             <label style="color:red !important">*</label>
                             <label>RT KTP</label>
                             <div class="input-container-search-ticket" style="margin-bottom:5px;">
-                                <input type="text" class="form-control" name="adult_rt_ktp`+parseInt(counter_passenger+1)+`" id="adult_rt_ktp`+parseInt(counter_passenger+1)+`" placeholder="RT KTP " onfocus="this.placeholder = ''" onblur="this.placeholder = 'RT KTP '" onchange="auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">
+                                <input type="text" maxlength="3" class="form-control" name="adult_rt_ktp`+parseInt(counter_passenger+1)+`" id="adult_rt_ktp`+parseInt(counter_passenger+1)+`" placeholder="RT KTP " onfocus="this.placeholder = ''" onblur="this.placeholder = 'RT KTP '" onchange="auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <label style="color:red !important">*</label>
                             <label>RW KTP</label>
                             <div class="input-container-search-ticket" style="margin-bottom:5px;">
-                                <input type="text" class="form-control" name="adult_rw_ktp`+parseInt(counter_passenger+1)+`" id="adult_rw_ktp`+parseInt(counter_passenger+1)+`" placeholder="RW KTP " onfocus="this.placeholder = ''" onblur="this.placeholder = 'RW KTP '" onchange="auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">
+                                <input type="text" maxlength="3" class="form-control" name="adult_rw_ktp`+parseInt(counter_passenger+1)+`" id="adult_rw_ktp`+parseInt(counter_passenger+1)+`" placeholder="RW KTP " onfocus="this.placeholder = ''" onblur="this.placeholder = 'RW KTP '" onchange="auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">
                             </div>
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12">
@@ -965,14 +965,14 @@ function add_table_of_passenger_verify(type){
                             <label style="color:red !important">*</label>
                             <label>RT</label>
                             <div class="input-container-search-ticket" style="margin-bottom:5px;">
-                                <input type="text" class="form-control" name="adult_rt`+parseInt(counter_passenger+1)+`" id="adult_rt`+parseInt(counter_passenger+1)+`" placeholder="RT " onfocus="this.placeholder = ''" onblur="this.placeholder = 'RT '" >
+                                <input type="text" maxlength="3" class="form-control" name="adult_rt`+parseInt(counter_passenger+1)+`" id="adult_rt`+parseInt(counter_passenger+1)+`" placeholder="RT " onfocus="this.placeholder = ''" onblur="this.placeholder = 'RT '" >
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <label style="color:red !important">*</label>
                             <label>RW</label>
                             <div class="input-container-search-ticket" style="margin-bottom:5px;">
-                                <input type="text" class="form-control" name="adult_rw`+parseInt(counter_passenger+1)+`" id="adult_rw`+parseInt(counter_passenger+1)+`" placeholder="RW " onfocus="this.placeholder = ''" onblur="this.placeholder = 'RW '" >
+                                <input type="text" maxlength="3" class="form-control" name="adult_rw`+parseInt(counter_passenger+1)+`" id="adult_rw`+parseInt(counter_passenger+1)+`" placeholder="RW " onfocus="this.placeholder = ''" onblur="this.placeholder = 'RW '" >
                             </div>
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12">
@@ -2163,19 +2163,19 @@ function add_table_of_passenger(type){
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <label style="color:red !important">*</label>
-                            <label>RT KTP</label>&nbsp;<label style="font-size:12px; padding:0;">Maximum 3 Digit</label>
+                            <label>RT KTP</label>
                             <div class="input-container-search-ticket" style="margin-bottom:5px;">
                                 <input type="text" maxlength="3" class="form-control" name="adult_rt_ktp`+parseInt(counter_passenger+1)+`" id="adult_rt_ktp`+parseInt(counter_passenger+1)+`" placeholder="RT KTP " onfocus="this.placeholder = ''" onblur="this.placeholder = 'RT KTP '" onchange="auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">
                             </div>
-                            
+
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <label style="color:red !important">*</label>
-                            <label>RW KTP</label>&nbsp;<label style="font-size:12px; padding:0;">Maximum 3 Digit</label>
+                            <label>RW KTP</label>
                             <div class="input-container-search-ticket" style="margin-bottom:5px;">
                                 <input type="text" maxlength="3" class="form-control" name="adult_rw_ktp`+parseInt(counter_passenger+1)+`" id="adult_rw_ktp`+parseInt(counter_passenger+1)+`" placeholder="RW KTP " onfocus="this.placeholder = ''" onblur="this.placeholder = 'RW KTP '" onchange="auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">
                             </div>
-                            
+
                         </div>`;
 
                         text_div_paxs+=`
@@ -2302,19 +2302,19 @@ function add_table_of_passenger(type){
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <label style="color:red !important">*</label>
-                            <label>RT</label>&nbsp;<label style="font-size:12px; padding:0;">Maximum 3 Digit</label>
+                            <label>RT</label>
                             <div class="input-container-search-ticket" style="margin-bottom:5px;">
                                 <input type="text" maxlength="3" class="form-control" name="adult_rt`+parseInt(counter_passenger+1)+`" id="adult_rt`+parseInt(counter_passenger+1)+`" placeholder="RT " onfocus="this.placeholder = ''" onblur="this.placeholder = 'RT '" >
                             </div>
-                            
+
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <label style="color:red !important">*</label>
-                            <label>RW</label>&nbsp;<label style="font-size:12px; padding:0;">Maximum 3 Digit</label>
+                            <label>RW</label>
                             <div class="input-container-search-ticket" style="margin-bottom:5px;">
                                 <input type="text" maxlength="3" class="form-control" name="adult_rw`+parseInt(counter_passenger+1)+`" id="adult_rw`+parseInt(counter_passenger+1)+`" placeholder="RW " onfocus="this.placeholder = ''" onblur="this.placeholder = 'RW '" >
                             </div>
-                            
+
                         </div>`;
 
                         text_div_paxs+=`
@@ -7353,7 +7353,17 @@ function check_passenger_data(){
             }
         }
     }
-    return request
+    if(error_log == ''){
+        return request
+    }else{
+        Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: error_log,
+        })
+        return {}
+    }
+
 }
 
 function reset_other_time(){
@@ -7572,7 +7582,7 @@ function auto_fill_phc_antigen(){
             }
             document.getElementById('booker_nationality_id').value = passenger_data_cache_medical[idx].nationality_name;
             document.getElementById('select2-booker_nationality_id-container').innerHTML = passenger_data_cache_medical[idx].nationality_name;
-            
+
         }
         document.getElementById('adult_title'+counter).value = passenger_data_cache_medical[idx].title;
         document.getElementById('adult_first_name'+counter).value = passenger_data_cache_medical[idx].first_name;
@@ -7681,7 +7691,7 @@ function auto_fill_phc_pcr(){
             }
             document.getElementById('booker_nationality_id').value = passenger_data_cache_medical[idx].nationality_name;
             document.getElementById('select2-booker_nationality_id-container').innerHTML = passenger_data_cache_medical[idx].nationality_name;
-            
+
         }
         document.getElementById('adult_title'+counter).value = passenger_data_cache_medical[idx].title;
         onchange_title(counter);
@@ -7974,7 +7984,7 @@ function auto_fill_periksain(){
             }
             document.getElementById('booker_nationality_id').value = passenger_data_cache_medical[idx].nationality_name;
             document.getElementById('select2-booker_nationality_id-container').innerHTML = passenger_data_cache_medical[idx].nationality_name;
-            
+
         }
         document.getElementById('adult_title'+counter).value = passenger_data_cache_medical[idx].title;
         document.getElementById('adult_first_name'+counter).value = passenger_data_cache_medical[idx].first_name;
