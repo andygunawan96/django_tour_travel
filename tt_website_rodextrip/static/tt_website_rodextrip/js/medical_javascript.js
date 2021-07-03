@@ -7069,6 +7069,7 @@ function check_passenger_data(){
     var request = {
         "passengers": []
     }
+    var error_log = '';
     var check_passenger = false;
     var ktp = [];
     var check_ktp_value = 1;
