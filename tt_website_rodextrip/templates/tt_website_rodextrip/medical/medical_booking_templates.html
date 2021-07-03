@@ -72,10 +72,11 @@
         </div>
     </div>
 </div>
-<form id="medical_edit_passenger" class="form-wrap" action="" method="POST" style="padding:0; text-align:unset;">
+
+<form id="medical_edit_passenger" class="form-wrap" action="" method="POST">
     {% csrf_token %}
     <input type="hidden" id="data" name="data" />
-    <input type="hidden" id="signature" name="signature" />
+    <input type="hidden" id="signature_data" name="signature" />
 </form>
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; background:#f7f7f7;">
     <div class="container">
