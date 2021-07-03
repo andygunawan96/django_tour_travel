@@ -74,6 +74,10 @@ def api_models(request):
             res = get_transaction_by_analyst(request)
         elif req_data['action'] == 'get_data_cache_passenger_medical':
             res = get_data_cache_passenger_medical(request)
+        elif req_data['action'] == 'save_backend':
+            res = save_backend(request)
+        elif req_data['action'] == 'verify_data':
+            res = verify_data(request)
 
         else:
             res = ERR.get_error_api(1001)
@@ -568,4 +572,88 @@ def get_data_cache_passenger_medical(request):
 
     except Exception as e:
         res = []
+    return res
+
+def save_backend(request):
+    try:
+        provider = ''
+        additional_url = 'booking/phc'
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "update_passenger_backend",
+            "signature": request.POST['signature']
+        }
+
+        data = json.loads(request.POST['request'])
+        _logger.info(json.dumps(data))
+
+        javascript_version = get_cache_version()
+        response = get_cache_data(javascript_version)
+
+        for rec in data['passengers']:
+            rec['birth_date'] = '%s-%s-%s' % (rec['birth_date'].split(' ')[2], month[rec['birth_date'].split(' ')[1]], rec['birth_date'].split(' ')[0])
+            for country in response['result']['response']['airline']['country']:
+                if rec['nationality_name'] == country['name']:
+                    rec['nationality_code'] = country['code']
+                    break
+            if rec['identity']['identity_country_of_issued_name']:
+                for country in response['result']['response']['airline']['country']:
+                    if rec['identity']['identity_country_of_issued_name'] == country['name']:
+                        rec['identity']['identity_country_of_issued_code'] = country['code']
+                        break
+            if rec['identity'].get('identity_expdate'):
+                if rec['identity']['identity_expdate']:
+                    rec['identity']['identity_expdate'] = '%s-%s-%s' % (
+                        rec['identity']['identity_expdate'].split(' ')[2], month[rec['identity']['identity_expdate'].split(' ')[1]],
+                        rec['identity']['identity_expdate'].split(' ')[0])
+            else:
+                rec['identity']['identity_expdate'] = ''
+
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+
+    res = util.send_request(url=url + additional_url, data=data, headers=headers, method='POST')
+    return res
+
+def verify_data(request):
+    try:
+        provider = ''
+        additional_url = 'booking/phc'
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "verify_data",
+            "signature": request.POST['signature']
+        }
+
+        data = json.loads(request.POST['request'])
+        _logger.info(json.dumps(data))
+
+        javascript_version = get_cache_version()
+        response = get_cache_data(javascript_version)
+
+        for rec in data['passengers']:
+            rec['birth_date'] = '%s-%s-%s' % (rec['birth_date'].split(' ')[2], month[rec['birth_date'].split(' ')[1]], rec['birth_date'].split(' ')[0])
+            for country in response['result']['response']['airline']['country']:
+                if rec['nationality_name'] == country['name']:
+                    rec['nationality_code'] = country['code']
+                    break
+            if rec['identity']['identity_country_of_issued_name']:
+                for country in response['result']['response']['airline']['country']:
+                    if rec['identity']['identity_country_of_issued_name'] == country['name']:
+                        rec['identity']['identity_country_of_issued_code'] = country['code']
+                        break
+            if rec['identity'].get('identity_expdate'):
+                if rec['identity']['identity_expdate']:
+                    rec['identity']['identity_expdate'] = '%s-%s-%s' % (
+                        rec['identity']['identity_expdate'].split(' ')[2], month[rec['identity']['identity_expdate'].split(' ')[1]],
+                        rec['identity']['identity_expdate'].split(' ')[0])
+            else:
+                rec['identity']['identity_expdate'] = ''
+
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+
+    res = util.send_request(url=url + additional_url, data=data, headers=headers, method='POST', timeout=300)
     return res
