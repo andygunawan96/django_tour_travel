@@ -8027,8 +8027,11 @@ function hidden_readonly_medical(id, select, action){
 
 function auto_fill_verify_data(){
     var counter = 1;
+    var verified_check = true;
     for(idx in passenger_data_cache_medical){
         try{
+        if(passenger_data_cache_medical[idx].verify == false)
+            verified_check = false;
         document.getElementById('adult_title'+counter).value = passenger_data_cache_medical[idx].title;
         onchange_title(counter);
         document.getElementById('adult_first_name'+counter).value = passenger_data_cache_medical[idx].first_name;
@@ -8125,6 +8128,8 @@ function auto_fill_verify_data(){
         counter++;
         }catch(err){console.log(err);}
     }
+    if(verified_check == false)
+        document.getElementById('button_verify').innerHTML = `<button class="primary-btn-ticket" type="button" style="background-color:green" onclick="verify_data()"><i class="fas fa-save"></i> Save & Verify <i class="fas fa-upload"></i></button>`;
 }
 
 function repeat_order_phc(){
