@@ -1369,6 +1369,11 @@ function medical_get_booking(order_number, sync=false){
                     add_repricing();
                 }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                     auto_logout();
+                }else if(msg.result.error_code == 1035){
+                    document.getElementById('show_title_train').hidden = false;
+                    document.getElementById('show_loading_booking_train').hidden = true;
+                    document.getElementById('show_title_train').hidden = true;
+                    render_login('medical');
                 }else{
                    Swal.fire({
                       type: 'error',
@@ -2244,7 +2249,7 @@ function get_data_cache_passenger_medical(type){
 function update_data_passengers(){
     var path = '/'+medical_get_detail.result.response.provider_bookings[0].provider+'/passenger_edit/' + medical_get_detail.result.response.provider_bookings[0].carrier_code +'/'+ medical_get_detail.result.response.order_number;
     document.getElementById('data').value = JSON.stringify(medical_get_detail.result.response.passengers);
-    document.getElementById('signature').value = signature;
+    document.getElementById('signature_data').value = signature;
     document.getElementById('medical_edit_passenger').action = path;
     document.getElementById('medical_edit_passenger').submit();
 }
