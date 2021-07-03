@@ -1370,9 +1370,9 @@ function medical_get_booking(order_number, sync=false){
                 }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                     auto_logout();
                 }else if(msg.result.error_code == 1035){
-                    document.getElementById('show_title_train').hidden = false;
-                    document.getElementById('show_loading_booking_train').hidden = true;
-                    document.getElementById('show_title_train').hidden = true;
+                    document.getElementById('show_title_medical').hidden = false;
+                    document.getElementById('show_loading_booking_medical').hidden = true;
+                    document.getElementById('show_title_medical').hidden = true;
                     render_login('medical');
                 }else{
                    Swal.fire({
