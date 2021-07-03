@@ -7074,6 +7074,7 @@ function check_passenger_data(){
     var ktp = [];
     var check_ktp_value = 1;
     var max_length = 0;
+    var error_log = '';
     if(vendor == 'periksain')
         max_length = medical_config.result.response[test_type].adult_length_name
     else if(vendor == 'phc'){
@@ -7295,18 +7296,6 @@ function check_passenger_data(){
                         document.getElementById('adult_pendidikan' + nomor_pax).style['border-color'] = 'red';
                     }else{
                         document.getElementById('adult_pendidikan' + nomor_pax).style['border-color'] = '#EFEFEF';
-                    }
-                    if(document.getElementById('adult_zip_code_ktp' + nomor_pax).value == '' || check_number(document.getElementById('adult_zip_code_ktp' + nomor_pax).value) == false){
-                        error_log+= 'Please fill Zip Code KTP for customer '+nomor_pax+'!</br>\n';
-                        document.getElementById('adult_zip_code_ktp' + nomor_pax).style['border-color'] = 'red';
-                    }else{
-                        document.getElementById('adult_zip_code_ktp' + nomor_pax).style['border-color'] = '#EFEFEF';
-                    }
-                    if(document.getElementById('adult_zip_code' + nomor_pax).value == '' || check_number(document.getElementById('adult_zip_code' + nomor_pax).value) == false){
-                        error_log+= 'Please fill Zip Code for customer '+nomor_pax+'!</br>\n';
-                        document.getElementById('adult_zip_code' + nomor_pax).style['border-color'] = 'red';
-                    }else{
-                        document.getElementById('adult_zip_code' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
 
                     pcr_data = {
@@ -8106,13 +8095,23 @@ function auto_fill_verify_data(){
 
         if(passenger_data_cache_medical[idx].pcr_data.married_status != undefined){
             document.getElementById('adult_married_status'+counter).value = passenger_data_cache_medical[idx].pcr_data.married_status;
-            document.getElementById('adult_religion'+counter).value = passenger_data_cache_medical[idx].pcr_data.religion;
-            document.getElementById('adult_pendidikan'+counter).value = passenger_data_cache_medical[idx].pcr_data.pendidikan;
+            if(passenger_data_cache_medical[idx].pcr_data.hasOwnProperty('religion'))
+                document.getElementById('adult_religion'+counter).value = passenger_data_cache_medical[idx].pcr_data.religion;
+            else
+                document.getElementById('adult_religion'+counter).value = 'LAINNYA';
+            if(passenger_data_cache_medical[idx].pcr_data.hasOwnProperty('pendidikan'))
+                document.getElementById('adult_pendidikan'+counter).value = passenger_data_cache_medical[idx].pcr_data.pendidikan;
+            else
+                document.getElementById('adult_pendidikan'+counter).value = 'LAIN-LAIN';
+            if(passenger_data_cache_medical[idx].pcr_data.hasOwnProperty('klinis_golongan_darah'))
+                document.getElementById('adult_klinis_golongan_darah'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_golongan_darah;
+            else
+                document.getElementById('adult_klinis_golongan_darah'+counter).value = 'NA';
             document.getElementById('adult_zip_code_ktp'+counter).value = passenger_data_cache_medical[idx].pcr_data.zip_code_ktp;
             document.getElementById('adult_zip_code'+counter).value = passenger_data_cache_medical[idx].pcr_data.zip_code;
-            document.getElementById('adult_klinis_golongan_darah'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_golongan_darah;
+
         }else{
-            document.getElementById('adult_religion'+counter).value = 'LAIN-LAIN';
+            document.getElementById('adult_religion'+counter).value = 'LAINNYA';
             document.getElementById('adult_pendidikan'+counter).value = 'LAIN-LAIN';
             document.getElementById('adult_klinis_golongan_darah'+counter).value = 'NA';;
         }
