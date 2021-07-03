@@ -8100,6 +8100,10 @@ function auto_fill_verify_data(){
             document.getElementById('adult_zip_code_ktp'+counter).value = passenger_data_cache_medical[idx].pcr_data.zip_code_ktp;
             document.getElementById('adult_zip_code'+counter).value = passenger_data_cache_medical[idx].pcr_data.zip_code;
             document.getElementById('adult_klinis_golongan_darah'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_golongan_darah;
+        }else{
+            document.getElementById('adult_religion'+counter).value = 'LAIN-LAIN';
+            document.getElementById('adult_pendidikan'+counter).value = 'LAIN-LAIN';
+            document.getElementById('adult_klinis_golongan_darah'+counter).value = 'NA';;
         }
         $('#adult_title'+counter).niceSelect('update');
         $('#adult_identity_type'+counter).niceSelect('update');
