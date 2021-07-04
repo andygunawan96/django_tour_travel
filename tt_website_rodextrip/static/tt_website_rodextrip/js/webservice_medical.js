@@ -770,7 +770,7 @@ function medical_get_booking(order_number, sync=false){
                                     text+=`</b>
                                 </span><br/>`;
                                 text+=`<span>Date: <b>`;
-                                if(msg.result.response.provider_booking[0].carrier_code == 'PHCHCKATG' || msg.result.response.provider_booking[0].carrier_code == 'PHCHCKPCR' || msg.result.response.provider_booking[0].carrier_code == "PRKATG")
+                                if(msg.result.response.provider_bookings[0].carrier_code == 'PHCHCKATG' || msg.result.response.provider_bookings[0].carrier_code == 'PHCHCKPCR' || msg.result.response.provider_bookings[0].carrier_code == "PRKATG")
                                     text+=moment(msg.result.response.picked_timeslot.datetimeslot.split(' ')[0], 'YYYY-MM-DD').format('DD MMM YYYY');
                                 else{
                                     text+= `08.00 - 15.00`;
