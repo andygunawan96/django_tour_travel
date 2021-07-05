@@ -571,7 +571,10 @@ def get_data_cache_passenger_medical(request):
                     break
 
     except Exception as e:
-        res = []
+        try:
+            res = request.session.get('medical_passenger_cache')
+        except Exception as e:
+            res = []
     return res
 
 def save_backend(request):
