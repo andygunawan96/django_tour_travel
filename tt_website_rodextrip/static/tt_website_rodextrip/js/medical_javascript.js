@@ -7666,7 +7666,7 @@ function auto_fill_phc_antigen(){
             document.getElementById('adult_pendidikan'+counter).value = passenger_data_cache_medical[idx].pcr_data.pendidikan;
             document.getElementById('adult_zip_code_ktp'+counter).value = passenger_data_cache_medical[idx].pcr_data.zip_code_ktp;
             document.getElementById('adult_zip_code'+counter).value = passenger_data_cache_medical[idx].pcr_data.zip_code;
-            document.getElementById('adult_klinis_golongan_darah' + nomor_pax).value = passenger_data_cache_medical[idx].pcr_data.klinis_golongan_darah;
+            document.getElementById('adult_klinis_golongan_darah' + counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_golongan_darah;
         }
         $('#adult_title'+counter).niceSelect('update');
         $('#adult_identity_type'+counter).niceSelect('update');

@@ -1205,8 +1205,8 @@ function medical_get_booking(order_number, sync=false){
                        $(".issued_booking_btn").show();
                        $text += 'Status: Booked\n';
                        document.getElementById('div_sync_status').hidden = false;
-                       document.getElementById('div_sync_status').innerHTML =`
-                       <input type="button" class="primary-btn" id="button-sync-status" style="width:100%;" value="Sync Status" onclick="please_wait_transaction();medical_get_booking('`+order_number+`',true)">`
+                       /*document.getElementById('div_sync_status').innerHTML =`
+                       <input type="button" class="primary-btn" id="button-sync-status" style="width:100%;" value="Sync Status" onclick="please_wait_transaction();medical_get_booking('`+order_number+`',true)">`*/
                     }
                     else if(msg.result.response.state == 'issued'){
                         document.getElementById('issued-breadcrumb').classList.add("br-active");

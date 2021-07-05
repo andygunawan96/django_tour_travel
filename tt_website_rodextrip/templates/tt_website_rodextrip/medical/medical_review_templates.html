@@ -250,7 +250,12 @@
                 </div>
                 <div class="col-lg-8">
                     <div class="row">
-                        <div class="col-lg-4"></div>
+                        <div class="col-lg-4">
+                            <button type="button" class="primary-btn hold-seat-booking-train ld-ext-right" id="btn-search-train" onclick="window.location.href = `{{go_back_url}}`;" style="width:100%;">
+                                {% trans 'Edit Passenger' %}
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>
+                        </div>
                         <div class="col-lg-4"></div>
                         <div class="col-lg-4" style="padding-bottom:10px;">
                             {% if 'book_reservation' in username.co_agent_frontend_security %}
