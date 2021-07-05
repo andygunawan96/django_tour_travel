@@ -143,6 +143,7 @@ function update_timeslot(val){
     document.getElementById('booker_timeslot_id'+val).innerHTML = text;
     $('#booker_timeslot_id'+val).niceSelect('update');
     change_timeslot(val);
+    document.getElementById('next_medical').style.display='none';
 }
 
 function change_timeslot(val){
@@ -618,7 +619,7 @@ function add_table_of_passenger_verify(type){
                     </div>
                     <div class="col-lg-6" id="adult_cp_hidden2_`+parseInt(counter_passenger+1)+`">
                         <label style="color:red !important">*</label>
-                        <label>Whatsapp Number</label>
+                        <label>WA Number</label>
                         <div class="row">
                             <div class="col-lg-3">
                                 <div class="form-select">
@@ -1857,7 +1858,7 @@ function add_table_of_passenger(type){
                     </div>
                     <div class="col-lg-6" id="adult_cp_hidden2_`+parseInt(counter_passenger+1)+`">
                         <label style="color:red !important">*</label>
-                        <label>Whatsapp Number</label>
+                        <label>WA Number</label>
                         <div class="row">
                             <div class="col-lg-3">
                                 <div class="form-select">

@@ -593,8 +593,8 @@ def save_backend(request):
 
         javascript_version = get_cache_version()
         response = get_cache_data(javascript_version)
-
-        for rec in data['passengers']:
+        res = request.session['medical_passenger_cache']
+        for idx, rec in enumerate(data['passengers']):
             rec['birth_date'] = '%s-%s-%s' % (rec['birth_date'].split(' ')[2], month[rec['birth_date'].split(' ')[1]], rec['birth_date'].split(' ')[0])
             for country in response['result']['response']['airline']['country']:
                 if rec['nationality_name'] == country['name']:
@@ -612,6 +612,7 @@ def save_backend(request):
                         rec['identity']['identity_expdate'].split(' ')[0])
             else:
                 rec['identity']['identity_expdate'] = ''
+            rec['verify'] = res[idx]['verify']
 
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
