@@ -245,7 +245,7 @@ def review(request, vendor):
                 'static_path_url_server': get_url_static_path(),
                 'vendor': vendor,
                 'test_type': test_type,
-                'go_back_url': request.META['HTTP_REFERER']
+                'go_back_url': request.META['HTTP_REFERER'],
                 # 'cookies': json.dumps(res['result']['cookies']),
 
             })
@@ -321,13 +321,18 @@ def passenger_edit(request, vendor,test_type, order_number):
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
             try:
-                passengers = json.loads(request.POST['data'])
+                data = json.loads(request.POST['data'])
+                passengers = data['passengers']
+                state = data['state']
                 set_session(request, 'medical_passenger_cache', passengers)
+                set_session(request, 'medical_state_cache', state)
             except:
                 try:
                     passengers = request.session['medical_passenger_cache']
+                    state = request.session['medical_passenger_state']
                 except:
                     passengers = []
+                    state = 'booked'
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
@@ -346,7 +351,8 @@ def passenger_edit(request, vendor,test_type, order_number):
                 'vendor': vendor,
                 'order_number': order_number,
                 'test_type': test_type,
-                'total_passengers_rebooking': len(passengers)
+                'total_passengers_rebooking': len(passengers),
+                'state': state
             })
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
