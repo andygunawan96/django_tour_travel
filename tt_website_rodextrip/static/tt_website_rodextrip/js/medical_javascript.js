@@ -143,6 +143,7 @@ function update_timeslot(val){
     document.getElementById('booker_timeslot_id'+val).innerHTML = text;
     $('#booker_timeslot_id'+val).niceSelect('update');
     change_timeslot(val);
+    document.getElementById('next_medical').style.display='none';
 }
 
 function change_timeslot(val){
@@ -618,7 +619,7 @@ function add_table_of_passenger_verify(type){
                     </div>
                     <div class="col-lg-6" id="adult_cp_hidden2_`+parseInt(counter_passenger+1)+`">
                         <label style="color:red !important">*</label>
-                        <label>Whatsapp Number</label>
+                        <label>WA Number</label>
                         <div class="row">
                             <div class="col-lg-3">
                                 <div class="form-select">
@@ -1857,7 +1858,7 @@ function add_table_of_passenger(type){
                     </div>
                     <div class="col-lg-6" id="adult_cp_hidden2_`+parseInt(counter_passenger+1)+`">
                         <label style="color:red !important">*</label>
-                        <label>Whatsapp Number</label>
+                        <label>WA Number</label>
                         <div class="row">
                             <div class="col-lg-3">
                                 <div class="form-select">
@@ -6695,12 +6696,15 @@ function check_passenger(){
                         if(document.getElementById('adult_perjalanan'+nomor_pax).value == 'IYA'){
                             for(j=0;j<perjalanan_keluar_negeri;j++){
                                 try{
-                                    perjalanan_keluar_negeri_list.push({
-                                        "nama_negara": document.getElementById('adult_perjalanan_keluar_negeri_nama_negara'+nomor_pax+'_'+j).value,
-                                        "nama_kota": document.getElementById('adult_perjalanan_keluar_negeri_nama_kota'+nomor_pax+'_'+j).value,
-                                        "tanggal_perjalanan": moment(document.getElementById('adult_perjalanan_keluar_negeri_tanggal_perjalanan'+nomor_pax+'_'+j).value).format('YYYY-MM-DD'),
-                                        "tiba_di_indonesia": moment(document.getElementById('adult_perjalanan_keluar_negeri_tiba_di_indonesia'+nomor_pax+'_'+j).value).format('YYYY-MM-DD')
-                                    });
+                                    if(document.getElementById('adult_perjalanan_keluar_negeri_nama_negara'+nomor_pax+'_'+j).value != '' && document.getElementById('adult_perjalanan_keluar_negeri_nama_kota'+nomor_pax+'_'+j).value != '' &&
+                                       document.getElementById('adult_perjalanan_keluar_negeri_tanggal_perjalanan'+nomor_pax+'_'+j).value != '' && document.getElementById('adult_perjalanan_keluar_negeri_tiba_di_indonesia'+nomor_pax+'_'+j).value != ''){
+                                        perjalanan_keluar_negeri_list.push({
+                                            "nama_negara": document.getElementById('adult_perjalanan_keluar_negeri_nama_negara'+nomor_pax+'_'+j).value,
+                                            "nama_kota": document.getElementById('adult_perjalanan_keluar_negeri_nama_kota'+nomor_pax+'_'+j).value,
+                                            "tanggal_perjalanan": moment(document.getElementById('adult_perjalanan_keluar_negeri_tanggal_perjalanan'+nomor_pax+'_'+j).value).format('YYYY-MM-DD'),
+                                            "tiba_di_indonesia": moment(document.getElementById('adult_perjalanan_keluar_negeri_tiba_di_indonesia'+nomor_pax+'_'+j).value).format('YYYY-MM-DD')
+                                        });
+                                    }
                                 }catch(err){
 
                                 }
@@ -6708,24 +6712,30 @@ function check_passenger(){
 
                             for(j=0;j<perjalanan_ke_transmisi_lokal;j++){
                                 try{
-                                    perjalanan_ke_transmisi_lokal_list.push({
-                                        "nama_provinsi": document.getElementById('adult_perjalanan_ke_transmisi_lokal_nama_provinsi'+nomor_pax+'_'+j).value,
-                                        "nama_kota": document.getElementById('adult_perjalanan_ke_transmisi_lokal_nama_kota'+nomor_pax+'_'+j).value,
-                                        "tanggal_perjalanan": moment(document.getElementById('adult_perjalanan_ke_transmisi_lokal_tanggal_perjalanan'+nomor_pax+'_'+j).value).format('YYYY-MM-DD'),
-                                        "tiba_disini": moment(document.getElementById('adult_perjalanan_ke_transmisi_lokal_tiba_di_sini'+nomor_pax+'_'+j).value).format('YYYY-MM-DD')
-                                    });
+                                    if(document.getElementById('adult_perjalanan_ke_transmisi_lokal_nama_provinsi'+nomor_pax+'_'+j).value != '' && document.getElementById('adult_perjalanan_ke_transmisi_lokal_nama_kota'+nomor_pax+'_'+j).value != '' &&
+                                       document.getElementById('adult_perjalanan_ke_transmisi_lokal_tanggal_perjalanan'+nomor_pax+'_'+j).value != '' && document.getElementById('adult_perjalanan_ke_transmisi_lokal_tiba_di_sini'+nomor_pax+'_'+j).value != ''){
+                                        perjalanan_ke_transmisi_lokal_list.push({
+                                            "nama_provinsi": document.getElementById('adult_perjalanan_ke_transmisi_lokal_nama_provinsi'+nomor_pax+'_'+j).value,
+                                            "nama_kota": document.getElementById('adult_perjalanan_ke_transmisi_lokal_nama_kota'+nomor_pax+'_'+j).value,
+                                            "tanggal_perjalanan": moment(document.getElementById('adult_perjalanan_ke_transmisi_lokal_tanggal_perjalanan'+nomor_pax+'_'+j).value).format('YYYY-MM-DD'),
+                                            "tiba_disini": moment(document.getElementById('adult_perjalanan_ke_transmisi_lokal_tiba_di_sini'+nomor_pax+'_'+j).value).format('YYYY-MM-DD')
+                                        });
+                                    }
                                 }catch(err){
 
                                 }
                             }
                             for(j=0;j<berkunjung_ke_fasilitas_kesehatan;j++){
                                 try{
-                                    berkunjung_ke_fasilitas_kesehatan_list.push({
-                                        "nama_rumah_sakit": document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan_nama_rumah_sakit'+nomor_pax+'_'+j).value,
-                                        "nama_kota": document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan_nama_kota'+nomor_pax+'_'+j).value,
-                                        "nama_provinsi": document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan_nama_provinsi'+nomor_pax+'_'+j).value,
-                                        "tanggal_kunjungan": moment(document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan_tanggal_kunjungan'+nomor_pax+'_'+j).value).format('YYYY-MM-DD')
-                                    });
+                                    if(document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan_nama_rumah_sakit'+nomor_pax+'_'+j).value != '' && document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan_nama_kota'+nomor_pax+'_'+j).value != '' &&
+                                       document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan_nama_provinsi'+nomor_pax+'_'+j).value != '' && document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan_tanggal_kunjungan'+nomor_pax+'_'+j).value != ''){
+                                        berkunjung_ke_fasilitas_kesehatan_list.push({
+                                            "nama_rumah_sakit": document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan_nama_rumah_sakit'+nomor_pax+'_'+j).value,
+                                            "nama_kota": document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan_nama_kota'+nomor_pax+'_'+j).value,
+                                            "nama_provinsi": document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan_nama_provinsi'+nomor_pax+'_'+j).value,
+                                            "tanggal_kunjungan": moment(document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan_tanggal_kunjungan'+nomor_pax+'_'+j).value).format('YYYY-MM-DD')
+                                        });
+                                    }
                                 }catch(err){
 
                                 }
@@ -6733,12 +6743,15 @@ function check_passenger(){
 
                             for(j=0;j<berkunjung_ke_pasar_hewan;j++){
                                 try{
-                                    berkunjung_ke_pasar_hewan_list.push({
-                                        "nama_lokasi_pasar": document.getElementById('adult_berkunjung_ke_pasar_hewan_nama_lokasi_pasar'+nomor_pax+'_'+j).value,
-                                        "nama_kota": document.getElementById('adult_berkunjung_ke_pasar_hewan_nama_kota'+nomor_pax+'_'+j).value,
-                                        "nama_provinsi": document.getElementById('adult_berkunjung_ke_pasar_hewan_nama_provinsi'+nomor_pax+'_'+j).value,
-                                        "tanggal_kunjungan": moment(document.getElementById('adult_berkunjung_ke_pasar_hewan_tanggal_kunjungan'+nomor_pax+'_'+j).value).format('YYYY-MM-DD')
-                                    });
+                                    if(document.getElementById('adult_berkunjung_ke_pasar_hewan_nama_lokasi_pasar'+nomor_pax+'_'+j).value != '' && document.getElementById('adult_berkunjung_ke_pasar_hewan_nama_kota'+nomor_pax+'_'+j).value != '' &&
+                                       document.getElementById('adult_berkunjung_ke_pasar_hewan_nama_provinsi'+nomor_pax+'_'+j).value != '' && document.getElementById('adult_berkunjung_ke_pasar_hewan_tanggal_kunjungan'+nomor_pax+'_'+j).value != ''){
+                                        berkunjung_ke_pasar_hewan_list.push({
+                                            "nama_lokasi_pasar": document.getElementById('adult_berkunjung_ke_pasar_hewan_nama_lokasi_pasar'+nomor_pax+'_'+j).value,
+                                            "nama_kota": document.getElementById('adult_berkunjung_ke_pasar_hewan_nama_kota'+nomor_pax+'_'+j).value,
+                                            "nama_provinsi": document.getElementById('adult_berkunjung_ke_pasar_hewan_nama_provinsi'+nomor_pax+'_'+j).value,
+                                            "tanggal_kunjungan": moment(document.getElementById('adult_berkunjung_ke_pasar_hewan_tanggal_kunjungan'+nomor_pax+'_'+j).value).format('YYYY-MM-DD')
+                                        });
+                                    }
                                 }catch(err){
 
                                 }
@@ -6746,13 +6759,18 @@ function check_passenger(){
 
                             for(j=0;j<berkunjung_ke_pasien_dalam_pengawasan;j++){
                                 try{
-                                    berkunjung_ke_pasien_dalam_pengawasan_list.push({
-                                        "nama_pasien": document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_nama_pasien'+nomor_pax+'_'+j).value,
-                                        "nama_alamat": document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_alamat'+nomor_pax+'_'+j).value,
-                                        "hubungan": document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_hubungan'+nomor_pax+'_'+j).value,
-                                        "tanggal_kontak_pertama": moment(document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_pertama'+nomor_pax+'_'+j).value).format('YYYY-MM-DD'),
-                                        "tanggal_kontak_terakhir": moment(document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_terakhir'+nomor_pax+'_'+j).value).format('YYYY-MM-DD')
-                                    });
+                                    if(document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_nama_pasien'+nomor_pax+'_'+j).value != '' && document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_alamat'+nomor_pax+'_'+j).value != '' &&
+                                       document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_hubungan'+nomor_pax+'_'+j).value != '' && document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_pertama'+nomor_pax+'_'+j).value != '' &&
+                                       document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_terakhir'+nomor_pax+'_'+j).value != ''){
+                                        berkunjung_ke_pasien_dalam_pengawasan_list.push({
+                                            "nama_pasien": document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_nama_pasien'+nomor_pax+'_'+j).value,
+                                            "nama_alamat": document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_alamat'+nomor_pax+'_'+j).value,
+                                            "hubungan": document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_hubungan'+nomor_pax+'_'+j).value,
+                                            "tanggal_kontak_pertama": moment(document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_pertama'+nomor_pax+'_'+j).value).format('YYYY-MM-DD'),
+                                            "tanggal_kontak_terakhir": moment(document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_terakhir'+nomor_pax+'_'+j).value).format('YYYY-MM-DD')
+                                        });
+                                    }
+
                                 }catch(err){
 
                                 }
@@ -6760,13 +6778,18 @@ function check_passenger(){
 
                             for(j=0;j<berkunjung_ke_pasien_konfirmasi;j++){
                                 try{
-                                    berkunjung_ke_pasien_konfirmasi_list.push({
-                                        "nama_pasien": document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_nama_pasien1_0'+nomor_pax+'_'+j).value,
-                                        "nama_alamat": document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_alamat'+nomor_pax+'_'+j).value,
-                                        "hubungan": document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_hubungan'+nomor_pax+'_'+j).value,
-                                        "tanggal_kontak_pertama": moment(document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_pertama'+nomor_pax+'_'+j).value).format('YYYY-MM-DD'),
-                                        "tanggal_kontak_terakhir": moment(document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_terakhir'+nomor_pax+'_'+j).value).format('YYYY-MM-DD')
-                                    });
+                                    if(document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_nama_pasien'+nomor_pax+'_'+j).value != '' && document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_alamat'+nomor_pax+'_'+j).value != '' &&
+                                       document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_hubungan'+nomor_pax+'_'+j).value != '' && document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_pertama'+nomor_pax+'_'+j).value != '' &&
+                                       document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_terakhir'+nomor_pax+'_'+j).value != ''){
+                                        berkunjung_ke_pasien_konfirmasi_list.push({
+                                            "nama_pasien": document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_nama_pasien1_0'+nomor_pax+'_'+j).value,
+                                            "nama_alamat": document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_alamat'+nomor_pax+'_'+j).value,
+                                            "hubungan": document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_hubungan'+nomor_pax+'_'+j).value,
+                                            "tanggal_kontak_pertama": moment(document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_pertama'+nomor_pax+'_'+j).value).format('YYYY-MM-DD'),
+                                            "tanggal_kontak_terakhir": moment(document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_terakhir'+nomor_pax+'_'+j).value).format('YYYY-MM-DD')
+                                        });
+
+                                    }
                                 }catch(err){
 
                                 }
@@ -7644,7 +7667,7 @@ function auto_fill_phc_antigen(){
             document.getElementById('adult_pendidikan'+counter).value = passenger_data_cache_medical[idx].pcr_data.pendidikan;
             document.getElementById('adult_zip_code_ktp'+counter).value = passenger_data_cache_medical[idx].pcr_data.zip_code_ktp;
             document.getElementById('adult_zip_code'+counter).value = passenger_data_cache_medical[idx].pcr_data.zip_code;
-            document.getElementById('adult_klinis_golongan_darah' + nomor_pax).value = passenger_data_cache_medical[idx].pcr_data.klinis_golongan_darah;
+            document.getElementById('adult_klinis_golongan_darah' + counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_golongan_darah;
         }
         $('#adult_title'+counter).niceSelect('update');
         $('#adult_identity_type'+counter).niceSelect('update');
@@ -8028,8 +8051,11 @@ function hidden_readonly_medical(id, select, action){
 
 function auto_fill_verify_data(){
     var counter = 1;
+    var verified_check = true;
     for(idx in passenger_data_cache_medical){
         try{
+        if(passenger_data_cache_medical[idx].verify == false)
+            verified_check = false;
         document.getElementById('adult_title'+counter).value = passenger_data_cache_medical[idx].title;
         onchange_title(counter);
         document.getElementById('adult_first_name'+counter).value = passenger_data_cache_medical[idx].first_name;
@@ -8125,6 +8151,9 @@ function auto_fill_verify_data(){
         update_contact('passenger',counter);
         counter++;
         }catch(err){console.log(err);}
+    }
+    if(verified_check == false && state == 'issued'){
+        document.getElementById('button_verify').innerHTML = `<button class="primary-btn-ticket" type="button" style="background-color:green" onclick="save_data_pax_backend('verify_data')"><i class="fas fa-save"></i> Save & Verify <i class="fas fa-upload"></i></button>`;
     }
 }
 

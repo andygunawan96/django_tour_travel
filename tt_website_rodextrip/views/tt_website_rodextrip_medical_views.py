@@ -180,11 +180,24 @@ def review(request, vendor):
             response = get_cache_data(cache_version)
 
             values = get_data_template(request)
-            data = json.loads(request.POST['data'])
+            try:
+                data = json.loads(request.POST['data'])
+            except:
+                try:
+                    data = request.session.get('medical_data_%s' % request.POST['signature'])
+                except:
+                    pass
             adult = data['passenger']
             booker = data['booker']
             contact = data['contact_person']
             data = data['data']
+
+            medical_passenger = copy.deepcopy(adult)
+            for rec in medical_passenger:
+                rec['identity_country_of_issued_name'] = rec['identity']['identity_country_of_issued_name']
+                rec['identity_number'] = rec['identity']['identity_number']
+                rec['identity_expdate'] = rec['identity']['identity_expdate']
+                rec['identity_type'] = rec['identity']['identity_type']
 
             set_session(request, 'medical_data_%s' % request.POST['signature'], {
                 'booker': booker,
@@ -192,6 +205,7 @@ def review(request, vendor):
                 'contacts': contact,
                 'data': data
             })
+            set_session(request, 'medical_passenger_cache', medical_passenger)
             try:
                 set_session(request, 'time_limit', request.POST['time_limit_input'])
                 set_session(request, 'medical_signature', request.POST['signature'])
@@ -230,7 +244,8 @@ def review(request, vendor):
                 'signature': request.session['medical_signature'],
                 'static_path_url_server': get_url_static_path(),
                 'vendor': vendor,
-                'test_type': test_type
+                'test_type': test_type,
+                'go_back_url': request.META['HTTP_REFERER'],
                 # 'cookies': json.dumps(res['result']['cookies']),
 
             })
@@ -306,13 +321,18 @@ def passenger_edit(request, vendor,test_type, order_number):
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
             try:
-                passengers = json.loads(request.POST['data'])
+                data = json.loads(request.POST['data'])
+                passengers = data['passengers']
+                state = data['state']
                 set_session(request, 'medical_passenger_cache', passengers)
+                set_session(request, 'medical_state_cache', state)
             except:
                 try:
                     passengers = request.session['medical_passenger_cache']
+                    state = request.session['medical_passenger_state']
                 except:
                     passengers = []
+                    state = 'booked'
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
@@ -331,7 +351,8 @@ def passenger_edit(request, vendor,test_type, order_number):
                 'vendor': vendor,
                 'order_number': order_number,
                 'test_type': test_type,
-                'total_passengers_rebooking': len(passengers)
+                'total_passengers_rebooking': len(passengers),
+                'state': state
             })
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
