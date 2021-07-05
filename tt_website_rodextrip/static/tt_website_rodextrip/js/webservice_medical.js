@@ -354,6 +354,7 @@ function medical_check_price(){
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
                 error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get price medical');
+                document.getElementById('check_price_medical').disabled = false; //disable false jika timeout atau apapun yg masuk catch
            },timeout: 300000
         });
     }else if(error_log != ''){
