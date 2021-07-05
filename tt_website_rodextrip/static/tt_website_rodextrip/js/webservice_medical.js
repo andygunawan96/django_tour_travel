@@ -2316,7 +2316,9 @@ function save_data_pax_backend(action){
                       type: 'error',
                       title: 'Oops!',
                       html: msg.result.error_msg,
-                   })
+                   }).then((result) => {
+                      cancel_data();
+                    })
                 }
                 $('.loader-rodextrip').fadeOut();
 
