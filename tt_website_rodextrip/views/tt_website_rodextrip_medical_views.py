@@ -180,11 +180,24 @@ def review(request, vendor):
             response = get_cache_data(cache_version)
 
             values = get_data_template(request)
-            data = json.loads(request.POST['data'])
+            try:
+                data = json.loads(request.POST['data'])
+            except:
+                try:
+                    data = request.session.get('medical_data_%s' % request.POST['signature'])
+                except:
+                    pass
             adult = data['passenger']
             booker = data['booker']
             contact = data['contact_person']
             data = data['data']
+
+            medical_passenger = copy.deepcopy(adult)
+            for rec in medical_passenger:
+                rec['identity_country_of_issued_name'] = rec['identity']['identity_country_of_issued_name']
+                rec['identity_number'] = rec['identity']['identity_number']
+                rec['identity_expdate'] = rec['identity']['identity_expdate']
+                rec['identity_type'] = rec['identity']['identity_type']
 
             set_session(request, 'medical_data_%s' % request.POST['signature'], {
                 'booker': booker,
@@ -192,6 +205,7 @@ def review(request, vendor):
                 'contacts': contact,
                 'data': data
             })
+            set_session(request, 'medical_passenger_cache', medical_passenger)
             try:
                 set_session(request, 'time_limit', request.POST['time_limit_input'])
                 set_session(request, 'medical_signature', request.POST['signature'])
@@ -230,7 +244,8 @@ def review(request, vendor):
                 'signature': request.session['medical_signature'],
                 'static_path_url_server': get_url_static_path(),
                 'vendor': vendor,
-                'test_type': test_type
+                'test_type': test_type,
+                'go_back_url': request.META['HTTP_REFERER']
                 # 'cookies': json.dumps(res['result']['cookies']),
 
             })
