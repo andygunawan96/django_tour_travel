@@ -30,6 +30,7 @@
     vendor = `{{vendor}}`;
     test_type = `{{test_type}}`;
     order_number = `{{order_number}}`;
+    state = `{{state}}`;
 </script>
 {% include 'tt_website_rodextrip/logout.html' %}
 {% include 'tt_website_rodextrip/loading_screen.html' %}
@@ -179,7 +180,7 @@
                                         <button class="primary-btn-ticket" type="button" style="background-color:red" onclick="cancel_data();"><i class="fas fa-times"></i> Cancel</button>
                                     </div>
                                     <div class="col-lg-4" style="text-align:center; margin-top:20px; margin-bottom:15px;">
-                                        <button class="primary-btn-ticket" type="button" onclick="save_data_pax_backend()"><i class="fas fa-save"></i> Save</button>
+                                        <button class="primary-btn-ticket" type="button" onclick="save_data_pax_backend('save_backend')"><i class="fas fa-save"></i> Save</button>
                                     </div>
                                     <div class="col-lg-4" style="text-align:right; margin-top:20px; margin-bottom:15px;" id="button_verify">
 

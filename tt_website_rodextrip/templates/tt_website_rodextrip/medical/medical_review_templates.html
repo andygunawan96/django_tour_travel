@@ -106,7 +106,13 @@
                                         <td></td>
                                         <td></td>
                                         {% endif %}
-                                        <td>{{rec.date}} {{rec.time}}</td>
+                                        <td>{{rec.date}}
+                                            {% if rec.time == '15:09' %}
+                                                <br/>08:00 - 15:00
+                                            {% else %}
+                                                {{rec.time}}
+                                            {% endif %}
+                                        </td>
                                     </tr>
                                     {% endfor %}
                                     {% else %}

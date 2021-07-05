@@ -8151,8 +8151,9 @@ function auto_fill_verify_data(){
         counter++;
         }catch(err){console.log(err);}
     }
-    if(verified_check == false)
-        document.getElementById('button_verify').innerHTML = `<button class="primary-btn-ticket" type="button" style="background-color:green" onclick="verify_data()"><i class="fas fa-save"></i> Save & Verify <i class="fas fa-upload"></i></button>`;
+    if(verified_check == false && state == 'issued'){
+        document.getElementById('button_verify').innerHTML = `<button class="primary-btn-ticket" type="button" style="background-color:green" onclick="save_data_pax_backend('verify_data')"><i class="fas fa-save"></i> Save & Verify <i class="fas fa-upload"></i></button>`;
+    }
 }
 
 function repeat_order_phc(){
