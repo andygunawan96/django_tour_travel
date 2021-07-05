@@ -846,13 +846,13 @@ function medical_get_booking(order_number, sync=false){
                                                 <td>`+pax.email+`</td>
                                                 <td>`+pax.phone_number+`</td>
                                                 <td>`+msg.result.response.provider_bookings[i].tickets[j].ticket_number+`</td>`;
-                                if(msg.result.response.passengers[i].label_url){
-                                    text+= `<td><button class="primary-btn-ticket" type="button" onclick="window.open('`+msg.result.response.passengers[i].label_url+`','_blank');"><i class="fas fa-external-link-alt"></i> </button></td>`;
+                                if(msg.result.response.passengers[j].label_url){
+                                    text+= `<td><button class="primary-btn-ticket" type="button" onclick="window.open('`+msg.result.response.passengers[j].label_url+`','_blank');"><i class="fas fa-external-link-alt"></i> </button></td>`;
                                 }else{
                                     text+= `<td>-</td>`;
                                 }
-                                if(msg.result.response.passengers[i].result_url){
-                                    text+= `<td><button class="primary-btn-ticket" type="button" onclick="window.open('`+msg.result.response.passengers[i].result_url+`','_blank');"><i class="fas fa-external-link-alt"></i> </button></td>`;
+                                if(msg.result.response.passengers[j].result_url){
+                                    text+= `<td><button class="primary-btn-ticket" type="button" onclick="window.open('`+msg.result.response.passengers[j].result_url+`','_blank');"><i class="fas fa-external-link-alt"></i> </button></td>`;
                                 }else{
                                     text+= `<td>-</td>`;
                                 }
