@@ -683,7 +683,7 @@
             'forget_booking': var_toggle_forget_booking
         }
         if(var_toggle_forget_booking == false){
-            data['order_number'] =  document.getElementById('order_number_b2c').value.replace(' ','');
+            data['order_number'] =  document.getElementById('order_number_b2c').value.replace(' ','').toUpperCase();
         }else{
             if(product == 'airline' || product == 'train'){
                 data['origin'] = document.getElementById('origin_b2c').value;
