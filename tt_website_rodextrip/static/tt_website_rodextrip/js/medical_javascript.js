@@ -5221,14 +5221,14 @@ function check_passenger(){
                         document.getElementById('adult_first_name' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
                     if(document.getElementById('adult_title' + nomor_pax).value == ''){
-                        error_log += 'Please fill title name for customer '+ nomor_pax + ' !</br>\n';
+                        error_log += 'Please fill gender for customer '+ nomor_pax + ' !</br>\n';
                         document.getElementById('adult_title' + nomor_pax).style['border-color'] = 'red';
                         check_form_personal = 1;
                     }else{
                         document.getElementById('adult_title' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
                     if(document.getElementById('adult_nationality' + nomor_pax).value == 'Select Nationality'){
-                        error_log += 'Please fill title name for customer '+ nomor_pax + ' !</br>\n';
+                        error_log += 'Please fill nationality for customer '+ nomor_pax + ' !</br>\n';
                         $("#adult_nationality"+nomor_pax+"_id").each(function() {
                           $(this).siblings(".select2-container").css('border', '1px solid red');
                         });
@@ -6543,7 +6543,7 @@ function check_passenger_data(){
                         document.getElementById('adult_first_name' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
                     if(document.getElementById('adult_title' + nomor_pax).value == ''){
-                        error_log += 'Please fill title name for customer '+ nomor_pax + ' !</br>\n';
+                        error_log += 'Please fill gender for customer '+ nomor_pax + ' !</br>\n';
                         document.getElementById('adult_title' + nomor_pax).style['border-color'] = 'red';
                     }else{
                         document.getElementById('adult_title' + nomor_pax).style['border-color'] = '#EFEFEF';
@@ -7297,7 +7297,7 @@ function auto_fill_periksain(){
             document.getElementById('adult_phone'+counter).value = passenger_data_cache_medical[idx].phone_number.substr(2,100);
         }
         document.getElementById('adult_email'+counter).value = passenger_data_cache_medical[idx].email;
-        document.getElementById('adult_sample_method'+counter).value = passenger_data_cache_medical[idx].sample_method_code;
+        document.getElementById('adult_sample_method'+counter).value = passenger_data_cache_medical[idx].sample_method;
         document.getElementById('adult_address_ktp'+counter).value = passenger_data_cache_medical[idx].address_ktp;
 
         $('#adult_title'+counter).niceSelect('update');
