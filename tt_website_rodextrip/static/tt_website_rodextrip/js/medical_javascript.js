@@ -5013,14 +5013,14 @@ function check_passenger(){
                         document.getElementById('adult_first_name' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
                     if(document.getElementById('adult_title' + nomor_pax).value == ''){
-                        error_log += 'Please fill title name for customer '+ nomor_pax + ' !</br>\n';
+                        error_log += 'Please fill gender for customer '+ nomor_pax + ' !</br>\n';
                         document.getElementById('adult_title' + nomor_pax).style['border-color'] = 'red';
                         check_form_periksain = 1;
                     }else{
                         document.getElementById('adult_title' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
                     if(document.getElementById('adult_nationality' + nomor_pax).value == ''){
-                        error_log += 'Please fill title name for customer '+ nomor_pax + ' !</br>\n';
+                        error_log += 'Please fill nationality for customer '+ nomor_pax + ' !</br>\n';
                         $("#adult_nationality"+nomor_pax).each(function() {
                           $(this).siblings(".select2-container").css('border', '5px solid red');
                         });
@@ -5228,7 +5228,7 @@ function check_passenger(){
                         document.getElementById('adult_title' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
                     if(document.getElementById('adult_nationality' + nomor_pax).value == 'Select Nationality'){
-                        error_log += 'Please fill nationality for customer '+ nomor_pax + ' !</br>\n';
+                        error_log += 'Please fill title name for customer '+ nomor_pax + ' !</br>\n';
                         $("#adult_nationality"+nomor_pax+"_id").each(function() {
                           $(this).siblings(".select2-container").css('border', '1px solid red');
                         });
@@ -6543,7 +6543,7 @@ function check_passenger_data(){
                         document.getElementById('adult_first_name' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
                     if(document.getElementById('adult_title' + nomor_pax).value == ''){
-                        error_log += 'Please fill gender for customer '+ nomor_pax + ' !</br>\n';
+                        error_log += 'Please fill title name for customer '+ nomor_pax + ' !</br>\n';
                         document.getElementById('adult_title' + nomor_pax).style['border-color'] = 'red';
                     }else{
                         document.getElementById('adult_title' + nomor_pax).style['border-color'] = '#EFEFEF';
