@@ -1166,12 +1166,13 @@ function medical_get_booking(order_number, sync=false){
 //                        }
                         if(verify == false){
                             text_update_data_pax+=`<button class="primary-btn-white hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="update_data_passengers();" style="width:100%;margin-top:15px;">
-                            Update Data Customers <i class="fas fa-user-edit"></i>`;
+                            Update Data Customers`;
 
                             if(user_login.co_agent_frontend_security.includes('verify_phc') == true && verify == false){
                                 text_update_data_pax+= ` / Verify Data`;
                             }
                             text_update_data_pax+=`
+                                <i class="fas fa-user-edit"></i>
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>`;
                         }
@@ -2220,6 +2221,13 @@ function medical_reorder(){
     if(checked){
         var path = '/'+medical_get_detail.result.response.provider_bookings[0].provider+'/passenger/' + document.getElementById('test_type').value;
         document.getElementById('data').value = JSON.stringify(passenger_list_copy);
+        var data_temp = {
+            "address": medical_get_detail.result.response.test_address,
+            "area": medical_get_detail.result.response.picked_timeslot.area,
+            "place_url_by_google": medical_get_detail.result.response.test_address_map_link,
+            "test_list": []
+        }
+        document.getElementById('booking_data').value = JSON.stringify(data_temp);
         document.getElementById('medical_edit_passenger').action = path;
         document.getElementById('medical_edit_passenger').submit();
     }else{
@@ -2245,7 +2253,6 @@ function get_data_cache_passenger_medical(type){
        success: function(msg) {
             console.log(msg);
             passenger_data_cache_medical = msg;
-            console.log(type);
             if(type == 'verify'){
                 auto_fill_verify_data();
             }else if(vendor == 'periksain'){
@@ -2255,6 +2262,32 @@ function get_data_cache_passenger_medical(type){
                     auto_fill_phc_pcr();
                 }else{
                     auto_fill_phc_antigen();
+                }
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get price medical');
+       },timeout: 300000
+    });
+
+}
+
+function get_data_cache_schedule_medical(type){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/medical",
+       headers:{
+            'action': 'get_data_booking_cache_medical',
+       },
+       data: {
+            'signature': signature,
+       },
+       success: function(msg) {
+            console.log(msg);
+            if(Object.keys(msg).length != 0){
+                schedule_medical = msg;
+                if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCHCKPCR' || vendor == 'phc' && test_type == 'PHCHCKATG'){
+                    auto_fill_home_care();
                 }
             }
        },

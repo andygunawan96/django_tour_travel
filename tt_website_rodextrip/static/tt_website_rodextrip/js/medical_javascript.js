@@ -82,6 +82,7 @@ function add_other_time(){
                         </div>`;
                     }
                     text+=`
+                    </div>
                     <div class="col-lg-2">`;
     if(test_time == 1){
         text+=` </div>
@@ -118,7 +119,37 @@ function add_other_time(){
     });
     $('#booker_timeslot_id'+test_time).niceSelect();
     update_timeslot(test_time);
+    if(typeof schedule_medical !== 'undefined' && test_time == 1 && auto_fill_first_time == true){
+        if(test_time == 1)
+            document.getElementById('booker_area').value = schedule_medical.area;
+        var nomor_pax = 1;
+        for(x in schedule_medical.test_list){
+            if(x != 0){
+                add_other_time();
+            }
+            document.getElementById('booker_test_date'+nomor_pax).value = schedule_medical.test_list[x].date;
+            update_timeslot(nomor_pax);
+            document.getElementById('booker_timeslot_id'+nomor_pax).value = schedule_medical.test_list[x].seq_id;
+            nomor_pax++;
+        }
 
+        if(schedule_medical.address != alamat_ss && schedule_medical.place_url_by_google != ''){
+            web_url = schedule_medical.place_url_by_google;
+            document.getElementById('booker_area').value = schedule_medical.area;
+            $('#booker_area').niceSelect('update');
+            var google_lat_long = schedule_medical.place_url_by_google.split('/')[schedule_medical.place_url_by_google.split('/').length-1];
+            lat = parseFloat(google_lat_long.split(',')[0]);
+            long = parseFloat(google_lat_long.split(',')[1]);
+            list_map.push({
+                "name": "auto",
+                "lat": lat,
+                "long": long,
+                "zoom" : 18
+            })
+            change_area('auto_marker')
+        }
+        auto_fill_first_time = false;
+    }
     test_time++;
 }
 
@@ -1485,7 +1516,10 @@ function add_table_of_passenger(type){
                             }
                             text_div_paxs += '<option value="">Choose</option>';
                                 for(i in medical_config.result.response.profession)
-                                    text_div_paxs+=`<option value="`+medical_config.result.response.profession[i]+`">`+medical_config.result.response.profession[i]+`</option>`;
+                                    if(medical_config.result.response.profession[i] == 'SWASTA')
+                                        text_div_paxs+=`<option value="`+medical_config.result.response.profession[i]+`" selected>`+medical_config.result.response.profession[i]+`</option>`;
+                                    else
+                                        text_div_paxs+=`<option value="`+medical_config.result.response.profession[i]+`">`+medical_config.result.response.profession[i]+`</option>`;
                                     text_div_paxs+=`</select>
                                 </div>
                             </div>
@@ -1532,7 +1566,10 @@ function add_table_of_passenger(type){
                                 }
                                 text_div_paxs += '<option value="">Choose</option>';
                                     for(i in medical_config.result.response.perusahaan)
-                                        text_div_paxs+=`<option value="`+medical_config.result.response.perusahaan[i]+`">`+medical_config.result.response.perusahaan[i]+`</option>`;
+                                        if(medical_config.result.response.perusahaan[i] == 'PRIBADI')
+                                            text_div_paxs+=`<option value="`+medical_config.result.response.perusahaan[i]+`" selected>`+medical_config.result.response.perusahaan[i]+`</option>`;
+                                        else
+                                            text_div_paxs+=`<option value="`+medical_config.result.response.perusahaan[i]+`">`+medical_config.result.response.perusahaan[i]+`</option>`;
                                         text_div_paxs+=`</select>
                                     </div>
                                 </div>
@@ -1683,13 +1720,13 @@ function add_table_of_passenger(type){
                             <label>Copy KTP to Domisili?</label>
                             <label class="radio-button-custom">
                                 Yes
-                                <input type="radio" name="adult_copy`+parseInt(counter_passenger+1)+`" onchange="copy_ktp(`+parseInt(counter_passenger+1)+`);" value="true"/>
+                                <input type="radio" name="adult_copy`+parseInt(counter_passenger+1)+`" onchange="copy_ktp(`+parseInt(counter_passenger+1)+`);" value="true" checked="checked" />
                                 <span class="checkmark-radio"></span>
                             </label>
 
                             <label class="radio-button-custom">
                                 No
-                                <input type="radio" name="adult_copy`+parseInt(counter_passenger+1)+`" onchange="copy_ktp(`+parseInt(counter_passenger+1)+`);" value="false" checked="checked"/>
+                                <input type="radio" name="adult_copy`+parseInt(counter_passenger+1)+`" onchange="copy_ktp(`+parseInt(counter_passenger+1)+`);" value="false" />
                                 <span class="checkmark-radio"></span>
                             </label>
                         </div>`;
@@ -1896,9 +1933,9 @@ function add_table_of_passenger(type){
                                 text_div_paxs+=`
                                 <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
                                     <label style="color:red !important">*</label>
-                                    <label>Pemeriksaan Swab Ke</label>
+                                    <label>Pemeriksaan Swab Keberapa</label>
                                     <div class="input-container-search-ticket" style="margin-bottom:5px;">
-                                        <input type="number" class="form-control" name="adult_pemeriksaan_swab_ke`+parseInt(counter_passenger+1)+`" id="adult_pemeriksaan_swab_ke`+parseInt(counter_passenger+1)+`" placeholder="Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Number '">
+                                        <input type="number" class="form-control" name="adult_pemeriksaan_swab_ke`+parseInt(counter_passenger+1)+`" id="adult_pemeriksaan_swab_ke`+parseInt(counter_passenger+1)+`" placeholder="Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Number '" value="1">
                                     </div>
                                 </div>
                                 <div class="col-lg-12 col-md-12 col-sm-12" id="detail_kriteria`+parseInt(counter_passenger+1)+`" hidden>
@@ -2693,7 +2730,10 @@ function add_table_of_passenger(type){
                                         }
                                         text_div_paxs += '<option value="">Choose</option>';
                                             for(i in medical_config.result.response.pilihan_jawaban)
-                                                text_div_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                if(medical_config.result.response.pilihan_jawaban[i] == 'TIDAK TAHU')
+                                                    text_div_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`" selected>`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                else
+                                                    text_div_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
                                                 text_div_paxs+=`</select>
                                             </div>
                                         </div>
@@ -3008,7 +3048,10 @@ function add_table_of_passenger(type){
                                         }
                                         text_div_paxs += '<option value="">Choose</option>';
                                             for(i in medical_config.result.response.pilihan_jawaban)
-                                                text_div_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                if(medical_config.result.response.pilihan_jawaban[i] == 'TIDAK TAHU')
+                                                    text_div_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`" selected>`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                else
+                                                    text_div_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
                                                 text_div_paxs+=`</select>
                                             </div>
                                         </div>
@@ -3251,7 +3294,10 @@ function add_table_of_passenger(type){
                                         }
                                         text_div_paxs += '<option value="">Choose</option>';
                                             for(i in medical_config.result.response.pilihan_jawaban)
-                                                text_div_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                if(medical_config.result.response.pilihan_jawaban[i] == 'TIDAK TAHU')
+                                                    text_div_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`" selected>`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                else
+                                                    text_div_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
                                                 text_div_paxs+=`</select>
                                             </div>
                                         </div>
@@ -3281,7 +3327,10 @@ function add_table_of_passenger(type){
                                         }
                                         text_div_paxs += '<option value="">Choose</option>';
                                             for(i in medical_config.result.response.pilihan_jawaban)
-                                                text_div_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                if(medical_config.result.response.pilihan_jawaban[i] != 'TIDAK TAHU')
+                                                    text_div_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`" selected>`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                else
+                                                    text_div_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
                                                 text_div_paxs+=`</select>
                                             </div>
                                         </div>
@@ -3342,7 +3391,10 @@ function add_table_of_passenger(type){
                                         }
                                         text_div_paxs += '<option value="">Choose</option>';
                                             for(i in medical_config.result.response.pilihan_jawaban)
-                                                text_div_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                if(medical_config.result.response.pilihan_jawaban[i] == 'TIDAK TAHU')
+                                                    text_div_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`" selected>`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                else
+                                                    text_div_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
                                                 text_div_paxs+=`</select>
                                             </div>
                                         </div>
@@ -3444,7 +3496,6 @@ function add_table_of_passenger(type){
     $('#adult_country_of_issued'+parseInt(counter_passenger+1)+'_id').select2();
     $('#adult_phone_code'+parseInt(counter_passenger+1)+'_id').select2();
     if(vendor == 'phc'){
-
         $('#adult_tempat_lahir'+parseInt(counter_passenger+1)+'_id').select2();
         $('#adult_kabupaten'+parseInt(counter_passenger+1)+'_id').select2();
         $('#adult_kecamatan'+parseInt(counter_passenger+1)+'_id').select2();
@@ -3546,6 +3597,8 @@ function add_table_of_passenger(type){
 //        $('#adult_kecamatan_ktp'+parseInt(counter_passenger+1)).niceSelect();
 //        $('#adult_kelurahan_ktp'+parseInt(counter_passenger+1)).niceSelect();
         $('#adult_profession'+parseInt(counter_passenger+1)).niceSelect();
+        hidden_readonly_medical(parseInt(counter_passenger+1), 'profession', 'hidden');
+        copy_ktp(parseInt(counter_passenger+1));
     }else if(vendor == 'periksain'){
         $('#adult_sample_method'+parseInt(counter_passenger+1)).niceSelect();
     }
@@ -6543,7 +6596,7 @@ function check_passenger_data(){
                         document.getElementById('adult_first_name' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
                     if(document.getElementById('adult_title' + nomor_pax).value == ''){
-                        error_log += 'Please fill title name for customer '+ nomor_pax + ' !</br>\n';
+                        error_log += 'Please fill gender for customer '+ nomor_pax + ' !</br>\n';
                         document.getElementById('adult_title' + nomor_pax).style['border-color'] = 'red';
                     }else{
                         document.getElementById('adult_title' + nomor_pax).style['border-color'] = '#EFEFEF';
@@ -6734,8 +6787,13 @@ function add_table(change_rebooking=false){
         last_counter = 1;
         add_table();
         last_counter = tempcounter;
-        // isi data
+        // isi data passenger
         get_data_cache_passenger_medical();
+        if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCHCKPCR' || vendor == 'phc' && test_type == 'PHCHCKATG'){
+            //isi data homecare
+            get_data_cache_schedule_medical();
+        }
+
     }
     last_counter = tempcounter;
 }
@@ -7297,7 +7355,10 @@ function auto_fill_periksain(){
             document.getElementById('adult_phone'+counter).value = passenger_data_cache_medical[idx].phone_number.substr(2,100);
         }
         document.getElementById('adult_email'+counter).value = passenger_data_cache_medical[idx].email;
-        document.getElementById('adult_sample_method'+counter).value = passenger_data_cache_medical[idx].sample_method;
+        if(passenger_data_cache_medical[idx].hasOwnProperty('sample_method_code'))
+            document.getElementById('adult_sample_method'+counter).value = passenger_data_cache_medical[idx].sample_method_code;
+        else
+            document.getElementById('adult_sample_method'+counter).value = passenger_data_cache_medical[idx].sample_method;
         document.getElementById('adult_address_ktp'+counter).value = passenger_data_cache_medical[idx].address_ktp;
 
         $('#adult_title'+counter).niceSelect('update');
@@ -7374,6 +7435,12 @@ function auto_fill_verify_data(){
     }
     document.getElementById('btn_cancel').style.display = 'block';
     document.getElementById('btn_save').style.display = 'block';
+}
+
+function auto_fill_home_care(){
+    if(schedule_medical.address != alamat_ss) //alamat DRIVE THRU
+        document.getElementById('booker_address').value = schedule_medical.address;
+    auto_fill_first_time = true;
 }
 
 function repeat_order_phc(){
