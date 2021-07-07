@@ -2272,7 +2272,7 @@ function get_data_cache_passenger_medical(type){
 
 }
 
-function get_data_cache_schedule_medical(type){
+function get_data_cache_schedule_medical(){
     $.ajax({
        type: "POST",
        url: "/webservice/medical",
@@ -2286,9 +2286,7 @@ function get_data_cache_schedule_medical(type){
             console.log(msg);
             if(Object.keys(msg).length != 0){
                 schedule_medical = msg;
-                if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCHCKPCR' || vendor == 'phc' && test_type == 'PHCHCKATG'){
-                    auto_fill_home_care();
-                }
+                auto_fill_home_care();
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
