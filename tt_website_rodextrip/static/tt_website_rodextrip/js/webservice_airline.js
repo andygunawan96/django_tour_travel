@@ -4383,6 +4383,7 @@ function airline_get_booking(data, sync=false){
                             <hr/>`;
                         check = 0;
                         flight_counter = 1;
+                        rules = 0;
                         for(i in msg.result.response.provider_bookings){
                             $text += 'Booking Code: ' + msg.result.response.provider_bookings[i].pnr+'\n';
                             if(i != 0){
@@ -4486,6 +4487,26 @@ function airline_get_booking(data, sync=false){
 
                                     }
                                 }
+                            }
+                            for(j in msg.result.response.provider_bookings[i].rules){
+                                text += `
+                                    <span id="span-tac-up`+rules+`" class="carrier_code_template" style="display: block; cursor: pointer;" onclick="show_hide_tac(`+rules+`);"> `+msg.result.response.provider_bookings[i].rules[j].name+` <i class="fas fa-chevron-down"></i></span>
+                                    <span id="span-tac-down`+rules+`" class="carrier_code_template" style="display: none; cursor: pointer;" onclick="show_hide_tac(`+rules+`);"> `+msg.result.response.provider_bookings[i].rules[j].name+` <i class="fas fa-chevron-up"></i></span>
+                                    <div id="div-tac`+rules+`" style="display: none; max-height: 175px; overflow-y: auto; padding: 15px;">
+                                `;
+                                for(k in msg.result.response.provider_bookings[i].rules[j].description){
+                                    text += `
+                                        <div class="row">
+                                            <div class="col-lg-1 col-xs-1 col-md-1">
+                                                <i class="fas fa-circle" style="font-size:9px;margin-left:15px;"></i>
+                                            </div>
+                                            <div class="col-lg-11 col-xs-11 col-md-11" style="padding:0">
+                                                <span style="font-weight:400;"> `+msg.result.response.provider_bookings[i].rules[j].description[k]+`</span><br>
+                                            </div>
+                                        </div>`;
+                                }
+                                text += `</div>`;
+                                rules++;
                             }
                         }
                         text+=`
