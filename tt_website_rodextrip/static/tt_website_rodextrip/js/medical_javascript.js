@@ -6789,10 +6789,11 @@ function add_table(change_rebooking=false){
         last_counter = tempcounter;
         // isi data passenger
         get_data_cache_passenger_medical();
-        if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCHCKPCR' || vendor == 'phc' && test_type == 'PHCHCKATG'){
-            //isi data homecare
-            get_data_cache_schedule_medical();
-        }
+        get_data_cache_schedule_medical();
+//        if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCHCKPCR' || vendor == 'phc' && test_type == 'PHCHCKATG'){
+//            //isi data homecare
+//
+//        }
 
     }
     last_counter = tempcounter;
