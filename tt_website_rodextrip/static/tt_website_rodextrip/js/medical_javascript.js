@@ -7136,13 +7136,11 @@ function auto_fill_phc_pcr(){
             document.getElementById('adult_zip_code_ktp'+counter).value = passenger_data_cache_medical[idx].pcr_data.zip_code_ktp;
             document.getElementById('adult_zip_code'+counter).value = passenger_data_cache_medical[idx].pcr_data.zip_code;
         }
-        if(Object.keys(passenger_data_cache_medical[idx].pcr_data).length > 5){
+        if(Object.keys(passenger_data_cache_medical[idx].pcr_data).length > 6){
             document.getElementById('adult_klinis_sedang_hamil'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_sedang_hamil;
             document.getElementById('adult_mother_name'+counter).value = passenger_data_cache_medical[idx].pcr_data.nama_orang_tua;
             document.getElementById('adult_perusahaan'+counter).value = passenger_data_cache_medical[idx].pcr_data.asal_perusahaan;
             document.getElementById('adult_nama_perusahaan'+counter).value = passenger_data_cache_medical[idx].pcr_data.nama_perusahaan;
-
-
             document.getElementById('adult_kriteria_pasien'+counter).value = passenger_data_cache_medical[idx].pcr_data.kriteria_covid;
             change_kriteria(counter);
             document.getElementById('adult_pemeriksaan_swab_ke'+counter).value = passenger_data_cache_medical[idx].pcr_data.pemeriksaan_swab_ke;
