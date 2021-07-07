@@ -1554,7 +1554,7 @@ function add_table_of_passenger(type){
                                 <label id="adult_work_place_label`+parseInt(counter_passenger+1)+`" style="color:white !important">*</label>
                                 <label>Work Place</label>
                                 <div class="input-container-search-ticket" style="margin-bottom:5px;">
-                                    <input type="text" class="form-control" name="adult_work_place`+parseInt(counter_passenger+1)+`" id="adult_work_place`+parseInt(counter_passenger+1)+`" placeholder="Work Place " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Work Place '">
+                                    <input type="text" class="form-control" name="adult_work_place`+parseInt(counter_passenger+1)+`" id="adult_work_place`+parseInt(counter_passenger+1)+`" placeholder="Work Place " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Work Place '" value="Swasta">
                                 </div>
                             </div>
                         </div>`;
@@ -1603,7 +1603,7 @@ function add_table_of_passenger(type){
                                 <label style="color:red !important">*</label>
                                 <label>Nama Perusahaan/Rumah Sakit/Pribadi</label>
                                 <div class="input-container-search-ticket" style="margin-bottom:5px;">
-                                    <input type="text" class="form-control" name="adult_nama_perusahaan`+parseInt(counter_passenger+1)+`" id="adult_nama_perusahaan`+parseInt(counter_passenger+1)+`" placeholder="Nama Perusahaan/Rumah Sakit/Pribadi " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Nama Perusahaan/Rumah Sakit/Pribadi '">
+                                    <input type="text" class="form-control" name="adult_nama_perusahaan`+parseInt(counter_passenger+1)+`" id="adult_nama_perusahaan`+parseInt(counter_passenger+1)+`" placeholder="Nama Perusahaan/Rumah Sakit/Pribadi " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Nama Perusahaan/Rumah Sakit/Pribadi '" value="Pribadi">
                                 </div>
                             </div>`;
 
