@@ -89,6 +89,12 @@ def index(request):
                 del request.session['medical_passenger_cache']
         except:
             pass
+        try:
+            if request.session.get('medical_data_cache'):
+                del request.session['medical_data_cache']
+        except:
+            pass
+
         javascript_version = get_javascript_version()
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)

@@ -77,16 +77,10 @@
     {% csrf_token %}
     <input type="hidden" id="data" name="data" />
     <input type="hidden" id="signature_data" name="signature" />
+    <input type="hidden" id="booking_data" name="booking_data" />
 </form>
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; background:#f7f7f7;">
     <div class="container">
-        <div class="row">
-            <div class="col-lg-4">
-                <button type="button" class="primary-btn" onclick="window.location.href='/reservation'"> <i class="fas fa-arrow-left"></i> Back </button>
-            </div>
-            <div class="col-lg-4"></div>
-            <div class="col-lg-4"></div>
-        </div>
         <div id="show_title_medical" hidden>
             <h3>{% trans 'Please Review Your Booking' %}</h3>
             <h4>{% trans 'Prices may changes at any time' %}</h4>
@@ -115,17 +109,17 @@
                         <h3 id="display_state" class="mb-2"></h3>
                     </div>
                     <div class="col-lg-4 mt-3">
-                        <div id="div_sync_status" hidden>
-
-                        </div>
+                        <button type="button" class="primary-btn-white" style="width:100%;" onclick="window.location.href='/reservation'"> <i class="fas fa-arrow-left"></i> Back </button>
                     </div>
-                    <div class="col-lg-4"></div>
-                    <div class="col-lg-4 mt-3">
+                    <div class="col-lg-4 mt-3" id="div_sync_status" hidden>
+
+                    </div>
+                    <div class="col-lg-4 mt-3 mb-3">
                         <button type="button" id="button-re-order" class="primary-btn" style="width:100%;" onclick="create_new_reservation();" hidden>
-                            {% trans 'Re Order' %}
+                            {% trans 'Re Order' %} <i class="fas fa-redo-alt"></i>
                         </button>
                     </div>
-                    <div class="col-lg-12">
+                    <div class="col-lg-12 mt-3">
                         <div class="mb-3" id="button-new-reservation" hidden>
                         </div>
                     </div>
@@ -150,6 +144,10 @@
 
                 </div>
 
+                <div id="update_data_passenger" class="mb-3">
+
+                </div>
+
                 {% if 'issued_reservation' in username.co_agent_frontend_security %}
                 <button id="issued_btn_train" class="primary-btn-ticket issued_booking_btn" type="button" style="width:100%; display:none;" onclick="focus_box('payment_acq');">
                     {% trans 'Issued Booking' %}
@@ -159,13 +157,13 @@
                 <div style="background-color:white; padding:10px; border:1px solid {{color}};margin-top:15px; position:relative;" id="payment_acq" hidden>
 
                 </div>
-                <button type="button" class="primary-btn" id="button-home" style="width:100%;margin-top:15px;" onclick="window.location.href='/'" hidden>
-                    {% trans 'Home' %}
-                </button>
+<!--                <button type="button" class="primary-btn-white" id="button-home" style="width:100%;margin-top:15px;" onclick="window.location.href='/'" hidden>-->
+<!--                    {% trans 'Home' %}-->
+<!--                </button>-->
 
-                <button type="button" class="primary-btn" id="new-reservation" style="width:100%;margin-top:15px;" onclick="window.location.href='/'+window.location.href.split('/')[3]+'/'+window.location.href.split('/')[3]" hidden>
-                    {% trans 'Book New Reservation' %}
-                </button>
+<!--                <button type="button" class="primary-btn-white" id="new-reservation" style="width:100%;margin-top:15px;" onclick="window.location.href='/'+window.location.href.split('/')[3]+'/'+window.location.href.split('/')[3]" hidden>-->
+<!--                    {% trans 'Book New Reservation' %}-->
+<!--                </button>-->
             </div>
             <div class="modal fade" id="myModalRepricing" role="dialog">
                 <div class="modal-dialog" style="width:100% !important; height:100% !important; max-width:1200px;padding: 0;">

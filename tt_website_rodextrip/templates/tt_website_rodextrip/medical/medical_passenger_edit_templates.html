@@ -116,21 +116,20 @@
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
     <div class="container">
         <div class="banner-right">
-            <form id="medical_review" class="form-wrap" action="/medical/{{vendor}}/review" method="POST" style="padding:0; text-align:unset;">
+            <form id="medical_review" class="form-wrap" action="/medical/{{vendor}}/review" method="POST" style="padding:15px; text-align:unset;">
                 {% csrf_token %}
                 <div class="row">
                     <div class="col-lg-12 mb-3">
-                        <h3 id="medical_product" style=""></h3>
+                        <h3 id="medical_product"></h3>
                     </div>
-                    <div class="col-lg-12 for-show-mobile">
+                    <div class="col-lg-12" style="padding:0px;">
                         {% if vendor == 'periksain' %}
                         <img src="{{static_path}}images/icon/periksain.jpeg" alt="Periksain" style="margin-bottom:15px;background:white; width:auto; height:100px;">
                         {% elif vendor == 'phc' %}
                         <img src="{{static_path}}images/icon/phc.png" alt="PHC" style="margin-bottom:15px;background:white; width:auto; height:100px;">
                         {% endif %}
-
                     </div>
-                    <div class="col-lg-8" style="margin-top:10px;">
+                    <div class="col-lg-12" style="margin-top:10px;">
                         <div class="row">
                             <div class="col-lg-12" style="padding:15px; background:white; border:1px solid #cdcdcd;" id="medical_pax_div" >
                                 <h4>Customer</h4><hr/>
@@ -176,10 +175,10 @@
 
                                         </div>
                                     </div>
-                                    <div class="col-lg-4" style="text-align:left; margin-top:20px; margin-bottom:15px;">
+                                    <div class="col-lg-4" style="text-align:left; margin-top:20px; margin-bottom:15px;display:none;" id="btn_cancel">
                                         <button class="primary-btn-ticket" type="button" style="background-color:red" onclick="cancel_data();"><i class="fas fa-times"></i> Cancel</button>
                                     </div>
-                                    <div class="col-lg-4" style="text-align:center; margin-top:20px; margin-bottom:15px;">
+                                    <div class="col-lg-4" style="text-align:center; margin-top:20px; margin-bottom:15px;display:none;" id="btn_save">
                                         <button class="primary-btn-ticket" type="button" onclick="save_data_pax_backend('save_backend')"><i class="fas fa-save"></i> Save</button>
                                     </div>
                                     <div class="col-lg-4" style="text-align:right; margin-top:20px; margin-bottom:15px;" id="button_verify">
@@ -188,14 +187,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-4 for-show-website" style="margin-top:10px;">
-                        {% if vendor == 'periksain' %}
-                        <img src="{{static_path}}images/icon/periksain.jpeg" alt="Periksain" style="margin-bottom:15px;background:white; width:100%; height:auto;">
-                        {% elif vendor == 'phc' %}
-                        <img src="{{static_path}}images/icon/phc.png" alt="PHC" style="margin-bottom:15px;background:white; width:100%; height:auto;">
-                        {% endif %}
-
                     </div>
                 </div>
                 <div class="row">

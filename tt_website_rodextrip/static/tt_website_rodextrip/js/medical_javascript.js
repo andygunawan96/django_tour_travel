@@ -82,6 +82,7 @@ function add_other_time(){
                         </div>`;
                     }
                     text+=`
+                    </div>
                     <div class="col-lg-2">`;
     if(test_time == 1){
         text+=` </div>
@@ -118,7 +119,60 @@ function add_other_time(){
     });
     $('#booker_timeslot_id'+test_time).niceSelect();
     update_timeslot(test_time);
+    if(typeof schedule_medical !== 'undefined' && test_time == 1 && auto_fill_first_time == true){
+        auto_fill_first_time = false;
+        if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCDTKATG' || vendor == 'phc' && test_type == 'PHCDTKPCR'){
+            if(schedule_medical.address != alamat_ss && schedule_medical.place_url_by_google != ''){
+                web_url = schedule_medical.place_url_by_google;
+                document.getElementById('booker_area').value = schedule_medical.area;
+                $('#booker_area').niceSelect('update');
+                var google_lat_long = schedule_medical.place_url_by_google.split('/')[schedule_medical.place_url_by_google.split('/').length-1];
+                lat = parseFloat(google_lat_long.split(',')[0]);
+                long = parseFloat(google_lat_long.split(',')[1]);
+                list_map.push({
+                    "name": "auto",
+                    "lat": lat,
+                    "long": long,
+                    "zoom" : 18
+                })
+                change_area('auto_marker')
+            }
+            if(test_time == 1)
+                document.getElementById('booker_area').value = schedule_medical.area;
+            var nomor_pax = 1;
+            for(x in schedule_medical.test_list){
+                if(x != 0){
+                    add_other_time();
+                }
+                $('input[name="booker_test_date'+test_time+'"]').daterangepicker({
+                    singleDatePicker: true,
+                    autoUpdateInput: true,
+                    startDate: moment(medical_get_availability_response[document.getElementById('booker_area').value].min_date),
+                    minDate: moment(medical_get_availability_response[document.getElementById('booker_area').value].min_date),
+                    maxDate: moment(medical_get_availability_response[document.getElementById('booker_area').value].max_date),
+                    showDropdowns: true,
+                    opens: 'center',
+                    locale: {
+                        format: 'DD MMM YYYY',
+                    }
+                });
+                document.getElementById('booker_test_date'+nomor_pax).value = schedule_medical.test_list[x].date;
+                update_timeslot(nomor_pax);
+                var trends = document.getElementById('booker_timeslot_id'+nomor_pax);
 
+                for(i = 0; i < trends.length; i++) {
+                   if (trends.options[i].value.split('~')[0] == schedule_medical.test_list[x].seq_id) {
+                       trends.options[i].selected = 'selected';
+                       break;
+                   }
+                }
+
+    //            document.getElementById('booker_timeslot_id'+nomor_pax).value = schedule_medical.test_list[x].seq_id.split('~')[0];
+                $('#booker_timeslot_id'+nomor_pax).niceSelect('update');
+                nomor_pax++;
+            }
+        }
+    }
     test_time++;
 }
 
@@ -306,7 +360,7 @@ function add_table_of_passenger_verify(type){
                     text_div_paxs+=`
                     <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
                         <label style="color:red !important">*</label>
-                        <label>Title</label>`;
+                        <label>Gender</label>`;
                         if(template == 1){
                             text_div_paxs+=`<div class="input-container-search-ticket">`;
                         }else if(template == 2){
@@ -332,9 +386,9 @@ function add_table_of_passenger_verify(type){
                         }else{
                             text_div_paxs+=`<select style="width:100%;" id="adult_title`+parseInt(counter_passenger+1)+`" name="adult_title`+parseInt(counter_passenger+1)+`" onchange="onchange_title(`+parseInt(counter_passenger+1)+`)">`;
                         }
-                                text_div_paxs+= `<option value="MR">MR (Male)</option>`;
-                                text_div_paxs+= `<option value="MRS">MRS (Female)</option>`;
-                                text_div_paxs+= `<option value="MS">MS (Female)</option>`;
+                                text_div_paxs+= `<option value="">Choose</option>`;
+                                text_div_paxs+= `<option value="MR">Male (LAKI-LAKI)</option>`;
+                                text_div_paxs+= `<option value="MRS">Female (PEREMPUAN)</option>`;
                                 text_div_paxs+= `</select>
                             </div>
                         </div>
@@ -367,43 +421,6 @@ function add_table_of_passenger_verify(type){
                     </div>`;
 
                     text_div_paxs+=`
-                    <div class="col-lg-6 col-md-6 col-sm-6">
-                        <label style="color:red !important">*</label>
-                        <label>Nationality</label>`;
-                        if(template == 1 || template == 5){
-                            text_div_paxs+=`<div class="input-container-search-ticket">`;
-                        }
-                        text_div_paxs+=`
-                            <div class="form-select">
-                                <select class="form-control js-example-basic-single" name="adult_nationality`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_nationality`+parseInt(counter_passenger+1)+`_id" placeholder="Nationality" onchange="auto_complete('adult_nationality`+parseInt(counter_passenger+1)+`')">
-                                    <option value="">Select Nationality</option>`;
-                                    for(i in countries){
-                                        if(countries[i].code == 'ID')
-                                           text_div_paxs+=`<option value="`+countries[i].code+`" selected>`+countries[i].name+`</option>`;
-                                        else
-                                           text_div_paxs+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
-                                    }
-                                text_div_paxs+=`</select>
-                            </div>
-                            <input type="hidden" name="adult_nationality`+parseInt(counter_passenger+1)+`" id="adult_nationality`+parseInt(counter_passenger+1)+`" />`;
-                        if(template == 1 || template == 5){
-                            text_div_paxs+=`</div>`;
-                        }
-                    text_div_paxs+=`
-                    </div>
-                    <div class="col-lg-12 col-md-12 col-sm-12">
-                        <span style="padding-right:10px; font-weight:700; font-size:15px;font-weight:bold;color:red">DATA HARUS BENAR KARENA TIDAK BISA DIUBAH</span><br/>
-                    </div>`;
-
-                    text_div_paxs+=`
-                    <div class="col-lg-6 col-md-6 col-sm-6">
-                        <label style="color:red !important">*</label>
-                        <label>Birth Date</label>
-                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
-                            <input type="text" class="form-control date-picker-birth" name="adult_birth_date`+parseInt(counter_passenger+1)+`" id="adult_birth_date`+parseInt(counter_passenger+1)+`" onchange="check_years_old(`+parseInt(counter_passenger+1)+`)" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off">
-                            <input type="hidden" class="form-control" name="adult_years_old`+parseInt(counter_passenger+1)+`" id="adult_years_old`+parseInt(counter_passenger+1)+`">
-                        </div>
-                    </div>
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <span style="padding-right:10px; font-weight:700; font-size:15px;font-weight:bold;color:red">DATA HARUS BENAR KARENA TIDAK BISA DIUBAH</span><br/>
                     </div>`;
@@ -437,6 +454,20 @@ function add_table_of_passenger_verify(type){
                             </div>
                         </div>`;
                     }
+
+                    text_div_paxs+=`
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <label style="color:red !important">*</label>
+                        <label>Birth Date</label>
+                        <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                            <input type="text" class="form-control date-picker-birth" name="adult_birth_date`+parseInt(counter_passenger+1)+`" id="adult_birth_date`+parseInt(counter_passenger+1)+`" onchange="check_years_old(`+parseInt(counter_passenger+1)+`)" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off">
+                            <input type="hidden" class="form-control" name="adult_years_old`+parseInt(counter_passenger+1)+`" id="adult_years_old`+parseInt(counter_passenger+1)+`">
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <span style="padding-right:10px; font-weight:700; font-size:15px;font-weight:bold;color:red">DATA HARUS BENAR KARENA TIDAK BISA DIUBAH</span><br/>
+                    </div>`;
+
 
                     text_div_paxs+=`
                     <div class="col-lg-6 col-md-6 col-sm-6">
@@ -497,129 +528,18 @@ function add_table_of_passenger_verify(type){
                         </div>
                     </div>`;
 
-                    text_div_paxs+=`
-                    <div class="col-lg-6 col-md-6 col-sm-6">
-                        <label style="color:red !important">*</label>
-                        <label>Country of Issued</label>`;
-                        if(template == 1){
-                            text_div_paxs+=`<div class="input-container-search-ticket">`;
-                            text_div_paxs+=`
-                                <div class="form-select">
-                                    <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`');">
-                                        <option value="">Select Country Of Issued</option>`;
-                                        for(i in countries){
-                                           if(countries[i].code == 'ID')
-                                                text_div_paxs+=`<option value="`+countries[i].code+`" selected>`+countries[i].name+`</option>`;
-                                           else
-                                                text_div_paxs+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
-                                        }
-                                    text_div_paxs+=`</select>
-                                </div>
-                                <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                <input type="hidden" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`" value="Indonesia"/>`;
-                            text_div_paxs+=`</div>`;
-                        }
-                        else if(template == 2){
-                            text_div_paxs+=`<div class="input-container-search-ticket">`;
-                            text_div_paxs+=`
-                                <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`');">
-                                    <option value="">Select Country Of Issued</option>`;
-                                    for(i in countries){
-                                       if(countries[i].code == 'ID')
-                                            text_div_paxs+=`<option value="`+countries[i].code+`" selected>`+countries[i].name+`</option>`;
-                                       else
-                                            text_div_paxs+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
-                                    }
-                                text_div_paxs+=`</select>
-                                <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                <input type="hidden" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`" />`;
-                            text_div_paxs+=`</div>`;
-                        }
-                        else if(template == 3){
-                            text_div_paxs+=`<div class="input-container-search-ticket" style="margin-bottom:5px;">`;
-                            text_div_paxs+=`
-                                <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`');">
-                                    <option value="">Select Country Of Issued</option>`;
-                                    for(i in countries){
-                                       if(countries[i].code == 'ID')
-                                            text_div_paxs+=`<option value="`+countries[i].code+`" selected>`+countries[i].name+`</option>`;
-                                       else
-                                            text_div_paxs+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
-                                    }
-                                text_div_paxs+=`</select>
-                                <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                <input type="hidden" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`" />`;
-                            text_div_paxs+=`</div>`;
-                        }
-                        else if(template == 4){
-                            text_div_paxs+=`<div class="input-container-search-ticket" style="margin-bottom:5px;">`;
-                            text_div_paxs+=`
-                                <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`');">
-                                    <option value="">Select Country Of Issued</option>`;
-                                    for(i in countries){
-                                       if(countries[i].code == 'ID')
-                                            text_div_paxs+=`<option value="`+countries[i].code+`" selected>`+countries[i].name+`</option>`;
-                                       else
-                                            text_div_paxs+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
-                                    }
-                                text_div_paxs+=`</select>
-                                <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                <input type="hidden" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`" />`;
-                            text_div_paxs+=`</div>`;
-                        }
-                        else if(template == 5){
-                            text_div_paxs+=`<div class="input-container-search-ticket">`;
-                            text_div_paxs+=`
-                                <div class="form-select">
-                                    <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`');">
-                                        <option value="">Select Country Of Issued</option>`;
-                                        for(i in countries){
-                                           if(countries[i].code == 'ID')
-                                                text_div_paxs+=`<option value="`+countries[i].code+`" selected>`+countries[i].name+`</option>`;
-                                           else
-                                                text_div_paxs+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
-                                        }
-                                    text_div_paxs+=`</select>
-                                </div>
-                                <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                <input type="hidden" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`" />`;
-                            text_div_paxs+=`</div>`;
-                        }
-                        else if(template == 6){
-                            text_div_paxs+=`<div class="input-container-search-ticket">`;
-                            text_div_paxs+=`
-                                <div class="form-select">
-                                    <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`');">
-                                        <option value="">Select Country Of Issued</option>`;
-                                        for(i in countries){
-                                            if(countries[i].code == 'ID')
-                                                text_div_paxs+=`<option value="`+countries[i].code+`" selected>`+countries[i].name+`</option>`;
-                                            else
-                                                text_div_paxs+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
-                                        }
-                                    text_div_paxs+=`</select>
-                                </div>
-                                <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                <input type="hidden" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`" />`;
-                            text_div_paxs+=`</div>`;
-                        }
-                    text_div_paxs+=`</div>`;
-
-                    text_div_paxs+=`
-                    <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden1_`+parseInt(counter_passenger+1)+`">
-                        <label style="color:red !important">*</label>
-                        <label>Contact Email Address</label>
-                        <div class="input-container-search-ticket">
-                            <input type="text" class="form-control" name="adult_email`+parseInt(counter_passenger+1)+`" id="adult_email`+parseInt(counter_passenger+1)+`" placeholder="Email Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '">
-                        </div>
-                        <label style="font-size:12px; padding:0;">Example: email@example.com</label>
-                    </div>
-                    <div class="col-lg-12 col-md-12 col-sm-12">
-                        <span style="padding-right:10px; font-weight:700; font-size:15px;font-weight:bold;color:red">DATA HARUS BENAR KARENA TIDAK BISA DIUBAH</span><br/>
-                    </div>
+                    if(vendor != 'phc'){
+                        text_div_paxs+=`
+                        <div class="col-lg-12 mt-3 mb-3" style="text-align:right;">
+                            <button type="button" class="primary-btn prev-next-form" style="margin-bottom:5px; font-size:12px; font-weight:700;" onclick="update_customer_fill('save',`+counter_passenger+`)">
+                                Save <i class="fas fa-save"></i>
+                            </button>
+                        </div>`;
+                    }
+                    text_div_paxs += `
                     <div class="col-lg-6" id="adult_cp_hidden2_`+parseInt(counter_passenger+1)+`">
                         <label style="color:red !important">*</label>
-                        <label>WA Number</label>
+                        <label>WA Number (WhatsApp Number)</label>
                         <div class="row">
                             <div class="col-lg-3">
                                 <div class="form-select">
@@ -642,464 +562,6 @@ function add_table_of_passenger_verify(type){
                         <label style="font-size:12px; padding:0;">Example: 0 812345678</label>
                         <label style="color:`+color+` !important;">Please make sure to register with WA(WhatsApp) number for the result test</label>
                     </div>`;
-                    if(vendor == 'phc'){
-                        text_div_paxs+=`
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <label style="color:red !important">*</label>
-                            <label>Married Status</label>`;
-                            if(template == 1){
-                                text_div_paxs+=`<div class="input-container-search-ticket">`;
-                            }else if(template == 2){
-                                text_div_paxs+=`<div>`;
-                            }else if(template == 3){
-                                text_div_paxs+=`<div class="default-select">`;
-                            }else if(template == 4){
-                                text_div_paxs+=`<div class="input-container-search-ticket">`;
-                            }else if(template == 5){
-                                text_div_paxs+=`<div class="input-container-search-ticket">`;
-                            }else if(template == 6){
-                                text_div_paxs+=`<div class="default-select">`;
-                            }
-
-                            if(template == 5){
-                                text_div_paxs+=`<div class="form-select">`;
-                            }else{
-                                text_div_paxs+=`<div class="form-select-2">`;
-                            }
-
-                            if(template == 4){
-                                text_div_paxs+=`<select class="nice-select-default rounded" id="adult_married_status`+parseInt(counter_passenger+1)+`" name="adult_married_status`+parseInt(counter_passenger+1)+`">`;
-                            }else{
-                                text_div_paxs+=`<select id="adult_married_status`+parseInt(counter_passenger+1)+`" name="adult_married_status`+parseInt(counter_passenger+1)+`">`;
-                            }
-                            text_div_paxs+=`
-                                        <option value="">Choose</option>
-                                        <option value="BELUM MENIKAH">BELUM MENIKAH</option>
-                                        <option value="DUDA">DUDA</option>
-                                        <option value="JANDA">JANDA</option>
-                                        <option value="MENIKAH">MENIKAH</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>`;
-
-                        text_div_paxs+=`
-                        <div class="col-lg-6 col-md-6 col-sm-6" style="display:none;">
-                            <label style="color:red !important">*</label>
-                            <label>Religion</label>`;
-                            if(template == 1){
-                                text_div_paxs+=`<div class="input-container-search-ticket">`;
-                            }else if(template == 2){
-                                text_div_paxs+=`<div>`;
-                            }else if(template == 3){
-                                text_div_paxs+=`<div class="default-select">`;
-                            }else if(template == 4){
-                                text_div_paxs+=`<div class="input-container-search-ticket">`;
-                            }else if(template == 5){
-                                text_div_paxs+=`<div class="input-container-search-ticket">`;
-                            }else if(template == 6){
-                                text_div_paxs+=`<div class="default-select">`;
-                            }
-
-                            if(template == 5){
-                                text_div_paxs+=`<div class="form-select">`;
-                            }else{
-                                text_div_paxs+=`<div class="form-select-2">`;
-                            }
-
-                            if(template == 4){
-                                text_div_paxs+=`<select class="nice-select-default rounded" id="adult_religion`+parseInt(counter_passenger+1)+`" name="adult_religion`+parseInt(counter_passenger+1)+`">`;
-                            }else{
-                                text_div_paxs+=`<select id="adult_religion`+parseInt(counter_passenger+1)+`" name="adult_religion`+parseInt(counter_passenger+1)+`">`;
-                            }
-                            text_div_paxs+=`
-                                        <option value="">Choose</option>
-                                        <option value="ISLAM">ISLAM</option>
-                                        <option value="KATOLIK">KATOLIK</option>
-                                        <option value="PROTESTAN">PROTESTAN</option>
-                                        <option value="HINDHU">HINDHU</option>
-                                        <option value="BUDHA">BUDHA</option>
-                                        <option value="LAINNYA">LAINNYA</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>`;
-
-                        text_div_paxs+=`
-                        <div class="col-lg-6 col-md-6 col-sm-6" style="display:none;">
-                            <label style="color:red !important">*</label>
-                            <label>Pendidikan</label>`;
-                            if(template == 1){
-                                text_div_paxs+=`<div class="input-container-search-ticket">`;
-                            }else if(template == 2){
-                                text_div_paxs+=`<div>`;
-                            }else if(template == 3){
-                                text_div_paxs+=`<div class="default-select">`;
-                            }else if(template == 4){
-                                text_div_paxs+=`<div class="input-container-search-ticket">`;
-                            }else if(template == 5){
-                                text_div_paxs+=`<div class="input-container-search-ticket">`;
-                            }else if(template == 6){
-                                text_div_paxs+=`<div class="default-select">`;
-                            }
-
-                            if(template == 5){
-                                text_div_paxs+=`<div class="form-select">`;
-                            }else{
-                                text_div_paxs+=`<div class="form-select-2">`;
-                            }
-
-                            if(template == 4){
-                                text_div_paxs+=`<select class="nice-select-default rounded" id="adult_pendidikan`+parseInt(counter_passenger+1)+`" name="adult_pendidikan`+parseInt(counter_passenger+1)+`">`;
-                            }else{
-                                text_div_paxs+=`<select id="adult_pendidikan`+parseInt(counter_passenger+1)+`" name="adult_pendidikan`+parseInt(counter_passenger+1)+`">`;
-                            }
-                            text_div_paxs+=`
-                                        <option value="">Choose</option>
-                                        <option value="BELUM SEKOLAH">BELUM SEKOLAH</option>
-                                        <option value="LAIN-LAIN">LAIN-LAIN</option>
-                                        <option value="TK">TK</option>
-                                        <option value="SD">SD</option>
-                                        <option value="SMP/SLTP">SMP/SLTP</option>
-                                        <option value="SMA/SLTA/SMU">SMA/SLTA/SMU</option>
-                                        <option value="D1/D2/D3 (DIPLOMA)">D1/D2/D3 (DIPLOMA)</option>
-                                        <option value="S1 (SARJANA)">S1 (SARJANA)</option>
-                                        <option value="S2 (PASCA SARJANA)">S2 (PASCA SARJANA)</option>
-                                        <option value="S3 (MASTER)">S3 (MASTER)</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>`;
-                    }
-                    text_div_paxs+=`
-
-                    <div class="col-lg-6 col-md-6 col-sm-6" style="display:none;">
-                        <label style="color:red !important">*</label>
-                        <label>Golongan Darah</label>`;
-                        if(template == 1){
-                            text_div_paxs+=`<div class="input-container-search-ticket">`;
-                        }else if(template == 2){
-                            text_div_paxs+=`<div>`;
-                        }else if(template == 3){
-                            text_div_paxs+=`<div class="default-select">`;
-                        }else if(template == 4){
-                            text_div_paxs+=`<div class="input-container-search-ticket">`;
-                        }else if(template == 5){
-                            text_div_paxs+=`<div class="input-container-search-ticket">`;
-                        }
-                        text_div_paxs+=`<div class="form-select-2">`;
-                        if(template == 4){
-                            text_div_paxs+=`<select class="nice-select-default rounded" id="adult_klinis_golongan_darah`+parseInt(counter_passenger+1)+`" name="adult_klinis_golongan_darah`+parseInt(counter_passenger+1)+`">`;
-                        }else{
-                            text_div_paxs+=`<select id="adult_klinis_golongan_darah`+parseInt(counter_passenger+1)+`" name="adult_klinis_golongan_darah`+parseInt(counter_passenger+1)+`">`;
-                        }
-                        text_div_paxs += '<option value="">Choose</option>';
-                            for(i in medical_config.result.response.golongan_darah)
-                                text_div_paxs+=`<option value="`+medical_config.result.response.golongan_darah[i]+`">`+medical_config.result.response.golongan_darah[i]+`</option>`;
-                                text_div_paxs+=`</select>
-                            </div>
-                        </div>
-                    </div>`;
-
-
-                    //ini phc
-                    if(vendor == 'phc'){
-
-                        text_div_paxs += `
-                        <div class="col-lg-12 col-md-12 col-sm-12 mt-2">
-                            <hr/>
-                            <h4>KTP</h4>
-                        </div>
-                        <div class="col-lg-12 col-md-12 col-sm-12">
-                            <span style="padding-right:10px; font-weight:700; font-size:15px;font-weight:bold;color:red">DATA HARUS BENAR KARENA TIDAK BISA DIUBAH</span><br/>
-                        </div>`
-
-                        text_div_paxs+=`
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <label style="color:red !important">*</label>
-                            <label>Address KTP</label>
-                            <div class="input-container-search-ticket" style="margin-bottom:5px;">
-                                <input type="text" class="form-control" name="adult_address_ktp`+parseInt(counter_passenger+1)+`" id="adult_address_ktp`+parseInt(counter_passenger+1)+`" placeholder="Address KTP " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address KTP '" onchange="auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <label style="color:red !important">*</label>
-                            <label>RT KTP</label>
-                            <div class="input-container-search-ticket" style="margin-bottom:5px;">
-                                <input type="text" maxlength="3" class="form-control" name="adult_rt_ktp`+parseInt(counter_passenger+1)+`" id="adult_rt_ktp`+parseInt(counter_passenger+1)+`" placeholder="RT KTP " onfocus="this.placeholder = ''" onblur="this.placeholder = 'RT KTP '" onchange="auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <label style="color:red !important">*</label>
-                            <label>RW KTP</label>
-                            <div class="input-container-search-ticket" style="margin-bottom:5px;">
-                                <input type="text" maxlength="3" class="form-control" name="adult_rw_ktp`+parseInt(counter_passenger+1)+`" id="adult_rw_ktp`+parseInt(counter_passenger+1)+`" placeholder="RW KTP " onfocus="this.placeholder = ''" onblur="this.placeholder = 'RW KTP '" onchange="auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">
-                            </div>
-                        </div>
-                        <div class="col-lg-12 col-md-12 col-sm-12">
-                            <span style="padding-right:10px; font-weight:700; font-size:15px;font-weight:bold;color:red">DATA HARUS BENAR KARENA TIDAK BISA DIUBAH</span><br/>
-                        </div>`;
-
-                        text_div_paxs+=`
-
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <label style="color:red !important">*</label>
-                            <label>Kabupaten/Kota KTP</label>`;
-                            if(template == 1){
-                                text_div_paxs+=`<div class="input-container-search-ticket">`;
-                            }else if(template == 2){
-                                text_div_paxs+=`<div>`;
-                            }else if(template == 3){
-                                text_div_paxs+=`<div class="default-select">`;
-                            }else if(template == 4){
-                                text_div_paxs+=`<div class="input-container-search-ticket">`;
-                            }else if(template == 5){
-                                text_div_paxs+=`<div class="input-container-search-ticket">`;
-                            }
-                            text_div_paxs+=` <div class="form-select">
-                                        <select class="form-control js-example-basic-single" name="adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`_id" placeholder="Kabupaten" onchange="auto_complete('adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`');get_kecamatan('adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`','adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`_id');auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);" >
-                                            <option value="">Select Kabupaten/Kota KTP</option>`;
-                                        for(i in data_kota)
-                                        text_div_paxs+=`<option value="`+i+`">`+i+`</option>`;
-                                    text_div_paxs+=`</select>
-                                    </div>
-                                    <input type="hidden" name="adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`" id="adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`" />
-                                    <button type="button" class="primary-delete-date" onclick="delete_type('adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`_id', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                </div>
-                            </div>`;
-
-                        text_div_paxs+=`
-
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <label style="color:red !important">*</label>
-                            <label>Kecamatan KTP</label>`;
-                            if(template == 1){
-                                text_div_paxs+=`<div class="input-container-search-ticket">`;
-                            }else if(template == 2){
-                                text_div_paxs+=`<div>`;
-                            }else if(template == 3){
-                                text_div_paxs+=`<div class="default-select">`;
-                            }else if(template == 4){
-                                text_div_paxs+=`<div class="input-container-search-ticket">`;
-                            }else if(template == 5){
-                                text_div_paxs+=`<div class="input-container-search-ticket">`;
-                            }
-                            text_div_paxs+=` <div class="form-select">
-                                        <select class="form-control js-example-basic-single" name="adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`_id" placeholder="Kecamatan" onchange="auto_complete('adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`');get_kelurahan('adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`','adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`_id');auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">
-                                            <option value="">Select Kecamatan KTP</option>`;
-                                    text_div_paxs+=`</select>
-                                    </div>
-                                    <input type="hidden" name="adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`" id="adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`" />
-                                    <button type="button" class="primary-delete-date" onclick="delete_type('adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`_id', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                </div>
-                            </div>`;
-
-                        text_div_paxs+=`
-
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <label style="color:red !important">*</label>
-                            <label>Kelurahan KTP</label>`;
-                            if(template == 1){
-                                text_div_paxs+=`<div class="input-container-search-ticket">`;
-                            }else if(template == 2){
-                                text_div_paxs+=`<div>`;
-                            }else if(template == 3){
-                                text_div_paxs+=`<div class="default-select">`;
-                            }else if(template == 4){
-                                text_div_paxs+=`<div class="input-container-search-ticket">`;
-                            }else if(template == 5){
-                                text_div_paxs+=`<div class="input-container-search-ticket">`;
-                            }
-                            text_div_paxs+=` <div class="form-select">
-                                        <select class="form-control js-example-basic-single" name="adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`_id" placeholder="Kelurahan" onchange="auto_complete('adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`');auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">
-                                            <option value="">Select Kelurahan KTP</option>`;
-                                    text_div_paxs+=`</select>
-                                    </div>
-                                    <input type="hidden" name="adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`" id="adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`" />
-                                    <button type="button" class="primary-delete-date" onclick="delete_type('adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`_id', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                </div>
-                            </div>`;
-
-                        text_div_paxs+=`
-                        <div class="col-lg-6 col-md-6 col-sm-6" style="display:none;">
-                            <label style="color:white !important">*</label>
-                            <label>ZIP CODE KTP (Kode Pos)</label>
-                            <div class="input-container-search-ticket" style="margin-bottom:5px;">
-                                <input type="text" class="form-control" name="adult_zip_code_ktp`+parseInt(counter_passenger+1)+`" id="adult_zip_code_ktp`+parseInt(counter_passenger+1)+`" placeholder="Zip Code KTP " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Zip Code KTP '">
-                            </div>
-                        </div>`;
-
-                        //copy to ktp
-                        text_div_paxs+= `
-                        <div class="col-lg-12 col-md-12 col-sm-12 mt-2">
-                            <hr/>
-                            <label>Copy KTP to Domisili?</label>
-                            <label class="radio-button-custom">
-                                Yes
-                                <input type="radio" name="adult_copy`+parseInt(counter_passenger+1)+`" onchange="copy_ktp(`+parseInt(counter_passenger+1)+`);" value="true"/>
-                                <span class="checkmark-radio"></span>
-                            </label>
-
-                            <label class="radio-button-custom">
-                                No
-                                <input type="radio" name="adult_copy`+parseInt(counter_passenger+1)+`" onchange="copy_ktp(`+parseInt(counter_passenger+1)+`);" value="false" checked="checked"/>
-                                <span class="checkmark-radio"></span>
-                            </label>
-                        </div>`;
-
-                        text_div_paxs += `
-                        <div class="col-lg-12 col-md-12 col-sm-12">
-                            <h4>Domisili</h4>
-                        </div>
-                        <div class="col-lg-12 col-md-12 col-sm-12">
-                            <span style="padding-right:10px; font-weight:700; font-size:15px;font-weight:bold;color:red">DATA HARUS BENAR KARENA TIDAK BISA DIUBAH</span><br/>
-                        </div>`
-                        text_div_paxs+=`
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <label style="color:red !important">*</label>
-                            <label>Address</label>
-                            <div class="input-container-search-ticket" style="margin-bottom:5px;">
-                                <input type="text" class="form-control" name="adult_address`+parseInt(counter_passenger+1)+`" id="adult_address`+parseInt(counter_passenger+1)+`" placeholder="Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address '" >
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <label style="color:red !important">*</label>
-                            <label>RT</label>
-                            <div class="input-container-search-ticket" style="margin-bottom:5px;">
-                                <input type="text" maxlength="3" class="form-control" name="adult_rt`+parseInt(counter_passenger+1)+`" id="adult_rt`+parseInt(counter_passenger+1)+`" placeholder="RT " onfocus="this.placeholder = ''" onblur="this.placeholder = 'RT '" >
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <label style="color:red !important">*</label>
-                            <label>RW</label>
-                            <div class="input-container-search-ticket" style="margin-bottom:5px;">
-                                <input type="text" maxlength="3" class="form-control" name="adult_rw`+parseInt(counter_passenger+1)+`" id="adult_rw`+parseInt(counter_passenger+1)+`" placeholder="RW " onfocus="this.placeholder = ''" onblur="this.placeholder = 'RW '" >
-                            </div>
-                        </div>
-                        <div class="col-lg-12 col-md-12 col-sm-12">
-                            <span style="padding-right:10px; font-weight:700; font-size:15px;font-weight:bold;color:red">DATA HARUS BENAR KARENA TIDAK BISA DIUBAH</span><br/>
-                        </div>`;
-
-                        text_div_paxs+=`
-
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <label style="color:red !important">*</label>
-                            <label>Kabupaten/Kota KTP</label>`;
-                            if(template == 1){
-                                text_div_paxs+=`<div class="input-container-search-ticket">`;
-                            }else if(template == 2){
-                                text_div_paxs+=`<div>`;
-                            }else if(template == 3){
-                                text_div_paxs+=`<div class="default-select">`;
-                            }else if(template == 4){
-                                text_div_paxs+=`<div class="input-container-search-ticket">`;
-                            }else if(template == 5){
-                                text_div_paxs+=`<div class="input-container-search-ticket">`;
-                            }
-                            text_div_paxs+=` <div class="form-select">
-                                        <select class="form-control js-example-basic-single" name="adult_kabupaten`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_kabupaten`+parseInt(counter_passenger+1)+`_id" placeholder="Kabupaten" onchange="auto_complete('adult_kabupaten`+parseInt(counter_passenger+1)+`');get_kecamatan('adult_kabupaten`+parseInt(counter_passenger+1)+`','adult_kecamatan`+parseInt(counter_passenger+1)+`_id');" >
-                                            <option value="">Select Kabupaten/Kota</option>`;
-                                        for(i in data_kota)
-                                        text_div_paxs+=`<option value="`+i+`">`+i+`</option>`;
-                                    text_div_paxs+=`</select>
-                                    </div>
-                                    <input type="hidden" name="adult_kabupaten`+parseInt(counter_passenger+1)+`" id="adult_kabupaten`+parseInt(counter_passenger+1)+`" />
-                                    <button type="button" class="primary-delete-date" onclick="delete_type('adult_kabupaten`+parseInt(counter_passenger+1)+`_id', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                </div>
-                            </div>`;
-
-                        text_div_paxs+=`
-
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <label style="color:red !important">*</label>
-                            <label>Kecamatan</label>`;
-                            if(template == 1){
-                                text_div_paxs+=`<div class="input-container-search-ticket">`;
-                            }else if(template == 2){
-                                text_div_paxs+=`<div>`;
-                            }else if(template == 3){
-                                text_div_paxs+=`<div class="default-select">`;
-                            }else if(template == 4){
-                                text_div_paxs+=`<div class="input-container-search-ticket">`;
-                            }else if(template == 5){
-                                text_div_paxs+=`<div class="input-container-search-ticket">`;
-                            }
-                            text_div_paxs+=` <div class="form-select">
-                                        <select class="form-control js-example-basic-single" name="adult_kecamatan`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_kecamatan`+parseInt(counter_passenger+1)+`_id" placeholder="Kecamatan" onchange="auto_complete('adult_kecamatan`+parseInt(counter_passenger+1)+`');get_kelurahan('adult_kecamatan`+parseInt(counter_passenger+1)+`','adult_kelurahan`+parseInt(counter_passenger+1)+`_id');">
-                                            <option value="">Select Kecamatan</option>`;
-                                    text_div_paxs+=`</select>
-                                    </div>
-                                    <input type="hidden" name="adult_kecamatan`+parseInt(counter_passenger+1)+`" id="adult_kecamatan`+parseInt(counter_passenger+1)+`" />
-                                    <button type="button" class="primary-delete-date" onclick="delete_type('adult_kecamatan`+parseInt(counter_passenger+1)+`_id', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                </div>
-                            </div>`;
-
-                        text_div_paxs+=`
-
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <label style="color:red !important">*</label>
-                            <label>Kelurahan</label>`;
-                            if(template == 1){
-                                text_div_paxs+=`<div class="input-container-search-ticket">`;
-                            }else if(template == 2){
-                                text_div_paxs+=`<div>`;
-                            }else if(template == 3){
-                                text_div_paxs+=`<div class="default-select">`;
-                            }else if(template == 4){
-                                text_div_paxs+=`<div class="input-container-search-ticket">`;
-                            }else if(template == 5){
-                                text_div_paxs+=`<div class="input-container-search-ticket">`;
-                            }
-                            text_div_paxs+=` <div class="form-select">
-                                        <select class="form-control js-example-basic-single" name="adult_kelurahan`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_kelurahan`+parseInt(counter_passenger+1)+`_id" placeholder="Kelurahan" onchange="auto_complete('adult_kelurahan`+parseInt(counter_passenger+1)+`');">
-                                            <option value="">Select Kelurahan</option>`;
-                                    text_div_paxs+=`</select>
-                                        </div>
-                                        <input type="hidden" name="adult_kelurahan`+parseInt(counter_passenger+1)+`" id="adult_kelurahan`+parseInt(counter_passenger+1)+`" />
-                                        <button type="button" class="primary-delete-date" onclick="delete_type('adult_kelurahan`+parseInt(counter_passenger+1)+`_id', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                    </div>
-                                </div>`;
-                            text_div_paxs+=`
-                            <div class="col-lg-6 col-md-6 col-sm-6" style="display:none;">
-                                <label style="color:white !important">*</label>
-                                <label>ZIP CODE (Kode Pos)</label>
-                                <div class="input-container-search-ticket" style="margin-bottom:5px;">
-                                    <input type="text" class="form-control" name="adult_zip_code`+parseInt(counter_passenger+1)+`" id="adult_zip_code`+parseInt(counter_passenger+1)+`" placeholder="Zip Code " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Zip Code '">
-                                </div>
-                            </div>
-
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mt-2" style="text-align:left;"></div>`;
-                                if(test_type == 'PHCHCKPCR' || test_type == 'PHCDTKPCR'){
-                                    text_div_paxs+=`
-                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mt-2" style="text-align:center;"></div>
-                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mt-2" style="text-align:right;">
-                                        <button type="button" class="primary-btn prev-next-form" style="margin-bottom:5px; font-size:12px; font-weight:700;" onclick="next_prev_form_medical('next', 2, `+counter_passenger+`);">
-                                            Next <i class="fas fa-arrow-right"></i>
-                                        </button>
-                                    </div>`;
-                                }else{
-                                    text_div_paxs+=`
-                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mt-3" style="text-align:center;">
-                                        <button type="button" class="primary-btn prev-next-form" style="margin-bottom:5px; font-size:12px; font-weight:700;" onclick="update_customer_fill('save',`+counter_passenger+`)">
-                                            Save <i class="fas fa-save"></i>
-                                        </button>
-                                    </div>
-                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;"></div>`;
-                                }
-                                text_div_paxs+=`
-                            </div>
-                        </div>`;
-
-                    }
-
-                    if(vendor != 'phc'){
-                        text_div_paxs+=`
-                        <div class="col-lg-12 mt-3 mb-3" style="text-align:right;">
-                            <button type="button" class="primary-btn prev-next-form" style="margin-bottom:5px; font-size:12px; font-weight:700;" onclick="update_customer_fill('save',`+counter_passenger+`)">
-                                Save <i class="fas fa-save"></i>
-                            </button>
-                        </div>`;
-                    }
 
                 text_div_paxs+=`
                 </div>
@@ -1262,7 +724,7 @@ function add_table_of_passenger_verify(type){
         $('#myModalPassenger'+parseInt(parseInt(counter_passenger))).modal('show');
     $('#adult_title'+parseInt(counter_passenger+1)).niceSelect();
     $('#adult_identity_type'+parseInt(counter_passenger+1)).niceSelect();
-    auto_complete(`adult_nationality`+parseInt(counter_passenger+1));
+//    auto_complete(`adult_nationality`+parseInt(counter_passenger+1));
     counter_passenger++;
 }
 
@@ -1489,7 +951,7 @@ function add_table_of_passenger(type){
                     text_div_paxs+=`
                     <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
                         <label style="color:red !important">*</label>
-                        <label>Title</label>`;
+                        <label>Gender</label>`;
                         if(template == 1){
                             text_div_paxs+=`<div class="input-container-search-ticket">`;
                         }else if(template == 2){
@@ -1515,9 +977,9 @@ function add_table_of_passenger(type){
                         }else{
                             text_div_paxs+=`<select style="width:100%;" id="adult_title`+parseInt(counter_passenger+1)+`" name="adult_title`+parseInt(counter_passenger+1)+`" onchange="onchange_title(`+parseInt(counter_passenger+1)+`)">`;
                         }
-                                text_div_paxs+= `<option value="MR">MR (Male)</option>`;
-                                text_div_paxs+= `<option value="MRS">MRS (Female)</option>`;
-                                text_div_paxs+= `<option value="MS">MS (Female)</option>`;
+                                text_div_paxs+= `<option value="">Choose</option>`;
+                                text_div_paxs+= `<option value="MR">Male (LAKI-LAKI)</option>`;
+                                text_div_paxs+= `<option value="MRS">Female (PEREMPUAN)</option>`;
                                 text_div_paxs+= `</select>
                             </div>
                         </div>
@@ -1858,7 +1320,7 @@ function add_table_of_passenger(type){
                     </div>
                     <div class="col-lg-6" id="adult_cp_hidden2_`+parseInt(counter_passenger+1)+`">
                         <label style="color:red !important">*</label>
-                        <label>WA Number</label>
+                        <label>WA Number (WhatsApp Number)</label>
                         <div class="row">
                             <div class="col-lg-3">
                                 <div class="form-select">
@@ -2077,7 +1539,10 @@ function add_table_of_passenger(type){
                             }
                             text_div_paxs += '<option value="">Choose</option>';
                                 for(i in medical_config.result.response.profession)
-                                    text_div_paxs+=`<option value="`+medical_config.result.response.profession[i]+`">`+medical_config.result.response.profession[i]+`</option>`;
+                                    if(medical_config.result.response.profession[i] == 'SWASTA')
+                                        text_div_paxs+=`<option value="`+medical_config.result.response.profession[i]+`" selected>`+medical_config.result.response.profession[i]+`</option>`;
+                                    else
+                                        text_div_paxs+=`<option value="`+medical_config.result.response.profession[i]+`">`+medical_config.result.response.profession[i]+`</option>`;
                                     text_div_paxs+=`</select>
                                 </div>
                             </div>
@@ -2089,7 +1554,7 @@ function add_table_of_passenger(type){
                                 <label id="adult_work_place_label`+parseInt(counter_passenger+1)+`" style="color:white !important">*</label>
                                 <label>Work Place</label>
                                 <div class="input-container-search-ticket" style="margin-bottom:5px;">
-                                    <input type="text" class="form-control" name="adult_work_place`+parseInt(counter_passenger+1)+`" id="adult_work_place`+parseInt(counter_passenger+1)+`" placeholder="Work Place " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Work Place '">
+                                    <input type="text" class="form-control" name="adult_work_place`+parseInt(counter_passenger+1)+`" id="adult_work_place`+parseInt(counter_passenger+1)+`" placeholder="Work Place " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Work Place '" value="Swasta">
                                 </div>
                             </div>
                         </div>`;
@@ -2124,7 +1589,10 @@ function add_table_of_passenger(type){
                                 }
                                 text_div_paxs += '<option value="">Choose</option>';
                                     for(i in medical_config.result.response.perusahaan)
-                                        text_div_paxs+=`<option value="`+medical_config.result.response.perusahaan[i]+`">`+medical_config.result.response.perusahaan[i]+`</option>`;
+                                        if(medical_config.result.response.perusahaan[i] == 'PRIBADI')
+                                            text_div_paxs+=`<option value="`+medical_config.result.response.perusahaan[i]+`" selected>`+medical_config.result.response.perusahaan[i]+`</option>`;
+                                        else
+                                            text_div_paxs+=`<option value="`+medical_config.result.response.perusahaan[i]+`">`+medical_config.result.response.perusahaan[i]+`</option>`;
                                         text_div_paxs+=`</select>
                                     </div>
                                 </div>
@@ -2135,7 +1603,7 @@ function add_table_of_passenger(type){
                                 <label style="color:red !important">*</label>
                                 <label>Nama Perusahaan/Rumah Sakit/Pribadi</label>
                                 <div class="input-container-search-ticket" style="margin-bottom:5px;">
-                                    <input type="text" class="form-control" name="adult_nama_perusahaan`+parseInt(counter_passenger+1)+`" id="adult_nama_perusahaan`+parseInt(counter_passenger+1)+`" placeholder="Nama Perusahaan/Rumah Sakit/Pribadi " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Nama Perusahaan/Rumah Sakit/Pribadi '">
+                                    <input type="text" class="form-control" name="adult_nama_perusahaan`+parseInt(counter_passenger+1)+`" id="adult_nama_perusahaan`+parseInt(counter_passenger+1)+`" placeholder="Nama Perusahaan/Rumah Sakit/Pribadi " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Nama Perusahaan/Rumah Sakit/Pribadi '" value="Pribadi">
                                 </div>
                             </div>`;
 
@@ -2275,13 +1743,13 @@ function add_table_of_passenger(type){
                             <label>Copy KTP to Domisili?</label>
                             <label class="radio-button-custom">
                                 Yes
-                                <input type="radio" name="adult_copy`+parseInt(counter_passenger+1)+`" onchange="copy_ktp(`+parseInt(counter_passenger+1)+`);" value="true"/>
+                                <input type="radio" name="adult_copy`+parseInt(counter_passenger+1)+`" onchange="copy_ktp(`+parseInt(counter_passenger+1)+`);" value="true" checked="checked" />
                                 <span class="checkmark-radio"></span>
                             </label>
 
                             <label class="radio-button-custom">
                                 No
-                                <input type="radio" name="adult_copy`+parseInt(counter_passenger+1)+`" onchange="copy_ktp(`+parseInt(counter_passenger+1)+`);" value="false" checked="checked"/>
+                                <input type="radio" name="adult_copy`+parseInt(counter_passenger+1)+`" onchange="copy_ktp(`+parseInt(counter_passenger+1)+`);" value="false" />
                                 <span class="checkmark-radio"></span>
                             </label>
                         </div>`;
@@ -2488,9 +1956,9 @@ function add_table_of_passenger(type){
                                 text_div_paxs+=`
                                 <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
                                     <label style="color:red !important">*</label>
-                                    <label>Pemeriksaan Swab Ke</label>
+                                    <label>Pemeriksaan Swab Keberapa</label>
                                     <div class="input-container-search-ticket" style="margin-bottom:5px;">
-                                        <input type="number" class="form-control" name="adult_pemeriksaan_swab_ke`+parseInt(counter_passenger+1)+`" id="adult_pemeriksaan_swab_ke`+parseInt(counter_passenger+1)+`" placeholder="Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Number '">
+                                        <input type="number" class="form-control" name="adult_pemeriksaan_swab_ke`+parseInt(counter_passenger+1)+`" id="adult_pemeriksaan_swab_ke`+parseInt(counter_passenger+1)+`" placeholder="Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Number '" value="1">
                                     </div>
                                 </div>
                                 <div class="col-lg-12 col-md-12 col-sm-12" id="detail_kriteria`+parseInt(counter_passenger+1)+`" hidden>
@@ -3285,7 +2753,10 @@ function add_table_of_passenger(type){
                                         }
                                         text_div_paxs += '<option value="">Choose</option>';
                                             for(i in medical_config.result.response.pilihan_jawaban)
-                                                text_div_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                if(medical_config.result.response.pilihan_jawaban[i] == 'TIDAK TAHU')
+                                                    text_div_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`" selected>`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                else
+                                                    text_div_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
                                                 text_div_paxs+=`</select>
                                             </div>
                                         </div>
@@ -3600,7 +3071,10 @@ function add_table_of_passenger(type){
                                         }
                                         text_div_paxs += '<option value="">Choose</option>';
                                             for(i in medical_config.result.response.pilihan_jawaban)
-                                                text_div_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                if(medical_config.result.response.pilihan_jawaban[i] == 'TIDAK TAHU')
+                                                    text_div_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`" selected>`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                else
+                                                    text_div_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
                                                 text_div_paxs+=`</select>
                                             </div>
                                         </div>
@@ -3843,7 +3317,10 @@ function add_table_of_passenger(type){
                                         }
                                         text_div_paxs += '<option value="">Choose</option>';
                                             for(i in medical_config.result.response.pilihan_jawaban)
-                                                text_div_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                if(medical_config.result.response.pilihan_jawaban[i] == 'TIDAK TAHU')
+                                                    text_div_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`" selected>`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                else
+                                                    text_div_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
                                                 text_div_paxs+=`</select>
                                             </div>
                                         </div>
@@ -3873,7 +3350,10 @@ function add_table_of_passenger(type){
                                         }
                                         text_div_paxs += '<option value="">Choose</option>';
                                             for(i in medical_config.result.response.pilihan_jawaban)
-                                                text_div_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                if(medical_config.result.response.pilihan_jawaban[i] != 'TIDAK TAHU')
+                                                    text_div_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`" selected>`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                else
+                                                    text_div_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
                                                 text_div_paxs+=`</select>
                                             </div>
                                         </div>
@@ -3934,7 +3414,10 @@ function add_table_of_passenger(type){
                                         }
                                         text_div_paxs += '<option value="">Choose</option>';
                                             for(i in medical_config.result.response.pilihan_jawaban)
-                                                text_div_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                if(medical_config.result.response.pilihan_jawaban[i] == 'TIDAK TAHU')
+                                                    text_div_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`" selected>`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
+                                                else
+                                                    text_div_paxs+=`<option value="`+medical_config.result.response.pilihan_jawaban[i]+`">`+medical_config.result.response.pilihan_jawaban[i]+`</option>`;
                                                 text_div_paxs+=`</select>
                                             </div>
                                         </div>
@@ -4036,7 +3519,6 @@ function add_table_of_passenger(type){
     $('#adult_country_of_issued'+parseInt(counter_passenger+1)+'_id').select2();
     $('#adult_phone_code'+parseInt(counter_passenger+1)+'_id').select2();
     if(vendor == 'phc'){
-
         $('#adult_tempat_lahir'+parseInt(counter_passenger+1)+'_id').select2();
         $('#adult_kabupaten'+parseInt(counter_passenger+1)+'_id').select2();
         $('#adult_kecamatan'+parseInt(counter_passenger+1)+'_id').select2();
@@ -4138,6 +3620,8 @@ function add_table_of_passenger(type){
 //        $('#adult_kecamatan_ktp'+parseInt(counter_passenger+1)).niceSelect();
 //        $('#adult_kelurahan_ktp'+parseInt(counter_passenger+1)).niceSelect();
         $('#adult_profession'+parseInt(counter_passenger+1)).niceSelect();
+        hidden_readonly_medical(parseInt(counter_passenger+1), 'profession', 'hidden');
+        copy_ktp(parseInt(counter_passenger+1));
     }else if(vendor == 'periksain'){
         $('#adult_sample_method'+parseInt(counter_passenger+1)).niceSelect();
     }
@@ -5605,14 +5089,14 @@ function check_passenger(){
                         document.getElementById('adult_first_name' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
                     if(document.getElementById('adult_title' + nomor_pax).value == ''){
-                        error_log += 'Please fill title name for customer '+ nomor_pax + ' !</br>\n';
+                        error_log += 'Please fill gender for customer '+ nomor_pax + ' !</br>\n';
                         document.getElementById('adult_title' + nomor_pax).style['border-color'] = 'red';
                         check_form_periksain = 1;
                     }else{
                         document.getElementById('adult_title' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
                     if(document.getElementById('adult_nationality' + nomor_pax).value == ''){
-                        error_log += 'Please fill title name for customer '+ nomor_pax + ' !</br>\n';
+                        error_log += 'Please fill nationality for customer '+ nomor_pax + ' !</br>\n';
                         $("#adult_nationality"+nomor_pax).each(function() {
                           $(this).siblings(".select2-container").css('border', '5px solid red');
                         });
@@ -5813,7 +5297,7 @@ function check_passenger(){
                         document.getElementById('adult_first_name' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
                     if(document.getElementById('adult_title' + nomor_pax).value == ''){
-                        error_log += 'Please fill title name for customer '+ nomor_pax + ' !</br>\n';
+                        error_log += 'Please fill gender for customer '+ nomor_pax + ' !</br>\n';
                         document.getElementById('adult_title' + nomor_pax).style['border-color'] = 'red';
                         check_form_personal = 1;
                     }else{
@@ -7135,16 +6619,10 @@ function check_passenger_data(){
                         document.getElementById('adult_first_name' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
                     if(document.getElementById('adult_title' + nomor_pax).value == ''){
-                        error_log += 'Please fill title name for customer '+ nomor_pax + ' !</br>\n';
+                        error_log += 'Please fill gender for customer '+ nomor_pax + ' !</br>\n';
                         document.getElementById('adult_title' + nomor_pax).style['border-color'] = 'red';
                     }else{
                         document.getElementById('adult_title' + nomor_pax).style['border-color'] = '#EFEFEF';
-                    }
-                    if(document.getElementById('adult_nationality' + nomor_pax).value == ''){
-                        error_log += 'Please fill title name for customer '+ nomor_pax + ' !</br>\n';
-                        document.getElementById('adult_nationality' + nomor_pax).style['border-color'] = 'red';
-                    }else{
-                        document.getElementById('adult_nationality' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
                     if(check_date(document.getElementById('adult_birth_date'+ nomor_pax).value)==false){
                         error_log+= 'Birth date wrong for customer passenger '+nomor_pax+'!</br>\n';
@@ -7157,85 +6635,6 @@ function check_passenger_data(){
                         document.getElementById('adult_phone' + nomor_pax).style['border-color'] = 'red';
                     }else{
                         document.getElementById('adult_phone' + nomor_pax).style['border-color'] = '#EFEFEF';
-                    }
-                    if(check_email(document.getElementById('adult_email' + nomor_pax).value)==false){
-                        error_log+= 'Invalid Passenger '+ nomor_pax +' email!</br>\n';
-                        document.getElementById('adult_email' + nomor_pax).style['border-color'] = 'red';
-                    }else{
-                        document.getElementById('adult_email' + nomor_pax).style['border-color'] = '#EFEFEF';
-                    }
-                    if(document.getElementById('adult_address' + nomor_pax).value == ''){
-                        error_log+= 'Please fill Address for customer '+nomor_pax+'!</br>\n';
-                        document.getElementById('adult_address' + nomor_pax).style['border-color'] = 'red';
-                    }else{
-                        document.getElementById('adult_address' + nomor_pax).style['border-color'] = '#EFEFEF';
-                    }
-                    if(document.getElementById('adult_rt' + nomor_pax).value == '' && check_number(document.getElementById('adult_rt' + nomor_pax).value) == false){
-                        error_log+= 'RT only contain number for customer '+nomor_pax+'!</br>\n';
-                        document.getElementById('adult_rt' + nomor_pax).style['border-color'] = 'red';
-                    }else{
-                        document.getElementById('adult_rt' + nomor_pax).style['border-color'] = '#EFEFEF';
-                    }
-                    if(document.getElementById('adult_rw' + nomor_pax).value == '' && check_number(document.getElementById('adult_rw' + nomor_pax).value) == false){
-                        error_log+= 'RW only contain number for customer '+nomor_pax+'!</br>\n';
-                        document.getElementById('adult_rw' + nomor_pax).style['border-color'] = 'red';
-                    }else{
-                        document.getElementById('adult_rw' + nomor_pax).style['border-color'] = '#EFEFEF';
-                    }
-                    if(document.getElementById('adult_kabupaten' + nomor_pax).value == ''){
-                        error_log+= 'Please choose Kabupaten for customer '+nomor_pax+'!</br>\n';
-                        document.getElementById('adult_kabupaten' + nomor_pax).style['border-color'] = 'red';
-                    }else{
-                        document.getElementById('adult_kabupaten' + nomor_pax).style['border-color'] = '#EFEFEF';
-                    }
-                    if(document.getElementById('adult_kecamatan' + nomor_pax).value == ''){
-                        error_log+= 'Please choose Kecamatan for customer '+nomor_pax+'!</br>\n';
-                        document.getElementById('adult_kecamatan' + nomor_pax).style['border-color'] = 'red';
-                    }else{
-                        document.getElementById('adult_kecamatan' + nomor_pax).style['border-color'] = '#EFEFEF';
-                    }
-                    if(document.getElementById('adult_kelurahan' + nomor_pax).value == ''){
-                        error_log+= 'Please choose Kelurahan for customer '+nomor_pax+'!</br>\n';
-                        document.getElementById('adult_kelurahan' + nomor_pax).style['border-color'] = 'red';
-                    }else{
-                        document.getElementById('adult_kelurahan' + nomor_pax).style['border-color'] = '#EFEFEF';
-                    }
-
-                    if(document.getElementById('adult_address_ktp' + nomor_pax).value == ''){
-                        error_log+= 'Please fill Address KTP for customer '+nomor_pax+'!</br>\n';
-                        document.getElementById('adult_address_ktp' + nomor_pax).style['border-color'] = 'red';
-                    }else{
-                        document.getElementById('adult_address_ktp' + nomor_pax).style['border-color'] = '#EFEFEF';
-                    }
-                    if(document.getElementById('adult_rt_ktp' + nomor_pax).value == '' && check_number(document.getElementById('adult_rt_ktp' + nomor_pax).value) == false){
-                        error_log+= 'RT KTP only contain number for customer '+nomor_pax+'!</br>\n';
-                        document.getElementById('adult_rt_ktp' + nomor_pax).style['border-color'] = 'red';
-                    }else{
-                        document.getElementById('adult_rt_ktp' + nomor_pax).style['border-color'] = '#EFEFEF';
-                    }
-                    if(document.getElementById('adult_rw_ktp' + nomor_pax).value == '' && check_number(document.getElementById('adult_rw_ktp' + nomor_pax).value) == false){
-                        error_log+= 'RW KTP only contain number for customer '+nomor_pax+'!</br>\n';
-                        document.getElementById('adult_rw_ktp' + nomor_pax).style['border-color'] = 'red';
-                    }else{
-                        document.getElementById('adult_rw_ktp' + nomor_pax).style['border-color'] = '#EFEFEF';
-                    }
-                    if(document.getElementById('adult_kabupaten_ktp' + nomor_pax).value == ''){
-                        error_log+= 'Please choose Kabupaten KTP for customer '+nomor_pax+'!</br>\n';
-                        document.getElementById('adult_kabupaten_ktp' + nomor_pax).style['border-color'] = 'red';
-                    }else{
-                        document.getElementById('adult_kabupaten_ktp' + nomor_pax).style['border-color'] = '#EFEFEF';
-                    }
-                    if(document.getElementById('adult_kecamatan_ktp' + nomor_pax).value == ''){
-                        error_log+= 'Please choose Kecamatan KTP for customer '+nomor_pax+'!</br>\n';
-                        document.getElementById('adult_kecamatan_ktp' + nomor_pax).style['border-color'] = 'red';
-                    }else{
-                        document.getElementById('adult_kecamatan_ktp' + nomor_pax).style['border-color'] = '#EFEFEF';
-                    }
-                    if(document.getElementById('adult_kelurahan_ktp' + nomor_pax).value == ''){
-                        error_log+= 'Please choose Kelurahan KTP for customer '+nomor_pax+'!</br>\n';
-                        document.getElementById('adult_kelurahan_ktp' + nomor_pax).style['border-color'] = 'red';
-                    }else{
-                        document.getElementById('adult_kelurahan_ktp' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
                     if(document.getElementById('adult_tempat_lahir' + nomor_pax).value == ''){
                         error_log+= 'Please choose Tempat Lahir for customer '+nomor_pax+'!</br>\n';
@@ -7260,12 +6659,6 @@ function check_passenger_data(){
                                 }else{
                                     ktp.push(document.getElementById('adult_identity_number'+ nomor_pax).value)
                                 }
-                            }
-                            if(document.getElementById('adult_country_of_issued'+ nomor_pax).value == ''){
-                                error_log+= 'Please fill country of issued for customer '+nomor_pax+'!</br>\n';
-                                document.getElementById('adult_country_of_issued'+ nomor_pax).style['border-color'] = 'red';
-                            }else{
-                                document.getElementById('adult_country_of_issued'+ nomor_pax).style['border-color'] = '#EFEFEF';
                             }
                         }else if(document.getElementById('adult_identity_type' + nomor_pax).value == 'passport'){
                             console.log('passport')
@@ -7302,33 +6695,6 @@ function check_passenger_data(){
                         error_log+= 'Please fill identity type for customer '+nomor_pax+'!</br>\n';
                         document.getElementById('adult_identity_type' + nomor_pax).style['border-color'] = 'red';
                     }
-                    if(document.getElementById('adult_married_status' + nomor_pax).value == ''){
-                        error_log+= 'Please choose Married Status for customer '+nomor_pax+'!</br>\n';
-                        document.getElementById('adult_married_status' + nomor_pax).style['border-color'] = 'red';
-                    }else{
-                        document.getElementById('adult_married_status' + nomor_pax).style['border-color'] = '#EFEFEF';
-                    }
-                    if(document.getElementById('adult_religion' + nomor_pax).value == ''){
-                        error_log+= 'Please choose Religion for customer '+nomor_pax+'!</br>\n';
-                        document.getElementById('adult_religion' + nomor_pax).style['border-color'] = 'red';
-                    }else{
-                        document.getElementById('adult_religion' + nomor_pax).style['border-color'] = '#EFEFEF';
-                    }
-                    if(document.getElementById('adult_pendidikan' + nomor_pax).value == ''){
-                        error_log+= 'Please choose Pendidikan for customer '+nomor_pax+'!</br>\n';
-                        document.getElementById('adult_pendidikan' + nomor_pax).style['border-color'] = 'red';
-                    }else{
-                        document.getElementById('adult_pendidikan' + nomor_pax).style['border-color'] = '#EFEFEF';
-                    }
-
-                    pcr_data = {
-                        "married_status": document.getElementById('adult_married_status' + nomor_pax).value,
-                        "religion": document.getElementById('adult_religion' + nomor_pax).value,
-                        "pendidikan": document.getElementById('adult_pendidikan' + nomor_pax).value,
-                        "zip_code_ktp": document.getElementById('adult_zip_code_ktp' + nomor_pax).value,
-                        "zip_code": document.getElementById('adult_zip_code' + nomor_pax).value,
-                        "klinis_golongan_darah": document.getElementById('adult_klinis_golongan_darah' + nomor_pax).value,
-                    }
                     check_passenger = true;
 
                     request['passengers'].push({
@@ -7337,30 +6703,14 @@ function check_passenger_data(){
                         "last_name": document.getElementById('adult_last_name' + nomor_pax).value,
                         "title": document.getElementById('adult_title' + nomor_pax).value,
                         "birth_date": document.getElementById('adult_birth_date' + nomor_pax).value,
-                        "nationality_name": document.getElementById('adult_nationality' + nomor_pax).value,
                         "identity": {
-                            "identity_country_of_issued_name": document.getElementById('adult_country_of_issued' + nomor_pax).value,
                             "identity_number": document.getElementById('adult_identity_number' + nomor_pax).value,
                             "identity_type": document.getElementById('adult_identity_type' + nomor_pax).value,
                             "identity_expdate": document.getElementById('adult_identity_expired_date'+ nomor_pax).value,
                         },
                         "passenger_seq_id": document.getElementById('adult_id' + nomor_pax).value,
                         "tempat_lahir": document.getElementById('adult_tempat_lahir' + nomor_pax).value,
-                        "address": document.getElementById('adult_address' + nomor_pax).value,
-                        "rt": document.getElementById('adult_rt' + nomor_pax).value,
-                        "rw": document.getElementById('adult_rw' + nomor_pax).value,
-                        "kabupaten": document.getElementById('adult_kabupaten' + nomor_pax).value,
-                        "kecamatan": document.getElementById('adult_kecamatan' + nomor_pax).value,
-                        "kelurahan": document.getElementById('adult_kelurahan' + nomor_pax).value,
-                        "address_ktp": document.getElementById('adult_address_ktp' + nomor_pax).value,
-                        "rt_ktp": document.getElementById('adult_rt_ktp' + nomor_pax).value,
-                        "rw_ktp": document.getElementById('adult_rw_ktp' + nomor_pax).value,
-                        "kabupaten_ktp": document.getElementById('adult_kabupaten_ktp' + nomor_pax).value,
-                        "kecamatan_ktp": document.getElementById('adult_kecamatan_ktp' + nomor_pax).value,
-                        "kelurahan_ktp": document.getElementById('adult_kelurahan_ktp' + nomor_pax).value,
-                        "email": document.getElementById('adult_email' + nomor_pax).value,
                         "phone_number": document.getElementById('adult_phone_code'+nomor_pax+'_id').value + document.getElementById('adult_phone'+nomor_pax).value,
-                        'pcr_data': pcr_data,
                     })
                 }catch(err){console.log(err);}
             }
@@ -7460,8 +6810,14 @@ function add_table(change_rebooking=false){
         last_counter = 1;
         add_table();
         last_counter = tempcounter;
-        // isi data
+        // isi data passenger
         get_data_cache_passenger_medical();
+        get_data_cache_schedule_medical();
+//        if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCHCKPCR' || vendor == 'phc' && test_type == 'PHCHCKATG'){
+//            //isi data homecare
+//
+//        }
+
     }
     last_counter = tempcounter;
 }
@@ -8023,7 +7379,10 @@ function auto_fill_periksain(){
             document.getElementById('adult_phone'+counter).value = passenger_data_cache_medical[idx].phone_number.substr(2,100);
         }
         document.getElementById('adult_email'+counter).value = passenger_data_cache_medical[idx].email;
-        document.getElementById('adult_sample_method'+counter).value = passenger_data_cache_medical[idx].sample_method_code;
+        if(passenger_data_cache_medical[idx].hasOwnProperty('sample_method_code'))
+            document.getElementById('adult_sample_method'+counter).value = passenger_data_cache_medical[idx].sample_method_code;
+        else
+            document.getElementById('adult_sample_method'+counter).value = passenger_data_cache_medical[idx].sample_method;
         document.getElementById('adult_address_ktp'+counter).value = passenger_data_cache_medical[idx].address_ktp;
 
         $('#adult_title'+counter).niceSelect('update');
@@ -8054,107 +7413,58 @@ function auto_fill_verify_data(){
     var verified_check = true;
     for(idx in passenger_data_cache_medical){
         try{
-        if(passenger_data_cache_medical[idx].verify == false)
-            verified_check = false;
-        document.getElementById('adult_title'+counter).value = passenger_data_cache_medical[idx].title;
-        onchange_title(counter);
-        document.getElementById('adult_first_name'+counter).value = passenger_data_cache_medical[idx].first_name;
+            if(passenger_data_cache_medical[idx].verify == false)
+                verified_check = false;
+            document.getElementById('adult_title'+counter).value = passenger_data_cache_medical[idx].title;
+            onchange_title(counter);
+            document.getElementById('adult_title'+counter).readOnly = true;
+            for(i in document.getElementById('adult_title'+counter).options){
+                if(document.getElementById('adult_title'+counter).options[i].selected != true)
+                    document.getElementById('adult_title'+counter).options[i].disabled = true;
+            }
+            document.getElementById('adult_first_name'+counter).value = passenger_data_cache_medical[idx].first_name;
 
-        document.getElementById('adult_last_name'+counter).value = passenger_data_cache_medical[idx].last_name;
-        document.getElementById('adult_nationality'+counter).value = passenger_data_cache_medical[idx].nationality_name;
-        document.getElementById('select2-adult_nationality'+counter+'_id-container').innerHTML = passenger_data_cache_medical[idx].nationality_name;
-        document.getElementById('adult_birth_date'+counter).value = passenger_data_cache_medical[idx].birth_date;
-        document.getElementById('adult_tempat_lahir'+counter).value = passenger_data_cache_medical[idx].tempat_lahir;
-        document.getElementById('select2-adult_tempat_lahir'+counter+'_id-container').innerHTML = passenger_data_cache_medical[idx].tempat_lahir;
-        document.getElementById('adult_identity_type'+counter).value = passenger_data_cache_medical[idx].identity_type;
-        document.getElementById('adult_identity_number'+counter).value = passenger_data_cache_medical[idx].identity_number;
-        document.getElementById('adult_country_of_issued'+counter).value = passenger_data_cache_medical[idx].identity_country_of_issued_name;
-        document.getElementById('select2-adult_country_of_issued'+counter+'_id-container').innerHTML = passenger_data_cache_medical[idx].identity_country_of_issued_name;
-        if(passenger_data_cache_medical[idx].phone_number.substr(0,2) == '62'){
-            document.getElementById('adult_phone_code'+counter).value = '62';
-            document.getElementById('select2-adult_phone_code'+counter+'_id-container').innerHTML = '62';
-            document.getElementById('adult_phone'+counter).value = passenger_data_cache_medical[idx].phone_number.substr(2,100);
-        }else if(passenger_data_cache_medical[idx].phone_number.substr(0,1) == '0'){
-            document.getElementById('adult_phone_code'+counter).value = '0';
-            document.getElementById('select2-adult_phone_code'+counter+'_id-container').innerHTML = '0';
-            document.getElementById('adult_phone'+counter).value = passenger_data_cache_medical[idx].phone_number.substr(1,100);
-        }else{
-            document.getElementById('adult_phone_code'+counter).value = passenger_data_cache_medical[idx].phone_number.substr(0,2);
-            document.getElementById('select2-adult_phone_code'+counter+'_id-container').innerHTML = passenger_data_cache_medical[idx].phone_number.substr(0,2);
-            document.getElementById('adult_phone'+counter).value = passenger_data_cache_medical[idx].phone_number.substr(2,100);
-        }
-        document.getElementById('adult_email'+counter).value = passenger_data_cache_medical[idx].email;
+            document.getElementById('adult_last_name'+counter).value = passenger_data_cache_medical[idx].last_name;
+            document.getElementById('adult_birth_date'+counter).value = passenger_data_cache_medical[idx].birth_date;
+            document.getElementById('adult_tempat_lahir'+counter).value = passenger_data_cache_medical[idx].tempat_lahir;
+            document.getElementById('select2-adult_tempat_lahir'+counter+'_id-container').innerHTML = passenger_data_cache_medical[idx].tempat_lahir;
+            document.getElementById('adult_identity_type'+counter).value = passenger_data_cache_medical[idx].identity_type;
+            document.getElementById('adult_identity_number'+counter).value = passenger_data_cache_medical[idx].identity_number;
+            if(passenger_data_cache_medical[idx].phone_number.substr(0,2) == '62'){
+                document.getElementById('adult_phone_code'+counter).value = '62';
+                document.getElementById('select2-adult_phone_code'+counter+'_id-container').innerHTML = '62';
+                document.getElementById('adult_phone'+counter).value = passenger_data_cache_medical[idx].phone_number.substr(2,100);
+            }else if(passenger_data_cache_medical[idx].phone_number.substr(0,1) == '0'){
+                document.getElementById('adult_phone_code'+counter).value = '0';
+                document.getElementById('select2-adult_phone_code'+counter+'_id-container').innerHTML = '0';
+                document.getElementById('adult_phone'+counter).value = passenger_data_cache_medical[idx].phone_number.substr(1,100);
+            }else{
+                document.getElementById('adult_phone_code'+counter).value = passenger_data_cache_medical[idx].phone_number.substr(0,2);
+                document.getElementById('select2-adult_phone_code'+counter+'_id-container').innerHTML = passenger_data_cache_medical[idx].phone_number.substr(0,2);
+                document.getElementById('adult_phone'+counter).value = passenger_data_cache_medical[idx].phone_number.substr(2,100);
+            }
 
-        if(passenger_data_cache_medical[idx].identity_expdate){
-            set_exp_identity(counter);
-            document.getElementById('adult_identity_expired_date'+counter).value = moment(passenger_data_cache_medical[idx].identity_expdate, 'YYYY-MM-DD').format('DD MMM YYYY');
-        }
-
-        document.getElementById('adult_address_ktp'+counter).value = passenger_data_cache_medical[idx].address_ktp;
-        document.getElementById('adult_rt_ktp'+counter).value = passenger_data_cache_medical[idx].rt_ktp;
-        document.getElementById('adult_rw_ktp'+counter).value = passenger_data_cache_medical[idx].rw_ktp;
-        document.getElementById('adult_kabupaten_ktp'+counter).value = passenger_data_cache_medical[idx].kabupaten_ktp;
-        document.getElementById('select2-adult_kabupaten_ktp'+counter+'_id-container').innerHTML = passenger_data_cache_medical[idx].kabupaten_ktp;
-        get_kecamatan('adult_kabupaten_ktp'+counter,'adult_kecamatan_ktp'+counter+'_id');
-
-        console.log(passenger_data_cache_medical[idx]);
-        document.getElementById('adult_kecamatan_ktp'+counter).value = passenger_data_cache_medical[idx].kecamatan_ktp;
-        document.getElementById('select2-adult_kecamatan_ktp'+counter+'_id-container').innerHTML = passenger_data_cache_medical[idx].kecamatan_ktp;
-        get_kelurahan('adult_kecamatan_ktp'+counter,'adult_kelurahan_ktp'+counter+'_id');
-
-        document.getElementById('adult_kelurahan_ktp'+counter).value = passenger_data_cache_medical[idx].kelurahan_ktp;
-        document.getElementById('select2-adult_kelurahan_ktp'+counter+'_id-container').innerHTML = passenger_data_cache_medical[idx].kelurahan_ktp;
-
-        document.getElementById('adult_address'+counter).value = passenger_data_cache_medical[idx].address;
-        document.getElementById('adult_rt'+counter).value = passenger_data_cache_medical[idx].rt;
-        document.getElementById('adult_rw'+counter).value = passenger_data_cache_medical[idx].rw;
-        document.getElementById('adult_kabupaten'+counter).value = passenger_data_cache_medical[idx].kabupaten;
-        document.getElementById('select2-adult_kabupaten'+counter+'_id-container').innerHTML = passenger_data_cache_medical[idx].kabupaten;
-        get_kecamatan('adult_kabupaten'+counter,'adult_kecamatan'+counter+'_id');
-
-        document.getElementById('adult_kecamatan'+counter).value = passenger_data_cache_medical[idx].kecamatan;
-        document.getElementById('select2-adult_kecamatan'+counter+'_id-container').innerHTML = passenger_data_cache_medical[idx].kecamatan;
-        get_kelurahan('adult_kecamatan'+counter,'adult_kelurahan'+counter+'_id');
-
-        document.getElementById('adult_kelurahan'+counter).value = passenger_data_cache_medical[idx].kelurahan;
-        document.getElementById('select2-adult_kelurahan'+counter+'_id-container').innerHTML = passenger_data_cache_medical[idx].kelurahan;
-
-        if(passenger_data_cache_medical[idx].pcr_data.married_status != undefined){
-            document.getElementById('adult_married_status'+counter).value = passenger_data_cache_medical[idx].pcr_data.married_status;
-            if(passenger_data_cache_medical[idx].pcr_data.hasOwnProperty('religion'))
-                document.getElementById('adult_religion'+counter).value = passenger_data_cache_medical[idx].pcr_data.religion;
-            else
-                document.getElementById('adult_religion'+counter).value = 'LAINNYA';
-            if(passenger_data_cache_medical[idx].pcr_data.hasOwnProperty('pendidikan'))
-                document.getElementById('adult_pendidikan'+counter).value = passenger_data_cache_medical[idx].pcr_data.pendidikan;
-            else
-                document.getElementById('adult_pendidikan'+counter).value = 'LAIN-LAIN';
-            if(passenger_data_cache_medical[idx].pcr_data.hasOwnProperty('klinis_golongan_darah'))
-                document.getElementById('adult_klinis_golongan_darah'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_golongan_darah;
-            else
-                document.getElementById('adult_klinis_golongan_darah'+counter).value = 'NA';
-            document.getElementById('adult_zip_code_ktp'+counter).value = passenger_data_cache_medical[idx].pcr_data.zip_code_ktp;
-            document.getElementById('adult_zip_code'+counter).value = passenger_data_cache_medical[idx].pcr_data.zip_code;
-
-        }else{
-            document.getElementById('adult_religion'+counter).value = 'LAINNYA';
-            document.getElementById('adult_pendidikan'+counter).value = 'LAIN-LAIN';
-            document.getElementById('adult_klinis_golongan_darah'+counter).value = 'NA';;
-        }
-        $('#adult_title'+counter).niceSelect('update');
-        $('#adult_identity_type'+counter).niceSelect('update');
-        $('#adult_married_status'+counter).niceSelect('update');
-        $('#adult_religion'+counter).niceSelect('update');
-        $('#adult_pendidikan'+counter).niceSelect('update');
-        $('#adult_klinis_golongan_darah'+counter).niceSelect('update');
-
-        update_contact('passenger',counter);
-        counter++;
+            if(passenger_data_cache_medical[idx].identity_expdate){
+                set_exp_identity(counter);
+                document.getElementById('adult_identity_expired_date'+counter).value = moment(passenger_data_cache_medical[idx].identity_expdate, 'YYYY-MM-DD').format('DD MMM YYYY');
+            }
+            $('#adult_title'+counter).niceSelect('update');
+            $('#adult_identity_type'+counter).niceSelect('update');
+            update_contact('passenger',counter);
+            counter++;
         }catch(err){console.log(err);}
     }
     if(verified_check == false && state == 'issued'){
         document.getElementById('button_verify').innerHTML = `<button class="primary-btn-ticket" type="button" style="background-color:green" onclick="save_data_pax_backend('verify_data')"><i class="fas fa-save"></i> Save & Verify <i class="fas fa-upload"></i></button>`;
     }
+    document.getElementById('btn_cancel').style.display = 'block';
+    document.getElementById('btn_save').style.display = 'block';
+}
+
+function auto_fill_home_care(){
+    if(schedule_medical.address != alamat_ss || vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCDTKATG' || vendor == 'phc' && test_type == 'PHCDTKPCR') //alamat DRIVE THRU
+        document.getElementById('booker_address').value = schedule_medical.address;
+    auto_fill_first_time = true;
 }
 
 function repeat_order_phc(){

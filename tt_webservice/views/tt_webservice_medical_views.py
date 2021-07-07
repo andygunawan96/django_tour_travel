@@ -74,6 +74,8 @@ def api_models(request):
             res = get_transaction_by_analyst(request)
         elif req_data['action'] == 'get_data_cache_passenger_medical':
             res = get_data_cache_passenger_medical(request)
+        elif req_data['action'] == 'get_data_booking_cache_medical':
+            res = get_data_booking_cache_medical(request)
         elif req_data['action'] == 'save_backend':
             res = save_backend(request)
         elif req_data['action'] == 'verify_data':
@@ -577,6 +579,16 @@ def get_data_cache_passenger_medical(request):
             res = []
     return res
 
+def get_data_booking_cache_medical(request):
+    try:
+        res = request.session['medical_data_cache']
+    except Exception as e:
+        try:
+            res = request.session.get('medical_data_cache')
+        except Exception as e:
+            res = {}
+    return res
+
 def save_backend(request):
     try:
         provider = ''
@@ -596,15 +608,34 @@ def save_backend(request):
         res = request.session['medical_passenger_cache']
         for idx, rec in enumerate(data['passengers']):
             rec['birth_date'] = '%s-%s-%s' % (rec['birth_date'].split(' ')[2], month[rec['birth_date'].split(' ')[1]], rec['birth_date'].split(' ')[0])
+            rec['nationality_name'] = res[idx]['nationality_name']
+            rec['pcr_data'] = res[idx]['pcr_data']
+            rec['email'] = res[idx]['email']
+            rec['kelurahan_ktp'] = res[idx]['kelurahan_ktp']
+            rec['kecamatan_ktp'] = res[idx]['kecamatan_ktp']
+            rec['kabupaten_ktp'] = res[idx]['kabupaten_ktp']
+            rec['rw_ktp'] = res[idx]['rw_ktp']
+            rec['rt_ktp'] = res[idx]['rt_ktp']
+            rec['address_ktp'] = res[idx]['address_ktp']
+            rec['kelurahan'] = res[idx]['kelurahan']
+            rec['kecamatan'] = res[idx]['kecamatan']
+            rec['kabupaten'] = res[idx]['kabupaten']
+            rec['rw'] = res[idx]['rw']
+            rec['rt'] = res[idx]['rt']
+            rec['address'] = res[idx]['address']
+            rec['work_place'] = res[idx]['work_place']
+            rec['profession'] = res[idx]['profession']
+            rec['nomor_karcis'] = res[idx]['nomor_karcis']
+            rec['nomor_perserta'] = res[idx]['nomor_perserta']
+            rec['verify'] = res[idx]['verify']
+            rec['label_url'] = res[idx]['label_url']
+            rec['result_url'] = res[idx]['result_url']
+            rec['identity_country_of_issued_code'] = res[idx]['identity_country_of_issued_code']
+            rec['identity']['identity_country_of_issued_code'] = res[idx]['identity_country_of_issued_code']
             for country in response['result']['response']['airline']['country']:
                 if rec['nationality_name'] == country['name']:
                     rec['nationality_code'] = country['code']
                     break
-            if rec['identity']['identity_country_of_issued_name']:
-                for country in response['result']['response']['airline']['country']:
-                    if rec['identity']['identity_country_of_issued_name'] == country['name']:
-                        rec['identity']['identity_country_of_issued_code'] = country['code']
-                        break
             if rec['identity'].get('identity_expdate'):
                 if rec['identity']['identity_expdate']:
                     rec['identity']['identity_expdate'] = '%s-%s-%s' % (
@@ -612,8 +643,6 @@ def save_backend(request):
                         rec['identity']['identity_expdate'].split(' ')[0])
             else:
                 rec['identity']['identity_expdate'] = ''
-            rec['verify'] = res[idx]['verify']
-
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
@@ -637,17 +666,38 @@ def verify_data(request):
         javascript_version = get_cache_version()
         response = get_cache_data(javascript_version)
 
-        for rec in data['passengers']:
+        res = request.session['medical_passenger_cache']
+        for idx, rec in enumerate(data['passengers']):
+            rec['birth_date'] = '%s-%s-%s' % (rec['birth_date'].split(' ')[2], month[rec['birth_date'].split(' ')[1]], rec['birth_date'].split(' ')[0])
+            rec['nationality_name'] = res[idx]['nationality_name']
+            rec['pcr_data'] = res[idx]['pcr_data']
+            rec['email'] = res[idx]['email']
+            rec['kelurahan_ktp'] = res[idx]['kelurahan_ktp']
+            rec['kecamatan_ktp'] = res[idx]['kecamatan_ktp']
+            rec['kabupaten_ktp'] = res[idx]['kabupaten_ktp']
+            rec['rw_ktp'] = res[idx]['rw_ktp']
+            rec['rt_ktp'] = res[idx]['rt_ktp']
+            rec['address_ktp'] = res[idx]['address_ktp']
+            rec['kelurahan'] = res[idx]['kelurahan']
+            rec['kecamatan'] = res[idx]['kecamatan']
+            rec['kabupaten'] = res[idx]['kabupaten']
+            rec['rw'] = res[idx]['rw']
+            rec['rt'] = res[idx]['rt']
+            rec['address'] = res[idx]['address']
+            rec['work_place'] = res[idx]['work_place']
+            rec['profession'] = res[idx]['profession']
+            rec['nomor_karcis'] = res[idx]['nomor_karcis']
+            rec['nomor_perserta'] = res[idx]['nomor_perserta']
+            rec['verify'] = res[idx]['verify']
+            rec['label_url'] = res[idx]['label_url']
+            rec['result_url'] = res[idx]['result_url']
+            rec['identity_country_of_issued_code'] = res[idx]['identity_country_of_issued_code']
+            rec['identity']['identity_country_of_issued_code'] = res[idx]['identity_country_of_issued_code']
             rec['birth_date'] = '%s-%s-%s' % (rec['birth_date'].split(' ')[2], month[rec['birth_date'].split(' ')[1]], rec['birth_date'].split(' ')[0])
             for country in response['result']['response']['airline']['country']:
                 if rec['nationality_name'] == country['name']:
                     rec['nationality_code'] = country['code']
                     break
-            if rec['identity']['identity_country_of_issued_name']:
-                for country in response['result']['response']['airline']['country']:
-                    if rec['identity']['identity_country_of_issued_name'] == country['name']:
-                        rec['identity']['identity_country_of_issued_code'] = country['code']
-                        break
             if rec['identity'].get('identity_expdate'):
                 if rec['identity']['identity_expdate']:
                     rec['identity']['identity_expdate'] = '%s-%s-%s' % (

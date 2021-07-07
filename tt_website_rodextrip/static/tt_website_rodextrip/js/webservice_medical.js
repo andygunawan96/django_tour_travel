@@ -663,10 +663,10 @@ function medical_get_booking(order_number, sync=false){
                 if(msg.result.error_code == 0){
                     medical_get_detail = msg;
                     document.getElementById('show_loading_booking_medical').hidden = true;
-                    document.getElementById('button-home').hidden = false;
+//                    document.getElementById('button-home').hidden = false;
                     document.getElementById('button-new-reservation').hidden = false;
                     document.getElementById('button-re-order').hidden = false;
-                    document.getElementById('new-reservation').hidden = false;
+//                    document.getElementById('new-reservation').hidden = false;
                     hide_modal_waiting_transaction();
                     gmt = '';
                     timezone = '';
@@ -906,6 +906,7 @@ function medical_get_booking(order_number, sync=false){
                     commission = 0;
                     csc = 0;
                     service_charge = ['FARE', 'RAC', 'ROC', 'TAX', 'SSR', 'DISC'];
+                    text_update_data_pax = '';
                     text_detail=`
                     <div style="background-color:white; padding:10px; border: 1px solid #cdcdcd; margin-bottom:15px;">
                         <h5> Price Detail</h5>
@@ -1164,13 +1165,14 @@ function medical_get_booking(order_number, sync=false){
 //                            }
 //                        }
                         if(verify == false){
-                            text_detail+=`<button class="primary-btn hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="update_data_passengers();" style="width:100%;margin-top:15px;">
-                            Update Data Passengers`;
+                            text_update_data_pax+=`<button class="primary-btn-white hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="update_data_passengers();" style="width:100%;margin-top:15px;">
+                            Update Data Customers`;
 
                             if(user_login.co_agent_frontend_security.includes('verify_phc') == true && verify == false){
-                                text_detail+= ` / Verify Data`;
+                                text_update_data_pax+= ` / Verify Data`;
                             }
-                            text_detail+=`
+                            text_update_data_pax+=`
+                                <i class="fas fa-user-edit"></i>
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>`;
                         }
@@ -1181,15 +1183,16 @@ function medical_get_booking(order_number, sync=false){
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>`;
                         }*/
-                    }else if(msg.result.response.state  == 'booked' && msg.result.response.order_number.includes('PH')){
-                        text_detail+=`<button class="primary-btn hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="update_data_passengers();" style="width:100%;margin-top:15px;">
-                            Update Data Passengers`;
-                            text_detail+=`
+                    }
+                    else if(msg.result.response.state  == 'booked' && msg.result.response.order_number.includes('PH')){
+                        text_update_data_pax+=`<button class="primary-btn-white hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="update_data_passengers();" style="width:100%;margin-top:15px;">
+                            Update Data Customers <i class="fas fa-user-edit"></i>`;
+                            text_update_data_pax+=`
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>`;
                     }
                     if (msg.result.response.state  == 'issued' && msg.result.response.order_number.includes('PH')) {
-                        text_detail+=`
+                        text_update_data_pax+=`
                             <button class="primary-btn hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="medical_get_result('` + msg.result.response.order_number + `');" style="width:100%;margin-top:15px;">
                                 Get Result
                                 <div class="ld ld-ring ld-cycle"></div>
@@ -1208,6 +1211,7 @@ function medical_get_booking(order_number, sync=false){
                 }
 
                 document.getElementById('medical_detail').innerHTML = text_detail;
+                document.getElementById('update_data_passenger').innerHTML = text_update_data_pax;
                     //======================= Button Issued ==================
                     if(msg.result.response.state == 'booked'){
                        check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'medical', signature, msg.result.response.payment_acquirer_number);
@@ -1227,7 +1231,9 @@ function medical_get_booking(order_number, sync=false){
                         if(msg.result.response.test_address_map_link){
                             document.getElementById('div_sync_status').hidden = false;
                             document.getElementById('div_sync_status').innerHTML =`
-                                <input type="button" class="primary-btn" id="button-sync-status" style="width:100%;" value="Map" onclick="window.open('http://maps.google.com/?q=`+lat+`,`+long+`','_blank');">`
+                                <button type="button" class="primary-btn-white" id="button-sync-status" style="width:100%;" onclick="window.open('http://maps.google.com/?q=`+lat+`,`+long+`','_blank');">
+                                    Map <i class="fas fa-map-marker-alt"></i>
+                                </button>`;
                         }
                         //document.getElementById('display_prices').style.display = "none";
                         $text += 'Status: Issued\n';
@@ -1297,7 +1303,7 @@ function medical_get_booking(order_number, sync=false){
                     // === Button 1 ===
                     if (msg.result.response.state  == 'issued') {
                         print_text+=`
-                        <button class="primary-btn hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="get_printout('` + msg.result.response.order_number + `','ticket','medical');" style="width:100%;">
+                        <button class="primary-btn-white hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="get_printout('` + msg.result.response.order_number + `','ticket','medical');" style="width:100%;">
                             Print Ticket
                             <div class="ld ld-ring ld-cycle"></div>
                         </button>`;
@@ -1306,13 +1312,13 @@ function medical_get_booking(order_number, sync=false){
                     // === Button 2 ===
                     if (msg.result.response.state  == 'booked'){
                         print_text+=`
-                        <button class="primary-btn hold-seat-booking-train ld-ext-right" id="button-print-print" type="button" onclick="get_printout('` + msg.result.response.order_number + `','itinerary','medical');" style="width:100%;">
+                        <button class="primary-btn-white hold-seat-booking-train ld-ext-right" id="button-print-print" type="button" onclick="get_printout('` + msg.result.response.order_number + `','itinerary','medical');" style="width:100%;">
                             Print Itinerary Form
                             <div class="ld ld-ring ld-cycle"></div>
                         </button>`;
                     }else{
                         print_text+=`
-                        <button class="primary-btn hold-seat-booking-train ld-ext-right" type="button" id="button-print-print" onclick="get_printout('` + msg.result.response.order_number + `','ticket_price','medical');" style="width:100%;">
+                        <button class="primary-btn-white hold-seat-booking-train ld-ext-right" type="button" id="button-print-print" onclick="get_printout('` + msg.result.response.order_number + `','ticket_price','medical');" style="width:100%;">
                             Print Ticket (With Price)
                             <div class="ld ld-ring ld-cycle"></div>
                         </button>`;
@@ -2215,6 +2221,13 @@ function medical_reorder(){
     if(checked){
         var path = '/'+medical_get_detail.result.response.provider_bookings[0].provider+'/passenger/' + document.getElementById('test_type').value;
         document.getElementById('data').value = JSON.stringify(passenger_list_copy);
+        var data_temp = {
+            "address": medical_get_detail.result.response.test_address,
+            "area": medical_get_detail.result.response.picked_timeslot.area,
+            "place_url_by_google": medical_get_detail.result.response.test_address_map_link,
+            "test_list": []
+        }
+        document.getElementById('booking_data').value = JSON.stringify(data_temp);
         document.getElementById('medical_edit_passenger').action = path;
         document.getElementById('medical_edit_passenger').submit();
     }else{
@@ -2240,7 +2253,6 @@ function get_data_cache_passenger_medical(type){
        success: function(msg) {
             console.log(msg);
             passenger_data_cache_medical = msg;
-            console.log(type);
             if(type == 'verify'){
                 auto_fill_verify_data();
             }else if(vendor == 'periksain'){
@@ -2251,6 +2263,30 @@ function get_data_cache_passenger_medical(type){
                 }else{
                     auto_fill_phc_antigen();
                 }
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get price medical');
+       },timeout: 300000
+    });
+
+}
+
+function get_data_cache_schedule_medical(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/medical",
+       headers:{
+            'action': 'get_data_booking_cache_medical',
+       },
+       data: {
+            'signature': signature,
+       },
+       success: function(msg) {
+            console.log(msg);
+            if(Object.keys(msg).length != 0){
+                schedule_medical = msg;
+                auto_fill_home_care();
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {

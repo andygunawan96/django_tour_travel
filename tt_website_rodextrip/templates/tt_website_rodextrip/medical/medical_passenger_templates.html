@@ -321,7 +321,7 @@
 
                                         <div class="col-lg-6">
                                             <label style="color:red !important;">*</label>
-                                            <label style="margin:0;">{% trans 'WA Number' %}:</label>
+                                            <label style="margin:0;">{% trans 'WA Number (WhatsApp Number)' %}:</label>
                                             <div class="row">
                                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                                     <div class="form-select">
@@ -452,7 +452,7 @@
                                 <label>{% trans "Area Test" %}</label>
                                 <div class="input-container-search-ticket">
                                     <div class="form-select-2" id="default-select">
-                                        <select id="booker_area" name="booker_area" class="nice-select-default" onchange="reset_other_time();change_area();">
+                                        <select id="booker_area" name="booker_area" class="nice-select-default" onchange="reset_other_time();change_area('change_area_display');">
 
                                         </select>
                                     </div>
@@ -3354,12 +3354,13 @@
     use_google_map = false;
     last_counter = 0;
     vendor = `{{vendor}}`;
-      test_type = `{{test_type}}`;
+    alamat_ss = 'Jl. Raya Bukit Darmo No.22-24, Putat Gede, Kec. Sukomanunggal, Kota SBY, Jawa Timur 60189';
+    test_type = `{{test_type}}`;
       //if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCHCKATG' || vendor == 'phc' && test_type == 'PHCHCKPCR')
         document.getElementById('medical_timeslot').style.display = 'block';
       if(vendor == 'phc' && test_type == 'PHCDTKATG' || vendor == 'phc' && test_type == 'PHCDTKPCR'){
         document.getElementById('booker_address').readOnly = true;
-        document.getElementById('booker_address').value = 'Jl. Raya Bukit Darmo No.22-24, Putat Gede, Kec. Sukomanunggal, Kota SBY, Jawa Timur 60189';
+        document.getElementById('booker_address').value = alamat_ss;
       }
     $( document ).ready(function() {
       $('.js-example-basic-single').niceSelect('destroy');
@@ -3417,10 +3418,12 @@
         use_google_map = true;
         change_area();
     }
-    function change_area(){
+    function change_area(type){
         {% if google_api_key != ''%}
         var list_map_choose = {};
-        if(vendor == 'phc' && test_type == 'PHCDTKATG' || vendor == 'phc' && test_type == 'PHCDTKPCR'){
+        if(type == 'auto_marker'){
+            list_map_choose = list_map[4];
+        }else if(vendor == 'phc' && test_type == 'PHCDTKATG' || vendor == 'phc' && test_type == 'PHCDTKPCR'){
             list_map_choose = list_map[3];
         }else if(document.getElementById('booker_area').value == 'surabaya' || document.getElementById('booker_area').value == 'Surabaya'){
             list_map_choose = list_map[0];
@@ -3444,7 +3447,7 @@
                                                   placeholder="Search Box"
                                                 />`;
             map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
-            if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCHCKATG' || vendor == 'phc' && test_type == 'PHCHCKPCR'){
+            if(vendor == 'periksain' && type != 'auto_marker' || vendor == 'phc' && test_type == 'PHCHCKATG' && type != 'auto_marker' || vendor == 'phc' && test_type == 'PHCHCKPCR' && type != 'auto_marker'){
                 map.addListener('click', function(event) {
                    placeMarker(event.latLng);
                 });
@@ -3502,14 +3505,22 @@
                     title: "Hello World!",
                 });
             }
+        }else if(type == 'auto_marker'){
+            marker = new google.maps.Marker({
+                position: {"lat": list_map_choose.lat,"lng": list_map_choose.long},
+                map,
+                title: "Hello World!",
+            });
         }else{
-            if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCHCKATG' || vendor == 'phc' && test_type == 'PHCHCKPCR'){
-                web_url = '';
-                map.setCenter(new google.maps.LatLng(list_map_choose.lat,list_map_choose.long));
-                document.getElementById('pac-input').value = '';
-                if(marker){
-                    marker.visible = false;
-                    marker.setPosition();
+            if(list_map.length < 4 || type == 'change_area_display'){
+                if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCHCKATG' || vendor == 'phc' && test_type == 'PHCHCKPCR' ){
+                    web_url = '';
+                    map.setCenter(new google.maps.LatLng(list_map_choose.lat,list_map_choose.long));
+                    document.getElementById('pac-input').value = '';
+                    if(marker){
+                        marker.visible = false;
+                        marker.setPosition();
+                    }
                 }
             }
         }
