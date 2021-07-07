@@ -7460,7 +7460,7 @@ function auto_fill_verify_data(){
 }
 
 function auto_fill_home_care(){
-    if(schedule_medical.address != alamat_ss || vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCDTKATG' || vendor == 'phc' && test_type == 'PHCDTKPCR') //alamat DRIVE THRU
+    if(schedule_medical.address != alamat_ss && vendor == 'periksain' || schedule_medical.address != alamat_ss && vendor == 'phc' && test_type != 'PHCDTKPCR' || schedule_medical.address != alamat_ss && vendor == 'phc' && test_type != 'PHCDTKATG' || vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCDTKATG' || vendor == 'phc' && test_type == 'PHCDTKPCR') //alamat DRIVE THRU
         document.getElementById('booker_address').value = schedule_medical.address;
     auto_fill_first_time = true;
 }
