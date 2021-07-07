@@ -120,35 +120,58 @@ function add_other_time(){
     $('#booker_timeslot_id'+test_time).niceSelect();
     update_timeslot(test_time);
     if(typeof schedule_medical !== 'undefined' && test_time == 1 && auto_fill_first_time == true){
-        if(test_time == 1)
-            document.getElementById('booker_area').value = schedule_medical.area;
-        var nomor_pax = 1;
-        for(x in schedule_medical.test_list){
-            if(x != 0){
-                add_other_time();
-            }
-            document.getElementById('booker_test_date'+nomor_pax).value = schedule_medical.test_list[x].date;
-            update_timeslot(nomor_pax);
-            document.getElementById('booker_timeslot_id'+nomor_pax).value = schedule_medical.test_list[x].seq_id;
-            nomor_pax++;
-        }
-
-        if(schedule_medical.address != alamat_ss && schedule_medical.place_url_by_google != ''){
-            web_url = schedule_medical.place_url_by_google;
-            document.getElementById('booker_area').value = schedule_medical.area;
-            $('#booker_area').niceSelect('update');
-            var google_lat_long = schedule_medical.place_url_by_google.split('/')[schedule_medical.place_url_by_google.split('/').length-1];
-            lat = parseFloat(google_lat_long.split(',')[0]);
-            long = parseFloat(google_lat_long.split(',')[1]);
-            list_map.push({
-                "name": "auto",
-                "lat": lat,
-                "long": long,
-                "zoom" : 18
-            })
-            change_area('auto_marker')
-        }
         auto_fill_first_time = false;
+        if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCDTKATG' || vendor == 'phc' && test_type == 'PHCDTKPCR'){
+            if(schedule_medical.address != alamat_ss && schedule_medical.place_url_by_google != ''){
+                web_url = schedule_medical.place_url_by_google;
+                document.getElementById('booker_area').value = schedule_medical.area;
+                $('#booker_area').niceSelect('update');
+                var google_lat_long = schedule_medical.place_url_by_google.split('/')[schedule_medical.place_url_by_google.split('/').length-1];
+                lat = parseFloat(google_lat_long.split(',')[0]);
+                long = parseFloat(google_lat_long.split(',')[1]);
+                list_map.push({
+                    "name": "auto",
+                    "lat": lat,
+                    "long": long,
+                    "zoom" : 18
+                })
+                change_area('auto_marker')
+            }
+            if(test_time == 1)
+                document.getElementById('booker_area').value = schedule_medical.area;
+            var nomor_pax = 1;
+            for(x in schedule_medical.test_list){
+                if(x != 0){
+                    add_other_time();
+                }
+                $('input[name="booker_test_date'+test_time+'"]').daterangepicker({
+                    singleDatePicker: true,
+                    autoUpdateInput: true,
+                    startDate: moment(medical_get_availability_response[document.getElementById('booker_area').value].min_date),
+                    minDate: moment(medical_get_availability_response[document.getElementById('booker_area').value].min_date),
+                    maxDate: moment(medical_get_availability_response[document.getElementById('booker_area').value].max_date),
+                    showDropdowns: true,
+                    opens: 'center',
+                    locale: {
+                        format: 'DD MMM YYYY',
+                    }
+                });
+                document.getElementById('booker_test_date'+nomor_pax).value = schedule_medical.test_list[x].date;
+                update_timeslot(nomor_pax);
+                var trends = document.getElementById('booker_timeslot_id'+nomor_pax);
+
+                for(i = 0; i < trends.length; i++) {
+                   if (trends.options[i].value.split('~')[0] == schedule_medical.test_list[x].seq_id) {
+                       trends.options[i].selected = 'selected';
+                       break;
+                   }
+                }
+
+    //            document.getElementById('booker_timeslot_id'+nomor_pax).value = schedule_medical.test_list[x].seq_id.split('~')[0];
+                $('#booker_timeslot_id'+nomor_pax).niceSelect('update');
+                nomor_pax++;
+            }
+        }
     }
     test_time++;
 }
@@ -7439,7 +7462,7 @@ function auto_fill_verify_data(){
 }
 
 function auto_fill_home_care(){
-    if(schedule_medical.address != alamat_ss) //alamat DRIVE THRU
+    if(schedule_medical.address != alamat_ss || vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCDTKATG' || vendor == 'phc' && test_type == 'PHCDTKPCR') //alamat DRIVE THRU
         document.getElementById('booker_address').value = schedule_medical.address;
     auto_fill_first_time = true;
 }
