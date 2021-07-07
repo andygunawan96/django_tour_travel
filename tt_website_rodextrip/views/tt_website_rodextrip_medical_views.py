@@ -146,6 +146,13 @@ def passenger(request, vendor, test_type=''):
                     passengers = request.session['medical_passenger_cache']
                 except:
                     passengers = []
+
+            try:
+                booking_data = json.loads(request.POST['booking_data'])
+                set_session(request, 'medical_data_cache', booking_data)
+            except:
+                pass
+
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
@@ -206,6 +213,7 @@ def review(request, vendor):
                 'data': data
             })
             set_session(request, 'medical_passenger_cache', medical_passenger)
+            set_session(request, 'medical_data_cache', data)
             try:
                 set_session(request, 'time_limit', request.POST['time_limit_input'])
                 set_session(request, 'medical_signature', request.POST['signature'])
@@ -271,6 +279,11 @@ def booking(request, vendor, order_number):
                 del request.session['medical_passenger_cache']
         except:
             pass
+        try:
+            if request.session.get('medical_data_cache'):
+                del request.session['medical_data_cache']
+        except:
+            pass
         values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'id_types': id_type,
@@ -323,13 +336,13 @@ def passenger_edit(request, vendor,test_type, order_number):
             try:
                 data = json.loads(request.POST['data'])
                 passengers = data['passengers']
-                state = data['state']
+                booking = data['booking']
                 set_session(request, 'medical_passenger_cache', passengers)
-                set_session(request, 'medical_state_cache', state)
+                set_session(request, 'medical_cache_data_booking', booking)
             except:
                 try:
                     passengers = request.session['medical_passenger_cache']
-                    state = request.session['medical_passenger_state']
+                    state = request.session['medical_cache_data_booking']
                 except:
                     passengers = []
                     state = 'booked'

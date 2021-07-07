@@ -74,6 +74,8 @@ def api_models(request):
             res = get_transaction_by_analyst(request)
         elif req_data['action'] == 'get_data_cache_passenger_medical':
             res = get_data_cache_passenger_medical(request)
+        elif req_data['action'] == 'get_data_booking_cache_medical':
+            res = get_data_booking_cache_medical(request)
         elif req_data['action'] == 'save_backend':
             res = save_backend(request)
         elif req_data['action'] == 'verify_data':
@@ -575,6 +577,16 @@ def get_data_cache_passenger_medical(request):
             res = request.session.get('medical_passenger_cache')
         except Exception as e:
             res = []
+    return res
+
+def get_data_booking_cache_medical(request):
+    try:
+        res = request.session['medical_data_cache']
+    except Exception as e:
+        try:
+            res = request.session.get('medical_data_cache')
+        except Exception as e:
+            res = {}
     return res
 
 def save_backend(request):
