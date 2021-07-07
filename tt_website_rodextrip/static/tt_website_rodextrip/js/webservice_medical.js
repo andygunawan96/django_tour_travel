@@ -706,6 +706,11 @@ function medical_get_booking(order_number, sync=false){
                             </div>
                         `;
                             for(i in msg.result.response.provider_bookings){
+                                if(msg.result.response.provider_bookings[i].error_msg.length != 0 && msg.result.response.provider_bookings[i].state != 'issued')
+                                    text += `<div class="alert alert-danger">
+                                        `+msg.result.response.provider_bookings[i].error_msg+`
+                                        <a href="#" class="close" data-dismiss="alert" aria-label="close" style="margin-top:-1.9vh;">x</a>
+                                    </div>`;
                                 text+=`
                                 <div class="col-lg-12">
                                     <span>Status: </span>
