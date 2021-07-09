@@ -3994,7 +3994,7 @@ function airline_get_booking(data, sync=false){
            airline_get_detail = msg;
            get_payment = false;
            document.getElementById('airline_reissue_div').innerHTML = '';
-           time_now = moment().format('YYYY-MM-DD');
+           time_now = moment().format('YYYY-MM-DD HH:mm:SS');
            //get booking view edit here
            try{
                if(msg.result.error_code == 0){
@@ -4106,7 +4106,7 @@ function airline_get_booking(data, sync=false){
                 last_date = '';
                 for(i in msg.result.response.provider_bookings){
                     for(j in msg.result.response.provider_bookings[i].journeys){
-                        last_date = moment(msg.result.response.provider_bookings[i].journeys[j].departure_date.substr(0,11)).format('YYYY-MM-DD');
+                        last_date = moment(msg.result.response.provider_bookings[i].journeys[j].departure_date).format('YYYY-MM-DD HH:mm:SS');
                     }
                 }
                 col = 4;

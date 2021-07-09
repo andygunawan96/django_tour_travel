@@ -2806,3 +2806,11 @@ function checkCookie() {
         setCookie("modal", modal_value, date_value);
     }
 }
+
+
+
+function go_guide(id){
+    $('html, body').animate({
+        scrollTop: $("#"+id).offset().top
+    }, 500);
+}

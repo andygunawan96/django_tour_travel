@@ -523,18 +523,18 @@ function get_transactions(type){
                 var str = '';
                 for(i in msg.result.response){
                     str = i;
-                    if(data_length == 0)
-                        text += `<label class="radio-button-custom">
-                                <span>`+str.charAt(0).toUpperCase()+str.slice(1).toLowerCase()+`</span>
-                                <input type="radio" checked="checked" name="filter" value="`+str+`" onclick="get_transactions('filter');">
-                                <span class="checkmark-radio"></span>
-                            </label>`;
-                    else
-                        text += `<label class="radio-button-custom">
-                                <span>`+str.charAt(0).toUpperCase()+str.slice(1).toLowerCase()+`</span>
-                                <input type="radio" name="filter" value="`+str+`" onclick="get_transactions('filter');">
-                                <span class="checkmark-radio"></span>
-                            </label>`;
+//                    if(data_length == 0)
+//                        text += `<label class="radio-button-custom">
+//                                <span>`+str.charAt(0).toUpperCase()+str.slice(1).toLowerCase()+`</span>
+//                                <input type="radio" checked="checked" name="filter" value="`+str+`" onclick="get_transactions('filter');">
+//                                <span class="checkmark-radio"></span>
+//                            </label>`;
+//                    else
+//                        text += `<label class="radio-button-custom">
+//                                <span>`+str.charAt(0).toUpperCase()+str.slice(1).toLowerCase()+`</span>
+//                                <input type="radio" name="filter" value="`+str+`" onclick="get_transactions('filter');">
+//                                <span class="checkmark-radio"></span>
+//                            </label>`;
                     for(j in msg.result.response[i]){
                         data_length++;
                         if(msg.result.response[i][j].hold_date != '' && msg.result.response[i][j].hold_date != false){
@@ -569,8 +569,8 @@ function get_transactions(type){
                         }
                     }
                 }
-                if(type == 'reset')
-                    document.getElementById('type').innerHTML = text;
+//                if(type == 'reset')
+//                    document.getElementById('type').innerHTML = text;
                 var radios = document.getElementsByName('filter');
                 for (var j = 0, length = radios.length; j < length; j++) {
                     if (radios[j].checked) {
