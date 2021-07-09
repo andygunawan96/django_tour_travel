@@ -1512,6 +1512,82 @@ def get_data_template(request, type='home', provider_type = []):
     }
 
 
+def tutorial_re_order_phc(request):
+    data = []
+
+    if 'user_account' in request.session._session:
+        try:
+            javascript_version = get_javascript_version()
+            cache_version = get_cache_version()
+            response = get_cache_data(cache_version)
+            airline_country = response['result']['response']['airline']['country']
+            phone_code = []
+            for i in airline_country:
+                if i['phone_code'] not in phone_code:
+                    phone_code.append(i['phone_code'])
+            phone_code = sorted(phone_code)
+            values = get_data_template(request)
+
+            if translation.LANGUAGE_SESSION_KEY in request.session:
+                del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
+            values.update({
+                'static_path': path_util.get_static_path(MODEL_NAME),
+                # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
+                'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+                'countries': airline_country,
+                'phone_code': phone_code,
+                'username': request.session['user_account'],
+                'static_path_url_server': get_url_static_path(),
+                'javascript_version': javascript_version,
+                'signature': request.session['signature'],
+                'data': data,
+            })
+        except Exception as e:
+            _logger.error(str(e) + '\n' + traceback.format_exc())
+            raise Exception('Make response code 500!')
+        return render(request, MODEL_NAME+'/guide/guide_re_order_phc.html', values)
+    else:
+        return no_session_logout(request)
+
+
+def tutorial(request):
+    data = []
+
+    if 'user_account' in request.session._session:
+        try:
+            javascript_version = get_javascript_version()
+            cache_version = get_cache_version()
+            response = get_cache_data(cache_version)
+            airline_country = response['result']['response']['airline']['country']
+            phone_code = []
+            for i in airline_country:
+                if i['phone_code'] not in phone_code:
+                    phone_code.append(i['phone_code'])
+            phone_code = sorted(phone_code)
+            values = get_data_template(request)
+
+            if translation.LANGUAGE_SESSION_KEY in request.session:
+                del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
+            values.update({
+                'static_path': path_util.get_static_path(MODEL_NAME),
+                # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
+                'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+                'countries': airline_country,
+                'phone_code': phone_code,
+                'username': request.session['user_account'],
+                'static_path_url_server': get_url_static_path(),
+                'javascript_version': javascript_version,
+                'signature': request.session['signature'],
+                'data': data,
+            })
+        except Exception as e:
+            _logger.error(str(e) + '\n' + traceback.format_exc())
+            raise Exception('Make response code 500!')
+        return render(request, MODEL_NAME+'/guide/guide.html', values)
+    else:
+        return no_session_logout(request)
+
+
 def contact_us(request):
     data = []
     try:
