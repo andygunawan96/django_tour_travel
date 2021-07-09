@@ -104,7 +104,8 @@ def login(request):
         "Content-Type": "application/json",
         "action": 'signin'
     }
-    res = util.send_request(url=url + 'session', data=data, headers=headers, method='POST')
+    url_request = url + 'session'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
             set_session(request, 'activity_signature', res['result']['response']['signature'])
@@ -130,7 +131,8 @@ def get_carriers(request):
         _logger.error(str(e) + '\n' + traceback.format_exc())
     file = read_cache_with_folder_path("get_activity_carriers")
     if not file:
-        res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
+        url_request = url + 'content'
+        res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
                 res = res['result']['response']
@@ -212,7 +214,8 @@ def search(request):
         else:
             logging.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST', timeout=120)
+    url_request = url + 'booking/activity'
+    res = send_request_api(request, url_request, headers, data, 'POST', 120)
     try:
         counter = 0
         for i in res['result']['response']:
@@ -251,8 +254,8 @@ def get_details(request):
             logging.info(msg='use cache login change b2c to login')
         else:
             logging.error(msg=str(e) + '\n' + traceback.format_exc())
-
-    res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
+    url_request = url + 'booking/activity'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
             for line in res['result']['response']['activity_lines']:
@@ -302,7 +305,8 @@ def get_pricing(request):
         else:
             logging.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
+    url_request = url + 'booking/activity'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     set_session(request, 'activity_price', res)
     _logger.info(json.dumps(request.session['activity_price']))
     return res
@@ -327,7 +331,8 @@ def sell_activity(request):
     except Exception as e:
         logging.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST', timeout=300)
+    url_request = url + 'booking/activity'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
     return res
 
 
@@ -359,7 +364,8 @@ def update_contact(request):
         "signature": request.POST['signature']
     }
 
-    res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST', timeout=300)
+    url_request = url + 'booking/activity'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
     return res
 
 
@@ -527,7 +533,8 @@ def update_passengers(request):
         "signature": request.POST['signature']
     }
 
-    res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST', timeout=300)
+    url_request = url + 'booking/activity'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
     return res
 
 
@@ -581,7 +588,8 @@ def update_options(request):
         "signature": request.POST['signature']
     }
 
-    res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST', timeout=300)
+    url_request = url + 'booking/activity'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
     return res
 
 def prepare_booking(request):
@@ -593,7 +601,8 @@ def prepare_booking(request):
         "signature": request.POST['signature']
     }
 
-    res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST', timeout=300)
+    url_request = url + 'booking/activity'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
 
     return res
 
@@ -630,7 +639,8 @@ def commit_booking(request):
         "signature": request.POST['signature']
     }
 
-    res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST', timeout=300)
+    url_request = url + 'booking/activity'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
     if res['result']['error_code'] == 0:
         set_session(request, 'activity_order_number', res['result']['response']['order_number'])
         _logger.info(json.dumps(request.session['activity_order_number']))
@@ -647,7 +657,8 @@ def get_booking(request):
         "signature": request.POST['signature']
     }
 
-    res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST', timeout=300)
+    url_request = url + 'booking/activity'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         for rec in res['result']['response']['provider_booking']:
             for rec2 in rec['activity_details']:
@@ -696,7 +707,8 @@ def issued_booking(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST', timeout=300)
+    url_request = url + 'booking/activity'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS issued ACTIVITY SIGNATURE " + request.POST['signature'])
@@ -723,7 +735,8 @@ def update_service_charge(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST', timeout=300)
+    url_request = url + 'booking/activity'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
             total_upsell = 0
@@ -751,7 +764,8 @@ def get_voucher(request):
         "signature": request.POST['signature']
     }
 
-    res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
+    url_request = url + 'booking/activity'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     return res
 
 

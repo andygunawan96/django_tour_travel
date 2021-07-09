@@ -1188,6 +1188,7 @@ function medical_get_booking(order_number, sync=false){
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>`;
                         }*/
+                        document.getElementById('cancel_reservation').innerHTML = '';
                     }
                     else if(msg.result.response.state  == 'booked' && msg.result.response.order_number.includes('PH')){
                         text_update_data_pax+=`<button class="primary-btn-white hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="update_data_passengers();" style="width:100%;margin-top:15px;">
@@ -1195,6 +1196,12 @@ function medical_get_booking(order_number, sync=false){
                             text_update_data_pax+=`
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>`;
+                        document.getElementById('cancel_reservation').innerHTML = `
+                            <button class="primary-btn-white hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="medical_cancel_booking('` + msg.result.response.order_number + `');" style="width:100%;margin-top:15px;background-color:red !important;">
+                            <span style="color:white;">Cancel Booking</span>
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>
+                        `;
                     }
                     if (msg.result.response.state  == 'issued' && msg.result.response.order_number.includes('PH')) {
                         text_update_data_pax+=`
@@ -1424,6 +1431,105 @@ function medical_get_booking(order_number, sync=false){
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get price medical');
        },timeout: 300000
     });
+}
+
+function medical_cancel_booking(data){
+    var temp_data = {}
+    if(typeof(medical_get_detail) !== 'undefined')
+        temp_data = JSON.stringify(medical_get_detail)
+    Swal.fire({
+      title: 'Are you sure want to Cancel this booking?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        show_loading();
+        please_wait_transaction();
+        getToken();
+        $.ajax({
+           type: "POST",
+           url: "/webservice/medical",
+           headers:{
+                'action': 'cancel',
+           },
+           data: {
+               'order_number': data,
+               'signature': signature
+           },
+           success: function(msg) {
+               console.log(msg);
+               document.getElementById('cancel_reservation').innerHTML = '';
+               if(msg.result.error_code == 0){
+                   if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
+                        window.location.href = '/medical/booking/' + btoa(data);
+                   }else{
+//                       //update ticket
+                        document.getElementById('show_loading_booking_medical').hidden = false;
+                        hide_modal_waiting_transaction();
+                        document.getElementById('medical_booking').innerHTML = '';
+                        document.getElementById('medical_detail').innerHTML = '';
+                        document.getElementById('payment_acq').innerHTML = '';
+                        //document.getElementById('voucher_div').style.display = 'none';
+                        document.getElementById('payment_acq').hidden = true;
+                        document.getElementById('div_sync_status').hidden = true;
+                        document.getElementById('button-print-print').hidden = true;
+
+                        document.getElementById("overlay-div-box").style.display = "none";
+                        $(".issued_booking_btn").hide(); //kalau error masih keluar button awal remove ivan
+                       medical_get_booking(data);
+                   }
+               }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                    auto_logout();
+                    $(".issued_booking_btn").hide();
+               }else{
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: #ff9900;">Error medical cancel </span>' + msg.result.error_msg,
+                    })
+                    price_arr_repricing = {};
+                    pax_type_repricing = [];
+                    document.getElementById('show_loading_booking_medical').hidden = false;
+                    document.getElementById('medical_booking').innerHTML = '';
+                    document.getElementById('medical_detail').innerHTML = '';
+                    document.getElementById('payment_acq').innerHTML = '';
+                    document.getElementById('show_loading_booking_medical').style.display = 'block';
+                    document.getElementById('show_loading_booking_medical').hidden = false;
+                    document.getElementById('payment_acq').hidden = true;
+                    hide_modal_waiting_transaction();
+                    document.getElementById("overlay-div-box").style.display = "none";
+
+                    $('.hold-seat-booking-train').prop('disabled', false);
+                    $('.hold-seat-booking-train').removeClass("running");
+                    medical_get_booking(data);
+                    $(".issued_booking_btn").hide();
+               }
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error medical issued');
+                price_arr_repricing = {};
+                pax_type_repricing = [];
+                document.getElementById('show_loading_booking_medical').hidden = false;
+                document.getElementById('medical_booking').innerHTML = '';
+                document.getElementById('medical_detail').innerHTML = '';
+                document.getElementById('payment_acq').innerHTML = '';
+                document.getElementById('voucher_div').style.display = 'none';
+                document.getElementById('show_loading_booking_medical').style.display = 'block';
+                document.getElementById('show_loading_booking_medical').hidden = false;
+                document.getElementById('payment_acq').hidden = true;
+                hide_modal_waiting_transaction();
+                document.getElementById("overlay-div-box").style.display = "none";
+                $('.hold-seat-booking-train').prop('disabled', false);
+                $('.hold-seat-booking-train').removeClass("running");
+                $(".issued_booking_btn").hide();
+                medical_get_booking(data);
+           },timeout: 300000
+        });
+      }
+    })
 }
 
 function medical_issued_booking(data){

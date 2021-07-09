@@ -97,7 +97,8 @@ def login(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + "session", data=data, headers=headers, method='POST')
+    url_request = url + 'session'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
             set_session(request, 'train_signature', res['result']['response']['signature'])
@@ -125,7 +126,8 @@ def get_config_provider(request):
         _logger.error(str(e) + '\n' + traceback.format_exc())
     file = read_cache_with_folder_path("train_provider")
     if not file:
-        res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
+        url_request = url + 'content'
+        res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
                 #datetime
@@ -165,7 +167,8 @@ def get_carriers(request):
         _logger.error(str(e) + '\n' + traceback.format_exc())
     file = read_cache_with_folder_path("get_train_carriers")
     if not file:
-        res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
+        url_request = url + 'content'
+        res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
                 res = res['result']['response']
@@ -256,7 +259,8 @@ def search(request):
             }
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/train', data=data, headers=headers, method='POST', timeout=480)
+    url_request = url + 'booking/train'
+    res = send_request_api(request, url_request, headers, data, 'POST', 480)
     try:
         if res['result']['error_code'] == 0:
             for journey_list in res['result']['response']['schedules']:
@@ -306,7 +310,8 @@ def sell_journeys(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/train', data=data, headers=headers, method='POST', timeout=480)
+    url_request = url + 'booking/train'
+    res = send_request_api(request, url_request, headers, data, 'POST', 480)
     try:
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS sell_journeys TRAIN SIGNATURE " + request.POST['signature'])
@@ -409,7 +414,8 @@ def commit_booking(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/train', data=data, headers=headers, method='POST', timeout=480)
+    url_request = url + 'booking/train'
+    res = send_request_api(request, url_request, headers, data, 'POST', 480)
     try:
         if res['result']['error_code'] == 0:
             set_session(request, 'train_order_number', res['result']['response']['order_number'])
@@ -444,7 +450,8 @@ def get_booking(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + 'booking/train', data=data, headers=headers, method='POST', timeout=480)
+    url_request = url + 'booking/train'
+    res = send_request_api(request, url_request, headers, data, 'POST', 480)
     try:
         if res['result']['error_code'] == 0:
             for provider_booking in res['result']['response']['provider_bookings']:
@@ -497,7 +504,8 @@ def update_service_charge(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/train', data=data, headers=headers, method='POST', timeout=480)
+    url_request = url + 'booking/train'
+    res = send_request_api(request, url_request, headers, data, 'POST', 480)
     try:
         if res['result']['error_code'] == 0:
             total_upsell = 0
@@ -532,7 +540,8 @@ def seat_map(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/train', data=data, headers=headers, method='POST')
+    url_request = url + 'booking/train'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS seat_map TRAIN SIGNATURE " + request.POST['signature'])
@@ -571,7 +580,8 @@ def issued(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/train', data=data, headers=headers, method='POST', timeout=480)
+    url_request = url + 'booking/train'
+    res = send_request_api(request, url_request, headers, data, 'POST', 480)
     try:
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS issued AIRLINE SIGNATURE " + request.POST['signature'])
@@ -595,7 +605,8 @@ def cancel(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/train', data=data, headers=headers, method='POST', timeout=480)
+    url_request = url + 'booking/train'
+    res = send_request_api(request, url_request, headers, data, 'POST', 480)
     try:
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS cancel TRAIN SIGNATURE " + request.POST['signature'])
@@ -656,7 +667,8 @@ def assign_seats(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     if len(provider_bookings) > 0:
-        res = util.send_request(url=url + 'booking/train', data=data, headers=headers, method='POST', timeout=480)
+        url_request = url + 'booking/train'
+        res = send_request_api(request, url_request, headers, data, 'POST', 480)
         try:
             if res['result']['error_code'] == 0:
                 _logger.info("SUCCESS assign_seats TRAIN SIGNATURE " + request.POST['signature'])

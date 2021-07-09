@@ -10,6 +10,7 @@ import json
 import logging
 import traceback
 from .tt_webservice_views import *
+from .tt_webservice import *
 _logger = logging.getLogger("rodextrip_logger")
 
 month = {
@@ -74,7 +75,8 @@ def get_voucher(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
+    url_request = url + 'account'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         _logger.info(json.dumps(request.session['signature']))
         request.session.modified = True
@@ -102,7 +104,8 @@ def set_voucher(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
+    url_request = url + 'account'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         _logger.info(json.dumps(request.POST['signature']))
     except Exception as e:
@@ -130,7 +133,8 @@ def check_voucher(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
+    url_request = url + 'account'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS check_voucher VOUCHER " + request.POST['provider_type'] + " SIGNATURE " + request.POST['signature'])

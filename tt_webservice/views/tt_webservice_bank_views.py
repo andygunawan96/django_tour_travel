@@ -11,6 +11,7 @@ import base64
 import logging
 import traceback
 from .tt_webservice_views import *
+from .tt_webservice import *
 _logger = logging.getLogger("rodextrip_logger")
 
 month = {
@@ -92,7 +93,8 @@ def get_balance(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     print("SEND REQUEST BANK")
-    res = util.send_request(url=url+"bank", data=data, headers=headers, method='POST')
+    url_request = url + 'bank'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         pass
     except Exception as e:
@@ -122,7 +124,8 @@ def get_transaction(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + "bank", data=data, headers=headers, method='POST')
+    url_request = url + 'bank'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         pass
     except Exception as e:

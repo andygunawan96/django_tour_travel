@@ -111,7 +111,8 @@ def login(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + 'session', data=data, headers=headers, method='POST')
+    url_request = url + 'session'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
             set_session(request, 'visa_signature', res['result']['response']['signature'])
@@ -137,7 +138,8 @@ def get_carriers(request):
         _logger.error(str(e) + '\n' + traceback.format_exc())
     file = read_cache_with_folder_path("get_visa_carriers")
     if not file:
-        res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
+        url_request = url + 'content'
+        res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
                 res = res['result']['response']
@@ -177,7 +179,8 @@ def get_config_provider(request):
         _logger.error(str(e) + '\n' + traceback.format_exc())
     file = read_cache_with_folder_path("visa_provider")
     if not file:
-        res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
+        url_request = url + 'content'
+        res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
                 #datetime
@@ -238,7 +241,8 @@ def search(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST')
+    url_request = url + 'booking/visa'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
 
@@ -333,7 +337,8 @@ def get_availability(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST')
+    url_request = url + 'booking/visa'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS sell_visa VISA SIGNATURE " + request.POST['signature'])
@@ -356,7 +361,8 @@ def sell_visa(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST')
+    url_request = url + 'booking/visa'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS sell_visa VISA SIGNATURE " + request.POST['signature'])
@@ -394,7 +400,8 @@ def update_contact(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST')
+    url_request = url + 'booking/visa'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS update_contact VISA SIGNATURE " + request.POST['signature'])
@@ -464,7 +471,8 @@ def update_passengers(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST')
+    url_request = url + 'booking/visa'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS update_passengers VISA SIGNATURE " + request.POST['signature'])
@@ -506,7 +514,8 @@ def commit_booking(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST', timeout=300)
+    url_request = url + 'booking/visa'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS commit_booking VISA SIGNATURE " + request.POST['signature'])
@@ -532,7 +541,8 @@ def get_booking(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST')
+    url_request = url + 'booking/visa'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
             res['result']['response']['journey']['departure_date'] = convert_string_to_date_to_string_front_end_with_unkown_separator(res['result']['response']['journey']['departure_date'])
@@ -562,7 +572,8 @@ def update_service_charge(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST', timeout=300)
+    url_request = url + 'booking/visa'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
             total_upsell = 0

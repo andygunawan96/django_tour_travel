@@ -111,7 +111,8 @@ def login(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + 'session', data=data, headers=headers, method='POST')
+    url_request = url + 'session'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
             set_session(request, 'passport_signature', res['result']['response']['signature'])
@@ -137,7 +138,8 @@ def get_carriers(request):
         _logger.error(str(e) + '\n' + traceback.format_exc())
     file = read_cache_with_folder_path("get_passport_carriers")
     if not file:
-        res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
+        url_request = url + 'content'
+        res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
                 res = res['result']['response']
@@ -177,7 +179,8 @@ def get_config_provider(request):
         _logger.error(str(e) + '\n' + traceback.format_exc())
     file = read_cache_with_folder_path("passport_provider")
     if not file:
-        res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
+        url_request = url + 'content'
+        res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
                 #datetime
@@ -232,7 +235,8 @@ def search(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + 'booking/passport', data=data, headers=headers, method='POST')
+    url_request = url + 'booking/passport'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
             set_session(request, 'passport_search', res)
@@ -259,7 +263,8 @@ def get_availability(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + 'booking/passport', data=data, headers=headers, method='POST')
+    url_request = url + 'booking/passport'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS sell_passport PASSPORT SIGNATURE " + request.POST['signature'])
@@ -282,7 +287,8 @@ def sell_passport(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + 'booking/passport', data=data, headers=headers, method='POST')
+    url_request = url + 'booking/passport'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS sell_passport PASSPORT SIGNATURE " + request.POST['signature'])
@@ -320,7 +326,8 @@ def update_contact(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + 'booking/passport', data=data, headers=headers, method='POST')
+    url_request = url + 'booking/passport'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS update_contact PASSPORT SIGNATURE " + request.POST['signature'])
@@ -390,7 +397,8 @@ def update_passengers(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/passport', data=data, headers=headers, method='POST')
+    url_request = url + 'booking/passport'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS update_passengers PASSPORT SIGNATURE " + request.POST['signature'])
@@ -432,7 +440,8 @@ def commit_booking(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/passport', data=data, headers=headers, method='POST', timeout=300)
+    url_request = url + 'booking/passport'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS commit_booking PASSPORT SIGNATURE " + request.POST['signature'])
@@ -458,7 +467,8 @@ def get_booking(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + 'booking/passport', data=data, headers=headers, method='POST')
+    url_request = url + 'booking/passport'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
             if res['result']['response']['journey']['in_process_date'] != '':
@@ -489,7 +499,8 @@ def update_service_charge(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/passport', data=data, headers=headers, method='POST', timeout=300)
+    url_request = url + 'booking/passport'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
             total_upsell = 0

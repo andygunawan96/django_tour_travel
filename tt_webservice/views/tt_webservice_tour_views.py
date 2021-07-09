@@ -101,7 +101,8 @@ def login(request):
         "Content-Type": "application/json",
         "action": 'signin'
     }
-    res = util.send_request(url=url + 'session', data=data, headers=headers, method='POST')
+    url_request = url + 'session'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
             set_session(request, 'tour_signature', res['result']['response']['signature'])
@@ -128,7 +129,8 @@ def get_carriers(request):
         _logger.error(str(e) + '\n' + traceback.format_exc())
     file = read_cache_with_folder_path("get_tour_carriers")
     if not file:
-        res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
+        url_request = url + 'content'
+        res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
                 res = res['result']['response']
@@ -168,7 +170,8 @@ def get_auto_complete_gateway(request):
         }
         file = read_cache_with_folder_path("tour_cache_data", 1800)
         if not file:
-            res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST', timeout=120)
+            url_request = url + 'booking/tour'
+            res = send_request_api(request, url_request, headers, data, 'POST', 120)
             try:
                 if res['result']['error_code'] == 0:
                     #datetime
@@ -253,7 +256,8 @@ def search(request):
         else:
             logging.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST')
+    url_request = url + 'booking/tour'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         data_tour = []
         counter = 0
@@ -312,7 +316,8 @@ def get_details(request):
         else:
             logging.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST')
+    url_request = url + 'booking/tour'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         for rec in res['result']['response']['selected_tour']['tour_lines']:
             rec.update({
@@ -359,7 +364,8 @@ def get_pricing(request):
         else:
             logging.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST')
+    url_request = url + 'booking/tour'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         res['result']['response'].update({
             'tour_info': {
@@ -428,7 +434,8 @@ def sell_tour(request):
         else:
             logging.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST', timeout=300)
+    url_request = url + 'booking/tour'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
     return res
 
 
@@ -460,7 +467,8 @@ def update_contact(request):
         "signature": request.POST['signature']
     }
 
-    res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST', timeout=300)
+    url_request = url + 'booking/tour'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
     return res
 
 
@@ -601,7 +609,8 @@ def update_passengers(request):
         "signature": request.POST['signature']
     }
 
-    res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST', timeout=300)
+    url_request = url + 'booking/tour'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
     return res
 
 
@@ -638,7 +647,8 @@ def commit_booking(request):
         "signature": request.POST['signature']
     }
 
-    res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST', timeout=300)
+    url_request = url + 'booking/tour'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
     if res['result']['error_code'] == 0:
         set_session(request, 'tour_order_number', res['result']['response']['order_number'])
         _logger.info(json.dumps(request.session['tour_order_number']))
@@ -660,7 +670,8 @@ def get_booking(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST', timeout=300)
+    url_request = url + 'booking/tour'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
             for pax in res['result']['response']['passengers']:
@@ -730,7 +741,8 @@ def issued_booking(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST', timeout=300)
+    url_request = url + 'booking/tour'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS issued TOUR SIGNATURE " + request.POST['signature'])
@@ -754,7 +766,8 @@ def get_payment_rules(request):
         "signature": request.POST['signature']
     }
 
-    res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST', timeout=300)
+    url_request = url + 'booking/tour'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
             for payment in res['result']['response']['payment_rules']:
@@ -781,7 +794,8 @@ def update_service_charge(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST', timeout=300)
+    url_request = url + 'booking/tour'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
             total_upsell = 0

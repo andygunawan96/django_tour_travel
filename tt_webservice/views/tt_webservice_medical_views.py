@@ -80,6 +80,8 @@ def api_models(request):
             res = save_backend(request)
         elif req_data['action'] == 'verify_data':
             res = verify_data(request)
+        elif req_data['action'] == 'cancel':
+            res = cancel(request)
 
         else:
             res = ERR.get_error_api(1001)
@@ -110,7 +112,8 @@ def login(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'session', data=data, headers=headers, method='POST')
+    url_request = url + 'session'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
             set_session(request, 'medical_signature', res['result']['response']['signature'])
@@ -149,7 +152,8 @@ def get_config(request):
         file = read_cache_with_folder_path("medical_cache_data_%s" % provider, 86400)
         # TODO VIN: Some Update Mekanisme ontime misal ada perubahan data dkk
         if not file:
-            res = util.send_request(url=url + additional_url, data=data, headers=headers, method='POST', timeout=480)
+            url_request = url + additional_url
+            res = send_request_api(request, url_request, headers, data, 'POST')
             try:
                 if res['result']['error_code'] == 0:
                     if request.POST['provider'] == 'phc':
@@ -203,7 +207,8 @@ def get_kecamatan(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/phc', data=data, headers=headers, method='POST')
+    url_request = url + 'booking/phc'
+    res = send_request_api(request, url_request, headers, data, 'POST')
 
     return res
 
@@ -224,7 +229,8 @@ def get_desa(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/phc', data=data, headers=headers, method='POST')
+    url_request = url + 'booking/phc'
+    res = send_request_api(request, url_request, headers, data, 'POST')
 
     return res
 
@@ -252,7 +258,8 @@ def get_availability(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + additional_url, data=data, headers=headers, method='POST')
+    url_request = url + additional_url
+    res = send_request_api(request, url_request, headers, data, 'POST')
 
     set_session(request, "medical_get_availability_%s" % request.POST['signature'], res)
 
@@ -284,7 +291,8 @@ def get_price(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + additional_url, data=data, headers=headers, method='POST')
+    url_request = url + additional_url
+    res = send_request_api(request, url_request, headers, data, 'POST')
     set_session(request, "medical_get_price_%s" % request.POST['signature'], res)
 
     return res
@@ -385,7 +393,8 @@ def commit_booking(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + additional_url, data=data, headers=headers, method='POST')
+    url_request = url + additional_url
+    res = send_request_api(request, url_request, headers, data, 'POST')
     set_session(request, "medical_commmit_booking_%s" % request.POST['signature'], res)
 
     return res
@@ -417,7 +426,8 @@ def get_booking(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + additional_url, data=data, headers=headers, method='POST', timeout=300)
+    url_request = url + additional_url
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         javascript_version = get_cache_version()
         response = get_cache_data(javascript_version)
@@ -489,7 +499,8 @@ def issued(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + additional_url, data=data, headers=headers, method='POST', timeout=300)
+    url_request = url + additional_url
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS issued MEDICAL SIGNATURE " + request.POST['signature'])
@@ -519,12 +530,44 @@ def get_result(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + additional_url, data=data, headers=headers, method='POST', timeout=300)
+    url_request = url + additional_url
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS get result SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR medical_getresult SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def cancel(request):
+    try:
+        data = {
+            'order_number': request.POST['order_number'],
+        }
+        additional_url = 'booking/'
+        if 'PK' in request.POST['order_number']:
+            additional_url += 'periksain'
+        else:
+            additional_url += 'phc'
+
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "cancel_booking",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    url_request = url + additional_url
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
+    try:
+        if res['result']['error_code'] == 0:
+            _logger.info("SUCCESS medical_cancel SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("ERROR medical_cancel SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -546,7 +589,8 @@ def get_transaction_by_analyst(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + additional_url, data=data, headers=headers, method='POST', timeout=300)
+    url_request = url + additional_url
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS issued MEDICAL SIGNATURE " + request.POST['signature'])
@@ -646,7 +690,8 @@ def save_backend(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + additional_url, data=data, headers=headers, method='POST')
+    url_request = url + additional_url
+    res = send_request_api(request, url_request, headers, data, 'POST')
     return res
 
 def verify_data(request):
@@ -709,5 +754,6 @@ def verify_data(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + additional_url, data=data, headers=headers, method='POST', timeout=300)
+    url_request = url + additional_url
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
     return res

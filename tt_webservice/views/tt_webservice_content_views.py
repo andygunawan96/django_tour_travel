@@ -11,6 +11,7 @@ import base64
 import logging
 import traceback
 from .tt_webservice_views import *
+from .tt_webservice import *
 _logger = logging.getLogger("rodextrip_logger")
 
 from django.core.files.storage import FileSystemStorage
@@ -132,7 +133,8 @@ def upload_file(request):
     list_img = []
     for img in imgData:
         data = img
-        res = util.send_request(url=url+"content", data=data, headers=headers, method='POST')
+        url_request = url + 'content'
+        res = send_request_api(request, url_request, headers, data, 'POST')
         list_img.append([res['result']['response']['seq_id'], 4])
     try:
         res = {
@@ -181,7 +183,8 @@ def update_image_passenger(request):
     list_img = []
     for img in imgData:
         data = img
-        res = util.send_request(url=url+"content", data=data, headers=headers, method='POST')
+        url_request = url + 'content'
+        res = send_request_api(request, url_request, headers, data, 'POST')
         list_img.append([res['result']['response']['seq_id'], 4, img['type']])
     try:
         res = {
@@ -251,7 +254,8 @@ def get_booking(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url+"content", data=data, headers=headers, method='POST')
+    url_request = url + 'content'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
             if data['product'] == 'airline' or data['product'] == 'train':
@@ -281,7 +285,8 @@ def cancel_payment_method_api(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url+"content", data=data, headers=headers, method='POST')
+    url_request = url + 'content'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS cancel payment SIGNATURE " + request.POST['signature'])
@@ -302,8 +307,8 @@ def youtube_api_check(request):
             elif idx == 1 and line != '':
                 channel_id_youtube = line
     if api_key_youtube != '' and channel_id_youtube != '':
-        url = "https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=" + channel_id_youtube + "&eventType=live&type=video&key=" + api_key_youtube
-        res = util.send_request(url=url, method='GET')
+        url_request = "https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=" + channel_id_youtube + "&eventType=live&type=video&key=" + api_key_youtube
+        res = send_request_api(request, url_request, {}, {}, 'GET')
         res = ERR.get_no_error_api(data={'url': '' if len(res['items']) == 0 else res['items'][0]['id']['videoId']})
     else:
         res = ERR.get_no_error_api(data={'url': ''})
@@ -333,7 +338,8 @@ def add_banner(request):
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     for img in imgData:
         data = img
-        res = util.send_request(url=url+"content", data=data, headers=headers, method='POST')
+        url_request = url + 'content'
+        res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if len(imgData) == 0:
             res = {
@@ -372,7 +378,8 @@ def get_banner(request):
     elif request.POST['type'] == 'promotion':
         file = read_cache_with_folder_path("promotion_banner_cache", 86400)
     if not file:
-        res = util.send_request(url=url+"content", data=data, headers=headers, method='POST')
+        url_request = url + 'content'
+        res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
                 if request.POST['type'] == 'big_banner':
@@ -460,7 +467,8 @@ def set_inactive_delete_banner(request):
     imgs = json.loads(request.POST['img'])
     for img in imgs:
         data = img
-        res = util.send_request(url=url+"content", data=data, headers=headers, method='POST')
+        url_request = url + 'content'
+        res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if len(imgs) == 0:
             res = {
@@ -491,7 +499,8 @@ def create_legder(request):
             'value': int(request.POST['value'])
         }
 
-        res = util.send_request(url=url + "content", data=data, headers=headers, method='POST')
+        url_request = url + 'content'
+        res = send_request_api(request, url_request, headers, data, 'POST')
     except Exception as e:
         res = {
             'result': {
@@ -528,8 +537,8 @@ def testing_espay_close(request):
             "Content-Type": "application/x-www-form-urlencoded",
         }
         data = "rq_uuid=b9e04730-19c0-436b-bd72-1c2781fbcce8&rq_datetime=2020-03-27 14:50:25&sender_id=SGOPLUS&receiver_id=SGWRODEXDY&password=SZUWPWRT&comm_code=SGWRODEXDY&member_code=1234521260592585&member_cust_id=SYSTEM&member_cust_name=SYSTEM&ccy=IDR&amount=1887300&debit_from=1234521260592585&debit_from_name=1234521260592585&debit_from_bank=014&credit_to=22222222&credit_to_name=ESPAY&credit_to_bank=014&payment_datetime=2020-03-27 14:50:25&payment_ref=ESP15852925062WFVU&payment_remark=2020-03-27 14:44:17&order_id=AL.20033043065&product_code=BCAATM&product_value=1234521260592585&status=0&total_amount=1887300&tx_key=ESP1585295062WFVU&fee_type=S&tx_fee=0.00&member_id=1234521260592585&approval_code_full_bca=1234521260592585&signature=21e4ad5962820cd5551e861b61ed06d27afa350158dac6fd0e8a7cb348e34056"
-
-        res = util.send_request(url=url + "webhook/payment/espay/notification", data=data, headers=headers, method='POST')
+        url_request = url + 'webhook/payment/espay/notification'
+        res = send_request_api(request, url_request, headers, data, 'POST')
     except Exception as e:
         res = {
             'result': {
@@ -556,7 +565,8 @@ def get_public_holiday(request):
         }
         file = read_cache_with_folder_path("get_holiday_cache", 86400)
         if not file:
-            res = util.send_request(url=url + "content", data=data, headers=headers, method='POST')
+            url_request = url + 'content'
+            res = send_request_api(request, url_request, headers, data, 'POST')
             try:
                 #tambah datetime
                 write_cache_with_folder(res, "get_holiday_cache")

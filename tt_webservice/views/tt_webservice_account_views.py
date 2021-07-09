@@ -165,8 +165,8 @@ def signin(request):
         "co_password": request.session.get('password') or password_default,
         "co_uid": ""
     }
-
-    res = util.send_request(url=url+'session', data=data, headers=headers, method='POST', timeout=10)
+    url_request = url + 'session'
+    res = send_request_api(request, url_request, headers, data, 'POST', 10)
     try:
         if res['result']['error_code'] == 0:
             _logger.info("RESIGNIN SUCCESS SIGNATURE " + res['result']['response']['signature'])
@@ -197,8 +197,8 @@ def signup_user(request):
         "title": request.POST['title'],
         "password": '',
     }
-
-    res = util.send_request(url=url+'account', data=data, headers=headers, method='POST', timeout=30)
+    url_request = url + 'account'
+    res = send_request_api(request, url_request, headers, data, 'POST', 30)
     try:
         if res['result']['error_code'] == 0:
             _logger.info("CREATE USER SUCCESS SIGNATURE " + request.POST['signature'])
@@ -231,8 +231,8 @@ def auto_signin(request):
         # "co_password": password_default, #request.POST['password'],
         "co_uid": ""
     }
-
-    res = util.send_request(url=url+'session', data=data, headers=headers, method='POST', timeout=10)
+    url_request = url + 'session'
+    res = send_request_api(request, url_request, headers, data, 'POST', 10)
     try:
         if res['result']['error_code'] == 0:
             _logger.info("RESIGNIN SUCCESS SIGNATURE " + res['result']['response']['signature'])
@@ -261,7 +261,8 @@ def reset_password(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
+    url_request = url + 'account'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
             _logger.info("reset_password SUCCESS SIGNATURE " + res_signin['result']['response']['signature'])
@@ -296,7 +297,8 @@ def get_account(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
+    url_request = url + 'account'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         set_session(request, 'user_account', res['result']['response'])
         if res['result']['error_code'] == 0:
@@ -348,7 +350,8 @@ def get_balance_request(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     try:
-        res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST', timeout=60)
+        url_request = url + 'account'
+        res = send_request_api(request, url_request, headers, data, 'POST', 60)
         set_session(request, 'get_balance_session', res)
         _logger.info(json.dumps(request.session['get_balance_session']))
         if res['result']['error_code'] == 0:
@@ -412,7 +415,8 @@ def get_transactions(request):
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
 
-        res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
+        url_request = url + 'account'
+        res = send_request_api(request, url_request, headers, data, 'POST')
         if int(request.POST['offset']) == 0:
             set_session(request, 'get_transactions_session', res)
             request.session.modified = True
@@ -452,7 +456,8 @@ def get_transactions(request):
                     "action": "get_transactions",
                     "signature": request.POST['signature'],
                 }
-                res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
+                url_request = url + 'account'
+                res = send_request_api(request, url_request, headers, data, 'POST')
                 if int(request.POST['offset']) == 300:
                     set_session(request, 'get_transactions_session', res)
                 time_check.set_new_time_out('transaction')
@@ -485,7 +490,8 @@ def buy_quota_btbo2(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
+    url_request = url + 'account'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
             _logger.info("get_top_up_amount_account SUCCESS SIGNATURE " + request.POST['signature'])
@@ -509,7 +515,8 @@ def get_top_up_quota(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
+    url_request = url + 'account'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         set_session(request, 'top_up_amount', res['result']['response'])
         _logger.info(json.dumps(request.session['top_up_amount']))
@@ -533,7 +540,8 @@ def get_top_up_amount(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
+    url_request = url + 'account'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         set_session(request, 'top_up_amount', res['result']['response'])
         _logger.info(json.dumps(request.session['top_up_amount']))
@@ -568,7 +576,8 @@ def get_top_up(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
+    url_request = url + 'account'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
             _logger.info("get_top_up_account SUCCESS SIGNATURE " + request.POST['signature'])
@@ -592,7 +601,8 @@ def submit_top_up(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
+    url_request = url + 'account'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
             _logger.info("get_submit_top_up_account SUCCESS SIGNATURE " + request.POST['signature'])
@@ -623,7 +633,8 @@ def commit_top_up(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
+    url_request = url + 'account'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
             _logger.info("get_commit_top_up_account SUCCESS SIGNATURE " + request.POST['signature'])
@@ -647,7 +658,8 @@ def cancel_top_up(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
+    url_request = url + 'account'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
             _logger.info("get_payment_acquirer_account SUCCESS SIGNATURE " + request.POST['signature'])
@@ -671,7 +683,8 @@ def confirm_top_up(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
+    url_request = url + 'account'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
             _logger.info("get_payment_acquirer_account SUCCESS SIGNATURE " + request.POST['signature'])
@@ -1323,7 +1336,8 @@ def get_va_number(request):
         }
         data = {}
 
-        res = util.send_request(url=url + "account", data=data, headers=headers, method='POST')
+        url_request = url + 'account'
+        res = send_request_api(request, url_request, headers, data, 'POST')
         if res['result']['error_code'] == 0:
             res['result']['response'].update({
                 "other": [{
@@ -1400,8 +1414,8 @@ def get_va_bank(request):
             "signature": request.POST['signature'],
         }
         data = {}
-
-        res = util.send_request(url=url + "account", data=data, headers=headers, method='POST')
+        url_request = url + 'account'
+        res = send_request_api(request, url_request, headers, data, 'POST')
         if res['result']['error_code'] == 0:
             res['result']['response'].append({
                 "seq_id": 'other_bank',
@@ -1469,8 +1483,8 @@ def send_url_booking(request):
             "order_number": request.POST['order_number'],
             "type": request.POST['type']
         }
-
-        res = util.send_request(url=url + "account", data=data, headers=headers, method='POST')
+        url_request = url + 'account'
+        res = send_request_api(request, url_request, headers, data, 'POST')
     except Exception as e:
         res = {
             'result': {
@@ -1519,7 +1533,8 @@ def get_vendor_balance_request(request):
         }
         data = {}
 
-        res = util.send_request(url=url + "account", data=data, headers=headers, method='POST')
+        url_request = url + 'account'
+        res = send_request_api(request, url_request, headers, data, 'POST')
         if res['result']['error_code'] == 0:
             data_vendor = res['result']['response']
             res['result']['response'] = {
@@ -1553,7 +1568,8 @@ def request_top_up(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
+    url_request = url + 'account'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
             _logger.info("get_payment_acquirer_account SUCCESS SIGNATURE " + request.POST['signature'])

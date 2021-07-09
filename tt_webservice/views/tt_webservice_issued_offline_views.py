@@ -91,7 +91,8 @@ def signin(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + 'session', data=data, headers=headers, method='POST')
+    url_request = url + 'session'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
             set_session(request, 'issued_offline_signature', res['result']['response']['signature'])
@@ -232,7 +233,8 @@ def set_data_issued_offline(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + "booking/issued_offline", data=data, headers=headers, method='POST')
+    url_request = url + 'booking/issued_offline'
+    res = send_request_api(request, url_request, headers, data, 'POST')
 
     try:
         if res['result']['error_code'] == 0:
@@ -326,7 +328,8 @@ def update_contact(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + "booking/issued_offline", data=data, headers=headers, method='POST')
+    url_request = url + 'booking/issued_offline'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS update_contact_issued_offline SIGNATURE " + request.session['issued_offline_signature'])
@@ -439,7 +442,8 @@ def update_passenger(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + "booking/issued_offline", data=data, headers=headers, method='POST')
+    url_request = url + 'booking/issued_offline'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS update_passenger_issued_offline SIGNATURE " + request.session['issued_offline_signature'])
@@ -472,7 +476,8 @@ def commit_booking(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + "booking/issued_offline", data=data, headers=headers, method='POST', timeout=180)
+    url_request = url + 'booking/issued_offline'
+    res = send_request_api(request, url_request, headers, data, 'POST', 180)
     try:
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS commit_booking_issued_offline SIGNATURE " + request.session['issued_offline_signature'])
@@ -498,7 +503,8 @@ def get_booking(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/issued_offline', data=data, headers=headers, method='POST', timeout=300)
+    url_request = url + 'booking/issued_offline'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
             for line in res['result']['response']['lines']:
@@ -546,7 +552,8 @@ def validate(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/issued_offline', data=data, headers=headers, method='POST', timeout=300)
+    url_request = url + 'booking/issued_offline'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS get_booking ISSUED OFFLINE SIGNATURE " + request.POST['signature'])
@@ -572,7 +579,8 @@ def update_service_charge(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/issued_offline', data=data, headers=headers, method='POST', timeout=300)
+    url_request = url + 'booking/issued_offline'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS update_service_charge ISSUED OFFLINE SIGNATURE " + request.POST['signature'])
