@@ -102,7 +102,8 @@ def get_printout(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + 'printout', data=data, headers=headers, method='POST', timeout=int(request.POST.get('timeout')) or 60)
+    url_request = url + 'printout'
+    res = send_request_api(request, url_request, headers, data, 'POST', int(request.POST.get('timeout')) or 60)
     try:
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS get_printout_api_printout " + request.POST['provider_type'] + " SIGNATURE " + request.POST['signature'])
@@ -128,7 +129,8 @@ def get_list_report_footer(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + 'printout', data=data, headers=headers, method='POST')
+    url_request = url + 'printout'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS get_printout_api_printout SIGNATURE " + request.POST['signature'])
@@ -154,7 +156,8 @@ def set_color_printout(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + 'printout', data=data, headers=headers, method='POST')
+    url_request = url + 'printout'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
             # save color
@@ -185,7 +188,8 @@ def update_list_report_footer(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + 'printout', data=data, headers=headers, method='POST')
+    url_request = url + 'printout'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
             pass

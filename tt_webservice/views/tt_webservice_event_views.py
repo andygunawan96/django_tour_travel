@@ -99,7 +99,8 @@ def login(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'session', data=data, headers=headers, method='POST')
+    url_request = url + 'session'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
             set_session(request, 'event_signature', res['result']['response']['signature'])
@@ -125,7 +126,8 @@ def get_carriers(request):
         _logger.error(str(e) + '\n' + traceback.format_exc())
     file = read_cache_with_folder_path("get_event_carriers")
     if not file:
-        res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
+        url_request = url + 'content'
+        res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
                 res = res['result']['response']
@@ -162,7 +164,8 @@ def get_config(request):
         file = read_cache_with_folder_path("event_cache_data", 86400)
         # TODO VIN: Some Update Mekanisme ontime misal ada perubahan data dkk
         if not file:
-            res = util.send_request(url=url + "booking/event", data=data, headers=headers, method='POST', timeout=300)
+            url_request = url + 'booking/event'
+            res = send_request_api(request, url_request, headers, data, 'POST', 300)
             try:
                 if res['result']['error_code'] == 0:
                     write_cache_with_folder(res['result']['response'], "event_cache_data")
@@ -260,7 +263,8 @@ def search(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + "booking/event", data=data, headers=headers, method='POST', timeout=300)
+    url_request = url + 'booking/event'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
     set_session(request, 'event_response_search', res)
     try:
         counter = 0
@@ -293,7 +297,8 @@ def detail(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + "booking/event", data=data, headers=headers, method='POST')
+    url_request = url + 'booking/event'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     set_session(request, 'event_detail', res)
     try:
         signature = copy.deepcopy(request.POST['signature'])
@@ -325,7 +330,8 @@ def extra_question(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + "booking/event", data=data, headers=headers, method='POST')
+    url_request = url + 'booking/event'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         signature = copy.deepcopy(request.POST['signature'])
         set_session(request, 'event_error', {
@@ -406,7 +412,8 @@ def create_booking(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + "booking/event", data=data, headers=headers, method='POST', timeout=300)
+    url_request = url + 'booking/event'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
 
     try:
         if res['result']['error_code'] == 0:
@@ -432,7 +439,8 @@ def get_booking(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + "booking/event", data=data, headers=headers, method='POST')
+    url_request = url + 'booking/event'
+    res = send_request_api(request, url_request, headers, data, 'POST')
 
     try:
         if res['result']['error_code'] == 0:
@@ -493,7 +501,8 @@ def issued_booking(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + "booking/event", data=data, headers=headers, method='POST', timeout=300)
+    url_request = url + 'booking/event'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
 
     try:
         set_session(request, 'event_booking', res['result']['response'])
@@ -529,7 +538,8 @@ def update_service_charge(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/event', data=data, headers=headers, method='POST', timeout=300)
+    url_request = url + 'booking/event'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
             total_upsell = 0

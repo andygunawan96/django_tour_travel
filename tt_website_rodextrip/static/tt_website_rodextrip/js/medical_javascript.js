@@ -1351,7 +1351,7 @@ function add_table_of_passenger(type){
                     </div>`;
                     if(vendor == 'phc'){
                         text_div_paxs+=`
-                        <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="col-lg-6 col-md-6 col-sm-6" style="display:none;">
                             <label style="color:red !important">*</label>
                             <label>Married Status</label>`;
                             if(template == 1){
@@ -1381,7 +1381,7 @@ function add_table_of_passenger(type){
                             }
                             text_div_paxs+=`
                                         <option value="">Choose</option>
-                                        <option value="BELUM MENIKAH">BELUM MENIKAH</option>
+                                        <option value="BELUM MENIKAH" selected>BELUM MENIKAH</option>
                                         <option value="DUDA">DUDA</option>
                                         <option value="JANDA">JANDA</option>
                                         <option value="MENIKAH">MENIKAH</option>
@@ -1560,7 +1560,7 @@ function add_table_of_passenger(type){
                                 <label id="adult_work_place_label`+parseInt(counter_passenger+1)+`" style="color:white !important">*</label>
                                 <label>Work Place</label>
                                 <div class="input-container-search-ticket" style="margin-bottom:5px;">
-                                    <input type="text" class="form-control" name="adult_work_place`+parseInt(counter_passenger+1)+`" id="adult_work_place`+parseInt(counter_passenger+1)+`" placeholder="Work Place " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Work Place '" value="Swasta">
+                                    <input type="text" class="form-control" name="adult_work_place`+parseInt(counter_passenger+1)+`" id="adult_work_place`+parseInt(counter_passenger+1)+`" placeholder="Work Place " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Work Place '" value="Surabaya">
                                 </div>
                             </div>
                         </div>`;

@@ -2886,7 +2886,9 @@ function get_post_seat_availability(){
             console.log(msg);
             if(msg.result.error_code == 0){
                 if(msg.result.response.seat_availability_provider.length > 0){
-                    window.location.href='/airline/seat_map';
+                    document.getElementById('get_booking_data_json').value = JSON.stringify(airline_get_detail);
+                    document.getElementById('after_sales_form').action = '/airline/seat_map';
+                    document.getElementById('after_sales_form').submit();
                 }else{
                     Swal.fire({
                       type: 'error',
@@ -2937,9 +2939,11 @@ function get_post_ssr_availability(){
                     if(msg.result.response.ssr_availability_provider[i].hasOwnProperty('ssr_availability') == true && Object.keys(msg.result.response.ssr_availability_provider[i].ssr_availability).length > 0)
                         check_ssr = 1;
                 }
-                if(check_ssr == 1)
-                    window.location.href='/airline/ssr';
-                else{
+                if(check_ssr == 1){
+                    document.getElementById('get_booking_data_json').value = JSON.stringify(airline_get_detail);
+                    document.getElementById('after_sales_form').action = '/airline/ssr';
+                    document.getElementById('after_sales_form').submit();
+                }else{
                     Swal.fire({
                       type: 'error',
                       title: 'Oops!',
@@ -10330,9 +10334,11 @@ function get_post_ssr_availability_v2(){
                     if(msg.result.response.ssr_availability_provider[i].hasOwnProperty('ssr_availability') == true && Object.keys(msg.result.response.ssr_availability_provider[i].ssr_availability).length > 0)
                         check_ssr = 1;
                 }
-                if(check_ssr == 1)
-                    window.location.href='/airline/ssr';
-                else{
+                if(check_ssr == 1){
+                    document.getElementById('get_booking_data_json').value = JSON.stringify(airline_get_detail);
+                    document.getElementById('after_sales_form').action = '/airline/ssr';
+                    document.getElementById('after_sales_form').submit();
+                }else{
                     Swal.fire({
                       type: 'error',
                       title: 'Oops!',
@@ -10378,7 +10384,9 @@ function get_post_seat_availability_v2(){
             console.log(msg);
             if(msg.result.error_code == 0){
                 if(msg.result.response.seat_availability_provider.length > 0){
-                    window.location.href='/airline/seat_map';
+                    document.getElementById('get_booking_data_json').value = JSON.stringify(airline_get_detail);
+                    document.getElementById('after_sales_form').action = '/airline/seat_map';
+                    document.getElementById('after_sales_form').submit();
                 }else{
                     Swal.fire({
                       type: 'error',
