@@ -102,7 +102,8 @@ def login(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'session', data=data, headers=headers, method='POST')
+    url_request = url + 'session'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
             set_session(request, 'hotel_signature', res['result']['response']['signature'])
@@ -129,7 +130,8 @@ def get_carriers(request):
         _logger.error(str(e) + '\n' + traceback.format_exc())
     file = read_cache_with_folder_path("get_hotel_carriers")
     if not file:
-        res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
+        url_request = url + 'content'
+        res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
                 res = res['result']['response']
@@ -289,7 +291,8 @@ def search(request):
             logging.error(msg=str(e) + '\n' + traceback.format_exc())
 
     if data:
-        res = util.send_request(url=url + "booking/hotel", data=data, headers=headers, method='POST', timeout=300)
+        url_request = url + 'booking/hotel'
+        res = send_request_api(request, url_request, headers, data, 'POST', 300)
         set_session(request, 'hotel_response_search', res)
     else:
         res = request.session['hotel_response_search']
@@ -376,7 +379,8 @@ def detail(request):
             logging.info(msg='use cache login change b2c to login')
         else:
             logging.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + "booking/hotel", data=data, headers=headers, method='POST')
+    url_request = url + 'booking/hotel'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         signature = copy.deepcopy(request.session['hotel_signature'])
         set_session(request, 'hotel_error', {
@@ -419,7 +423,8 @@ def get_cancellation_policy(request):
             logging.info(msg='use cache login change b2c to login')
         else:
             logging.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + "booking/hotel", data=data, headers=headers, method='POST')
+    url_request = url + 'booking/hotel'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
             for rec in res['result']['response']['policies']:
@@ -451,7 +456,8 @@ def get_top_facility(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + "booking/hotel", data=data, headers=headers, method='POST')
+    url_request = url + 'booking/hotel'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         set_session(request, 'hotel_cancellation_policy', res)
         _logger.info(json.dumps(request.session['hotel_cancellation_policy']))
@@ -474,7 +480,8 @@ def get_facility_img(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + "booking/hotel", data=data, headers=headers, method='POST')
+    url_request = url + 'booking/hotel'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         signature = copy.deepcopy(request.session['hotel_signature'])
         set_session(request, 'hotel_error', {
@@ -504,7 +511,8 @@ def provision(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + "booking/hotel", data=data, headers=headers, method='POST')
+    url_request = url + 'booking/hotel'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         set_session(request, 'hotel_provision', res)
         signature = copy.deepcopy(request.session['hotel_signature'])
@@ -610,7 +618,8 @@ def create_booking(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + "booking/hotel", data=data, headers=headers, method='POST', timeout=300)
+    url_request = url + 'booking/hotel'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
 
     try:
         set_session(request, 'hotel_booking', res['result']['response'])
@@ -642,8 +651,8 @@ def get_booking(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + "booking/hotel", data=data, headers=headers, method='POST')
-
+    url_request = url + 'booking/hotel'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         set_session(request, 'hotel_provision', res)
         _logger.info(json.dumps(request.session['hotel_provision']))
@@ -695,7 +704,8 @@ def issued_b2c(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/hotel', data=data, headers=headers, method='POST', timeout=300)
+    url_request = url + 'booking/hotel'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS issued HOTEL SIGNATURE " + request.POST['signature'])
@@ -721,7 +731,8 @@ def update_service_charge(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/hotel', data=data, headers=headers, method='POST', timeout=300)
+    url_request = url + 'booking/hotel'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
             total_upsell = 0

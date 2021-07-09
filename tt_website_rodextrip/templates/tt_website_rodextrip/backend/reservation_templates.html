@@ -387,6 +387,11 @@
             </label>`;
         }
     }
+    text += `<label class="radio-button-custom">
+                <span>Offline</span>
+                <input type="radio" name="filter" value="offline" onclick="get_transactions('filter');">
+                <span class="checkmark-radio"></span>
+            </label>`;
     document.getElementById('type').innerHTML = text;
     //get_transactions('reset');
     function goto_detail_reservation(key){

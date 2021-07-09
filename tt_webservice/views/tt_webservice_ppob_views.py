@@ -111,7 +111,8 @@ def login(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + 'session', data=data, headers=headers, method='POST')
+    url_request = url + 'session'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
             set_session(request, 'bills_signature', res['result']['response']['signature'])
@@ -137,7 +138,8 @@ def get_carriers(request):
         _logger.error(str(e) + '\n' + traceback.format_exc())
     file = read_cache_with_folder_path("get_ppob_carriers")
     if not file:
-        res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
+        url_request = url + 'content'
+        res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
                 write_cache_with_folder(res, "get_ppob_carriers")
@@ -172,7 +174,8 @@ def get_carrier_providers(request):
         _logger.error(str(e) + '\n' + traceback.format_exc())
     file = read_cache_with_folder_path("get_ppob_carriers_provider")
     if not file:
-        res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
+        url_request = url + 'content'
+        res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
                 write_cache_with_folder(res, "get_ppob_carriers_provider")
@@ -208,7 +211,8 @@ def get_provider_description(request):
 
     file = read_cache_with_folder_path("get_list_provider_data_ppob")
     if not file:
-        res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
+        url_request = url + 'content'
+        res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
                 temp = {}
@@ -279,7 +283,8 @@ def search(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + 'booking/ppob', data=data, headers=headers, method='POST')
+    url_request = url + 'booking/ppob'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
             set_session(request, 'ppob_search_response', res)
@@ -323,7 +328,8 @@ def commit_booking(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST', timeout=300)
+    url_request = url + 'booking/ppob'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS commit_booking VISA SIGNATURE " + request.POST['signature'])
@@ -349,7 +355,8 @@ def get_booking(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + 'booking/ppob', data=data, headers=headers, method='POST')
+    url_request = url + 'booking/ppob'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
             for rec in res['result']['response']['provider_booking']:
@@ -380,7 +387,8 @@ def cancel(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/ppob', data=data, headers=headers, method='POST', timeout=300)
+    url_request = url + 'booking/ppob'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS cancel PPOB SIGNATURE " + request.POST['signature'])
@@ -425,7 +433,8 @@ def issued(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/ppob', data=data, headers=headers, method='POST', timeout=300)
+    url_request = url + 'booking/ppob'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS issued PPOB SIGNATURE " + request.POST['signature'])
@@ -450,7 +459,8 @@ def resync_status(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/ppob', data=data, headers=headers, method='POST', timeout=300)
+    url_request = url + 'booking/ppob'
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS issued PPOB SIGNATURE " + request.POST['signature'])
@@ -476,7 +486,8 @@ def update_service_charge(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/ppob', data=data, headers=headers, method='POST', timeout=300)
+    url_request = url + 'booking/ppob'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
             total_upsell = 0

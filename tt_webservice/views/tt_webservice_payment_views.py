@@ -10,6 +10,7 @@ import json
 import logging
 import traceback
 from .tt_webservice_views import *
+from .tt_webservice import *
 _logger = logging.getLogger("rodextrip_logger")
 
 month = {
@@ -111,7 +112,8 @@ def get_payment_acquirer(request):
             url_post = 'booking/periksain'
         elif request.session.get('vendor_%s' % request.POST['signature']) == 'phc': #force issued
             url_post = 'booking/phc'
-    res = util.send_request(url=url + url_post, data=data, headers=headers, method='POST')
+    url_request = url + url_post
+    res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS get_payment_acquirer_payment " + request.POST['type'] + " SIGNATURE " + request.POST['signature'])
@@ -131,7 +133,8 @@ def testing_payment_webhook(request):
             "Content-Type": "application/json",
             "action": "",
         }
-        res = util.send_request(url=url + 'webhook/payment/espay', data=data, headers=headers, method='POST')
+        url_request = url + 'webhook/payment/espay'
+        res = send_request_api(request, url_request, headers, data, 'POST')
     except:
         res = 0
     return res
@@ -148,7 +151,8 @@ def get_order_number(request):
             "action": "get_payment_acquirer_payment_gateway",
             "signature": request.POST['signature']
         }
-        res = util.send_request(url=url + 'payment', data=data, headers=headers, method='POST')
+        url_request = url + 'payment'
+        res = send_request_api(request, url_request, headers, data, 'POST')
     except:
         res = 0
     return res
@@ -164,7 +168,8 @@ def get_merchant_info(request):
             "action": "merchant_info",
             "signature": request.POST['signature']
         }
-        res = util.send_request(url=url + 'payment', data=data, headers=headers, method='POST')
+        url_request = url + 'payment'
+        res = send_request_api(request, url_request, headers, data, 'POST')
     except Exception as e:
         res = 0
     return res
@@ -188,7 +193,8 @@ def set_payment_method(request):
             "action": "set_invoice",
             "signature": request.POST['signature']
         }
-        res = util.send_request(url=url + 'payment', data=data, headers=headers, method='POST',timeout=120)
+        url_request = url + 'payment'
+        res = send_request_api(request, url_request, headers, data, 'POST', 120)
         if res['result']['error_code'] == 0 and request.POST['phone_number'] == '':
             res['result']['response']['expired'] = convert_string_to_date_to_string_front_end_with_time(res['result']['response']['expired'])
             res['result']['response']['rs_datetime'] = convert_string_to_date_to_string_front_end_with_time(res['result']['response']['rs_datetime'])
@@ -208,7 +214,8 @@ def check_payment_payment_method(request):
             "action": "get_payment_acquirer_payment_gateway_frontend",
             "signature": request.POST['signature']
         }
-        res = util.send_request(url=url + 'payment', data=data, headers=headers, method='POST')
+        url_request = url + 'payment'
+        res = send_request_api(request, url_request, headers, data, 'POST')
     except:
         res = 0
     return res
@@ -224,7 +231,8 @@ def get_order_number_frontend(req):
             "action": "get_payment_acquirer_payment_gateway_frontend",
             "signature": req['signature']
         }
-        res = util.send_request(url=url + 'payment', data=data, headers=headers, method='POST')
+        url_request = url + 'payment'
+        res = send_request_api(request, url_request, headers, data, 'POST')
     except:
         res = 0
     return res
@@ -240,7 +248,8 @@ def get_order_number_frontend_webservice(request):
             "action": "get_payment_acquirer_payment_gateway_frontend",
             "signature": request.POST['signature']
         }
-        res = util.send_request(url=url + 'payment', data=data, headers=headers, method='POST')
+        url_request = url + 'payment'
+        res = send_request_api(request, url_request, headers, data, 'POST')
     except:
         res = 0
     return res

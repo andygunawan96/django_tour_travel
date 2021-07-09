@@ -10,6 +10,7 @@ import logging
 import traceback
 _logger = logging.getLogger("rodextrip_logger")
 from .tt_webservice_views import *
+from .tt_webservice import *
 import time
 
 @api_view(['GET', 'POST'])
@@ -67,7 +68,8 @@ def get_report(request):
         'agent_type_seq_id': '',
     }
 
-    res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST', timeout=1000)
+    url_request = url + 'account'
+    res = send_request_api(request, url_request, headers, data, 'POST', 1000)
 
     to_return = {
         'raw_data': res,
@@ -106,7 +108,8 @@ def update_report(request):
         'agent_type_seq_id': request.POST['agent_type'],
     }
 
-    res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST', timeout=300)
+    url_request = url + 'account'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
     to_return = {
         'raw_data': res,
         'start_date': start_date,
@@ -130,7 +133,8 @@ def get_total_rupiah(request):
         'agent_type_seq_id': 'Budi'
     }
 
-    res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST', timeout=1000)
+    url_request = url + 'account'
+    res = send_request_api(request, url_request, headers, data, 'POST', 1000)
     return res
 
 def get_top_up_rupiah(request):
@@ -149,7 +153,8 @@ def get_top_up_rupiah(request):
         'agent_type_seq_id': 'Budi'
     }
 
-    res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST', timeout=1000)
+    url_request = url + 'account'
+    res = send_request_api(request, url_request, headers, data, 'POST', 1000)
     return res
 
 def get_average_rupiah(request):
@@ -167,5 +172,6 @@ def get_average_rupiah(request):
         'agent_type_seq_id': 'Budi'
     }
 
-    res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST', timeout=1000)
+    url_request = url + 'account'
+    res = send_request_api(request, url_request, headers, data, 'POST', 1000)
     return res
