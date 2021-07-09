@@ -29,6 +29,13 @@
         document.getElementById('end_date').value = '';
         document.getElementById('state').value = 'all';
     }
+    provider_types_sequence = `{{provider_types_sequence}}`;
+    provider_types_sequence = provider_types_sequence.replace(/&#39;/g, '"');
+    provider_types_sequence = provider_types_sequence.replace(/&quot;/g, '"');
+    provider_types_sequence = provider_types_sequence.replace(/False/g, 'false');
+    provider_types_sequence = provider_types_sequence.replace(/True/g, 'true');
+    provider_types_sequence = JSON.parse(provider_types_sequence);
+    console.log(provider_types_sequence)
 </script>
 <title>{{name}} - {% trans 'Reservation' %}</title>
 
@@ -364,6 +371,23 @@
 
 <script>
     signin_rodextrip('reservation');
+    var text = '';
+    for(i in provider_types_sequence){
+        if(i == 0){
+            text += `<label class="radio-button-custom">
+                <span>`+provider_types_sequence[i].name.charAt(0).toUpperCase()+provider_types_sequence[i].name.slice(1).toLowerCase()+`</span>
+                <input type="radio" name="filter" value="`+provider_types_sequence[i].name+`" onclick="get_transactions('filter');" checked>
+                <span class="checkmark-radio"></span>
+            </label>`;
+        }else{
+            text += `<label class="radio-button-custom">
+                <span>`+provider_types_sequence[i].name.charAt(0).toUpperCase()+provider_types_sequence[i].name.slice(1).toLowerCase()+`</span>
+                <input type="radio" name="filter" value="`+provider_types_sequence[i].name+`" onclick="get_transactions('filter');">
+                <span class="checkmark-radio"></span>
+            </label>`;
+        }
+    }
+    document.getElementById('type').innerHTML = text;
     //get_transactions('reset');
     function goto_detail_reservation(key){
         document.getElementById('gotobooking'+key).innerHTML += `{% csrf_token %}`;
@@ -393,7 +417,6 @@
             document.getElementById('gotobooking'+key).action = '/medical/booking/' + btoa(data_search[key].order_number);
         }
         document.getElementById('gotobooking'+key).submit();
-
     }
     $(document).ready(function () {
         $(window).scroll(function() {
