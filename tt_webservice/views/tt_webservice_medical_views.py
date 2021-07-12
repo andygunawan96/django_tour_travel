@@ -82,6 +82,10 @@ def api_models(request):
             res = verify_data(request)
         elif req_data['action'] == 'cancel':
             res = cancel(request)
+        elif req_data['action'] == 'get_medical_information':
+            res = get_medical_information(request)
+        elif req_data['action'] == 'update_medical_information':
+            res = update_medical_information(request)
 
         else:
             res = ERR.get_error_api(1001)
@@ -757,3 +761,40 @@ def verify_data(request):
     url_request = url + additional_url
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     return res
+
+def get_medical_information(request):
+    res = []
+    if not os.path.exists("/var/log/django/medical"):
+        os.mkdir('/var/log/django/medical')
+    file = read_cache_without_folder_path("medical/periksain", 90911)
+    res.append({
+        'code': 'periksain',
+        "html": file
+    })
+    file = read_cache_without_folder_path("medical/phc_antigen", 90911)
+    res.append({
+        "code": 'phc_antigen',
+        "html": file
+    })
+    file = read_cache_without_folder_path("medical/phc_pcr", 90911)
+    res.append({
+        "code": 'phc_pcr',
+        "html": file
+    })
+    return {
+        "error_code": 0,
+        "error_msg": '',
+        "response": res
+    }
+
+
+def update_medical_information(request):
+    if not os.path.exists("/var/log/django/medical"):
+        os.mkdir('/var/log/django/medical')
+    try:
+        data = request.POST['html']
+        write_cache(data, "medical/%s" % request.POST['name'])
+        return ERR.get_no_error_api()
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+        return ERR.get_error_api(500,additional_message="Error Update")

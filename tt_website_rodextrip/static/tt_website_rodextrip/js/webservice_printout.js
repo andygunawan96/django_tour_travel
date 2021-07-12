@@ -272,7 +272,7 @@ function update_printout_color(){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error payment');
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error update');
             document.getElementsByClassName("update_banner_btn")[0].disabled = false;
             document.getElementsByClassName("update_banner_btn")[1].disabled = false;
             document.getElementsByClassName("update_banner_btn")[2].disabled = false;
@@ -285,4 +285,112 @@ function update_printout_color(){
             document.getElementsByClassName("update_banner_btn")[9].disabled = false;
        },timeout: 60000
     });
+}
+
+function get_medical_information(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/medical",
+       headers:{
+            'action': 'get_medical_information',
+       },
+       data: {
+            'signature': signature,
+       },
+       success: function(msg) {
+            console.log(msg);
+            if(msg.error_code == 0){
+                medical_data_frontend = msg.response;
+                change_medical_information();
+            }else{
+
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+       },timeout: 60000
+    });
+}
+
+function update_medical_information(){
+    document.getElementsByClassName("update_banner_btn")[0].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[1].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[2].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[3].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[4].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[5].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[6].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[7].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[8].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[9].disabled = true;
+
+    $.ajax({
+       type: "POST",
+       url: "/webservice/medical",
+       headers:{
+            'action': 'update_medical_information',
+       },
+       data: {
+            'signature': signature,
+            'name': document.getElementById('medical_information').value,
+            'html': CKEDITOR.instances['body_medical_information'].getData(),
+       },
+       success: function(msg) {
+            console.log(msg);
+            if(msg.error_code == 0){
+                Swal.fire({
+                  type: 'success',
+                  title: 'Updated!',
+                  html: document.getElementById('medical_information').value + ' update!',
+                })
+                document.getElementsByClassName("update_banner_btn")[0].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[1].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[2].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[3].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[4].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[5].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[6].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[7].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[8].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[9].disabled = false;
+            }else{
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: msg.error_msg,
+                })
+                document.getElementsByClassName("update_banner_btn")[0].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[1].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[2].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[3].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[4].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[5].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[6].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[7].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[8].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[9].disabled = false;
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error update');
+            document.getElementsByClassName("update_banner_btn")[0].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[1].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[2].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[3].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[4].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[5].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[6].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[7].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[8].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[9].disabled = false;
+       },timeout: 60000
+    });
+}
+
+function change_medical_information(){
+    for(i in medical_data_frontend){
+        if(medical_data_frontend[i].code == document.getElementById('medical_information').value){
+            CKEDITOR.instances['body_medical_information'].setData(medical_data_frontend[i].html)
+            break;
+        }
+    }
 }

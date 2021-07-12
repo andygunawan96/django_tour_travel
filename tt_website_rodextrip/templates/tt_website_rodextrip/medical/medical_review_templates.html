@@ -154,6 +154,13 @@
                         </div>
 
                         <div class="col-lg-12" style="padding-bottom:20px;">
+                            <button type="button" class="primary-btn-white hold-seat-booking-train ld-ext-right" id="btn-search-train" onclick="window.location.href = `{{go_back_url}}`;" style="width:100%;">
+                                {% trans 'Edit Passenger' %} <i class="fas fa-user-edit"></i>
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>
+                        </div>
+
+                        <div class="col-lg-12" style="padding-bottom:20px;">
                             <div style="border:1px solid #cdcdcd; padding:10px; background-color:white;">
                                 <h4>{% trans 'List of Passenger' %}</h4>
                                 <hr/>
@@ -257,10 +264,7 @@
                 <div class="col-lg-8">
                     <div class="row">
                         <div class="col-lg-4">
-                            <button type="button" class="primary-btn-white hold-seat-booking-train ld-ext-right" id="btn-search-train" onclick="window.location.href = `{{go_back_url}}`;" style="width:100%;">
-                                {% trans 'Edit Passenger' %} <i class="fas fa-user-edit"></i>
-                                <div class="ld ld-ring ld-cycle"></div>
-                            </button>
+
                         </div>
                         <div class="col-lg-4"></div>
                         <div class="col-lg-4" style="padding-bottom:10px;">
