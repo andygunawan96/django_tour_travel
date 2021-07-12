@@ -622,6 +622,7 @@
                                                 <li class="edit_tab-link " data-tab="payment-tab_edit"><label style="color:{{text_color}};">{% trans 'Payment Information' %}</label></li>
                                                 <li class="edit_tab-link " data-tab="printout-tab_edit"><label style="color:{{text_color}};">{% trans 'Printout Footer Setting Page' %}</label></li>
                                                 <li class="edit_tab-link " data-tab="printout_color-tab_edit"><label style="color:{{text_color}};">{% trans 'Printout Setting Color' %}</label></li>
+                                                <li class="edit_tab-link " data-tab="medical_information-tab_edit"><label style="color:{{text_color}};">{% trans 'PHC/Periksain Information' %}</label></li>
                                             </ul>
                                             <div class="banner-right" style="border: 1px solid {{text_color}};">
                                                 <div id="about-tab_edit" class="edit_tab-content current" style="padding:20px 0px 10px 0px;">
@@ -976,6 +977,32 @@
                                                         </div>
                                                         <div class="col-lg-12" style="text-align:center;">
                                                             <button type="button" class="primary-btn update_banner_btn" onclick="update_printout_color();">{% trans 'Save Change' %}</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div id="medical_information-tab_edit" class="edit_tab-content" style="padding:20px 0px 15px 0px;">
+                                                    <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                        <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                            <h3 style="color:white;">{% trans 'PHC/PERIKSAIN Information' %}</h3>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-xs-12">
+                                                            <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Name' %}</h6>
+                                                            <div class="input-container-search-ticket">
+                                                                <div class="form-select">
+                                                                    <select class="nice-select-default" style="width:100%;" id="medical_information" onchange="change_medical_information();">
+                                                                        <option value="periksain">Periksain</option>
+                                                                        <option value="phc_antigen">PHC ANTIGEN</option>
+                                                                        <option value="phc_pcr">PHC PCR</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                            <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Footer' %}</h6>
+                                                            <textarea class="ckeditor" name="body_medical_information" id="body_medical_information"></textarea>
+                                                        </div>
+                                                        <div class="col-lg-12" style="text-align:center;">
+                                                            <button type="button" class="primary-btn update_banner_btn" onclick="update_medical_information();">{% trans 'Save Change' %}</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1747,6 +1774,7 @@
                                             <li class="edit_tab-link " data-tab="payment-tab_edit"><label style="color:{{text_color}};">{% trans 'Payment Information' %}</label></li>
                                             <li class="edit_tab-link " data-tab="printout-tab_edit"><label style="color:{{text_color}};">{% trans 'Printout Footer Setting Page' %}</label></li>
                                             <li class="edit_tab-link " data-tab="printout_color-tab_edit"><label style="color:{{text_color}};">{% trans 'Printout Setting Color' %}</label></li>
+                                            <li class="edit_tab-link " data-tab="medical_information-tab_edit"><label style="color:{{text_color}};">{% trans 'Printout Setting Color' %}</label></li>
                                         </ul>
                                         <div class="banner-right" style="border: 1px solid {{text_color}};">
                                             <div id="about-tab_edit" class="edit_tab-content current" style="padding:20px 0px 10px 0px;">
@@ -2097,7 +2125,32 @@
                                                     </div>
                                                 </div>
                                             </div>
-
+                                            <div id="medical_information-tab_edit" class="edit_tab-content" style="padding:20px 0px 15px 0px;">
+                                                    <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                        <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                            <h3 style="color:white;">{% trans 'PHC/PERIKSAIN Information' %}</h3>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-xs-12">
+                                                            <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Name' %}</h6>
+                                                            <div class="input-container-search-ticket">
+                                                                <div class="form-select">
+                                                                    <select class="nice-select-default" style="width:100%;" id="medical_information" onchange="change_medical_information();">
+                                                                        <option value="periksain">Periksain</option>
+                                                                        <option value="phc_antigen">PHC ANTIGEN</option>
+                                                                        <option value="phc_pcr">PHC PCR</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                            <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Footer' %}</h6>
+                                                            <textarea class="ckeditor" name="body_medical_information" id="body_medical_information"></textarea>
+                                                        </div>
+                                                        <div class="col-lg-12" style="text-align:center;">
+                                                            <button type="button" class="primary-btn update_banner_btn" onclick="update_medical_information();">{% trans 'Save Change' %}</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                         </div>
                                     </div>
                                     <!--<div class="col-lg-6">-->
@@ -2866,6 +2919,7 @@
                                     <li class="edit_tab-link " data-tab="payment-tab_edit"><label style="color:{{text_color}};">{% trans 'Payment Information' %}</label></li>
                                     <li class="edit_tab-link " data-tab="printout-tab_edit"><label style="color:{{text_color}};">{% trans 'Printout Footer Setting Page' %}</label></li>
                                     <li class="edit_tab-link " data-tab="printout_color-tab_edit"><label style="color:{{text_color}};">{% trans 'Printout Setting Color' %}</label></li>
+                                    <li class="edit_tab-link " data-tab="medical_information-tab_edit"><label style="color:{{text_color}};">{% trans 'Printout Setting Color' %}</label></li>
                                 </ul>
                                 <div class="banner-right" style="border: 1px solid {{text_color}};">
                                     <div id="about-tab_edit" class="edit_tab-content current" style="padding:20px 0px 10px 0px;">
@@ -3213,6 +3267,32 @@
                                             </div>
                                             <div class="col-lg-12" style="text-align:center;">
                                                 <button type="button" class="primary-btn update_banner_btn" onclick="update_printout_color();">{% trans 'Save Change' %}</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="medical_information-tab_edit" class="edit_tab-content" style="padding:20px 0px 15px 0px;">
+                                        <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                            <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                <h3 style="color:white;">{% trans 'PHC/PERIKSAIN Information' %}</h3>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-xs-12">
+                                                <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Name' %}</h6>
+                                                <div class="input-container-search-ticket">
+                                                    <div class="form-select">
+                                                        <select class="nice-select-default" style="width:100%;" id="medical_information" onchange="change_medical_information();">
+                                                            <option value="periksain">Periksain</option>
+                                                            <option value="phc_antigen">PHC ANTIGEN</option>
+                                                            <option value="phc_pcr">PHC PCR</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Footer' %}</h6>
+                                                <textarea class="ckeditor" name="body_medical_information" id="body_medical_information"></textarea>
+                                            </div>
+                                            <div class="col-lg-12" style="text-align:center;">
+                                                <button type="button" class="primary-btn update_banner_btn" onclick="update_medical_information();">{% trans 'Save Change' %}</button>
                                             </div>
                                         </div>
                                     </div>
@@ -4000,6 +4080,7 @@
                                 <li class="edit_tab-link " data-tab="payment-tab_edit"><label style="color:{{text_color}};">{% trans 'Payment Information' %}</label></li>
                                 <li class="edit_tab-link " data-tab="printout-tab_edit"><label style="color:{{text_color}};">{% trans 'Printout Footer Setting Page' %}</label></li>
                                 <li class="edit_tab-link " data-tab="printout_color-tab_edit"><label style="color:{{text_color}};">{% trans 'Printout Setting Color' %}</label></li>
+                                <li class="edit_tab-link " data-tab="medical_information-tab_edit"><label style="color:{{text_color}};">{% trans 'Printout Setting Color' %}</label></li>
                             </ul>
                             <div class="banner-right" style="border: 1px solid {{text_color}};">
                                 <div id="about-tab_edit" class="edit_tab-content current" style="padding:20px 0px 10px 0px;">
@@ -4353,6 +4434,32 @@
                                         </div>
                                         <div class="col-lg-12" style="text-align:center;">
                                             <button type="button" class="primary-btn update_banner_btn" onclick="update_printout_color();">{% trans 'Save Change' %}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="medical_information-tab_edit" class="edit_tab-content" style="padding:20px 0px 15px 0px;">
+                                    <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                        <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                            <h3 style="color:white;">{% trans 'PHC/PERIKSAIN Information' %}</h3>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-xs-12">
+                                            <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Name' %}</h6>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select">
+                                                    <select class="nice-select-default" style="width:100%;" id="medical_information" onchange="change_medical_information();">
+                                                        <option value="periksain">Periksain</option>
+                                                        <option value="phc_antigen">PHC ANTIGEN</option>
+                                                        <option value="phc_pcr">PHC PCR</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                            <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Footer' %}</h6>
+                                            <textarea class="ckeditor" name="body_medical_information" id="body_medical_information"></textarea>
+                                        </div>
+                                        <div class="col-lg-12" style="text-align:center;">
+                                            <button type="button" class="primary-btn update_banner_btn" onclick="update_medical_information();">{% trans 'Save Change' %}</button>
                                         </div>
                                     </div>
                                 </div>
@@ -5122,6 +5229,8 @@
                                         <li class="edit_tab-link " data-tab="payment-tab_edit"><label style="color:{{text_color}};">{% trans 'Payment Information' %}</label></li>
                                         <li class="edit_tab-link " data-tab="printout-tab_edit"><label style="color:{{text_color}};">{% trans 'Printout Footer Setting Page' %}</label></li>
                                         <li class="edit_tab-link " data-tab="printout_color-tab_edit"><label style="color:{{text_color}};">{% trans 'Printout Setting Color' %}</label></li>
+                                        <li class="edit_tab-link " data-tab="medical_information-tab_edit"><label style="color:{{text_color}};">{% trans 'Printout Setting Color' %}</label></li>
+                                        <li class="edit_tab-link " data-tab="medical_information-tab_edit"><label style="color:{{text_color}};">{% trans 'Printout Setting Color' %}</label></li>
                                     </ul>
                                     <div class="banner-right" style="border: 1px solid {{text_color}};">
                                         <div id="about-tab_edit" class="edit_tab-content current" style="padding:20px 0px 10px 0px;">
@@ -5475,6 +5584,32 @@
                                                 </div>
                                                 <div class="col-lg-12" style="text-align:center;">
                                                     <button type="button" class="primary-btn update_banner_btn" onclick="update_printout_color();">{% trans 'Save Change' %}</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="medical_information-tab_edit" class="edit_tab-content" style="padding:20px 0px 15px 0px;">
+                                            <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                    <h3 style="color:white;">{% trans 'PHC/PERIKSAIN Information' %}</h3>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-xs-12">
+                                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Name' %}</h6>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select">
+                                                            <select class="nice-select-default" style="width:100%;" id="medical_information" onchange="change_medical_information();">
+                                                                <option value="periksain">Periksain</option>
+                                                                <option value="phc_antigen">PHC ANTIGEN</option>
+                                                                <option value="phc_pcr">PHC PCR</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Footer' %}</h6>
+                                                    <textarea class="ckeditor" name="body_medical_information" id="body_medical_information"></textarea>
+                                                </div>
+                                                <div class="col-lg-12" style="text-align:center;">
+                                                    <button type="button" class="primary-btn update_banner_btn" onclick="update_medical_information();">{% trans 'Save Change' %}</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -5894,6 +6029,7 @@
 <script>
     get_airline_config('home');
     get_list_report_footer();
+    get_medical_information();
     get_va_bank();
     var airline_origin = new autoComplete({
         selector: '#airline_origin',

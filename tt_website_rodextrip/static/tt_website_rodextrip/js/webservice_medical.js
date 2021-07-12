@@ -2482,3 +2482,35 @@ function save_data_pax_backend(action){
 function cancel_data(){
     window.location.href = '/medical/booking/' + btoa(document.URL.split('/')[document.URL.split('/').length-1]);
 }
+
+function get_medical_information(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/medical",
+       headers:{
+            'action': 'get_medical_information',
+       },
+       data: {
+            'signature': signature,
+       },
+       success: function(msg) {
+            console.log(msg);
+            if(msg.error_code == 0){
+                medical_data_frontend = msg.response;
+                if(vendor == 'periksain'){
+                    document.getElementById('informasi_penting').innerHTML += medical_data_frontend[0].html
+                }else{
+                    if(test_type.includes('PCR')){
+                        document.getElementById('informasi_penting').innerHTML += medical_data_frontend[2].html
+                    }else{
+                        document.getElementById('informasi_penting').innerHTML += medical_data_frontend[1].html
+                    }
+                }
+            }else{
+
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+       },timeout: 60000
+    });
+}
