@@ -232,7 +232,7 @@ def get_order_number_frontend(req):
             "signature": req['signature']
         }
         url_request = url + 'payment'
-        res = send_request_api(request, url_request, headers, data, 'POST')
+        res = send_request_api(req, url_request, headers, data, 'POST')
     except:
         res = 0
     return res
