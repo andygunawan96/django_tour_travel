@@ -29,6 +29,13 @@
     google_api_key = '{{google_api_key}}';
     total_passengers_rebooking = {{total_passengers_rebooking}};
 </script>
+
+<script type="text/javascript">
+    //disable back in next page
+    function disableBack() { window.history.forward(); }
+    setTimeout("disableBack()", 0);
+    window.onunload = function () { null };
+</script>
 {% include 'tt_website_rodextrip/logout.html' %}
 {% include 'tt_website_rodextrip/loading_screen.html' %}
 {% include 'tt_website_rodextrip/check_connection.html' %}
