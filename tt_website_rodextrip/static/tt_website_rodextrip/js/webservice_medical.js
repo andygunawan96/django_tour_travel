@@ -2499,11 +2499,17 @@ function get_medical_information(){
                 medical_data_frontend = msg.response;
                 if(vendor == 'periksain'){
                     document.getElementById('informasi_penting').innerHTML += medical_data_frontend[0].html
+                    if(medical_data_frontend[0].html != false)
+                        document.getElementById('informasi_penting').style.display = 'block';
                 }else{
                     if(test_type.includes('PCR')){
                         document.getElementById('informasi_penting').innerHTML += medical_data_frontend[2].html
+                        if(medical_data_frontend[2].html != false)
+                            document.getElementById('informasi_penting').style.display = 'block';
                     }else{
                         document.getElementById('informasi_penting').innerHTML += medical_data_frontend[1].html
+                        if(medical_data_frontend[1].html != false)
+                            document.getElementById('informasi_penting').style.display = 'block';
                     }
                 }
             }else{
