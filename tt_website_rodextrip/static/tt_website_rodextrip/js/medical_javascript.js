@@ -7704,7 +7704,31 @@ function auto_fill_periksain(){
             document.getElementById('adult_sample_method'+counter).value = passenger_data_cache_medical[idx].sample_method_code;
         else
             document.getElementById('adult_sample_method'+counter).value = passenger_data_cache_medical[idx].sample_method;
-        document.getElementById('adult_address_ktp'+counter).value = passenger_data_cache_medical[idx].address_ktp;
+        document.getElementById('adult_address'+counter).value = passenger_data_cache_medical[idx].address;
+
+        document.getElementById('adult_provinsi'+counter).value = passenger_data_cache_medical[idx].provinsi;
+        document.getElementById('adult_provinsi'+counter+'_id').value = passenger_data_cache_medical[idx].provinsi;
+        document.getElementById('select2-adult_provinsi'+counter+'_id-container').innerHTML = passenger_data_cache_medical[idx].provinsi;
+
+        get_kabupaten('adult_provinsi'+counter+'_id','adult_kabupaten'+counter+'_id');
+
+        document.getElementById('adult_kabupaten'+counter).value = passenger_data_cache_medical[idx].kabupaten;
+        document.getElementById('adult_kabupaten'+counter+'_id').value = passenger_data_cache_medical[idx].kabupaten;
+        document.getElementById('select2-adult_kabupaten'+counter+'_id-container').innerHTML = passenger_data_cache_medical[idx].kabupaten;
+
+        get_kecamatan('adult_kabupaten'+counter+'_id','adult_kecamatan'+counter+'_id');
+
+        document.getElementById('adult_kecamatan'+counter).value = passenger_data_cache_medical[idx].kecamatan;
+        document.getElementById('adult_kecamatan'+counter+'_id').value = passenger_data_cache_medical[idx].kecamatan;
+        document.getElementById('select2-adult_kecamatan'+counter+'_id-container').innerHTML = passenger_data_cache_medical[idx].kecamatan;
+        get_kelurahan('adult_kecamatan'+counter+'_id','adult_kelurahan'+counter+'_id');
+
+        document.getElementById('adult_kelurahan'+counter).value = passenger_data_cache_medical[idx].kelurahan;
+        document.getElementById('adult_kelurahan'+counter+'_id').value = passenger_data_cache_medical[idx].kelurahan;
+        document.getElementById('select2-adult_kelurahan'+counter+'_id-container').innerHTML = passenger_data_cache_medical[idx].kelurahan;
+        $('#adult_kelurahan'+counter+'_id').select2();
+
+        document.getElementById('adult_kelurahan'+counter).value = passenger_data_cache_medical[idx].address;
 
         $('#adult_title'+counter).niceSelect('update');
         $('#adult_sample_method'+counter).niceSelect('update');
