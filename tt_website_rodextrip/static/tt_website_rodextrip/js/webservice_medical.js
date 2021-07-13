@@ -80,15 +80,13 @@ function get_config_medical(type='', vendor=''){
                 if(type == 'passenger'){
                     data_kota = medical_config['result']['response']['kota']
                     var product = '';
-                    if(vendor == 'phc')
-                        for(i in medical_config.result.response.carriers_code){
-                            if(medical_config.result.response.carriers_code[i].code == test_type){
-                                product = medical_config.result.response.carriers_code[i].name;
-                                break;
-                            }
+
+                    for(i in medical_config.result.response.carriers_code){
+                        if(medical_config.result.response.carriers_code[i].code == test_type){
+                            product = medical_config.result.response.carriers_code[i].name;
+                            break;
                         }
-                    else
-                        product = medical_config.result.response[test_type].name;
+                    }
                     document.getElementById('medical_product').innerHTML = product;
                     document.getElementById('copy_booker_to_pax_div').hidden = false;
                     try{
@@ -100,15 +98,13 @@ function get_config_medical(type='', vendor=''){
                     }catch(err){}
                 }else if(type == 'home'){
                     var text = '';
+                    for(i in msg.result.response.carriers_code){
+                        text += '<option value="'+msg.result.response.carriers_code[i].code+'">' + msg.result.response.carriers_code[i].name + '</option>';
+                    }
                     if(vendor == 'phc'){
-                        for(i in msg.result.response.carriers_code){
-                            text += '<option value="'+msg.result.response.carriers_code[i].code+'">' + msg.result.response.carriers_code[i].name + '</option>';
-                        }
                         document.getElementById('medical_type_phc').innerHTML += text;
                         $('#medical_type_phc').niceSelect('update');
                     }else if(vendor == 'periksain'){
-                        for(i in msg.result.response)
-                            text += '<option value="'+i+'">'+msg.result.response[i].name+'</option>';
                         document.getElementById('medical_type_periksain').innerHTML += text;
                         $('#medical_type_periksain').niceSelect('update');
                     }
@@ -135,12 +131,37 @@ function get_config_medical(type='', vendor=''){
     });
 }
 
+function get_kabupaten(id_provinsi, id_kabupaten){
+    var text = '';
+    text += '<option value="">Choose</option>';
+    for(i in data_kota[document.getElementById(id_provinsi).value]['kabupaten']){
+        text += '<option value="'+i+'">'+data_kota[document.getElementById(id_provinsi).value]['kabupaten'][i].name+"</option>";
+    }
+    document.getElementById(id_kabupaten).innerHTML = text;
+    $('#'+id_kabupaten).select2();
+
+    text = `<option value="">Select Kecamatan</option>`;
+    document.getElementById(id_kabupaten.replace('kabupaten','kecamatan')).innerHTML = text;
+
+    $('#'+id_provinsi.replace('kabupaten','kecamatan')).select2();
+
+    text = `<option value="">Select Kelurahan</option>`;
+    document.getElementById(id_kabupaten.replace('kabupaten','kelurahan')).innerHTML = text;
+
+    $('#'+id_provinsi.replace('kabupaten','kelurahan')).select2();
+}
 
 function get_kecamatan(id_kabupaten,id_kecamatan){
     var text = '';
     text += '<option value="">Choose</option>';
-    for(i in data_kota[document.getElementById(id_kabupaten).value]){
-        text += '<option value="'+i+'">'+i+"</option>";
+    if(vendor == 'phc'){
+        for(i in data_kota[document.getElementById(id_kabupaten).value]){
+            text += '<option value="'+i+'">'+i+"</option>";
+        }
+    }else if(vendor == 'periksain'){
+        for(i in data_kota[document.getElementById(id_kecamatan.replace('kecamatan','provinsi')).value]['kabupaten'][document.getElementById(id_kabupaten).value]['kecamatan']){
+            text += '<option value="'+i+'">'+data_kota[document.getElementById(id_kecamatan.replace('kecamatan','provinsi')).value]['kabupaten'][document.getElementById(id_kabupaten).value]['kecamatan'][i].name+"</option>";
+        }
     }
     document.getElementById(id_kecamatan).innerHTML = text;
     $('#'+id_kecamatan).select2();
@@ -157,8 +178,14 @@ function get_kecamatan(id_kabupaten,id_kecamatan){
 function get_kelurahan(id_kecamatan,id_kelurahan){
     var text = '';
     text += '<option value="">Choose</option>';
-    for(i in data_kota[document.getElementById(id_kecamatan.replace('kecamatan','kabupaten')).value][document.getElementById(id_kecamatan).value]){
-        text += '<option value="'+data_kota[document.getElementById(id_kecamatan.replace('kecamatan','kabupaten')).value][document.getElementById(id_kecamatan).value][i]+'">'+data_kota[document.getElementById(id_kecamatan.replace('kecamatan','kabupaten')).value][document.getElementById(id_kecamatan).value][i]+"</option>";
+    if(vendor == 'phc'){
+        for(i in data_kota[document.getElementById(id_kecamatan.replace('kecamatan','kabupaten')).value][document.getElementById(id_kecamatan).value]){
+            text += '<option value="'+data_kota[document.getElementById(id_kecamatan.replace('kecamatan','kabupaten')).value][document.getElementById(id_kecamatan).value][i]+'">'+data_kota[document.getElementById(id_kecamatan.replace('kecamatan','kabupaten')).value][document.getElementById(id_kecamatan).value][i]+"</option>";
+        }
+    }else if(vendor == 'periksain'){
+        for(i in data_kota[document.getElementById(id_kecamatan.replace('kecamatan','provinsi')).value]['kabupaten'][document.getElementById(id_kecamatan.replace('kecamatan','kabupaten')).value]['kecamatan'][document.getElementById(id_kecamatan).value]['kelurahan']){
+            text += '<option value="'+i+'">'+data_kota[document.getElementById(id_kecamatan.replace('kecamatan','provinsi')).value]['kabupaten'][document.getElementById(id_kecamatan.replace('kecamatan','kabupaten')).value]['kecamatan'][document.getElementById(id_kecamatan).value]['kelurahan'][i].name+"</option>";
+        }
     }
     document.getElementById(id_kelurahan).innerHTML = text;
     $('#'+id_kelurahan).select2();
