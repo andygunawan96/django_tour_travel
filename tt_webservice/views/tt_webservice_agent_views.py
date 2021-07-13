@@ -719,7 +719,7 @@ def get_new_cache(signature, type='all'):
             try:
                 if res['result']['error_code'] == 0:
                     res['result']['response']['kota'] = data_kota
-                    write_cache_with_folder(res['result']['response'], "medical_cache_data_%s" % provider)
+                    write_cache_with_folder(res, "medical_cache_data_%s" % provider)
             except Exception as e:
                 _logger.info("ERROR UPDATE CACHE medical " + provider + ' ' + json.dumps(res) + '\n' + str(e) + '\n' + traceback.format_exc())
 
