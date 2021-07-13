@@ -192,6 +192,7 @@ function get_kelurahan(id_kecamatan,id_kelurahan){
 }
 
 function medical_get_availability(){
+    test_date_data = [];
     $.ajax({
        type: "POST",
        url: "/webservice/medical",
@@ -211,6 +212,7 @@ function medical_get_availability(){
                 if(Object.keys(msg).length > 0){
                     for(i in msg){
                         for(j in msg[i].timeslots){
+                            test_date_data.push(j);
                             for(k in msg[i].timeslots[j]){
                                 tes = moment.utc(j + ' '+ msg[i].timeslots[j][k].time).format('YYYY-MM-DD HH:mm:ss')
                                 localTime  = moment.utc(tes).toDate();
@@ -1224,8 +1226,9 @@ function medical_get_booking(order_number, sync=false){
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>`;
                         document.getElementById('cancel_reservation').innerHTML = `
-                            <button class="primary-btn-white hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="medical_cancel_booking('` + msg.result.response.order_number + `');" style="width:100%;margin-top:15px;background-color:red !important;">
-                            <span style="color:white;">Cancel Booking</span>
+                            <button class="primary-btn-white hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="medical_cancel_booking('` + msg.result.response.order_number + `');" style="width:100%;">
+                                Cancel Booking
+                                <i class="fas fa-times" style="padding-left:5px; color:red; font-size:16px;"></i>
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>
                         `;
@@ -1367,7 +1370,9 @@ function medical_get_booking(order_number, sync=false){
                     if (msg.result.response.state  == 'issued') {
                         print_text+=`
                             <a class="issued-booking-train ld-ext-right" style="color:`+text_color+`;">
-                                <input type="button" class="primary-btn" style="width:100%;" data-toggle="modal" data-target="#printInvoice" value="Print Invoice"/>
+                                <button type="button" class="primary-btn-white" style="width:100%;" data-toggle="modal" data-target="#printInvoice">
+                                    Print Invoice
+                                </button>
                                 <div class="ld ld-ring ld-cycle"></div>
                             </a>`;
                             // modal invoice
@@ -2524,23 +2529,35 @@ function get_medical_information(){
             console.log(msg);
             if(msg.error_code == 0){
                 medical_data_frontend = msg.response;
+                console.log(medical_data_frontend);
                 if(vendor == 'periksain'){
                     document.getElementById('informasi_penting').innerHTML += medical_data_frontend[0].html
-                    if(medical_data_frontend[0].html != false)
+                    if(medical_data_frontend[0].html != false){
                         document.getElementById('informasi_penting').style.display = 'block';
+                    }else{
+                        document.getElementById("information_checkbox").checked = true;
+                    }
                 }else{
                     if(test_type.includes('PCR')){
                         document.getElementById('informasi_penting').innerHTML += medical_data_frontend[2].html
-                        if(medical_data_frontend[2].html != false)
+                        if(medical_data_frontend[2].html != false){
                             document.getElementById('informasi_penting').style.display = 'block';
+                            document.getElementById('information_div_checkbox').style.display = 'block';
+                        }else{
+                            document.getElementById("information_checkbox").checked = true;
+                        }
                     }else{
                         document.getElementById('informasi_penting').innerHTML += medical_data_frontend[1].html
-                        if(medical_data_frontend[1].html != false)
+                        if(medical_data_frontend[1].html != false){
                             document.getElementById('informasi_penting').style.display = 'block';
+                            document.getElementById('information_div_checkbox').style.display = 'block';
+                        }else{
+                            document.getElementById("information_checkbox").checked = true;
+                        }
                     }
                 }
             }else{
-
+                document.getElementById("information_checkbox").checked = true;
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {

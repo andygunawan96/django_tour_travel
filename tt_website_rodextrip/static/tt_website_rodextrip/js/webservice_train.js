@@ -1322,7 +1322,7 @@ function train_get_booking(data){
                    document.getElementById('issued-breadcrumb-span').innerHTML = `Fail (Book)`;
                 }else if(msg.result.response.state == 'booked'){
                    document.getElementById('cancel').hidden = false;
-                   document.getElementById('cancel').innerHTML = `<button class="primary-btn-white" style="width:100%;" id="train_cancel_booking_btn" type="button" onclick="train_cancel_booking();">Cancel Booking <i class="fas fa-times" style="font-size:16px;"/></button>`;
+                   document.getElementById('cancel').innerHTML = `<button class="primary-btn-white" style="width:100%;" id="train_cancel_booking_btn" type="button" onclick="train_cancel_booking();">Cancel Booking <i class="fas fa-times" style="padding-left:5px; color:red; font-size:16px;"></i></button>`;
                    document.getElementById('issued-breadcrumb').classList.add("br-active");
                    document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
                 }else if(msg.result.response.state == 'draft'){

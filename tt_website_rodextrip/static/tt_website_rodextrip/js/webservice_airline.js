@@ -4262,7 +4262,7 @@ function airline_get_booking(data, sync=false){
                        }
                        if(check_cancel){
                             document.getElementById('cancel').hidden = false;
-                            document.getElementById('cancel').innerHTML = `<button class="primary-btn-white" style="width:100%;" type="button" onclick="cancel_btn();">Cancel Booking <i class="fas fa-times" style="font-size:16px;"/></button>`;
+                            document.getElementById('cancel').innerHTML = `<button class="primary-btn-white" style="width:100%;" type="button" onclick="cancel_btn();">Cancel Booking <i class="fas fa-times" style="padding-left:5px; color:red; font-size:16px;"></i></button>`;
                        }
                     }catch(err){
 
