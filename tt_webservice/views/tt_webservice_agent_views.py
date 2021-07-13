@@ -719,10 +719,15 @@ def get_new_cache(signature, type='all'):
             try:
                 if res['result']['error_code'] == 0:
                     res['result']['response']['kota'] = data_kota
-                    write_cache_with_folder(res['result']['response'], "medical_cache_data_%s" % provider)
+                    write_cache_with_folder(res, "medical_cache_data_%s" % provider)
             except Exception as e:
                 _logger.info("ERROR UPDATE CACHE medical " + provider + ' ' + json.dumps(res) + '\n' + str(e) + '\n' + traceback.format_exc())
 
+            try:
+                file = open("tt_webservice/static/tt_webservice/periksain_city.json", "r")
+                data_kota = json.loads(file.read())
+            except:
+                data_kota = {}
             provider = 'periksain'
             additional_url = 'content'
             data = {
@@ -741,7 +746,11 @@ def get_new_cache(signature, type='all'):
 
             try:
                 if res['result']['error_code'] == 0:
-                    write_cache_with_folder(res['result']['response'], "medical_cache_data_%s" % provider)
+                    res['result']['response'] = {
+                        "carriers_code": res['result']['response'],
+                        "kota": data_kota
+                    }
+                    write_cache_with_folder(res, "medical_cache_data_%s" % provider)
             except Exception as e:
                 _logger.info("ERROR UPDATE CACHE medical " + provider + ' ' + json.dumps(res) + '\n' + str(e) + '\n' + traceback.format_exc())
         if type == 'all' or type == 'image':

@@ -126,18 +126,55 @@ function get_list_report_footer(){
             if(msg.result.error_code == 0){
                 text = '';
                 printout = msg.result.response;
-                for(i in printout){
-                    text += `<option value='`+printout[i].code+`'>`+printout[i].name+`</option>`;
+                if(document.URL.split('/')[document.URL.split('/').length-1] == 'page_admin'){
+                    for(i in printout){
+                        text += `<option value='`+printout[i].code+`'>`+printout[i].name+`</option>`;
+                    }
+                    document.getElementById('printout_choose').innerHTML = text;
+                    $('#printout_choose').niceSelect('update');
+                    change_printout();
+                }else{
+                    //MEDICAL
+                    var check_header = true;
+                    for(i in printout){
+                        if(vendor == 'phc' && test_type.includes('ATG') && printout[i].code == "phc_antigen_information"){
+                            show_header_medical(printout[i].html);
+                            check_header = false;
+                            break;
+                        }else if(vendor == 'phc' && test_type.includes('PCR') && printout[i].code == "phc_pcr_information"){
+                            show_header_medical(printout[i].html);
+                            check_header = false;
+                            break;
+                        }else if(vendor == 'periksain' && test_type.includes('PCR') && printout[i].code == "periksain_pcr_information"){
+                            show_header_medical(printout[i].html);
+                            check_header = false;
+                            break;
+                        }else if(vendor == 'periksain' && test_type.includes('ATG') && printout[i].code == "periksain_antigen_information"){
+                            show_header_medical(printout[i].html);
+                            check_header = false;
+                            break;
+                        }
+                    }
+                    if(check_header){
+                        document.getElementById("information_checkbox").checked = true;
+                    }
                 }
-                document.getElementById('printout_choose').innerHTML = text;
-                $('#printout_choose').niceSelect('update');
-                change_printout();
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error payment');
        },timeout: 60000
     });
+}
+
+function show_header_medical(val){
+    document.getElementById('informasi_penting').innerHTML += val;
+    if(val != false || val != ''){
+        document.getElementById('informasi_penting').style.display = 'block';
+        document.getElementById('information_div_checkbox').style.display = 'block';
+    }else{
+        document.getElementById("information_checkbox").checked = true;
+    }
 }
 
 function change_printout(){

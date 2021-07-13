@@ -80,15 +80,13 @@ function get_config_medical(type='', vendor=''){
                 if(type == 'passenger'){
                     data_kota = medical_config['result']['response']['kota']
                     var product = '';
-                    if(vendor == 'phc')
-                        for(i in medical_config.result.response.carriers_code){
-                            if(medical_config.result.response.carriers_code[i].code == test_type){
-                                product = medical_config.result.response.carriers_code[i].name;
-                                break;
-                            }
+
+                    for(i in medical_config.result.response.carriers_code){
+                        if(medical_config.result.response.carriers_code[i].code == test_type){
+                            product = medical_config.result.response.carriers_code[i].name;
+                            break;
                         }
-                    else
-                        product = medical_config.result.response[test_type].name;
+                    }
                     document.getElementById('medical_product').innerHTML = product;
                     document.getElementById('copy_booker_to_pax_div').hidden = false;
                     try{
@@ -100,15 +98,13 @@ function get_config_medical(type='', vendor=''){
                     }catch(err){}
                 }else if(type == 'home'){
                     var text = '';
+                    for(i in msg.result.response.carriers_code){
+                        text += '<option value="'+msg.result.response.carriers_code[i].code+'">' + msg.result.response.carriers_code[i].name + '</option>';
+                    }
                     if(vendor == 'phc'){
-                        for(i in msg.result.response.carriers_code){
-                            text += '<option value="'+msg.result.response.carriers_code[i].code+'">' + msg.result.response.carriers_code[i].name + '</option>';
-                        }
                         document.getElementById('medical_type_phc').innerHTML += text;
                         $('#medical_type_phc').niceSelect('update');
                     }else if(vendor == 'periksain'){
-                        for(i in msg.result.response)
-                            text += '<option value="'+i+'">'+msg.result.response[i].name+'</option>';
                         document.getElementById('medical_type_periksain').innerHTML += text;
                         $('#medical_type_periksain').niceSelect('update');
                     }
@@ -135,12 +131,39 @@ function get_config_medical(type='', vendor=''){
     });
 }
 
+function get_kabupaten(id_provinsi, id_kabupaten){
+    var text = '';
+    text += '<option value="">Choose</option>';
+    for(i in data_kota[document.getElementById(id_provinsi).value]['kabupaten']){
+        text += '<option value="'+i+'">'+data_kota[document.getElementById(id_provinsi).value]['kabupaten'][i].name+"</option>";
+    }
+    document.getElementById(id_kabupaten).innerHTML = text;
+    $('#'+id_kabupaten).select2();
+
+    text = `<option value="">Select Kecamatan</option>`;
+    document.getElementById(id_kabupaten.replace('kabupaten','kecamatan')).innerHTML = text;
+
+    $('#'+id_provinsi.replace('provinsi','kecamatan')).select2();
+
+    text = `<option value="">Select Kelurahan</option>`;
+    document.getElementById(id_kabupaten.replace('kabupaten','kelurahan')).innerHTML = text;
+
+    $('#'+id_provinsi.replace('provinsi','kelurahan')).select2();
+
+    $('#'+id_provinsi).select2();
+}
 
 function get_kecamatan(id_kabupaten,id_kecamatan){
     var text = '';
     text += '<option value="">Choose</option>';
-    for(i in data_kota[document.getElementById(id_kabupaten).value]){
-        text += '<option value="'+i+'">'+i+"</option>";
+    if(vendor == 'phc'){
+        for(i in data_kota[document.getElementById(id_kabupaten).value]){
+            text += '<option value="'+i+'">'+i+"</option>";
+        }
+    }else if(vendor == 'periksain'){
+        for(i in data_kota[document.getElementById(id_kecamatan.replace('kecamatan','provinsi')).value]['kabupaten'][document.getElementById(id_kabupaten).value]['kecamatan']){
+            text += '<option value="'+i+'">'+data_kota[document.getElementById(id_kecamatan.replace('kecamatan','provinsi')).value]['kabupaten'][document.getElementById(id_kabupaten).value]['kecamatan'][i].name+"</option>";
+        }
     }
     document.getElementById(id_kecamatan).innerHTML = text;
     $('#'+id_kecamatan).select2();
@@ -152,19 +175,30 @@ function get_kecamatan(id_kabupaten,id_kecamatan){
     }
     document.getElementById(id_kecamatan.replace('kecamatan','kelurahan')).innerHTML = text;
     $('#'+id_kecamatan.replace('kecamatan','kelurahan')).select2();
+
+    $('#'+id_kabupaten).select2();
 }
 
 function get_kelurahan(id_kecamatan,id_kelurahan){
     var text = '';
     text += '<option value="">Choose</option>';
-    for(i in data_kota[document.getElementById(id_kecamatan.replace('kecamatan','kabupaten')).value][document.getElementById(id_kecamatan).value]){
-        text += '<option value="'+data_kota[document.getElementById(id_kecamatan.replace('kecamatan','kabupaten')).value][document.getElementById(id_kecamatan).value][i]+'">'+data_kota[document.getElementById(id_kecamatan.replace('kecamatan','kabupaten')).value][document.getElementById(id_kecamatan).value][i]+"</option>";
+    if(vendor == 'phc'){
+        for(i in data_kota[document.getElementById(id_kecamatan.replace('kecamatan','kabupaten')).value][document.getElementById(id_kecamatan).value]){
+            text += '<option value="'+data_kota[document.getElementById(id_kecamatan.replace('kecamatan','kabupaten')).value][document.getElementById(id_kecamatan).value][i]+'">'+data_kota[document.getElementById(id_kecamatan.replace('kecamatan','kabupaten')).value][document.getElementById(id_kecamatan).value][i]+"</option>";
+        }
+    }else if(vendor == 'periksain'){
+        for(i in data_kota[document.getElementById(id_kecamatan.replace('kecamatan','provinsi')).value]['kabupaten'][document.getElementById(id_kecamatan.replace('kecamatan','kabupaten')).value]['kecamatan'][document.getElementById(id_kecamatan).value]['kelurahan']){
+            text += '<option value="'+i+'">'+data_kota[document.getElementById(id_kecamatan.replace('kecamatan','provinsi')).value]['kabupaten'][document.getElementById(id_kecamatan.replace('kecamatan','kabupaten')).value]['kecamatan'][document.getElementById(id_kecamatan).value]['kelurahan'][i].name+"</option>";
+        }
     }
     document.getElementById(id_kelurahan).innerHTML = text;
     $('#'+id_kelurahan).select2();
+
+    $('#'+id_kecamatan).select2();
 }
 
 function medical_get_availability(){
+    test_date_data = [];
     $.ajax({
        type: "POST",
        url: "/webservice/medical",
@@ -184,6 +218,7 @@ function medical_get_availability(){
                 if(Object.keys(msg).length > 0){
                     for(i in msg){
                         for(j in msg[i].timeslots){
+                            test_date_data.push(j);
                             for(k in msg[i].timeslots[j]){
                                 tes = moment.utc(j + ' '+ msg[i].timeslots[j][k].time).format('YYYY-MM-DD HH:mm:ss')
                                 localTime  = moment.utc(tes).toDate();
@@ -1197,8 +1232,9 @@ function medical_get_booking(order_number, sync=false){
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>`;
                         document.getElementById('cancel_reservation').innerHTML = `
-                            <button class="primary-btn-white hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="medical_cancel_booking('` + msg.result.response.order_number + `');" style="width:100%;margin-top:15px;background-color:red !important;">
-                            <span style="color:white;">Cancel Booking</span>
+                            <button class="primary-btn-white hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="medical_cancel_booking('` + msg.result.response.order_number + `');" style="width:100%;">
+                                Cancel Booking
+                                <i class="fas fa-times" style="padding-left:5px; color:red; font-size:16px;"></i>
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>
                         `;
@@ -1340,7 +1376,9 @@ function medical_get_booking(order_number, sync=false){
                     if (msg.result.response.state  == 'issued') {
                         print_text+=`
                             <a class="issued-booking-train ld-ext-right" style="color:`+text_color+`;">
-                                <input type="button" class="primary-btn" style="width:100%;" data-toggle="modal" data-target="#printInvoice" value="Print Invoice"/>
+                                <button type="button" class="primary-btn-white" style="width:100%;" data-toggle="modal" data-target="#printInvoice">
+                                    Print Invoice
+                                </button>
                                 <div class="ld ld-ring ld-cycle"></div>
                             </a>`;
                             // modal invoice
@@ -1516,7 +1554,7 @@ function medical_cancel_booking(data){
                 document.getElementById('medical_booking').innerHTML = '';
                 document.getElementById('medical_detail').innerHTML = '';
                 document.getElementById('payment_acq').innerHTML = '';
-                document.getElementById('voucher_div').style.display = 'none';
+                //document.getElementById('voucher_div').style.display = 'none';
                 document.getElementById('show_loading_booking_medical').style.display = 'block';
                 document.getElementById('show_loading_booking_medical').hidden = false;
                 document.getElementById('payment_acq').hidden = true;
@@ -1593,7 +1631,7 @@ function medical_issued_booking(data){
                    document.getElementById('medical_booking').innerHTML = '';
                    document.getElementById('medical_detail').innerHTML = '';
                    document.getElementById('payment_acq').innerHTML = '';
-                   document.getElementById('voucher_div').style.display = 'none';
+                   //document.getElementById('voucher_div').style.display = 'none';
                    document.getElementById('ssr_request_after_sales').hidden = true;
                    document.getElementById('show_loading_booking_medical').style.display = 'block';
                    document.getElementById('show_loading_booking_medical').hidden = false;
@@ -1872,7 +1910,7 @@ function medical_issued_booking(data){
                 document.getElementById('medical_booking').innerHTML = '';
                 document.getElementById('medical_detail').innerHTML = '';
                 document.getElementById('payment_acq').innerHTML = '';
-                document.getElementById('voucher_div').style.display = 'none';
+                //document.getElementById('voucher_div').style.display = 'none';
                 document.getElementById('show_loading_booking_medical').style.display = 'block';
                 document.getElementById('show_loading_booking_medical').hidden = false;
                 document.getElementById('payment_acq').hidden = true;
@@ -2241,16 +2279,8 @@ function create_new_reservation(){
     var text = '';
     var option = '';
     for(i in medical_get_detail.result.response.provider_bookings){
-        if(vendor == 'phc'){
-            for(j in medical_config.result.response.carriers_code){
-                option += `<option value="`+medical_config.result.response.carriers_code[j].code+`">`+medical_config.result.response.carriers_code[j].name+`</option>`;
-            }
-        }else{
-            // PERIKSAIN
-            for(j in medical_config.result.response){
-                option += `<option value="`+j+`">`+medical_config.result.response[j].name+`</option>`;
-            }
-
+        for(j in medical_config.result.response.carriers_code){
+            option += `<option value="`+medical_config.result.response.carriers_code[j].code+`">`+medical_config.result.response.carriers_code[j].name+`</option>`;
         }
     }
     text += `<div style="background:white;margin-top:15px;padding:5px 10px; border:1px solid #cdcdcd;">
@@ -2411,7 +2441,8 @@ function update_data_passengers(){
     var path = '/'+medical_get_detail.result.response.provider_bookings[0].provider+'/passenger_edit/' + medical_get_detail.result.response.provider_bookings[0].carrier_code +'/'+ medical_get_detail.result.response.order_number;
     var data = {
         'state': medical_get_detail.result.response.state,
-        'passengers': medical_get_detail.result.response.passengers
+        'passengers': medical_get_detail.result.response.passengers,
+        'booking': medical_get_detail.result.response
     }
     document.getElementById('data').value = JSON.stringify(data);
     document.getElementById('signature_data').value = signature;
@@ -2499,21 +2530,32 @@ function get_medical_information(){
                 medical_data_frontend = msg.response;
                 if(vendor == 'periksain'){
                     document.getElementById('informasi_penting').innerHTML += medical_data_frontend[0].html
-                    if(medical_data_frontend[0].html != false)
+                    if(medical_data_frontend[0].html != false){
                         document.getElementById('informasi_penting').style.display = 'block';
+                    }else{
+                        document.getElementById("information_checkbox").checked = true;
+                    }
                 }else{
                     if(test_type.includes('PCR')){
                         document.getElementById('informasi_penting').innerHTML += medical_data_frontend[2].html
-                        if(medical_data_frontend[2].html != false)
+                        if(medical_data_frontend[2].html != false){
                             document.getElementById('informasi_penting').style.display = 'block';
+                            document.getElementById('information_div_checkbox').style.display = 'block';
+                        }else{
+                            document.getElementById("information_checkbox").checked = true;
+                        }
                     }else{
                         document.getElementById('informasi_penting').innerHTML += medical_data_frontend[1].html
-                        if(medical_data_frontend[1].html != false)
+                        if(medical_data_frontend[1].html != false){
                             document.getElementById('informasi_penting').style.display = 'block';
+                            document.getElementById('information_div_checkbox').style.display = 'block';
+                        }else{
+                            document.getElementById("information_checkbox").checked = true;
+                        }
                     }
                 }
             }else{
-
+                document.getElementById("information_checkbox").checked = true;
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
