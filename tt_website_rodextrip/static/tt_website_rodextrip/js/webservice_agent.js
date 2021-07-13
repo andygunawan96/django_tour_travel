@@ -2725,6 +2725,231 @@ function clear_passenger(type, sequence){
         document.getElementById('child_country_of_issued'+sequence).value = '';
         document.getElementById('select2-child_country_of_issued'+sequence+'_id-container').innerHTML = 'Country Of Issued';
     }
+
+    else if(type == 'Medical'){
+        Swal.fire({
+          title: 'Are you sure Clear for Customer #'+sequence,
+          html: '<h4 style="color:red;">All data that you have filled in will be deleted.<h4/>',
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes'
+        }).then((result) => {
+            if (result.value) {
+                for(i in passenger_data_pick){
+                    if(passenger_data_pick[i].sequence == 'adult'+sequence){
+                        passenger_data_pick.splice(i,1);
+                        break;
+                    }
+                }
+                try{
+                    //common
+                    document.getElementById('adult_title'+sequence).value = '';
+                    for(i in document.getElementById('adult_title'+sequence).options){
+                        document.getElementById('adult_title'+sequence).options[i].disabled = false;
+                    }
+                    $('#adult_title'+sequence).niceSelect('update');
+                    document.getElementById('adult_email'+sequence).value = '';
+                    document.getElementById('adult_email'+sequence).readOnly = false;
+                    document.getElementById('adult_phone_code'+sequence).value = '62';
+                    document.getElementById('select2-adult_phone_code'+sequence+'_id-container').value = '62';
+                    document.getElementById('select2-adult_phone_code'+sequence+'_id-container').readOnly = false;
+                    document.getElementById('adult_phone'+sequence).value = '';
+                    document.getElementById('adult_phone'+sequence).readOnly = false;
+                    document.getElementById('adult_id'+sequence).value = '';
+                    document.getElementById('adult_first_name'+sequence).value = '';
+                    document.getElementById('adult_first_name'+sequence).readOnly = false;
+                    document.getElementById('adult_last_name'+sequence).value = '';
+                    document.getElementById('adult_last_name'+sequence).readOnly = false;
+
+                    initial_date = moment().subtract(18, 'years').format('DD MMM YYYY');
+                    document.getElementById('adult_birth_date'+sequence).value = initial_date;
+                    document.getElementById('adult_birth_date'+sequence).disabled = false;
+                    document.getElementById('adult_identity_number'+sequence).value = '';
+                    document.getElementById('adult_identity_number'+sequence).readOnly = false;
+                    document.getElementById('adult_identity_expired_date'+sequence).value = '';
+                    document.getElementById('adult_identity_expired_date'+sequence).readOnly = false;
+
+                    //nanti tanya ipang nationality sama country of issued
+                    //document.getElementById('adult_nationality'+sequence).value = 'Indonesia';
+                    //document.getElementById('select2-adult_nationality'+sequence+'_id-container').value = 'Indonesia';
+                    //document.getElementById('adult_nationality'+sequence+'_id').disabled = false;
+                    //document.getElementById('adult_country_of_issued'+sequence).value = '';
+                    //document.getElementById('select2-adult_country_of_issued'+sequence+'_id-container').innerHTML = 'Country Of Issued';
+
+                    if(vendor == 'phc'){
+                        //personal data
+                        document.getElementById('adult_married_status'+sequence).value = '';
+                        $('#adult_married_status'+sequence).niceSelect('update');
+                        document.getElementById('adult_profession'+sequence).value = '';
+                        $('#adult_profession'+sequence).niceSelect('update');
+                        document.getElementById('adult_work_place'+sequence).value = '';
+                        document.getElementById('adult_work_place_div'+sequence).style.display = 'none';
+
+                        document.getElementById('adult_address_ktp'+sequence).value = '';
+                        document.getElementById('adult_rt_ktp'+sequence).value = '';
+                        document.getElementById('adult_rw_ktp'+sequence).value = '';
+                        //kabupaten, kecamatan, kelurahan
+                        document.getElementById("adult_copy_no"+sequence).click();
+                        document.getElementById('adult_address'+sequence).value = '';
+                        document.getElementById('adult_rt'+sequence).value = '';
+                        document.getElementById('adult_rw'+sequence).value = '';
+                        //kabupaten, kecamatan, kelurahan
+
+                        if(test_type == 'PHCHCKPCR' || test_type == 'PHCDTKPCR'){
+                            //Medical Data
+                            document.getElementById('adult_kriteria_pasien'+sequence).value = 'LAIN-LAIN';
+                            $('#adult_kriteria_pasien'+sequence).niceSelect('update');
+                            document.getElementById('detail_kriteria'+sequence).hidden = true;
+                            document.getElementById('adult_pemeriksaan_swab_ke'+sequence).value = '';
+
+                            //sedang dirawat rs
+                            document.getElementById('adult_sedang_dirawat_di_rs'+sequence).value = 'TIDAK TAHU';
+                            $('#adult_sedang_dirawat_di_rs'+sequence).niceSelect('update');
+
+                            document.getElementById('adult_nama_rs'+sequence).value = '';
+                            document.getElementById('nama_rs_div'+sequence).hidden = true;
+                            document.getElementById('adult_tanggal_masuk_rs'+sequence).value = '';
+                            document.getElementById('tanggal_masuk_rs'+sequence).hidden = true;
+                            document.getElementById('adult_nama_ruang_perawatan'+sequence).value = '';
+                            document.getElementById('nama_ruang_perawatan'+sequence).hidden = true;
+
+                            document.getElementById('adult_sedang_dirawat_di_icu'+sequence).value = '';
+                            $('#adult_sedang_dirawat_di_icu'+sequence).niceSelect('update');
+                            document.getElementById('adult_sedang_dirawat_di_icu_div'+sequence).hidden = true;
+
+                            document.getElementById('adult_status_terakhir'+sequence).value = '';
+                            $('#adult_status_terakhir'+sequence).niceSelect('update');
+                            document.getElementById('adult_status_terakhir_div'+sequence).hidden = true;
+
+                            document.getElementById('adult_menggunakan_intubasi'+sequence).value = '';
+                            $('#adult_menggunakan_intubasi'+sequence).niceSelect('update');
+                            document.getElementById('adult_menggunakan_intubasi_div'+sequence).hidden = true;
+
+                            document.getElementById('adult_menggunakan_emco'+sequence).value = '';
+                            $('#adult_menggunakan_emco'+sequence).niceSelect('update');
+                            document.getElementById('adult_menggunakan_emco_div'+sequence).hidden = true;
+
+                            document.getElementById('adult_klinis_ada_penumonia'+sequence).value = '';
+                            $('#adult_klinis_ada_penumonia'+sequence).niceSelect('update');
+                            document.getElementById('adult_klinis_ada_penumonia_div'+sequence).hidden = true;
+
+                            document.getElementById('adult_klinis_ada_ards'+sequence).value = '';
+                            $('#adult_klinis_ada_ards'+sequence).niceSelect('update');
+                            document.getElementById('adult_klinis_ada_ards_div'+sequence).hidden = true;
+                            document.getElementById('adult_klinis_ards_detil'+sequence).value = '';
+                            document.getElementById('ards_detail_div'+sequence).hidden = true;
+
+                            document.getElementById('adult_klinis_ada_penyakit_pernafasan'+sequence).value = '';
+                            $('#adult_klinis_ada_penyakit_pernafasan'+sequence).niceSelect('update');
+                            document.getElementById('adult_klinis_ada_penyakit_pernafasan_div'+sequence).hidden = true;
+
+                            //Gejala
+                            document.getElementById('adult_gejala'+sequence).value = 'TIDAK TAHU';
+                            $('#adult_gejala'+sequence).niceSelect('update');
+                            document.getElementById('table_gejala_div'+sequence).hidden = true;
+
+                            document.getElementById('adult_tanggal_pertama_kali_gejala'+sequence).value = '';
+                            document.getElementById('adult_klinis_ada_demam'+sequence).value = 'TIDAK TAHU';
+                            $('#adult_klinis_ada_demam'+sequence).niceSelect('update');
+                            document.getElementById('adult_klinis_suhu_tubuh'+sequence).value = '';
+                            document.getElementById('suhu_tubuh_div'+sequence).hidden = true;
+                            document.getElementById('adult_klinis_ada_batuk'+sequence).value = '';
+                            $('#adult_klinis_ada_batuk'+sequence).niceSelect('update');
+                            document.getElementById('adult_klinis_ada_pilek'+sequence).value = '';
+                            $('#adult_klinis_ada_pilek'+sequence).niceSelect('update');
+                            document.getElementById('adult_klinis_ada_sakit_tenggorokan'+sequence).value = '';
+                            $('#adult_klinis_ada_sakit_tenggorokan'+sequence).niceSelect('update');
+                            document.getElementById('adult_klinis_ada_sesak'+sequence).value = '';
+                            $('#adult_klinis_ada_sesak'+sequence).niceSelect('update');
+                            document.getElementById('adult_klinis_ada_sakit_kepala'+sequence).value = '';
+                            $('#adult_klinis_ada_sakit_kepala'+sequence).niceSelect('update');
+                            document.getElementById('adult_klinis_ada_badan_lemah'+sequence).value = '';
+                            $('#adult_klinis_ada_badan_lemah'+sequence).niceSelect('update');
+                            document.getElementById('adult_klinis_ada_nyeri_otot'+sequence).value = '';
+                            $('#adult_klinis_ada_nyeri_otot'+sequence).niceSelect('update');
+                            document.getElementById('adult_klinis_ada_mual'+sequence).value = '';
+                            $('#adult_klinis_ada_mual'+sequence).niceSelect('update');
+                            document.getElementById('adult_klinis_ada_nyeri_abdomen'+sequence).value = '';
+                            $('#adult_klinis_ada_nyeri_abdomen'+sequence).niceSelect('update');
+                            document.getElementById('adult_klinis_ada_diare'+sequence).value = '';
+                            $('#adult_klinis_ada_diare'+sequence).niceSelect('update');
+                            document.getElementById('adult_klinis_ada_gangguan_penciuman'+sequence).value = '';
+                            $('#adult_klinis_ada_gangguan_penciuman'+sequence).niceSelect('update');
+                            document.getElementById('adult_klinis_gejala_lainnya'+sequence).value = '';
+
+                            //Penyakit bawaan
+                            document.getElementById('adult_penyakit_bawaan'+sequence).value = '';
+                            $('#adult_penyakit_bawaan'+sequence).niceSelect('update');
+                            document.getElementById('table_penyakit_bawaan_div'+sequence).hidden = true;
+
+                            document.getElementById('adult_klinis_ada_diabetes'+sequence).value = '';
+                            $('#adult_klinis_ada_diabetes'+sequence).niceSelect('update');
+                            document.getElementById('adult_klinis_ada_penyakit_jantung'+sequence).value = '';
+                            $('#adult_klinis_ada_penyakit_jantung'+sequence).niceSelect('update');
+                            document.getElementById('adult_klinis_ada_hipertensi'+sequence).value = '';
+                            $('#adult_klinis_ada_hipertensi'+sequence).niceSelect('update');
+                            document.getElementById('adult_klinis_ada_keganasan'+sequence).value = '';
+                            $('#adult_klinis_ada_keganasan'+sequence).niceSelect('update');
+                            document.getElementById('adult_klinis_ada_gangguan_imunologi'+sequence).value = '';
+                            $('#adult_klinis_ada_gangguan_imunologi'+sequence).niceSelect('update');
+                            document.getElementById('adult_klinis_ada_gangguan_ginjal'+sequence).value = '';
+                            $('#adult_klinis_ada_gangguan_ginjal'+sequence).niceSelect('update');
+                            document.getElementById('adult_klinis_ada_gangguan_hati'+sequence).value = '';
+                            $('#adult_klinis_ada_gangguan_hati'+sequence).niceSelect('update');
+                            document.getElementById('adult_klinis_ada_gangguan_paru_obstruksi_kronis'+sequence).value = '';
+                            $('#adult_klinis_ada_gangguan_paru_obstruksi_kronis'+sequence).niceSelect('update');
+                            document.getElementById('adult_klinis_kondisi_penyerta_lainnya'+sequence).value = '';
+
+
+                            //FAKTOR PAPARAN
+                            document.getElementById('adult_perjalanan'+sequence).value = '';
+                            $('#adult_perjalanan'+sequence).niceSelect('update');
+                            document.getElementById('adult_perjalanan_keluar_negeri'+sequence).value = '';
+                            $('#adult_perjalanan_keluar_negeri'+sequence).niceSelect('update');
+                            document.getElementById('perjalanan_keluar_negeri_div'+sequence).hidden = true;
+                            document.getElementById('adult_perjalanan_keluar_negeri'+sequence).value = '';
+                            $('#adult_perjalanan_keluar_negeri'+sequence).niceSelect('update');
+                            document.getElementById('adult_perjalanan_keluar_negeri'+sequence).hidden = true;
+                            document.getElementById('adult_perjalanan_keluar_negeri'+sequence).value = '';
+                            $('#adult_perjalanan_keluar_negeri'+sequence).niceSelect('update');
+                            document.getElementById('perjalanan_ke_transmisi_lokal_div'+sequence).hidden = true;
+                            document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan'+sequence).value = '';
+                            $('#adult_berkunjung_ke_fasilitas_kesehatan'+sequence).niceSelect('update');
+                            document.getElementById('berkunjung_ke_fasilitas_kesehatan_div'+sequence).hidden = true;
+                            document.getElementById('adult_berkunjung_ke_pasar_hewan'+sequence).value = '';
+                            $('#adult_berkunjung_ke_pasar_hewan'+sequence).niceSelect('update');
+                            document.getElementById('berkunjung_ke_pasar_hewan_div'+sequence).hidden = true;
+                            document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan'+sequence).value = '';
+                            $('#adult_berkunjung_ke_pasien_dalam_pengawasan'+sequence).niceSelect('update');
+                            document.getElementById('berkunjung_ke_pasien_dalam_pengawasan_div'+sequence).hidden = true;
+                            document.getElementById('adult_berkunjung_ke_pasien_konfirmasi'+sequence).value = '';
+                            $('#adult_berkunjung_ke_pasien_konfirmasi'+sequence).niceSelect('update');
+                            document.getElementById('berkunjung_ke_pasien_konfirmasi_div'+sequence).hidden = true;
+
+                            document.getElementById('adult_termasuk_cluster_ispa'+sequence).value = '';
+                            $('#adult_termasuk_cluster_ispa'+sequence).niceSelect('update');
+
+                            document.getElementById('adult_merupakan_petugas_kesehatan'+sequence).value = '';
+                            $('#adult_merupakan_petugas_kesehatan'+sequence).niceSelect('update');
+                            document.getElementById('apd_div'+sequence).hidden = true;
+                            document.getElementById('adult_apd_yang_digunakan'+sequence).value = '';
+                            $('#adult_merupakan_petugas_kesehatan'+sequence).niceSelect('update');
+
+                            document.getElementById('adult_prosedur_menimbulkan_aerosol'+sequence).value = '';
+                            $('#adult_prosedur_menimbulkan_aerosol'+sequence).niceSelect('update');
+                            document.getElementById('tindakan_aerosol_div'+sequence).hidden = true;
+                            document.getElementById('adult_tindakan_menimbulkan_aerosol'+sequence).value = '';
+                            document.getElementById('adult_faktor_lain'+sequence).value = '';
+
+                        }
+                    }
+
+                }catch(err){}
+            }
+        })
+    }
 }
 
 function check_pln_non_tagihan(value){

@@ -6,7 +6,7 @@
 * @website: http://www.daterangepicker.com/
 */
 // Following the UMD template https://github.com/umdjs/umd/blob/master/templates/returnExportsGlobal.js
-
+custom_disabled_date = [];
 function get_public_holiday(start_date, end_date, country_id){
     getToken();
     $.ajax({
@@ -867,6 +867,29 @@ function get_public_holiday(start_date, end_date, country_id){
                     }
                     catch(err){}
 
+                    try{
+                        if(this.locale.productDate == 'medical'){
+                            if(this.locale.dataDate.length != 0){
+                                cname_available = cname.includes("available");
+                                cname_off = cname.includes("off");
+                                disable_date = 0;
+
+                                if(cname_available == true){
+                                    for (data_rg in this.locale.dataDate){
+                                        if(this.locale.dataDate[data_rg] == tempDateRender){
+                                            disable_date = 1;
+                                        }
+                                    }
+                                    if(disable_date == 0){
+                                        classes.push('off', 'disabled');
+                                        custom_disabled_date.push(tempDateRender);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    catch(err){}
+
                     //highlight today's date
                     if (calendar[row][col].isSame(new Date(), "day"))
                         classes.push('today');
@@ -1631,14 +1654,45 @@ function get_public_holiday(start_date, end_date, country_id){
             }
         },
 
+        //ini change input
         updateElement: function() {
-            if (this.element.is('input') && this.autoUpdateInput) {
-                var newValue = this.startDate.format(this.locale.format);
-                if (!this.singleDatePicker) {
-                    newValue += this.locale.separator + this.endDate.format(this.locale.format);
+            if(this.locale.productDate == 'medical'){
+                if (this.element.is('input') && this.autoUpdateInput) {
+                    var newValue = this.startDate.format(this.locale.format);
+                    if (!this.singleDatePicker) {
+                        newValue += this.locale.separator + this.endDate.format(this.locale.format);
+                    }
+
+                    if(custom_disabled_date.length != 0){
+                        var default_cek = 0;
+                        for (dateDsb in custom_disabled_date) {
+                            disableValue = moment(custom_disabled_date[dateDsb]).format('DD MMM YYYY');
+                            if (newValue == disableValue) {
+                                default_cek = 1
+                            }
+                        }
+
+                        if (default_cek == 1){
+                            this.element.val(this.minDate.format(this.locale.format)).trigger('change');
+                        }else{
+                            this.element.val(newValue).trigger('change');
+                        }
+                    }else{
+                        if (newValue !== this.element.val()) {
+                            this.element.val(newValue).trigger('change');
+                        }
+                    }
                 }
-                if (newValue !== this.element.val()) {
-                    this.element.val(newValue).trigger('change');
+            }
+            else{
+                if (this.element.is('input') && this.autoUpdateInput) {
+                    var newValue = this.startDate.format(this.locale.format);
+                    if (!this.singleDatePicker) {
+                        newValue += this.locale.separator + this.endDate.format(this.locale.format);
+                    }
+                    if (newValue !== this.element.val()) {
+                        this.element.val(newValue).trigger('change');
+                    }
                 }
             }
         },
