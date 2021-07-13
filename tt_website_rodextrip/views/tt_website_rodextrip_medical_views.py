@@ -337,12 +337,13 @@ def passenger_edit(request, vendor,test_type, order_number):
                 data = json.loads(request.POST['data'])
                 passengers = data['passengers']
                 booking = data['booking']
+                state = data['booking']['state']
                 set_session(request, 'medical_passenger_cache', passengers)
                 set_session(request, 'medical_cache_data_booking', booking)
             except:
                 try:
                     passengers = request.session['medical_passenger_cache']
-                    state = request.session['medical_cache_data_booking']
+                    state = request.session['medical_cache_data_booking']['state']
                 except:
                     passengers = []
                     state = 'booked'

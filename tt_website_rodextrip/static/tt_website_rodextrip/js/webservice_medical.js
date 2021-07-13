@@ -2441,7 +2441,8 @@ function update_data_passengers(){
     var path = '/'+medical_get_detail.result.response.provider_bookings[0].provider+'/passenger_edit/' + medical_get_detail.result.response.provider_bookings[0].carrier_code +'/'+ medical_get_detail.result.response.order_number;
     var data = {
         'state': medical_get_detail.result.response.state,
-        'passengers': medical_get_detail.result.response.passengers
+        'passengers': medical_get_detail.result.response.passengers,
+        'booking': medical_get_detail.result.response
     }
     document.getElementById('data').value = JSON.stringify(data);
     document.getElementById('signature_data').value = signature;
