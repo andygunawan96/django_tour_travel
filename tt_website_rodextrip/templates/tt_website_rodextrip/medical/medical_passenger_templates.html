@@ -8,6 +8,7 @@
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/medical_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_medical.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_printout.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
 
@@ -3363,7 +3364,7 @@
     use_google_map = false;
     last_counter = 0;
     vendor = `{{vendor}}`;
-    get_medical_information();
+    get_list_report_footer();
     alamat_ss = 'Jl. Raya Bukit Darmo No.22-24, Putat Gede, Kec. Sukomanunggal, Kota SBY, Jawa Timur 60189';
     test_type = `{{test_type}}`;
       //if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCHCKATG' || vendor == 'phc' && test_type == 'PHCHCKPCR')

@@ -143,12 +143,14 @@ function get_kabupaten(id_provinsi, id_kabupaten){
     text = `<option value="">Select Kecamatan</option>`;
     document.getElementById(id_kabupaten.replace('kabupaten','kecamatan')).innerHTML = text;
 
-    $('#'+id_provinsi.replace('kabupaten','kecamatan')).select2();
+    $('#'+id_provinsi.replace('provinsi','kecamatan')).select2();
 
     text = `<option value="">Select Kelurahan</option>`;
     document.getElementById(id_kabupaten.replace('kabupaten','kelurahan')).innerHTML = text;
 
-    $('#'+id_provinsi.replace('kabupaten','kelurahan')).select2();
+    $('#'+id_provinsi.replace('provinsi','kelurahan')).select2();
+
+    $('#'+id_provinsi).select2();
 }
 
 function get_kecamatan(id_kabupaten,id_kecamatan){
@@ -173,6 +175,8 @@ function get_kecamatan(id_kabupaten,id_kecamatan){
     }
     document.getElementById(id_kecamatan.replace('kecamatan','kelurahan')).innerHTML = text;
     $('#'+id_kecamatan.replace('kecamatan','kelurahan')).select2();
+
+    $('#'+id_kabupaten).select2();
 }
 
 function get_kelurahan(id_kecamatan,id_kelurahan){
@@ -189,6 +193,8 @@ function get_kelurahan(id_kecamatan,id_kelurahan){
     }
     document.getElementById(id_kelurahan).innerHTML = text;
     $('#'+id_kelurahan).select2();
+
+    $('#'+id_kecamatan).select2();
 }
 
 function medical_get_availability(){
@@ -1548,7 +1554,7 @@ function medical_cancel_booking(data){
                 document.getElementById('medical_booking').innerHTML = '';
                 document.getElementById('medical_detail').innerHTML = '';
                 document.getElementById('payment_acq').innerHTML = '';
-                document.getElementById('voucher_div').style.display = 'none';
+                //document.getElementById('voucher_div').style.display = 'none';
                 document.getElementById('show_loading_booking_medical').style.display = 'block';
                 document.getElementById('show_loading_booking_medical').hidden = false;
                 document.getElementById('payment_acq').hidden = true;
@@ -1625,7 +1631,7 @@ function medical_issued_booking(data){
                    document.getElementById('medical_booking').innerHTML = '';
                    document.getElementById('medical_detail').innerHTML = '';
                    document.getElementById('payment_acq').innerHTML = '';
-                   document.getElementById('voucher_div').style.display = 'none';
+                   //document.getElementById('voucher_div').style.display = 'none';
                    document.getElementById('ssr_request_after_sales').hidden = true;
                    document.getElementById('show_loading_booking_medical').style.display = 'block';
                    document.getElementById('show_loading_booking_medical').hidden = false;
@@ -1904,7 +1910,7 @@ function medical_issued_booking(data){
                 document.getElementById('medical_booking').innerHTML = '';
                 document.getElementById('medical_detail').innerHTML = '';
                 document.getElementById('payment_acq').innerHTML = '';
-                document.getElementById('voucher_div').style.display = 'none';
+                //document.getElementById('voucher_div').style.display = 'none';
                 document.getElementById('show_loading_booking_medical').style.display = 'block';
                 document.getElementById('show_loading_booking_medical').hidden = false;
                 document.getElementById('payment_acq').hidden = true;
@@ -2273,16 +2279,8 @@ function create_new_reservation(){
     var text = '';
     var option = '';
     for(i in medical_get_detail.result.response.provider_bookings){
-        if(vendor == 'phc'){
-            for(j in medical_config.result.response.carriers_code){
-                option += `<option value="`+medical_config.result.response.carriers_code[j].code+`">`+medical_config.result.response.carriers_code[j].name+`</option>`;
-            }
-        }else{
-            // PERIKSAIN
-            for(j in medical_config.result.response){
-                option += `<option value="`+j+`">`+medical_config.result.response[j].name+`</option>`;
-            }
-
+        for(j in medical_config.result.response.carriers_code){
+            option += `<option value="`+medical_config.result.response.carriers_code[j].code+`">`+medical_config.result.response.carriers_code[j].name+`</option>`;
         }
     }
     text += `<div style="background:white;margin-top:15px;padding:5px 10px; border:1px solid #cdcdcd;">
@@ -2529,7 +2527,6 @@ function get_medical_information(){
             console.log(msg);
             if(msg.error_code == 0){
                 medical_data_frontend = msg.response;
-                console.log(medical_data_frontend);
                 if(vendor == 'periksain'){
                     document.getElementById('informasi_penting').innerHTML += medical_data_frontend[0].html
                     if(medical_data_frontend[0].html != false){
