@@ -2790,12 +2790,12 @@ function clear_passenger(type, sequence){
                         document.getElementById('adult_address_ktp'+sequence).value = '';
                         document.getElementById('adult_rt_ktp'+sequence).value = '';
                         document.getElementById('adult_rw_ktp'+sequence).value = '';
-                        //kabupaten, kecamatan, kelurahan
+                        //kabupaten, kecamatan, kelurahan belum pake delete2
                         document.getElementById("adult_copy_no"+sequence).click();
                         document.getElementById('adult_address'+sequence).value = '';
                         document.getElementById('adult_rt'+sequence).value = '';
                         document.getElementById('adult_rw'+sequence).value = '';
-                        //kabupaten, kecamatan, kelurahan
+                        //kabupaten, kecamatan, kelurahan belum pake delete2
 
                         if(test_type == 'PHCHCKPCR' || test_type == 'PHCDTKPCR'){
                             //Medical Data
