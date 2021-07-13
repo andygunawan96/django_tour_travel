@@ -507,7 +507,7 @@ function add_table_of_passenger_verify(type){
                         else
                             text_div_paxs+=`
                             <option value="ktp">KTP</option>`;
-                        if(vendor != 'periksain' && test_type != 'PHCHCKATG' && test_type != 'PHCDTKATG')
+                        if(test_type != 'PHCHCKATG' && test_type != 'PHCDTKATG')
                         text_div_paxs+=`
                             <option value="passport">Passport</option>`;
                             text_div_paxs+=`</select>
@@ -744,55 +744,6 @@ function add_table_of_passenger(type){
     <div class="col-lg-12 mb-4" style="border:1px solid `+color+`; padding:20px 15px 0px 15px;" id="div_form_customer`+counter_passenger+`">
         <span id="span_customer_data`+counter_passenger+`" style="color:red; font-weight:bold;"></span><br/>
         <div class="row mt-2">`;
-            if(vendor == 'periksain'){
-                text+=`
-                <div class="col-lg-4 mt-3">
-                    <span style="padding-right:10px; font-weight:700; font-size:15px;">Sample Method</span>
-                </div>
-                <div class="col-lg-8">`;
-                    if(template == 1){
-                        text+=`<div class="input-container-search-ticket">`;
-                    }else if(template == 2){
-                        text+=`<div>`;
-                    }else if(template == 3){
-                        text+=`<div class="default-select">`;
-                    }else if(template == 4){
-                        text+=`<div class="input-container-search-ticket">`;
-                    }else if(template == 5){
-                        text+=`<div class="input-container-search-ticket">`;
-                    }else if(template == 6){
-                        text+=`<div class="default-select">`;
-                    }
-
-                    if(template == 5){
-                        text+=`<div class="form-select">`;
-                    }else{
-                        text+=`<div class="form-select-2">`;
-                    }
-
-                    if(template == 4){
-                        text+=`<select class="nice-select-default rounded" id="adult_sample_method`+parseInt(counter_passenger+1)+`" name="adult_sample_method`+parseInt(counter_passenger+1)+`">`;
-                    }else{
-                        text+=`<select id="adult_sample_method`+parseInt(counter_passenger+1)+`" name="adult_sample_method`+parseInt(counter_passenger+1)+`">`;
-                    }
-                    text+=`
-                        <option value="">Choose Sample Method</option>
-                        <option value="saliva">Saliva</option>
-                        <option value="nasal_swab">Nasal Swab</option>`;
-                        text+=`</select>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 mt-4">
-                    <span style="padding-right:10px; font-weight:700; font-size:15px;">Address KTP</span>
-                </div>
-                <div class="col-lg-8">
-                    <div class="input-container-search-ticket" style="margin-top:15px;">
-                        <input type="text" class="form-control" name="adult_address_ktp`+parseInt(counter_passenger+1)+`" id="adult_address_ktp`+parseInt(counter_passenger+1)+`" placeholder="Address KTP " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address KTP '" onchange="auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">
-                    </div>
-                </div>`;
-            }
-
             text+=`<div class="col-lg-12 mt-4 mb-3">`;
 
             text+=`
@@ -1179,7 +1130,7 @@ function add_table_of_passenger(type){
                         else
                             text_div_paxs+=`
                             <option value="ktp">KTP</option>`;
-                        if(vendor != 'periksain' && test_type != 'PHCHCKATG' && test_type != 'PHCDTKATG')
+                        if(test_type != 'PHCHCKATG' && test_type != 'PHCDTKATG')
                         text_div_paxs+=`
                             <option value="passport">Passport</option>`;
                             text_div_paxs+=`</select>
@@ -1615,6 +1566,185 @@ function add_table_of_passenger(type){
 
                         }
                     }
+                    if(vendor == 'periksain'){
+                        text_div_paxs += `
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <h4>Domisili</h4>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <span style="padding-right:10px; font-weight:700; font-size:15px;font-weight:bold;color:red">DATA HARUS BENAR KARENA TIDAK BISA DIUBAH</span><br/>
+                        </div>`
+                        text_div_paxs+=`
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <label style="color:red !important">*</label>
+                            <label>Address</label>
+                            <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                                <input type="text" class="form-control" name="adult_address`+parseInt(counter_passenger+1)+`" id="adult_address`+parseInt(counter_passenger+1)+`" placeholder="Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address '" >
+                            </div>
+                        </div>`;
+
+                        text_div_paxs+=`
+
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <label style="color:red !important">*</label>
+                            <label>Provinsi</label>`;
+                            if(template == 1){
+                                text_div_paxs+=`<div class="input-container-search-ticket">`;
+                            }else if(template == 2){
+                                text_div_paxs+=`<div>`;
+                            }else if(template == 3){
+                                text_div_paxs+=`<div class="default-select">`;
+                            }else if(template == 4){
+                                text_div_paxs+=`<div class="input-container-search-ticket">`;
+                            }else if(template == 5){
+                                text_div_paxs+=`<div class="input-container-search-ticket">`;
+                            }
+                            text_div_paxs+=` <div class="form-select">
+                                        <select class="form-control js-example-basic-single" name="adult_provinsi`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_provinsi`+parseInt(counter_passenger+1)+`_id" placeholder="Provinsi" onchange="auto_complete('adult_provinsi`+parseInt(counter_passenger+1)+`');get_kabupaten('adult_provinsi`+parseInt(counter_passenger+1)+`_id','adult_kabupaten`+parseInt(counter_passenger+1)+`_id');" >
+                                            <option value="">Select Provinsi</option>`;
+                                        for(i in data_kota)
+                                        text_div_paxs+=`<option value="`+i+`">`+data_kota[i].name+`</option>`;
+                                    text_div_paxs+=`</select>
+                                    </div>
+                                    <input type="hidden" name="adult_provinsi`+parseInt(counter_passenger+1)+`" id="adult_provinsi`+parseInt(counter_passenger+1)+`" />
+                                    <button type="button" class="primary-delete-date" onclick="delete_type('adult_provinsi`+parseInt(counter_passenger+1)+`_id', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                </div>
+                            </div>`;
+
+                        text_div_paxs+=`
+
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <label style="color:red !important">*</label>
+                            <label>Kabupaten/Kota</label>`;
+                            if(template == 1){
+                                text_div_paxs+=`<div class="input-container-search-ticket">`;
+                            }else if(template == 2){
+                                text_div_paxs+=`<div>`;
+                            }else if(template == 3){
+                                text_div_paxs+=`<div class="default-select">`;
+                            }else if(template == 4){
+                                text_div_paxs+=`<div class="input-container-search-ticket">`;
+                            }else if(template == 5){
+                                text_div_paxs+=`<div class="input-container-search-ticket">`;
+                            }
+                            text_div_paxs+=` <div class="form-select">
+                                        <select class="form-control js-example-basic-single" name="adult_kabupaten`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_kabupaten`+parseInt(counter_passenger+1)+`_id" placeholder="Kabupaten" onchange="auto_complete('adult_kabupaten`+parseInt(counter_passenger+1)+`');get_kecamatan('adult_kabupaten`+parseInt(counter_passenger+1)+`_id','adult_kecamatan`+parseInt(counter_passenger+1)+`_id');" >
+                                            <option value="">Select Kabupaten</option>`;
+                                        for(i in data_kota)
+                                        text_div_paxs+=`<option value="`+i+`">`+i+`</option>`;
+                                    text_div_paxs+=`</select>
+                                    </div>
+                                    <input type="hidden" name="adult_kabupaten`+parseInt(counter_passenger+1)+`" id="adult_kabupaten`+parseInt(counter_passenger+1)+`" />
+                                    <button type="button" class="primary-delete-date" onclick="delete_type('adult_kabupaten`+parseInt(counter_passenger+1)+`_id', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                </div>
+                            </div>`;
+
+                        text_div_paxs+=`
+
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <label style="color:red !important">*</label>
+                            <label>Kecamatan</label>`;
+                            if(template == 1){
+                                text_div_paxs+=`<div class="input-container-search-ticket">`;
+                            }else if(template == 2){
+                                text_div_paxs+=`<div>`;
+                            }else if(template == 3){
+                                text_div_paxs+=`<div class="default-select">`;
+                            }else if(template == 4){
+                                text_div_paxs+=`<div class="input-container-search-ticket">`;
+                            }else if(template == 5){
+                                text_div_paxs+=`<div class="input-container-search-ticket">`;
+                            }
+                            text_div_paxs+=` <div class="form-select">
+                                        <select class="form-control js-example-basic-single" name="adult_kecamatan`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_kecamatan`+parseInt(counter_passenger+1)+`_id" placeholder="Kecamatan" onchange="auto_complete('adult_kecamatan`+parseInt(counter_passenger+1)+`');get_kelurahan('adult_kecamatan`+parseInt(counter_passenger+1)+`_id','adult_kelurahan`+parseInt(counter_passenger+1)+`_id');">
+                                            <option value="">Select Kecamatan</option>`;
+                                    text_div_paxs+=`</select>
+                                    </div>
+                                    <input type="hidden" name="adult_kecamatan`+parseInt(counter_passenger+1)+`" id="adult_kecamatan`+parseInt(counter_passenger+1)+`" />
+                                    <button type="button" class="primary-delete-date" onclick="delete_type('adult_kecamatan`+parseInt(counter_passenger+1)+`_id', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                </div>
+                            </div>`;
+
+                        text_div_paxs+=`
+
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <label style="color:red !important">*</label>
+                            <label>Kelurahan</label>`;
+                            if(template == 1){
+                                text_div_paxs+=`<div class="input-container-search-ticket">`;
+                            }else if(template == 2){
+                                text_div_paxs+=`<div>`;
+                            }else if(template == 3){
+                                text_div_paxs+=`<div class="default-select">`;
+                            }else if(template == 4){
+                                text_div_paxs+=`<div class="input-container-search-ticket">`;
+                            }else if(template == 5){
+                                text_div_paxs+=`<div class="input-container-search-ticket">`;
+                            }
+                            text_div_paxs+=` <div class="form-select">
+                                        <select class="form-control js-example-basic-single" name="adult_kelurahan`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_kelurahan`+parseInt(counter_passenger+1)+`_id" placeholder="Kelurahan" onchange="auto_complete('adult_kelurahan`+parseInt(counter_passenger+1)+`');">
+                                            <option value="">Select Kelurahan</option>`;
+                                    text_div_paxs+=`</select>
+                                        </div>
+                                        <input type="hidden" name="adult_kelurahan`+parseInt(counter_passenger+1)+`" id="adult_kelurahan`+parseInt(counter_passenger+1)+`" />
+                                        <button type="button" class="primary-delete-date" onclick="delete_type('adult_kelurahan`+parseInt(counter_passenger+1)+`_id', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                    </div>
+                                </div>`;
+                            text_div_paxs+=`
+                                <div class="col-lg-6 col-md-6 col-sm-6" style='display:none;'>
+                                    <label style="color:white !important">*</label>
+                                    <label>ZIP CODE (Kode Pos)</label>
+                                    <div class="input-container-search-ticket" style="margin-bottom:5px;">
+                                        <input type="text" class="form-control" name="adult_zip_code`+parseInt(counter_passenger+1)+`" id="adult_zip_code`+parseInt(counter_passenger+1)+`" placeholder="Zip Code " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Zip Code '">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`;
+                        text_div_paxs += `
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <h4>Test</h4>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <span style="padding-right:10px; font-weight:700; font-size:15px;font-weight:bold;color:red">DATA HARUS BENAR KARENA TIDAK BISA DIUBAH</span><br/>
+                        </div>`;
+                        text_div_paxs+=`
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <label style="color:red !important">*</label>
+                            <label>Sample Method</label>`;
+                            if(template == 1){
+                                text_div_paxs+=`<div class="input-container-search-ticket">`;
+                            }else if(template == 2){
+                                text_div_paxs+=`<div>`;
+                            }else if(template == 3){
+                                text_div_paxs+=`<div class="default-select">`;
+                            }else if(template == 4){
+                                text_div_paxs+=`<div class="input-container-search-ticket">`;
+                            }else if(template == 5){
+                                text_div_paxs+=`<div class="input-container-search-ticket">`;
+                            }else if(template == 6){
+                                text_div_paxs+=`<div class="default-select">`;
+                            }
+
+                            if(template == 5){
+                                text_div_paxs+=`<div class="form-select">`;
+                            }else{
+                                text_div_paxs+=`<div class="form-select-2">`;
+                            }
+
+                            if(template == 4){
+                                text_div_paxs+=`<select class="nice-select-default rounded" id="adult_sample_method`+parseInt(counter_passenger+1)+`" name="adult_sample_method`+parseInt(counter_passenger+1)+`">`;
+                            }else{
+                                text_div_paxs+=`<select id="adult_sample_method`+parseInt(counter_passenger+1)+`" name="adult_sample_method`+parseInt(counter_passenger+1)+`">`;
+                            }
+                            text_div_paxs+=`
+                                        <option value="">Choose Sample Method</option>
+                                        <option value="saliva">Saliva</option>
+                                        <option value="nasal_swab">Nasal Swab</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>`;
+                    }
 
                     //ini phc
                     if(vendor == 'phc'){
@@ -1796,7 +1926,7 @@ function add_table_of_passenger(type){
 
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <label style="color:red !important">*</label>
-                            <label>Kabupaten/Kota KTP</label>`;
+                            <label>Kabupaten/Kota</label>`;
                             if(template == 1){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 2){
@@ -3524,6 +3654,9 @@ function add_table_of_passenger(type){
     $('#adult_nationality'+parseInt(counter_passenger+1)+'_id').select2();
     $('#adult_country_of_issued'+parseInt(counter_passenger+1)+'_id').select2();
     $('#adult_phone_code'+parseInt(counter_passenger+1)+'_id').select2();
+    $('#adult_kabupaten'+parseInt(counter_passenger+1)+'_id').select2();
+    $('#adult_kecamatan'+parseInt(counter_passenger+1)+'_id').select2();
+    $('#adult_kelurahan'+parseInt(counter_passenger+1)+'_id').select2();
     if(vendor == 'phc'){
         $('#adult_tempat_lahir'+parseInt(counter_passenger+1)+'_id').select2();
         $('#adult_kabupaten'+parseInt(counter_passenger+1)+'_id').select2();
@@ -3630,6 +3763,7 @@ function add_table_of_passenger(type){
         copy_ktp(parseInt(counter_passenger+1));
     }else if(vendor == 'periksain'){
         $('#adult_sample_method'+parseInt(counter_passenger+1)).niceSelect();
+        $('#adult_provinsi'+parseInt(counter_passenger+1)+'_id').select2();
     }
 //    get_kecamatan(`adult_kabupaten`+parseInt(counter_passenger+1),`adult_kecamatan`+parseInt(counter_passenger+1));
 //    $('#adult_nationality'+parseInt(counter_passenger+1)).select2();
@@ -5076,7 +5210,7 @@ function check_passenger(){
 
     var max_length = 0;
     if(vendor == 'periksain')
-        max_length = medical_config.result.response[test_type].adult_length_name
+        max_length = medical_config.result.response.carriers_code[test_type].adult_length_name
     else if(vendor == 'phc'){
         for(i in medical_config.result.response.carriers_code){
             if(medical_config.result.response.carriers_code[i].code == test_type){
@@ -5222,12 +5356,44 @@ function check_passenger(){
                             $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
                         });
                     }
-                    if(document.getElementById('adult_address_ktp' + nomor_pax).value == ''){
-                        error_log+= 'Please fill address ktp for customer '+nomor_pax+'!</br>\n';
-                        document.getElementById('adult_address_ktp' + nomor_pax).style['border-color'] = 'red';
+                    if(document.getElementById('adult_address' + nomor_pax).value == ''){
+                        error_log+= 'Please fill address for customer '+nomor_pax+'!</br>\n';
+                        document.getElementById('adult_address' + nomor_pax).style['border-color'] = 'red';
                         check_form_periksain = 1;
                     }else{
-                        document.getElementById('adult_address_ktp' + nomor_pax).style['border-color'] = '#EFEFEF';
+                        document.getElementById('adult_address' + nomor_pax).style['border-color'] = '#EFEFEF';
+                    }
+
+                    if(document.getElementById('adult_provinsi' + nomor_pax + '_id').value == ''){
+                        error_log+= 'Please fill provinsi for customer '+nomor_pax+'!</br>\n';
+                        document.getElementById('adult_provinsi' + nomor_pax).style['border-color'] = 'red';
+                        check_form_periksain = 1;
+                    }else{
+                        document.getElementById('adult_provinsi' + nomor_pax).style['border-color'] = '#EFEFEF';
+                    }
+
+                    if(document.getElementById('adult_kecamatan' + nomor_pax + '_id').value == ''){
+                        error_log+= 'Please fill kecamatan for customer '+nomor_pax+'!</br>\n';
+                        document.getElementById('adult_kecamatan' + nomor_pax).style['border-color'] = 'red';
+                        check_form_periksain = 1;
+                    }else{
+                        document.getElementById('adult_kecamatan' + nomor_pax).style['border-color'] = '#EFEFEF';
+                    }
+
+                    if(document.getElementById('adult_kabupaten' + nomor_pax + '_id').value == ''){
+                        error_log+= 'Please fill kabupaten for customer '+nomor_pax+'!</br>\n';
+                        document.getElementById('adult_kabupaten' + nomor_pax).style['border-color'] = 'red';
+                        check_form_periksain = 1;
+                    }else{
+                        document.getElementById('adult_kabupaten' + nomor_pax).style['border-color'] = '#EFEFEF';
+                    }
+
+                    if(document.getElementById('adult_kelurahan' + nomor_pax + '_id').value == ''){
+                        error_log+= 'Please fill kelurahan for customer '+nomor_pax+'!</br>\n';
+                        document.getElementById('adult_kelurahan' + nomor_pax).style['border-color'] = 'red';
+                        check_form_periksain = 1;
+                    }else{
+                        document.getElementById('adult_kelurahan' + nomor_pax).style['border-color'] = '#EFEFEF';
                     }
 
                     if(document.getElementById('adult_identity_type' + nomor_pax).value != ''){
@@ -5261,6 +5427,40 @@ function check_passenger(){
                                 $("#adult_country_of_issued"+nomor_pax+"_id").each(function() {
                                   $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
                                 });
+                            }
+                        }else if(document.getElementById('adult_identity_type' + nomor_pax).value == 'passport'){
+                            if(document.getElementById('adult_identity_number'+ nomor_pax).value == ''){
+                                error_log+= 'Please fill identity number for customer '+nomor_pax+'!</br>\n';
+                                document.getElementById('adult_identity_number'+ nomor_pax).style['border-color'] = 'red';
+                                check_form_personal = 1;
+                            }else if(check_passport(document.getElementById('adult_identity_number'+ nomor_pax).value) == false){
+                                error_log+= 'Please fill identity number, passport only contain more than 6 digits for customer adult '+nomor_pax+'!</br>\n';
+                                document.getElementById('adult_identity_number'+ nomor_pax).style['border-color'] = 'red';
+                                check_form_personal = 1;
+                            }else{
+                                document.getElementById('adult_identity_number'+ nomor_pax).style['border-color'] = '#EFEFEF';
+                                if(ktp.includes(document.getElementById('adult_identity_number'+ nomor_pax).value) == true){
+                                    error_log+= 'Duplicate identity number, for customer adult '+nomor_pax+'!</br>\n';
+                                    document.getElementById('adult_identity_number'+ nomor_pax).style['border-color'] = 'red';
+                                    check_form_personal = 1;
+                                }else{
+                                    ktp.push(document.getElementById('adult_identity_number'+ nomor_pax).value)
+                                }
+                            }
+                            if(document.getElementById('adult_country_of_issued'+ nomor_pax).value == ''){
+                                error_log+= 'Please fill country of issued for customer '+ nomor_pax +'!</br>\n';
+                                document.getElementById('adult_country_of_issued'+ nomor_pax).style['border-color'] = 'red';
+                                check_form_personal = 1;
+                            }else{
+                                document.getElementById('adult_country_of_issued'+ nomor_pax).style['border-color'] = '#EFEFEF';
+                            }
+                            console.log('expired')
+                            if(document.getElementById('adult_identity_expired_date'+nomor_pax).value == ''){
+                                error_log+= 'Please fill identity expired date for customer '+ nomor_pax +'!</br>\n';
+                                document.getElementById('adult_identity_expired_date'+ nomor_pax).style['border-color'] = 'red';
+                                check_form_personal = 1;
+                            }else{
+                                document.getElementById('adult_identity_expired_date'+ nomor_pax).style['border-color'] = '#EFEFEF';
                             }
                         }
                     }else{
@@ -5314,7 +5514,11 @@ function check_passenger(){
                         },
                         "passenger_seq_id": document.getElementById('adult_id' + nomor_pax).value,
                         "sample_method": document.getElementById('adult_sample_method' + nomor_pax).value,
-                        "address_ktp": document.getElementById('adult_address_ktp' + nomor_pax).value,
+                        "address": document.getElementById('adult_address' + nomor_pax).value,
+                        "provinsi": document.getElementById('adult_provinsi' + nomor_pax + '_id').value,
+                        "kabupaten": document.getElementById('adult_kabupaten' + nomor_pax + '_id').value,
+                        "kecamatan": document.getElementById('adult_kecamatan' + nomor_pax + '_id').value,
+                        "kelurahan": document.getElementById('adult_kelurahan' + nomor_pax + '_id').value,
                         "email": document.getElementById('adult_email' + nomor_pax).value,
                         "phone_number": document.getElementById('adult_phone_code'+nomor_pax+'_id').value + document.getElementById('adult_phone'+nomor_pax).value,
                         'is_also_booker': is_also_booker,
@@ -5607,7 +5811,6 @@ function check_passenger(){
                                 });
                             }
                         }else if(document.getElementById('adult_identity_type' + nomor_pax).value == 'passport'){
-                            console.log('passport')
                             if(document.getElementById('adult_identity_number'+ nomor_pax).value == ''){
                                 error_log+= 'Please fill identity number for customer '+nomor_pax+'!</br>\n';
                                 document.getElementById('adult_identity_number'+ nomor_pax).style['border-color'] = 'red';
