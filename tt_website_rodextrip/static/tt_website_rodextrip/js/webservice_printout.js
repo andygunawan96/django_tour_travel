@@ -151,7 +151,6 @@ function get_list_report_footer(){
                             break;
                         }
                     }
-
                 }
             }
        },
@@ -163,8 +162,12 @@ function get_list_report_footer(){
 
 function show_header_medical(val){
     document.getElementById('informasi_penting').innerHTML += val;
-    if(val != false || val != '')
+    if(val != false || val != ''){
         document.getElementById('informasi_penting').style.display = 'block';
+        document.getElementById('information_div_checkbox').style.display = 'block';
+    }else{
+        document.getElementById("information_checkbox").checked = true;
+    }
 }
 
 function change_printout(){
