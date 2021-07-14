@@ -149,8 +149,8 @@ function get_kabupaten(id_provinsi, id_kabupaten){
     document.getElementById(id_kabupaten.replace('kabupaten','kelurahan')).innerHTML = text;
 
     $('#'+id_provinsi.replace('provinsi','kelurahan')).select2();
-
-    $('#'+id_provinsi).select2();
+    if(vendor == 'periksain')
+        $('#'+id_provinsi).select2();
 }
 
 function get_kecamatan(id_kabupaten,id_kecamatan){
@@ -176,7 +176,8 @@ function get_kecamatan(id_kabupaten,id_kecamatan){
     document.getElementById(id_kecamatan.replace('kecamatan','kelurahan')).innerHTML = text;
     $('#'+id_kecamatan.replace('kecamatan','kelurahan')).select2();
 
-    $('#'+id_kabupaten).select2();
+    if(vendor == 'periksain')
+        $('#'+id_kabupaten).select2();
 }
 
 function get_kelurahan(id_kecamatan,id_kelurahan){
@@ -193,8 +194,8 @@ function get_kelurahan(id_kecamatan,id_kelurahan){
     }
     document.getElementById(id_kelurahan).innerHTML = text;
     $('#'+id_kelurahan).select2();
-
-    $('#'+id_kecamatan).select2();
+    if(vendor == 'periksain')
+        $('#'+id_kecamatan).select2();
 }
 
 function medical_get_availability(){
@@ -343,7 +344,7 @@ function medical_check_price(){
                         text+=`
                             <div class="col-lg-12" style="text-align:center; display:none;" id="show_commission">
                                 <div class="alert alert-success">
-                                    <span style="font-size:13px; font-weight: bold;">Your Commission: IDR `+getrupiah(msg.result.response.total_commission*-1)+`</span><br>
+                                    <span style="font-size:13px; font-weight: bold;">Your Commission: IDR `+getrupiah(msg.result.response.total_commission)+`</span><br>
                                 </div>
                             </div>`;
                     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
