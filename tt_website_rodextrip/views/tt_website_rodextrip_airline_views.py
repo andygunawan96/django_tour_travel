@@ -557,7 +557,8 @@ def ssr(request):
                 adult = []
                 infant = []
                 child = []
-                airline_get_booking_resp = request.session.get('airline_get_booking_response') if request.session.get('airline_get_booking_response') else request.POST['after_sales_form']
+                airline_get_booking_resp = request.session.get('airline_get_booking_response') if request.session.get('airline_get_booking_response') else json.loads(request.POST['get_booking_data_json'])
+                set_session(request, 'airline_get_booking_response', airline_get_booking_resp)
                 for pax in airline_get_booking_resp['result']['response']['passengers']:
                     if pax.get('birth_date'):
                         if (datetime.now() - datetime.strptime(pax['birth_date'], '%d %b %Y')).days / 365 <= 2:
@@ -695,7 +696,7 @@ def ssr(request):
                     passenger.append(pax)
 
                 upsell = 0
-                for pax in airline_get_booking_resp['result']['response']['passengers']:
+                for pax in request.session['airline_get_booking_response']['result']['response']['passengers']:
                     if pax.get('channel_service_charges'):
                         upsell = pax.get('channel_service_charges')
                 values.update({
@@ -706,7 +707,7 @@ def ssr(request):
                     'phone_code': phone_code,
                     'airline_carriers': carrier,
                     'upsell': upsell,
-                    'airline_getbooking': airline_get_booking_resp['result']['response'],
+                    'airline_getbooking': request.session['airline_get_booking_response']['result']['response'],
                     'airline_ssrs': airline_ssr,
                     'passengers': passenger,
                     'username': request.session['user_account'],
@@ -770,7 +771,8 @@ def seat_map(request):
                 adult = []
                 infant = []
                 child = []
-                airline_get_booking_resp = request.session.get('airline_get_booking_response') if request.session.get('airline_get_booking_response') else request.POST['after_sales_form']
+                airline_get_booking_resp = request.session.get('airline_get_booking_response') if request.session.get('airline_get_booking_response') else json.loads(request.POST['get_booking_data_json'])
+                set_session(request, 'airline_get_booking_response', airline_get_booking_resp)
                 for pax in airline_get_booking_resp['result']['response']['passengers']:
                     if pax.get('birth_date'):
                         pax_type = ''
@@ -927,10 +929,10 @@ def seat_map(request):
                 })
             except:
                 upsell = 0
-                for pax in airline_get_booking_resp['result']['response']['passengers']:
+                for pax in request.session['airline_get_booking_response']['result']['response']['passengers']:
                     if pax.get('channel_service_charges'):
                         upsell = pax.get('channel_service_charges')
-                airline_get_booking = copy.deepcopy(airline_get_booking_resp['result']['response'])
+                airline_get_booking = copy.deepcopy(request.session['airline_get_booking_response']['result']['response'])
                 del airline_get_booking['reschedule_list'] #pop sementara ada list isi string pakai " wktu di parser error
                 values.update({
                     'static_path': path_util.get_static_path(MODEL_NAME),
