@@ -195,7 +195,7 @@ function set_price(val, type, product_type){
         }else{
         text+=`<div class='row'>
                 <div class="col-sm-5" style='text-align:left;'>
-                <span style="font-size:13px;"> Account: </span><br>
+                <span style="font-size:13px;"> Account Number: </span><br>
                 <span style="font-size:13px;;"> Account Name: </span>
 
                 </div>
@@ -1111,7 +1111,7 @@ function check_payment_payment_method(order_number,btn_name,booker,type,provider
         if(payment_acq_booking.nomor_rekening != ''){
             text+=`<div class='row'>
                     <div class="col-sm-5" style='text-align:left;'>
-                        <span style="font-size:13px;"> Account: </span><br>
+                        <span style="font-size:13px;"> Account Number: </span><br>
                     </div>
                     <div class="col-sm-7" style='text-align:right;'>
                         <span style="font-size:14px; font-weight:500;">`+payment_acq_booking.nomor_rekening+`<br/>

@@ -423,6 +423,7 @@ def payment_method(request, provider, order_number):
     create_date = ''
     bank_name = ''
     va_number = ''
+    account_name = ''
     data_payment = []
     data = get_order_number_frontend(data)
     if data['result']['error_code'] == 0:
@@ -431,6 +432,7 @@ def payment_method(request, provider, order_number):
         amount = data['result']['response']['amount']
         va_number = data['result']['response']['va_number']
         bank_name = data['result']['response']['bank_name']
+        account_name = data['result']['response']['account_name']
         create_date = convert_string_to_date_to_string_front_end_with_time(to_date_now(data['result']['response']['create_date']))
         data_payment = []
         file = read_cache_without_folder_path("/payment_information/" + data['result']['response']['seq_id'], 90911)
@@ -472,6 +474,7 @@ def payment_method(request, provider, order_number):
         'create_date': create_date,
         'va_number': va_number,
         'bank_name': bank_name,
+        'account_name': account_name,
         'signature': request.session['signature'],
         'data_payments': data_payment
     })

@@ -649,7 +649,7 @@ def save_backend(request):
         res = request.session['medical_passenger_cache']
         for idx, rec in enumerate(data['passengers']):
             rec['birth_date'] = '%s-%s-%s' % (rec['birth_date'].split(' ')[2], month[rec['birth_date'].split(' ')[1]], rec['birth_date'].split(' ')[0])
-            rec['nationality_name'] = res[idx]['nationality_name']
+            rec['nationality_code'] = res[idx]['nationality_code']
             rec['pcr_data'] = res[idx]['pcr_data']
             rec['email'] = res[idx]['email']
             rec['kelurahan_ktp'] = res[idx]['kelurahan_ktp']
@@ -666,17 +666,10 @@ def save_backend(request):
             rec['address'] = res[idx]['address']
             rec['work_place'] = res[idx]['work_place']
             rec['profession'] = res[idx]['profession']
-            rec['nomor_karcis'] = res[idx]['nomor_karcis']
-            rec['nomor_perserta'] = res[idx]['nomor_perserta']
             rec['verify'] = res[idx]['verify']
             rec['label_url'] = res[idx]['label_url']
             rec['result_url'] = res[idx]['result_url']
-            rec['identity_country_of_issued_code'] = res[idx]['identity_country_of_issued_code']
             rec['identity']['identity_country_of_issued_code'] = res[idx]['identity_country_of_issued_code']
-            for country in response['result']['response']['airline']['country']:
-                if rec['nationality_name'] == country['name']:
-                    rec['nationality_code'] = country['code']
-                    break
             if rec['identity'].get('identity_expdate'):
                 if rec['identity']['identity_expdate']:
                     rec['identity']['identity_expdate'] = '%s-%s-%s' % (
