@@ -1137,7 +1137,16 @@ function check_payment_payment_method(order_number,btn_name,booker,type,provider
                    </div>`;
             text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="window.location.href = '/payment/`+name+`/`+payment_acq_booking.order_number+`'" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
         }else{
-            text += `<div class='row'>
+            text += `<div class='row'>`;
+            if(payment_acq_booking.va_number)
+                text +=`
+                        <div class="col-sm-5" style='text-align:left;'>
+                            <span style="font-size:13px;;"> VA Number: </span>
+                        </div>
+                        <div class="col-sm-7" style='text-align:right;'>
+                            <span style="font-size:14px; font-weight:500;">`+payment_acq_booking.va_number+`<br>
+                        </div>`;
+            text +=`
                         <div class="col-sm-5" style='text-align:left;'>
                             <span style="font-size:13px;;"> Time Limit: </span>
                         </div>

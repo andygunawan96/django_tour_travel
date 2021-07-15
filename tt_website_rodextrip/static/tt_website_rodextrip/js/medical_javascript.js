@@ -1636,8 +1636,6 @@ function add_table_of_passenger(type){
                             text_div_paxs+=` <div class="form-select">
                                         <select class="form-control js-example-basic-single" name="adult_kabupaten`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_kabupaten`+parseInt(counter_passenger+1)+`_id" placeholder="Kabupaten" onchange="auto_complete('adult_kabupaten`+parseInt(counter_passenger+1)+`');get_kecamatan('adult_kabupaten`+parseInt(counter_passenger+1)+`_id','adult_kecamatan`+parseInt(counter_passenger+1)+`_id');" >
                                             <option value="">Select Kabupaten</option>`;
-                                        for(i in data_kota)
-                                        text_div_paxs+=`<option value="`+i+`">`+i+`</option>`;
                                     text_div_paxs+=`</select>
                                     </div>
                                     <input type="hidden" name="adult_kabupaten`+parseInt(counter_passenger+1)+`" id="adult_kabupaten`+parseInt(counter_passenger+1)+`" />
