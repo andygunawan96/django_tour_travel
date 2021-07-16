@@ -133,9 +133,17 @@ function get_config_medical(type='', vendor=''){
 
 function get_kabupaten(id_provinsi, id_kabupaten){
     var text = '';
-    text += '<option value="">Choose</option>';
-    for(i in data_kota[document.getElementById(id_provinsi).value]['kabupaten']){
-        text += '<option value="'+i+'">'+data_kota[document.getElementById(id_provinsi).value]['kabupaten'][i].name+"</option>";
+    if(document.getElementById(id_provinsi).value != '' && document.getElementById(id_provinsi).value != 'Select Provinsi' && document.getElementById(id_provinsi).value != 'Select Provinsi KTP' && document.getElementById(id_provinsi).value != 'Choose'){
+        text += '<option value="">Choose</option>';
+        for(i in data_kota[document.getElementById(id_provinsi).value]['kabupaten']){
+            text += '<option value="'+i+'">'+data_kota[document.getElementById(id_provinsi).value]['kabupaten'][i].name+"</option>";
+        }
+
+    }else{
+        if(id_provinsi.includes('ktp'))
+            text += '<option value="">Choose Kabupaten KTP</option>';
+        else
+            text += '<option value="">Choose Kabupaten</option>';
     }
     document.getElementById(id_kabupaten).innerHTML = text;
     $('#'+id_kabupaten).select2();
@@ -155,15 +163,22 @@ function get_kabupaten(id_provinsi, id_kabupaten){
 
 function get_kecamatan(id_kabupaten,id_kecamatan){
     var text = '';
-    text += '<option value="">Choose</option>';
-    if(vendor == 'phc'){
-        for(i in data_kota[document.getElementById(id_kabupaten).value]){
-            text += '<option value="'+i+'">'+i+"</option>";
+    if(document.getElementById(id_kabupaten).value != '' && document.getElementById(id_kabupaten).value != 'Select Kabupaten' && document.getElementById(id_kabupaten).value != 'Select Kabupaten KTP' && document.getElementById(id_kabupaten).value != 'Choose'){
+        text += '<option value="">Choose</option>';
+        if(vendor == 'phc'){
+            for(i in data_kota[document.getElementById(id_kabupaten).value]){
+                text += '<option value="'+i+'">'+i+"</option>";
+            }
+        }else if(vendor == 'periksain'){
+            for(i in data_kota[document.getElementById(id_kabupaten.replace('kabupaten','provinsi')).value]['kabupaten'][document.getElementById(id_kabupaten).value]['kecamatan']){
+                text += '<option value="'+i+'">'+data_kota[document.getElementById(id_kabupaten.replace('kabupaten','provinsi')).value]['kabupaten'][document.getElementById(id_kabupaten).value]['kecamatan'][i].name+"</option>";
+            }
         }
-    }else if(vendor == 'periksain'){
-        for(i in data_kota[document.getElementById(id_kecamatan.replace('kecamatan','provinsi')).value]['kabupaten'][document.getElementById(id_kabupaten).value]['kecamatan']){
-            text += '<option value="'+i+'">'+data_kota[document.getElementById(id_kecamatan.replace('kecamatan','provinsi')).value]['kabupaten'][document.getElementById(id_kabupaten).value]['kecamatan'][i].name+"</option>";
-        }
+    }else{
+        if(id_kecamatan.includes('ktp'))
+            text += '<option value="">Choose Kecamatan KTP</option>';
+        else
+            text += '<option value="">Choose Kecamatan</option>';
     }
     document.getElementById(id_kecamatan).innerHTML = text;
     $('#'+id_kecamatan).select2();
@@ -182,15 +197,22 @@ function get_kecamatan(id_kabupaten,id_kecamatan){
 
 function get_kelurahan(id_kecamatan,id_kelurahan){
     var text = '';
-    text += '<option value="">Choose</option>';
-    if(vendor == 'phc'){
-        for(i in data_kota[document.getElementById(id_kecamatan.replace('kecamatan','kabupaten')).value][document.getElementById(id_kecamatan).value]){
-            text += '<option value="'+data_kota[document.getElementById(id_kecamatan.replace('kecamatan','kabupaten')).value][document.getElementById(id_kecamatan).value][i]+'">'+data_kota[document.getElementById(id_kecamatan.replace('kecamatan','kabupaten')).value][document.getElementById(id_kecamatan).value][i]+"</option>";
+    if(document.getElementById(id_kecamatan).value != '' && document.getElementById(id_kecamatan).value != 'Select Kecamatan' && document.getElementById(id_kecamatan).value != 'Select Kecamatan KTP' && document.getElementById(id_kecamatan).value != 'Choose'){
+        text += '<option value="">Choose</option>';
+        if(vendor == 'phc'){
+            for(i in data_kota[document.getElementById(id_kecamatan.replace('kecamatan','kabupaten')).value][document.getElementById(id_kecamatan).value]){
+                text += '<option value="'+data_kota[document.getElementById(id_kecamatan.replace('kecamatan','kabupaten')).value][document.getElementById(id_kecamatan).value][i]+'">'+data_kota[document.getElementById(id_kecamatan.replace('kecamatan','kabupaten')).value][document.getElementById(id_kecamatan).value][i]+"</option>";
+            }
+        }else if(vendor == 'periksain'){
+            for(i in data_kota[document.getElementById(id_kecamatan.replace('kecamatan','provinsi')).value]['kabupaten'][document.getElementById(id_kecamatan.replace('kecamatan','kabupaten')).value]['kecamatan'][document.getElementById(id_kecamatan).value]['kelurahan']){
+                text += '<option value="'+i+'">'+data_kota[document.getElementById(id_kecamatan.replace('kecamatan','provinsi')).value]['kabupaten'][document.getElementById(id_kecamatan.replace('kecamatan','kabupaten')).value]['kecamatan'][document.getElementById(id_kecamatan).value]['kelurahan'][i].name+"</option>";
+            }
         }
-    }else if(vendor == 'periksain'){
-        for(i in data_kota[document.getElementById(id_kecamatan.replace('kecamatan','provinsi')).value]['kabupaten'][document.getElementById(id_kecamatan.replace('kecamatan','kabupaten')).value]['kecamatan'][document.getElementById(id_kecamatan).value]['kelurahan']){
-            text += '<option value="'+i+'">'+data_kota[document.getElementById(id_kecamatan.replace('kecamatan','provinsi')).value]['kabupaten'][document.getElementById(id_kecamatan.replace('kecamatan','kabupaten')).value]['kecamatan'][document.getElementById(id_kecamatan).value]['kelurahan'][i].name+"</option>";
-        }
+    }else{
+        if(id_kecamatan.includes('ktp'))
+            text += '<option value="">Choose Kelurahan KTP</option>';
+        else
+            text += '<option value="">Choose Kelurahan</option>';
     }
     document.getElementById(id_kelurahan).innerHTML = text;
     $('#'+id_kelurahan).select2();
