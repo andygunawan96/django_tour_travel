@@ -7276,7 +7276,10 @@ function auto_fill_phc_antigen(){
             document.getElementById('select2-booker_nationality_id-container').innerHTML = passenger_data_cache_medical[idx].nationality_name;
 
         }
-        document.getElementById('adult_title'+counter).value = passenger_data_cache_medical[idx].title;
+        if(passenger_data_cache_medical[idx].title == 'MR')
+            document.getElementById('adult_title'+counter).value = passenger_data_cache_medical[idx].title;
+        else
+            document.getElementById('adult_title'+counter).value = "MS";
         document.getElementById('adult_first_name'+counter).value = passenger_data_cache_medical[idx].first_name;
         document.getElementById('adult_last_name'+counter).value = passenger_data_cache_medical[idx].last_name;
         document.getElementById('adult_nationality'+counter).value = passenger_data_cache_medical[idx].nationality_name;
@@ -7385,7 +7388,10 @@ function auto_fill_phc_pcr(){
             document.getElementById('select2-booker_nationality_id-container').innerHTML = passenger_data_cache_medical[idx].nationality_name;
 
         }
-        document.getElementById('adult_title'+counter).value = passenger_data_cache_medical[idx].title;
+        if(passenger_data_cache_medical[idx].title == 'MR')
+            document.getElementById('adult_title'+counter).value = passenger_data_cache_medical[idx].title;
+        else
+            document.getElementById('adult_title'+counter).value = "MS"
         onchange_title(counter);
         document.getElementById('adult_first_name'+counter).value = passenger_data_cache_medical[idx].first_name;
 
@@ -7676,7 +7682,10 @@ function auto_fill_periksain(){
             document.getElementById('select2-booker_nationality_id-container').innerHTML = passenger_data_cache_medical[idx].nationality_name;
 
         }
-        document.getElementById('adult_title'+counter).value = passenger_data_cache_medical[idx].title;
+        if(passenger_data_cache_medical[idx].title == 'MR')
+            document.getElementById('adult_title'+counter).value = passenger_data_cache_medical[idx].title;
+        else
+            document.getElementById('adult_title'+counter).value = "MS"
         document.getElementById('adult_first_name'+counter).value = passenger_data_cache_medical[idx].first_name;
         document.getElementById('adult_last_name'+counter).value = passenger_data_cache_medical[idx].last_name;
         document.getElementById('adult_nationality'+counter).value = passenger_data_cache_medical[idx].nationality_name;
@@ -7760,7 +7769,10 @@ function auto_fill_verify_data(){
         try{
             if(passenger_data_cache_medical[idx].verify == false)
                 verified_check = false;
-            document.getElementById('adult_title'+counter).value = passenger_data_cache_medical[idx].title;
+            if(passenger_data_cache_medical[idx].title == 'MR')
+                document.getElementById('adult_title'+counter).value = passenger_data_cache_medical[idx].title;
+            else
+                document.getElementById('adult_title'+counter).value = "MS";
             onchange_title(counter);
             document.getElementById('adult_title'+counter).readOnly = true;
             for(i in document.getElementById('adult_title'+counter).options){
