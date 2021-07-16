@@ -397,7 +397,7 @@ function add_table_of_passenger_verify(type){
                         }
                                 text_div_paxs+= `<option value="">Choose</option>`;
                                 text_div_paxs+= `<option value="MR">Male (LAKI-LAKI)</option>`;
-                                text_div_paxs+= `<option value="MRS">Female (PEREMPUAN)</option>`;
+                                text_div_paxs+= `<option value="MS">Female (PEREMPUAN)</option>`;
                                 text_div_paxs+= `</select>
                             </div>
                         </div>
@@ -942,7 +942,7 @@ function add_table_of_passenger(type){
                         }
                                 text_div_paxs+= `<option value="">Choose</option>`;
                                 text_div_paxs+= `<option value="MR">Male (LAKI-LAKI)</option>`;
-                                text_div_paxs+= `<option value="MRS">Female (PEREMPUAN)</option>`;
+                                text_div_paxs+= `<option value="MS">Female (PEREMPUAN)</option>`;
                                 text_div_paxs+= `</select>
                             </div>
                         </div>
@@ -4780,7 +4780,7 @@ function add_table_passenger_phc(type){
     scrap_html = phc_html(medical_config.result.response.carrier_type[test_type].html).split('<div class="box-footer">')[0];
     scrap_html = scrap_html.split(`<div class="form-group" id="punya_ktp_`+counter_passenger+`" name='punya_ktp'>`);
     console.log(scrap_html);
-    scrap_html.splice(1, 0, `<select class="form-group" id="title_`+counter_passenger+`" name="title_`+counter_passenger+`"><option value="MR">MR</option><option value="MRS">MRS</option><option value="MS">MS</option><option value="MSTR">MSTR</option><option value="MISS">MISS</option></select>`);
+    scrap_html.splice(1, 0, `<select class="form-group" id="title_`+counter_passenger+`" name="title_`+counter_passenger+`"><option value="MR">MR</option><option value="MS">MS</option><option value="MS">MS</option><option value="MSTR">MSTR</option><option value="MISS">MISS</option></select>`);
 
     scrap_html = scrap_html[0] + scrap_html[1] + '<div class="form-group" id="punya_ktp_'+counter_passenger+'" name="punya_ktp">' + scrap_html[2];
     if(test_type == 'swab_pcr'){
@@ -4851,7 +4851,7 @@ function add_table_passenger_phc(type){
     }catch(err){}
 
     if(test_type == 'swab_pcr'){
-        $('input[name="klinis_tgl_mrs_terakhir_'+parseInt(counter_passenger)+'"]').daterangepicker({
+        $('input[name="klinis_tgl_rs_terakhir_'+parseInt(counter_passenger)+'"]').daterangepicker({
               singleDatePicker: true,
               autoUpdateInput: true,
               startDate: moment().subtract(+18, 'years'),
@@ -5645,7 +5645,7 @@ function check_passenger(){
                         }
                         if(vendor == 'phc'){
                             if(test_type == 'PHCHCKPCR' || test_type == 'PHCDTKPCR'){
-                                if(document.getElementById('adult_title' + nomor_pax).value == 'MRS' && document.getElementById('adult_klinis_sedang_hamil' + nomor_pax).value == ''){
+                                if(document.getElementById('adult_title' + nomor_pax).value == 'MS' && document.getElementById('adult_klinis_sedang_hamil' + nomor_pax).value == ''){
                                     error_log+= 'Please choose sedang hamil for customer '+nomor_pax+'!</br>\n';
                                     $("#adult_klinis_sedang_hamil"+nomor_pax).each(function() {
                                         $(this).parent().find('.nice-select').css('border', '1px solid red');
@@ -6878,10 +6878,11 @@ function check_passenger(){
        }
    }
     else{
+        error_log = 'Anda harus menyetujui Syarat dan Ketentuan kami untuk melanjutkan pembelian<br/>\nYou must agree to our Terms and Conditions in order to continue'
         Swal.fire({
           type: 'error',
           title: 'Oops!',
-          text: 'You must agree to our Terms and Conditions in order to continue',
+          html: error_log,
         }).then((result) => {
           if (result.value) {
             document.getElementById("informasi_penting").style.border = "1px solid red";
