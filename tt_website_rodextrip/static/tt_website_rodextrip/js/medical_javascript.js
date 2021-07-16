@@ -128,7 +128,8 @@ function add_other_time(){
         if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCDTKATG' || vendor == 'phc' && test_type == 'PHCDTKPCR'){
             if(schedule_medical.address != alamat_ss && schedule_medical.place_url_by_google != ''){
                 web_url = schedule_medical.place_url_by_google;
-                document.getElementById('booker_area').value = schedule_medical.area;
+                if(schedule_medical.area != '')
+                    document.getElementById('booker_area').value = schedule_medical.area;
                 $('#booker_area').niceSelect('update');
                 var google_lat_long = schedule_medical.place_url_by_google.split('/')[schedule_medical.place_url_by_google.split('/').length-1];
                 lat = parseFloat(google_lat_long.split(',')[0]);
@@ -141,7 +142,7 @@ function add_other_time(){
                 })
                 change_area('auto_marker')
             }
-            if(test_time == 1)
+            if(test_time == 1 && schedule_medical.area != '')
                 document.getElementById('booker_area').value = schedule_medical.area;
             var nomor_pax = 1;
             for(x in schedule_medical.test_list){
