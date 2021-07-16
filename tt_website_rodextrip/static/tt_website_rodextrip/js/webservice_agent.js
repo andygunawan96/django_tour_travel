@@ -1537,7 +1537,7 @@ function pick_passenger(type, sequence, product){
                         document.getElementById('adult_title'+passenger_number).options[i].disabled = true;
                 }
                 $('#adult_title'+passenger_number).niceSelect('update');
-
+                onchange_title(passenger_number);
                 document.getElementById('adult_first_name'+passenger_number).value = passenger_data[sequence].first_name;
                 document.getElementById('adult_first_name'+passenger_number).readOnly = true;
                 document.getElementById('adult_last_name'+passenger_number).value = passenger_data[sequence].last_name;
