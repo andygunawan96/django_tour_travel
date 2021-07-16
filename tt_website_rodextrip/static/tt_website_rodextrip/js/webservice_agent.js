@@ -1528,13 +1528,16 @@ function pick_passenger(type, sequence, product){
                 for(i in document.getElementById('adult_title'+passenger_number).options){
                     document.getElementById('adult_title'+passenger_number).options[i].disabled = false;
                 }
-                document.getElementById('adult_title'+passenger_number).value = passenger_data[sequence].title;
+                if(passenger_data[sequence].title == 'MR')
+                    document.getElementById('adult_title'+passenger_number).value = passenger_data[sequence].title;
+                else
+                    document.getElementById('adult_title'+passenger_number).value = "MS";
                 for(i in document.getElementById('adult_title'+passenger_number).options){
                     if(document.getElementById('adult_title'+passenger_number).options[i].selected != true)
                         document.getElementById('adult_title'+passenger_number).options[i].disabled = true;
                 }
                 $('#adult_title'+passenger_number).niceSelect('update');
-
+                onchange_title(passenger_number);
                 document.getElementById('adult_first_name'+passenger_number).value = passenger_data[sequence].first_name;
                 document.getElementById('adult_first_name'+passenger_number).readOnly = true;
                 document.getElementById('adult_last_name'+passenger_number).value = passenger_data[sequence].last_name;

@@ -875,19 +875,19 @@ function set_price(val, type, product_type){
                     <span>`+payment_acq2[payment_method][selected].currency+` `+getrupiah(payment_acq2[payment_method][selected].price_component.fee)+`</span>
                 </div>`;
         //unique amount
-        text += `
-                <div class='col-sm-6' style='text-align:left;'>
-                    <span>Unique Amount:</span>
-                </div>
-                <div class='col-sm-6' style='text-align:right;'>`;
-        if(free_reservation == false)
-            text+=`
-                    <span>`+payment_acq2[payment_method][selected].currency+` `+getrupiah(payment_acq2[payment_method][selected].price_component.unique_amount)+`</span>
-                </div>`;
-        else
-            text+=`
-                <span>`+payment_acq2[payment_method][selected].currency+` 0</span>
-            </div>`;
+//        text += `
+//                <div class='col-sm-6' style='text-align:left;'>
+//                    <span>Unique Amount:</span>
+//                </div>
+//                <div class='col-sm-6' style='text-align:right;'>`;
+//        if(free_reservation == false)
+//            text+=`
+//                    <span>`+payment_acq2[payment_method][selected].currency+` `+getrupiah(payment_acq2[payment_method][selected].price_component.unique_amount)+`</span>
+//                </div>`;
+//        else
+//            text+=`
+//                <span>`+payment_acq2[payment_method][selected].currency+` 0</span>
+//            </div>`;
         try{
             if(Object.keys(discount_voucher).length != 0){
                 payment_total = 0;
@@ -1137,7 +1137,16 @@ function check_payment_payment_method(order_number,btn_name,booker,type,provider
                    </div>`;
             text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="window.location.href = '/payment/`+name+`/`+payment_acq_booking.order_number+`'" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
         }else{
-            text += `<div class='row'>
+            text += `<div class='row'>`;
+            if(payment_acq_booking.va_number)
+                text +=`
+                        <div class="col-sm-5" style='text-align:left;'>
+                            <span style="font-size:13px;;"> VA Number: </span>
+                        </div>
+                        <div class="col-sm-7" style='text-align:right;'>
+                            <span style="font-size:14px; font-weight:500;">`+payment_acq_booking.va_number+`<br>
+                        </div>`;
+            text +=`
                         <div class="col-sm-5" style='text-align:left;'>
                             <span style="font-size:13px;;"> Time Limit: </span>
                         </div>

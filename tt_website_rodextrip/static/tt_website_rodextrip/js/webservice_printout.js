@@ -137,11 +137,19 @@ function get_list_report_footer(){
                     //MEDICAL
                     var check_header = true;
                     for(i in printout){
-                        if(vendor == 'phc' && test_type.includes('ATG') && printout[i].code == "phc_antigen_information"){
+                        if(vendor == 'phc' && test_type.includes('ATG') && test_type.includes('DT') && printout[i].code == "phc_antigen_information"){
                             show_header_medical(printout[i].html);
                             check_header = false;
                             break;
-                        }else if(vendor == 'phc' && test_type.includes('PCR') && printout[i].code == "phc_pcr_information"){
+                        }else if(vendor == 'phc' && test_type.includes('PCR') && test_type.includes('DT') && printout[i].code == "phc_pcr_information"){
+                            show_header_medical(printout[i].html);
+                            check_header = false;
+                            break;
+                        }else if(vendor == 'phc' && test_type.includes('ATG') && test_type.includes('HC') && printout[i].code == "phc_antigen_homecare_information"){
+                            show_header_medical(printout[i].html);
+                            check_header = false;
+                            break;
+                        }else if(vendor == 'phc' && test_type.includes('PCR') && test_type.includes('HC') && printout[i].code == "phc_pcr_homecare_information"){
                             show_header_medical(printout[i].html);
                             check_header = false;
                             break;
