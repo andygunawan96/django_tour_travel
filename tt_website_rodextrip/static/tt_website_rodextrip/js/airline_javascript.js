@@ -5045,7 +5045,14 @@ function get_checked_copy_result(){
     }
     text='';
     //$text='Search: '+value_idx[0]+'\n'+value_idx[1].trim()+'\nDate: '+value_idx[2]+'\n'+value_idx[3]+'\n\n';
-    $text= value_idx[0]+' - '+value_idx[1]+' → '+value_idx[2]+', '+value_idx[3]+'\n\n';
+
+    $text= value_idx[0]+' - '+value_idx[1]+' → '+value_idx[2]+', '+value_idx[3]+'\n';
+    var cabin_class_choose = ''
+    for(i in cabin_class)
+        if(cabin_class[i].value == airline_request.cabin_class[0])
+            cabin_class_choose = cabin_class[i].name;
+
+    $text += cabin_class_choose + '\n\n';
     var airline_number = 0;
     node = document.createElement("div");
     //text+=`<div class="col-lg-12"><h5>`+value_flight_type+`</h5><hr/></div>`;
