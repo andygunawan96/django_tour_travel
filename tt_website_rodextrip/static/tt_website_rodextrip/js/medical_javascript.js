@@ -641,9 +641,6 @@ function add_table_of_passenger_verify(type){
         $('#adult_kelurahan_ktp'+parseInt(counter_passenger+1)+'_id').select2();
 
         //verify
-        $('#adult_married_status'+parseInt(counter_passenger+1)).niceSelect();
-        $('#adult_religion'+parseInt(counter_passenger+1)).niceSelect();
-        $('#adult_pendidikan'+parseInt(counter_passenger+1)).niceSelect();
         $('#adult_klinis_golongan_darah'+parseInt(counter_passenger+1)).niceSelect();
 //        if(test_type == 'PHCDTKPCR' || test_type == 'PHCHCKPCR'){
 //            $('#adult_kriteria_pasien'+parseInt(counter_passenger+1)).niceSelect();
@@ -1314,135 +1311,7 @@ function add_table_of_passenger(type){
                         <label style="font-size:12px; padding:0;">Example: 0 812345678</label>
                         <label style="color:`+color+` !important;">Please make sure to register with WA(WhatsApp) number for the result test</label>
                     </div>`;
-                    if(vendor == 'phc'){
-                        text_div_paxs+=`
-                        <div class="col-lg-6 col-md-6 col-sm-6" style="display:none;">
-                            <label style="color:red !important">*</label>
-                            <label>Married Status</label>`;
-                            if(template == 1){
-                                text_div_paxs+=`<div class="input-container-search-ticket">`;
-                            }else if(template == 2){
-                                text_div_paxs+=`<div>`;
-                            }else if(template == 3){
-                                text_div_paxs+=`<div class="default-select">`;
-                            }else if(template == 4){
-                                text_div_paxs+=`<div class="input-container-search-ticket">`;
-                            }else if(template == 5){
-                                text_div_paxs+=`<div class="input-container-search-ticket">`;
-                            }else if(template == 6){
-                                text_div_paxs+=`<div class="default-select">`;
-                            }
 
-                            if(template == 5){
-                                text_div_paxs+=`<div class="form-select">`;
-                            }else{
-                                text_div_paxs+=`<div class="form-select-2">`;
-                            }
-
-                            if(template == 4){
-                                text_div_paxs+=`<select class="nice-select-default rounded" id="adult_married_status`+parseInt(counter_passenger+1)+`" name="adult_married_status`+parseInt(counter_passenger+1)+`">`;
-                            }else{
-                                text_div_paxs+=`<select id="adult_married_status`+parseInt(counter_passenger+1)+`" name="adult_married_status`+parseInt(counter_passenger+1)+`">`;
-                            }
-                            text_div_paxs+=`
-                                        <option value="">Choose</option>
-                                        <option value="BELUM MENIKAH" selected>BELUM MENIKAH</option>
-                                        <option value="DUDA">DUDA</option>
-                                        <option value="JANDA">JANDA</option>
-                                        <option value="MENIKAH">MENIKAH</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>`;
-
-                        text_div_paxs+=`
-                        <div class="col-lg-6 col-md-6 col-sm-6" style="display:none;">
-                            <label style="color:red !important">*</label>
-                            <label>Religion</label>`;
-                            if(template == 1){
-                                text_div_paxs+=`<div class="input-container-search-ticket">`;
-                            }else if(template == 2){
-                                text_div_paxs+=`<div>`;
-                            }else if(template == 3){
-                                text_div_paxs+=`<div class="default-select">`;
-                            }else if(template == 4){
-                                text_div_paxs+=`<div class="input-container-search-ticket">`;
-                            }else if(template == 5){
-                                text_div_paxs+=`<div class="input-container-search-ticket">`;
-                            }else if(template == 6){
-                                text_div_paxs+=`<div class="default-select">`;
-                            }
-
-                            if(template == 5){
-                                text_div_paxs+=`<div class="form-select">`;
-                            }else{
-                                text_div_paxs+=`<div class="form-select-2">`;
-                            }
-
-                            if(template == 4){
-                                text_div_paxs+=`<select class="nice-select-default rounded" id="adult_religion`+parseInt(counter_passenger+1)+`" name="adult_religion`+parseInt(counter_passenger+1)+`">`;
-                            }else{
-                                text_div_paxs+=`<select id="adult_religion`+parseInt(counter_passenger+1)+`" name="adult_religion`+parseInt(counter_passenger+1)+`">`;
-                            }
-                            text_div_paxs+=`
-                                        <option value="">Choose</option>
-                                        <option value="ISLAM">ISLAM</option>
-                                        <option value="KATOLIK">KATOLIK</option>
-                                        <option value="PROTESTAN">PROTESTAN</option>
-                                        <option value="HINDHU">HINDHU</option>
-                                        <option value="BUDHA">BUDHA</option>
-                                        <option value="LAINNYA" selected>LAINNYA</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>`;
-
-                        text_div_paxs+=`
-                        <div class="col-lg-6 col-md-6 col-sm-6" style="display:none;">
-                            <label style="color:red !important">*</label>
-                            <label>Pendidikan</label>`;
-                            if(template == 1){
-                                text_div_paxs+=`<div class="input-container-search-ticket">`;
-                            }else if(template == 2){
-                                text_div_paxs+=`<div>`;
-                            }else if(template == 3){
-                                text_div_paxs+=`<div class="default-select">`;
-                            }else if(template == 4){
-                                text_div_paxs+=`<div class="input-container-search-ticket">`;
-                            }else if(template == 5){
-                                text_div_paxs+=`<div class="input-container-search-ticket">`;
-                            }else if(template == 6){
-                                text_div_paxs+=`<div class="default-select">`;
-                            }
-
-                            if(template == 5){
-                                text_div_paxs+=`<div class="form-select">`;
-                            }else{
-                                text_div_paxs+=`<div class="form-select-2">`;
-                            }
-
-                            if(template == 4){
-                                text_div_paxs+=`<select class="nice-select-default rounded" id="adult_pendidikan`+parseInt(counter_passenger+1)+`" name="adult_pendidikan`+parseInt(counter_passenger+1)+`">`;
-                            }else{
-                                text_div_paxs+=`<select id="adult_pendidikan`+parseInt(counter_passenger+1)+`" name="adult_pendidikan`+parseInt(counter_passenger+1)+`">`;
-                            }
-                            text_div_paxs+=`
-                                        <option value="">Choose</option>
-                                        <option value="BELUM SEKOLAH">BELUM SEKOLAH</option>
-                                        <option value="LAIN-LAIN" selected>LAIN-LAIN</option>
-                                        <option value="TK">TK</option>
-                                        <option value="SD">SD</option>
-                                        <option value="SMP/SLTP">SMP/SLTP</option>
-                                        <option value="SMA/SLTA/SMU">SMA/SLTA/SMU</option>
-                                        <option value="D1/D2/D3 (DIPLOMA)">D1/D2/D3 (DIPLOMA)</option>
-                                        <option value="S1 (SARJANA)">S1 (SARJANA)</option>
-                                        <option value="S2 (PASCA SARJANA)">S2 (PASCA SARJANA)</option>
-                                        <option value="S3 (MASTER)">S3 (MASTER)</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>`;
-                    }
                     text_div_paxs+=`
 
                     <div class="col-lg-6 col-md-6 col-sm-6" style="display:none;">
@@ -3680,9 +3549,6 @@ function add_table_of_passenger(type){
         $('#adult_kelurahan_ktp'+parseInt(counter_passenger+1)+'_id').select2();
 
         //verify
-        $('#adult_married_status'+parseInt(counter_passenger+1)).niceSelect();
-        $('#adult_religion'+parseInt(counter_passenger+1)).niceSelect();
-        $('#adult_pendidikan'+parseInt(counter_passenger+1)).niceSelect();
         $('#adult_klinis_golongan_darah'+parseInt(counter_passenger+1)).niceSelect();
         if(test_type == 'PHCDTKPCR' || test_type == 'PHCHCKPCR'){
             $('#adult_kriteria_pasien'+parseInt(counter_passenger+1)).niceSelect();
@@ -4557,7 +4423,7 @@ function delete_pcr_table(type, val, nomor_table){
 
 function onchange_title(val){
     try{
-        if(document.getElementById('adult_title'+val).value != 'MR'){
+        if(document.getElementById('adult_title'+val).value == 'MS'){
             document.getElementById('adult_hamil_div'+val).hidden = false;
         }else{
             document.getElementById('adult_hamil_div'+val).hidden = true;
@@ -5892,34 +5758,6 @@ function check_passenger(){
                             document.getElementById('adult_identity_type' + nomor_pax).style['border-color'] = 'red';
                             check_form_personal = 1;
                         }
-                        if(document.getElementById('adult_married_status' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Married Status for customer '+nomor_pax+'!</br>\n';
-                            $("#adult_married_status"+nomor_pax).each(function() {
-                                $(this).parent().find('.nice-select').css('border', '1px solid red');
-                            });
-                            check_form_personal = 1;
-                        }else{
-                            $("#adult_married_status"+nomor_pax).each(function() {
-                                $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
-                            });
-                        }
-                        if(document.getElementById('adult_religion' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Religion for customer '+nomor_pax+'!</br>\n';
-                            $("#adult_religion"+nomor_pax).each(function() {
-                                $(this).parent().find('.nice-select').css('border', '1px solid red');
-                            });
-                            check_form_personal = 1;
-                        }else{
-                            $("#adult_religion"+nomor_pax).each(function() {
-                                $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
-                            });
-                        }
-                        if(document.getElementById('adult_pendidikan' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Pendidikan for customer '+nomor_pax+'!</br>\n';
-                            document.getElementById('adult_pendidikan' + nomor_pax).style['border-color'] = 'red';
-                        }else{
-                            document.getElementById('adult_pendidikan' + nomor_pax).style['border-color'] = '#EFEFEF';
-                        }
 
                         if(i == 0 && document.getElementsByName('myRadios')[0].checked == true){
                             is_also_booker = true;
@@ -6636,12 +6474,6 @@ function check_passenger(){
                                 "gejala": document.getElementById('adult_gejala' + nomor_pax).value,
                                 "penyakit_bawaan": document.getElementById('adult_penyakit_bawaan' + nomor_pax).value,
                                 "perjalanan": document.getElementById('adult_perjalanan' + nomor_pax).value,
-
-                                "married_status": document.getElementById('adult_married_status' + nomor_pax).value,
-                                "religion": document.getElementById('adult_religion' + nomor_pax).value,
-                                "pendidikan": document.getElementById('adult_pendidikan' + nomor_pax).value,
-                                "zip_code_ktp": document.getElementById('adult_zip_code_ktp' + nomor_pax).value,
-                                "zip_code": document.getElementById('adult_zip_code' + nomor_pax).value,
                             }
 
                             if(document.getElementById('adult_sedang_dirawat_di_rs' + nomor_pax).value == 'IYA'){
@@ -6763,11 +6595,6 @@ function check_passenger(){
 
                         }else{
                             pcr_data = {
-                                "married_status": document.getElementById('adult_married_status' + nomor_pax).value,
-                                "religion": document.getElementById('adult_religion' + nomor_pax).value,
-                                "pendidikan": document.getElementById('adult_pendidikan' + nomor_pax).value,
-                                "zip_code_ktp": document.getElementById('adult_zip_code_ktp' + nomor_pax).value,
-                                "zip_code": document.getElementById('adult_zip_code' + nomor_pax).value,
                                 "klinis_golongan_darah": document.getElementById('adult_klinis_golongan_darah' + nomor_pax).value,
                             }
                         }
@@ -7375,20 +7202,12 @@ function auto_fill_phc_antigen(){
         document.getElementById('adult_kelurahan'+counter).value = passenger_data_cache_medical[idx].kelurahan;
         document.getElementById('select2-adult_kelurahan'+counter+'_id-container').innerHTML = passenger_data_cache_medical[idx].kelurahan;
 
-        if(Object.keys(passenger_data_cache_medical[idx].pcr_data).length != 0 &&  passenger_data_cache_medical[idx].pcr_data.married_status != undefined){
-            document.getElementById('adult_married_status'+counter).value = passenger_data_cache_medical[idx].pcr_data.married_status;
-            document.getElementById('adult_religion'+counter).value = passenger_data_cache_medical[idx].pcr_data.religion;
-            document.getElementById('adult_pendidikan'+counter).value = passenger_data_cache_medical[idx].pcr_data.pendidikan;
-            document.getElementById('adult_zip_code_ktp'+counter).value = passenger_data_cache_medical[idx].pcr_data.zip_code_ktp;
-            document.getElementById('adult_zip_code'+counter).value = passenger_data_cache_medical[idx].pcr_data.zip_code;
+        if(Object.keys(passenger_data_cache_medical[idx].pcr_data).length != 0 &&  passenger_data_cache_medical[idx].pcr_data.klinis_golongan_darah != undefined){
             document.getElementById('adult_klinis_golongan_darah' + counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_golongan_darah;
         }
         $('#adult_title'+counter).niceSelect('update');
         $('#adult_identity_type'+counter).niceSelect('update');
         $('#adult_profession'+counter).niceSelect('update');
-        $('#adult_married_status'+counter).niceSelect('update');
-        $('#adult_religion'+counter).niceSelect('update');
-        $('#adult_pendidikan'+counter).niceSelect('update');
         $('#adult_klinis_golongan_darah'+counter).niceSelect('update');
         update_contact('passenger',counter);
         counter++;
@@ -7490,13 +7309,6 @@ function auto_fill_phc_pcr(){
         document.getElementById('adult_kelurahan'+counter).value = passenger_data_cache_medical[idx].kelurahan;
         document.getElementById('select2-adult_kelurahan'+counter+'_id-container').innerHTML = passenger_data_cache_medical[idx].kelurahan;
 
-        if(passenger_data_cache_medical[idx].pcr_data.married_status != undefined){
-            document.getElementById('adult_married_status'+counter).value = passenger_data_cache_medical[idx].pcr_data.married_status;
-            document.getElementById('adult_religion'+counter).value = passenger_data_cache_medical[idx].pcr_data.religion;
-            document.getElementById('adult_pendidikan'+counter).value = passenger_data_cache_medical[idx].pcr_data.pendidikan;
-            document.getElementById('adult_zip_code_ktp'+counter).value = passenger_data_cache_medical[idx].pcr_data.zip_code_ktp;
-            document.getElementById('adult_zip_code'+counter).value = passenger_data_cache_medical[idx].pcr_data.zip_code;
-        }
         if(Object.keys(passenger_data_cache_medical[idx].pcr_data).length > 6){
             document.getElementById('adult_klinis_sedang_hamil'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_sedang_hamil;
             document.getElementById('adult_mother_name'+counter).value = passenger_data_cache_medical[idx].pcr_data.nama_orang_tua;
@@ -7679,10 +7491,6 @@ function auto_fill_phc_pcr(){
         $('#adult_gejala'+counter).niceSelect('update');
         $('#adult_penyakit_bawaan'+counter).niceSelect('update');
         $('#adult_faktor_lain'+counter).niceSelect('update');
-
-        $('#adult_married_status'+counter).niceSelect('update');
-        $('#adult_religion'+counter).niceSelect('update');
-        $('#adult_pendidikan'+counter).niceSelect('update');
 
         update_contact('passenger',counter);
         counter++;
