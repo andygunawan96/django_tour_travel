@@ -3604,10 +3604,15 @@ function airline_detail(type){
 
                 for(k in price_itinerary_temp[i].journeys[j].segments){
                     try{
-                        $text += airline_carriers[price_itinerary_temp[i].journeys[j].segments[k].carrier_code].name + ' ' + price_itinerary_temp[i].journeys[j].segments[k].carrier_code + price_itinerary_temp[i].journeys[j].segments[k].carrier_number + '\n';
+                        $text += airline_carriers[price_itinerary_temp[i].journeys[j].segments[k].carrier_code].name + ' ' + price_itinerary_temp[i].journeys[j].segments[k].carrier_code + price_itinerary_temp[i].journeys[j].segments[k].carrier_number + ' ';
                     }catch(err){
-                        $text += price_itinerary_temp[i].journeys[j].segments[k].carrier_code + ' ' + price_itinerary_temp[i].journeys[j].segments[k].carrier_code + price_itinerary_temp[i].journeys[j].segments[k].carrier_number + '\n';
+                        $text += price_itinerary_temp[i].journeys[j].segments[k].carrier_code + ' ' + price_itinerary_temp[i].journeys[j].segments[k].carrier_code + price_itinerary_temp[i].journeys[j].segments[k].carrier_number + ' ';
                     }
+                    for(l in price_itinerary_temp[i].journeys[j].segments[k].fares){
+                        $text += airline_cabin_class_list[price_itinerary_temp[i].journeys[j].segments[k].fares[l].cabin_class] + ' (' + price_itinerary_temp[i].journeys[j].segments[k].fares[l].class_of_service + ')';
+                    }
+                    $text += '\n';
+
                     $text += price_itinerary_temp[i].journeys[j].segments[k].departure_date + ' → ' + price_itinerary_temp[i].journeys[j].segments[k].arrival_date + '\n';
                     $text += price_itinerary_temp[i].journeys[j].segments[k].origin_name + ' (' + price_itinerary_temp[i].journeys[j].segments[k].origin_city + ') - ';
                     $text += price_itinerary_temp[i].journeys[j].segments[k].destination_name + ' (' + price_itinerary_temp[i].journeys[j].segments[k].destination_city + ')\n\n';
@@ -5045,7 +5050,9 @@ function get_checked_copy_result(){
     }
     text='';
     //$text='Search: '+value_idx[0]+'\n'+value_idx[1].trim()+'\nDate: '+value_idx[2]+'\n'+value_idx[3]+'\n\n';
+
     $text= value_idx[0]+' - '+value_idx[1]+' → '+value_idx[2]+', '+value_idx[3]+'\n\n';
+
     var airline_number = 0;
     node = document.createElement("div");
     //text+=`<div class="col-lg-12"><h5>`+value_flight_type+`</h5><hr/></div>`;
@@ -5116,6 +5123,24 @@ function get_checked_copy_result(){
                         if($(this).html() != undefined){
                             text+=`<span>Airlines: `+$(this).html()+` </span>`;
                             $text += 'Airlines: '+$(this).html()+' ';
+                            parent_segments.find('.carrier_code_template').each(function(obj_carrier_code){
+                                if($(this).html() != undefined){
+                                    text+=`<span>`+$(this).html()+` </span>`;
+                                    $text += $(this).html()+' ';
+                                }
+                            });
+                            parent_segments.find('.radio-button-custom').each(function(i, obj_sub_class){
+                                var id_class_of_service = $(this).html().split('id="')[1].split('"')[0]
+                                var change_radios = document.getElementsByName(id_class_of_service);
+                                for (var j = 0, length = change_radios.length; j < length; j++) {
+                                    if (change_radios[j].checked && i == j) {
+                                        console.log($(this).html());
+                                        text+=`<span>`+$(this).html().replace(' ','').split('<b>')[1].split('(')[1].split(')')[0]+`(`+$(this).html().replace(' ','').split('<b>')[1].split('(')[0].replace(' ','')+`) </span>`;
+                                        $text += $(this).html().replace(' ','').split('<b>')[1].split('(')[1].split(')')[0]+` (`+$(this).html().replace(' ','').split('<b>')[1].split('(')[0].replace(' ','')+') ';
+                                        break;
+                                    }
+                                }
+                            });
                         }
                     });
 
