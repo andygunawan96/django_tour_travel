@@ -9209,3 +9209,34 @@ ul.progress_tabs li.current .image-rounded-icon{
         height:60px;
     }
 }
+
+
+.progress_kuota {
+  padding:0;
+  width:100%;
+  height:30px;
+  overflow:hidden;
+  background:#e5e5e5;
+  border:1px solid darkgray;
+  border-radius:6px;
+}
+
+.bar_kuota {
+  position:relative;
+  float:left;
+  min-width:0%;
+  height:100%;
+  background:cornflowerblue;
+}
+
+.percent_kuota {
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  margin:0;
+  font-family:tahoma,arial,helvetica;
+  font-size:14px;
+  font-weight:bold;
+  color:black;
+}

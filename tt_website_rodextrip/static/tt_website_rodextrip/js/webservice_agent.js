@@ -2766,42 +2766,65 @@ function clear_passenger(type, sequence){
                     document.getElementById('adult_last_name'+sequence).value = '';
                     document.getElementById('adult_last_name'+sequence).readOnly = false;
 
-                    initial_date = moment().subtract(18, 'years').format('DD MMM YYYY');
-                    document.getElementById('adult_birth_date'+sequence).value = initial_date;
-                    document.getElementById('adult_birth_date'+sequence).disabled = false;
+                    //initial_date = moment().subtract(18, 'years').format('DD MMM YYYY');
+                    document.getElementById('adult_birth_date'+sequence).value = "";
+                    //document.getElementById('adult_birth_date'+sequence).disabled = false;
                     document.getElementById('adult_identity_number'+sequence).value = '';
                     document.getElementById('adult_identity_number'+sequence).readOnly = false;
                     document.getElementById('adult_identity_expired_date'+sequence).value = '';
                     document.getElementById('adult_identity_expired_date'+sequence).readOnly = false;
 
-                    //nanti tanya ipang nationality sama country of issued
-                    //document.getElementById('adult_nationality'+sequence).value = 'Indonesia';
-                    //document.getElementById('select2-adult_nationality'+sequence+'_id-container').value = 'Indonesia';
-                    //document.getElementById('adult_nationality'+sequence+'_id').disabled = false;
-                    //document.getElementById('adult_country_of_issued'+sequence).value = '';
-                    //document.getElementById('select2-adult_country_of_issued'+sequence+'_id-container').innerHTML = 'Country Of Issued';
+                    document.getElementById('select2-adult_nationality'+sequence+'_id-container').innerHTML = "Indonesia";
+                    document.getElementById('adult_nationality'+sequence).value = "Indonesia";
+
+                    document.getElementById('adult_country_of_issued'+sequence).value = "Indonesia";
+                    document.getElementById('adult_country_of_issued'+sequence+'_id').value = 'Indonesia';
+                    document.getElementById('select2-adult_country_of_issued'+sequence+'_id-container').innerHTML = 'Indonesia';
+
+                    document.getElementById('adult_address'+sequence).value = '';
 
                     if(vendor == 'phc'){
                         //personal data
                         document.getElementById('adult_married_status'+sequence).value = '';
                         $('#adult_married_status'+sequence).niceSelect('update');
-                        document.getElementById('adult_profession'+sequence).value = '';
+                        document.getElementById('adult_profession'+sequence).value = 'SWASTA';
                         $('#adult_profession'+sequence).niceSelect('update');
-                        document.getElementById('adult_work_place'+sequence).value = '';
-                        document.getElementById('adult_work_place_div'+sequence).style.display = 'none';
+                        try{
+                            document.getElementById('adult_mother_name'+sequence).value = '';
+                        }catch(err){}
+                        try{
+                            document.getElementById('adult_tempat_lahir'+sequence).value = '';
+                            document.getElementById('adult_tempat_lahir'+sequence+'_id').value = '';
+                            document.getElementById('select2-adult_tempat_lahir'+sequence+'_id-container').innerHTML = 'Select Tempat Lahir';
+                        }catch(err){}
+
+                        try{
+                            var adult_kabupaten_string = 'adult_kabupaten_ktp'+sequence+'_id';
+                            delete_type(adult_kabupaten_string, sequence);
+                            var adult_domisili_string = 'adult_kabupaten'+sequence+'_id';
+                            delete_type(adult_domisili_string, sequence);
+                        }catch(err){}
+
+                        document.getElementById('adult_work_place'+sequence).value = 'Surabaya';
+                        document.getElementById('adult_work_place_div'+sequence).style.display = 'block';
+                        document.getElementById('adult_perusahaan'+sequence).value = 'PRIBADI';
+                        $('#adult_perusahaan'+sequence).niceSelect('update');
+                        document.getElementById('adult_nama_perusahaan'+sequence).value = 'Pribadi';
+
 
                         document.getElementById('adult_address_ktp'+sequence).value = '';
                         document.getElementById('adult_rt_ktp'+sequence).value = '';
                         document.getElementById('adult_rw_ktp'+sequence).value = '';
                         //kabupaten, kecamatan, kelurahan belum pake delete2
-                        document.getElementById("adult_copy_no"+sequence).click();
-                        document.getElementById('adult_address'+sequence).value = '';
+                        //document.getElementById("adult_copy_no"+sequence).click();
+                        //document.getElementById('adult_address'+sequence).value = '';
                         document.getElementById('adult_rt'+sequence).value = '';
                         document.getElementById('adult_rw'+sequence).value = '';
-                        //kabupaten, kecamatan, kelurahan belum pake delete2
+
 
                         if(test_type == 'PHCHCKPCR' || test_type == 'PHCDTKPCR'){
                             //Medical Data
+
                             document.getElementById('adult_kriteria_pasien'+sequence).value = 'LAIN-LAIN';
                             $('#adult_kriteria_pasien'+sequence).niceSelect('update');
                             document.getElementById('detail_kriteria'+sequence).hidden = true;
@@ -2909,15 +2932,19 @@ function clear_passenger(type, sequence){
                             //FAKTOR PAPARAN
                             document.getElementById('adult_perjalanan'+sequence).value = '';
                             $('#adult_perjalanan'+sequence).niceSelect('update');
+
                             document.getElementById('adult_perjalanan_keluar_negeri'+sequence).value = '';
                             $('#adult_perjalanan_keluar_negeri'+sequence).niceSelect('update');
                             document.getElementById('perjalanan_keluar_negeri_div'+sequence).hidden = true;
+
                             document.getElementById('adult_perjalanan_keluar_negeri'+sequence).value = '';
                             $('#adult_perjalanan_keluar_negeri'+sequence).niceSelect('update');
                             document.getElementById('adult_perjalanan_keluar_negeri'+sequence).hidden = true;
-                            document.getElementById('adult_perjalanan_keluar_negeri'+sequence).value = '';
-                            $('#adult_perjalanan_keluar_negeri'+sequence).niceSelect('update');
+
+                            document.getElementById('adult_perjalanan_ke_transmisi_lokal'+sequence).value = '';
+                            $('#adult_perjalanan_ke_transmisi_lokal'+sequence).niceSelect('update');
                             document.getElementById('perjalanan_ke_transmisi_lokal_div'+sequence).hidden = true;
+
                             document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan'+sequence).value = '';
                             $('#adult_berkunjung_ke_fasilitas_kesehatan'+sequence).niceSelect('update');
                             document.getElementById('berkunjung_ke_fasilitas_kesehatan_div'+sequence).hidden = true;
@@ -2948,8 +2975,23 @@ function clear_passenger(type, sequence){
 
                         }
                     }
+                    else{
+                        try{
+                            document.getElementById('adult_tempat_lahir'+sequence).value = '';
+                            document.getElementById('adult_tempat_lahir'+sequence+'_id').value = '';
+                            document.getElementById('select2-adult_tempat_lahir'+sequence+'_id-container').innerHTML = 'Select Tempat Lahir';
+                        }catch(err){}
+                        try{
+                            document.getElementById('adult_provinsi'+sequence).value = '';
+                            document.getElementById('adult_provinsi'+sequence+'_id').value = '';
+                            document.getElementById('select2-adult_provinsi'+sequence+'_id-container').innerHTML = 'Select Provinsi';
 
-                }catch(err){}
+                            var adult_kabupaten_string = 'adult_kabupaten'+sequence+'_id';
+                            delete_type(adult_kabupaten_string, sequence);
+                        }catch(err){}
+                    }
+
+                }catch(err){console.log(err);}
             }
         })
     }
