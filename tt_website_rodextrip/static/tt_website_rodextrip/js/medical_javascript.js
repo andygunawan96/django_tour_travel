@@ -120,7 +120,14 @@ function add_other_time(){
     $('input[name="booker_test_date'+test_time+'"]').on('apply.daterangepicker', function(ev, picker) {
         var val = parseInt(ev.target.id.replace('booker_test_date',''));
         update_timeslot(val);
+        if(vendor == 'phc'){
+            check_kuota_phc();
+        }
     });
+    if(vendor == 'phc'){
+        check_kuota_phc();
+    }
+
     $('#booker_timeslot_id'+test_time).niceSelect();
     update_timeslot(test_time);
     if(typeof schedule_medical !== 'undefined' && test_time == 1 && auto_fill_first_time == true){
@@ -1576,6 +1583,7 @@ function add_table_of_passenger(type){
                     if(vendor == 'periksain'){
                         text_div_paxs += `
                         <div class="col-lg-12 col-md-12 col-sm-12">
+                            <hr/>
                             <h4>Domisili</h4>
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12">
@@ -1706,7 +1714,7 @@ function add_table_of_passenger(type){
                             </div>
                         </div>`;
                         text_div_paxs += `
-                        <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="col-lg-12 col-md-12 col-sm-12 mt-3">
                             <h4>Test</h4>
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12">
@@ -5318,10 +5326,14 @@ function check_passenger(){
                         }
                         if(document.getElementById('adult_title' + nomor_pax).value == ''){
                             error_log += 'Please fill gender for customer '+ nomor_pax + ' !</br>\n';
-                            document.getElementById('adult_title' + nomor_pax).style['border-color'] = 'red';
+                            $("#adult_title"+nomor_pax).each(function() {
+                                $(this).parent().find('.nice-select').css('border', '1px solid red');
+                            });
                             check_form_periksain = 1;
                         }else{
-                            document.getElementById('adult_title' + nomor_pax).style['border-color'] = '#EFEFEF';
+                            $("#adult_title"+nomor_pax).each(function() {
+                                $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
+                            });
                         }
                         if(document.getElementById('adult_nationality' + nomor_pax).value == ''){
                             error_log += 'Please fill nationality for customer '+ nomor_pax + ' !</br>\n';
@@ -5376,34 +5388,50 @@ function check_passenger(){
 
                         if(document.getElementById('adult_provinsi' + nomor_pax + '_id').value == ''){
                             error_log+= 'Please fill provinsi for customer '+nomor_pax+'!</br>\n';
-                            document.getElementById('adult_provinsi' + nomor_pax).style['border-color'] = 'red';
+                            $("#adult_provinsi"+nomor_pax+"_id").each(function() {
+                              $(this).siblings(".select2-container").css('border', '1px solid red');
+                            });
                             check_form_periksain = 1;
                         }else{
-                            document.getElementById('adult_provinsi' + nomor_pax).style['border-color'] = '#EFEFEF';
+                            $("#adult_provinsi"+nomor_pax+"_id").each(function() {
+                              $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+                            });
                         }
 
                         if(document.getElementById('adult_kecamatan' + nomor_pax + '_id').value == ''){
                             error_log+= 'Please fill kecamatan for customer '+nomor_pax+'!</br>\n';
-                            document.getElementById('adult_kecamatan' + nomor_pax).style['border-color'] = 'red';
+                            $("#adult_kecamatan"+nomor_pax+"_id").each(function() {
+                              $(this).siblings(".select2-container").css('border', '1px solid red');
+                            });
                             check_form_periksain = 1;
                         }else{
-                            document.getElementById('adult_kecamatan' + nomor_pax).style['border-color'] = '#EFEFEF';
+                            $("#adult_kecamatan"+nomor_pax+"_id").each(function() {
+                              $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+                            });
                         }
 
                         if(document.getElementById('adult_kabupaten' + nomor_pax + '_id').value == ''){
                             error_log+= 'Please fill kabupaten for customer '+nomor_pax+'!</br>\n';
-                            document.getElementById('adult_kabupaten' + nomor_pax).style['border-color'] = 'red';
+                            $("#adult_kabupaten"+nomor_pax+"_id").each(function() {
+                              $(this).siblings(".select2-container").css('border', '1px solid red');
+                            });
                             check_form_periksain = 1;
                         }else{
-                            document.getElementById('adult_kabupaten' + nomor_pax).style['border-color'] = '#EFEFEF';
+                            $("#adult_kabupaten"+nomor_pax+"_id").each(function() {
+                              $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+                            });
                         }
 
                         if(document.getElementById('adult_kelurahan' + nomor_pax + '_id').value == ''){
                             error_log+= 'Please fill kelurahan for customer '+nomor_pax+'!</br>\n';
-                            document.getElementById('adult_kelurahan' + nomor_pax).style['border-color'] = 'red';
+                            $("#adult_kelurahan"+nomor_pax+"_id").each(function() {
+                              $(this).siblings(".select2-container").css('border', '1px solid red');
+                            });
                             check_form_periksain = 1;
                         }else{
-                            document.getElementById('adult_kelurahan' + nomor_pax).style['border-color'] = '#EFEFEF';
+                            $("#adult_kelurahan"+nomor_pax+"_id").each(function() {
+                              $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+                            });
                         }
 
                         if(document.getElementById('adult_identity_type' + nomor_pax).value != ''){
@@ -5596,10 +5624,14 @@ function check_passenger(){
                         }
                         if(document.getElementById('adult_title' + nomor_pax).value == ''){
                             error_log += 'Please fill gender for customer '+ nomor_pax + ' !</br>\n';
-                            document.getElementById('adult_title' + nomor_pax).style['border-color'] = 'red';
+                            $("#adult_title"+nomor_pax).each(function() {
+                                $(this).parent().find('.nice-select').css('border', '1px solid red');
+                            });
                             check_form_personal = 1;
                         }else{
-                            document.getElementById('adult_title' + nomor_pax).style['border-color'] = '#EFEFEF';
+                            $("#adult_title"+nomor_pax).each(function() {
+                                $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
+                            });
                         }
                         if(document.getElementById('adult_nationality' + nomor_pax).value == 'Select Nationality'){
                             error_log += 'Please fill title name for customer '+ nomor_pax + ' !</br>\n';
@@ -7932,5 +7964,31 @@ function open_date_schedule(){
     }else{
         document.getElementById('icon_shcedule').style.color = "black";
         document.getElementById('booker_test_date1').readOnly = true;
+    }
+}
+
+function check_kuota_phc(){
+    var date_kuota = moment(document.getElementById('booker_test_date1').value).format('YYYY-MM-DD');
+    for(i in test_kuota){
+        for(j in test_kuota[i].timeslots){
+            if(date_kuota == j){
+                for(k in test_kuota[i].timeslots[j]){
+                    document.getElementById("count_kuota_phc").innerHTML = test_kuota[i].timeslots[j][k].used_pcr_count;
+                    var count_percent = (parseInt(test_kuota[i].timeslots[j][k].used_pcr_count) / 175)*100;
+                    document.getElementById('bar_kuota_phc').style.width = count_percent.toFixed(0)+"%";
+                    document.getElementById('percent_kuota_phc').innerHTML = count_percent.toFixed(0)+"%";
+                    if(count_percent.toFixed(0) >= 0 && count_percent.toFixed(0) <= 60){
+                        document.getElementById('bar_kuota_phc').style.background = "#27b522";
+                        document.getElementById('show_icon_kuota').innerHTML = `<i class="fas fa-check-circle" style="color:#27b522;"></i>`;
+                    }else if(count_percent.toFixed(0) >= 61 && count_percent.toFixed(0) <= 99){
+                        document.getElementById('bar_kuota_phc').style.background = "#d9d93d";
+                        document.getElementById('show_icon_kuota').innerHTML = `<i class="fas fa-exclamation-circle" style="color:#d9d93d;"></i>`;
+                    }else if(count_percent.toFixed(0) >= 100){
+                        document.getElementById('bar_kuota_phc').style.background = "#f00c50";
+                        document.getElementById('show_icon_kuota').innerHTML = `<i class="fas fa-times-circle" style="color:#f00c50;"></i>`;
+                    }
+                }
+            }
+        }
     }
 }
