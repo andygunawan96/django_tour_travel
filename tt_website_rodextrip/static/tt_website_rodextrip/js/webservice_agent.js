@@ -2807,22 +2807,24 @@ function clear_passenger(type, sequence){
 
                         document.getElementById('adult_work_place'+sequence).value = 'Surabaya';
                         document.getElementById('adult_work_place_div'+sequence).style.display = 'block';
-                        document.getElementById('adult_perusahaan'+sequence).value = 'PRIBADI';
-                        $('#adult_perusahaan'+sequence).niceSelect('update');
-                        document.getElementById('adult_nama_perusahaan'+sequence).value = 'Pribadi';
-
 
                         document.getElementById('adult_address_ktp'+sequence).value = '';
                         document.getElementById('adult_rt_ktp'+sequence).value = '';
                         document.getElementById('adult_rw_ktp'+sequence).value = '';
+                        document.getElementById("adult_copy_yes"+sequence).click();
+
+
                         //kabupaten, kecamatan, kelurahan belum pake delete2
-                        //document.getElementById("adult_copy_no"+sequence).click();
                         //document.getElementById('adult_address'+sequence).value = '';
                         document.getElementById('adult_rt'+sequence).value = '';
                         document.getElementById('adult_rw'+sequence).value = '';
 
 
                         if(test_type == 'PHCHCKPCR' || test_type == 'PHCDTKPCR'){
+                            document.getElementById('adult_perusahaan'+sequence).value = 'PRIBADI';
+                            $('#adult_perusahaan'+sequence).niceSelect('update');
+                            document.getElementById('adult_nama_perusahaan'+sequence).value = 'Pribadi';
+
                             //Medical Data
 
                             document.getElementById('adult_kriteria_pasien'+sequence).value = 'LAIN-LAIN';
@@ -2906,7 +2908,7 @@ function clear_passenger(type, sequence){
                             document.getElementById('adult_klinis_gejala_lainnya'+sequence).value = '';
 
                             //Penyakit bawaan
-                            document.getElementById('adult_penyakit_bawaan'+sequence).value = '';
+                            document.getElementById('adult_penyakit_bawaan'+sequence).value = 'TIDAK TAHU';
                             $('#adult_penyakit_bawaan'+sequence).niceSelect('update');
                             document.getElementById('table_penyakit_bawaan_div'+sequence).hidden = true;
 
@@ -2930,44 +2932,61 @@ function clear_passenger(type, sequence){
 
 
                             //FAKTOR PAPARAN
-                            document.getElementById('adult_perjalanan'+sequence).value = '';
+                            document.getElementById('adult_perjalanan'+sequence).value = 'TIDAK TAHU';
                             $('#adult_perjalanan'+sequence).niceSelect('update');
 
-                            document.getElementById('adult_perjalanan_keluar_negeri'+sequence).value = '';
-                            $('#adult_perjalanan_keluar_negeri'+sequence).niceSelect('update');
-                            document.getElementById('perjalanan_keluar_negeri_div'+sequence).hidden = true;
+                            try{
+                                document.getElementById('adult_perjalanan_keluar_negeri'+sequence).value = '';
+                                $('#adult_perjalanan_keluar_negeri'+sequence).niceSelect('update');
+                                document.getElementById('perjalanan_keluar_negeri_div'+sequence).hidden = true;
+                            }catch(err){}
 
-                            document.getElementById('adult_perjalanan_keluar_negeri'+sequence).value = '';
-                            $('#adult_perjalanan_keluar_negeri'+sequence).niceSelect('update');
-                            document.getElementById('adult_perjalanan_keluar_negeri'+sequence).hidden = true;
+                            try{
+                                document.getElementById('adult_perjalanan_keluar_negeri'+sequence).value = '';
+                                $('#adult_perjalanan_keluar_negeri'+sequence).niceSelect('update');
+                                document.getElementById('adult_perjalanan_keluar_negeri'+sequence).hidden = true;
+                            }catch(err){}
 
-                            document.getElementById('adult_perjalanan_ke_transmisi_lokal'+sequence).value = '';
-                            $('#adult_perjalanan_ke_transmisi_lokal'+sequence).niceSelect('update');
-                            document.getElementById('perjalanan_ke_transmisi_lokal_div'+sequence).hidden = true;
+                            try{
+                                document.getElementById('adult_perjalanan_ke_transmisi_lokal'+sequence).value = '';
+                                $('#adult_perjalanan_ke_transmisi_lokal'+sequence).niceSelect('update');
+                                document.getElementById('perjalanan_ke_transmisi_lokal_div'+sequence).hidden = true;
+                            }catch(err){}
 
-                            document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan'+sequence).value = '';
-                            $('#adult_berkunjung_ke_fasilitas_kesehatan'+sequence).niceSelect('update');
-                            document.getElementById('berkunjung_ke_fasilitas_kesehatan_div'+sequence).hidden = true;
-                            document.getElementById('adult_berkunjung_ke_pasar_hewan'+sequence).value = '';
-                            $('#adult_berkunjung_ke_pasar_hewan'+sequence).niceSelect('update');
-                            document.getElementById('berkunjung_ke_pasar_hewan_div'+sequence).hidden = true;
-                            document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan'+sequence).value = '';
-                            $('#adult_berkunjung_ke_pasien_dalam_pengawasan'+sequence).niceSelect('update');
-                            document.getElementById('berkunjung_ke_pasien_dalam_pengawasan_div'+sequence).hidden = true;
-                            document.getElementById('adult_berkunjung_ke_pasien_konfirmasi'+sequence).value = '';
-                            $('#adult_berkunjung_ke_pasien_konfirmasi'+sequence).niceSelect('update');
-                            document.getElementById('berkunjung_ke_pasien_konfirmasi_div'+sequence).hidden = true;
+                            try{
+                                document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan'+sequence).value = '';
+                                $('#adult_berkunjung_ke_fasilitas_kesehatan'+sequence).niceSelect('update');
+                                document.getElementById('berkunjung_ke_fasilitas_kesehatan_div'+sequence).hidden = true;
+                            }catch(err){}
+
+                            try{
+                                document.getElementById('adult_berkunjung_ke_pasar_hewan'+sequence).value = '';
+                                $('#adult_berkunjung_ke_pasar_hewan'+sequence).niceSelect('update');
+                                document.getElementById('berkunjung_ke_pasar_hewan_div'+sequence).hidden = true;
+                            }catch(err){}
+
+                            try{
+                                document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan'+sequence).value = '';
+                                $('#adult_berkunjung_ke_pasien_dalam_pengawasan'+sequence).niceSelect('update');
+                                document.getElementById('berkunjung_ke_pasien_dalam_pengawasan_div'+sequence).hidden = true;
+                            }catch(err){}
+
+                            try{
+                                document.getElementById('adult_berkunjung_ke_pasien_konfirmasi'+sequence).value = '';
+                                $('#adult_berkunjung_ke_pasien_konfirmasi'+sequence).niceSelect('update');
+                                document.getElementById('berkunjung_ke_pasien_konfirmasi_div'+sequence).hidden = true;
+                            }catch(err){}
 
                             document.getElementById('adult_termasuk_cluster_ispa'+sequence).value = '';
                             $('#adult_termasuk_cluster_ispa'+sequence).niceSelect('update');
 
-                            document.getElementById('adult_merupakan_petugas_kesehatan'+sequence).value = '';
+                            document.getElementById('adult_merupakan_petugas_kesehatan'+sequence).value = 'TIDAK';
                             $('#adult_merupakan_petugas_kesehatan'+sequence).niceSelect('update');
                             document.getElementById('apd_div'+sequence).hidden = true;
                             document.getElementById('adult_apd_yang_digunakan'+sequence).value = '';
                             $('#adult_merupakan_petugas_kesehatan'+sequence).niceSelect('update');
 
-                            document.getElementById('adult_prosedur_menimbulkan_aerosol'+sequence).value = '';
+                            document.getElementById('adult_prosedur_menimbulkan_aerosol'+sequence).value = 'TIDAK TAHU';
                             $('#adult_prosedur_menimbulkan_aerosol'+sequence).niceSelect('update');
                             document.getElementById('tindakan_aerosol_div'+sequence).hidden = true;
                             document.getElementById('adult_tindakan_menimbulkan_aerosol'+sequence).value = '';

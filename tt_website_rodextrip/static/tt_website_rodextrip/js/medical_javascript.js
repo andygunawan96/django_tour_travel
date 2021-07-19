@@ -121,11 +121,15 @@ function add_other_time(){
         var val = parseInt(ev.target.id.replace('booker_test_date',''));
         update_timeslot(val);
         if(vendor == 'phc'){
-            check_kuota_phc();
+            if(test_type == 'PHCHCKPCR' || test_type == 'PHCDTKPCR'){
+                check_kuota_phc();
+            }
         }
     });
     if(vendor == 'phc'){
-        check_kuota_phc();
+        if(test_type == 'PHCHCKPCR' || test_type == 'PHCDTKPCR'){
+            check_kuota_phc();
+        }
     }
 
     $('#booker_timeslot_id'+test_time).niceSelect();
@@ -1761,13 +1765,13 @@ function add_table_of_passenger(type){
                             <label>Copy KTP to Domisili?</label>
                             <label class="radio-button-custom">
                                 Yes
-                                <input type="radio" name="adult_copy`+parseInt(counter_passenger+1)+`" onchange="copy_ktp(`+parseInt(counter_passenger+1)+`);" value="true" checked="checked" />
+                                <input type="radio" id="adult_copy_yes`+parseInt(counter_passenger+1)+`" name="adult_copy`+parseInt(counter_passenger+1)+`" onchange="copy_ktp(`+parseInt(counter_passenger+1)+`);" value="true" checked="checked" />
                                 <span class="checkmark-radio"></span>
                             </label>
 
                             <label class="radio-button-custom">
                                 No
-                                <input type="radio" name="adult_copy`+parseInt(counter_passenger+1)+`" onchange="copy_ktp(`+parseInt(counter_passenger+1)+`);" value="false" />
+                                <input type="radio" id="adult_copy_no`+parseInt(counter_passenger+1)+`" name="adult_copy`+parseInt(counter_passenger+1)+`" onchange="copy_ktp(`+parseInt(counter_passenger+1)+`);" value="false" />
                                 <span class="checkmark-radio"></span>
                             </label>
                         </div>`;
@@ -3826,7 +3830,7 @@ function onchange_perjalanan_ke_transmisi_lokal(val){
         document.getElementById('perjalanan_ke_transmisi_lokal'+val).hidden = false;
         document.getElementById('perjalanan_ke_transmisi_lokal'+val).innerHTML = `
         <br/>
-        <table  style="width:100%;background:white;" class="list-of-table" id="perjalanan_ke_transmisi_lokal_div`+val+`">
+        <table style="width:100%;background:white;" class="list-of-table" id="perjalanan_ke_transmisi_lokal_div`+val+`">
             <tr>
                 <th>
                     <div class="row">

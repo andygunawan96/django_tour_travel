@@ -489,6 +489,7 @@
                                     </div>
 
                                     {% if vendor == 'phc' %}
+                                    {% if test_type == 'PHCHCKPCR' or test_type == 'PHCDTKPCR' %}
                                     <div class="col-lg-12 mt-2">
                                         <span style="font-size:16px; font-weight:bold;">Kuota yang tersedia: </span>
                                         <div style="text-align:left; margin-top:10px; margin-bottom:10px;">
@@ -520,6 +521,7 @@
                                     <div class="col-lg-12 mt-3 mb-3" style="text-align:left;">
                                         <h6 style="color:{{color}};">Note: Ketersedian kuota bisa berubah sewaktu-waktu</h6>
                                     </div>
+                                    {% endif %}
                                     {% endif %}
 
                                     <div class="col-lg-12 mt-2" style="text-align:center;" id="add_test_time_button" hidden>
@@ -3388,7 +3390,6 @@
 <div id="modal_passenger_list">
 
 {% include 'tt_website_rodextrip/footer.html' %}
-
 
 {% if username.co_user_login == 'agent_b2c' %}
 {% include 'tt_website_rodextrip/modal_signin_signup.html' %}
