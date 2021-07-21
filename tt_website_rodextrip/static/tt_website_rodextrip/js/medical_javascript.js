@@ -1,5 +1,5 @@
 function add_other_time(type='add'){
-    if(type == 'auto_fill'){
+    if(type != 'auto_fill'){
         var node = document.createElement("div");
         text = '';
         if(test_time > 1){
