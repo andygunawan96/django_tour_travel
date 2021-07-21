@@ -134,7 +134,7 @@ function add_other_time(){
 
     $('#booker_timeslot_id'+test_time).niceSelect();
     update_timeslot(test_time);
-    if(typeof schedule_medical !== 'undefined' && test_time < 1 && auto_fill_first_time == true){
+    if(typeof schedule_medical !== 'undefined' && test_time <= 2 && auto_fill_first_time == true){
         auto_fill_first_time = false;
         if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCDTKATG' || vendor == 'phc' && test_type == 'PHCDTKPCR'){
             if(schedule_medical.address != alamat_ss && schedule_medical.place_url_by_google != ''){
