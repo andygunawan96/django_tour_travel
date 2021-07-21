@@ -2453,6 +2453,7 @@ function get_data_cache_schedule_medical(){
             if(Object.keys(msg).length != 0){
                 schedule_medical = msg;
                 auto_fill_home_care();
+                add_other_time('auto_fill');
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {

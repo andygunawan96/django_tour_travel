@@ -1,181 +1,184 @@
-function add_other_time(){
-    var node = document.createElement("div");
-    text = '';
-    if(test_time > 1){
-    text+=`
-        <div>
-            <hr/>
-        </div>`;
-    }
-    text+= `
-        <div class="row">
-            <div class="col-lg-6">
-                <label style="color:red !important">*</label>
-                <label>Test Date</label>
-                <div class="input-container-search-ticket">
-                    <input type="text" class="form-control" style="cursor:pointer; background:white;" name="booker_test_date`+test_time+`" id="booker_test_date`+test_time+`" placeholder="Test Date" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Test Date '" autocomplete="off" readonly>
-                </div>
+function add_other_time(type='add'){
+    if(type == 'auto_fill'){
+        var node = document.createElement("div");
+        text = '';
+        if(test_time > 1){
+        text+=`
+            <div>
+                <hr/>
             </div>`;
-    if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCHCKATG' || vendor == 'phc' && test_type == 'PHCHCKPCR')
+        }
+        text+= `
+            <div class="row">
+                <div class="col-lg-6">
+                    <label style="color:red !important">*</label>
+                    <label>Test Date</label>
+                    <div class="input-container-search-ticket">
+                        <input type="text" class="form-control" style="cursor:pointer; background:white;" name="booker_test_date`+test_time+`" id="booker_test_date`+test_time+`" placeholder="Test Date" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Test Date '" autocomplete="off" readonly>
+                    </div>
+                </div>`;
+        if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCHCKATG' || vendor == 'phc' && test_type == 'PHCHCKPCR')
+            text+=`
+                <div class="col-lg-6">`;
+        else
+            text+=`
+                <div class="col-lg-6" hidden>`;
         text+=`
-            <div class="col-lg-6">`;
-    else
-        text+=`
-            <div class="col-lg-6" hidden>`;
-    text+=`
-                <label style="color:red !important;">*</label>
-                <label>Timeslot</label>
-                <div class="row">
-                    <div class="col-lg-8">`;
+                    <label style="color:red !important;">*</label>
+                    <label>Timeslot</label>
+                    <div class="row">
+                        <div class="col-lg-8">`;
 
-                    if(template == 1){
-                        text+=`
-                        <div class="form-select-2" id="default-select">
-                            <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot" onclick="change_timeslot(`+test_time+`)">
+                        if(template == 1){
+                            text+=`
+                            <div class="form-select-2" id="default-select">
+                                <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot" onclick="change_timeslot(`+test_time+`)">
 
-                            </select>
-                        </div>`;
-                    }
-                    else if(template == 2){
-                        text+=`
+                                </select>
+                            </div>`;
+                        }
+                        else if(template == 2){
+                            text+=`
+                                <div class="form-select">
+                                    <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot" onclick="change_timeslot(`+test_time+`)">
+
+                                    </select>
+                                </div>
+                            </div>`;
+                        }
+                        else if(template == 3){
+                            text+=`
+                            <div class="form-group">
+                                <div class="default-select">
+                                    <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot" onclick="change_timeslot(`+test_time+`)">
+
+                                    </select>
+                                </div>
+                            </div>`;
+                        }
+                        else if(template == 4){
+                            text+=`
+                            <div class="input-container-search-ticket">
+                                <div class="form-select" id="default-select" style="width:100%;">
+                                    <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot" onclick="change_timeslot(`+test_time+`)">
+
+                                    </select>
+                                </div>
+                            </div>`;
+                        }
+                        else if(template == 5){
+                            text+=`
                             <div class="form-select">
                                 <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot" onclick="change_timeslot(`+test_time+`)">
 
                                 </select>
-                            </div>
-                        </div>`;
-                    }
-                    else if(template == 3){
-                        text+=`
-                        <div class="form-group">
-                            <div class="default-select">
+                            </div>`;
+                        }
+                        else if(template == 6){
+                            text+=`
+                            <div class="form-select-2" id="default-select">
                                 <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot" onclick="change_timeslot(`+test_time+`)">
 
                                 </select>
-                            </div>
-                        </div>`;
-                    }
-                    else if(template == 4){
+                            </div>`;
+                        }
                         text+=`
-                        <div class="input-container-search-ticket">
-                            <div class="form-select" id="default-select" style="width:100%;">
-                                <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot" onclick="change_timeslot(`+test_time+`)">
-
-                                </select>
-                            </div>
-                        </div>`;
-                    }
-                    else if(template == 5){
-                        text+=`
-                        <div class="form-select">
-                            <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot" onclick="change_timeslot(`+test_time+`)">
-
-                            </select>
-                        </div>`;
-                    }
-                    else if(template == 6){
-                        text+=`
-                        <div class="form-select-2" id="default-select">
-                            <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot" onclick="change_timeslot(`+test_time+`)">
-
-                            </select>
-                        </div>`;
-                    }
-                    text+=`
+                        </div>
+                        <div class="col-lg-2">`;
+        if(test_time == 1){
+            text+=` </div>
+                </div>
+            </div>`;
+        }else{
+            text+=`
+                        <button type="button" class="primary-delete-date" onclick="delete_other_time('test`+test_time+`')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                     </div>
-                    <div class="col-lg-2">`;
-    if(test_time == 1){
-        text+=` </div>
-            </div>
-        </div>`;
-    }else{
-        text+=`
-                    <button type="button" class="primary-delete-date" onclick="delete_other_time('test`+test_time+`')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                 </div>
             </div>
-        </div>
-        `;
-    }
-
-
-    node.innerHTML = text;
-    node.id = 'test' + test_time
-    document.getElementById('test').appendChild(node);
-
-    //test date
-    $('input[name="booker_test_date'+test_time+'"]').daterangepicker({
-        singleDatePicker: true,
-        autoUpdateInput: true,
-        startDate: moment(medical_get_availability_response[document.getElementById('booker_area').value].min_date),
-        minDate: moment(medical_get_availability_response[document.getElementById('booker_area').value].min_date),
-        maxDate: moment(medical_get_availability_response[document.getElementById('booker_area').value].max_date),
-        showDropdowns: true,
-        opens: 'center',
-        locale: {
-            format: 'DD MMM YYYY',
-            productDate: 'medical',
-            dataDate: test_date_data,
+            `;
         }
-    });
-    $('input[name="booker_test_date'+test_time+'"]').on('apply.daterangepicker', function(ev, picker) {
-        var val = parseInt(ev.target.id.replace('booker_test_date',''));
-        update_timeslot(val);
+
+
+        node.innerHTML = text;
+        node.id = 'test' + test_time
+        document.getElementById('test').appendChild(node);
+
+        //test date
+        $('input[name="booker_test_date'+test_time+'"]').daterangepicker({
+            singleDatePicker: true,
+            autoUpdateInput: true,
+            startDate: moment(medical_get_availability_response[document.getElementById('booker_area').value].min_date),
+            minDate: moment(medical_get_availability_response[document.getElementById('booker_area').value].min_date),
+            maxDate: moment(medical_get_availability_response[document.getElementById('booker_area').value].max_date),
+            showDropdowns: true,
+            opens: 'center',
+            locale: {
+                format: 'DD MMM YYYY',
+                productDate: 'medical',
+                dataDate: test_date_data,
+            }
+        });
+        $('input[name="booker_test_date'+test_time+'"]').on('apply.daterangepicker', function(ev, picker) {
+            var val = parseInt(ev.target.id.replace('booker_test_date',''));
+            update_timeslot(val);
+            if(vendor == 'phc'){
+                if(test_type == 'PHCHCKPCR' || test_type == 'PHCDTKPCR'){
+                    check_kuota_phc();
+                }
+            }
+        });
         if(vendor == 'phc'){
             if(test_type == 'PHCHCKPCR' || test_type == 'PHCDTKPCR'){
                 check_kuota_phc();
             }
         }
-    });
-    if(vendor == 'phc'){
-        if(test_type == 'PHCHCKPCR' || test_type == 'PHCDTKPCR'){
-            check_kuota_phc();
-        }
-    }
 
-    $('#booker_timeslot_id'+test_time).niceSelect();
-    update_timeslot(test_time);
+        $('#booker_timeslot_id'+test_time).niceSelect();
+        update_timeslot(test_time);
+    }
     if(typeof schedule_medical !== 'undefined' && test_time <= 2 && auto_fill_first_time == true){
         auto_fill_first_time = false;
-        if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCDTKATG' || vendor == 'phc' && test_type == 'PHCDTKPCR'){
-            if(schedule_medical.address != alamat_ss && schedule_medical.place_url_by_google != ''){
-                web_url = schedule_medical.place_url_by_google;
-                if(schedule_medical.area != '')
-                    document.getElementById('booker_area').value = schedule_medical.area;
-                $('#booker_area').niceSelect('update');
-                var google_lat_long = schedule_medical.place_url_by_google.split('/')[schedule_medical.place_url_by_google.split('/').length-1];
-                lat = parseFloat(google_lat_long.split(',')[0]);
-                long = parseFloat(google_lat_long.split(',')[1]);
-                list_map.push({
-                    "name": "auto",
-                    "lat": lat,
-                    "long": long,
-                    "zoom" : 18
-                })
-                change_area('auto_marker')
-            }
-            if(test_time == 1 && schedule_medical.area != '')
+
+        if(schedule_medical.address != alamat_ss && schedule_medical.place_url_by_google != ''){
+            web_url = schedule_medical.place_url_by_google;
+            if(schedule_medical.area != '')
                 document.getElementById('booker_area').value = schedule_medical.area;
-            var nomor_pax = 1;
-            for(x in schedule_medical.test_list){
-                if(x != 0){
-                    add_other_time();
+            $('#booker_area').niceSelect('update');
+            var google_lat_long = schedule_medical.place_url_by_google.split('/')[schedule_medical.place_url_by_google.split('/').length-1];
+            lat = parseFloat(google_lat_long.split(',')[0]);
+            long = parseFloat(google_lat_long.split(',')[1]);
+            list_map.push({
+                "name": "auto",
+                "lat": lat,
+                "long": long,
+                "zoom" : 18
+            })
+            change_area('auto_marker')
+        }
+        if(test_time == 1 && schedule_medical.area != '')
+            document.getElementById('booker_area').value = schedule_medical.area;
+        var nomor_pax = 1;
+        for(x in schedule_medical.test_list){
+            if(x != 0){
+                add_other_time();
+            }
+            $('input[name="booker_test_date'+test_time+'"]').daterangepicker({
+                singleDatePicker: true,
+                autoUpdateInput: true,
+                startDate: moment(medical_get_availability_response[document.getElementById('booker_area').value].min_date),
+                minDate: moment(medical_get_availability_response[document.getElementById('booker_area').value].min_date),
+                maxDate: moment(medical_get_availability_response[document.getElementById('booker_area').value].max_date),
+                showDropdowns: true,
+                opens: 'center',
+                locale: {
+                    format: 'DD MMM YYYY',
+                    productDate: 'medical',
+                    dataDate: test_date_data,
                 }
-                $('input[name="booker_test_date'+test_time+'"]').daterangepicker({
-                    singleDatePicker: true,
-                    autoUpdateInput: true,
-                    startDate: moment(medical_get_availability_response[document.getElementById('booker_area').value].min_date),
-                    minDate: moment(medical_get_availability_response[document.getElementById('booker_area').value].min_date),
-                    maxDate: moment(medical_get_availability_response[document.getElementById('booker_area').value].max_date),
-                    showDropdowns: true,
-                    opens: 'center',
-                    locale: {
-                        format: 'DD MMM YYYY',
-                        productDate: 'medical',
-                        dataDate: test_date_data,
-                    }
-                });
-                document.getElementById('booker_test_date'+test_time).value = schedule_medical.test_list[x].date;
-                update_timeslot(nomor_pax);
+            });
+            document.getElementById('booker_test_date'+test_time).value = schedule_medical.test_list[x].date;
+            update_timeslot(nomor_pax);
+            if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCDTKATG' || vendor == 'phc' && test_type == 'PHCDTKPCR'){
                 var trends = document.getElementById('booker_timeslot_id'+nomor_pax);
 
                 for(i = 0; i < trends.length; i++) {
@@ -184,11 +187,10 @@ function add_other_time(){
                        break;
                    }
                 }
-
-    //            document.getElementById('booker_timeslot_id'+nomor_pax).value = schedule_medical.test_list[x].seq_id.split('~')[0];
-                $('#booker_timeslot_id'+nomor_pax).niceSelect('update');
-                nomor_pax++;
             }
+//            document.getElementById('booker_timeslot_id'+nomor_pax).value = schedule_medical.test_list[x].seq_id.split('~')[0];
+            $('#booker_timeslot_id'+nomor_pax).niceSelect('update');
+            nomor_pax++;
         }
     }
     test_time++;
