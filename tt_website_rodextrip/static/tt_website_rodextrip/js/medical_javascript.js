@@ -135,65 +135,69 @@ function add_other_time(type='add'){
 
         $('#booker_timeslot_id'+test_time).niceSelect();
         update_timeslot(test_time);
+        test_time++;
     }
     if(typeof schedule_medical !== 'undefined' && test_time <= 2 && auto_fill_first_time == true){
-        auto_fill_first_time = false;
+        try{
+            if(document.getElementById('booker_timeslot_id1') != null)
+                auto_fill_first_time = false;
 
-        if(schedule_medical.address != alamat_ss && schedule_medical.place_url_by_google != ''){
-            web_url = schedule_medical.place_url_by_google;
-            if(schedule_medical.area != '')
+            if(schedule_medical.address != alamat_ss && schedule_medical.place_url_by_google != ''){
+                web_url = schedule_medical.place_url_by_google;
+                if(schedule_medical.area != '')
+                    document.getElementById('booker_area').value = schedule_medical.area;
+                $('#booker_area').niceSelect('update');
+                var google_lat_long = schedule_medical.place_url_by_google.split('/')[schedule_medical.place_url_by_google.split('/').length-1];
+                lat = parseFloat(google_lat_long.split(',')[0]);
+                long = parseFloat(google_lat_long.split(',')[1]);
+                list_map.push({
+                    "name": "auto",
+                    "lat": lat,
+                    "long": long,
+                    "zoom" : 18
+                })
+                change_area('auto_marker')
+            }
+            if(test_time == 1 && schedule_medical.area != '')
                 document.getElementById('booker_area').value = schedule_medical.area;
-            $('#booker_area').niceSelect('update');
-            var google_lat_long = schedule_medical.place_url_by_google.split('/')[schedule_medical.place_url_by_google.split('/').length-1];
-            lat = parseFloat(google_lat_long.split(',')[0]);
-            long = parseFloat(google_lat_long.split(',')[1]);
-            list_map.push({
-                "name": "auto",
-                "lat": lat,
-                "long": long,
-                "zoom" : 18
-            })
-            change_area('auto_marker')
-        }
-        if(test_time == 1 && schedule_medical.area != '')
-            document.getElementById('booker_area').value = schedule_medical.area;
-        var nomor_test = 1;
-        for(x in schedule_medical.test_list){
-            if(x != 0){
-                add_other_time();
-            }
-            $('input[name="booker_test_date'+nomor_test+'"]').daterangepicker({
-                singleDatePicker: true,
-                autoUpdateInput: true,
-                startDate: moment(medical_get_availability_response[document.getElementById('booker_area').value].min_date),
-                minDate: moment(medical_get_availability_response[document.getElementById('booker_area').value].min_date),
-                maxDate: moment(medical_get_availability_response[document.getElementById('booker_area').value].max_date),
-                showDropdowns: true,
-                opens: 'center',
-                locale: {
-                    format: 'DD MMM YYYY',
-                    productDate: 'medical',
-                    dataDate: test_date_data,
+            var nomor_test = 1;
+            for(x in schedule_medical.test_list){
+                if(x != 0){
+                    add_other_time();
                 }
-            });
-            document.getElementById('booker_test_date'+nomor_test).value = schedule_medical.test_list[x].date;
-            update_timeslot(nomor_test);
-            if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCDTKATG' || vendor == 'phc' && test_type == 'PHCDTKPCR'){
-                var trends = document.getElementById('booker_timeslot_id'+nomor_test);
+                $('input[name="booker_test_date'+nomor_test+'"]').daterangepicker({
+                    singleDatePicker: true,
+                    autoUpdateInput: true,
+                    startDate: moment(medical_get_availability_response[document.getElementById('booker_area').value].min_date),
+                    minDate: moment(medical_get_availability_response[document.getElementById('booker_area').value].min_date),
+                    maxDate: moment(medical_get_availability_response[document.getElementById('booker_area').value].max_date),
+                    showDropdowns: true,
+                    opens: 'center',
+                    locale: {
+                        format: 'DD MMM YYYY',
+                        productDate: 'medical',
+                        dataDate: test_date_data,
+                    }
+                });
+                document.getElementById('booker_test_date'+nomor_test).value = schedule_medical.test_list[x].date;
+                update_timeslot(nomor_test);
+                if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCDTKATG' || vendor == 'phc' && test_type == 'PHCDTKPCR'){
+                    var trends = document.getElementById('booker_timeslot_id'+nomor_test);
 
-                for(i = 0; i < trends.length; i++) {
-                   if (trends.options[i].value.split('~')[0] == schedule_medical.test_list[x].seq_id) {
-                       trends.options[i].selected = 'selected';
-                       break;
-                   }
+                    for(i = 0; i < trends.length; i++) {
+                       if (trends.options[i].value.split('~')[0] == schedule_medical.test_list[x].seq_id) {
+                           trends.options[i].selected = 'selected';
+                           break;
+                       }
+                    }
                 }
+    //            document.getElementById('booker_timeslot_id'+test_time).value = schedule_medical.test_list[x].seq_id.split('~')[0];
+                $('#booker_timeslot_id'+nomor_test).niceSelect('update');
+                nomor_test++;
             }
-//            document.getElementById('booker_timeslot_id'+test_time).value = schedule_medical.test_list[x].seq_id.split('~')[0];
-            $('#booker_timeslot_id'+nomor_test).niceSelect('update');
-            nomor_test++;
-        }
+        }catch(err){console.log(err)}
     }
-    test_time++;
+
 }
 
 function update_timeslot(val){
