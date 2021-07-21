@@ -222,6 +222,7 @@ function get_kelurahan(id_kecamatan,id_kelurahan){
 
 function medical_get_availability(){
     test_date_data = [];
+    test_kuota = [];
     $.ajax({
        type: "POST",
        url: "/webservice/medical",
@@ -239,6 +240,7 @@ function medical_get_availability(){
                 document.getElementById('check_price_medical').hidden = false;
                 msg = msg.result.response;
                 if(Object.keys(msg).length > 0){
+                    test_kuota = msg;
                     for(i in msg){
                         for(j in msg[i].timeslots){
                             test_date_data.push(j);
@@ -2451,6 +2453,7 @@ function get_data_cache_schedule_medical(){
             if(Object.keys(msg).length != 0){
                 schedule_medical = msg;
                 auto_fill_home_care();
+                add_other_time('auto_fill');
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {

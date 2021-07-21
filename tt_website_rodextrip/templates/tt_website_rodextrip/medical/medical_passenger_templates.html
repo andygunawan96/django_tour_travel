@@ -114,9 +114,9 @@
             </div>
         </div>
     </div>
-    {% if username.co_user_login == 'agent_b2c' %}
-    {% include 'tt_website_rodextrip/header_signin_signup.html' %}
-    {% endif %}
+<!--    {% if username.co_user_login == 'agent_b2c' %}-->
+<!--    {% include 'tt_website_rodextrip/header_signin_signup.html' %}-->
+<!--    {% endif %}-->
 </header>
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
     <div class="container">
@@ -488,6 +488,42 @@
 
                                     </div>
 
+                                    {% if vendor == 'phc' %}
+                                    {% if test_type == 'PHCHCKPCR' or test_type == 'PHCDTKPCR' %}
+                                    <div class="col-lg-12 mt-2">
+                                        <span style="font-size:16px; font-weight:bold;">Kuota yang terisi: </span>
+                                        <div style="text-align:left; margin-top:10px; margin-bottom:10px;">
+                                            <span style="font-size:16px; color:{{color}}; font-weight:bold;" id="count_kuota_phc"> 0 </span>
+                                            <span style="font-size:16px; font-weight:bold;"> dari </span>
+                                            <span style="font-size:16px; color:{{color}}; font-weight:bold;"> 175 </span>
+                                            <span style="font-size:16px; font-weight:bold;"> orang </span>
+                                            <span style="font-size:16px; font-weight:bold;" id="show_icon_kuota">  </span>
+                                        </div>
+                                        <div class="progress_kuota">
+                                            <div class="bar_kuota" id="bar_kuota_phc" style="width:0%">
+                                                <p class="percent_kuota" id="percent_kuota_phc">
+
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 mt-2" style="text-align:left;">
+                                        <h6 class="mb-2">
+                                            <i class="fas fa-check-circle" style="color:#27b522;"></i> Tersedia
+                                        </h6>
+                                        <h6 class="mb-2">
+                                            <i class="fas fa-exclamation-circle" style="color:#d9d93d;"></i> Hampir Penuh
+                                        </h6>
+                                        <h6 class="mb-2">
+                                            <i class="fas fa-times-circle" style="color:#f00c50;"></i> Penuh
+                                        </h6>
+                                    </div>
+                                    <div class="col-lg-12 mt-3 mb-3" style="text-align:left;">
+                                        <h6 style="color:{{color}};">Note: Ketersedian kuota bisa berubah sewaktu-waktu</h6>
+                                    </div>
+                                    {% endif %}
+                                    {% endif %}
+
                                     <div class="col-lg-12 mt-2" style="text-align:center;" id="add_test_time_button" hidden>
                                         <button class="primary-btn-ticket" type="button" value="" onclick="add_other_time();">
                                             Add more timeslot
@@ -594,9 +630,9 @@
             </div>
         </div>
     </div>
-    {% if username.co_user_login == 'agent_b2c' %}
-    {% include 'tt_website_rodextrip/header_signin_signup.html' %}
-    {% endif %}
+<!--    {% if username.co_user_login == 'agent_b2c' %}-->
+<!--    {% include 'tt_website_rodextrip/header_signin_signup.html' %}-->
+<!--    {% endif %}-->
 </header>
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; background:#f7f7f7; position:relative;">
     <div class="container">
@@ -1288,9 +1324,9 @@
             </div>
         </div>
     </div>
-    {% if username.co_user_login == 'agent_b2c' %}
-    {% include 'tt_website_rodextrip/header_signin_signup.html' %}
-    {% endif %}
+<!--    {% if username.co_user_login == 'agent_b2c' %}-->
+<!--    {% include 'tt_website_rodextrip/header_signin_signup.html' %}-->
+<!--    {% endif %}-->
 </header>
 <section class="relative" style="padding-top:30px; padding-bottom:40px; background:#f7f7f7;">
     <div class="container">
@@ -1969,9 +2005,9 @@
             </div>
         </div>
     </div>
-    {% if username.co_user_login == 'agent_b2c' %}
-    {% include 'tt_website_rodextrip/header_signin_signup.html' %}
-    {% endif %}
+<!--    {% if username.co_user_login == 'agent_b2c' %}-->
+<!--    {% include 'tt_website_rodextrip/header_signin_signup.html' %}-->
+<!--    {% endif %}-->
 </header>
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; background: #f7f7f7;">
     <div class="container">
@@ -2666,9 +2702,9 @@
             </div>
         </div>
     </div>
-    {% if username.co_user_login == 'agent_b2c' %}
-    {% include 'tt_website_rodextrip/header_signin_signup.html' %}
-    {% endif %}
+<!--    {% if username.co_user_login == 'agent_b2c' %}-->
+<!--    {% include 'tt_website_rodextrip/header_signin_signup.html' %}-->
+<!--    {% endif %}-->
 </header>
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; background: #f7f7f7;">
     <div class="container">
@@ -3354,7 +3390,6 @@
 <div id="modal_passenger_list">
 
 {% include 'tt_website_rodextrip/footer.html' %}
-
 
 {% if username.co_user_login == 'agent_b2c' %}
 {% include 'tt_website_rodextrip/modal_signin_signup.html' %}

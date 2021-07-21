@@ -1,131 +1,147 @@
-function add_other_time(){
-    var node = document.createElement("div");
-    text = '';
-    if(test_time > 1){
-    text+=`
-        <div>
-            <hr/>
-        </div>`;
-    }
-    text+= `
-        <div class="row">
-            <div class="col-lg-6">
-                <label style="color:red !important">*</label>
-                <label>Test Date</label>
-                <div class="input-container-search-ticket">
-                    <input type="text" class="form-control" style="cursor:pointer; background:white;" name="booker_test_date`+test_time+`" id="booker_test_date`+test_time+`" placeholder="Test Date" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Test Date '" autocomplete="off" readonly>
-                </div>
+function add_other_time(type='add'){
+    if(type != 'auto_fill'){
+        var node = document.createElement("div");
+        text = '';
+        if(test_time > 1){
+        text+=`
+            <div>
+                <hr/>
             </div>`;
-    if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCHCKATG' || vendor == 'phc' && test_type == 'PHCHCKPCR')
+        }
+        text+= `
+            <div class="row">
+                <div class="col-lg-6">
+                    <label style="color:red !important">*</label>
+                    <label>Test Date</label>
+                    <div class="input-container-search-ticket">
+                        <input type="text" class="form-control" style="cursor:pointer; background:white;" name="booker_test_date`+test_time+`" id="booker_test_date`+test_time+`" placeholder="Test Date" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Test Date '" autocomplete="off" readonly>
+                    </div>
+                </div>`;
+        if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCHCKATG' || vendor == 'phc' && test_type == 'PHCHCKPCR')
+            text+=`
+                <div class="col-lg-6">`;
+        else
+            text+=`
+                <div class="col-lg-6" hidden>`;
         text+=`
-            <div class="col-lg-6">`;
-    else
-        text+=`
-            <div class="col-lg-6" hidden>`;
-    text+=`
-                <label style="color:red !important;">*</label>
-                <label>Timeslot</label>
-                <div class="row">
-                    <div class="col-lg-8">`;
+                    <label style="color:red !important;">*</label>
+                    <label>Timeslot</label>
+                    <div class="row">
+                        <div class="col-lg-8">`;
 
-                    if(template == 1){
-                        text+=`
-                        <div class="form-select-2" id="default-select">
-                            <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot" onclick="change_timeslot(`+test_time+`)">
+                        if(template == 1){
+                            text+=`
+                            <div class="form-select-2" id="default-select">
+                                <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot" onclick="change_timeslot(`+test_time+`)">
 
-                            </select>
-                        </div>`;
-                    }
-                    else if(template == 2){
-                        text+=`
+                                </select>
+                            </div>`;
+                        }
+                        else if(template == 2){
+                            text+=`
+                                <div class="form-select">
+                                    <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot" onclick="change_timeslot(`+test_time+`)">
+
+                                    </select>
+                                </div>
+                            </div>`;
+                        }
+                        else if(template == 3){
+                            text+=`
+                            <div class="form-group">
+                                <div class="default-select">
+                                    <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot" onclick="change_timeslot(`+test_time+`)">
+
+                                    </select>
+                                </div>
+                            </div>`;
+                        }
+                        else if(template == 4){
+                            text+=`
+                            <div class="input-container-search-ticket">
+                                <div class="form-select" id="default-select" style="width:100%;">
+                                    <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot" onclick="change_timeslot(`+test_time+`)">
+
+                                    </select>
+                                </div>
+                            </div>`;
+                        }
+                        else if(template == 5){
+                            text+=`
                             <div class="form-select">
                                 <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot" onclick="change_timeslot(`+test_time+`)">
 
                                 </select>
-                            </div>
-                        </div>`;
-                    }
-                    else if(template == 3){
-                        text+=`
-                        <div class="form-group">
-                            <div class="default-select">
+                            </div>`;
+                        }
+                        else if(template == 6){
+                            text+=`
+                            <div class="form-select-2" id="default-select">
                                 <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot" onclick="change_timeslot(`+test_time+`)">
 
                                 </select>
-                            </div>
-                        </div>`;
-                    }
-                    else if(template == 4){
+                            </div>`;
+                        }
                         text+=`
-                        <div class="input-container-search-ticket">
-                            <div class="form-select" id="default-select" style="width:100%;">
-                                <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot" onclick="change_timeslot(`+test_time+`)">
-
-                                </select>
-                            </div>
-                        </div>`;
-                    }
-                    else if(template == 5){
-                        text+=`
-                        <div class="form-select">
-                            <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot" onclick="change_timeslot(`+test_time+`)">
-
-                            </select>
-                        </div>`;
-                    }
-                    else if(template == 6){
-                        text+=`
-                        <div class="form-select-2" id="default-select">
-                            <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot" onclick="change_timeslot(`+test_time+`)">
-
-                            </select>
-                        </div>`;
-                    }
-                    text+=`
+                        </div>
+                        <div class="col-lg-2">`;
+        if(test_time == 1){
+            text+=` </div>
+                </div>
+            </div>`;
+        }else{
+            text+=`
+                        <button type="button" class="primary-delete-date" onclick="delete_other_time('test`+test_time+`')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                     </div>
-                    <div class="col-lg-2">`;
-    if(test_time == 1){
-        text+=` </div>
-            </div>
-        </div>`;
-    }else{
-        text+=`
-                    <button type="button" class="primary-delete-date" onclick="delete_other_time('test`+test_time+`')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                 </div>
             </div>
-        </div>
-        `;
-    }
-
-
-    node.innerHTML = text;
-    node.id = 'test' + test_time
-    document.getElementById('test').appendChild(node);
-
-    //test date
-    $('input[name="booker_test_date'+test_time+'"]').daterangepicker({
-        singleDatePicker: true,
-        autoUpdateInput: true,
-        startDate: moment(medical_get_availability_response[document.getElementById('booker_area').value].min_date),
-        minDate: moment(medical_get_availability_response[document.getElementById('booker_area').value].min_date),
-        maxDate: moment(medical_get_availability_response[document.getElementById('booker_area').value].max_date),
-        showDropdowns: true,
-        opens: 'center',
-        locale: {
-            format: 'DD MMM YYYY',
-            productDate: 'medical',
-            dataDate: test_date_data,
+            `;
         }
-    });
-    $('input[name="booker_test_date'+test_time+'"]').on('apply.daterangepicker', function(ev, picker) {
-        var val = parseInt(ev.target.id.replace('booker_test_date',''));
-        update_timeslot(val);
-    });
-    $('#booker_timeslot_id'+test_time).niceSelect();
-    update_timeslot(test_time);
-    if(typeof schedule_medical !== 'undefined' && test_time == 1 && auto_fill_first_time == true){
-        auto_fill_first_time = false;
-        if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCDTKATG' || vendor == 'phc' && test_type == 'PHCDTKPCR'){
+
+
+        node.innerHTML = text;
+        node.id = 'test' + test_time
+        document.getElementById('test').appendChild(node);
+
+        //test date
+        $('input[name="booker_test_date'+test_time+'"]').daterangepicker({
+            singleDatePicker: true,
+            autoUpdateInput: true,
+            startDate: moment(medical_get_availability_response[document.getElementById('booker_area').value].min_date),
+            minDate: moment(medical_get_availability_response[document.getElementById('booker_area').value].min_date),
+            maxDate: moment(medical_get_availability_response[document.getElementById('booker_area').value].max_date),
+            showDropdowns: true,
+            opens: 'center',
+            locale: {
+                format: 'DD MMM YYYY',
+                productDate: 'medical',
+                dataDate: test_date_data,
+            }
+        });
+        $('input[name="booker_test_date'+test_time+'"]').on('apply.daterangepicker', function(ev, picker) {
+            var val = parseInt(ev.target.id.replace('booker_test_date',''));
+            update_timeslot(val);
+            if(vendor == 'phc'){
+                if(test_type == 'PHCHCKPCR' || test_type == 'PHCDTKPCR'){
+                    check_kuota_phc();
+                }
+            }
+        });
+        if(vendor == 'phc'){
+            if(test_type == 'PHCHCKPCR' || test_type == 'PHCDTKPCR'){
+                check_kuota_phc();
+            }
+        }
+
+        $('#booker_timeslot_id'+test_time).niceSelect();
+        update_timeslot(test_time);
+        test_time++;
+    }
+    if(typeof schedule_medical !== 'undefined' && test_time <= 2 && auto_fill_first_time == true){
+        try{
+            if(document.getElementById('booker_timeslot_id1') != null)
+                auto_fill_first_time = false;
+
             if(schedule_medical.address != alamat_ss && schedule_medical.place_url_by_google != ''){
                 web_url = schedule_medical.place_url_by_google;
                 if(schedule_medical.area != '')
@@ -144,12 +160,12 @@ function add_other_time(){
             }
             if(test_time == 1 && schedule_medical.area != '')
                 document.getElementById('booker_area').value = schedule_medical.area;
-            var nomor_pax = 1;
+            var nomor_test = 1;
             for(x in schedule_medical.test_list){
                 if(x != 0){
                     add_other_time();
                 }
-                $('input[name="booker_test_date'+test_time+'"]').daterangepicker({
+                $('input[name="booker_test_date'+nomor_test+'"]').daterangepicker({
                     singleDatePicker: true,
                     autoUpdateInput: true,
                     startDate: moment(medical_get_availability_response[document.getElementById('booker_area').value].min_date),
@@ -163,24 +179,25 @@ function add_other_time(){
                         dataDate: test_date_data,
                     }
                 });
-                document.getElementById('booker_test_date'+nomor_pax).value = schedule_medical.test_list[x].date;
-                update_timeslot(nomor_pax);
-                var trends = document.getElementById('booker_timeslot_id'+nomor_pax);
+                document.getElementById('booker_test_date'+nomor_test).value = schedule_medical.test_list[x].date;
+                update_timeslot(nomor_test);
+                if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCDTKATG' || vendor == 'phc' && test_type == 'PHCDTKPCR'){
+                    var trends = document.getElementById('booker_timeslot_id'+nomor_test);
 
-                for(i = 0; i < trends.length; i++) {
-                   if (trends.options[i].value.split('~')[0] == schedule_medical.test_list[x].seq_id) {
-                       trends.options[i].selected = 'selected';
-                       break;
-                   }
+                    for(i = 0; i < trends.length; i++) {
+                       if (trends.options[i].value.split('~')[0] == schedule_medical.test_list[x].seq_id) {
+                           trends.options[i].selected = 'selected';
+                           break;
+                       }
+                    }
                 }
-
-    //            document.getElementById('booker_timeslot_id'+nomor_pax).value = schedule_medical.test_list[x].seq_id.split('~')[0];
-                $('#booker_timeslot_id'+nomor_pax).niceSelect('update');
-                nomor_pax++;
+    //            document.getElementById('booker_timeslot_id'+test_time).value = schedule_medical.test_list[x].seq_id.split('~')[0];
+                $('#booker_timeslot_id'+nomor_test).niceSelect('update');
+                nomor_test++;
             }
-        }
+        }catch(err){console.log(err)}
     }
-    test_time++;
+
 }
 
 function update_timeslot(val){
@@ -634,9 +651,6 @@ function add_table_of_passenger_verify(type){
         $('#adult_kelurahan_ktp'+parseInt(counter_passenger+1)+'_id').select2();
 
         //verify
-        $('#adult_married_status'+parseInt(counter_passenger+1)).niceSelect();
-        $('#adult_religion'+parseInt(counter_passenger+1)).niceSelect();
-        $('#adult_pendidikan'+parseInt(counter_passenger+1)).niceSelect();
         $('#adult_klinis_golongan_darah'+parseInt(counter_passenger+1)).niceSelect();
 //        if(test_type == 'PHCDTKPCR' || test_type == 'PHCHCKPCR'){
 //            $('#adult_kriteria_pasien'+parseInt(counter_passenger+1)).niceSelect();
@@ -1307,135 +1321,7 @@ function add_table_of_passenger(type){
                         <label style="font-size:12px; padding:0;">Example: 0 812345678</label>
                         <label style="color:`+color+` !important;">Please make sure to register with WA(WhatsApp) number for the result test</label>
                     </div>`;
-                    if(vendor == 'phc'){
-                        text_div_paxs+=`
-                        <div class="col-lg-6 col-md-6 col-sm-6" style="display:none;">
-                            <label style="color:red !important">*</label>
-                            <label>Married Status</label>`;
-                            if(template == 1){
-                                text_div_paxs+=`<div class="input-container-search-ticket">`;
-                            }else if(template == 2){
-                                text_div_paxs+=`<div>`;
-                            }else if(template == 3){
-                                text_div_paxs+=`<div class="default-select">`;
-                            }else if(template == 4){
-                                text_div_paxs+=`<div class="input-container-search-ticket">`;
-                            }else if(template == 5){
-                                text_div_paxs+=`<div class="input-container-search-ticket">`;
-                            }else if(template == 6){
-                                text_div_paxs+=`<div class="default-select">`;
-                            }
 
-                            if(template == 5){
-                                text_div_paxs+=`<div class="form-select">`;
-                            }else{
-                                text_div_paxs+=`<div class="form-select-2">`;
-                            }
-
-                            if(template == 4){
-                                text_div_paxs+=`<select class="nice-select-default rounded" id="adult_married_status`+parseInt(counter_passenger+1)+`" name="adult_married_status`+parseInt(counter_passenger+1)+`">`;
-                            }else{
-                                text_div_paxs+=`<select id="adult_married_status`+parseInt(counter_passenger+1)+`" name="adult_married_status`+parseInt(counter_passenger+1)+`">`;
-                            }
-                            text_div_paxs+=`
-                                        <option value="">Choose</option>
-                                        <option value="BELUM MENIKAH" selected>BELUM MENIKAH</option>
-                                        <option value="DUDA">DUDA</option>
-                                        <option value="JANDA">JANDA</option>
-                                        <option value="MENIKAH">MENIKAH</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>`;
-
-                        text_div_paxs+=`
-                        <div class="col-lg-6 col-md-6 col-sm-6" style="display:none;">
-                            <label style="color:red !important">*</label>
-                            <label>Religion</label>`;
-                            if(template == 1){
-                                text_div_paxs+=`<div class="input-container-search-ticket">`;
-                            }else if(template == 2){
-                                text_div_paxs+=`<div>`;
-                            }else if(template == 3){
-                                text_div_paxs+=`<div class="default-select">`;
-                            }else if(template == 4){
-                                text_div_paxs+=`<div class="input-container-search-ticket">`;
-                            }else if(template == 5){
-                                text_div_paxs+=`<div class="input-container-search-ticket">`;
-                            }else if(template == 6){
-                                text_div_paxs+=`<div class="default-select">`;
-                            }
-
-                            if(template == 5){
-                                text_div_paxs+=`<div class="form-select">`;
-                            }else{
-                                text_div_paxs+=`<div class="form-select-2">`;
-                            }
-
-                            if(template == 4){
-                                text_div_paxs+=`<select class="nice-select-default rounded" id="adult_religion`+parseInt(counter_passenger+1)+`" name="adult_religion`+parseInt(counter_passenger+1)+`">`;
-                            }else{
-                                text_div_paxs+=`<select id="adult_religion`+parseInt(counter_passenger+1)+`" name="adult_religion`+parseInt(counter_passenger+1)+`">`;
-                            }
-                            text_div_paxs+=`
-                                        <option value="">Choose</option>
-                                        <option value="ISLAM">ISLAM</option>
-                                        <option value="KATOLIK">KATOLIK</option>
-                                        <option value="PROTESTAN">PROTESTAN</option>
-                                        <option value="HINDHU">HINDHU</option>
-                                        <option value="BUDHA">BUDHA</option>
-                                        <option value="LAINNYA" selected>LAINNYA</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>`;
-
-                        text_div_paxs+=`
-                        <div class="col-lg-6 col-md-6 col-sm-6" style="display:none;">
-                            <label style="color:red !important">*</label>
-                            <label>Pendidikan</label>`;
-                            if(template == 1){
-                                text_div_paxs+=`<div class="input-container-search-ticket">`;
-                            }else if(template == 2){
-                                text_div_paxs+=`<div>`;
-                            }else if(template == 3){
-                                text_div_paxs+=`<div class="default-select">`;
-                            }else if(template == 4){
-                                text_div_paxs+=`<div class="input-container-search-ticket">`;
-                            }else if(template == 5){
-                                text_div_paxs+=`<div class="input-container-search-ticket">`;
-                            }else if(template == 6){
-                                text_div_paxs+=`<div class="default-select">`;
-                            }
-
-                            if(template == 5){
-                                text_div_paxs+=`<div class="form-select">`;
-                            }else{
-                                text_div_paxs+=`<div class="form-select-2">`;
-                            }
-
-                            if(template == 4){
-                                text_div_paxs+=`<select class="nice-select-default rounded" id="adult_pendidikan`+parseInt(counter_passenger+1)+`" name="adult_pendidikan`+parseInt(counter_passenger+1)+`">`;
-                            }else{
-                                text_div_paxs+=`<select id="adult_pendidikan`+parseInt(counter_passenger+1)+`" name="adult_pendidikan`+parseInt(counter_passenger+1)+`">`;
-                            }
-                            text_div_paxs+=`
-                                        <option value="">Choose</option>
-                                        <option value="BELUM SEKOLAH">BELUM SEKOLAH</option>
-                                        <option value="LAIN-LAIN" selected>LAIN-LAIN</option>
-                                        <option value="TK">TK</option>
-                                        <option value="SD">SD</option>
-                                        <option value="SMP/SLTP">SMP/SLTP</option>
-                                        <option value="SMA/SLTA/SMU">SMA/SLTA/SMU</option>
-                                        <option value="D1/D2/D3 (DIPLOMA)">D1/D2/D3 (DIPLOMA)</option>
-                                        <option value="S1 (SARJANA)">S1 (SARJANA)</option>
-                                        <option value="S2 (PASCA SARJANA)">S2 (PASCA SARJANA)</option>
-                                        <option value="S3 (MASTER)">S3 (MASTER)</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>`;
-                    }
                     text_div_paxs+=`
 
                     <div class="col-lg-6 col-md-6 col-sm-6" style="display:none;">
@@ -1576,6 +1462,7 @@ function add_table_of_passenger(type){
                     if(vendor == 'periksain'){
                         text_div_paxs += `
                         <div class="col-lg-12 col-md-12 col-sm-12">
+                            <hr/>
                             <h4>Domisili</h4>
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12">
@@ -1706,7 +1593,7 @@ function add_table_of_passenger(type){
                             </div>
                         </div>`;
                         text_div_paxs += `
-                        <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="col-lg-12 col-md-12 col-sm-12 mt-3">
                             <h4>Test</h4>
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12">
@@ -1884,13 +1771,13 @@ function add_table_of_passenger(type){
                             <label>Copy KTP to Domisili?</label>
                             <label class="radio-button-custom">
                                 Yes
-                                <input type="radio" name="adult_copy`+parseInt(counter_passenger+1)+`" onchange="copy_ktp(`+parseInt(counter_passenger+1)+`);" value="true" checked="checked" />
+                                <input type="radio" id="adult_copy_yes`+parseInt(counter_passenger+1)+`" name="adult_copy`+parseInt(counter_passenger+1)+`" onchange="copy_ktp(`+parseInt(counter_passenger+1)+`);" value="true" checked="checked" />
                                 <span class="checkmark-radio"></span>
                             </label>
 
                             <label class="radio-button-custom">
                                 No
-                                <input type="radio" name="adult_copy`+parseInt(counter_passenger+1)+`" onchange="copy_ktp(`+parseInt(counter_passenger+1)+`);" value="false" />
+                                <input type="radio" id="adult_copy_no`+parseInt(counter_passenger+1)+`" name="adult_copy`+parseInt(counter_passenger+1)+`" onchange="copy_ktp(`+parseInt(counter_passenger+1)+`);" value="false" />
                                 <span class="checkmark-radio"></span>
                             </label>
                         </div>`;
@@ -3672,9 +3559,6 @@ function add_table_of_passenger(type){
         $('#adult_kelurahan_ktp'+parseInt(counter_passenger+1)+'_id').select2();
 
         //verify
-        $('#adult_married_status'+parseInt(counter_passenger+1)).niceSelect();
-        $('#adult_religion'+parseInt(counter_passenger+1)).niceSelect();
-        $('#adult_pendidikan'+parseInt(counter_passenger+1)).niceSelect();
         $('#adult_klinis_golongan_darah'+parseInt(counter_passenger+1)).niceSelect();
         if(test_type == 'PHCDTKPCR' || test_type == 'PHCHCKPCR'){
             $('#adult_kriteria_pasien'+parseInt(counter_passenger+1)).niceSelect();
@@ -3952,7 +3836,7 @@ function onchange_perjalanan_ke_transmisi_lokal(val){
         document.getElementById('perjalanan_ke_transmisi_lokal'+val).hidden = false;
         document.getElementById('perjalanan_ke_transmisi_lokal'+val).innerHTML = `
         <br/>
-        <table  style="width:100%;background:white;" class="list-of-table" id="perjalanan_ke_transmisi_lokal_div`+val+`">
+        <table style="width:100%;background:white;" class="list-of-table" id="perjalanan_ke_transmisi_lokal_div`+val+`">
             <tr>
                 <th>
                     <div class="row">
@@ -4549,7 +4433,7 @@ function delete_pcr_table(type, val, nomor_table){
 
 function onchange_title(val){
     try{
-        if(document.getElementById('adult_title'+val).value != 'MR'){
+        if(document.getElementById('adult_title'+val).value == 'MS'){
             document.getElementById('adult_hamil_div'+val).hidden = false;
         }else{
             document.getElementById('adult_hamil_div'+val).hidden = true;
@@ -5318,10 +5202,14 @@ function check_passenger(){
                         }
                         if(document.getElementById('adult_title' + nomor_pax).value == ''){
                             error_log += 'Please fill gender for customer '+ nomor_pax + ' !</br>\n';
-                            document.getElementById('adult_title' + nomor_pax).style['border-color'] = 'red';
+                            $("#adult_title"+nomor_pax).each(function() {
+                                $(this).parent().find('.nice-select').css('border', '1px solid red');
+                            });
                             check_form_periksain = 1;
                         }else{
-                            document.getElementById('adult_title' + nomor_pax).style['border-color'] = '#EFEFEF';
+                            $("#adult_title"+nomor_pax).each(function() {
+                                $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
+                            });
                         }
                         if(document.getElementById('adult_nationality' + nomor_pax).value == ''){
                             error_log += 'Please fill nationality for customer '+ nomor_pax + ' !</br>\n';
@@ -5376,34 +5264,50 @@ function check_passenger(){
 
                         if(document.getElementById('adult_provinsi' + nomor_pax + '_id').value == ''){
                             error_log+= 'Please fill provinsi for customer '+nomor_pax+'!</br>\n';
-                            document.getElementById('adult_provinsi' + nomor_pax).style['border-color'] = 'red';
+                            $("#adult_provinsi"+nomor_pax+"_id").each(function() {
+                              $(this).siblings(".select2-container").css('border', '1px solid red');
+                            });
                             check_form_periksain = 1;
                         }else{
-                            document.getElementById('adult_provinsi' + nomor_pax).style['border-color'] = '#EFEFEF';
+                            $("#adult_provinsi"+nomor_pax+"_id").each(function() {
+                              $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+                            });
                         }
 
                         if(document.getElementById('adult_kecamatan' + nomor_pax + '_id').value == ''){
                             error_log+= 'Please fill kecamatan for customer '+nomor_pax+'!</br>\n';
-                            document.getElementById('adult_kecamatan' + nomor_pax).style['border-color'] = 'red';
+                            $("#adult_kecamatan"+nomor_pax+"_id").each(function() {
+                              $(this).siblings(".select2-container").css('border', '1px solid red');
+                            });
                             check_form_periksain = 1;
                         }else{
-                            document.getElementById('adult_kecamatan' + nomor_pax).style['border-color'] = '#EFEFEF';
+                            $("#adult_kecamatan"+nomor_pax+"_id").each(function() {
+                              $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+                            });
                         }
 
                         if(document.getElementById('adult_kabupaten' + nomor_pax + '_id').value == ''){
                             error_log+= 'Please fill kabupaten for customer '+nomor_pax+'!</br>\n';
-                            document.getElementById('adult_kabupaten' + nomor_pax).style['border-color'] = 'red';
+                            $("#adult_kabupaten"+nomor_pax+"_id").each(function() {
+                              $(this).siblings(".select2-container").css('border', '1px solid red');
+                            });
                             check_form_periksain = 1;
                         }else{
-                            document.getElementById('adult_kabupaten' + nomor_pax).style['border-color'] = '#EFEFEF';
+                            $("#adult_kabupaten"+nomor_pax+"_id").each(function() {
+                              $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+                            });
                         }
 
                         if(document.getElementById('adult_kelurahan' + nomor_pax + '_id').value == ''){
                             error_log+= 'Please fill kelurahan for customer '+nomor_pax+'!</br>\n';
-                            document.getElementById('adult_kelurahan' + nomor_pax).style['border-color'] = 'red';
+                            $("#adult_kelurahan"+nomor_pax+"_id").each(function() {
+                              $(this).siblings(".select2-container").css('border', '1px solid red');
+                            });
                             check_form_periksain = 1;
                         }else{
-                            document.getElementById('adult_kelurahan' + nomor_pax).style['border-color'] = '#EFEFEF';
+                            $("#adult_kelurahan"+nomor_pax+"_id").each(function() {
+                              $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+                            });
                         }
 
                         if(document.getElementById('adult_identity_type' + nomor_pax).value != ''){
@@ -5596,10 +5500,14 @@ function check_passenger(){
                         }
                         if(document.getElementById('adult_title' + nomor_pax).value == ''){
                             error_log += 'Please fill gender for customer '+ nomor_pax + ' !</br>\n';
-                            document.getElementById('adult_title' + nomor_pax).style['border-color'] = 'red';
+                            $("#adult_title"+nomor_pax).each(function() {
+                                $(this).parent().find('.nice-select').css('border', '1px solid red');
+                            });
                             check_form_personal = 1;
                         }else{
-                            document.getElementById('adult_title' + nomor_pax).style['border-color'] = '#EFEFEF';
+                            $("#adult_title"+nomor_pax).each(function() {
+                                $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
+                            });
                         }
                         if(document.getElementById('adult_nationality' + nomor_pax).value == 'Select Nationality'){
                             error_log += 'Please fill title name for customer '+ nomor_pax + ' !</br>\n';
@@ -5859,34 +5767,6 @@ function check_passenger(){
                             error_log+= 'Please fill identity type for customer '+nomor_pax+'!</br>\n';
                             document.getElementById('adult_identity_type' + nomor_pax).style['border-color'] = 'red';
                             check_form_personal = 1;
-                        }
-                        if(document.getElementById('adult_married_status' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Married Status for customer '+nomor_pax+'!</br>\n';
-                            $("#adult_married_status"+nomor_pax).each(function() {
-                                $(this).parent().find('.nice-select').css('border', '1px solid red');
-                            });
-                            check_form_personal = 1;
-                        }else{
-                            $("#adult_married_status"+nomor_pax).each(function() {
-                                $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
-                            });
-                        }
-                        if(document.getElementById('adult_religion' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Religion for customer '+nomor_pax+'!</br>\n';
-                            $("#adult_religion"+nomor_pax).each(function() {
-                                $(this).parent().find('.nice-select').css('border', '1px solid red');
-                            });
-                            check_form_personal = 1;
-                        }else{
-                            $("#adult_religion"+nomor_pax).each(function() {
-                                $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
-                            });
-                        }
-                        if(document.getElementById('adult_pendidikan' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Pendidikan for customer '+nomor_pax+'!</br>\n';
-                            document.getElementById('adult_pendidikan' + nomor_pax).style['border-color'] = 'red';
-                        }else{
-                            document.getElementById('adult_pendidikan' + nomor_pax).style['border-color'] = '#EFEFEF';
                         }
 
                         if(i == 0 && document.getElementsByName('myRadios')[0].checked == true){
@@ -6604,12 +6484,6 @@ function check_passenger(){
                                 "gejala": document.getElementById('adult_gejala' + nomor_pax).value,
                                 "penyakit_bawaan": document.getElementById('adult_penyakit_bawaan' + nomor_pax).value,
                                 "perjalanan": document.getElementById('adult_perjalanan' + nomor_pax).value,
-
-                                "married_status": document.getElementById('adult_married_status' + nomor_pax).value,
-                                "religion": document.getElementById('adult_religion' + nomor_pax).value,
-                                "pendidikan": document.getElementById('adult_pendidikan' + nomor_pax).value,
-                                "zip_code_ktp": document.getElementById('adult_zip_code_ktp' + nomor_pax).value,
-                                "zip_code": document.getElementById('adult_zip_code' + nomor_pax).value,
                             }
 
                             if(document.getElementById('adult_sedang_dirawat_di_rs' + nomor_pax).value == 'IYA'){
@@ -6731,11 +6605,6 @@ function check_passenger(){
 
                         }else{
                             pcr_data = {
-                                "married_status": document.getElementById('adult_married_status' + nomor_pax).value,
-                                "religion": document.getElementById('adult_religion' + nomor_pax).value,
-                                "pendidikan": document.getElementById('adult_pendidikan' + nomor_pax).value,
-                                "zip_code_ktp": document.getElementById('adult_zip_code_ktp' + nomor_pax).value,
-                                "zip_code": document.getElementById('adult_zip_code' + nomor_pax).value,
                                 "klinis_golongan_darah": document.getElementById('adult_klinis_golongan_darah' + nomor_pax).value,
                             }
                         }
@@ -7343,20 +7212,12 @@ function auto_fill_phc_antigen(){
         document.getElementById('adult_kelurahan'+counter).value = passenger_data_cache_medical[idx].kelurahan;
         document.getElementById('select2-adult_kelurahan'+counter+'_id-container').innerHTML = passenger_data_cache_medical[idx].kelurahan;
 
-        if(Object.keys(passenger_data_cache_medical[idx].pcr_data).length != 0 &&  passenger_data_cache_medical[idx].pcr_data.married_status != undefined){
-            document.getElementById('adult_married_status'+counter).value = passenger_data_cache_medical[idx].pcr_data.married_status;
-            document.getElementById('adult_religion'+counter).value = passenger_data_cache_medical[idx].pcr_data.religion;
-            document.getElementById('adult_pendidikan'+counter).value = passenger_data_cache_medical[idx].pcr_data.pendidikan;
-            document.getElementById('adult_zip_code_ktp'+counter).value = passenger_data_cache_medical[idx].pcr_data.zip_code_ktp;
-            document.getElementById('adult_zip_code'+counter).value = passenger_data_cache_medical[idx].pcr_data.zip_code;
+        if(Object.keys(passenger_data_cache_medical[idx].pcr_data).length != 0 &&  passenger_data_cache_medical[idx].pcr_data.klinis_golongan_darah != undefined){
             document.getElementById('adult_klinis_golongan_darah' + counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_golongan_darah;
         }
         $('#adult_title'+counter).niceSelect('update');
         $('#adult_identity_type'+counter).niceSelect('update');
         $('#adult_profession'+counter).niceSelect('update');
-        $('#adult_married_status'+counter).niceSelect('update');
-        $('#adult_religion'+counter).niceSelect('update');
-        $('#adult_pendidikan'+counter).niceSelect('update');
         $('#adult_klinis_golongan_darah'+counter).niceSelect('update');
         update_contact('passenger',counter);
         counter++;
@@ -7458,13 +7319,6 @@ function auto_fill_phc_pcr(){
         document.getElementById('adult_kelurahan'+counter).value = passenger_data_cache_medical[idx].kelurahan;
         document.getElementById('select2-adult_kelurahan'+counter+'_id-container').innerHTML = passenger_data_cache_medical[idx].kelurahan;
 
-        if(passenger_data_cache_medical[idx].pcr_data.married_status != undefined){
-            document.getElementById('adult_married_status'+counter).value = passenger_data_cache_medical[idx].pcr_data.married_status;
-            document.getElementById('adult_religion'+counter).value = passenger_data_cache_medical[idx].pcr_data.religion;
-            document.getElementById('adult_pendidikan'+counter).value = passenger_data_cache_medical[idx].pcr_data.pendidikan;
-            document.getElementById('adult_zip_code_ktp'+counter).value = passenger_data_cache_medical[idx].pcr_data.zip_code_ktp;
-            document.getElementById('adult_zip_code'+counter).value = passenger_data_cache_medical[idx].pcr_data.zip_code;
-        }
         if(Object.keys(passenger_data_cache_medical[idx].pcr_data).length > 6){
             document.getElementById('adult_klinis_sedang_hamil'+counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_sedang_hamil;
             document.getElementById('adult_mother_name'+counter).value = passenger_data_cache_medical[idx].pcr_data.nama_orang_tua;
@@ -7648,10 +7502,6 @@ function auto_fill_phc_pcr(){
         $('#adult_penyakit_bawaan'+counter).niceSelect('update');
         $('#adult_faktor_lain'+counter).niceSelect('update');
 
-        $('#adult_married_status'+counter).niceSelect('update');
-        $('#adult_religion'+counter).niceSelect('update');
-        $('#adult_pendidikan'+counter).niceSelect('update');
-
         update_contact('passenger',counter);
         counter++;
     }
@@ -7811,7 +7661,7 @@ function auto_fill_verify_data(){
             counter++;
         }catch(err){console.log(err);}
     }
-    if(verified_check == false && state == 'issued'){
+    if(verified_check == false && state == 'issued' && user_login.co_agent_frontend_security.includes('verify_phc') == true){
         document.getElementById('button_verify').innerHTML = `<button class="primary-btn-ticket" type="button" style="background-color:green" onclick="save_data_pax_backend('verify_data')"><i class="fas fa-save"></i> Save & Verify <i class="fas fa-upload"></i></button>`;
     }
     document.getElementById('btn_cancel').style.display = 'block';
@@ -7932,5 +7782,31 @@ function open_date_schedule(){
     }else{
         document.getElementById('icon_shcedule').style.color = "black";
         document.getElementById('booker_test_date1').readOnly = true;
+    }
+}
+
+function check_kuota_phc(){
+    var date_kuota = moment(document.getElementById('booker_test_date1').value).format('YYYY-MM-DD');
+    for(i in test_kuota){
+        for(j in test_kuota[i].timeslots){
+            if(date_kuota == j){
+                for(k in test_kuota[i].timeslots[j]){
+                    document.getElementById("count_kuota_phc").innerHTML = test_kuota[i].timeslots[j][k].used_pcr_count;
+                    var count_percent = (parseInt(test_kuota[i].timeslots[j][k].used_pcr_count) / 175)*100;
+                    document.getElementById('bar_kuota_phc').style.width = count_percent.toFixed(0)+"%";
+                    document.getElementById('percent_kuota_phc').innerHTML = count_percent.toFixed(0)+"%";
+                    if(count_percent.toFixed(0) >= 0 && count_percent.toFixed(0) <= 60){
+                        document.getElementById('bar_kuota_phc').style.background = "#27b522";
+                        document.getElementById('show_icon_kuota').innerHTML = `<i class="fas fa-check-circle" style="color:#27b522;"></i>`;
+                    }else if(count_percent.toFixed(0) >= 61 && count_percent.toFixed(0) <= 99){
+                        document.getElementById('bar_kuota_phc').style.background = "#d9d93d";
+                        document.getElementById('show_icon_kuota').innerHTML = `<i class="fas fa-exclamation-circle" style="color:#d9d93d;"></i>`;
+                    }else if(count_percent.toFixed(0) >= 100){
+                        document.getElementById('bar_kuota_phc').style.background = "#f00c50";
+                        document.getElementById('show_icon_kuota').innerHTML = `<i class="fas fa-times-circle" style="color:#f00c50;"></i>`;
+                    }
+                }
+            }
+        }
     }
 }

@@ -1682,6 +1682,11 @@ function get_public_holiday(start_date, end_date, country_id){
                             this.element.val(newValue).trigger('change');
                         }
                     }
+                    if(vendor == 'phc'){
+                        if(test_type == 'PHCHCKPCR' || test_type == 'PHCDTKPCR'){
+                            check_kuota_phc();
+                        }
+                    }
                 }
             }
             else{

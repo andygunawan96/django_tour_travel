@@ -2027,10 +2027,19 @@ function get_price_itinerary_request(){
                         for(k in resJson.result.response.price_itinerary_provider[i].journeys[j].segments){
                             //datacopy
                             try{
-                                $text += airline_carriers[0][resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_code].name + ' ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_code + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_number + '\n';
+                                $text += airline_carriers[0][resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_code].name + ' ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_code + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_number + ' ';
                             }catch(err){
-                                $text += resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_code + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_number + '\n';
+                                $text += resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_code + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_number + ' ';
                             }
+                            for(l in resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares){
+                                for(m in cabin_class){
+                                    if(cabin_class[m].value == resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].cabin_class){
+                                        $text += cabin_class[i].name + ' (' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].class_of_service + ')';
+                                        break
+                                    }
+                                }
+                            }
+                            $text += '\n';
                             $text += resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].departure_date + ' → ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].arrival_date + '\n';
                             $text += resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].origin_name + ' (' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].origin_city + ') - ';
                             $text += resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].destination_name + ' (' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].destination_city + ')\n\n';
@@ -4416,9 +4425,9 @@ function airline_get_booking(data, sync=false){
                                             $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code + ' ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_number;
                                         }
                                         if(cabin_class != '')
-                                            $text += ' ' + cabin_class;
+                                            $text += ' ' + cabin_class + ' (' + msg.result.response.provider_bookings[i].journeys[j].segments[k].class_of_service + ')';
                                         else
-                                            $text += ' ' + cabin_class;
+                                            $text += ' ' + cabin_class + ' (' + msg.result.response.provider_bookings[i].journeys[j].segments[k].class_of_service + ')';
                                         $text += '\n';
                                         if(msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date.split('  ')[0] == msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[0]){
                                             $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[0]+' ';
