@@ -7655,7 +7655,7 @@ function auto_fill_verify_data(){
             counter++;
         }catch(err){console.log(err);}
     }
-    if(verified_check == false && state == 'issued'){
+    if(verified_check == false && state == 'issued' && user_login.co_agent_frontend_security.includes('verify_phc') == true){
         document.getElementById('button_verify').innerHTML = `<button class="primary-btn-ticket" type="button" style="background-color:green" onclick="save_data_pax_backend('verify_data')"><i class="fas fa-save"></i> Save & Verify <i class="fas fa-upload"></i></button>`;
     }
     document.getElementById('btn_cancel').style.display = 'block';
