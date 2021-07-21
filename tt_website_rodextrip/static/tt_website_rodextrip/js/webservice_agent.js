@@ -2785,8 +2785,6 @@ function clear_passenger(type, sequence){
 
                     if(vendor == 'phc'){
                         //personal data
-                        document.getElementById('adult_married_status'+sequence).value = '';
-                        $('#adult_married_status'+sequence).niceSelect('update');
                         document.getElementById('adult_profession'+sequence).value = 'SWASTA';
                         $('#adult_profession'+sequence).niceSelect('update');
                         try{
@@ -2821,6 +2819,9 @@ function clear_passenger(type, sequence){
 
 
                         if(test_type == 'PHCHCKPCR' || test_type == 'PHCDTKPCR'){
+                            document.getElementById('adult_klinis_sedang_hamil'+sequence).value = '';
+                            $('#adult_klinis_sedang_hamil'+sequence).niceSelect('update');
+
                             document.getElementById('adult_perusahaan'+sequence).value = 'PRIBADI';
                             $('#adult_perusahaan'+sequence).niceSelect('update');
                             document.getElementById('adult_nama_perusahaan'+sequence).value = 'Pribadi';
@@ -2934,6 +2935,8 @@ function clear_passenger(type, sequence){
                             //FAKTOR PAPARAN
                             document.getElementById('adult_perjalanan'+sequence).value = 'TIDAK TAHU';
                             $('#adult_perjalanan'+sequence).niceSelect('update');
+                            document.getElementById('adult_perjalanan_div'+sequence).hidden = true;
+                            document.getElementById('adult_berkunjung_div'+sequence).hidden = true;
 
                             try{
                                 document.getElementById('adult_perjalanan_keluar_negeri'+sequence).value = '';
