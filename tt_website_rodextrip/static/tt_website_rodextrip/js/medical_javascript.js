@@ -122,13 +122,13 @@ function add_other_time(type='add'){
             var val = parseInt(ev.target.id.replace('booker_test_date',''));
             update_timeslot(val);
             if(vendor == 'phc'){
-                if(test_type == 'PHCHCKPCR' || test_type == 'PHCDTKPCR'){
+                if(test_type.includes('PCR')){
                     check_kuota_phc();
                 }
             }
         });
         if(vendor == 'phc'){
-            if(test_type == 'PHCHCKPCR' || test_type == 'PHCDTKPCR'){
+            if(test_type.includes('PCR')){
                 check_kuota_phc();
             }
         }
@@ -870,7 +870,7 @@ function add_table_of_passenger(type){
                         text_div_paxs+=`
                         <div class="col-lg-12 mb-3" style="text-align:center;">
                             <ul class="progress_tabs">`;
-                                if(test_type == 'PHCHCKPCR' || test_type == 'PHCDTKPCR'){
+                                if(test_type.includes('PCR')){
                                     text_div_paxs+=`
                                     <li class="progress_medical`+counter_passenger+`" id="progress_tab1`+counter_passenger+`" onclick="next_prev_form_medical('tab', 1, `+counter_passenger+`)">
                                         <label id="progress_label1`+counter_passenger+`" style="cursor:pointer;">
@@ -908,7 +908,7 @@ function add_table_of_passenger(type){
                         <div id="progress_div1`+counter_passenger+`" style="background:#fcfcfc; border-top:1px solid #cdcdcd; display:block; padding:15px;">
                             <div class="row">
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:left;"></div>`;
-                                if(test_type == 'PHCHCKPCR' || test_type == 'PHCDTKPCR'){
+                                if(test_type.includes('PCR')){
                                     text_div_paxs+=`
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:center;"></div>
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
@@ -963,7 +963,7 @@ function add_table_of_passenger(type){
                         </div>
                     </div>`;
 
-                    if(test_type == 'PHCHCKPCR' || test_type == 'PHCDTKPCR'){
+                    if(test_type.includes('PCR')){
                         text_div_paxs+=`
                         <div class="col-lg-6 col-md-6 col-sm-6" id="adult_hamil_div`+parseInt(counter_passenger+1)+`" style="margin-top:15px;" hidden>
                             <label style="color:red !important">*</label>
@@ -1029,7 +1029,7 @@ function add_table_of_passenger(type){
                     </div>`;
 
                     if(vendor == 'phc'){
-                        if(test_type == 'PHCHCKPCR' || test_type == 'PHCDTKPCR'){
+                        if(test_type.includes('PCR')){
                             text_div_paxs+=`
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <label style="color:red !important">*</label>
@@ -1409,7 +1409,7 @@ function add_table_of_passenger(type){
                             </div>
                         </div>`;
 
-                        if(test_type == 'PHCHCKPCR' || test_type == 'PHCDTKPCR'){
+                        if(test_type.includes('PCR')){
                             text_div_paxs+=`
                             <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
                                 <label style="color:red !important">*</label>
@@ -1903,7 +1903,7 @@ function add_table_of_passenger(type){
                             </div>
 
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mt-2" style="text-align:left;"></div>`;
-                                if(test_type == 'PHCHCKPCR' || test_type == 'PHCDTKPCR'){
+                                if(test_type.includes('PCR')){
                                     text_div_paxs+=`
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mt-2" style="text-align:center;"></div>
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mt-2" style="text-align:right;">
@@ -1925,7 +1925,7 @@ function add_table_of_passenger(type){
                         </div>`;
 
                             //ini pcr
-                        if(test_type == 'PHCHCKPCR' || test_type == 'PHCDTKPCR'){
+                        if(test_type.includes('PCR')){
                             //ini tab gejala
                             text_div_paxs+=`
                                 <div id="progress_div2`+counter_passenger+`" style="background:#fcfcfc; border-top:1px solid #cdcdcd; display:none; padding:15px;">
@@ -3560,7 +3560,7 @@ function add_table_of_passenger(type){
 
         //verify
         $('#adult_klinis_golongan_darah'+parseInt(counter_passenger+1)).niceSelect();
-        if(test_type == 'PHCDTKPCR' || test_type == 'PHCHCKPCR'){
+        if(test_type.includes('PCR')){
             $('#adult_kriteria_pasien'+parseInt(counter_passenger+1)).niceSelect();
             $('#adult_perusahaan'+parseInt(counter_passenger+1)).niceSelect();
             $('#adult_klinis_ada_demam'+parseInt(counter_passenger+1)).niceSelect();
@@ -5553,7 +5553,7 @@ function check_passenger(){
                             });
                         }
                         if(vendor == 'phc'){
-                            if(test_type == 'PHCHCKPCR' || test_type == 'PHCDTKPCR'){
+                            if(test_type.includes('PCR')){
                                 if(document.getElementById('adult_title' + nomor_pax).value == 'MS' && document.getElementById('adult_klinis_sedang_hamil' + nomor_pax).value == ''){
                                     error_log+= 'Please choose sedang hamil for customer '+nomor_pax+'!</br>\n';
                                     $("#adult_klinis_sedang_hamil"+nomor_pax).each(function() {
@@ -5778,7 +5778,7 @@ function check_passenger(){
                         }
 
                         pcr_data = {};
-                        if(test_type == 'PHCDTKPCR' || test_type == 'PHCHCKPCR'){
+                        if(test_type.includes('PCR')){
                             if(document.getElementById('adult_mother_name' + nomor_pax).value == ''){
                                 error_log+= 'Please fill mother name for customer '+nomor_pax+'!</br>\n';
                                 document.getElementById('adult_mother_name' + nomor_pax).style['border-color'] = 'red';
@@ -6686,7 +6686,7 @@ function check_passenger(){
 
                     var customer_id = nomor_pax - 1;
                     if(vendor == 'phc'){
-                        if(test_type == 'PHCHCKPCR' || test_type == 'PHCDTKPCR'){
+                        if(test_type.includes('PCR')){
                             document.getElementById('show_error_form'+customer_id).innerHTML = error_form;
                         }
                     }
@@ -7045,7 +7045,7 @@ function add_table_verify(change_rebooking=false){
 
 function update_customer_fill(type,seq){
     if(vendor == 'phc'){
-        if(test_type == 'PHCHCKPCR' || test_type == 'PHCDTKPCR'){
+        if(test_type.includes('PCR')){
             if(type == 'fill'){
                 next_prev_form_medical(type, 1, seq);
             }
@@ -7669,7 +7669,7 @@ function auto_fill_verify_data(){
 }
 
 function auto_fill_home_care(){
-    if(schedule_medical.address != alamat_ss && vendor == 'periksain' || schedule_medical.address != alamat_ss && vendor == 'phc' && test_type != 'PHCDTKPCR' || schedule_medical.address != alamat_ss && vendor == 'phc' && test_type != 'PHCDTKATG' || vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCDTKATG' || vendor == 'phc' && test_type == 'PHCDTKPCR') //alamat DRIVE THRU
+    if(schedule_medical.address != alamat_ss && vendor == 'periksain' || schedule_medical.address != alamat_ss && vendor == 'phc' && test_type == 'PHCHCKPCR' || schedule_medical.address != alamat_ss && vendor == 'phc' && test_type == 'PHCHCKATG' || vendor == 'periksain') //alamat DRIVE THRU
         document.getElementById('booker_address').value = schedule_medical.address;
     auto_fill_first_time = true;
 }
@@ -7688,7 +7688,7 @@ function open_date(counter){
         document.getElementById('icon_fill'+counter).style.color = "black";
         document.getElementById('adult_birth_date'+counter).readOnly = false;
         if(vendor == 'phc'){
-            if(test_type == 'PHCHCKPCR' || test_type == 'PHCDTKPCR'){
+            if(test_type.includes('PCR')){
                 document.getElementById('adult_tanggal_masuk_rs'+counter).readOnly = false;
                 document.getElementById('adult_tanggal_pertama_kali_gejala'+counter).readOnly = false;
 
@@ -7732,7 +7732,7 @@ function open_date(counter){
         document.getElementById('icon_fill'+counter).style.color = color;
         document.getElementById('adult_birth_date'+counter).readOnly = true;
         if(vendor == 'phc'){
-            if(test_type == 'PHCHCKPCR' || test_type == 'PHCDTKPCR'){
+            if(test_type.includes('PCR')){
                 document.getElementById('adult_tanggal_masuk_rs'+counter).readOnly = true;
                 document.getElementById('adult_tanggal_pertama_kali_gejala'+counter).readOnly = true;
 

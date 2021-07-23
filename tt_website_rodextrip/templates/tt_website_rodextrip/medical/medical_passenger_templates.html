@@ -3404,7 +3404,7 @@
     test_type = `{{test_type}}`;
       //if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCHCKATG' || vendor == 'phc' && test_type == 'PHCHCKPCR')
         document.getElementById('medical_timeslot').style.display = 'block';
-      if(vendor == 'phc' && test_type == 'PHCDTKATG' || vendor == 'phc' && test_type == 'PHCDTKPCR'){
+      if(vendor == 'phc' && test_type != 'PHCHCKATG' || vendor == 'phc' && test_type != 'PHCHCKPCR'){
         document.getElementById('booker_address').readOnly = true;
         document.getElementById('booker_address').value = alamat_ss;
       }
