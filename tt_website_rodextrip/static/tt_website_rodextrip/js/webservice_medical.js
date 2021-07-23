@@ -263,7 +263,7 @@ function medical_get_availability(){
                     $('#booker_area').niceSelect('update');
                     add_other_time();
                     change_area();
-                }else if(vendor == 'phc' && test_type == 'PHCDTKATG' || vendor == 'phc' && test_type == 'PHCDTKPCR'){
+                }else if(vendor == 'phc' && test_type.includes('DT')){
                     var text_innerHTML = '';
                     text_innerHTML += `<option value='surabaya' selected>Surabaya</option>`;
                     document.getElementById('booker_area').innerHTML = text_innerHTML;
@@ -333,7 +333,7 @@ function medical_check_price(){
 
         }
     }
-    if(timeslot_list.length != 0 && error_log == '' || vendor == 'phc' && test_type != 'PHCHCKATG' || vendor == 'phc' && test_type != 'PHCHCKPCR'){
+    if(timeslot_list.length != 0 && error_log == '' || vendor == 'phc' && test_type.includes('DT')){
         $.ajax({
            type: "POST",
            url: "/webservice/medical",
