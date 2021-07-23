@@ -168,7 +168,7 @@ function add_other_time(type='add'){
                 $('input[name="booker_test_date'+nomor_test+'"]').daterangepicker({
                     singleDatePicker: true,
                     autoUpdateInput: true,
-                    startDate: moment(medical_get_availability_response[document.getElementById('booker_area').value].min_date),
+                    startDate: moment(schedule_medical.test_list[x].date),
                     minDate: moment(medical_get_availability_response[document.getElementById('booker_area').value].min_date),
                     maxDate: moment(medical_get_availability_response[document.getElementById('booker_area').value].max_date),
                     showDropdowns: true,
@@ -7153,6 +7153,18 @@ function auto_fill_phc_antigen(){
         document.getElementById('adult_last_name'+counter).value = passenger_data_cache_medical[idx].last_name;
         document.getElementById('adult_nationality'+counter).value = passenger_data_cache_medical[idx].nationality_name;
         document.getElementById('select2-adult_nationality'+counter+'_id-container').innerHTML = passenger_data_cache_medical[idx].nationality_name;
+        $('input[name="adult_birth_date'+counter+'"]').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              showDropdowns: true,
+              startDate: moment(passenger_data_cache_medical[idx].birth_date, 'DD MMM YYYY'),
+              maxDate: moment(),
+              opens: 'center',
+              drops: 'down',
+              locale: {
+                  format: 'DD MMM YYYY',
+              }
+        });
         document.getElementById('adult_birth_date'+counter).value = passenger_data_cache_medical[idx].birth_date;
         document.getElementById('adult_tempat_lahir'+counter).value = passenger_data_cache_medical[idx].tempat_lahir;
         document.getElementById('select2-adult_tempat_lahir'+counter+'_id-container').innerHTML = passenger_data_cache_medical[idx].tempat_lahir;
@@ -7259,6 +7271,18 @@ function auto_fill_phc_pcr(){
         document.getElementById('adult_last_name'+counter).value = passenger_data_cache_medical[idx].last_name;
         document.getElementById('adult_nationality'+counter).value = passenger_data_cache_medical[idx].nationality_name;
         document.getElementById('select2-adult_nationality'+counter+'_id-container').innerHTML = passenger_data_cache_medical[idx].nationality_name;
+        $('input[name="adult_birth_date'+counter+'"]').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              showDropdowns: true,
+              startDate: moment(passenger_data_cache_medical[idx].birth_date, 'DD MMM YYYY'),
+              maxDate: moment(),
+              opens: 'center',
+              drops: 'down',
+              locale: {
+                  format: 'DD MMM YYYY',
+              }
+        });
         document.getElementById('adult_birth_date'+counter).value = passenger_data_cache_medical[idx].birth_date;
         document.getElementById('adult_tempat_lahir'+counter).value = passenger_data_cache_medical[idx].tempat_lahir;
         document.getElementById('select2-adult_tempat_lahir'+counter+'_id-container').innerHTML = passenger_data_cache_medical[idx].tempat_lahir;
@@ -7329,6 +7353,19 @@ function auto_fill_phc_pcr(){
             document.getElementById('adult_pemeriksaan_swab_ke'+counter).value = passenger_data_cache_medical[idx].pcr_data.pemeriksaan_swab_ke;
             document.getElementById('adult_sedang_dirawat_di_rs'+counter).value = passenger_data_cache_medical[idx].pcr_data.sedang_dirawat_di_rs;
             document.getElementById('adult_nama_rs'+counter).value = passenger_data_cache_medical[idx].pcr_data.nama_rs;
+
+            $('input[name="adult_tanggal_masuk_rs'+counter+'"]').daterangepicker({
+                  singleDatePicker: true,
+                  autoUpdateInput: true,
+                  showDropdowns: true,
+                  startDate: moment(passenger_data_cache_medical[idx].pcr_data.tanggal_masuk_rs, 'DD MMM YYYY'),
+                  maxDate: moment(),
+                  opens: 'center',
+                  drops: 'down',
+                  locale: {
+                      format: 'DD MMM YYYY',
+                  }
+            });
             document.getElementById('adult_tanggal_masuk_rs'+counter).value = passenger_data_cache_medical[idx].pcr_data.tanggal_masuk_rs;
             document.getElementById('adult_nama_ruang_perawatan'+counter).value = passenger_data_cache_medical[idx].pcr_data.nama_ruang_perawatan;
             document.getElementById('adult_sedang_dirawat_di_icu'+counter).value = passenger_data_cache_medical[idx].pcr_data.sedang_dirawat_di_icu;
@@ -7375,7 +7412,31 @@ function auto_fill_phc_pcr(){
                 add_pcr_table('perjalanan_keluar_negeri', counter);
                 document.getElementById('adult_perjalanan_keluar_negeri_nama_negara'+counter+'_'+idy).value = passenger_data_cache_medical[idx].pcr_data.daftar_perjalanan_keluar_negeri[idy].nama_negara
                 document.getElementById('adult_perjalanan_keluar_negeri_nama_kota'+counter+'_'+idy).value = passenger_data_cache_medical[idx].pcr_data.daftar_perjalanan_keluar_negeri[idy].nama_kota
+                $('input[name="adult_perjalanan_keluar_negeri_tanggal_perjalanan'+counter+'_'+idy+'"]').daterangepicker({
+                      singleDatePicker: true,
+                      autoUpdateInput: true,
+                      showDropdowns: true,
+                      startDate: moment(passenger_data_cache_medical[idx].pcr_data.daftar_perjalanan_keluar_negeri[idy].tanggal_perjalanan, 'YYYY-MM-DD').format('DD MMM YYYY'),
+                      maxDate: moment(),
+                      opens: 'center',
+                      drops: 'down',
+                      locale: {
+                          format: 'DD MMM YYYY',
+                      }
+                });
                 document.getElementById('adult_perjalanan_keluar_negeri_tanggal_perjalanan'+counter+'_'+idy).value = moment(passenger_data_cache_medical[idx].pcr_data.daftar_perjalanan_keluar_negeri[idy].tanggal_perjalanan, 'YYYY-MM-DD').format('DD MMM YYYY')
+                $('input[name="adult_perjalanan_keluar_negeri_tiba_di_indonesia'+counter+'_'+idy+'"]').daterangepicker({
+                      singleDatePicker: true,
+                      autoUpdateInput: true,
+                      showDropdowns: true,
+                      startDate: moment(passenger_data_cache_medical[idx].pcr_data.daftar_perjalanan_keluar_negeri[idy].tiba_di_indonesia, 'YYYY-MM-DD').format('DD MMM YYYY'),
+                      maxDate: moment(),
+                      opens: 'center',
+                      drops: 'down',
+                      locale: {
+                          format: 'DD MMM YYYY',
+                      }
+                });
                 document.getElementById('adult_perjalanan_keluar_negeri_tiba_di_indonesia'+counter+'_'+idy).value = moment(passenger_data_cache_medical[idx].pcr_data.daftar_perjalanan_keluar_negeri[idy].tiba_di_indonesia, 'YYYY-MM-DD').format('DD MMM YYYY')
             }
 
@@ -7385,7 +7446,31 @@ function auto_fill_phc_pcr(){
                 add_pcr_table('perjalanan_ke_transmisi_lokal', counter);
                 document.getElementById('adult_perjalanan_ke_transmisi_lokal_nama_provinsi'+counter+'_'+idy).value = passenger_data_cache_medical[idx].pcr_data.daftar_perjalanan_ke_transmisi_lokal[idy].nama_provinsi
                 document.getElementById('adult_perjalanan_ke_transmisi_lokal_nama_kota'+counter+'_'+idy).value = passenger_data_cache_medical[idx].pcr_data.daftar_perjalanan_ke_transmisi_lokal[idy].nama_kota
+                $('input[name="adult_perjalanan_ke_transmisi_lokal_tanggal_perjalanan'+counter+'_'+idy+'"]').daterangepicker({
+                      singleDatePicker: true,
+                      autoUpdateInput: true,
+                      showDropdowns: true,
+                      startDate: moment(passenger_data_cache_medical[idx].pcr_data.daftar_perjalanan_ke_transmisi_lokal[idy].tanggal_perjalanan, 'YYYY-MM-DD').format('DD MMM YYYY'),
+                      maxDate: moment(),
+                      opens: 'center',
+                      drops: 'down',
+                      locale: {
+                          format: 'DD MMM YYYY',
+                      }
+                });
                 document.getElementById('adult_perjalanan_ke_transmisi_lokal_tanggal_perjalanan'+counter+'_'+idy).value = moment(passenger_data_cache_medical[idx].pcr_data.daftar_perjalanan_ke_transmisi_lokal[idy].tanggal_perjalanan, 'YYYY-MM-DD').format('DD MMM YYYY')
+                $('input[name="adult_perjalanan_ke_transmisi_lokal_tiba_di_sini'+counter+'_'+idy+'"]').daterangepicker({
+                      singleDatePicker: true,
+                      autoUpdateInput: true,
+                      showDropdowns: true,
+                      startDate: moment(passenger_data_cache_medical[idx].pcr_data.daftar_perjalanan_ke_transmisi_lokal[idy].tiba_disini, 'YYYY-MM-DD').format('DD MMM YYYY'),
+                      maxDate: moment(),
+                      opens: 'center',
+                      drops: 'down',
+                      locale: {
+                          format: 'DD MMM YYYY',
+                      }
+                });
                 document.getElementById('adult_perjalanan_ke_transmisi_lokal_tiba_di_sini'+counter+'_'+idy).value = moment(passenger_data_cache_medical[idx].pcr_data.daftar_perjalanan_ke_transmisi_lokal[idy].tiba_disini, 'YYYY-MM-DD').format('DD MMM YYYY')
             }
 
@@ -7396,6 +7481,18 @@ function auto_fill_phc_pcr(){
                 document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan_nama_rumah_sakit'+counter+'_'+idy).value = passenger_data_cache_medical[idx].pcr_data.daftar_ke_fasilitas_kesehatan[idy].nama_rumah_sakit
                 document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan_nama_kota'+counter+'_'+idy).value = passenger_data_cache_medical[idx].pcr_data.daftar_ke_fasilitas_kesehatan[idy].nama_kota
                 document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan_nama_provinsi'+counter+'_'+idy).value = passenger_data_cache_medical[idx].pcr_data.daftar_ke_fasilitas_kesehatan[idy].nama_provinsi
+                $('input[name="adult_berkunjung_ke_fasilitas_kesehatan_tanggal_kunjungan'+counter+'_'+idy+'"]').daterangepicker({
+                      singleDatePicker: true,
+                      autoUpdateInput: true,
+                      showDropdowns: true,
+                      startDate: moment(passenger_data_cache_medical[idx].pcr_data.daftar_ke_fasilitas_kesehatan[idy].tanggal_kunjungan, 'YYYY-MM-DD').format('DD MMM YYYY'),
+                      maxDate: moment(),
+                      opens: 'center',
+                      drops: 'down',
+                      locale: {
+                          format: 'DD MMM YYYY',
+                      }
+                });
                 document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan_tanggal_kunjungan'+counter+'_'+idy).value = moment(passenger_data_cache_medical[idx].pcr_data.daftar_ke_fasilitas_kesehatan[idy].tanggal_kunjungan, 'YYYY-MM-DD').format('DD MMM YYYY')
             }
 
@@ -7406,6 +7503,18 @@ function auto_fill_phc_pcr(){
                 document.getElementById('adult_berkunjung_ke_pasar_hewan_nama_lokasi_pasar'+counter+'_'+idy).value = passenger_data_cache_medical[idx].pcr_data.daftar_ke_pasar_hewan[idy].nama_lokasi_pasar
                 document.getElementById('adult_berkunjung_ke_pasar_hewan_nama_kota'+counter+'_'+idy).value = passenger_data_cache_medical[idx].pcr_data.daftar_ke_pasar_hewan[idy].nama_kota
                 document.getElementById('adult_berkunjung_ke_pasar_hewan_nama_provinsi'+counter+'_'+idy).value = passenger_data_cache_medical[idx].pcr_data.daftar_ke_pasar_hewan[idy].nama_provinsi
+                $('input[name="adult_berkunjung_ke_pasar_hewan_tanggal_kunjungan'+counter+'_'+idy+'"]').daterangepicker({
+                      singleDatePicker: true,
+                      autoUpdateInput: true,
+                      showDropdowns: true,
+                      startDate: moment(passenger_data_cache_medical[idx].pcr_data.daftar_ke_pasar_hewan[idy].tanggal_kunjungan, 'YYYY-MM-DD').format('DD MMM YYYY'),
+                      maxDate: moment(),
+                      opens: 'center',
+                      drops: 'down',
+                      locale: {
+                          format: 'DD MMM YYYY',
+                      }
+                });
                 document.getElementById('adult_berkunjung_ke_pasar_hewan_tanggal_kunjungan'+counter+'_'+idy).value = moment(passenger_data_cache_medical[idx].pcr_data.daftar_ke_pasar_hewan[idy].tanggal_kunjungan, 'YYYY-MM-DD').format('DD MMM YYYY')
             }
             document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan'+counter).value = passenger_data_cache_medical[idx].pcr_data.berkunjung_ke_pasien_dalam_pengawasan;
@@ -7415,7 +7524,31 @@ function auto_fill_phc_pcr(){
                 document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_nama_pasien'+counter+'_'+idy).value = passenger_data_cache_medical[idx].pcr_data.daftar_ke_pasien_dalam_pengawasan[idy].nama_pasien
                 document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_alamat'+counter+'_'+idy).value = passenger_data_cache_medical[idx].pcr_data.daftar_ke_pasien_dalam_pengawasan[idy].alamat
                 document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_hubungan'+counter+'_'+idy).value = passenger_data_cache_medical[idx].pcr_data.daftar_ke_pasien_dalam_pengawasan[idy].hubungan
+                $('input[name="adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_pertama'+counter+'_'+idy+'"]').daterangepicker({
+                      singleDatePicker: true,
+                      autoUpdateInput: true,
+                      showDropdowns: true,
+                      startDate: moment(passenger_data_cache_medical[idx].pcr_data.daftar_ke_pasien_dalam_pengawasan[idy].tanggal_kontak_pertama, 'YYYY-MM-DD').format('DD MMM YYYY'),
+                      maxDate: moment(),
+                      opens: 'center',
+                      drops: 'down',
+                      locale: {
+                          format: 'DD MMM YYYY',
+                      }
+                });
                 document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_pertama'+counter+'_'+idy).value = moment(passenger_data_cache_medical[idx].pcr_data.daftar_ke_pasien_dalam_pengawasan[idy].tanggal_kontak_pertama, 'YYYY-MM-DD').format('DD MMM YYYY')
+                $('input[name="adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_terakhir'+counter+'_'+idy+'"]').daterangepicker({
+                      singleDatePicker: true,
+                      autoUpdateInput: true,
+                      showDropdowns: true,
+                      startDate: moment(passenger_data_cache_medical[idx].pcr_data.daftar_ke_pasien_dalam_pengawasan[idy].tanggal_kontak_terakhir, 'YYYY-MM-DD').format('DD MMM YYYY'),
+                      maxDate: moment(),
+                      opens: 'center',
+                      drops: 'down',
+                      locale: {
+                          format: 'DD MMM YYYY',
+                      }
+                });
                 document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_terakhir'+counter+'_'+idy).value = moment(passenger_data_cache_medical[idx].pcr_data.daftar_ke_pasien_dalam_pengawasan[idy].tanggal_kontak_terakhir, 'YYYY-MM-DD').format('DD MMM YYYY')
             }
 
@@ -7426,7 +7559,31 @@ function auto_fill_phc_pcr(){
                 document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_nama_pasien'+counter+'_'+idy).value = passenger_data_cache_medical[idx].pcr_data.berkunjung_ke_pasien_konfirmasi[idy].nama_pasien
                 document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_alamat'+counter+'_'+idy).value = passenger_data_cache_medical[idx].pcr_data.berkunjung_ke_pasien_konfirmasi[idy].alamat
                 document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_hubungan'+counter+'_'+idy).value = passenger_data_cache_medical[idx].pcr_data.berkunjung_ke_pasien_konfirmasi[idy].hubungan
+                $('input[name="adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_pertama'+counter+'_'+idy+'"]').daterangepicker({
+                      singleDatePicker: true,
+                      autoUpdateInput: true,
+                      showDropdowns: true,
+                      startDate: moment(passenger_data_cache_medical[idx].pcr_data.berkunjung_ke_pasien_konfirmasi[idy].tanggal_kontak_pertama, 'YYYY-MM-DD').format('DD MMM YYYY'),
+                      maxDate: moment(),
+                      opens: 'center',
+                      drops: 'down',
+                      locale: {
+                          format: 'DD MMM YYYY',
+                      }
+                });
                 document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_pertama'+counter+'_'+idy).value = moment(passenger_data_cache_medical[idx].pcr_data.berkunjung_ke_pasien_konfirmasi[idy].tanggal_kontak_pertama, 'YYYY-MM-DD').format('DD MMM YYYY')
+                $('input[name="adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_terakhir'+counter+'_'+idy+'"]').daterangepicker({
+                      singleDatePicker: true,
+                      autoUpdateInput: true,
+                      showDropdowns: true,
+                      startDate: moment(passenger_data_cache_medical[idx].pcr_data.berkunjung_ke_pasien_konfirmasi[idy].tanggal_kontak_terakhir, 'YYYY-MM-DD').format('DD MMM YYYY'),
+                      maxDate: moment(),
+                      opens: 'center',
+                      drops: 'down',
+                      locale: {
+                          format: 'DD MMM YYYY',
+                      }
+                });
                 document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_terakhir'+counter+'_'+idy).value = moment(passenger_data_cache_medical[idx].pcr_data.berkunjung_ke_pasien_konfirmasi[idy].tanggal_kontak_terakhir, 'YYYY-MM-DD').format('DD MMM YYYY')
             }
 
@@ -7450,6 +7607,7 @@ function auto_fill_phc_pcr(){
 //                            "perjalanan": document.getElementById('adult_perjalanan' + nomor_pax).value,
         }
         $('#adult_title'+counter).niceSelect('update');
+        $('#adult_klinis_sedang_hamil'+counter).niceSelect('update');
         $('#adult_identity_type'+counter).niceSelect('update');
         $('#adult_profession'+counter).niceSelect('update');
         $('#adult_perusahaan'+counter).niceSelect('update');
@@ -7540,6 +7698,18 @@ function auto_fill_periksain(){
         document.getElementById('adult_last_name'+counter).value = passenger_data_cache_medical[idx].last_name;
         document.getElementById('adult_nationality'+counter).value = passenger_data_cache_medical[idx].nationality_name;
         document.getElementById('select2-adult_nationality'+counter+'_id-container').innerHTML = passenger_data_cache_medical[idx].nationality_name;
+        $('input[name="adult_birth_date'+counter+'"]').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              showDropdowns: true,
+              startDate: moment(passenger_data_cache_medical[idx].birth_date, 'DD MMM YYYY'),
+              maxDate: moment(),
+              opens: 'center',
+              drops: 'down',
+              locale: {
+                  format: 'DD MMM YYYY',
+              }
+        });
         document.getElementById('adult_birth_date'+counter).value = passenger_data_cache_medical[idx].birth_date;
         document.getElementById('adult_identity_type'+counter).value = passenger_data_cache_medical[idx].identity_type;
         document.getElementById('adult_identity_number'+counter).value = passenger_data_cache_medical[idx].identity_number;
@@ -7632,6 +7802,18 @@ function auto_fill_verify_data(){
             document.getElementById('adult_first_name'+counter).value = passenger_data_cache_medical[idx].first_name;
 
             document.getElementById('adult_last_name'+counter).value = passenger_data_cache_medical[idx].last_name;
+            $('input[name="adult_birth_date'+counter+'"]').daterangepicker({
+                  singleDatePicker: true,
+                  autoUpdateInput: true,
+                  showDropdowns: true,
+                  startDate: moment(passenger_data_cache_medical[idx].birth_date, 'DD MMM YYYY'),
+                  maxDate: moment(),
+                  opens: 'center',
+                  drops: 'down',
+                  locale: {
+                      format: 'DD MMM YYYY',
+                  }
+            });
             document.getElementById('adult_birth_date'+counter).value = passenger_data_cache_medical[idx].birth_date;
             document.getElementById('adult_tempat_lahir'+counter).value = passenger_data_cache_medical[idx].tempat_lahir;
             document.getElementById('select2-adult_tempat_lahir'+counter+'_id-container').innerHTML = passenger_data_cache_medical[idx].tempat_lahir;
