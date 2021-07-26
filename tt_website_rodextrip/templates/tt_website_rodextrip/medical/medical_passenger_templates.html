@@ -114,9 +114,9 @@
             </div>
         </div>
     </div>
-    {% if username.co_user_login == 'agent_b2c' %}
-    {% include 'tt_website_rodextrip/header_signin_signup.html' %}
-    {% endif %}
+<!--    {% if username.co_user_login == 'agent_b2c' %}-->
+<!--    {% include 'tt_website_rodextrip/header_signin_signup.html' %}-->
+<!--    {% endif %}-->
 </header>
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
     <div class="container">
@@ -489,7 +489,7 @@
                                     </div>
 
                                     {% if vendor == 'phc' %}
-                                    {% if test_type == 'PHCHCKPCR' or test_type == 'PHCDTKPCR' %}
+                                    {% if 'PCR' in test_type %}
                                     <div class="col-lg-12 mt-2">
                                         <span style="font-size:16px; font-weight:bold;">Kuota yang terisi: </span>
                                         <div style="text-align:left; margin-top:10px; margin-bottom:10px;">
@@ -630,9 +630,9 @@
             </div>
         </div>
     </div>
-    {% if username.co_user_login == 'agent_b2c' %}
-    {% include 'tt_website_rodextrip/header_signin_signup.html' %}
-    {% endif %}
+<!--    {% if username.co_user_login == 'agent_b2c' %}-->
+<!--    {% include 'tt_website_rodextrip/header_signin_signup.html' %}-->
+<!--    {% endif %}-->
 </header>
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; background:#f7f7f7; position:relative;">
     <div class="container">
@@ -1324,9 +1324,9 @@
             </div>
         </div>
     </div>
-    {% if username.co_user_login == 'agent_b2c' %}
-    {% include 'tt_website_rodextrip/header_signin_signup.html' %}
-    {% endif %}
+<!--    {% if username.co_user_login == 'agent_b2c' %}-->
+<!--    {% include 'tt_website_rodextrip/header_signin_signup.html' %}-->
+<!--    {% endif %}-->
 </header>
 <section class="relative" style="padding-top:30px; padding-bottom:40px; background:#f7f7f7;">
     <div class="container">
@@ -2005,9 +2005,9 @@
             </div>
         </div>
     </div>
-    {% if username.co_user_login == 'agent_b2c' %}
-    {% include 'tt_website_rodextrip/header_signin_signup.html' %}
-    {% endif %}
+<!--    {% if username.co_user_login == 'agent_b2c' %}-->
+<!--    {% include 'tt_website_rodextrip/header_signin_signup.html' %}-->
+<!--    {% endif %}-->
 </header>
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; background: #f7f7f7;">
     <div class="container">
@@ -2702,9 +2702,9 @@
             </div>
         </div>
     </div>
-    {% if username.co_user_login == 'agent_b2c' %}
-    {% include 'tt_website_rodextrip/header_signin_signup.html' %}
-    {% endif %}
+<!--    {% if username.co_user_login == 'agent_b2c' %}-->
+<!--    {% include 'tt_website_rodextrip/header_signin_signup.html' %}-->
+<!--    {% endif %}-->
 </header>
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; background: #f7f7f7;">
     <div class="container">
@@ -3402,12 +3402,12 @@
     get_list_report_footer();
     alamat_ss = 'Jl. Raya Bukit Darmo No.22-24, Putat Gede, Kec. Sukomanunggal, Kota SBY, Jawa Timur 60189';
     test_type = `{{test_type}}`;
-      //if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCHCKATG' || vendor == 'phc' && test_type == 'PHCHCKPCR')
-        document.getElementById('medical_timeslot').style.display = 'block';
-      if(vendor == 'phc' && test_type == 'PHCDTKATG' || vendor == 'phc' && test_type == 'PHCDTKPCR'){
+
+    document.getElementById('medical_timeslot').style.display = 'block';
+    if(vendor == 'phc' &&  test_type.includes('DT')){
         document.getElementById('booker_address').readOnly = true;
         document.getElementById('booker_address').value = alamat_ss;
-      }
+    }
     $( document ).ready(function() {
       $('.js-example-basic-single').niceSelect('destroy');
       $('.js-example-basic-single').select2();
@@ -3469,7 +3469,7 @@
         var list_map_choose = {};
         if(type == 'auto_marker'){
             list_map_choose = list_map[4];
-        }else if(vendor == 'phc' && test_type == 'PHCDTKATG' || vendor == 'phc' && test_type == 'PHCDTKPCR'){
+        }else if(vendor == 'phc' && test_type.includes('DT')){
             list_map_choose = list_map[3];
         }else if(document.getElementById('booker_area').value == 'surabaya' || document.getElementById('booker_area').value == 'Surabaya'){
             list_map_choose = list_map[0];
@@ -3493,7 +3493,7 @@
                                                   placeholder="Search Box"
                                                 />`;
             map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
-            if(vendor == 'periksain' && type != 'auto_marker' || vendor == 'phc' && test_type == 'PHCHCKATG' && type != 'auto_marker' || vendor == 'phc' && test_type == 'PHCHCKPCR' && type != 'auto_marker'){
+            if(vendor == 'periksain' && type != 'auto_marker' || vendor == 'phc' && test_type.includes('PHCHC') && type != 'auto_marker' || vendor == 'phc' && test_type.includes('PHCHC') && type != 'auto_marker'){
                 map.addListener('click', function(event) {
                    placeMarker(event.latLng);
                 });
@@ -3559,7 +3559,7 @@
             });
         }else{
             if(list_map.length < 4 || type == 'change_area_display'){
-                if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCHCKATG' || vendor == 'phc' && test_type == 'PHCHCKPCR' ){
+                if(vendor == 'periksain' || vendor == 'phc' && test_type.includes('PHCHC') || vendor == 'phc' && test_type.includes('PHCHC')){
                     web_url = '';
                     map.setCenter(new google.maps.LatLng(list_map_choose.lat,list_map_choose.long));
                     document.getElementById('pac-input').value = '';
