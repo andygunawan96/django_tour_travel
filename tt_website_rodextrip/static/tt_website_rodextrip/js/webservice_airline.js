@@ -4471,7 +4471,8 @@ function airline_get_booking(data, sync=false){
                                                             </tr>
                                                         </table>
                                                         <span>`+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[0]+`</span><br/>
-                                                        <span style="font-weight:500;">`+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin_name+` - `+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin_city+` (`+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin+`)</span>
+                                                        <span style="font-weight:500;">`+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin_name+` - `+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin_city+` (`+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin+`)</span><br/>
+                                                        <span style="font-weight:500;">Terminal:`+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin_terminal+`</span>
                                                     </div>
 
                                                     <div class="col-lg-6 col-xs-6" style="padding:0;">
@@ -4483,7 +4484,8 @@ function airline_get_booking(data, sync=false){
                                                             </tr>
                                                         </table>
                                                         <span>`+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date.split('  ')[0]+`</span><br/>
-                                                        <span style="font-weight:500;">`+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_name+` - `+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_city+` (`+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination+`)</span>
+                                                        <span style="font-weight:500;">`+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_name+` - `+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_city+` (`+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination+`)</span><br/>
+                                                        <span style="font-weight:500;">Terminal:`+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_terminal+`</span>
                                                     </div>
                                                 </div>
                                             </div>
