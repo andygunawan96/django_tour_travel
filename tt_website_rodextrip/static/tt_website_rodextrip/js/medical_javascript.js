@@ -7975,7 +7975,7 @@ function check_kuota_phc(){
                 for(k in test_kuota[i].timeslots[j]){
                     document.getElementById("count_kuota_phc").innerHTML = test_kuota[i].timeslots[j][k].used_pcr_count;
                     document.getElementById("total_pcr_timeslot").innerHTML = test_kuota[i].timeslots[j][k].total_pcr_timeslot;
-                    var count_percent = (parseInt(test_kuota[i].timeslots[j][k].used_pcr_count) / parseInt(test_kuota[i].timeslots[j][k].total_pcr_timeslot)*100;
+                    var count_percent = (parseInt(test_kuota[i].timeslots[j][k].used_pcr_count) / parseInt(test_kuota[i].timeslots[j][k].total_pcr_timeslot))*100;
                     document.getElementById('bar_kuota_phc').style.width = count_percent.toFixed(0)+"%";
                     document.getElementById('percent_kuota_phc').innerHTML = count_percent.toFixed(0)+"%";
                     if(count_percent.toFixed(0) >= 0 && count_percent.toFixed(0) <= 60){
