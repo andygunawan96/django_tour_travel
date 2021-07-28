@@ -3616,6 +3616,18 @@ function airline_detail(type){
                     $text += price_itinerary_temp[i].journeys[j].segments[k].departure_date + ' → ' + price_itinerary_temp[i].journeys[j].segments[k].arrival_date + '\n';
                     $text += price_itinerary_temp[i].journeys[j].segments[k].origin_name + ' (' + price_itinerary_temp[i].journeys[j].segments[k].origin_city + ') - ';
                     $text += price_itinerary_temp[i].journeys[j].segments[k].destination_name + ' (' + price_itinerary_temp[i].journeys[j].segments[k].destination_city + ')\n\n';
+                    text += `<span style="float:right;">`;
+                    if(price_itinerary_temp[i].journeys[j].segments[k].fares[0].cabin_class != '')
+                        if(price_itinerary_temp[i].journeys[j].segments[k].fares[0].cabin_class == 'Y')
+                            text += 'Economy';
+                        else if(price_itinerary_temp[i].journeys[j].segments[k].fares[0].cabin_class == 'W')
+                            text += 'Premium Economy';
+                        else if(price_itinerary_temp[i].journeys[j].segments[k].fares[0].cabin_class == 'C')
+                            text += 'Business ';
+                        else if(price_itinerary_temp[i].journeys[j].segments[k].fares[0].cabin_class == 'F')
+                            text += 'First Class';
+                    text+=`<br/>Class: ` + price_itinerary_temp[i].journeys[j].segments[k].fares[0].class_of_service;
+                    text+=`</span>`;
 
                     text+=`
                     <div class="row">
@@ -3636,7 +3648,8 @@ function airline_detail(type){
                                 </tr>
                             </table>
                             <span style="font-size:13px;">`+price_itinerary_temp[i].journeys[j].segments[k].departure_date.split(' - ')[0]+`</span></br>
-                            <span style="font-size:13px; font-weight:500;">`+price_itinerary_temp[i].journeys[j].segments[k].origin_city+` (`+price_itinerary_temp[i].journeys[j].segments[k].origin+`)</span>
+                            <span style="font-size:13px; font-weight:500;">`+price_itinerary_temp[i].journeys[j].segments[k].origin_city+` (`+price_itinerary_temp[i].journeys[j].segments[k].origin+`)</span><br/>
+                            <span style="font-size:13px; font-weight:500;">Terminal: `+price_itinerary_temp[i].journeys[j].segments[k].origin_terminal+`</span><br/>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                             <table style="width:100%; margin-bottom:6px;">
@@ -3647,7 +3660,8 @@ function airline_detail(type){
                                 </tr>
                             </table>
                             <span style="font-size:13px;">`+price_itinerary_temp[i].journeys[j].segments[k].arrival_date.split(' - ')[0]+`</span><br/>
-                            <span style="font-size:13px; font-weight:500;">`+price_itinerary_temp[i].journeys[j].segments[k].destination_city+` (`+price_itinerary_temp[i].journeys[j].segments[k].destination+`)</span>
+                            <span style="font-size:13px; font-weight:500;">`+price_itinerary_temp[i].journeys[j].segments[k].destination_city+` (`+price_itinerary_temp[i].journeys[j].segments[k].destination+`)</span><br/>
+                            <span style="font-size:13px; font-weight:500;">Terminal: `+price_itinerary_temp[i].journeys[j].segments[k].destination_terminal+`</span><br/>
                         </div>
                     </div>`;
                     for(l in price_itinerary_temp[i].journeys[j].segments[k].legs){
