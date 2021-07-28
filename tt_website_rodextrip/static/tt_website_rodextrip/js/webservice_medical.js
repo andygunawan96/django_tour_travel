@@ -89,9 +89,9 @@ function get_config_medical(type='', vendor=''){
                     }
                     document.getElementById('medical_product').innerHTML = product;
                     document.getElementById('copy_booker_to_pax_div').hidden = false;
-                    try{
-                    document.getElementById('medical_pax_div').hidden = false;
-                    }catch(err){}
+//                    try{
+//                    document.getElementById('medical_pax_div').hidden = false;
+//                    }catch(err){}
                     add_table(true);
                     try{
                         $("#show_loading_booking_medical").hide();
@@ -299,6 +299,7 @@ function medical_get_availability(){
 function medical_check_price(){
     var timeslot_list = [];
     document.getElementById('check_price_medical').disabled = true;
+
     var now = moment();
     var test_list_counter = 1;
     var add_list = true;
@@ -352,16 +353,15 @@ function medical_check_price(){
                 try{
                 if(msg.result.error_code == 0){
                     var text = `
-                    <div style="background-color:white; padding:10px; margin-bottom:15px;">
-                        <h5> Price Detail</h5>
-                    <hr/>`;
+                    <div style="background-color:white; margin-bottom:15px;">
+                        <h4 style="color:`+color+`;"> Price Detail</h4>`;
                     text+=`
                         <div class="row" style="margin-bottom:5px;">
                             <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
                                 <span style="font-size:12px;">`+msg.result.response.service_charges[0].pax_count+`x Fare @IDR `+getrupiah(msg.result.response.service_charges[0].amount)+`</span>`;
                             text+=`</div>
                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                <span style="font-size:13px;">IDR `+getrupiah(msg.result.response.total_price)+`</span>
+                                <b><span style="font-size:13px;">IDR `+getrupiah(msg.result.response.total_price)+`</span></b>
                             </div>
                         </div>`;
                     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
@@ -396,6 +396,15 @@ function medical_check_price(){
                     document.getElementById('medical_detail').innerHTML = text;
                     document.getElementById('medical_detail').style.display = 'block';
                     document.getElementById('next_medical').style.display = 'block';
+
+                    try{
+                    document.getElementById('medical_pax_div').hidden = false;
+                    }catch(err){}
+                    $('html, body').animate({
+                        scrollTop: $("#medical_detail").offset().top - 120
+                    }, 500);
+
+
                     //print harga
                 }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                     auto_logout();
@@ -856,7 +865,7 @@ function medical_get_booking(order_number, sync=false){
                    </div>
                    </div>`;
                     text += `
-                    <div style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;">
+                    <div style="border:1px solid #cdcdcd; padding:10px; overflow:auto; background-color:white; margin-top:20px;">
                         <h5> Contact Person</h5>
                         <hr/>
                         <table style="width:100%" id="list-of-passenger">
@@ -888,7 +897,7 @@ function medical_get_booking(order_number, sync=false){
                                 if(j == 0){
                                     //bikin table
                                     text += `
-                                    <div class="mb-3" style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;">
+                                    <div class="mb-3" style="border:1px solid #cdcdcd; overflow:auto; padding:10px; background-color:white; margin-top:20px;">
                                         <h5> List of Customer</h5>
                                         <hr/>
                                         <table style="width:100%" id="list-of-passenger">
