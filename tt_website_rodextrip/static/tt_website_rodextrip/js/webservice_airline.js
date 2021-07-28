@@ -2021,6 +2021,18 @@ function get_price_itinerary_request(){
                             }catch(err){
                                 text+=`<img data-toggle="tooltip" alt="Airline" title="" style="width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_number+`.png"><span> </span>`;
                             }
+                            text += `<br/>`;
+                            text += `<span>`
+                            if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].cabin_class != '')
+                                if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].cabin_class == 'Y')
+                                    text += 'Economy';
+                                else if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].cabin_class == 'W')
+                                    text += 'Premium Economy';
+                                else if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].cabin_class == 'C')
+                                    text += 'Business';
+                                else if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].cabin_class == 'F')
+                                    text += 'First Class';
+                            text += `<br/>Class: `+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].class_of_service+`</span>`;
                         }
                         text+=`</div>`;
                         text+=`<div class="col-lg-9">`;
@@ -2064,7 +2076,8 @@ function get_price_itinerary_request(){
                                                 </tr>
                                             </table>
                                             <span style="font-size:13px;">`+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].departure_date.split(' - ')[0]+`</span></br>
-                                            <span style="font-size:13px; font-weight:500;">`+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].origin_city+` (`+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].origin+`)</span>
+                                            <span style="font-size:13px; font-weight:500;">`+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].origin_city+` (`+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].origin+`)</span><br/>
+                                            <span style="font-size:13px; font-weight:500;">Terminal: `+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].origin_terminal+`</span>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                             <table style="width:100%; margin-bottom:6px;">
@@ -2075,7 +2088,8 @@ function get_price_itinerary_request(){
                                                 </tr>
                                             </table>
                                             <span style="font-size:13px;">`+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].arrival_date.split(' - ')[0]+`</span><br/>
-                                            <span style="font-size:13px; font-weight:500;">`+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].destination_city+` (`+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].destination+`)</span>
+                                            <span style="font-size:13px; font-weight:500;">`+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].destination_city+` (`+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].destination+`)</span><br/>
+                                            <span style="font-size:13px; font-weight:500;">Terminal: `+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].destination_terminal+`</span>
                                         </div>
                                     </div>`;
                             }
