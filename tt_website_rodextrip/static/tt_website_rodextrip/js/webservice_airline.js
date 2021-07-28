@@ -1410,7 +1410,6 @@ function datasearch2(airline){
                        if(available_count > airline.schedules[i].journeys[j].segments[k].fares[l].available_count)
                             available_count = airline.schedules[i].journeys[j].segments[k].fares[l].available_count;
                        airline.schedules[i].journeys[j].segments[k].fare_pick = 0;
-                       can_book = true;
                        for(m in airline.schedules[i].journeys[j].segments[k].fares[l].service_charge_summary){
                            if(airline.schedules[i].journeys[j].segments[k].fares[l].service_charge_summary[m].pax_type == 'ADT'){
                                for(n in airline.schedules[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges){
