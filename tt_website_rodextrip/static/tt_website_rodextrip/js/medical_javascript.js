@@ -104,7 +104,6 @@ function add_other_time(type='add'){
         document.getElementById('test').appendChild(node);
 
         //test date
-        ;
         $('input[name="booker_test_date'+test_time+'"]').daterangepicker({
             singleDatePicker: true,
             autoUpdateInput: true,
