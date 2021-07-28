@@ -135,18 +135,20 @@
                                         <h4> Contact Person <i class="fas fa-users"></i></h4>
                                         <hr>
                                         <h5>Booker / Contact Person</h5>
-                                        <table style="width:100%; margin-top:10px;" id="list-of-passenger">
-                                            <tbody><tr>
-                                                <th style="width:40%;">Name</th>
-                                                <th style="width:30%;">Email</th>
-                                                <th style="width:30%;">Phone Number</th>
-                                            </tr>
-                                            <tr>
-                                                <td>{{data.booker.title}} {{data.booker.first_name}} {{data.booker.last_name}}</td>
-                                                <td>{{data.booker.email}}</td>
-                                                <td>{{data.booker.calling_code}} - {{data.booker.mobile}}</td>
-                                            </tr>
-                                        </tbody></table>
+                                        <div style="overflow:auto;">
+                                            <table style="width:100%; margin-top:10px; " id="list-of-passenger">
+                                                <tbody><tr>
+                                                    <th style="width:40%;">Name</th>
+                                                    <th style="width:30%;">Email</th>
+                                                    <th style="width:30%;">Phone Number</th>
+                                                </tr>
+                                                <tr>
+                                                    <td>{{data.booker.title}} {{data.booker.first_name}} {{data.booker.last_name}}</td>
+                                                    <td>{{data.booker.email}}</td>
+                                                    <td>{{data.booker.calling_code}} - {{data.booker.mobile}}</td>
+                                                </tr>
+                                                </tbody></table>
+                                        </div>
                                         <br>
                                     </div>
                                 </div>
@@ -164,30 +166,31 @@
                             <div style="border:1px solid #cdcdcd; padding:10px; background-color:white;">
                                 <h4>{% trans 'List of Passenger' %}</h4>
                                 <hr/>
+                                <div style="overflow:auto;">
+                                    <table>
+                                        <tr>
+                                            <th style="width:35%">{% trans 'Name' %}</th>
+                                            <th style="width:15%">{% trans 'Birth Date' %}</th>
+                                            <th style="width:15%">{% trans 'ID Type' %}</th>
+                                            <th style="width:20%">{% trans 'ID Number' %}</th>
+                                            {% if vendor == 'periksain' %}
+                                            <th style="width:15%">{% trans 'Sample Method' %}</th>
+                                            {% endif %}
+                                        </tr>
+                                        {% for adult in data.passengers%}
+                                        <tr>
+                                            <td>{{adult.title}} {{adult.first_name}} {{adult.last_name}}</td>
+                                            <td>{{adult.birth_date}}</td>
+                                            <td>{{adult.identity.identity_type}}</td>
+                                            <td>{{adult.identity.identity_number}}</td>
+                                            {% if vendor == 'periksain' %}
+                                            <td>{{adult.sample_method}}</td>
+                                            {% endif %}
+                                        </tr>
+                                        {% endfor %}
 
-                                <table style="width:100%;">
-                                    <tr>
-                                        <th>{% trans 'Name' %}</th>
-                                        <th>{% trans 'Birth Date' %}</th>
-                                        <th>{% trans 'ID Type' %}</th>
-                                        <th>{% trans 'ID Number' %}</th>
-                                        {% if vendor == 'periksain' %}
-                                        <th>{% trans 'Sample Method' %}</th>
-                                        {% endif %}
-                                    </tr>
-                                    {% for adult in data.passengers%}
-                                    <tr>
-                                        <td>{{adult.title}} {{adult.first_name}} {{adult.last_name}}</td>
-                                        <td>{{adult.birth_date}}</td>
-                                        <td>{{adult.identity.identity_type}}</td>
-                                        <td>{{adult.identity.identity_number}}</td>
-                                        {% if vendor == 'periksain' %}
-                                        <td>{{adult.sample_method}}</td>
-                                        {% endif %}
-                                    </tr>
-                                    {% endfor %}
-
-                                </table>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>

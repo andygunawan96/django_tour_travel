@@ -3013,6 +3013,8 @@ function clear_passenger(type, sequence){
                         }catch(err){}
                     }
 
+                    clear_text_medical(parseInt(sequence)-1);
+
                 }catch(err){console.log(err);}
             }
         })
