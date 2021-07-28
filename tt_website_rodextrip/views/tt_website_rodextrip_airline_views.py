@@ -1132,6 +1132,14 @@ def review(request):
                         except Exception as e:
                             _logger.error('FF not found in  POST' + str(e) + '\n' + traceback.format_exc())
                         counter += 1
+
+                    passport_number = ''
+                    passport_ed = ''
+                    passport_country_of_issued = ''
+                    if request.POST['adult_passport_number' + str(i + 1)] and request.POST['adult_passport_expired_date' + str(i + 1)] and request.POST['adult_country_of_issued' + str(i + 1)]:
+                        passport_number = request.POST['adult_passport_number' + str(i + 1)]
+                        passport_ed = request.POST['adult_passport_expired_date' + str(i + 1)]
+                        passport_country_of_issued = request.POST['adult_country_of_issued' + str(i + 1)]
                     adult.append({
                         "pax_type": "ADT",
                         "first_name": request.POST['adult_first_name' + str(i + 1)],
@@ -1139,9 +1147,9 @@ def review(request):
                         "title": request.POST['adult_title' + str(i + 1)],
                         "birth_date": request.POST.get('adult_birth_date' + str(i + 1)),
                         "nationality_name": request.POST['adult_nationality' + str(i + 1)],
-                        "identity_country_of_issued_name": request.POST['adult_country_of_issued' + str(i + 1)],
-                        "identity_expdate": request.POST['adult_passport_expired_date' + str(i + 1)],
-                        "identity_number": request.POST['adult_passport_number' + str(i + 1)],
+                        "identity_country_of_issued_name": passport_country_of_issued,
+                        "identity_expdate": passport_ed,
+                        "identity_number": passport_number,
                         "passenger_seq_id": request.POST['adult_id' + str(i + 1)],
                         "identity_type": "passport",
                         "ff_numbers": ff_number
@@ -1237,6 +1245,14 @@ def review(request):
                         except Exception as e:
                             _logger.error('FF not found in  POST' + str(e) + '\n' + traceback.format_exc())
                         counter += 1
+
+                    passport_number = ''
+                    passport_ed = ''
+                    passport_country_of_issued = ''
+                    if request.POST['child_passport_number' + str(i + 1)] and request.POST['child_passport_expired_date' + str(i + 1)] and request.POST['child_country_of_issued' + str(i + 1)]:
+                        passport_number = request.POST['child_passport_number' + str(i + 1)]
+                        passport_ed = request.POST['child_passport_expired_date' + str(i + 1)]
+                        passport_country_of_issued = request.POST['child_country_of_issued' + str(i + 1)]
                     child.append({
                         "pax_type": "CHD",
                         "first_name": request.POST['child_first_name' + str(i + 1)],
@@ -1244,15 +1260,22 @@ def review(request):
                         "title": request.POST['child_title' + str(i + 1)],
                         "birth_date": request.POST['child_birth_date' + str(i + 1)],
                         "nationality_name": request.POST['child_nationality' + str(i + 1)],
-                        "identity_number": request.POST['child_passport_number' + str(i + 1)],
-                        "identity_expdate": request.POST['child_passport_expired_date' + str(i + 1)],
-                        "identity_country_of_issued_name": request.POST['child_country_of_issued' + str(i + 1)],
+                        "identity_number": passport_number,
+                        "identity_expdate": passport_ed,
+                        "identity_country_of_issued_name": passport_country_of_issued,
                         "passenger_seq_id": request.POST['child_id' + str(i + 1)],
                         "identity_type": "passport",
                         "ff_numbers": ff_number
                     })
 
                 for i in range(int(request.session['airline_request']['infant'])):
+                    passport_number = ''
+                    passport_ed = ''
+                    passport_country_of_issued = ''
+                    if request.POST['infant_passport_number' + str(i + 1)] and request.POST['infant_passport_expired_date' + str(i + 1)] and request.POST['infant_country_of_issued' + str(i + 1)]:
+                        passport_number = request.POST['infant_passport_number' + str(i + 1)]
+                        passport_ed = request.POST['infant_passport_expired_date' + str(i + 1)]
+                        passport_country_of_issued = request.POST['infant_country_of_issued' + str(i + 1)]
                     infant.append({
                         "pax_type": "INF",
                         "first_name": request.POST['infant_first_name' + str(i + 1)],
@@ -1260,9 +1283,9 @@ def review(request):
                         "title": request.POST['infant_title' + str(i + 1)],
                         "birth_date": request.POST['infant_birth_date' + str(i + 1)],
                         "nationality_name": request.POST['infant_nationality' + str(i + 1)],
-                        "identity_number": request.POST['infant_passport_number' + str(i + 1)],
-                        "identity_expdate": request.POST['infant_passport_expired_date' + str(i + 1)],
-                        "identity_country_of_issued_name": request.POST['infant_country_of_issued' + str(i + 1)],
+                        "identity_number": passport_number,
+                        "identity_expdate": passport_ed,
+                        "identity_country_of_issued_name": passport_country_of_issued,
                         "passenger_seq_id": request.POST['infant_id' + str(i + 1)],
                         "identity_type": "passport",
                     })

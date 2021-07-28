@@ -3616,6 +3616,18 @@ function airline_detail(type){
                     $text += price_itinerary_temp[i].journeys[j].segments[k].departure_date + ' → ' + price_itinerary_temp[i].journeys[j].segments[k].arrival_date + '\n';
                     $text += price_itinerary_temp[i].journeys[j].segments[k].origin_name + ' (' + price_itinerary_temp[i].journeys[j].segments[k].origin_city + ') - ';
                     $text += price_itinerary_temp[i].journeys[j].segments[k].destination_name + ' (' + price_itinerary_temp[i].journeys[j].segments[k].destination_city + ')\n\n';
+                    text += `<span style="float:right;">`;
+                    if(price_itinerary_temp[i].journeys[j].segments[k].fares[0].cabin_class != '')
+                        if(price_itinerary_temp[i].journeys[j].segments[k].fares[0].cabin_class == 'Y')
+                            text += 'Economy';
+                        else if(price_itinerary_temp[i].journeys[j].segments[k].fares[0].cabin_class == 'W')
+                            text += 'Premium Economy';
+                        else if(price_itinerary_temp[i].journeys[j].segments[k].fares[0].cabin_class == 'C')
+                            text += 'Business ';
+                        else if(price_itinerary_temp[i].journeys[j].segments[k].fares[0].cabin_class == 'F')
+                            text += 'First Class';
+                    text+=`<br/>Class: ` + price_itinerary_temp[i].journeys[j].segments[k].fares[0].class_of_service;
+                    text+=`</span>`;
 
                     text+=`
                     <div class="row">
@@ -3636,7 +3648,8 @@ function airline_detail(type){
                                 </tr>
                             </table>
                             <span style="font-size:13px;">`+price_itinerary_temp[i].journeys[j].segments[k].departure_date.split(' - ')[0]+`</span></br>
-                            <span style="font-size:13px; font-weight:500;">`+price_itinerary_temp[i].journeys[j].segments[k].origin_city+` (`+price_itinerary_temp[i].journeys[j].segments[k].origin+`)</span>
+                            <span style="font-size:13px; font-weight:500;">`+price_itinerary_temp[i].journeys[j].segments[k].origin_city+` (`+price_itinerary_temp[i].journeys[j].segments[k].origin+`)</span><br/>
+                            <span style="font-size:13px; font-weight:500;">Terminal: `+price_itinerary_temp[i].journeys[j].segments[k].origin_terminal+`</span><br/>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                             <table style="width:100%; margin-bottom:6px;">
@@ -3647,7 +3660,8 @@ function airline_detail(type){
                                 </tr>
                             </table>
                             <span style="font-size:13px;">`+price_itinerary_temp[i].journeys[j].segments[k].arrival_date.split(' - ')[0]+`</span><br/>
-                            <span style="font-size:13px; font-weight:500;">`+price_itinerary_temp[i].journeys[j].segments[k].destination_city+` (`+price_itinerary_temp[i].journeys[j].segments[k].destination+`)</span>
+                            <span style="font-size:13px; font-weight:500;">`+price_itinerary_temp[i].journeys[j].segments[k].destination_city+` (`+price_itinerary_temp[i].journeys[j].segments[k].destination+`)</span><br/>
+                            <span style="font-size:13px; font-weight:500;">Terminal: `+price_itinerary_temp[i].journeys[j].segments[k].destination_terminal+`</span><br/>
                         </div>
                     </div>`;
                     for(l in price_itinerary_temp[i].journeys[j].segments[k].legs){
@@ -3683,7 +3697,7 @@ function airline_detail(type){
                                                     <span style="font-size:13px; font-weight:500;">`+airline_request.adult+`x Adult Fare @`+airline_price[price_counter].ADT.currency +' '+getrupiah(Math.ceil(airline_price[price_counter].ADT.fare))+`</span><br/>
                                                 </div>
                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:left;">
-                                                    <span style="font-size:13px; font-weight:500;">    Tax @`+airline_price[price_counter].ADT.currency+` `+getrupiah(price)+`</span>
+                                                    <span style="font-size:13px; font-weight:500;">    Tax @`+airline_price[price_counter].ADT.currency+` `+getrupiah(Math.ceil(price))+`</span>
                                                 </div>
                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:right;">
                                                     <span style="font-size:13px; font-weight:500;">`+airline_price[price_counter].ADT.currency+` `+getrupiah(Math.ceil((airline_price[price_counter].ADT.fare+price) * airline_request.adult))+`</span>
@@ -3725,7 +3739,7 @@ function airline_detail(type){
                                                     <span style="font-size:13px; font-weight:500;">`+airline_request.child+`x Child Fare @`+airline_price[price_counter].CHD.currency +' '+getrupiah(Math.ceil(airline_price[price_counter].CHD.fare))+`</span><br/>
                                                 </div>
                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:left;">
-                                                    <span style="font-size:13px; font-weight:500;">Tax @`+airline_price[price_counter].CHD.currency+` `+price+`</span>
+                                                    <span style="font-size:13px; font-weight:500;">Tax @`+airline_price[price_counter].CHD.currency+` `+getrupiah(Math.ceil(price))+`</span>
                                                 </div>
                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:right;">
                                                     <span style="font-size:13px; font-weight:500;">`+airline_price[price_counter].CHD.currency+` `+getrupiah(Math.ceil((airline_price[price_counter].CHD.fare+price) * airline_request.child))+`</span>
@@ -3772,7 +3786,7 @@ function airline_detail(type){
                                                     <span style="font-size:13px; font-weight:500;">`+airline_request.infant+`x Infant Fare @`+airline_price[price_counter].INF.currency +' '+getrupiah(Math.ceil(airline_price[price_counter].INF.fare))+`</span><br/>
                                                 </div>
                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:left;">
-                                                    <span style="font-size:13px; font-weight:500;">    Tax @`+airline_price[price_counter].INF.currency+` `+price+`</span>
+                                                    <span style="font-size:13px; font-weight:500;">    Tax @`+airline_price[price_counter].INF.currency+` `+getrupiah(Math.ceil(price))+`</span>
                                                 </div>
                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:right;">
                                                     <span style="font-size:13px; font-weight:500;">`+airline_price[price_counter].INF.currency+` `+getrupiah(Math.ceil((airline_price[price_counter].INF.fare+price) * airline_request.infant))+`</span>
@@ -4294,30 +4308,32 @@ function check_passenger(adult, child, infant){
        }else{
            document.getElementById('adult_nationality'+i).style['border-color'] = '#EFEFEF';
        }
-       if(document.getElementById('adult_passport_number'+i).value != '' ||
-          document.getElementById('adult_passport_expired_date'+i).value != '' ||
-          document.getElementById('adult_country_of_issued'+i).value != '' || is_lionair == 'true' && is_international == 'true'){
-           if(document.getElementById('adult_passport_number'+i).value == ''){
-               error_log+= 'Please fill passport number for passenger adult '+i+'!</br>\n';
-               document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
-           }else{
-               document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
-           }if(document.getElementById('adult_passport_expired_date'+i).value == ''){
-               error_log+= 'Please fill passport expired date for passenger adult '+i+'!</br>\n';
-               document.getElementById('adult_passport_expired_date'+i).style['border-color'] = 'red';
-           }else{
-               document.getElementById('adult_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
-           }if(document.getElementById('adult_country_of_issued'+i).value == ''){
-               error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
-               document.getElementById('adult_country_of_issued'+i).style['border-color'] = 'red';
-           }else{
-               document.getElementById('adult_country_of_issued'+i).style['border-color'] = '#EFEFEF';
-           }if(birth_date_required == false){
-               if(check_date(document.getElementById('adult_birth_date'+i).value)==false){
-                   error_log+= 'Birth date wrong for passenger adult '+i+'!</br>\n';
-                   document.getElementById('adult_birth_date'+i).style['border-color'] = 'red';
+       if(document.getElementById('adult_identity_type'+i).style.hidden == 'block'){
+           if(document.getElementById('adult_passport_number'+i).value != '' ||
+              document.getElementById('adult_passport_expired_date'+i).value != '' ||
+              document.getElementById('adult_country_of_issued'+i).value != '' || is_lionair == 'true' && is_international == 'true'){
+               if(document.getElementById('adult_passport_number'+i).value == ''){
+                   error_log+= 'Please fill passport number for passenger adult '+i+'!</br>\n';
+                   document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
                }else{
-                   document.getElementById('adult_birth_date'+i).style['border-color'] = '#EFEFEF';
+                   document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
+               }if(document.getElementById('adult_passport_expired_date'+i).value == ''){
+                   error_log+= 'Please fill passport expired date for passenger adult '+i+'!</br>\n';
+                   document.getElementById('adult_passport_expired_date'+i).style['border-color'] = 'red';
+               }else{
+                   document.getElementById('adult_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+               }if(document.getElementById('adult_country_of_issued'+i).value == ''){
+                   error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
+                   document.getElementById('adult_country_of_issued'+i).style['border-color'] = 'red';
+               }else{
+                   document.getElementById('adult_country_of_issued'+i).style['border-color'] = '#EFEFEF';
+               }if(birth_date_required == false){
+                   if(check_date(document.getElementById('adult_birth_date'+i).value)==false){
+                       error_log+= 'Birth date wrong for passenger adult '+i+'!</br>\n';
+                       document.getElementById('adult_birth_date'+i).style['border-color'] = 'red';
+                   }else{
+                       document.getElementById('adult_birth_date'+i).style['border-color'] = '#EFEFEF';
+                   }
                }
            }
        }if(document.getElementById('adult_cp'+i).checked == true){
@@ -4399,24 +4415,27 @@ function check_passenger(adult, child, infant){
            document.getElementById('child_nationality'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('child_nationality'+i).style['border-color'] = '#EFEFEF';
-       }if(document.getElementById('child_passport_number'+i).value != '' ||
-          document.getElementById('child_passport_expired_date'+i).value != '' ||
-          document.getElementById('child_country_of_issued'+i).value != '' || is_lionair == 'true' && is_international == 'true'){
-           if(document.getElementById('child_passport_number'+i).value == ''){
-               error_log+= 'Please fill passport number for passenger child '+i+'!</br>\n';
-               document.getElementById('child_passport_number'+i).style['border-color'] = 'red';
-           }else{
-               document.getElementById('child_passport_number'+i).style['border-color'] = '#EFEFEF';
-           }if(document.getElementById('child_passport_expired_date'+i).value == ''){
-               error_log+= 'Please fill passport expired date for passenger child '+i+'!</br>\n';
-               document.getElementById('child_passport_expired_date'+i).style['border-color'] = 'red';
-           }else{
-               document.getElementById('child_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
-           }if(document.getElementById('child_country_of_issued'+i).value == ''){
-               error_log+= 'Please fill country of issued for passenger child '+i+'!</br>\n';
-               document.getElementById('child_country_of_issued'+i).style['border-color'] = 'red';
-           }else{
-               document.getElementById('child_country_of_issued'+i).style['border-color'] = '#EFEFEF';
+       }
+       if(document.getElementById('child_identity_type'+i).style.hidden == 'block'){
+           if(document.getElementById('child_passport_number'+i).value != '' ||
+              document.getElementById('child_passport_expired_date'+i).value != '' ||
+              document.getElementById('child_country_of_issued'+i).value != '' || is_lionair == 'true' && is_international == 'true'){
+               if(document.getElementById('child_passport_number'+i).value == ''){
+                   error_log+= 'Please fill passport number for passenger child '+i+'!</br>\n';
+                   document.getElementById('child_passport_number'+i).style['border-color'] = 'red';
+               }else{
+                   document.getElementById('child_passport_number'+i).style['border-color'] = '#EFEFEF';
+               }if(document.getElementById('child_passport_expired_date'+i).value == ''){
+                   error_log+= 'Please fill passport expired date for passenger child '+i+'!</br>\n';
+                   document.getElementById('child_passport_expired_date'+i).style['border-color'] = 'red';
+               }else{
+                   document.getElementById('child_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+               }if(document.getElementById('child_country_of_issued'+i).value == ''){
+                   error_log+= 'Please fill country of issued for passenger child '+i+'!</br>\n';
+                   document.getElementById('child_country_of_issued'+i).style['border-color'] = 'red';
+               }else{
+                   document.getElementById('child_country_of_issued'+i).style['border-color'] = '#EFEFEF';
+               }
            }
        }if(ff_request.length != 0 && check_ff == 1){
            for(j=1;j<=ff_request.length;j++){
@@ -4486,24 +4505,27 @@ function check_passenger(adult, child, infant){
            document.getElementById('infant_nationality'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('infant_nationality'+i).style['border-color'] = '#EFEFEF';
-       }if(document.getElementById('infant_passport_number'+i).value != '' ||
-          document.getElementById('infant_passport_expired_date'+i).value != '' ||
-          document.getElementById('infant_country_of_issued'+i).value != '' || is_lionair == 'true' && is_international == 'true'){
-           if(document.getElementById('infant_passport_number'+i).value == ''){
-               error_log+= 'Please fill passport number for passenger infant '+i+'!</br>\n';
-               document.getElementById('infant_passport_number'+i).style['border-color'] = 'red';
-           }else{
-               document.getElementById('infant_passport_number'+i).style['border-color'] = '#EFEFEF';
-           }if(document.getElementById('infant_passport_expired_date'+i).value == ''){
-               error_log+= 'Please fill passport expired date for passenger infant '+i+'!</br>\n';
-               document.getElementById('infant_passport_expired_date'+i).style['border-color'] = 'red';
-           }else{
-               document.getElementById('infant_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
-           }if(document.getElementById('infant_country_of_issued'+i).value == ''){
-               error_log+= 'Please fill country of issued for passenger infant '+i+'!</br>\n';
-               document.getElementById('infant_country_of_issued'+i).style['border-color'] = 'red';
-           }else{
-               document.getElementById('infant_country_of_issued'+i).style['border-color'] = '#EFEFEF';
+       }
+       if(document.getElementById('infant_identity_type'+i).style.hidden == 'block'){
+           if(document.getElementById('infant_passport_number'+i).value != '' ||
+              document.getElementById('infant_passport_expired_date'+i).value != '' ||
+              document.getElementById('infant_country_of_issued'+i).value != '' || is_lionair == 'true' && is_international == 'true'){
+               if(document.getElementById('infant_passport_number'+i).value == ''){
+                   error_log+= 'Please fill passport number for passenger infant '+i+'!</br>\n';
+                   document.getElementById('infant_passport_number'+i).style['border-color'] = 'red';
+               }else{
+                   document.getElementById('infant_passport_number'+i).style['border-color'] = '#EFEFEF';
+               }if(document.getElementById('infant_passport_expired_date'+i).value == ''){
+                   error_log+= 'Please fill passport expired date for passenger infant '+i+'!</br>\n';
+                   document.getElementById('infant_passport_expired_date'+i).style['border-color'] = 'red';
+               }else{
+                   document.getElementById('infant_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+               }if(document.getElementById('infant_country_of_issued'+i).value == ''){
+                   error_log+= 'Please fill country of issued for passenger infant '+i+'!</br>\n';
+                   document.getElementById('infant_country_of_issued'+i).style['border-color'] = 'red';
+               }else{
+                   document.getElementById('infant_country_of_issued'+i).style['border-color'] = '#EFEFEF';
+               }
            }
        }
 
