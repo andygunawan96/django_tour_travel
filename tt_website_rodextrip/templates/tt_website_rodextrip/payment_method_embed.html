@@ -192,8 +192,8 @@
                                     </div>
                                     <div class="col-sm-6 mb-2">
                                         <div class="panel panel-default">
-                                            <div class="panel-body-n">
-                                                {{time_limit}}
+                                            <div class="panel-body-n" id="timelimit">
+
                                             </div>
                                         </div>
                                     </div>
@@ -292,8 +292,8 @@
                                 <span class="sub-label">Transfer Due Date</span>
 
                                 <div class="panel panel-default">
-                                    <div class="panel-body-n">
-                                        {{time_limit}}
+                                    <div class="panel-body-n" id="timelimit">
+
                                     </div>
                                 </div>
                             </div>
@@ -488,8 +488,8 @@ try{
                                     </div>
                                     <div class="col-sm-6 mb-2">
                                         <div class="panel panel-default">
-                                            <div class="panel-body-n">
-                                                {{time_limit}}
+                                            <div class="panel-body-n" id="timelimit">
+
                                             </div>
                                         </div>
                                     </div>
@@ -547,6 +547,17 @@ document.getElementById("btn_done").onclick = function() {window.location='/{{pr
 
 {% endif %}
 <script>
+    //DI GANTI KE JS AGAR BISA DAPAT LOCAL TIME
+    var nomor_rekening = '{{nomor_rekening}}';
+    var tes = moment.utc('{{time_limit}}');
+    if(nomor_rekening == '')
+        tes.subtract(16,'minutes');
+    tes = tes.format('YYYY-MM-DD HH:mm:ss');
+    var localTime  = moment.utc(tes).toDate();
+    var timelimit = moment(localTime).format('DD MMM YYYY HH:mm');
+    document.getElementById('timelimit').innerHTML = timelimit;
+
+
     function div_dropdown(type){
         var general_down = document.getElementById('down_'+type);
         var general_up = document.getElementById('up_'+type);
