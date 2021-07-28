@@ -979,7 +979,7 @@ function add_table_of_passenger(type){
                         </div>
                     </div>`;
 
-                    if(test_type.includes('PCR')){
+                    if(vendor == 'phc' && test_type.includes('PCR')){
                         text_div_paxs+=`
                         <div class="col-lg-6 col-md-6 col-sm-6" id="adult_hamil_div`+parseInt(counter_passenger+1)+`" style="margin-top:15px;" hidden>
                             <label style="color:red !important">*</label>
