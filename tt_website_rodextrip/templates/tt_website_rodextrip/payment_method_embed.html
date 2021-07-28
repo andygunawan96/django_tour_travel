@@ -550,7 +550,7 @@ document.getElementById("btn_done").onclick = function() {window.location='/{{pr
     //DI GANTI KE JS AGAR BISA DAPAT LOCAL TIME
     var nomor_rekening = '{{nomor_rekening}}';
     var tes = moment.utc('{{time_limit}}');
-    if(nomor_rekening == '')
+    if(nomor_rekening != '')
         tes.subtract(16,'minutes');
     tes = tes.format('YYYY-MM-DD HH:mm:ss');
     var localTime  = moment.utc(tes).toDate();
