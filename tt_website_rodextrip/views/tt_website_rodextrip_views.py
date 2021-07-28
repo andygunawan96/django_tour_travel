@@ -427,7 +427,7 @@ def payment_method(request, provider, order_number):
     data_payment = []
     data = get_order_number_frontend(data)
     if data['result']['error_code'] == 0:
-        time_limit = convert_string_to_date_to_string_front_end_with_time(to_date_now((datetime.strptime(data['result']['response']['time_limit'], '%Y-%m-%d %H:%M:%S') - timedelta(minutes=16)).strftime('%Y-%m-%d %H:%M:%S')))
+        time_limit = data['result']['response']['time_limit']
         nomor_rekening = data['result']['response']['nomor_rekening']
         amount = data['result']['response']['amount']
         va_number = data['result']['response']['va_number']
