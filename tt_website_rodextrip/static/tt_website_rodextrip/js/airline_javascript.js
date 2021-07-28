@@ -3683,7 +3683,7 @@ function airline_detail(type){
                                                     <span style="font-size:13px; font-weight:500;">`+airline_request.adult+`x Adult Fare @`+airline_price[price_counter].ADT.currency +' '+getrupiah(Math.ceil(airline_price[price_counter].ADT.fare))+`</span><br/>
                                                 </div>
                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:left;">
-                                                    <span style="font-size:13px; font-weight:500;">    Tax @`+airline_price[price_counter].ADT.currency+` `+getrupiah(price)+`</span>
+                                                    <span style="font-size:13px; font-weight:500;">    Tax @`+airline_price[price_counter].ADT.currency+` `+getrupiah(Math.ceil(price))+`</span>
                                                 </div>
                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:right;">
                                                     <span style="font-size:13px; font-weight:500;">`+airline_price[price_counter].ADT.currency+` `+getrupiah(Math.ceil((airline_price[price_counter].ADT.fare+price) * airline_request.adult))+`</span>
@@ -3725,7 +3725,7 @@ function airline_detail(type){
                                                     <span style="font-size:13px; font-weight:500;">`+airline_request.child+`x Child Fare @`+airline_price[price_counter].CHD.currency +' '+getrupiah(Math.ceil(airline_price[price_counter].CHD.fare))+`</span><br/>
                                                 </div>
                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:left;">
-                                                    <span style="font-size:13px; font-weight:500;">Tax @`+airline_price[price_counter].CHD.currency+` `+price+`</span>
+                                                    <span style="font-size:13px; font-weight:500;">Tax @`+airline_price[price_counter].CHD.currency+` `+getrupiah(Math.ceil(price))+`</span>
                                                 </div>
                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:right;">
                                                     <span style="font-size:13px; font-weight:500;">`+airline_price[price_counter].CHD.currency+` `+getrupiah(Math.ceil((airline_price[price_counter].CHD.fare+price) * airline_request.child))+`</span>
@@ -3772,7 +3772,7 @@ function airline_detail(type){
                                                     <span style="font-size:13px; font-weight:500;">`+airline_request.infant+`x Infant Fare @`+airline_price[price_counter].INF.currency +' '+getrupiah(Math.ceil(airline_price[price_counter].INF.fare))+`</span><br/>
                                                 </div>
                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:left;">
-                                                    <span style="font-size:13px; font-weight:500;">    Tax @`+airline_price[price_counter].INF.currency+` `+price+`</span>
+                                                    <span style="font-size:13px; font-weight:500;">    Tax @`+airline_price[price_counter].INF.currency+` `+getrupiah(Math.ceil(price))+`</span>
                                                 </div>
                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:right;">
                                                     <span style="font-size:13px; font-weight:500;">`+airline_price[price_counter].INF.currency+` `+getrupiah(Math.ceil((airline_price[price_counter].INF.fare+price) * airline_request.infant))+`</span>
