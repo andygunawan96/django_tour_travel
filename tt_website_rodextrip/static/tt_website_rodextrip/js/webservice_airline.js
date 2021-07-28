@@ -6930,8 +6930,6 @@ function datareissue2(airline){
                             can_book = false;
                        for(m in airline[i].schedules[j].journeys[k].segments[l].fares){
                            airline[i].schedules[j].journeys[k].segments[l].fare_pick = 0;
-                           if(airline_request.adult + airline_request.child < airline[i].schedules[j].journeys[k].segments[l].fares[m].available_count)
-                                can_book = false;
                            for(n in airline[i].schedules[j].journeys[k].segments[l].fares[m].service_charge_summary){
                                if(airline[i].schedules[j].journeys[k].segments[l].fares[m].service_charge_summary[n].pax_type == 'ADT'){
                                    for(o in airline[i].schedules[j].journeys[k].segments[l].fares[m].service_charge_summary[n].service_charges){
