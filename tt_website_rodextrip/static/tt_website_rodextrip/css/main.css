@@ -9240,3 +9240,20 @@ ul.progress_tabs li.current .image-rounded-icon{
   font-weight:bold;
   color:black;
 }
+
+.img-phc-priksain{
+    margin-bottom: 15px;
+    background: white;
+    width: auto;
+    height:120px;
+}
+
+@media (max-width: 575px) {
+    .img-phc-priksain{
+        margin-bottom: 15px;
+        background: white;
+        width: auto;
+        height:70px;
+    }
+}
+

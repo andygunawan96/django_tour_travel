@@ -842,6 +842,7 @@ function get_public_holiday(start_date, end_date, country_id){
                         tempMonth=""+(month+1);
                     }
 
+
                     if (calendar[row][col].date() < 10){
                         tempDate="0"+calendar[row][col].date();
                     }
@@ -861,29 +862,6 @@ function get_public_holiday(start_date, end_date, country_id){
                                 if (calendar[row][col].month() == calendar[1][1].month()){
                                     footer += '<div style="margin-bottom:10px;"><span style="font-size:12px; color:red; padding:3px; border:1px solid black; background:#f7f7f7;"> ' + tempDateRender2 + '</span> <span style="font-size:12px;"> '+ date_api.result.response[i].name +' </span></div>';
                                     classes.push('holiday');
-                                }
-                            }
-                        }
-                    }
-                    catch(err){}
-
-                    try{
-                        if(this.locale.productDate == 'medical'){
-                            if(this.locale.dataDate.length != 0){
-                                cname_available = cname.includes("available");
-                                cname_off = cname.includes("off");
-                                disable_date = 0;
-
-                                if(cname_available == true){
-                                    for (data_rg in this.locale.dataDate){
-                                        if(this.locale.dataDate[data_rg] == tempDateRender){
-                                            disable_date = 1;
-                                        }
-                                    }
-                                    if(disable_date == 0){
-                                        classes.push('off', 'disabled');
-                                        custom_disabled_date.push(tempDateRender);
-                                    }
                                 }
                             }
                         }

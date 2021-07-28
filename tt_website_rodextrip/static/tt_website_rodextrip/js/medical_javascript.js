@@ -114,8 +114,16 @@ function add_other_time(type='add'){
             opens: 'center',
             locale: {
                 format: 'DD MMM YYYY',
-                productDate: 'medical',
-                dataDate: test_date_data,
+            },
+            isInvalidDate: function(date) {
+                for (data_rg in test_date_data){
+                    var invalid_date_medical = moment(test_date_data[data_rg]).format('YYYY-MM-DD');
+                    var invalid_date_calendar = moment(date).format('YYYY-MM-DD');
+                    if(invalid_date_calendar == invalid_date_medical){
+                        return false;
+                    }
+                }
+                return true;
             }
         });
         $('input[name="booker_test_date'+test_time+'"]').on('apply.daterangepicker', function(ev, picker) {
@@ -175,8 +183,16 @@ function add_other_time(type='add'){
                     opens: 'center',
                     locale: {
                         format: 'DD MMM YYYY',
-                        productDate: 'medical',
-                        dataDate: test_date_data,
+                    },
+                    isInvalidDate: function(date) {
+                        for (data_rg in test_date_data){
+                            var invalid_date_medical = moment(test_date_data[data_rg]).format('YYYY-MM-DD');
+                            var invalid_date_calendar = moment(date).format('YYYY-MM-DD');
+                            if(invalid_date_calendar == invalid_date_medical){
+                                return false;
+                            }
+                        }
+                        return true;
                     }
                 });
                 document.getElementById('booker_test_date'+nomor_test).value = schedule_medical.test_list[x].date;
@@ -298,7 +314,7 @@ function add_table_of_passenger_verify(type){
                         </button>`;
                     }
                     text+=`
-                        <button type="button" id="button_clear`+counter_passenger+`" class="primary-btn" style="background:#c73912; width:90px; height:40px; margin-bottom:5px; font-size:12px; padding-left:12px; padding-right:12px; line-height:30px; font-weight:700;" onclick="clear_passenger('Medical',`+(parseInt(counter_passenger)+1)+`); clear_text_medical(`+counter_passenger+`);">
+                        <button type="button" id="button_clear`+counter_passenger+`" class="primary-btn" style="background:#c73912; width:90px; height:40px; margin-bottom:5px; font-size:12px; padding-left:12px; padding-right:12px; line-height:30px; font-weight:700;" onclick="clear_passenger('Medical',`+(parseInt(counter_passenger)+1)+`);">
                             Clear <i class="fas fa-times"></i>
                         </button>
                     </div>
@@ -790,7 +806,7 @@ function add_table_of_passenger(type){
                         </button>`;
                     }
                     text+=`
-                        <button type="button" id="button_clear`+counter_passenger+`" class="primary-btn" style="background:#c73912; width:90px; height:40px; margin-bottom:5px; font-size:12px; padding-left:12px; padding-right:12px; line-height:30px; font-weight:700;" onclick="clear_passenger('Medical',`+(parseInt(counter_passenger)+1)+`); clear_text_medical(`+counter_passenger+`);">
+                        <button type="button" id="button_clear`+counter_passenger+`" class="primary-btn" style="background:#c73912; width:90px; height:40px; margin-bottom:5px; font-size:12px; padding-left:12px; padding-right:12px; line-height:30px; font-weight:700;" onclick="clear_passenger('Medical',`+(parseInt(counter_passenger)+1)+`);">
                             Clear <i class="fas fa-times"></i>
                         </button>
                     </div>
@@ -848,7 +864,7 @@ function add_table_of_passenger(type){
 
     text_div_paxs+=`
         <div class="row">
-            <div class="col-lg-12" id="adult_paxs`+parseInt(counter_passenger+1)+`" style="padding:15px 15px 0px 15px; border-top:1px solid #cdcdcd; border-bottom:1px solid #cdcdcd;">
+            <div class="col-lg-12" id="adult_paxs`+parseInt(counter_passenger+1)+`" style="padding:15px; border-top:1px solid #cdcdcd; border-bottom:1px solid #cdcdcd;">
                 <div class="row">
                     <div class="col-lg-12 mb-3" style="text-align:center;">
                         <h3 style="color:`+color+`; border-bottom:2px solid `+color+`;">
@@ -1111,7 +1127,7 @@ function add_table_of_passenger(type){
                         <label style="color:red !important">*</label>
                         <label>Birth Date</label>
                         <div class="input-container-search-ticket" style="margin-bottom:5px;">
-                            <input type="text" class="form-control date-picker-birth" name="adult_birth_date`+parseInt(counter_passenger+1)+`" id="adult_birth_date`+parseInt(counter_passenger+1)+`" onchange="check_years_old(`+parseInt(counter_passenger+1)+`)" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
+                            <input type="text" style="background:white !important;" class="form-control date-picker-birth" name="adult_birth_date`+parseInt(counter_passenger+1)+`" id="adult_birth_date`+parseInt(counter_passenger+1)+`" onchange="check_years_old(`+parseInt(counter_passenger+1)+`)" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                             <input type="hidden" class="form-control" name="adult_years_old`+parseInt(counter_passenger+1)+`" id="adult_years_old`+parseInt(counter_passenger+1)+`">
                         </div>
                     </div>`;
@@ -1794,14 +1810,14 @@ function add_table_of_passenger(type){
                             <label style="color:red !important">*</label>
                             <label>Address</label>
                             <div class="input-container-search-ticket" style="margin-bottom:5px;">
-                                <input type="text" class="form-control" name="adult_address`+parseInt(counter_passenger+1)+`" id="adult_address`+parseInt(counter_passenger+1)+`" placeholder="Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address '" >
+                                <input type="text" class="form-control" style="background:white;" name="adult_address`+parseInt(counter_passenger+1)+`" id="adult_address`+parseInt(counter_passenger+1)+`" placeholder="Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address '" >
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <label style="color:red !important">*</label>
                             <label>RT</label>
                             <div class="input-container-search-ticket" style="margin-bottom:5px;">
-                                <input type="text" maxlength="3" class="form-control" name="adult_rt`+parseInt(counter_passenger+1)+`" id="adult_rt`+parseInt(counter_passenger+1)+`" placeholder="RT " onfocus="this.placeholder = ''" onblur="this.placeholder = 'RT '" >
+                                <input type="text" maxlength="3" style="background:white;" class="form-control" name="adult_rt`+parseInt(counter_passenger+1)+`" id="adult_rt`+parseInt(counter_passenger+1)+`" placeholder="RT " onfocus="this.placeholder = ''" onblur="this.placeholder = 'RT '" >
                             </div>
 
                         </div>
@@ -1809,7 +1825,7 @@ function add_table_of_passenger(type){
                             <label style="color:red !important">*</label>
                             <label>RW</label>
                             <div class="input-container-search-ticket" style="margin-bottom:5px;">
-                                <input type="text" maxlength="3" class="form-control" name="adult_rw`+parseInt(counter_passenger+1)+`" id="adult_rw`+parseInt(counter_passenger+1)+`" placeholder="RW " onfocus="this.placeholder = ''" onblur="this.placeholder = 'RW '" >
+                                <input type="text" maxlength="3" style="background:white;" class="form-control" name="adult_rw`+parseInt(counter_passenger+1)+`" id="adult_rw`+parseInt(counter_passenger+1)+`" placeholder="RW " onfocus="this.placeholder = ''" onblur="this.placeholder = 'RW '" >
                             </div>
 
                         </div>`;
@@ -2044,7 +2060,7 @@ function add_table_of_passenger(type){
                                     <label style="color:red !important">*</label>
                                     <label>Tanggal Masuk RS</label>
                                     <div class="input-container-search-ticket">
-                                        <input type="text" class="form-control date-picker-birth" name="adult_tanggal_masuk_rs`+parseInt(counter_passenger+1)+`" id="adult_tanggal_masuk_rs`+parseInt(counter_passenger+1)+`" placeholder="Tanggal Masuk RS " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tanggal Masuk RS '" autocomplete="off" readonly>
+                                        <input type="text" style="background:white;" class="form-control date-picker-birth" name="adult_tanggal_masuk_rs`+parseInt(counter_passenger+1)+`" id="adult_tanggal_masuk_rs`+parseInt(counter_passenger+1)+`" placeholder="Tanggal Masuk RS " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tanggal Masuk RS '" autocomplete="off" readonly>
                                         <button type="button" class="primary-delete-date" onclick="clear_date('adult_tanggal_masuk_rs`+parseInt(counter_passenger+1)+`')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                     </div>
                                 </div>`;
@@ -2364,7 +2380,7 @@ function add_table_of_passenger(type){
                                     <label style="color:red !important">*</label>
                                     <label>Tanggal pertama kali gejala</label>
                                     <div class="input-container-search-ticket" style="margin-bottom:5px;">
-                                        <input type="text" class="form-control date-picker-birth" name="adult_tanggal_pertama_kali_gejala`+parseInt(counter_passenger+1)+`" id="adult_tanggal_pertama_kali_gejala`+parseInt(counter_passenger+1)+`" placeholder="Tanggal pertama kali gejala " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tanggal pertama kali gejala '" autocomplete="off" readonly>
+                                        <input type="text" style="background:white;" class="form-control date-picker-birth" name="adult_tanggal_pertama_kali_gejala`+parseInt(counter_passenger+1)+`" id="adult_tanggal_pertama_kali_gejala`+parseInt(counter_passenger+1)+`" placeholder="Tanggal pertama kali gejala " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tanggal pertama kali gejala '" autocomplete="off" readonly>
                                         <button type="button" class="primary-delete-date" onclick="clear_date('adult_tanggal_pertama_kali_gejala`+parseInt(counter_passenger+1)+`')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                     </div>
                                 </div>
@@ -3988,13 +4004,13 @@ function add_pcr_table(type, val){
                             <div class="col-lg-3 col-md-3">
                                 <div style="margin-bottom:5px;">
                                     <label>Tanggal Perjalanan</label><br/>
-                                    <input type="text" class="form-control date-picker-birth" name="adult_perjalanan_keluar_negeri_tanggal_perjalanan`+val+`_`+perjalanan_keluar_negeri+`" id="adult_perjalanan_keluar_negeri_tanggal_perjalanan`+val+`_`+perjalanan_keluar_negeri+`" placeholder="Tanggal Perjalanan " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tanggal Perjalanan '" autocomplete="off" readonly>
+                                    <input type="text" style="background:white;" class="form-control date-picker-birth" name="adult_perjalanan_keluar_negeri_tanggal_perjalanan`+val+`_`+perjalanan_keluar_negeri+`" id="adult_perjalanan_keluar_negeri_tanggal_perjalanan`+val+`_`+perjalanan_keluar_negeri+`" placeholder="Tanggal Perjalanan " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tanggal Perjalanan '" autocomplete="off" readonly>
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-3">
                                 <div style="margin-bottom:5px;">
                                     <label>Tiba Di Indonesia</label><br/>
-                                    <input type="text" class="form-control date-picker-birth" name="adult_perjalanan_keluar_negeri_tiba_di_indonesia`+val+`_`+perjalanan_keluar_negeri+`" id="adult_perjalanan_keluar_negeri_tiba_di_indonesia`+val+`_`+perjalanan_keluar_negeri+`" placeholder="Tanggal Tiba di Indonesia " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tanggal Tiba di Indonesia '" autocomplete="off">
+                                    <input type="text" style="background:white;" class="form-control date-picker-birth" name="adult_perjalanan_keluar_negeri_tiba_di_indonesia`+val+`_`+perjalanan_keluar_negeri+`" id="adult_perjalanan_keluar_negeri_tiba_di_indonesia`+val+`_`+perjalanan_keluar_negeri+`" placeholder="Tanggal Tiba di Indonesia " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tanggal Tiba di Indonesia '" autocomplete="off">
                                 </div>
                             </div>
                             <div class="col-lg-12" style="text-align:right;">
@@ -4053,13 +4069,13 @@ function add_pcr_table(type, val){
                             <div class="col-lg-3 col-md-3">
                                 <div style="margin-bottom:5px;">
                                     <label>Tanggal Perjalanan</label><br/>
-                                    <input type="text" class="form-control date-picker-birth" name="adult_perjalanan_ke_transmisi_lokal_tanggal_perjalanan`+val+`_`+perjalanan_ke_transmisi_lokal+`" id="adult_perjalanan_ke_transmisi_lokal_tanggal_perjalanan`+val+`_`+perjalanan_ke_transmisi_lokal+`" placeholder="Tanggal Perjalanan " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tanggal Perjalanan '" autocomplete="off" readonly>
+                                    <input type="text" style="background:white;" class="form-control date-picker-birth" name="adult_perjalanan_ke_transmisi_lokal_tanggal_perjalanan`+val+`_`+perjalanan_ke_transmisi_lokal+`" id="adult_perjalanan_ke_transmisi_lokal_tanggal_perjalanan`+val+`_`+perjalanan_ke_transmisi_lokal+`" placeholder="Tanggal Perjalanan " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tanggal Perjalanan '" autocomplete="off" readonly>
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-3">
                                 <div style="margin-bottom:5px;">
                                     <label>Tiba Di Sini</label><br/>
-                                    <input type="text" class="form-control date-picker-birth" name="adult_perjalanan_ke_transmisi_lokal_tiba_di_sini`+val+`_`+perjalanan_ke_transmisi_lokal+`" id="adult_perjalanan_ke_transmisi_lokal_tiba_di_sini`+val+`_`+perjalanan_ke_transmisi_lokal+`" placeholder="Tanggal Tiba Di Sini " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tanggal Tiba Di Sini '" autocomplete="off">
+                                    <input type="text" style="background:white;" class="form-control date-picker-birth" name="adult_perjalanan_ke_transmisi_lokal_tiba_di_sini`+val+`_`+perjalanan_ke_transmisi_lokal+`" id="adult_perjalanan_ke_transmisi_lokal_tiba_di_sini`+val+`_`+perjalanan_ke_transmisi_lokal+`" placeholder="Tanggal Tiba Di Sini " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tanggal Tiba Di Sini '" autocomplete="off">
                                 </div>
                             </div>
                             <div class="col-lg-12" style="text-align:right;">
@@ -4123,7 +4139,7 @@ function add_pcr_table(type, val){
                             <div class="col-lg-3 col-md-3">
                                 <div style="margin-bottom:5px;">
                                     <label>Tanggal Kunjungan</label><br/>
-                                    <input type="text" class="form-control date-picker-birth" name="adult_berkunjung_ke_fasilitas_kesehatan_tanggal_kunjungan`+val+`_`+berkunjung_ke_fasilitas_kesehatan+`" id="adult_berkunjung_ke_fasilitas_kesehatan_tanggal_kunjungan`+val+`_`+berkunjung_ke_fasilitas_kesehatan+`" placeholder="Tanggal Kunjungan " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tanggal Kunjungan '" autocomplete="off" readonly>
+                                    <input type="text" style="background:white;" class="form-control date-picker-birth" name="adult_berkunjung_ke_fasilitas_kesehatan_tanggal_kunjungan`+val+`_`+berkunjung_ke_fasilitas_kesehatan+`" id="adult_berkunjung_ke_fasilitas_kesehatan_tanggal_kunjungan`+val+`_`+berkunjung_ke_fasilitas_kesehatan+`" placeholder="Tanggal Kunjungan " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tanggal Kunjungan '" autocomplete="off" readonly>
                                 </div>
                             </div>
                             <div class="col-lg-12" style="text-align:right;">
@@ -4175,7 +4191,7 @@ function add_pcr_table(type, val){
                             <div class="col-lg-3 col-md-3">
                                 <div style="margin-bottom:5px;">
                                     <label>Tanggal Kunjungan</label><br/>
-                                    <input type="text" class="form-control date-picker-birth" name="adult_berkunjung_ke_pasar_hewan_tanggal_kunjungan`+val+`_`+berkunjung_ke_pasar_hewan+`" id="adult_berkunjung_ke_pasar_hewan_tanggal_kunjungan`+val+`_`+berkunjung_ke_pasar_hewan+`" placeholder="Tanggal Kunjungan " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tanggal Kunjungan '" autocomplete="off" readonly>
+                                    <input type="text" style="background:white;" class="form-control date-picker-birth" name="adult_berkunjung_ke_pasar_hewan_tanggal_kunjungan`+val+`_`+berkunjung_ke_pasar_hewan+`" id="adult_berkunjung_ke_pasar_hewan_tanggal_kunjungan`+val+`_`+berkunjung_ke_pasar_hewan+`" placeholder="Tanggal Kunjungan " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tanggal Kunjungan '" autocomplete="off" readonly>
                                 </div>
                             </div>
                             <div class="col-lg-12" style="text-align:right;">
@@ -4227,13 +4243,13 @@ function add_pcr_table(type, val){
                             <div class="col-lg-6 col-md-6">
                                 <div style="margin-bottom:5px;">
                                     <label>Tanggal Kontak Pertama</label><br/>
-                                    <input type="text" class="form-control date-picker-birth" name="adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_pertama`+val+`_`+berkunjung_ke_pasien_dalam_pengawasan+`" id="adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_pertama`+val+`_`+berkunjung_ke_pasien_dalam_pengawasan+`" placeholder="Tanggal Pertama Bertemu " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tanggal Pertama Bertemu '" autocomplete="off" readonly>
+                                    <input type="text" style="background:white;" class="form-control date-picker-birth" name="adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_pertama`+val+`_`+berkunjung_ke_pasien_dalam_pengawasan+`" id="adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_pertama`+val+`_`+berkunjung_ke_pasien_dalam_pengawasan+`" placeholder="Tanggal Pertama Bertemu " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tanggal Pertama Bertemu '" autocomplete="off" readonly>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6">
                                 <div style="margin-bottom:5px;">
                                     <label>Tanggal Kontak Terakhir</label><br/>
-                                    <input type="text" class="form-control date-picker-birth" name="adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_terakhir`+val+`_`+berkunjung_ke_pasien_dalam_pengawasan+`" id="adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_terakhir`+val+`_`+berkunjung_ke_pasien_dalam_pengawasan+`" placeholder="Tanggal Terakhir Bertemu " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tanggal Terakhir Bertemu '" autocomplete="off" readonly>
+                                    <input type="text" style="background:white;" class="form-control date-picker-birth" name="adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_terakhir`+val+`_`+berkunjung_ke_pasien_dalam_pengawasan+`" id="adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_terakhir`+val+`_`+berkunjung_ke_pasien_dalam_pengawasan+`" placeholder="Tanggal Terakhir Bertemu " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tanggal Terakhir Bertemu '" autocomplete="off" readonly>
                                 </div>
                             </div>
                             <div class="col-lg-12" style="text-align:right;">
@@ -4297,13 +4313,13 @@ function add_pcr_table(type, val){
                             <div class="col-lg-6 col-md-6">
                                 <div style="margin-bottom:5px;">
                                     <label>Tanggal Kontak Pertama</label><br/>
-                                    <input type="text" class="form-control date-picker-birth" name="adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_pertama`+val+`_`+berkunjung_ke_pasien_konfirmasi+`" id="adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_pertama`+val+`_`+berkunjung_ke_pasien_konfirmasi+`" placeholder="Tanggal Pertama Bertemu " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tanggal Pertama Bertemu '" autocomplete="off" readonly>
+                                    <input type="text" style="background:white;" class="form-control date-picker-birth" name="adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_pertama`+val+`_`+berkunjung_ke_pasien_konfirmasi+`" id="adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_pertama`+val+`_`+berkunjung_ke_pasien_konfirmasi+`" placeholder="Tanggal Pertama Bertemu " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tanggal Pertama Bertemu '" autocomplete="off" readonly>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6">
                                 <div style="margin-bottom:5px;">
                                     <label>Tanggal Kontak Terakhir</label><br/>
-                                    <input type="text" class="form-control date-picker-birth" name="adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_terakhir`+val+`_`+berkunjung_ke_pasien_konfirmasi+`" id="adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_terakhir`+val+`_`+berkunjung_ke_pasien_konfirmasi+`" placeholder="Tanggal Terakhir Bertemu " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tanggal Terakhir Bertemu '" autocomplete="off" readonly>
+                                    <input type="text" style="background:white;" class="form-control date-picker-birth" name="adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_terakhir`+val+`_`+berkunjung_ke_pasien_konfirmasi+`" id="adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_terakhir`+val+`_`+berkunjung_ke_pasien_konfirmasi+`" placeholder="Tanggal Terakhir Bertemu " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tanggal Terakhir Bertemu '" autocomplete="off" readonly>
                                 </div>
                             </div>
                             <div class="col-lg-12" style="text-align:right;">
@@ -4972,16 +4988,19 @@ function update_contact(type,val){
         if(document.getElementById('booker_title').value != '' && document.getElementById('booker_first_name').value != '' && document.getElementById('booker_last_name').value != '')
             document.getElementById('contact_person').value = document.getElementById('booker_title').value + ' ' + document.getElementById('booker_first_name').value + ' ' + document.getElementById('booker_last_name').value;
     }else if(type == 'passenger'){
-        if(document.getElementById('adult_title'+val).value != '')
-            document.getElementById('name_pax'+parseInt(val-1)).innerHTML = '<i><b>Name: </b>'+document.getElementById('adult_title'+val).value + '</i> ';
-        if(document.getElementById('adult_first_name'+val).value != '')
-            document.getElementById('name_pax'+parseInt(val-1)).innerHTML += '<i>'+document.getElementById('adult_first_name'+val).value + '</i> ';
-        if(document.getElementById('adult_last_name'+val).value != '')
-            document.getElementById('name_pax'+parseInt(val-1)).innerHTML += '<i>'+document.getElementById('adult_last_name'+val).value+'</i> ';
-        if(document.getElementById('adult_birth_date'+val).value != ''){
-            var adt_bd = document.getElementById('adult_birth_date'+val).value;
-            var adt_age = moment().diff(adt_bd, 'years');
-            document.getElementById('birth_date'+parseInt(val-1)).innerHTML = '<i><b>Birth Date: </b>'+document.getElementById('adult_birth_date'+val).value+' ('+adt_age+' years)</i>';
+        if(document.getElementById('adult_title'+val).value != '' && document.getElementById('adult_first_name'+val).value != '' && document.getElementById('adult_last_name'+val).value != '' && document.getElementById('adult_birth_date'+val).value != ''){
+            document.getElementById('name_pax'+parseInt(val-1)).innerHTML = '';
+            if(document.getElementById('adult_title'+val).value != '')
+                document.getElementById('name_pax'+parseInt(val-1)).innerHTML += '<i><b>Name: </b>'+document.getElementById('adult_title'+val).value + '</i> ';
+            if(document.getElementById('adult_first_name'+val).value != '')
+                document.getElementById('name_pax'+parseInt(val-1)).innerHTML += '<i>'+document.getElementById('adult_first_name'+val).value + '</i> ';
+            if(document.getElementById('adult_last_name'+val).value != '')
+                document.getElementById('name_pax'+parseInt(val-1)).innerHTML += '<i>'+document.getElementById('adult_last_name'+val).value+'</i> ';
+            if(document.getElementById('adult_birth_date'+val).value != ''){
+                var adt_bd = document.getElementById('adult_birth_date'+val).value;
+                var adt_age = moment().diff(adt_bd, 'years');
+                document.getElementById('birth_date'+parseInt(val-1)).innerHTML = '<i><b>Birth Date: </b>'+document.getElementById('adult_birth_date'+val).value+' ('+adt_age+' years)</i>';
+            }
         }
         try{
             if(document.getElementById('adult_sample_method'+val).value != ''){
@@ -6984,7 +7003,6 @@ function add_table(change_rebooking=false){
         document.getElementById('table_passenger_list').style.display = 'block';
         for(counting=last_counter;counting<tempcounter;counting++){
             add_table_of_passenger();
-
         }
     }else{
         for(counting=last_counter-1;counting>=tempcounter;counting--){
@@ -6994,6 +7012,11 @@ function add_table(change_rebooking=false){
     }
     document.getElementById('medical_detail').style.display = 'none';
     document.getElementById('next_medical').style.display = 'none';
+
+    try{
+    document.getElementById('medical_pax_div').hidden = true;
+    }catch(err){}
+
     if(change_rebooking == true && total_passengers_rebooking != 0){
         //readd change value pax add table
         document.getElementById('passenger').value = total_passengers_rebooking;
@@ -7070,10 +7093,6 @@ function update_customer_fill(type,seq){
         if(next_seq < max_seq){
             $('html, body').animate({
                 scrollTop: $("#table_passenger"+next_seq).offset().top - 120
-            }, 500);
-        }else{
-            $('html, body').animate({
-                scrollTop: $("#div_schedule_medical").offset().top - 120
             }, 500);
         }
     }
@@ -7761,6 +7780,7 @@ function auto_fill_periksain(){
 
         $('#adult_title'+counter).niceSelect('update');
         $('#adult_sample_method'+counter).niceSelect('update');
+        $('#adult_identity_type'+counter).niceSelect('update');
         update_contact('passenger',counter);
         counter++;
     }
