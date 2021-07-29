@@ -2029,17 +2029,19 @@ function get_price_itinerary_request(){
                                 text+=`<img data-toggle="tooltip" alt="Airline" title="" style="width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_number+`.png"><span> </span>`;
                             }
                             text += `<br/>`;
-                            text += `<span>`
-                            if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].cabin_class != '')
-                                if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].cabin_class == 'Y')
-                                    text += 'Economy';
-                                else if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].cabin_class == 'W')
-                                    text += 'Premium Economy';
-                                else if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].cabin_class == 'C')
-                                    text += 'Business';
-                                else if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].cabin_class == 'F')
-                                    text += 'First Class';
-                            text += `<br/>Class: `+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].class_of_service+`</span>`;
+                            if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares.length > 0){
+                                text += `<span>`
+                                if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].cabin_class != '')
+                                    if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].cabin_class == 'Y')
+                                        text += 'Economy';
+                                    else if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].cabin_class == 'W')
+                                        text += 'Premium Economy';
+                                    else if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].cabin_class == 'C')
+                                        text += 'Business';
+                                    else if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].cabin_class == 'F')
+                                        text += 'First Class';
+                                text += `<br/>Class: `+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].class_of_service+`</span>`;
+                            }
                         }
                         text+=`</div>`;
                         text+=`<div class="col-lg-9">`;

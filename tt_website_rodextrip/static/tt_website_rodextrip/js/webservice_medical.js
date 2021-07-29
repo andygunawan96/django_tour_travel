@@ -2597,3 +2597,107 @@ function get_medical_information(){
        },timeout: 60000
     });
 }
+
+function update_service_charge(type){
+    repricing_order_number = '';
+    if(type == 'booking'){
+        upsell = []
+        for(i in medical_get_detail.result.response.passengers){
+            for(j in medical_get_detail.result.response.passengers[i].sale_service_charges){
+                currency = medical_get_detail.result.response.passengers[i].sale_service_charges[j].FARE.currency;
+            }
+            list_price = []
+            for(j in list){
+                if(medical_get_detail.result.response.passengers[i].name == document.getElementById('selection_pax'+j).value){
+                    list_price.push({
+                        'amount': list[j],
+                        'currency_code': currency
+                    });
+                }
+
+            }
+            upsell.push({
+                'sequence': medical_get_detail.result.response.passengers[i].sequence,
+                'pricing': JSON.parse(JSON.stringify(list_price))
+            });
+        }
+        repricing_order_number = order_number;
+    }else{
+        //REVIEW TIDAK BISA KARENA PASSENGER TIDAK ADA
+//        upsell_price = 0;
+//        upsell = []
+//        counter_pax = -1;
+//        currency = price['currency'];
+//        for(i in passengers){
+//            list_price = []
+//            if(i != 'booker' && i != 'contact'){
+//                for(j in list){
+//                    for(k in passengers[i]){
+//                        if(passengers[i][k].first_name+passengers[i][k].last_name == document.getElementById('selection_pax'+j).value){
+//                            list_price.push({
+//                                'amount': list[j],
+//                                'currency_code': currency
+//                            });
+//                            upsell_price += list[j];
+//                        }
+//                    }
+//                }
+//                counter_pax++;
+//            }
+//            if(list_price.length != 0)
+//                upsell.push({
+//                    'sequence': counter_pax,
+//                    'pricing': JSON.parse(JSON.stringify(list_price))
+//                });
+//        }
+    }
+    $.ajax({
+       type: "POST",
+       url: "/webservice/medical",
+       headers:{
+            'action': 'update_service_charge',
+       },
+       data: {
+           'order_number': JSON.stringify(repricing_order_number),
+           'passengers': JSON.stringify(upsell),
+           'signature': signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           if(msg.result.error_code == 0){
+                if(type == 'booking'){
+                    price_arr_repricing = {};
+                    pax_type_repricing = [];
+                    please_wait_transaction();
+                    medical_get_booking(repricing_order_number);
+                }else{
+                    price_arr_repricing = {};
+                    pax_type_repricing = [];
+                    train_detail();
+                }
+
+                $('#myModalRepricing').modal('hide');
+           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                auto_logout();
+           }else{
+                if(order_number.includes('PH'))
+                    vendor = 'PHC';
+                else
+                    vendor = 'Periksain';
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error '+vendor+' service charge </span>' + msg.result.error_msg,
+                })
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            if(order_number.includes('PH'))
+                vendor = 'PHC';
+            else
+                vendor = 'Periksain';
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error '+vendor+' service charge');
+       },timeout: 480000
+    });
+
+}

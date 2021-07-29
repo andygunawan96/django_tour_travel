@@ -86,6 +86,8 @@ def api_models(request):
             res = get_medical_information(request)
         elif req_data['action'] == 'update_medical_information':
             res = update_medical_information(request)
+        elif req_data['action'] == 'update_service_charge':
+            res = update_service_charge(request)
 
         else:
             res = ERR.get_error_api(1001)
@@ -784,3 +786,43 @@ def update_medical_information(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
         return ERR.get_error_api(500,additional_message="Error Update")
+
+def update_service_charge(request):
+    # nanti ganti ke get_ssr_availability
+    try:
+
+        additional_url = 'booking/'
+        if 'PK' in request.POST['order_number']:
+            additional_url += 'periksain'
+        else:
+            additional_url += 'phc'
+
+        data = {
+            'order_number': json.loads(request.POST['order_number']),
+            'passengers': json.loads(request.POST['passengers'])
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "pricing_booking",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    url_request = url + additional_url
+    res = send_request_api(request, url_request, headers, data, 'POST', 480)
+    try:
+        if res['result']['error_code'] == 0:
+            total_upsell = 0
+            for upsell in data['passengers']:
+                for pricing in upsell['pricing']:
+                    total_upsell += pricing['amount']
+            set_session(request, 'medical_upsell_'+request.POST['signature'], total_upsell)
+            _logger.info(json.dumps(request.session['medical_upsell' + request.POST['signature']]))
+            _logger.info("SUCCESS update_service_charge TRAIN SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("ERROR update_service_charge_train TRAIN SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
