@@ -1401,6 +1401,7 @@ function datasearch2(airline){
            price = 0;
            currency = '';
            airline.schedules[i].journeys[j].operated_by = true;
+           can_book_schedule = true;
            can_book = true;
            for(k in airline.schedules[i].journeys[j].segments){
                if(airline.schedules[i].journeys[j].segments[k].fares.length == 0)
@@ -1409,6 +1410,7 @@ function datasearch2(airline){
                    if(airline.schedules[i].journeys[j].segments[k].fares[l].available_count >= parseInt(airline_request.adult)+parseInt(airline_request.child) || airline.schedules[i].journeys[j].segments[k].fares[l].available_count == -1){//atau buat sia
                        if(available_count > airline.schedules[i].journeys[j].segments[k].fares[l].available_count)
                             available_count = airline.schedules[i].journeys[j].segments[k].fares[l].available_count;
+                       can_book = true;
                        airline.schedules[i].journeys[j].segments[k].fare_pick = 0;
                        for(m in airline.schedules[i].journeys[j].segments[k].fares[l].service_charge_summary){
                            if(airline.schedules[i].journeys[j].segments[k].fares[l].service_charge_summary[m].pax_type == 'ADT'){
@@ -1427,6 +1429,8 @@ function datasearch2(airline){
                         can_book = false;
                    }
                }
+               if(can_book_schedule)
+                    can_book_schedule = can_book;
 
                if(airline.schedules[i].journeys[j].segments[k].carrier_code == airline.schedules[i].journeys[j].segments[k].operating_airline_code && airline.schedules[i].journeys[j].operated_by != false){
                    airline.schedules[i].journeys[j].operated_by_carrier_code = airline.schedules[i].journeys[j].segments[k].operating_airline_code;
@@ -1439,7 +1443,7 @@ function datasearch2(airline){
            if(available_count == 100)
                available_count = 0;
            airline.schedules[i].journeys[j].available_count = available_count;
-           airline.schedules[i].journeys[j].can_book = can_book;
+           airline.schedules[i].journeys[j].can_book = can_book_schedule;
            airline.schedules[i].journeys[j].currency = currency;
            data.push(airline.schedules[i].journeys[j]);
            temp_data.push(airline.schedules[i].journeys[j]);
@@ -7812,7 +7816,7 @@ function get_chosen_ticket(type='all'){
                         }
                     }
                     text+= currency+' '+getrupiah(price) + '</span>';
-                    if(provider_list_data[airline_pick_list[i].provider].description != '')
+                    if(provider_list_data.hasOwnProperty(airline_pick_list[i].provider) == true && provider_list_data[airline_pick_list[i].provider].description != '')
                         text += `<br/><span>`+provider_list_data[airline_pick_list[i].provider].description+`</span><br/>`;
                     if(type == 'all'){
                         text+=`

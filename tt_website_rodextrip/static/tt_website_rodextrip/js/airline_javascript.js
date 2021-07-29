@@ -2316,15 +2316,13 @@ function sort(){
 
                                    text+=`</div>
                                    <div class="col-lg-9 col-md-8 col-sm-8" style="text-align:right;">`;
-                                       if(provider_list_data[airline[i].provider].description != '')
+                                       if(provider_list_data.hasOwnProperty(airline[i].provider) == true && provider_list_data[airline[i].provider].description != '')
                                             text += `<span>`+provider_list_data[airline[i].provider].description+`</span><br/>`;
                                         text+=`
                                        <span id="fare`+i+`" class="basic_fare_field copy_price price_template" style="margin-right:5px;"></span>`;
                                        if(airline[i].can_book == true){
                                            text+=`<input type='button' style="margin:5px 0px 0px 0px;" id="departjourney`+i+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Choose" onclick="get_price_itinerary(`+i+`)" sequence_id="0"/>`;
                                        }
-                                       else if(airline[i].available_count > parseInt(airline_request.adult) && airline[i].can_book == false)
-                                           text+=`<input type='button' style="margin:5px 0px 0px 0px;" id="departjourney`+i+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Choose" onclick="alert_message_swal('Sorry, arrival time you pick does not match with this journey!');" sequence_id="0"/>`;
                                        else{
                                            text+=`<input type='button' style="margin:5px 0px 0px 0px;" id="departjourney`+i+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Sold Out" onclick="" disabled sequence_id="0"/>`;
                                        }
@@ -3077,7 +3075,7 @@ function airline_pick_mc(type){
 //                    }
                     console.log('price print ' + getrupiah(price));
                     text+= currency+' '+getrupiah(price) + '</span>';
-                    if(provider_list_data[airline_pick_list[i].provider].description != '')
+                    if(provider_list_data.hasOwnProperty(airline_pick_list[i].provider) == true && provider_list_data[airline_pick_list[i].provider].description != '')
                         text += `<br/><span>`+provider_list_data[airline_pick_list[i].provider].description+`</span><br/>`;
                     if(type == 'all'){
                         text+=`
