@@ -2615,12 +2615,12 @@ function sort(){
                                 total_price -= total_price_pick;
                                 if(total_price != 0)
                                     document.getElementById('fare'+i).innerHTML = airline[i].currency+' '+getrupiah(total_price);
-                                else
+                                else if(airline[i].can_book == true)
                                     document.getElementById('fare'+i).innerHTML = 'Choose to view price';
                             }else{
                                 if(airline[i].total_price != 0)
                                     document.getElementById('fare'+i).innerHTML = airline[i].currency+' '+getrupiah(airline[i].total_price);
-                                else
+                                else if(airline[i].can_book == true)
                                     document.getElementById('fare'+i).innerHTML = 'Choose to view price';
                             }
                        }

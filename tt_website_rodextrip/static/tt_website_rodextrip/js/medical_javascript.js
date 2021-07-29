@@ -195,6 +195,15 @@ function add_other_time(type='add'){
                         return true;
                     }
                 });
+                $('input[name="booker_test_date'+nomor_test+'"]').on('apply.daterangepicker', function(ev, picker) {
+                    var val = parseInt(ev.target.id.replace('booker_test_date',''));
+                    update_timeslot(val);
+                    if(vendor == 'phc'){
+                        if(test_type.includes('PCR')){
+                            check_kuota_phc();
+                        }
+                    }
+                });
                 document.getElementById('booker_test_date'+nomor_test).value = schedule_medical.test_list[x].date;
                 update_timeslot(nomor_test);
                 if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCDTKATG' || vendor == 'phc' && test_type == 'PHCDTKPCR'){
@@ -4988,7 +4997,7 @@ function update_contact(type,val){
         if(document.getElementById('booker_title').value != '' && document.getElementById('booker_first_name').value != '' && document.getElementById('booker_last_name').value != '')
             document.getElementById('contact_person').value = document.getElementById('booker_title').value + ' ' + document.getElementById('booker_first_name').value + ' ' + document.getElementById('booker_last_name').value;
     }else if(type == 'passenger'){
-        if(document.getElementById('adult_title'+val).value != '' && document.getElementById('adult_first_name'+val).value != '' && document.getElementById('adult_last_name'+val).value != '' && document.getElementById('adult_birth_date'+val).value != ''){
+        if(document.getElementById('adult_title'+val).value != '' && document.getElementById('adult_first_name'+val).value != '' && document.getElementById('adult_birth_date'+val).value != ''){
             document.getElementById('name_pax'+parseInt(val-1)).innerHTML = '';
             if(document.getElementById('adult_title'+val).value != '')
                 document.getElementById('name_pax'+parseInt(val-1)).innerHTML += '<i><b>Name: </b>'+document.getElementById('adult_title'+val).value + '</i> ';
