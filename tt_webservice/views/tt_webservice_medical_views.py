@@ -133,28 +133,53 @@ def login(request):
 def get_config(request):
     try:
         additional_url = ''
-        if request.POST['provider'] == 'phc':
-            provider = 'phc'
-            additional_url = 'booking/'
-            additional_url += 'phc'
-            data = {
-                'provider': provider
+        try:
+            # DARI WEB
+            if request.POST['provider'] == 'phc':
+                provider = 'phc'
+                additional_url = 'booking/'
+                additional_url += 'phc'
+                data = {
+                    'provider': provider
+                }
+                action = 'get_config_vendor'
+            elif request.POST['provider'] == 'periksain':
+                provider = request.POST['provider']
+                additional_url += 'content'
+                data = {
+                    'provider_type': provider
+                }
+                action = "get_carriers"
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
+                "action": action,
+                "signature": request.POST['signature']
             }
-            action = 'get_config_vendor'
-        elif request.POST['provider'] == 'periksain':
-            provider = request.POST['provider']
-            additional_url += 'content'
-            data = {
-                'provider_type': provider
+        except:
+            # DARI MOBILE
+            if request.data['provider'] == 'phc':
+                provider = 'phc'
+                additional_url = 'booking/'
+                additional_url += 'phc'
+                data = {
+                    'provider': provider
+                }
+                action = 'get_config_vendor'
+            elif request.data['provider'] == 'periksain':
+                provider = request.data['provider']
+                additional_url += 'content'
+                data = {
+                    'provider_type': provider
+                }
+                action = "get_carriers"
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
+                "action": action,
+                "signature": request.data['signature']
             }
-            action = "get_carriers"
 
-        headers = {
-            "Accept": "application/json,text/html,application/xml",
-            "Content-Type": "application/json",
-            "action": action,
-            "signature": request.POST['signature']
-        }
         file = read_cache_with_folder_path("medical_cache_data_%s" % provider, 86400)
         # TODO VIN: Some Update Mekanisme ontime misal ada perubahan data dkk
         if not file:

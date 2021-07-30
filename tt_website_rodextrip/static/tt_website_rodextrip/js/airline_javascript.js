@@ -3614,18 +3614,20 @@ function airline_detail(type){
                     $text += price_itinerary_temp[i].journeys[j].segments[k].departure_date + ' → ' + price_itinerary_temp[i].journeys[j].segments[k].arrival_date + '\n';
                     $text += price_itinerary_temp[i].journeys[j].segments[k].origin_name + ' (' + price_itinerary_temp[i].journeys[j].segments[k].origin_city + ') - ';
                     $text += price_itinerary_temp[i].journeys[j].segments[k].destination_name + ' (' + price_itinerary_temp[i].journeys[j].segments[k].destination_city + ')\n\n';
-                    text += `<span style="float:right;">`;
-                    if(price_itinerary_temp[i].journeys[j].segments[k].fares[0].cabin_class != '')
-                        if(price_itinerary_temp[i].journeys[j].segments[k].fares[0].cabin_class == 'Y')
-                            text += 'Economy';
-                        else if(price_itinerary_temp[i].journeys[j].segments[k].fares[0].cabin_class == 'W')
-                            text += 'Premium Economy';
-                        else if(price_itinerary_temp[i].journeys[j].segments[k].fares[0].cabin_class == 'C')
-                            text += 'Business ';
-                        else if(price_itinerary_temp[i].journeys[j].segments[k].fares[0].cabin_class == 'F')
-                            text += 'First Class';
-                    text+=`<br/>Class: ` + price_itinerary_temp[i].journeys[j].segments[k].fares[0].class_of_service;
-                    text+=`</span>`;
+                    if(price_itinerary_temp[i].journeys[j].segments[k].fares.length > 0){
+                        text += `<span style="float:right;">`;
+                        if(price_itinerary_temp[i].journeys[j].segments[k].fares[0].cabin_class != '')
+                            if(price_itinerary_temp[i].journeys[j].segments[k].fares[0].cabin_class == 'Y')
+                                text += 'Economy';
+                            else if(price_itinerary_temp[i].journeys[j].segments[k].fares[0].cabin_class == 'W')
+                                text += 'Premium Economy';
+                            else if(price_itinerary_temp[i].journeys[j].segments[k].fares[0].cabin_class == 'C')
+                                text += 'Business ';
+                            else if(price_itinerary_temp[i].journeys[j].segments[k].fares[0].cabin_class == 'F')
+                                text += 'First Class';
+                        text+=`<br/>Class: ` + price_itinerary_temp[i].journeys[j].segments[k].fares[0].class_of_service;
+                        text+=`</span>`;
+                    }
 
                     text+=`
                     <div class="row">
