@@ -78,6 +78,9 @@ function get_config_medical(type='', vendor=''){
             if(msg.result.error_code == 0){
                 medical_config = msg;
                 if(type == 'passenger'){
+                    print_check_price++;
+                    if(print_check_price == 2)
+                        document.getElementById('check_price_medical').hidden = false;
                     data_kota = medical_config['result']['response']['kota']
                     var product = '';
 
@@ -237,7 +240,9 @@ function medical_get_availability(){
        success: function(msg) {
             console.log(msg);
             if(msg.result.error_code == 0){
-                document.getElementById('check_price_medical').hidden = false;
+                print_check_price++;
+                if(print_check_price == 2)
+                    document.getElementById('check_price_medical').hidden = false;
                 msg = msg.result.response;
                 if(Object.keys(msg).length > 0){
                     test_kuota = msg;
