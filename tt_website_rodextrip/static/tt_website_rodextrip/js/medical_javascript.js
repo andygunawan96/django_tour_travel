@@ -1,3 +1,4 @@
+print_check_price = 0
 function add_other_time(type='add'){
     if(type != 'auto_fill'){
         var node = document.createElement("div");
