@@ -854,11 +854,14 @@ function medical_get_booking(order_number, sync=false){
                                     text+=`</b>
                                 </span><br/>`;
                                 text+=`<span>Date: <b>`;
+                                tes = moment.utc(msg.result.response.picked_timeslot.datetimeslot).format('YYYY-MM-DD HH:mm')
+                                localTime  = moment.utc(tes).toDate();
+
                                 text+=moment(msg.result.response.picked_timeslot.datetimeslot.split(' ')[0], 'YYYY-MM-DD').format('DD MMM YYYY') + ' ';
                                 if(msg.result.response.provider_bookings[0].carrier_code == 'PHCHCKATG' || msg.result.response.provider_bookings[0].carrier_code == 'PHCHCKPCR' || msg.result.response.provider_bookings[0].carrier_code == "PRKATG")
-                                    text += msg.result.response.picked_timeslot.datetimeslot.split(' ')[1];
+                                    text += moment(localTime).format('HH:mm') + ' ' + gmt + timezone;
                                 else{
-                                    text+= `08.00 - 15.00`;
+                                    text+= `08.00 - 15.00 ` + gmt + timezone;
                                 }
 
                                     text+=`</b>
