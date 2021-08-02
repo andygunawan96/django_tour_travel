@@ -1618,21 +1618,22 @@ function event_issued_alert(val){
     }).then((result) => {
       if (result.value) {
         $('.next-loading-booking').prop('disabled', true);
-            $('.next-loading-issued').addClass("running");
-            $('.next-loading-issued').prop('disabled', true);
-            $('.loader-rodextrip').fadeIn();
-            document.getElementById("passengers").value = JSON.stringify({'booker':booker});
-            document.getElementById("signature").value = signature;
-            document.getElementById("provider").value = 'event';
-            document.getElementById("type").value = 'event';
-            document.getElementById("voucher_code").value = voucher_code;
-            document.getElementById("discount").value = JSON.stringify(discount_voucher);
-            document.getElementById("session_time_input").value = time_limit;
-            if(val == 1)
-                document.getElementById('event_issued').submit();
-            else
-                a = document.getElementById("session_time_input").value
-                event_create_booking(val,a);
+        $('.next-loading-issued').addClass("running");
+        $('.next-loading-issued').prop('disabled', true);
+        $('.loader-rodextrip').fadeIn();
+        document.getElementById("passengers").value = JSON.stringify({'booker':booker});
+        document.getElementById("signature").value = signature;
+        document.getElementById("provider").value = 'event';
+        document.getElementById("type").value = 'event';
+        document.getElementById("voucher_code").value = voucher_code;
+        document.getElementById("discount").value = JSON.stringify(discount_voucher);
+        document.getElementById("session_time_input").value = time_limit;
+        if(val == 1)
+            document.getElementById('event_issued').submit();
+        else{
+            a = document.getElementById("session_time_input").value
+            event_create_booking(val,a);
+        }
     }
     })
 }
@@ -1685,15 +1686,37 @@ function event_create_booking(val,a){
         if(google_analytics != '')
             gtag('event', 'event_hold_booking', {});
         if(msg.result.error_code == 0){
+            $('.loader-rodextrip').fadeOut();
             if(val == 0){
                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true){
                     send_url_booking('event', btoa(msg.result.response.order_number), msg.result.response.order_number);
                     document.getElementById('order_number').value = msg.result.response.order_number;
                     document.getElementById('event_issued').submit();
                 }else{
-                   document.getElementById('event_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
-                   document.getElementById('event_booking').action = '/event/booking/' + btoa(msg.result.response.order_number);
-                   document.getElementById('event_booking').submit();
+                    Swal.fire({
+                      title: 'Success',
+                      type: 'success',
+                      showCancelButton: true,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: 'blue',
+                      confirmButtonText: 'Payment',
+                      cancelButtonText: 'View Booking'
+                    }).then((result) => {
+                      if (result.value) {
+                           $('.hold-seat-booking-train').addClass("running");
+                           $('.hold-seat-booking-train').attr("disabled", true);
+                           send_url_booking('event', btoa(msg.result.response.order_number), msg.result.response.order_number);
+                           document.getElementById('order_number').value = msg.result.response.order_number;
+                           document.getElementById('event_issued').submit();
+                      }else{
+                           document.getElementById('event_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
+                           document.getElementById('event_booking').action = '/event/booking/' + btoa(msg.result.response.order_number);
+                           document.getElementById('event_booking').submit();
+                      }
+                    })
+//                   document.getElementById('event_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
+//                   document.getElementById('event_booking').action = '/event/booking/' + btoa(msg.result.response.order_number);
+//                   document.getElementById('event_booking').submit();
                 }
             }else if(val == 1){
                 document.getElementById('order_number').value = msg.result.response.order_number;
@@ -1748,6 +1771,7 @@ function event_issued(data){
                if(google_analytics != '')
                    gtag('event', 'event_issued', {});
                if(msg.result.error_code == 0){
+                   print_success_issued();
                    if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
                         window.location.href = '/event/booking/' + btoa(data);
                    }else{

@@ -182,6 +182,7 @@ def passenger(request, vendor, test_type=''):
 def review(request, vendor):
     if 'user_account' in request.session._session:
         try:
+            passenger_booker = {}
             javascript_version = get_javascript_version()
             cache_version = get_cache_version()
             response = get_cache_data(cache_version)
@@ -198,7 +199,9 @@ def review(request, vendor):
             booker = data['booker']
             contact = data['contact_person']
             data = data['data']
-
+            passenger_booker['booker'] = {
+                "booker_seq_id": booker['booker_seq_id']
+            }
             medical_passenger = copy.deepcopy(adult)
             for rec in medical_passenger:
                 rec['identity_country_of_issued_name'] = rec['identity']['identity_country_of_issued_name']
@@ -245,6 +248,7 @@ def review(request, vendor):
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'time_limit': time_limit,
                 'id_types': id_type,
+                'passenger_booker': passenger_booker,
                 'upsell': request.session.get('medical_upsell_' + request.session['medical_signature']) and request.session.get('medical_upsell_' + request.session['medical_signature']) or 0,
                 'username': request.session['user_account'],
                 'data': request.session['medical_data_%s' % request.POST['signature']],

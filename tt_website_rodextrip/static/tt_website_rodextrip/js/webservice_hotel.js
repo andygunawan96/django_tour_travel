@@ -1496,6 +1496,7 @@ function hotel_issued(data){
                if(google_analytics != '')
                    gtag('event', 'airline_issued', {});
                if(msg.result.error_code == 0){
+                   print_success_issued();
                    if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
                         window.location.href = '/hotel/booking/' + btoa(data);
                    }else{

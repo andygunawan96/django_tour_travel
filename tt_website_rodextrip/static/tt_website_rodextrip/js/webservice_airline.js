@@ -3696,9 +3696,31 @@ function airline_commit_booking(val){
                         document.getElementById('order_number').value = msg.result.response.order_number;
                         document.getElementById('airline_issued').submit();
                    }else{
-                       document.getElementById('airline_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
-                       document.getElementById('airline_booking').action = '/airline/booking/' + btoa(msg.result.response.order_number);
-                       document.getElementById('airline_booking').submit();
+                        Swal.fire({
+                          title: 'Success',
+                          type: 'success',
+                          showCancelButton: true,
+                          confirmButtonColor: '#3085d6',
+                          cancelButtonColor: 'blue',
+                          confirmButtonText: 'Payment',
+                          cancelButtonText: 'View Booking'
+                        }).then((result) => {
+                          if (result.value) {
+                            $('.hold-seat-booking-train').addClass("running");
+                            $('.hold-seat-booking-train').attr("disabled", true);
+                            please_wait_transaction();
+                            send_url_booking('airline', btoa(msg.result.response.order_number), msg.result.response.order_number);
+                            document.getElementById('order_number').value = msg.result.response.order_number;
+                            document.getElementById('airline_issued').submit();
+                          }else{
+                               document.getElementById('airline_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
+                               document.getElementById('airline_booking').action = '/airline/booking/' + btoa(msg.result.response.order_number);
+                               document.getElementById('airline_booking').submit();
+                          }
+                        })
+//                       document.getElementById('airline_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
+//                       document.getElementById('airline_booking').action = '/airline/booking/' + btoa(msg.result.response.order_number);
+//                       document.getElementById('airline_booking').submit();
                    }
                }else{
                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true)
@@ -3982,6 +4004,19 @@ function airline_hold_booking(val){
             }catch(err){
                 console.log(err)
             }
+        }else if(val == 0){
+            try{
+                document.getElementById("passengers").value = JSON.stringify(passengers);
+                document.getElementById("signature").value = signature;
+                document.getElementById("provider").value = 'airline';
+                document.getElementById("type").value = 'airline_book_then_issued';
+                document.getElementById("voucher_code").value = voucher_code;
+                document.getElementById("discount").value = JSON.stringify(discount_voucher);
+                document.getElementById("session_time_input").value = time_limit;
+            }catch(err){
+                console.log(err)
+            }
+
         }else if(user_login.co_agent_frontend_security.includes('b2c_limitation')){
             try{
                 document.getElementById("passengers").value = JSON.stringify(passengers);
@@ -5978,6 +6013,7 @@ function airline_issued(data){
                if(google_analytics != '')
                    gtag('event', 'airline_issued', {});
                if(msg.result.error_code == 0){
+                   print_success_issued();
                    if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
                         window.location.href = '/airline/booking/' + btoa(data);
                    }else{
