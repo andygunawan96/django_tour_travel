@@ -1468,6 +1468,7 @@ function train_issued(data){
                if(google_analytics != '')
                    gtag('event', 'train_issued', {});
                if(msg.result.error_code == 0){
+                   print_success_issued();
                    if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
                         window.location.href = '/train/booking/' + btoa(data);
                    }else{

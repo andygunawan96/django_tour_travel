@@ -146,7 +146,7 @@
 <script>
     try{
         get_payment_acq('Issued',passengers.booker.booker_seq_id, '{{order_number}}', 'billing',signature,'{{type}}');
-    }catch(err){}
+    }catch(err){console.log(err);}
     $( document ).ready(function() {
         breadcrumb_create("{{provider_payment}}", 4, 0);
     });

@@ -1122,9 +1122,32 @@ function commit_booking_tour(val)
                         document.getElementById('order_number').value = msg.result.response.order_number;
                         document.getElementById('tour_issued').submit();
                     }else{
-                        document.getElementById('tour_booking').innerHTML+= '<input type="hidden" name="order_number" value='+booking_num+'>';
+                        Swal.fire({
+                          title: 'Success',
+                          type: 'success',
+                          showCancelButton: true,
+                          confirmButtonColor: '#3085d6',
+                          cancelButtonColor: 'blue',
+                          confirmButtonText: 'Payment',
+                          cancelButtonText: 'View Booking'
+                        }).then((result) => {
+                          if (result.value) {
+                            $('.hold-seat-booking-train').addClass("running");
+                            $('.hold-seat-booking-train').attr("disabled", true);
+                            please_wait_transaction();
+                            send_url_booking('tour', btoa(msg.result.response.order_number), msg.result.response.order_number);
+                            document.getElementById('order_number').value = msg.result.response.order_number;
+                            document.getElementById('tour_issued').submit();
+
+                          }else{
+                            document.getElementById('tour_booking').innerHTML+= '<input type="hidden" name="order_number" value='+booking_num+'>';
                         document.getElementById('tour_booking').action = '/tour/booking/' + btoa(msg.result.response.order_number);
                         document.getElementById('tour_booking').submit();
+                          }
+                        })
+//                        document.getElementById('tour_booking').innerHTML+= '<input type="hidden" name="order_number" value='+booking_num+'>';
+//                        document.getElementById('tour_booking').action = '/tour/booking/' + btoa(msg.result.response.order_number);
+//                        document.getElementById('tour_booking').submit();
                     }
                }
            }else{
@@ -1236,6 +1259,7 @@ function tour_issued_booking(order_number)
            if(google_analytics != '')
                gtag('event', 'tour_issued', {});
            if(msg.result.error_code == 0){
+               print_success_issued();
                if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
                     window.location.href = '/tour/booking/' + btoa(order_number);
                }else{
