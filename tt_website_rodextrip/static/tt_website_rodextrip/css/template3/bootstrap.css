@@ -267,7 +267,7 @@ th {
 label {
   display: inline-block;
   margin-bottom: .5rem;
-  font-weight: 500;
+  font-weight: bold;
 }
 
 button {

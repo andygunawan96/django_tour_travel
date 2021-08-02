@@ -232,6 +232,7 @@ th {
 label {
   display: inline-block;
   margin-bottom: .5rem;
+  font-weight: bold;
 }
 
 button {
