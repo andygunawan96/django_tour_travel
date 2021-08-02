@@ -33,7 +33,7 @@ function add_other_time(type='add'){
                         if(template == 1){
                             text+=`
                             <div class="form-select-2" id="default-select">
-                                <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot" onclick="change_timeslot(`+test_time+`)">
+                                <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot" onchange="change_timeslot(`+test_time+`)">
 
                                 </select>
                             </div>`;
@@ -41,7 +41,7 @@ function add_other_time(type='add'){
                         else if(template == 2){
                             text+=`
                                 <div class="form-select">
-                                    <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot" onclick="change_timeslot(`+test_time+`)">
+                                    <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot" onchange="change_timeslot(`+test_time+`)">
 
                                     </select>
                                 </div>
@@ -51,7 +51,7 @@ function add_other_time(type='add'){
                             text+=`
                             <div class="form-group">
                                 <div class="default-select">
-                                    <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot" onclick="change_timeslot(`+test_time+`)">
+                                    <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot" onchange="change_timeslot(`+test_time+`)">
 
                                     </select>
                                 </div>
@@ -61,7 +61,7 @@ function add_other_time(type='add'){
                             text+=`
                             <div class="input-container-search-ticket">
                                 <div class="form-select" id="default-select" style="width:100%;">
-                                    <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot" onclick="change_timeslot(`+test_time+`)">
+                                    <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot" onchange="change_timeslot(`+test_time+`)">
 
                                     </select>
                                 </div>
@@ -70,7 +70,7 @@ function add_other_time(type='add'){
                         else if(template == 5){
                             text+=`
                             <div class="form-select">
-                                <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot" onclick="change_timeslot(`+test_time+`)">
+                                <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot" onchange="change_timeslot(`+test_time+`)">
 
                                 </select>
                             </div>`;
@@ -78,7 +78,7 @@ function add_other_time(type='add'){
                         else if(template == 6){
                             text+=`
                             <div class="form-select-2" id="default-select">
-                                <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot" onclick="change_timeslot(`+test_time+`)">
+                                <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot" onchange="change_timeslot(`+test_time+`)">
 
                                 </select>
                             </div>`;
@@ -474,7 +474,7 @@ function add_table_of_passenger_verify(type){
                     </div>`;
 
                     text_div_paxs+=`
-                    <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="col-lg-12 col-md-12 col-sm-12 mb-2">
                         <span style="padding-right:10px; font-weight:700; font-size:15px;font-weight:bold;color:red">DATA HARUS BENAR KARENA TIDAK BISA DIUBAH</span><br/>
                     </div>`;
 
@@ -517,7 +517,7 @@ function add_table_of_passenger_verify(type){
                             <input type="hidden" class="form-control" name="adult_years_old`+parseInt(counter_passenger+1)+`" id="adult_years_old`+parseInt(counter_passenger+1)+`">
                         </div>
                     </div>
-                    <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="col-lg-12 col-md-12 col-sm-12 mb-2">
                         <span style="padding-right:10px; font-weight:700; font-size:15px;font-weight:bold;color:red">DATA HARUS BENAR KARENA TIDAK BISA DIUBAH</span><br/>
                     </div>`;
 
@@ -595,17 +595,19 @@ function add_table_of_passenger_verify(type){
                         <label>WA Number (WhatsApp Number)</label>
                         <div class="row">
                             <div class="col-lg-3">
-                                <div class="form-select">
-                                    <select id="adult_phone_code`+parseInt(counter_passenger+1)+`_id" name="adult_phone_code`+parseInt(counter_passenger+1)+`_id" class="form-control js-example-basic-single">`;
-                                        for(i in countries){
-                                            if(countries[i].phone_code == 0)
-                                               text_div_paxs+=`<option value="`+countries[i].phone_code+`" selected>`+countries[i].phone_code+`</option>`;
-                                            else
-                                               text_div_paxs+=`<option value="`+countries[i].phone_code+`">`+countries[i].phone_code+`</option>`;
-                                        }
+                                <div class="input-container-search-ticket">
+                                    <div class="form-select">
+                                        <select id="adult_phone_code`+parseInt(counter_passenger+1)+`_id" name="adult_phone_code`+parseInt(counter_passenger+1)+`_id" class="form-control js-example-basic-single">`;
+                                            for(i in countries){
+                                                if(countries[i].phone_code == 0)
+                                                   text_div_paxs+=`<option value="`+countries[i].phone_code+`" selected>`+countries[i].phone_code+`</option>`;
+                                                else
+                                                   text_div_paxs+=`<option value="`+countries[i].phone_code+`">`+countries[i].phone_code+`</option>`;
+                                            }
 
-                            text_div_paxs+=` </select>
-                                    <input type="hidden" name="adult_phone_code`+parseInt(counter_passenger+1)+`" id="adult_phone_code`+parseInt(counter_passenger+1)+`" />
+                                text_div_paxs+=` </select>
+                                        <input type="hidden" name="adult_phone_code`+parseInt(counter_passenger+1)+`" id="adult_phone_code`+parseInt(counter_passenger+1)+`" />
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-lg-9">
@@ -1099,7 +1101,7 @@ function add_table_of_passenger(type){
                         }
                     }
                     text_div_paxs += `
-                    <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="col-lg-12 col-md-12 col-sm-12 mb-2">
                         <span style="padding-right:10px; font-weight:700; font-size:15px;font-weight:bold;color:red">DATA HARUS BENAR KARENA TIDAK BISA DIUBAH</span><br/>
                     </div>`;
                     //ini phc
@@ -1226,49 +1228,53 @@ function add_table_of_passenger(type){
                         else if(template == 2){
                             text_div_paxs+=`<div class="input-container-search-ticket">`;
                             text_div_paxs+=`
-                                <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`');">
-                                    <option value="">Select Country Of Issued</option>`;
-                                    for(i in countries){
-                                       if(countries[i].code == 'ID')
-                                            text_div_paxs+=`<option value="`+countries[i].code+`" selected>`+countries[i].name+`</option>`;
-                                       else
-                                            text_div_paxs+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
-                                    }
-                                text_div_paxs+=`</select>
+                                    <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`');">
+                                        <option value="">Select Country Of Issued</option>`;
+                                        for(i in countries){
+                                           if(countries[i].code == 'ID')
+                                                text_div_paxs+=`<option value="`+countries[i].code+`" selected>`+countries[i].name+`</option>`;
+                                           else
+                                                text_div_paxs+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
+                                        }
+                                    text_div_paxs+=`</select>
                                 <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                <input type="hidden" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`" />`;
+                                <input type="hidden" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`" value="Indonesia"/>`;
                             text_div_paxs+=`</div>`;
                         }
                         else if(template == 3){
-                            text_div_paxs+=`<div class="input-container-search-ticket" style="margin-bottom:5px;">`;
+                            text_div_paxs+=`<div class="input-container-search-ticket">`;
                             text_div_paxs+=`
-                                <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`');">
-                                    <option value="">Select Country Of Issued</option>`;
-                                    for(i in countries){
-                                       if(countries[i].code == 'ID')
-                                            text_div_paxs+=`<option value="`+countries[i].code+`" selected>`+countries[i].name+`</option>`;
-                                       else
-                                            text_div_paxs+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
-                                    }
-                                text_div_paxs+=`</select>
+                                <div class="form-select">
+                                    <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`');">
+                                        <option value="">Select Country Of Issued</option>`;
+                                        for(i in countries){
+                                           if(countries[i].code == 'ID')
+                                                text_div_paxs+=`<option value="`+countries[i].code+`" selected>`+countries[i].name+`</option>`;
+                                           else
+                                                text_div_paxs+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
+                                        }
+                                    text_div_paxs+=`</select>
+                                </div>
                                 <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                <input type="hidden" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`" />`;
+                                <input type="hidden" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`" value="Indonesia"/>`;
                             text_div_paxs+=`</div>`;
                         }
                         else if(template == 4){
-                            text_div_paxs+=`<div class="input-container-search-ticket" style="margin-bottom:5px;">`;
+                            text_div_paxs+=`<div class="input-container-search-ticket">`;
                             text_div_paxs+=`
-                                <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`');">
-                                    <option value="">Select Country Of Issued</option>`;
-                                    for(i in countries){
-                                       if(countries[i].code == 'ID')
-                                            text_div_paxs+=`<option value="`+countries[i].code+`" selected>`+countries[i].name+`</option>`;
-                                       else
-                                            text_div_paxs+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
-                                    }
-                                text_div_paxs+=`</select>
+                                <div class="form-select">
+                                    <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`');">
+                                        <option value="">Select Country Of Issued</option>`;
+                                        for(i in countries){
+                                           if(countries[i].code == 'ID')
+                                                text_div_paxs+=`<option value="`+countries[i].code+`" selected>`+countries[i].name+`</option>`;
+                                           else
+                                                text_div_paxs+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
+                                        }
+                                    text_div_paxs+=`</select>
+                                </div>
                                 <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                <input type="hidden" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`" />`;
+                                <input type="hidden" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`" value="Indonesia"/>`;
                             text_div_paxs+=`</div>`;
                         }
                         else if(template == 5){
@@ -1286,7 +1292,7 @@ function add_table_of_passenger(type){
                                     text_div_paxs+=`</select>
                                 </div>
                                 <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                <input type="hidden" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`" />`;
+                                <input type="hidden" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`" value="Indonesia"/>`;
                             text_div_paxs+=`</div>`;
                         }
                         else if(template == 6){
@@ -1327,16 +1333,18 @@ function add_table_of_passenger(type){
                         <label>WA Number (WhatsApp Number)</label>
                         <div class="row">
                             <div class="col-lg-3">
-                                <div class="form-select">
-                                    <select id="adult_phone_code`+parseInt(counter_passenger+1)+`_id" name="adult_phone_code`+parseInt(counter_passenger+1)+`_id" class="form-control js-example-basic-single">`;
-                                        for(i in countries){
-                                            if(countries[i].phone_code == 62)
-                                               text_div_paxs+=`<option value="`+countries[i].phone_code+`" selected>`+countries[i].phone_code+`</option>`;
-                                            else
-                                               text_div_paxs+=`<option value="`+countries[i].phone_code+`">`+countries[i].phone_code+`</option>`;
-                                        }
+                                <div class="input-container-search-ticket">
+                                    <div class="form-select">
+                                        <select id="adult_phone_code`+parseInt(counter_passenger+1)+`_id" name="adult_phone_code`+parseInt(counter_passenger+1)+`_id" class="js-example-basic-single form-control">`;
+                                            for(i in countries){
+                                                if(countries[i].phone_code == 62)
+                                                   text_div_paxs+=`<option value="`+countries[i].phone_code+`" selected>`+countries[i].phone_code+`</option>`;
+                                                else
+                                                   text_div_paxs+=`<option value="`+countries[i].phone_code+`">`+countries[i].phone_code+`</option>`;
+                                            }
 
-                            text_div_paxs+=` </select>
+                                text_div_paxs+=` </select>
+                                        </div>
                                     <input type="hidden" name="adult_phone_code`+parseInt(counter_passenger+1)+`" id="adult_phone_code`+parseInt(counter_passenger+1)+`" />
                                 </div>
                             </div>
@@ -1511,15 +1519,24 @@ function add_table_of_passenger(type){
                             if(template == 1){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 2){
-                                text_div_paxs+=`<div>`;
+                                text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 3){
-                                text_div_paxs+=`<div class="default-select">`;
+                                text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 4){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 5){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }
-                            text_div_paxs+=` <div class="form-select">
+
+                            if(template == 5){
+                                text_div_paxs+=`<div class="form-select">`;
+                            }else if(template == 3){
+                                text_div_paxs+=`<div class="form-select" style="width:100%;">`;
+                            }else{
+                                text_div_paxs+=`<div class="form-select-2">`;
+                            }
+
+                            text_div_paxs+=`
                                         <select class="form-control js-example-basic-single" name="adult_provinsi`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_provinsi`+parseInt(counter_passenger+1)+`_id" placeholder="Provinsi" onchange="auto_complete('adult_provinsi`+parseInt(counter_passenger+1)+`');get_kabupaten('adult_provinsi`+parseInt(counter_passenger+1)+`_id','adult_kabupaten`+parseInt(counter_passenger+1)+`_id');" >
                                             <option value="">Select Provinsi</option>`;
                                         for(i in data_kota)
@@ -1539,15 +1556,24 @@ function add_table_of_passenger(type){
                             if(template == 1){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 2){
-                                text_div_paxs+=`<div>`;
+                                text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 3){
-                                text_div_paxs+=`<div class="default-select">`;
+                                text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 4){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 5){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }
-                            text_div_paxs+=` <div class="form-select">
+
+                            if(template == 5){
+                                text_div_paxs+=`<div class="form-select">`;
+                            }else if(template == 3){
+                                text_div_paxs+=`<div class="form-select" style="width:100%;">`;
+                            }else{
+                                text_div_paxs+=`<div class="form-select-2">`;
+                            }
+
+                            text_div_paxs+=`
                                         <select class="form-control js-example-basic-single" name="adult_kabupaten`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_kabupaten`+parseInt(counter_passenger+1)+`_id" placeholder="Kabupaten" onchange="auto_complete('adult_kabupaten`+parseInt(counter_passenger+1)+`');get_kecamatan('adult_kabupaten`+parseInt(counter_passenger+1)+`_id','adult_kecamatan`+parseInt(counter_passenger+1)+`_id');" >
                                             <option value="">Select Kabupaten</option>`;
                                     text_div_paxs+=`</select>
@@ -1565,15 +1591,23 @@ function add_table_of_passenger(type){
                             if(template == 1){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 2){
-                                text_div_paxs+=`<div>`;
+                                text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 3){
-                                text_div_paxs+=`<div class="default-select">`;
+                                text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 4){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 5){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }
-                            text_div_paxs+=` <div class="form-select">
+
+                            if(template == 5){
+                                text_div_paxs+=`<div class="form-select">`;
+                            }else if(template == 3){
+                                text_div_paxs+=`<div class="form-select" style="width:100%;">`;
+                            }else{
+                                text_div_paxs+=`<div class="form-select-2">`;
+                            }
+                            text_div_paxs+=`
                                         <select class="form-control js-example-basic-single" name="adult_kecamatan`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_kecamatan`+parseInt(counter_passenger+1)+`_id" placeholder="Kecamatan" onchange="auto_complete('adult_kecamatan`+parseInt(counter_passenger+1)+`');get_kelurahan('adult_kecamatan`+parseInt(counter_passenger+1)+`_id','adult_kelurahan`+parseInt(counter_passenger+1)+`_id');">
                                             <option value="">Select Kecamatan</option>`;
                                     text_div_paxs+=`</select>
@@ -1585,21 +1619,30 @@ function add_table_of_passenger(type){
 
                         text_div_paxs+=`
 
-                        <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="col-lg-6 col-md-6 col-sm-6 mt-2">
                             <label style="color:red !important">*</label>
                             <label>Kelurahan</label>`;
                             if(template == 1){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 2){
-                                text_div_paxs+=`<div>`;
+                                text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 3){
-                                text_div_paxs+=`<div class="default-select">`;
+                                text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 4){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 5){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }
-                            text_div_paxs+=` <div class="form-select">
+
+                            if(template == 5){
+                                text_div_paxs+=`<div class="form-select">`;
+                            }else if(template == 3){
+                                text_div_paxs+=`<div class="form-select" style="width:100%;">`;
+                            }else{
+                                text_div_paxs+=`<div class="form-select-2">`;
+                            }
+
+                            text_div_paxs+=`
                                         <select class="form-control js-example-basic-single" name="adult_kelurahan`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_kelurahan`+parseInt(counter_passenger+1)+`_id" placeholder="Kelurahan" onchange="auto_complete('adult_kelurahan`+parseInt(counter_passenger+1)+`');">
                                             <option value="">Select Kelurahan</option>`;
                                     text_div_paxs+=`</select>
@@ -1709,15 +1752,24 @@ function add_table_of_passenger(type){
                             if(template == 1){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 2){
-                                text_div_paxs+=`<div>`;
+                                text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 3){
-                                text_div_paxs+=`<div class="default-select">`;
+                                text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 4){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 5){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }
-                            text_div_paxs+=` <div class="form-select">
+
+                            if(template == 5){
+                                text_div_paxs+=`<div class="form-select">`;
+                            }else if(template == 3){
+                                text_div_paxs+=`<div class="form-select" style="width:100%;">`;
+                            }else{
+                                text_div_paxs+=`<div class="form-select-2">`;
+                            }
+
+                            text_div_paxs+=`
                                         <select class="form-control js-example-basic-single" name="adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`_id" placeholder="Kabupaten" onchange="auto_complete('adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`');get_kecamatan('adult_kabupaten_ktp`+parseInt(counter_passenger+1)+`','adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`_id');auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);" >
                                             <option value="">Select Kabupaten KTP</option>`;
                                         for(i in data_kota)
@@ -1737,15 +1789,24 @@ function add_table_of_passenger(type){
                             if(template == 1){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 2){
-                                text_div_paxs+=`<div>`;
+                                text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 3){
-                                text_div_paxs+=`<div class="default-select">`;
+                                text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 4){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 5){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }
-                            text_div_paxs+=` <div class="form-select">
+
+                            if(template == 5){
+                                text_div_paxs+=`<div class="form-select">`;
+                            }else if(template == 3){
+                                text_div_paxs+=`<div class="form-select" style="width:100%;">`;
+                            }else{
+                                text_div_paxs+=`<div class="form-select-2">`;
+                            }
+
+                            text_div_paxs+=`
                                         <select class="form-control js-example-basic-single" name="adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`_id" placeholder="Kecamatan" onchange="auto_complete('adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`');get_kelurahan('adult_kecamatan_ktp`+parseInt(counter_passenger+1)+`','adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`_id');auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">
                                             <option value="">Select Kecamatan KTP</option>`;
                                     text_div_paxs+=`</select>
@@ -1763,15 +1824,24 @@ function add_table_of_passenger(type){
                             if(template == 1){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 2){
-                                text_div_paxs+=`<div>`;
+                                text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 3){
-                                text_div_paxs+=`<div class="default-select">`;
+                                text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 4){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 5){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }
-                            text_div_paxs+=` <div class="form-select">
+
+                            if(template == 5){
+                                text_div_paxs+=`<div class="form-select">`;
+                            }else if(template == 3){
+                                text_div_paxs+=`<div class="form-select" style="width:100%;">`;
+                            }else{
+                                text_div_paxs+=`<div class="form-select-2">`;
+                            }
+
+                            text_div_paxs+=`
                                         <select class="form-control js-example-basic-single" name="adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`_id" placeholder="Kelurahan" onchange="auto_complete('adult_kelurahan_ktp`+parseInt(counter_passenger+1)+`');auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">
                                             <option value="">Select Kelurahan KTP</option>`;
                                     text_div_paxs+=`</select>
@@ -1848,15 +1918,24 @@ function add_table_of_passenger(type){
                             if(template == 1){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 2){
-                                text_div_paxs+=`<div>`;
+                                text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 3){
-                                text_div_paxs+=`<div class="default-select">`;
+                                text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 4){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 5){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }
-                            text_div_paxs+=` <div class="form-select">
+
+                            if(template == 5){
+                                text_div_paxs+=`<div class="form-select">`;
+                            }else if(template == 3){
+                                text_div_paxs+=`<div class="form-select" style="width:100%;">`;
+                            }else{
+                                text_div_paxs+=`<div class="form-select-2">`;
+                            }
+
+                            text_div_paxs+=`
                                         <select class="form-control js-example-basic-single" name="adult_kabupaten`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_kabupaten`+parseInt(counter_passenger+1)+`_id" placeholder="Kabupaten" onchange="auto_complete('adult_kabupaten`+parseInt(counter_passenger+1)+`');get_kecamatan('adult_kabupaten`+parseInt(counter_passenger+1)+`','adult_kecamatan`+parseInt(counter_passenger+1)+`_id');" >
                                             <option value="">Select Kabupaten</option>`;
                                         for(i in data_kota)
@@ -1876,15 +1955,24 @@ function add_table_of_passenger(type){
                             if(template == 1){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 2){
-                                text_div_paxs+=`<div>`;
+                                text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 3){
-                                text_div_paxs+=`<div class="default-select">`;
+                                text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 4){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 5){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }
-                            text_div_paxs+=` <div class="form-select">
+
+                            if(template == 5){
+                                text_div_paxs+=`<div class="form-select">`;
+                            }else if(template == 3){
+                                text_div_paxs+=`<div class="form-select" style="width:100%;">`;
+                            }else{
+                                text_div_paxs+=`<div class="form-select-2">`;
+                            }
+
+                            text_div_paxs+=`
                                         <select class="form-control js-example-basic-single" name="adult_kecamatan`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_kecamatan`+parseInt(counter_passenger+1)+`_id" placeholder="Kecamatan" onchange="auto_complete('adult_kecamatan`+parseInt(counter_passenger+1)+`');get_kelurahan('adult_kecamatan`+parseInt(counter_passenger+1)+`','adult_kelurahan`+parseInt(counter_passenger+1)+`_id');">
                                             <option value="">Select Kecamatan</option>`;
                                     text_div_paxs+=`</select>
@@ -1902,15 +1990,24 @@ function add_table_of_passenger(type){
                             if(template == 1){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 2){
-                                text_div_paxs+=`<div>`;
+                                text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 3){
-                                text_div_paxs+=`<div class="default-select">`;
+                                text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 4){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 5){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }
-                            text_div_paxs+=` <div class="form-select">
+
+                            if(template == 5){
+                                text_div_paxs+=`<div class="form-select">`;
+                            }else if(template == 3){
+                                text_div_paxs+=`<div class="form-select" style="width:100%;">`;
+                            }else{
+                                text_div_paxs+=`<div class="form-select-2">`;
+                            }
+
+                            text_div_paxs+=`
                                         <select class="form-control js-example-basic-single" name="adult_kelurahan`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_kelurahan`+parseInt(counter_passenger+1)+`_id" placeholder="Kelurahan" onchange="auto_complete('adult_kelurahan`+parseInt(counter_passenger+1)+`');">
                                             <option value="">Select Kelurahan</option>`;
                                     text_div_paxs+=`</select>
@@ -6767,7 +6864,7 @@ function check_passenger(){
                 }, 500);
            }else if(check_scroll == "address"){
                 $('html, body').animate({
-                    scrollTop: $("#div_schedule_medical").offset().top - 120
+                    scrollTop: $("#medical_pax_div").offset().top - 120
                 }, 500);
            }else{
                 $('html, body').animate({
