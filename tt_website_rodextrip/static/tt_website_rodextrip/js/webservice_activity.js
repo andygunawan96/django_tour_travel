@@ -2447,9 +2447,29 @@ function activity_commit_booking(val){
         if(msg.result.error_code == 0){
             if(val == 0){
                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true){
-                    send_url_booking('activity', btoa(msg.result.response.order_number), msg.result.response.order_number);
-                    document.getElementById('order_number').value = msg.result.response.order_number;
-                    document.getElementById('activity_issued').submit();
+//                    send_url_booking('activity', btoa(msg.result.response.order_number), msg.result.response.order_number);
+//                    document.getElementById('order_number').value = msg.result.response.order_number;
+//                    document.getElementById('activity_issued').submit();
+                    Swal.fire({
+                      title: 'Success',
+                      type: 'success',
+                      showCancelButton: true,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: 'blue',
+                      confirmButtonText: 'Payment',
+                      cancelButtonText: 'View Booking'
+                    }).then((result) => {
+                      if (result.value) {
+                        send_url_booking('activity', btoa(msg.result.response.order_number), msg.result.response.order_number);
+                        document.getElementById('order_number').value = msg.result.response.order_number;
+                        document.getElementById('activity_issued').submit();
+
+                      }else{
+                        document.getElementById('activity_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
+                        document.getElementById('activity_booking').action = '/activity/booking/' + btoa(msg.result.response.order_number);
+                        document.getElementById('activity_booking').submit();
+                      }
+                    })
                 }else{
                     Swal.fire({
                       title: 'Success',
