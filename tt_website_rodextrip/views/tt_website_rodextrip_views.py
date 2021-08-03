@@ -1305,19 +1305,12 @@ def get_data_template(request, type='home', provider_type = []):
 
         # data awal provider_type_sequence
         temp_provider_types_sequence = []
-        sequence = {
-            "airline": 1,
-            "hotel": 2,
-            "train": 3,
-            "ppob": 4,
-            "activity": 5,
-            "tour": 6,
-            "event": 7,
-            "visa": 8,
-            "passport": 9,
-            "periksain": 10,
-            "phc": 11,
-        }
+        sequence = {}
+        provider_start = 1
+        for rec in provider_type:
+            if rec != 'offline' and rec != 'bank' and rec != 'issued_offline' and rec != 'payment':
+                sequence[rec] = provider_start
+                provider_start += 1
         for idx, rec in enumerate(sequence, start=1):
             temp_provider_types_sequence.append({
                 'name': rec,
