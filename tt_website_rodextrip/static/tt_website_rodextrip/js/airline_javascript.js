@@ -4966,15 +4966,15 @@ function next_seat_map(){
 function set_new_request_ssr(){
     show_loading();
     please_wait_transaction();
-    get_post_ssr_availability();
-//    get_post_ssr_availability_v2();
+//    get_post_ssr_availability();
+    get_post_ssr_availability_v2();
 }
 
 function set_new_request_seat(){
     show_loading();
     please_wait_transaction();
-    get_post_seat_availability();
-//    get_post_seat_availability_v2();
+//    get_post_seat_availability();
+    get_post_seat_availability_v2();
 }
 
 function send_request_link(val){

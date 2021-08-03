@@ -6491,8 +6491,8 @@ function sell_ssrs_after_sales(){
                     $('#show_loading_booking_airline').hide();
                     hide_modal_waiting_transaction();
                 }else{
-                    update_booking_after_sales();
-//                    update_booking_after_sales_v2();
+//                    update_booking_after_sales();
+                    update_booking_after_sales_v2();
                 }
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 auto_logout();
@@ -6532,11 +6532,11 @@ function after_sales_next_btn(){
         show_loading();
         please_wait_transaction();
         if(page == 'ssr'){
-            sell_ssrs_after_sales();
-//            sell_ssrs_after_sales_v2();
+//            sell_ssrs_after_sales();
+            sell_ssrs_after_sales_v2();
         }else if(page == 'seat'){
-            assign_seats_after_sales();
-//            assign_seats_after_sales_v2();
+//            assign_seats_after_sales();
+            assign_seats_after_sales_v2();
         }
       }
     })
@@ -6563,8 +6563,8 @@ function assign_seats_after_sales(){
                     $('#show_loading_booking_airline').hide();
                     hide_modal_waiting_transaction();
                 }else{
-                    update_booking_after_sales();
-//                    update_booking_after_sales_v2();
+//                    update_booking_after_sales();
+                    update_booking_after_sales_v2();
                 }
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 auto_logout();
@@ -6766,8 +6766,8 @@ function reissued_btn(){
     }
     text+=`
         <div class="col-lg-12" style="margin-top:10px;">
-            <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="airline_reissued();" value="Request Reissued">
-            <!--<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="airline_get_reschedule_availability_v2();" value="Request Reissued">--!>
+            <!--<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="airline_reissued();" value="Request Reissued">--!>
+            <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="airline_get_reschedule_availability_v2();" value="Request Reissued">
         </div>
     </div>`;
     document.getElementById('reissued').innerHTML = text;
@@ -7517,8 +7517,8 @@ function get_price_itinerary_reissue(val){
         get_chosen_ticket();
         render_ticket_reissue();
         //get_price_reissue_construct();
-        sell_journey_reissue_construct();
-//        sell_reschedule_v2();
+//        sell_journey_reissue_construct();
+        sell_reschedule_v2();
         //tampil getprice
     }else{
         flight_select++;
@@ -7563,8 +7563,8 @@ function get_price_itinerary_reissue(val){
         }
         if(airline_pick_list.length == journey_booking_length){
             //get_price_reissue_construct();
-            sell_journey_reissue_construct()
-//            sell_reschedule_v2();
+//            sell_journey_reissue_construct()
+            sell_reschedule_v2();
             //tampil getprice
         }
     }
@@ -8435,8 +8435,8 @@ function get_price_reissue_construct(){
                                get_payment_acq('Issued',airline_get_detail.result.response.booker.seq_id, airline_get_detail.result.response.order_number, 'billing',signature,'airline_reissue');
                                document.getElementById('payment_acq').hidden = false;
                            }else{
-                               document.getElementById('airline_detail').innerHTML += `<input type="button" class="primary-btn issued_booking_btn" style="width:100%;" onclick="update_booking_after_sales(true);" value="Continue">`;
-//                               document.getElementById('airline_detail').innerHTML += `<input type="button" class="primary-btn issued_booking_btn" style="width:100%;" onclick="update_booking_after_sales_v2(true);" value="Continue">`;
+//                               document.getElementById('airline_detail').innerHTML += `<input type="button" class="primary-btn issued_booking_btn" style="width:100%;" onclick="update_booking_after_sales(true);" value="Continue">`;
+                               document.getElementById('airline_detail').innerHTML += `<input type="button" class="primary-btn issued_booking_btn" style="width:100%;" onclick="update_booking_after_sales_v2(true);" value="Continue">`;
                                document.getElementById('payment_acq').innerHTML = '';
                            }
                            if(check_seat){
@@ -8679,8 +8679,8 @@ function sell_journey_reissue_construct(){
                                get_payment_acq('Issued',airline_get_detail.result.response.booker.seq_id, airline_get_detail.result.response.order_number, 'billing',signature,'airline_reissue');
                                document.getElementById('payment_acq').hidden = false;
                            }else{
-                               document.getElementById('airline_detail').innerHTML += `<input type="button" class="primary-btn issued_booking_btn" style="width:100%;" onclick="update_booking_after_sales(true);" value="Continue">`;
-//                               document.getElementById('airline_detail').innerHTML += `<input type="button" class="primary-btn issued_booking_btn" style="width:100%;" onclick="update_booking_after_sales_v2(true);" value="Continue">`;
+//                               document.getElementById('airline_detail').innerHTML += `<input type="button" class="primary-btn issued_booking_btn" style="width:100%;" onclick="update_booking_after_sales(true);" value="Continue">`;
+                               document.getElementById('airline_detail').innerHTML += `<input type="button" class="primary-btn issued_booking_btn" style="width:100%;" onclick="update_booking_after_sales_v2(true);" value="Continue">`;
                                document.getElementById('payment_acq').innerHTML = '';
                            }
                            if(check_seat){
