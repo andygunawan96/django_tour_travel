@@ -2328,7 +2328,7 @@ function prepare_booking(value){
                 document.getElementById("passengers").value = JSON.stringify({'booker':booker});
                 document.getElementById("signature").value = signature;
                 document.getElementById("provider").value = 'activity';
-                document.getElementById("type").value = 'activity';
+                document.getElementById("type").value = 'activity_review';
                 document.getElementById("voucher_code").value = voucher_code;
                 document.getElementById("discount").value = JSON.stringify(discount_voucher);
                 document.getElementById("session_time_input").value = time_limit;
@@ -2447,13 +2447,53 @@ function activity_commit_booking(val){
         if(msg.result.error_code == 0){
             if(val == 0){
                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true){
-                    send_url_booking('activity', btoa(msg.result.response.order_number), msg.result.response.order_number);
-                    document.getElementById('order_number').value = msg.result.response.order_number;
-                    document.getElementById('activity_issued').submit();
+//                    send_url_booking('activity', btoa(msg.result.response.order_number), msg.result.response.order_number);
+//                    document.getElementById('order_number').value = msg.result.response.order_number;
+//                    document.getElementById('activity_issued').submit();
+                    Swal.fire({
+                      title: 'Success',
+                      type: 'success',
+                      showCancelButton: true,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: 'blue',
+                      confirmButtonText: 'Payment',
+                      cancelButtonText: 'View Booking'
+                    }).then((result) => {
+                      if (result.value) {
+                        send_url_booking('activity', btoa(msg.result.response.order_number), msg.result.response.order_number);
+                        document.getElementById('order_number').value = msg.result.response.order_number;
+                        document.getElementById('activity_issued').submit();
+
+                      }else{
+                        document.getElementById('activity_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
+                        document.getElementById('activity_booking').action = '/activity/booking/' + btoa(msg.result.response.order_number);
+                        document.getElementById('activity_booking').submit();
+                      }
+                    })
                 }else{
-                    document.getElementById('activity_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
-                    document.getElementById('activity_booking').action = '/activity/booking/' + btoa(msg.result.response.order_number);
-                    document.getElementById('activity_booking').submit();
+                    Swal.fire({
+                      title: 'Success',
+                      type: 'success',
+                      showCancelButton: true,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: 'blue',
+                      confirmButtonText: 'Payment',
+                      cancelButtonText: 'View Booking'
+                    }).then((result) => {
+                      if (result.value) {
+                        send_url_booking('activity', btoa(msg.result.response.order_number), msg.result.response.order_number);
+                        document.getElementById('order_number').value = msg.result.response.order_number;
+                        document.getElementById('activity_issued').submit();
+
+                      }else{
+                        document.getElementById('activity_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
+                        document.getElementById('activity_booking').action = '/activity/booking/' + btoa(msg.result.response.order_number);
+                        document.getElementById('activity_booking').submit();
+                      }
+                    })
+//                    document.getElementById('activity_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
+//                    document.getElementById('activity_booking').action = '/activity/booking/' + btoa(msg.result.response.order_number);
+//                    document.getElementById('activity_booking').submit();
                 }
             }else{
                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true)
@@ -2515,6 +2555,7 @@ function activity_issued_booking(order_number)
                if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
                     window.location.href = '/activity/booking/' + btoa(order_number);
                }else{
+                   print_success_issued();
                    var booking_num = msg.result.response.order_number;
                    if (booking_num)
                    {

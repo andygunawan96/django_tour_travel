@@ -942,13 +942,15 @@ function set_price(val, type, product_type){
             text += button_payment(type,'reservation');
         }
     else
-        text += button_payment(type,'reservation');
+        if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
+            text += button_payment(type,'payment');
+        }else{
+            text += button_payment(type,'reservation');
+        }
     document.getElementById('set_price').innerHTML = text;
 }
 
 function button_payment(type, page){
-    console.log(type);
-    console.log(page);
     temp_text = '';
     if(type == 'visa'){
         temp_text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="visa_pre_create_booking(1);" style="width:100%;">Request Now <div class="ld ld-ring ld-cycle"></div></button>`;
@@ -963,6 +965,8 @@ function button_payment(type, page){
             temp_text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="train_issued('`+order_number_id+`');" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
     }else if(type == 'airline_review'){
         temp_text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="force_issued_airline(1);" style="width:100%;">Pay Now<div class="ld ld-ring ld-cycle"></div></button>`;
+    }else if(type == 'airline_book_then_issued'){
+        temp_text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="airline_issued('`+order_number_id+`');" style="width:100%;">Pay Now<div class="ld ld-ring ld-cycle"></div></button>`;
     }else if(type == 'airline'){
         if(page == 'reservation')
             temp_text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="airline_issued('`+airline_get_detail.result.response.order_number+`');" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
@@ -974,11 +978,11 @@ function button_payment(type, page){
         else if(page == 'payment')
             temp_text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="ppob_issued('`+order_number_id+`');" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
     }else if(type == 'airline_reissue'){
-        temp_text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="update_booking_after_sales();" style="width:100%;">Reschedule <div class="ld ld-ring ld-cycle"></div></button>`;
-//        temp_text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="update_booking_after_sales_v2(true);" style="width:100%;">Reschedule <div class="ld ld-ring ld-cycle"></div></button>`;
+//        temp_text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="update_booking_after_sales();" style="width:100%;">Reschedule <div class="ld ld-ring ld-cycle"></div></button>`;
+        temp_text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="update_booking_after_sales_v2(true);" style="width:100%;">Reschedule <div class="ld ld-ring ld-cycle"></div></button>`;
     }else if(type == 'airline_after_sales'){
-        temp_text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="update_booking_after_sales();" style="width:100%;">Proceed Request <div class="ld ld-ring ld-cycle"></div></button>`;
-//        temp_text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="update_booking_after_sales_v2();" style="width:100%;">Proceed Request <div class="ld ld-ring ld-cycle"></div></button>`;
+//        temp_text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="update_booking_after_sales();" style="width:100%;">Proceed Request <div class="ld ld-ring ld-cycle"></div></button>`;
+        temp_text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="update_booking_after_sales_v2();" style="width:100%;">Proceed Request <div class="ld ld-ring ld-cycle"></div></button>`;
     }else if(type == 'hotel_review'){
         temp_text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="force_issued_hotel(1);" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
     }else if(type == 'hotel'){

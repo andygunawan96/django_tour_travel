@@ -18,6 +18,12 @@
     signature = `{{signature}}`;
     vendor = `{{vendor}}`;
     test_type = `{{test_type}}`;
+
+    passengers = `{{passenger_booker}}`;
+    passengers = passengers.replace(/&#39;/g, '"');
+    passengers = passengers.replace(/True/g, true);
+    passengers = passengers.replace(/False/g, false);
+    passengers = JSON.parse(passengers);
 </script>
 {% include 'tt_website_rodextrip/logout.html' %}
 {% include 'tt_website_rodextrip/loading_screen.html' %}

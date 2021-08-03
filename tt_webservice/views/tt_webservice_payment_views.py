@@ -79,7 +79,7 @@ def get_payment_acquirer(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    if request.POST['type'] == 'airline' or request.POST['type'] == 'airline_review' or request.POST['type'] == 'airline_reissue' or request.POST['type'] == 'airline_after_sales':
+    if request.POST['type'] == 'airline' or request.POST['type'] == 'airline_book_then_issued' or request.POST['type'] == 'airline_review' or request.POST['type'] == 'airline_reissue' or request.POST['type'] == 'airline_after_sales':
         url_post = 'booking/airline'
     elif request.POST['type'] == 'train':
         url_post = 'booking/train'
