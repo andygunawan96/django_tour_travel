@@ -84,6 +84,17 @@
 </div>
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; background:#f7f7f7;">
     <div class="container">
+        <form method="post" id="back_btn_reservation" action=''>
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-lg-4">
+                    <button type="submit" class="primary-btn-white" style="width:100%;"> <i class="fas fa-arrow-left"></i> Back To Reservation</button>
+                </div>
+                <div class="col-lg-8">
+
+                </div>
+            </div>
+        </form>
         <div class="col-lg-12" id="show_loading_booking_airline">
             <div class="center-div">
                 <div>
@@ -145,6 +156,7 @@
 {% include 'tt_website_rodextrip/footer.html' %}
 <script>
     try{
+        document.getElementById('back_btn_reservation').action = '/' + '{{provider_payment}}' + '/booking/' + btoa('{{order_number}}');
         get_payment_acq('Issued',passengers.booker.booker_seq_id, '{{order_number}}', 'billing',signature,'{{type}}');
     }catch(err){console.log(err);}
     $( document ).ready(function() {

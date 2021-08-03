@@ -1689,9 +1689,30 @@ function event_create_booking(val,a){
             $('.loader-rodextrip').fadeOut();
             if(val == 0){
                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true){
-                    send_url_booking('event', btoa(msg.result.response.order_number), msg.result.response.order_number);
-                    document.getElementById('order_number').value = msg.result.response.order_number;
-                    document.getElementById('event_issued').submit();
+//                    send_url_booking('event', btoa(msg.result.response.order_number), msg.result.response.order_number);
+//                    document.getElementById('order_number').value = msg.result.response.order_number;
+//                    document.getElementById('event_issued').submit();
+                    Swal.fire({
+                      title: 'Success',
+                      type: 'success',
+                      showCancelButton: true,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: 'blue',
+                      confirmButtonText: 'Payment',
+                      cancelButtonText: 'View Booking'
+                    }).then((result) => {
+                      if (result.value) {
+                           $('.hold-seat-booking-train').addClass("running");
+                           $('.hold-seat-booking-train').attr("disabled", true);
+                           send_url_booking('event', btoa(msg.result.response.order_number), msg.result.response.order_number);
+                           document.getElementById('order_number').value = msg.result.response.order_number;
+                           document.getElementById('event_issued').submit();
+                      }else{
+                           document.getElementById('event_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
+                           document.getElementById('event_booking').action = '/event/booking/' + btoa(msg.result.response.order_number);
+                           document.getElementById('event_booking').submit();
+                      }
+                    })
                 }else{
                     Swal.fire({
                       title: 'Success',
