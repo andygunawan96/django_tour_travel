@@ -167,7 +167,7 @@ Licence URI: http://www.os-templates.com/template-terms
 
         function get_captcha(id,type){
           var form = this;
-          if({{google_recaptcha}} == '1'){
+          if('{{google_recaptcha}}' == '1'){
               grecaptcha.execute('{{site_key}}', {action: ''}).then(function(token) {
                   $('#'+id).val(token)
                   button_onclick(type);
