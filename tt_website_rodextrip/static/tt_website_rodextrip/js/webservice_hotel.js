@@ -1958,6 +1958,117 @@ function hotel_get_booking(data){
                         timezone = timezone.filter(item => item !== '0')
                         msg.result.response.issued_date = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
                     }
+
+                    if(msg.result.response.state == 'cancel'){
+                       document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                       document.getElementById('issued-breadcrumb').classList.add("br-fail");
+                       //document.getElementById('issued-breadcrumb').classList.remove("current");
+                       //document.getElementById('header_issued').innerHTML = `Fail <i class="fas fa-times"></i>`;
+                       document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                       document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+                       document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                       document.getElementById('issued-breadcrumb-span').innerHTML = `Cancelled`;
+                       document.getElementById('alert-state').innerHTML = `
+                       <div class="alert alert-danger" role="alert">
+                           <h5>Your booking has been Cancelled!</h5>
+                       </div>`;
+                    }else if(msg.result.response.state == 'cancel2'){
+                       document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                       document.getElementById('issued-breadcrumb').classList.add("br-fail");
+                       //document.getElementById('issued-breadcrumb').classList.remove("current");
+                       //document.getElementById('header_issued').innerHTML = `Fail <i class="fas fa-times"></i>`;
+                       document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                       document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+                       document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                       document.getElementById('issued-breadcrumb-span').innerHTML = `Expired`;
+                       document.getElementById('alert-state').innerHTML = `
+                       <div class="alert alert-danger" role="alert">
+                           <h5>Your booking has been Expired!</h5>
+                       </div>`;
+                    }else if(msg.result.response.state == 'void'){
+                       document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                       document.getElementById('issued-breadcrumb').classList.add("br-fail");
+                       //document.getElementById('issued-breadcrumb').classList.remove("current");
+                       //document.getElementById('header_issued').innerHTML = `Fail <i class="fas fa-times"></i>`;
+                       document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                       document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+                       document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                       document.getElementById('issued-breadcrumb-span').innerHTML = `Cancelled`;
+                       document.getElementById('alert-state').innerHTML = `
+                       <div class="alert alert-danger" role="alert">
+                           <h5>Your booking has been Cancelled!</h5>
+                       </div>`;
+                    }else if(msg.result.response.state == 'fail_booked'){
+                       document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                       document.getElementById('issued-breadcrumb').classList.add("br-fail");
+                       //document.getElementById('issued-breadcrumb').classList.remove("current");
+                       //document.getElementById('header_issued').innerHTML = `Fail <i class="fas fa-times"></i>`;
+                       document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                       document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+                       document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                       document.getElementById('issued-breadcrumb-span').innerHTML = `Fail (Book)`;
+                       document.getElementById('alert-state').innerHTML = `
+                       <div class="alert alert-danger" role="alert">
+                           <h5>Your booking has been Fail (Book)!</h5>
+                       </div>`;
+                    }else if(msg.result.response.state == 'fail_issued'){
+                       document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                       document.getElementById('issued-breadcrumb').classList.add("br-fail");
+                       //document.getElementById('issued-breadcrumb').classList.remove("current");
+                       //document.getElementById('header_issued').innerHTML = `Fail <i class="fas fa-times"></i>`;
+                       document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                       document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+                       document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                       document.getElementById('issued-breadcrumb-span').innerHTML = `Fail (Issued)`;
+                       document.getElementById('alert-state').innerHTML = `
+                       <div class="alert alert-danger" role="alert">
+                           <h5>Your booking has been Fail (Issued)!</h5>
+                       </div>`;
+                    }else if(msg.result.response.state == 'booked'){
+                       try{
+                           if(now.diff(hold_date_time, 'minutes')<0)
+                               check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'airline', signature, msg.result.response.payment_acquirer_number);
+                           get_payment = true;
+        //                   get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'airline');
+                           document.getElementById('voucher_div').style.display = '';
+                           //document.getElementById('issued-breadcrumb').classList.remove("active");
+                           //document.getElementById('issued-breadcrumb').classList.add("current");
+                           document.getElementById('issued-breadcrumb').classList.add("br-active");
+                           document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
+
+                           document.getElementById('alert-state').innerHTML = `
+                           <div class="alert alert-success" role="alert">
+                               <h5>Your booking has been successfully Booked. Please proceed to payment or review your booking again.</h5>
+                           </div>`;
+                       }catch(err){}
+                    }else if(msg.result.response.state == 'draft'){
+                       document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                       document.getElementById('issued-breadcrumb').classList.add("br-fail");
+                       document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                       document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+                       document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                       document.getElementById('Booking-breadcrumb').classList.remove("br-book");
+                       document.getElementById('Booking-breadcrumb').classList.add("br-fail");
+                       document.getElementById('Booking-breadcrumb-icon').classList.remove("br-icon-active");
+                       document.getElementById('Booking-breadcrumb-icon').classList.add("br-icon-fail");
+                       document.getElementById('Booking-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                       document.getElementById('alert-state').innerHTML = `
+                       <div class="alert alert-info" role="alert">
+                           <h5>Your booking has not been processed!</h5>
+                       </div>`;
+
+                    }else{
+                       //document.getElementById('issued-breadcrumb').classList.remove("current");
+                       //document.getElementById('issued-breadcrumb').classList.add("active");
+                       document.getElementById('issued-breadcrumb').classList.add("br-active");
+                       document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
+                       document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
+                       document.getElementById('alert-state').innerHTML = `
+                       <div class="alert alert-success" role="alert">
+                           <h5>Your booking has been successfully Issued!</h5>
+                       </div>`;
+                    }
+
                     if(msg.result.response.state == 'pending' || msg.result.response.state == 'in_progress' || msg.result.response.state == 'partial_issued' || msg.result.response.state == 'fail_issued'){
                         document.getElementById('div_sync_status').hidden = false;
                     }

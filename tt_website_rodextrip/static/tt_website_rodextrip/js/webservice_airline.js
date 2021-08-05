@@ -4139,6 +4139,10 @@ function airline_get_booking(data, sync=false){
                    document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
                    document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
                    document.getElementById('issued-breadcrumb-span').innerHTML = `Cancelled`;
+                   document.getElementById('alert-state').innerHTML = `
+                   <div class="alert alert-danger" role="alert">
+                       <h5>Your booking has been Cancelled!</h5>
+                   </div>`;
                 }else if(msg.result.response.state == 'cancel2'){
                    document.getElementById('issued-breadcrumb').classList.remove("br-active");
                    document.getElementById('issued-breadcrumb').classList.add("br-fail");
@@ -4148,6 +4152,10 @@ function airline_get_booking(data, sync=false){
                    document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
                    document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
                    document.getElementById('issued-breadcrumb-span').innerHTML = `Expired`;
+                   document.getElementById('alert-state').innerHTML = `
+                   <div class="alert alert-danger" role="alert">
+                       <h5>Your booking has been Expired!</h5>
+                   </div>`;
                 }else if(msg.result.response.state == 'void'){
                    document.getElementById('issued-breadcrumb').classList.remove("br-active");
                    document.getElementById('issued-breadcrumb').classList.add("br-fail");
@@ -4157,6 +4165,10 @@ function airline_get_booking(data, sync=false){
                    document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
                    document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
                    document.getElementById('issued-breadcrumb-span').innerHTML = `Cancelled`;
+                   document.getElementById('alert-state').innerHTML = `
+                   <div class="alert alert-danger" role="alert">
+                       <h5>Your booking has been Cancelled!</h5>
+                   </div>`;
                 }else if(msg.result.response.state == 'fail_booked'){
                    document.getElementById('issued-breadcrumb').classList.remove("br-active");
                    document.getElementById('issued-breadcrumb').classList.add("br-fail");
@@ -4166,6 +4178,10 @@ function airline_get_booking(data, sync=false){
                    document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
                    document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
                    document.getElementById('issued-breadcrumb-span').innerHTML = `Fail (Book)`;
+                   document.getElementById('alert-state').innerHTML = `
+                   <div class="alert alert-danger" role="alert">
+                       <h5>Your booking has been Fail (Book)!</h5>
+                   </div>`;
                 }else if(msg.result.response.state == 'booked'){
                    try{
                        if(now.diff(hold_date_time, 'minutes')<0)
@@ -4177,6 +4193,11 @@ function airline_get_booking(data, sync=false){
                        //document.getElementById('issued-breadcrumb').classList.add("current");
                        document.getElementById('issued-breadcrumb').classList.add("br-active");
                        document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
+
+                       document.getElementById('alert-state').innerHTML = `
+                       <div class="alert alert-success" role="alert">
+                           <h5>Your booking has been successfully Booked. Please proceed to payment or review your booking again.</h5>
+                       </div>`;
                    }catch(err){}
                 }else if(msg.result.response.state == 'draft'){
                    document.getElementById('issued-breadcrumb').classList.remove("br-active");
@@ -4189,12 +4210,20 @@ function airline_get_booking(data, sync=false){
                    document.getElementById('Booking-breadcrumb-icon').classList.remove("br-icon-active");
                    document.getElementById('Booking-breadcrumb-icon').classList.add("br-icon-fail");
                    document.getElementById('Booking-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                   document.getElementById('alert-state').innerHTML = `
+                   <div class="alert alert-info" role="alert">
+                       <h5>Your booking has not been processed!</h5>
+                   </div>`;
                 }else{
                    //document.getElementById('issued-breadcrumb').classList.remove("current");
                    //document.getElementById('issued-breadcrumb').classList.add("active");
                    document.getElementById('issued-breadcrumb').classList.add("br-active");
                    document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
                    document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
+                   document.getElementById('alert-state').innerHTML = `
+                   <div class="alert alert-success" role="alert">
+                       <h5>Your booking has been successfully Issued!</h5>
+                   </div>`;
                 }
                 last_date = '';
                 for(i in msg.result.response.provider_bookings){
