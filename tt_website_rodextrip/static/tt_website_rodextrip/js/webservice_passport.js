@@ -619,6 +619,10 @@ function passport_get_data(data){
                     if(cur_state == 'booked'){
                         conv_status = 'Booked';
                         document.getElementById('order_state').innerHTML = 'Your Order Has Been ' + cur_state.charAt(0).toUpperCase()+cur_state.slice(1).toLowerCase();
+                        document.getElementById('alert-state').innerHTML = `
+                        <div class="alert alert-success" role="alert">
+                            <h5>Your booking has been successfully Booked. Please proceed to payment or review your booking again.</h5>
+                        </div>`;
                     }
                     else if(cur_state == 'issued'){
                         conv_status = 'Issued';
@@ -626,6 +630,10 @@ function passport_get_data(data){
                         document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
                         document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
                         document.getElementById('order_state').innerHTML = 'Your Order Has Been ' + cur_state.charAt(0).toUpperCase()+cur_state.slice(1).toLowerCase();
+                        document.getElementById('alert-state').innerHTML = `
+                        <div class="alert alert-success" role="alert">
+                            <h5>Your booking has been successfully Issued!</h5>
+                        </div>`;
                     }
                     else if(cur_state == 'cancel'){
                         conv_status = 'Cancelled';
@@ -636,6 +644,10 @@ function passport_get_data(data){
                         document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
                         document.getElementById('issued-breadcrumb-span').innerHTML = `Cancelled`;
                         document.getElementById('order_state').innerHTML = 'Your Order Has Been ' + conv_status;
+                        document.getElementById('alert-state').innerHTML = `
+                        <div class="alert alert-danger" role="alert">
+                            <h5>Your booking has been Cancelled!</h5>
+                        </div>`;
                     }
                     else if(cur_state == 'cancel2'){
                         conv_status = 'Expired';
@@ -646,6 +658,10 @@ function passport_get_data(data){
                         document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
                         document.getElementById('issued-breadcrumb-span').innerHTML = `Expired`;
                         document.getElementById('order_state').innerHTML = 'Your Order Has Been ' + conv_status;
+                        document.getElementById('alert-state').innerHTML = `
+                        <div class="alert alert-danger" role="alert">
+                            <h5>Your booking has been Expired!</h5>
+                        </div>`;
                     }
                     else if(cur_state == 'fail_issued'){
                         conv_status = 'Fail Issued';
@@ -657,6 +673,10 @@ function passport_get_data(data){
                         document.getElementById('issued-breadcrumb-span').innerHTML = `Fail Issued`;
                         document.getElementById('order_state').innerHTML = 'Your Order Has Been ' + conv_status;
                         document.getElementById('order_state').innerHTML = 'Your Order Has Failed, Please Try Again';
+                        document.getElementById('alert-state').innerHTML = `
+                        <div class="alert alert-danger" role="alert">
+                            <h5>Your booking has been Failed (Issued)!</h5>
+                        </div>`;
                     }
                     else{
                         conv_status = 'Pending';
@@ -667,6 +687,10 @@ function passport_get_data(data){
                         document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-clock"></i>`;
                         document.getElementById('issued-breadcrumb-span').innerHTML = `Pending`;
                         document.getElementById('order_state').innerHTML = 'Your Order Is Currently ' + conv_status;
+                        document.getElementById('alert-state').innerHTML = `
+                        <div class="alert alert-info" role="alert">
+                            <h5>Your booking is currently Pending!</h5>
+                        </div>`;
                     }
 
                     conv_status_passport = {
