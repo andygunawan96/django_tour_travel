@@ -5702,7 +5702,7 @@ function check_refund_partial_btn(){
                                 </div>
                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
                                     <span style="font-size:13px;" id="total_`+msg.result.response.provider_bookings[i].pnr+`">`+currency+` `;
-                                    if(is_amadeus[i] == true && msg.result.response.provider_bookings[i].passengers[0].fees.length == 0){
+                                    if(is_amadeus[i] == false){
                                         text+=getrupiah(parseInt(msg.result.response.provider_bookings[i].resv_total_price - msg.result.response.provider_bookings[i].penalty_amount))+`</span>`;
                                         total = total - msg.result.response.provider_bookings[i].penalty_amount - msg.result.response.provider_bookings[i].admin_fee;
                                     }else{
