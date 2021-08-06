@@ -558,6 +558,34 @@ def ssr(request):
                 infant = []
                 child = []
                 airline_get_booking_resp = request.session.get('airline_get_booking_response') if request.session.get('airline_get_booking_response') else json.loads(request.POST['get_booking_data_json'])
+                for rec in airline_get_booking_resp['result']['response']['provider_bookings']:
+                    if rec.get('rules'):
+                        rec.pop('rules')
+                    for journey in rec['journeys']:
+                        for segment in journey['segments']:
+                            if segment.get('fare_details'):
+                                segment.pop('fare_details')
+                for rec in airline_get_booking_resp['result']['response']['reschedule_list']:
+                    for provider_booking in rec['provider_bookings']:
+                        if(provider_booking.get('rules')):
+                            provider_booking.pop('rules')
+                        for journey in provider_booking['journeys']:
+                            for segment in journey['segments']:
+                                if segment.get('fare_details'):
+                                    segment.pop('fare_details')
+                                if (segment.get('addons')):
+                                    segment.pop('addons')
+
+                    for new_segment in rec['new_segments']:
+                        if new_segment.get('fare_details'):
+                            new_segment.pop('fare_details')
+                        if (new_segment.get('addons')):
+                            new_segment.pop('addons')
+                    for old_segment in rec['old_segments']:
+                        if(old_segment.get('fare_details')):
+                            old_segment.pop('fare_details')
+                        if (old_segment.get('addons')):
+                            old_segment.pop('addons')
                 set_session(request, 'airline_get_booking_response', airline_get_booking_resp)
                 for pax in airline_get_booking_resp['result']['response']['passengers']:
                     if pax.get('birth_date'):
@@ -772,6 +800,34 @@ def seat_map(request):
                 infant = []
                 child = []
                 airline_get_booking_resp = request.session.get('airline_get_booking_response') if request.session.get('airline_get_booking_response') else json.loads(request.POST['get_booking_data_json'])
+                for rec in airline_get_booking_resp['result']['response']['provider_bookings']:
+                    if rec.get('rules'):
+                        rec.pop('rules')
+                    for journey in rec['journeys']:
+                        for segment in journey['segments']:
+                            if segment.get('fare_details'):
+                                segment.pop('fare_details')
+                for rec in airline_get_booking_resp['result']['response']['reschedule_list']:
+                    for provider_booking in rec['provider_bookings']:
+                        if(provider_booking.get('rules')):
+                            provider_booking.pop('rules')
+                        for journey in provider_booking['journeys']:
+                            for segment in journey['segments']:
+                                if segment.get('fare_details'):
+                                    segment.pop('fare_details')
+                                if (segment.get('addons')):
+                                    segment.pop('addons')
+
+                    for new_segment in rec['new_segments']:
+                        if new_segment.get('fare_details'):
+                            new_segment.pop('fare_details')
+                        if (new_segment.get('addons')):
+                            new_segment.pop('addons')
+                    for old_segment in rec['old_segments']:
+                        if(old_segment.get('fare_details')):
+                            old_segment.pop('fare_details')
+                        if (old_segment.get('addons')):
+                            old_segment.pop('addons')
                 set_session(request, 'airline_get_booking_response', airline_get_booking_resp)
                 for pax in airline_get_booking_resp['result']['response']['passengers']:
                     if pax.get('birth_date'):
