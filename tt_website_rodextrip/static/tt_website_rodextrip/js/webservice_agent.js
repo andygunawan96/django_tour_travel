@@ -4978,7 +4978,8 @@ function update_cache_version_func(type){
     if(type == 'data')
         document.getElementById('update_cache_version').disabled = true;
     else if(type == 'image')
-        document.getElementById('update_cache_image').disabled = true;
+        if(document.getElementById('update_cache_image'))
+            document.getElementById('update_cache_image').disabled = true;
     action = 'update_cache'
     action += '_'+type;
 
