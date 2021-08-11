@@ -75,33 +75,37 @@
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; z-index:1; background:#f7f7f7;">
     <div class="container">
         <div class="row">
-            <div class="col-lg-12">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div id="show_title_hotel" hidden>
-                                <h3>{% trans 'Please Review Your Booking' %}</h3>
-                                <h4>{% trans 'Prices may changes at any time' %}</h4>
-                                <br/>
-                            </div>
-                        </div>
-                        <div class="col-lg-2" id="div_sync_status" hidden>
-                            <input type="button" class="primary-btn" id="button-sync-status" style="width:100%;" value="Sync Status" onclick="hotel_get_booking('{{order_number}}')">
-                        </div>
-                    </div>
-                    <div class="col-lg-12" id="show_loading_booking_airline">
-                        <div class="center-div">
-                            <div>
-                                <img src="{{static_path}}img/loading-screen-white.gif" alt="Loading Screen" style="height:25px; width:25px;"/>
-                            </div>
-                        </div>
-                        <div style="text-align:center">
-                            <span style="font-size:18px; font-weight:bold;">{% trans 'PLEASE WAIT' %} ... </span>
+            <div class="col-lg-3">
+                <button type="button" class="primary-btn-white" style="width:100%;" onclick="window.location.href='/reservation'"> <i class="fas fa-arrow-left"></i> Back </button>
+            </div>
+            <div class="col-lg-9"></div>
+            <div class="col-lg-12 mt-3">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div id="show_title_hotel" hidden>
+                            <h3>{% trans 'Please Review Your Booking' %}</h3>
+                            <h4>{% trans 'Prices may changes at any time' %}</h4>
+                            <br/>
                         </div>
                     </div>
-                    <div class="alert alert-warning" id="show_error_booking_airline" style="display:none;">
-                        <h5>{% trans 'Oops! Something went wrong, please try again or check your internet connection.' %}</h5>
+                    <div class="col-lg-2" id="div_sync_status" hidden>
+                        <input type="button" class="primary-btn" id="button-sync-status" style="width:100%;" value="Sync Status" onclick="hotel_get_booking('{{order_number}}')">
                     </div>
                 </div>
+                <div class="col-lg-12" id="show_loading_booking_airline">
+                    <div class="center-div">
+                        <div>
+                            <img src="{{static_path}}img/loading-screen-white.gif" alt="Loading Screen" style="height:25px; width:25px;"/>
+                        </div>
+                    </div>
+                    <div style="text-align:center">
+                        <span style="font-size:18px; font-weight:bold;">{% trans 'PLEASE WAIT' %} ... </span>
+                    </div>
+                </div>
+                <div class="alert alert-warning" id="show_error_booking_airline" style="display:none;">
+                    <h5>{% trans 'Oops! Something went wrong, please try again or check your internet connection.' %}</h5>
+                </div>
+            </div>
             <div class="col-lg-12" id="show_loading_booking_airline" style="display:none;">
                 <div class="sk-circle">
                     <div class="sk-circle1 sk-child"></div>
@@ -120,6 +124,13 @@
                 <div style="text-align:center"><h6>{% trans 'PLEASE WAIT' %}</h6></div>
             </div>
             <div class="col-lg-8" id="hotel_resv_left">
+
+                <div class="row">
+                    <div class="col-lg-12" id="alert-state">
+
+                    </div>
+                </div>
+
                 <div class="row review-header" style="padding:15px;">
                     <div class="col-lg-12" style="border:1px solid #cdcdcd; background-color:white; padding-top:15px; padding-bottom:15px;" id="hotel_booking">
 

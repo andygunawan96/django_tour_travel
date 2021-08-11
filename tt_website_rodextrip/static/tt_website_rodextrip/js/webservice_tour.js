@@ -1508,6 +1508,10 @@ function tour_get_booking(order_number)
                         conv_status = 'Booked';
                         document.getElementById('voucher_discount').style.display = '';
                         document.getElementById('order_state').innerHTML = 'Your Order Has Been ' + conv_status;
+                        document.getElementById('alert-state').innerHTML = `
+                        <div class="alert alert-success" role="alert">
+                            <h5>Your booking has been successfully Booked. Please proceed to payment or review your booking again.</h5>
+                        </div>`;
                     }
                     else if(cur_state == 'issued'){
                         conv_status = 'Issued';
@@ -1516,6 +1520,10 @@ function tour_get_booking(order_number)
                         document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
                         document.getElementById('order_state').innerHTML = 'Your Order Has Been ' + conv_status;
                         document.getElementById('voucher_discount').innerHTML = '';
+                        document.getElementById('alert-state').innerHTML = `
+                        <div class="alert alert-success" role="alert">
+                            <h5>Your booking has been successfully Issued!</h5>
+                        </div>`;
                     }
                     else if(cur_state == 'cancel'){
                         conv_status = 'Cancelled';
@@ -1527,6 +1535,10 @@ function tour_get_booking(order_number)
                         document.getElementById('issued-breadcrumb-span').innerHTML = `Cancelled`;
                         document.getElementById('order_state').innerHTML = 'Your Order Has Been ' + conv_status;
                         document.getElementById('voucher_discount').innerHTML = '';
+                        document.getElementById('alert-state').innerHTML = `
+                        <div class="alert alert-danger" role="alert">
+                            <h5>Your booking has been Cancelled!</h5>
+                        </div>`;
                     }
                     else if(cur_state == 'cancel2'){
                         conv_status = 'Expired';
@@ -1538,6 +1550,10 @@ function tour_get_booking(order_number)
                         document.getElementById('issued-breadcrumb-span').innerHTML = `Expired`;
                         document.getElementById('order_state').innerHTML = 'Your Order Has Been ' + conv_status;
                         document.getElementById('voucher_discount').innerHTML = '';
+                        document.getElementById('alert-state').innerHTML = `
+                        <div class="alert alert-danger" role="alert">
+                            <h5>Your booking has been Expired!</h5>
+                        </div>`;
                     }
                     else if(cur_state == 'fail_issued'){
                         conv_status = 'Fail Issued';
@@ -1550,6 +1566,10 @@ function tour_get_booking(order_number)
                         document.getElementById('order_state').innerHTML = 'Your Order Has Been ' + conv_status;
                         document.getElementById('order_state').innerHTML = 'Your Order Has Failed, Please Try Again';
                         document.getElementById('voucher_discount').innerHTML = '';
+                        document.getElementById('alert-state').innerHTML = `
+                        <div class="alert alert-danger" role="alert">
+                            <h5>Your booking has been Failed (Issue)!</h5>
+                        </div>`;
                     }
                     else if(cur_state == 'fail_refunded'){
                         conv_status = 'Failed (Refunded)';
@@ -1562,6 +1582,10 @@ function tour_get_booking(order_number)
                         document.getElementById('order_state').innerHTML = 'Your Order Has Been ' + conv_status;
                         document.getElementById('order_state').innerHTML = 'Your Order Has Failed and Your Balance Has Been Refunded';
                         document.getElementById('voucher_discount').innerHTML = '';
+                        document.getElementById('alert-state').innerHTML = `
+                        <div class="alert alert-danger" role="alert">
+                            <h5>Your booking has been Failed (Book)!</h5>
+                        </div>`;
                     }
                     else if(cur_state == 'pending'){
                         conv_status = 'Pending';
@@ -1573,11 +1597,19 @@ function tour_get_booking(order_number)
                         document.getElementById('issued-breadcrumb-span').innerHTML = `Pending`;
                         document.getElementById('order_state').innerHTML = 'Your Order Is Currently ' + conv_status;
                         document.getElementById('voucher_discount').innerHTML = '';
+                        document.getElementById('alert-state').innerHTML = `
+                        <div class="alert alert-info" role="alert">
+                            <h5>Your booking is currently Pending!</h5>
+                        </div>`;
                     }
                     else{
                         document.getElementById('issued-breadcrumb-span').innerHTML = cur_state_desc;
                         document.getElementById('order_state').innerHTML = 'Your Order Status Is ' + cur_state_desc;
                         document.getElementById('voucher_discount').innerHTML = '';
+                        document.getElementById('alert-state').innerHTML = `
+                        <div class="alert alert-danger" role="alert">
+                            <h5>Your booking has been `+cur_state_desc+`!</h5>
+                        </div>`;
                     }
 
                    text = `

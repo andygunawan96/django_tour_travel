@@ -287,6 +287,10 @@ function event_get_booking(data){
                check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'event', signature, msg.result.response.payment_acquirer_number);
                $(".issued_booking_btn").show();
                $text += 'Status: Booked\n';
+               document.getElementById('alert-state').innerHTML = `
+               <div class="alert alert-success" role="alert">
+                   <h5>Your booking has been successfully Booked. Please proceed to payment or review your booking again.</h5>
+               </div>`;
             }
             else if(msg.result.response.state == 'issued'){
                 document.getElementById('issued-breadcrumb').classList.add("br-active");
@@ -296,6 +300,10 @@ function event_get_booking(data){
                 document.getElementById('display_state').innerHTML = `Your Order Has Been Issued`;
                 //document.getElementById('display_prices').style.display = "none";
                 $text += 'Status: Issued\n';
+                document.getElementById('alert-state').innerHTML = `
+                <div class="alert alert-success" role="alert">
+                    <h5>Your booking has been successfully Issued!</h5>
+                </div>`;
             }
             else if(msg.result.response.state == 'cancel2'){
                 $text += 'Status: Expired \n';
@@ -307,6 +315,10 @@ function event_get_booking(data){
                 document.getElementById('issued-breadcrumb-span').innerHTML = `Expired`;
                 document.getElementById('display_state').innerHTML = `Your Order Has Been Expired`;
                 document.getElementById('show_title_event').hidden = true;
+                document.getElementById('alert-state').innerHTML = `
+                <div class="alert alert-danger" role="alert">
+                    <h5>Your booking has been Expired!</h5>
+                </div>`;
             }
             else if(msg.result.response.state == 'fail_issued'){
                 $text = 'Failed (Issue)';
@@ -318,6 +330,10 @@ function event_get_booking(data){
                 document.getElementById('issued-breadcrumb-span').innerHTML = `Failed (Issue)`;
                 document.getElementById('display_state').innerHTML = `Your Order Has Been Failed (Issue)`;
                 document.getElementById('show_title_event').hidden = true;
+                document.getElementById('alert-state').innerHTML = `
+                <div class="alert alert-danger" role="alert">
+                    <h5>Your booking has been Failed (Issue)!</h5>
+                </div>`;
             }
             else if(msg.result.response.state == 'fail_booked'){
                 $text = 'Failed (Book)';
@@ -329,6 +345,10 @@ function event_get_booking(data){
                 document.getElementById('issued-breadcrumb-span').innerHTML = `Failed (Book)`;
                 document.getElementById('display_state').innerHTML = `Your Order Has Been Failed (Book)`;
                 document.getElementById('show_title_event').hidden = true;
+                document.getElementById('alert-state').innerHTML = `
+                <div class="alert alert-danger" role="alert">
+                    <h5>Your booking has been Failed (Book)!</h5>
+                </div>`;
             }
             else if(msg.result.response.state == 'fail_refunded'){
                 $text = 'Failed (Refunded)';
@@ -340,6 +360,10 @@ function event_get_booking(data){
                 document.getElementById('issued-breadcrumb-span').innerHTML = `Failed (Refunded)`;
                 document.getElementById('display_state').innerHTML = `Your Order Has Been Failed (Refunded)`;
                 document.getElementById('show_title_event').hidden = true;
+                document.getElementById('alert-state').innerHTML = `
+                <div class="alert alert-danger" role="alert">
+                    <h5>Your booking has been Failed (Refunded)!</h5>
+                </div>`;
             }
             else if(msg.result.response.state == 'refund'){
                 $text = 'Refunded';
@@ -349,6 +373,10 @@ function event_get_booking(data){
                 document.getElementById('issued-breadcrumb-span').innerHTML = `Refunded`;
                 document.getElementById('display_state').innerHTML = `Your Order Has Been Refunded`;
                 document.getElementById('show_title_event').hidden = true;
+                document.getElementById('alert-state').innerHTML = `
+                <div class="alert alert-success" role="alert">
+                    <h5>Your booking has been Refund!</h5>
+                </div>`;
             }
 
             //======================= Option =========================

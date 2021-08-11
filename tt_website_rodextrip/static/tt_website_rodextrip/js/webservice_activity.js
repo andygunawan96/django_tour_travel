@@ -2799,6 +2799,10 @@ function activity_get_booking(data){
                         document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
                         document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
                         document.getElementById('display_state').innerHTML = `Your Order Has Been Issued`;
+                        document.getElementById('alert-state').innerHTML = `
+                        <div class="alert alert-success" role="alert">
+                            <h5>Your booking has been successfully Issued!</h5>
+                        </div>`;
                     }
                     else if(msg.result.response.state == 'booked'){
                         document.getElementById('voucher_discount').style.display = '';
@@ -2808,6 +2812,10 @@ function activity_get_booking(data){
                         document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
                         document.getElementById('issued-breadcrumb-span').innerHTML = `Booked`;
                         document.getElementById('display_state').innerHTML = `Your Order Has Been Booked`;
+                        document.getElementById('alert-state').innerHTML = `
+                        <div class="alert alert-success" role="alert">
+                            <h5>Your booking has been successfully Booked. Please proceed to payment or review your booking again.</h5>
+                        </div>`;
                     }
                     else if(msg.result.response.state == 'rejected'){
                         conv_status = 'Rejected';
@@ -2818,6 +2826,10 @@ function activity_get_booking(data){
                         document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
                         document.getElementById('issued-breadcrumb-span').innerHTML = `Rejected`;
                         document.getElementById('display_state').innerHTML = `Your Order Has Been Rejected`;
+                        document.getElementById('alert-state').innerHTML = `
+                        <div class="alert alert-danger" role="alert">
+                            <h5>Your booking has been Rejected!</h5>
+                        </div>`;
                     }
                     else if(msg.result.response.state == 'cancel'){
                         conv_status = 'Cancelled';
@@ -2828,6 +2840,10 @@ function activity_get_booking(data){
                         document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
                         document.getElementById('issued-breadcrumb-span').innerHTML = `Cancelled`;
                         document.getElementById('display_state').innerHTML = `Your Order Has Been Cancelled`;
+                        document.getElementById('alert-state').innerHTML = `
+                        <div class="alert alert-danger" role="alert">
+                            <h5>Your booking has been Cancelled!</h5>
+                        </div>`;
                     }
                     else if(msg.result.response.state == 'cancel2'){
                         conv_status = 'Expired';
@@ -2838,6 +2854,10 @@ function activity_get_booking(data){
                         document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
                         document.getElementById('issued-breadcrumb-span').innerHTML = `Expired`;
                         document.getElementById('display_state').innerHTML = `Your Order Has Been Expired`;
+                        document.getElementById('alert-state').innerHTML = `
+                        <div class="alert alert-danger" role="alert">
+                            <h5>Your booking has been Expired!</h5>
+                        </div>`;
                     }
                     else if(msg.result.response.state == 'fail_issued'){
                         conv_status = 'Failed (Issue)';
@@ -2848,6 +2868,10 @@ function activity_get_booking(data){
                         document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
                         document.getElementById('issued-breadcrumb-span').innerHTML = `Failed (Issue)`;
                         document.getElementById('display_state').innerHTML = `Your Order Has Been Failed (Issue)`;
+                        document.getElementById('alert-state').innerHTML = `
+                        <div class="alert alert-danger" role="alert">
+                            <h5>Your booking has been Failed (Issue)!</h5>
+                        </div>`;
                     }
                     else if(msg.result.response.state == 'fail_booked'){
                         conv_status = 'Failed (Book)';
@@ -2858,6 +2882,10 @@ function activity_get_booking(data){
                         document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
                         document.getElementById('issued-breadcrumb-span').innerHTML = `Failed (Book)`;
                         document.getElementById('display_state').innerHTML = `Your Order Has Been Failed (Book)`;
+                        document.getElementById('alert-state').innerHTML = `
+                        <div class="alert alert-danger" role="alert">
+                            <h5>Your booking has been Failed (Book)!</h5>
+                        </div>`;
                     }
                     else if(msg.result.response.state == 'fail_refunded'){
                         conv_status = 'Failed (Refunded)';
@@ -2868,6 +2896,10 @@ function activity_get_booking(data){
                         document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
                         document.getElementById('issued-breadcrumb-span').innerHTML = `Failed (Refunded)`;
                         document.getElementById('display_state').innerHTML = `Your Order Has Been Failed (Refunded)`;
+                        document.getElementById('alert-state').innerHTML = `
+                        <div class="alert alert-danger" role="alert">
+                            <h5>Your booking has been Failed (Refunded)!</h5>
+                        </div>`;
                     }
                     else if(msg.result.response.state == 'refund'){
                         conv_status = 'Refunded';
@@ -2876,6 +2908,10 @@ function activity_get_booking(data){
                         document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
                         document.getElementById('issued-breadcrumb-span').innerHTML = `Refunded`;
                         document.getElementById('display_state').innerHTML = `Your Order Has Been Refunded`;
+                        document.getElementById('alert-state').innerHTML = `
+                        <div class="alert alert-success" role="alert">
+                            <h5>Your booking has been Refunded!</h5>
+                        </div>`;
                     }
                     else if(msg.result.response.state == 'reissue'){
                         conv_status = 'Reissued';
@@ -2884,6 +2920,10 @@ function activity_get_booking(data){
                         document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
                         document.getElementById('issued-breadcrumb-span').innerHTML = `Reissued`;
                         document.getElementById('display_state').innerHTML = `Your Order Has Been Reissued`;
+                        document.getElementById('alert-state').innerHTML = `
+                        <div class="alert alert-success" role="alert">
+                            <h5>Your booking has been Reissued!</h5>
+                        </div>`;
                     }
                     else if(msg.result.response.state == 'paid' || msg.result.response.state == 'pending'){
                         conv_status = 'On Request (max 3 working days)';
@@ -2894,6 +2934,10 @@ function activity_get_booking(data){
                         document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-clock"></i>`;
                         document.getElementById('issued-breadcrumb-span').innerHTML = `On Request (max 3 working days)`;
                         document.getElementById('display_state').innerHTML = `Your Order Has Been Requested`;
+                        document.getElementById('alert-state').innerHTML = `
+                        <div class="alert alert-info" role="alert">
+                            <h5>Your booking has been Requested!</h5>
+                        </div>`;
                     }
                     else{
                         console.log(msg.result.response.state);
@@ -2905,6 +2949,10 @@ function activity_get_booking(data){
                         document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-clock"></i>`;
                         document.getElementById('issued-breadcrumb-span').innerHTML = `On Request (max 3 working days)`;
                         document.getElementById('display_state').innerHTML = `Your Order Has Been Requested`;
+                        document.getElementById('alert-state').innerHTML = `
+                        <div class="alert alert-success" role="alert">
+                            <h5>Your booking has been Requested!</h5>
+                        </div>`;
                     }
 
                     text = `

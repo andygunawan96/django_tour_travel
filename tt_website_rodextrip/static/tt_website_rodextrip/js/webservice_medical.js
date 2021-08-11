@@ -1404,6 +1404,10 @@ function medical_get_booking(order_number, sync=false){
                        document.getElementById('div_sync_status').hidden = false;
                        /*document.getElementById('div_sync_status').innerHTML =`
                        <input type="button" class="primary-btn" id="button-sync-status" style="width:100%;" value="Sync Status" onclick="please_wait_transaction();medical_get_booking('`+order_number+`',true)">`*/
+                       document.getElementById('alert-state').innerHTML = `
+                       <div class="alert alert-success" role="alert">
+                           <h5>Your booking has been successfully Booked. Please proceed to payment or review your booking again.</h5>
+                       </div>`;
                     }
                     else if(msg.result.response.state == 'issued'){
                         document.getElementById('issued-breadcrumb').classList.add("br-active");
@@ -1411,6 +1415,11 @@ function medical_get_booking(order_number, sync=false){
                         document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
                         document.getElementById('show_title_medical').hidden = true;
                         document.getElementById('display_state').innerHTML = `Your Order Has Been Issued`;
+                        document.getElementById('alert-state').innerHTML = `
+                        <div class="alert alert-success" role="alert">
+                            <h5>Your booking has been successfully Issued!</h5>
+                        </div>`;
+
                         //check permission klo ada button di update
                         if(msg.result.response.test_address_map_link){
                             document.getElementById('div_sync_status').hidden = false;
@@ -1432,6 +1441,10 @@ function medical_get_booking(order_number, sync=false){
                         document.getElementById('issued-breadcrumb-span').innerHTML = `Expired`;
                         document.getElementById('display_state').innerHTML = `Your Order Has Been Expired`;
                         document.getElementById('div_sync_status').hidden = true;
+                        document.getElementById('alert-state').innerHTML = `
+                        <div class="alert alert-danger" role="alert">
+                            <h5>Your booking has been Expired!</h5>
+                        </div>`;
                     }
                     else if(msg.result.response.state == 'fail_issued'){
                         $text = 'Failed (Issue)';
@@ -1443,6 +1456,11 @@ function medical_get_booking(order_number, sync=false){
                         document.getElementById('issued-breadcrumb-span').innerHTML = `Failed (Issue)`;
                         document.getElementById('display_state').innerHTML = `Your Order Has Been Failed (Issue)`;
                         document.getElementById('div_sync_status').hidden = true;
+                        document.getElementById('alert-state').innerHTML = `
+                        <div class="alert alert-danger" role="alert">
+                            <h5>Your booking has been Fail (Issued)!</h5>
+                        </div>`;
+
                     }
                     else if(msg.result.response.state == 'fail_booked'){
                         $text = 'Failed (Book)';
@@ -1454,6 +1472,10 @@ function medical_get_booking(order_number, sync=false){
                         document.getElementById('issued-breadcrumb-span').innerHTML = `Failed (Book)`;
                         document.getElementById('display_state').innerHTML = `Your Order Has Been Failed (Book)`;
                         document.getElementById('div_sync_status').hidden = true;
+                        document.getElementById('alert-state').innerHTML = `
+                        <div class="alert alert-danger" role="alert">
+                            <h5>Your booking has been Fail (Booked)!</h5>
+                        </div>`;
                     }
                     else if(msg.result.response.state == 'fail_refunded'){
                         $text = 'Failed (Refunded)';
@@ -1465,6 +1487,10 @@ function medical_get_booking(order_number, sync=false){
                         document.getElementById('issued-breadcrumb-span').innerHTML = `Failed (Refunded)`;
                         document.getElementById('display_state').innerHTML = `Your Order Has Been Failed (Refunded)`;
                         document.getElementById('div_sync_status').hidden = true;
+                        document.getElementById('alert-state').innerHTML = `
+                        <div class="alert alert-danger" role="alert">
+                            <h5>Your booking has been Fail (Refunded)!</h5>
+                        </div>`;
                     }
                     else if(msg.result.response.state == 'refund'){
                         $text = 'Refunded';
@@ -1474,6 +1500,10 @@ function medical_get_booking(order_number, sync=false){
                         document.getElementById('issued-breadcrumb-span').innerHTML = `Refunded`;
                         document.getElementById('display_state').innerHTML = `Your Order Has Been Refunded`;
                         document.getElementById('div_sync_status').hidden = true;
+                        document.getElementById('alert-state').innerHTML = `
+                        <div class="alert alert-success" role="alert">
+                            <h5>Your booking has been Refund!</h5>
+                        </div>`;
                     }
 
 
