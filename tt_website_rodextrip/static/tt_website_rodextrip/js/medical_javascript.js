@@ -4693,6 +4693,7 @@ function copy_ktp(val){
                 document.getElementById('adult_zip_code'+val).readOnly = false;
                 $('#adult_kabupaten'+val+'_id').val('');
                 document.getElementById('select2-adult_kabupaten'+val+'_id-container').innerHTML = 'Select Kabupaten';
+                document.getElementById('adult_kabupaten'+val).value = '';
                 text = `<option value="">Select Kecamatan</option>`;
                 document.getElementById('adult_kecamatan'+val+'_id').innerHTML = text;
                 document.getElementById('select2-adult_kecamatan'+val+'_id-container').innerHTML = 'Select Kecamatan';
@@ -4700,9 +4701,11 @@ function copy_ktp(val){
                 $('#adult_kecamatan'+val+'_id').val('');
                 text = `<option value="">Select Kelurahan</option>`;
                 document.getElementById('adult_kelurahan'+val+'_id').innerHTML = text;
+                document.getElementById('adult_kelurahan'+val).value = '';
                 $('#adult_kelurahan'+val+'_id').select2();
                 $('#adult_kelurahan'+val+'_id').val('');
                 document.getElementById('select2-adult_kelurahan'+val+'_id-container').innerHTML = 'Select Kelurahan';
+                document.getElementById('adult_kelurahan'+val).value = '';
                 document.getElementById('adult_kabupaten'+val+'_id').disabled = false;
                 document.getElementById('adult_kecamatan'+val+'_id').disabled = false;
                 document.getElementById('adult_kelurahan'+val+'_id').disabled = false;
@@ -5295,7 +5298,7 @@ function check_passenger(){
                 'is_also_booker': true
             }]
         }*/
-        var check_passenger = false;
+        var check_passenger_var = false;
         var ktp = [];
         var check_ktp_value = 1;
         if(counter_passenger == 0)
@@ -5515,7 +5518,7 @@ function check_passenger(){
                             is_also_booker = false;
                             is_also_contact = false;
                         }
-                        check_passenger = true;
+                        check_passenger_var = true;
                         if(i == 0){
                             request['booker'] = {
                                 "first_name": document.getElementById('adult_first_name' + nomor_pax).value,
@@ -5703,28 +5706,28 @@ function check_passenger(){
                             }
                         }
                         if(document.getElementById('adult_address' + nomor_pax).value == ''){
-                            error_log+= 'Please fill Address for customer '+nomor_pax+'!</br>\n';
+                            error_log+= 'Please fill Address Domisili for customer '+nomor_pax+'!</br>\n';
                             document.getElementById('adult_address' + nomor_pax).style['border-color'] = 'red';
                             check_form_personal = 1;
                         }else{
                             document.getElementById('adult_address' + nomor_pax).style['border-color'] = '#EFEFEF';
                         }
-                        if(document.getElementById('adult_rt' + nomor_pax).value == '' || check_number(document.getElementById('adult_rt' + nomor_pax).value) == false || document.getElementById('adult_rt' + nomor_pax).value.length > 3){
-                            error_log+= 'RT only contain number max 3 digit for customer '+nomor_pax+'!</br>\n';
+                        if(document.getElementById('adult_rt' + nomor_pax).value == '' || check_number(document.getElementById('adult_rt' + nomor_pax).value.replace(/ /g,'')) == false || document.getElementById('adult_rt' + nomor_pax).value.length > 3){
+                            error_log+= 'RT Domisili only contain number max 3 digit for customer '+nomor_pax+'!</br>\n';
                             document.getElementById('adult_rt' + nomor_pax).style['border-color'] = 'red';
                             check_form_personal = 1;
                         }else{
                             document.getElementById('adult_rt' + nomor_pax).style['border-color'] = '#EFEFEF';
                         }
-                        if(document.getElementById('adult_rw' + nomor_pax).value == '' || check_number(document.getElementById('adult_rw' + nomor_pax).value) == false || document.getElementById('adult_rw' + nomor_pax).value.length > 3){
-                            error_log+= 'RW only contain number max 3 digit for customer '+nomor_pax+'!</br>\n';
+                        if(document.getElementById('adult_rw' + nomor_pax).value == '' || check_number(document.getElementById('adult_rw' + nomor_pax).value.replace(/ /g,'')) == false || document.getElementById('adult_rw' + nomor_pax).value.length > 3){
+                            error_log+= 'RW Domisili only contain number max 3 digit for customer '+nomor_pax+'!</br>\n';
                             document.getElementById('adult_rw' + nomor_pax).style['border-color'] = 'red';
                             check_form_personal = 1;
                         }else{
                             document.getElementById('adult_rw' + nomor_pax).style['border-color'] = '#EFEFEF';
                         }
                         if(document.getElementById('adult_kabupaten' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Kabupaten for customer '+nomor_pax+'!</br>\n';
+                            error_log+= 'Please choose Kabupaten Domisili for customer '+nomor_pax+'!</br>\n';
                             $("#adult_kabupaten"+nomor_pax+"_id").each(function() {
                               $(this).siblings(".select2-container").css('border', '1px solid red');
                             });
@@ -5735,7 +5738,7 @@ function check_passenger(){
                             });
                         }
                         if(document.getElementById('adult_kecamatan' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Kecamatan for customer '+nomor_pax+'!</br>\n';
+                            error_log+= 'Please choose Kecamatan Domisili for customer '+nomor_pax+'!</br>\n';
                             $("#adult_kecamatan"+nomor_pax+"_id").each(function() {
                               $(this).siblings(".select2-container").css('border', '1px solid red');
                             });
@@ -5746,7 +5749,7 @@ function check_passenger(){
                             });
                         }
                         if(document.getElementById('adult_kelurahan' + nomor_pax).value == ''){
-                            error_log+= 'Please choose Kelurahan for customer '+nomor_pax+'!</br>\n';
+                            error_log+= 'Please choose Kelurahan Domisili for customer '+nomor_pax+'!</br>\n';
                             $("#adult_kelurahan"+nomor_pax+"_id").each(function() {
                               $(this).siblings(".select2-container").css('border', '1px solid red');
                             });
@@ -5764,14 +5767,14 @@ function check_passenger(){
                         }else{
                             document.getElementById('adult_address_ktp' + nomor_pax).style['border-color'] = '#EFEFEF';
                         }
-                        if(document.getElementById('adult_rt_ktp' + nomor_pax).value == '' || check_number(document.getElementById('adult_rt_ktp' + nomor_pax).value) == false || document.getElementById('adult_rt_ktp' + nomor_pax).value.length > 3){
+                        if(document.getElementById('adult_rt_ktp' + nomor_pax).value == '' || check_number(document.getElementById('adult_rt_ktp' + nomor_pax).value.replace(/ /g,'')) == false || document.getElementById('adult_rt_ktp' + nomor_pax).value.length > 3){
                             error_log+= 'RT KTP only contain number max 3 digit for customer '+nomor_pax+'!</br>\n';
                             document.getElementById('adult_rt_ktp' + nomor_pax).style['border-color'] = 'red';
                             check_form_personal = 1;
                         }else{
                             document.getElementById('adult_rt_ktp' + nomor_pax).style['border-color'] = '#EFEFEF';
                         }
-                        if(document.getElementById('adult_rw_ktp' + nomor_pax).value == '' || check_number(document.getElementById('adult_rw_ktp' + nomor_pax).value) == false || document.getElementById('adult_rw_ktp' + nomor_pax).value.length > 3){
+                        if(document.getElementById('adult_rw_ktp' + nomor_pax).value == '' || check_number(document.getElementById('adult_rw_ktp' + nomor_pax).value.replace(/ /g,'')) == false || document.getElementById('adult_rw_ktp' + nomor_pax).value.length > 3){
                             error_log+= 'RW KTP only contain number max 3 digit for customer '+nomor_pax+'!</br>\n';
                             document.getElementById('adult_rw_ktp' + nomor_pax).style['border-color'] = 'red';
                             check_form_personal = 1;
@@ -6757,7 +6760,7 @@ function check_passenger(){
                                 'is_also_booker': true
                             }]
                         }
-                        check_passenger = true;
+                        check_passenger_var = true;
                         request['passenger'].push({
                             "pax_type": "ADT",
                             "first_name": document.getElementById('adult_first_name' + nomor_pax).value,
@@ -6776,14 +6779,14 @@ function check_passenger(){
                             "profession": document.getElementById('adult_profession' + nomor_pax).value,
                             "work_place": document.getElementById('adult_work_place' + nomor_pax).value,
                             "address": document.getElementById('adult_address' + nomor_pax).value,
-                            "rt": document.getElementById('adult_rt' + nomor_pax).value,
-                            "rw": document.getElementById('adult_rw' + nomor_pax).value,
+                            "rt": document.getElementById('adult_rt' + nomor_pax).value.replace(/ /g,''),
+                            "rw": document.getElementById('adult_rw' + nomor_pax).value.replace(/ /g,''),
                             "kabupaten": document.getElementById('adult_kabupaten' + nomor_pax).value,
                             "kecamatan": document.getElementById('adult_kecamatan' + nomor_pax).value,
                             "kelurahan": document.getElementById('adult_kelurahan' + nomor_pax).value,
                             "address_ktp": document.getElementById('adult_address_ktp' + nomor_pax).value,
-                            "rt_ktp": document.getElementById('adult_rt_ktp' + nomor_pax).value,
-                            "rw_ktp": document.getElementById('adult_rw_ktp' + nomor_pax).value,
+                            "rt_ktp": document.getElementById('adult_rt_ktp' + nomor_pax).value.replace(/ /g,''),
+                            "rw_ktp": document.getElementById('adult_rw_ktp' + nomor_pax).value.replace(/ /g,''),
                             "kabupaten_ktp": document.getElementById('adult_kabupaten_ktp' + nomor_pax).value,
                             "kecamatan_ktp": document.getElementById('adult_kecamatan_ktp' + nomor_pax).value,
                             "kelurahan_ktp": document.getElementById('adult_kelurahan_ktp' + nomor_pax).value,
@@ -6841,7 +6844,7 @@ function check_passenger(){
             }
         }
 
-       if(error_log=='' && check_passenger == true){
+       if(error_log=='' && check_passenger_var == true){
     //       re_medical_signin('next');
             document.getElementById('time_limit_input').value = 200;
             document.getElementById('data').value = JSON.stringify(request);
@@ -6895,7 +6898,7 @@ function check_passenger_data(){
         "passengers": []
     }
     var error_log = '';
-    var check_passenger = false;
+    var check_passenger_var = false;
     var ktp = [];
     var check_ktp_value = 1;
     var max_length = 0;
@@ -7013,7 +7016,7 @@ function check_passenger_data(){
                         error_log+= 'Please fill identity type for customer '+nomor_pax+'!</br>\n';
                         document.getElementById('adult_identity_type' + nomor_pax).style['border-color'] = 'red';
                     }
-                    check_passenger = true;
+                    check_passenger_var = true;
 
                     request['passengers'].push({
                         "pax_type": "ADT",
