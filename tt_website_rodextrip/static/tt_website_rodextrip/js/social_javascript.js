@@ -187,11 +187,12 @@ function get_social(type){
                 if(check_available_dynamic == 0){
                     document.getElementById('social_login_div').innerHTML = text;
                     document.getElementById('social_login_div2').innerHTML = text;
-                    document.getElementById("scroll_up_btn").style.display = "none";
                     document.getElementById("scroll_dn_btn").style.display = "none";
                     document.getElementById("go_more").style.display = "none";
                 }else{
                     document.getElementById('social_login_div3').innerHTML = text;
+                    document.getElementById("scroll_up_btn").style.display = "block";
+
                 }
             }
        },
