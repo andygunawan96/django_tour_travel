@@ -1158,6 +1158,7 @@ function get_dynamic_page(type){
                             }
                             check_available_dynamic = 1;
                         }
+                        get_social('login');
                     }else if(type == 'home'){
                         if(check_dynamic){
                             if(template == 1){
