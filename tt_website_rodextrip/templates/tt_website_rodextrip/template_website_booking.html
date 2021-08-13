@@ -272,6 +272,42 @@ Licence URI: http://www.os-templates.com/template-terms
     <link rel="stylesheet" href="{{ static_path }}css/template5/owl.theme.green.min.css?version={{javascript_version}}">
     <link rel="stylesheet" href="{{ static_path }}css/template5/main.css?version={{javascript_version}}">
     <link rel="stylesheet" href="{{ static_path }}css/template5/select2.css?version={{javascript_version}}">
+
+    {% elif template == 6 %}
+    <script>
+        addEventListener("load", function () {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
+
+<!--    $(".form-group .col-xs-12").addClass("row");-->
+<!--    $(".form-group .row").removeClass("removeClass");-->
+	<!-- css files -->
+    <link rel="stylesheet" href="{{ static_path }}css/template1/animate.min.css?version={{javascript_version}}">
+    <link href="{{ static_path }}css/template6/bootstrap.css" rel='stylesheet' type='text/css' /><!-- bootstrap css -->
+    <link href="{{ static_path }}css/template6/style.css" rel='stylesheet' type='text/css' /><!-- custom css -->
+    <link href="{{ static_path }}css/template6/font-awesome.min.css" rel="stylesheet"><!-- fontawesome css -->
+    <link href="{{ static_path }}css/template6/nice-select.css" rel="stylesheet"><!-- fontawesome css -->
+    <link rel="stylesheet" href="{{ static_path }}css/template1/magnific-popup.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template6/select2.css?version={{javascript_version}}">
+	<!-- //css files -->
+    <link rel="stylesheet" href="{{ static_path }}css/template6/owl.carousel.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template6/owl.theme.default.min.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template6/owl.theme.green.min.css?version={{javascript_version}}">
+
+	<link rel="stylesheet" href="{{ static_path }}css/template6/css_slider.css" type="text/css">
+	<link rel="stylesheet" href="{{ static_path }}css/template6/custom.css" type="text/css">
+
+	<!-- google fonts -->
+    <link href="//fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900" rel="stylesheet">
+	<link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:200,200i,300,300i,400,400i,600,600i,700,700i,900,900i" rel="stylesheet">
+	<!-- //google fonts -->
+
+
     {%endif%}
     <!--jbox-->
     <link rel="stylesheet" href="{{ static_path }}css/jbox/jBox.all.css?version={{javascript_version}}">
@@ -1718,6 +1754,77 @@ Licence URI: http://www.os-templates.com/template-terms
             border-bottom: 5px solid {{color}};
             color: {{color}};
         }
+
+        {% elif template == 6 %}
+        nav a{
+            color:{{text_color}};
+        }
+        .toggle{
+            background-color: {{color}};
+        }
+        .copy-right p{
+            color: {{text_color}};
+        }
+        .modal-header {
+            background: {{color}};
+        }
+        .image-change-route-vertical{
+            color: {{text_color}};
+        }
+        #myBtnBTP{
+            background: {{color}};
+        }
+        #myBtnBTP:hover{
+            background: {{color}};
+            opacity:0.8;
+        }
+        .div_cst{
+            border:2px solid {{color}};
+        }
+        .div_cst:hover{
+            background:{{color}};
+        }
+
+        ul.create_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
+        }
+        ul.edit_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
+        }
+        ul.template_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
+        }
+        ul.template_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
+        }
+
+        nav a:hover{
+            color:{{color}};
+        }
+
+        .nice-select:active, .nice-select.open, .nice-select:focus {
+            border-color: {{color}};
+        }
+
+        .owl-theme .owl-nav [class*=owl-] {
+            color: {{color}};
+            font-size: 20px;
+            margin: 5px;
+            padding: 7px;
+            background: rgba(50,50,50,0.8);
+            text-shadow: 2px 2px black;
+            display: inline-block;
+            cursor: pointer;
+            border-radius: 2px;
+        }
+        .owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots .owl-dot:hover span{
+            background: {{color}};
+        }
+
         {% endif %}
 
     </style>
@@ -1741,6 +1848,7 @@ Licence URI: http://www.os-templates.com/template-terms
     user_login = JSON.parse(user_login.replace(/&#39;/g, '"'));
     name = `{{name}}`;
     web_name = `{{name}}`;
+    background = `{{background}}`;
     provider_list_template = `{{provider}}`;
     provider_list_template = provider_list_template.replace(/False/g, '""');
     provider_list_template = provider_list_template.replace(/True/g, '""');
@@ -1887,6 +1995,105 @@ junction_font.load().then(function(loaded_face) {
 <script src="{{ static_path }}js/template5/jquery.magnific-popup.min.js"></script>
 <script src="{{ static_path }}js/template5/owl.carousel.min.js"></script>
 <script src="{{ static_path }}js/template5/main.js"></script>
+
+{% elif template == 6%}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="{{ static_path }}js/template2/popper.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template1/jquery.magnific-popup.min.js?version={{javascript_version}}"></script>
+<!-- disable body scroll which navbar is in active -->
+<script src="{{ static_path }}js/template6/owl.carousel.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template6/jquery.nice-select.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template6/custom.js?version={{javascript_version}}"></script>
+<!--//-->
+<script>
+	$(function () {
+		$('.navbar-toggler').click(function () {
+			$('body').toggleClass('noscroll');
+		})
+	});
+</script>
+<!--/scroll-down-JS-->
+<!--pop-up-box-->
+
+<script>
+	$(document).ready(function () {
+		$('.popup-with-zoom-anim').magnificPopup({
+			type: 'inline',
+
+			fixedContentPos: false,
+			fixedBgPos: true,
+
+			overflowY: 'auto',
+
+			closeBtnInside: true,
+			preloader: false,
+
+			midClick: true,
+			removalDelay: 300,
+			mainClass: 'my-mfp-zoom-in'
+		});
+
+		$('.popup-with-move-anim').magnificPopup({
+			type: 'inline',
+
+			fixedContentPos: false,
+			fixedBgPos: true,
+
+			overflowY: 'auto',
+
+			closeBtnInside: true,
+			preloader: false,
+
+			midClick: true,
+			removalDelay: 300,
+			mainClass: 'my-mfp-slide-bottom'
+		});
+	});
+</script>
+
+<!--//pop-up-box-->
+<!-- for blog carousel slider -->
+<!--<script src="{{ static_path }}js/template6/owl.carousel1.js"></script>-->
+<script>
+	$(document).ready(function () {
+		$("#owl-demo2").owlCarousel({
+			items: 1,
+			lazyLoad: true,
+			autoPlay: true,
+			navigation: false,
+			navigationText: ["", ""],
+			rewindNav: false,
+			scrollPerPage: true,
+			pagination: false,
+			paginationNumbers: false,
+
+		})
+	});
+	$(document).ready(function () {
+		$("#owl-demo1").owlCarousel({
+			loop: true,
+			margin: 20,
+			responsiveClass: true,
+			responsive: {
+				0: {
+					items: 1,
+					nav: true
+				},
+				600: {
+					items: 2,
+					nav: false
+				},
+				1000: {
+					items: 3,
+					nav: true,
+					loop: false
+				}
+			}
+		})
+	})
+</script>
+
+
 {% endif %}
 <!--jbox-->
 <script src="{{ static_path }}js/jbox/jBox.all.js"></script>

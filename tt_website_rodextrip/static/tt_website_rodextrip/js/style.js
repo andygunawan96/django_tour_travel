@@ -1,5 +1,4 @@
 var div_overlay_checked=0;
-
 $(document).ready(function(){
     var sort_price=0;
     var sort_duration=0;
@@ -158,12 +157,14 @@ $(document).ready(function(){
 
     $('#div-search-overlay').click(function() {      // When arrow is clicked
         div_overlay_checked += 1;
-        document.getElementById("overlay-search-box").style.display = "block";
-        document.getElementById("div-search-overlay").style.zIndex = "3";
-        if(div_overlay_checked == 1){
-            $('html, body').animate({
-                scrollTop: $("#div-search-overlay").offset().top - 110
-            }, 500);
+        if(template != 6){
+            document.getElementById("overlay-search-box").style.display = "block";
+            document.getElementById("div-search-overlay").style.zIndex = "3";
+            if(div_overlay_checked == 1){
+                $('html, body').animate({
+                    scrollTop: $("#div-search-overlay").offset().top - 110
+                }, 500);
+            }
         }
     });
 
@@ -948,7 +949,7 @@ $(document).ready(function(){
     $('#radio_train_search').click(function(){
         selected_value = $("input[name='radio_train_type']:checked").val();
         if (selected_value == "oneway"){
-            if(template == 1 || template == 2 || template == 3){
+            if(template == 1 || template == 2 || template == 3 || template == 6){
                 document.getElementById("train_date_search").innerHTML = '';
                 text='';
                 var node = document.createElement("div");
@@ -1016,7 +1017,7 @@ $(document).ready(function(){
             });
         }
         else if(selected_value == "roundtrip"){
-            if(template == 1 || template == 2 || template == 3){
+            if(template == 1 || template == 2 || template == 3 || template == 6){
                 document.getElementById("train_date_search").innerHTML = '';
                 text='';
                 var node = document.createElement("div");
@@ -1105,16 +1106,16 @@ $(document).ready(function(){
     $('#radio_airline_search').click(function(){
         selected_value = $("input[name='radio_airline_type']:checked").val();
         if (selected_value == "oneway"){
-            if(template == 1 || template == 2 || template == 3){
+            if(template == 1 || template == 2 || template == 3 || template == 6){
                 document.getElementById("airline_date_search").innerHTML = '';
                 text='';
                 var node = document.createElement("div");
-                if(template == 1 || template == 3){
+                if(template == 1 || template == 3 || template == 6){
                     text+=`<span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>`;
                 }else if(template == 2){
                     text+=`<span style="color:`+text_color+`;"><i class="fas fa-calendar-alt"></i> Departure</span>`;
                 }
-                if(template == 1 || template == 2){
+                if(template == 1 || template == 2 || template == 6){
                     text+=`<div class="input-container-search-ticket">`;
                 }else if(template == 3){
                     text+=`<div class="form-group">`;
@@ -1191,7 +1192,7 @@ $(document).ready(function(){
             });
         }
         else if(selected_value == "roundtrip"){
-            if(template == 1 || template == 2 || template == 3){
+            if(template == 1 || template == 2 || template == 3 || template == 6){
                 document.getElementById("airline_date_search").innerHTML = '';
                 text='';
                 var node = document.createElement("div");
@@ -1202,7 +1203,7 @@ $(document).ready(function(){
                 document.getElementById('mc_airline_default').innerHTML = "";
                 airline_counter_config = 0;
                 counter_airline_search = 0;
-                if(template == 1 || template == 3){
+                if(template == 1 || template == 3 || template == 6){
                     text+=`<span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure - Return</span>`;
                 }else if(template == 2){
                     text+=`<span style="color:`+text_color+`;"><i class="fas fa-calendar-alt"></i> Departure - Return</span>`;
@@ -1375,6 +1376,20 @@ $(document).ready(function(){
                 </div>`;
             }
 
+            else if(template == 6){
+                text_mc += `
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div id="mc_airline_paxs"></div>
+                        <div id="mc_airline_add" style="background:none !important;"></div>
+                        <div style="text-align:left; padding-top:15px;">
+                            <button type="button" id="add_mc_btn" class="primary-btn rounded" onclick="add_multi_city('home');"><i class="fas fa-plus"></i> Add</button>
+                            <button type="button" id="del_mc_btn" class="primary-btn rounded" onclick="del_multi_city();"><i class="fas fa-trash-alt"></i> Delete</button>
+                        </div>
+                    </div>
+                </div>`;
+            }
+
             document.getElementById('mc_airline_default').innerHTML = text_mc;
             document.getElementById('ori_airline').style.display = "none";
             document.getElementById('is_combo_price').disabled = false;
@@ -1384,6 +1399,7 @@ $(document).ready(function(){
 
             add_multi_city('home');
             add_multi_city('home');
+            $('#show_total_pax_flight').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
             $('#show_total_pax_flight1').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
 
         }
@@ -1429,6 +1445,14 @@ $(document).ready(function(){
                 <input type="hidden" class="form-control" name="airline_return" id="airline_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
             }
             else if (template == 5){
+            text+=`
+                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
+                <div class="input-container-search-ticket">
+                    <input type="text" style="background:white;" class="form-control" name="airline_departure" id="airline_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+                </div>
+                <input type="hidden" class="form-control" name="airline_return" id="airline_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
+            }
+            else if (template == 6){
             text+=`
                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
                 <div class="input-container-search-ticket">
@@ -1520,6 +1544,15 @@ $(document).ready(function(){
                 <input type="hidden" class="form-control" name="airline_return" id="airline_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
             }
             else if(template == 5){
+            text+=`
+                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure - Return</span>
+                <div class="input-container-search-ticket">
+                    <input type="text" style="background:white;" class="form-control" name="airline_departure_return" id="airline_departure_return" value="{{airline_request.departure}} - {{airline_request.return}}" placeholder="Departure Date - Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date - Return Date '" autocomplete="off" readonly>
+                </div>
+                <input type="hidden" class="form-control" name="airline_departure" id="airline_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+                <input type="hidden" class="form-control" name="airline_return" id="airline_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
+            }
+            else if(template == 6){
             text+=`
                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure - Return</span>
                 <div class="input-container-search-ticket">
@@ -1688,6 +1721,19 @@ $(document).ready(function(){
                 </div>`;
             }
             else if(template == 5){
+                text_mc += `
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div id="mc_airline_paxs"></div>
+                        <div id="mc_airline_add" style="background:none !important;"></div>
+                        <div style="text-align:left; padding-top:15px;">
+                            <button type="button" id="add_mc_btn" class="primary-btn" onclick="add_multi_city('home');"><i class="fas fa-plus"></i> Add</button>
+                            <button type="button" id="del_mc_btn" class="primary-btn" onclick="del_multi_city();"><i class="fas fa-trash-alt"></i> Delete</button>
+                        </div>
+                    </div>
+                </div>`;
+            }
+            else if(template == 6){
                 text_mc += `
                 <div class="row">
                     <div class="col-lg-12">
@@ -2807,7 +2853,17 @@ function checkCookie() {
     }
 }
 
-
+//for template 6 search box hide
+function product_change_box(id){
+    if(id == "choose"){
+        document.getElementById("box_"+id).style.display = "block";
+        document.getElementById("box_"+temp_product).style.display = "none";
+    }else{
+        document.getElementById("box_"+id).style.display = "block";
+        document.getElementById("box_choose").style.display = "none";
+        temp_product = id;
+    }
+}
 
 function go_guide(id){
     $('html, body').animate({

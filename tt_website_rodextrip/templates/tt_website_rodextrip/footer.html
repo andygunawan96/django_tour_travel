@@ -505,6 +505,97 @@
 <button onclick="topFunction()" id="myBtnBTP" title="Go to top">
     <span style="color:{{text_color}}; font-size:20px;"><i class="fas fa-chevron-up"></i></span>
 </button>
+
+{% elif template == 6%}
+<button onclick="topFunction()" id="myBtnBTP" title="Go to top">
+    <span><i class="fas fa-chevron-up"></i></span>
+</button>
+
+<!-- footer -->
+<footer class="footerv4-w3ls py-sm-5 py-4" style="border-top: 1px solid #cdcdcd;">
+	<div class="footerv4-top">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-4 footer-left mb-4">
+					<h3>{{name}}</h3>
+                    <hr/>
+                    <h5 style="color:black; text-align:center;">{% trans 'Our Product' %}</h5>
+                    <div class="row" style="text-align:center;">
+                    {% for provider_type in provider_types %}
+                    {% if forloop.counter == 1 or forloop.counter == provider_divider_start %}
+                    <div class="col">
+                        <ul>
+                            {% endif %}
+                            {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                            {% if provider_type != 'payment' and  provider_type != 'bank' %}
+                            <li><a href="/{{provider_type}}"><script>
+                            temp = `{{provider_type}}`;
+                            temp = temp.split('_');
+                            data = '';
+                            for(i in temp)
+                                data += temp[i].charAt(0).toUpperCase() + temp[i].slice(1).toLowerCase() + ' ';
+                            document.write(data);</script></a></li>
+                            {% endif %}
+                            {% else %}
+                            {% if provider_type != 'visa' and provider_type != 'passport' and provider_type != 'payment' and  provider_type != 'bank' %}
+                            <li><a href="/{{provider_type}}"><script>
+                            temp = `{{provider_type}}`;
+                            temp = temp.split('_');
+                            data = '';
+                            for(i in temp)
+                                data += temp[i].charAt(0).toUpperCase() + temp[i].slice(1).toLowerCase() + ' ';
+                            document.write(data);</script></a></li>
+                            {% endif %}
+                            {% endif %}
+                            {% if forloop.counter == provider|length or forloop.counter == provider_divider_end %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                    </div>
+				</div>
+
+                <div class="col-lg-4 mt-2">
+                    <div id="payment_partner_footer_div" class="mb-3">
+
+                    </div>
+					<ul class="footer-link mt-3" id="contact_footer_div">
+
+					</ul>
+                </div>
+
+				<!-- footer nav links -->
+				<div class="col-lg-4 footer-nav-wthree my-md-3 mt-3">
+					<ul class="social-icons list-unstyled" id="social_footer_div">
+
+					</ul>
+					<ul class="footer-link mt-3">
+						<li>
+							<a href="/about_us">{% trans 'About Us' %}</a>
+						</li>
+						<li>
+							<a href="/contact_us">{% trans 'Contact Us' %}</a>
+						</li>
+						<li>
+							<a href="/faq">FAQ</a>
+						</li>
+					</ul>
+				</div>
+				<!-- //footer nav links -->
+
+			</div>
+		</div>
+	</div>
+</footer>
+<!-- //footer -->
+
+<!-- copyright -->
+<div class="copy-right text-center">
+	<p>
+        {% trans 'Copyright' %} &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved by {{name}}
+	</p>
+</div>
+<!-- //copyright -->
 {% endif %}
 
 <script>

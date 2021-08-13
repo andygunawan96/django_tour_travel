@@ -197,6 +197,8 @@ function add_table_of_passenger(type){
                                                         text+=`<div class="input-container-search-ticket">`;
                                                     }else if(template == 5){
                                                         text+=`<div class="input-container-search-ticket">`;
+                                                    }else if(template == 6){
+                                                        text+=`<div class="input-container-search-ticket">`;
                                                     }
                                                     text+=`<div class="form-select-2">`;
                                                     if(template == 4){
@@ -231,7 +233,7 @@ function add_table_of_passenger(type){
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <label>Nationality</label>`;
-                                                    if(template == 1 || template == 5){
+                                                    if(template == 1 || template == 5 || template == 6){
                                                         text+=`<div class="input-container-search-ticket">`;
                                                     }
                                                     text+=`
@@ -247,7 +249,7 @@ function add_table_of_passenger(type){
                                                             text+=`</select>
                                                         </div>
                                                         <input type="hidden" name="adult_nationality`+parseInt(counter_passenger+1)+`" id="adult_nationality`+parseInt(counter_passenger+1)+`" />`;
-                                                    if(template == 1 || template == 5){
+                                                    if(template == 1 || template == 5 || template == 6){
                                                         text+=`</div>`;
                                                     }
                                                 text+=`
@@ -270,6 +272,8 @@ function add_table_of_passenger(type){
                                                     }else if(template == 4){
                                                         text+=`<div class="input-container-search-ticket">`;
                                                     }else if(template == 5){
+                                                        text+=`<div class="input-container-search-ticket">`;
+                                                    }else if(template == 6){
                                                         text+=`<div class="input-container-search-ticket">`;
                                                     }
                                                     text+=`<div class="form-select-2">`;
@@ -354,7 +358,21 @@ function add_table_of_passenger(type){
                                                             <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                             <input type="hidden" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`" />`;
                                                         text+=`</div>`;
-                                                    }else if(template == 2){
+                                                    }else if(template == 5){
+                                                        text+=`<div class="input-container-search-ticket">`;
+                                                        text+=`
+                                                            <div class="form-select">
+                                                                <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`');">
+                                                                    <option value="">Select Country Of Issued</option>`;
+                                                                    for(i in countries){
+                                                                       text+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
+                                                                    }
+                                                                text+=`</select>
+                                                            </div>
+                                                            <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                            <input type="hidden" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`" />`;
+                                                        text+=`</div>`;
+                                                    }else if(template == 6){
                                                         text+=`<div class="input-container-search-ticket">`;
                                                         text+=`
                                                             <div class="form-select">
@@ -408,9 +426,6 @@ function add_table_of_passenger(type){
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-default" data-dismiss="modal" onclick="update_contact('passenger',`+parseInt(counter_passenger+1)+`);">Close</button>
                         </div>
                     </div>
                 </div>
