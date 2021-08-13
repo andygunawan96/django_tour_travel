@@ -52,6 +52,8 @@
 <section style="padding:50px 0px 50px 0px; background:#f7f7f7;">
 {% elif template == 5%}
 <section style="padding:50px 0px 50px 0px; background:white; border-bottom:2px solid #cdcdcd; background:#f7f7f7;">
+{% elif template == 6%}
+<section style="padding:50px 0px 50px 0px; background:white; border-bottom:2px solid #cdcdcd; background:#f7f7f7;">
 {% endif %}
     <div class="container">
         <div class="row">
@@ -331,6 +333,60 @@
 
                                 <div class="col-lg-12" style="text-align:center;">
                                     <input type="button" class="primary-btn-custom" value="Search" onclick="get_transactions('filter');" id="button" disabled/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% elif template == 6 %}
+                    <div class="row banner-right">
+                        <div class="col-lg-12 form-wrap" style="padding:15px; text-align:left;" id="search">
+                            <div class="row">
+                                <div class="col-lg-4 col-md-6">
+                                    <input type="text" id="pnr" class="form-control enter_reservation" placeholder="PNR" onfocus="this.placeholder = ''" onblur="this.placeholder = 'PNR'" autocomplete="off"/>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <input type="text" id="booker_name" class="form-control enter_reservation" placeholder="{% trans 'Booker name' %}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Booker name'" autocomplete="off"/>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <input type="text" id="name" class="form-control enter_reservation" placeholder="{% trans 'Passenger name' %}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passenger Name'" autocomplete="off"/>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <span><i class="fas fa-calendar-alt"></i> {% trans 'Start Book Date' %}</span>
+                                    <div class="input-container-search-ticket">
+                                        <input type="text" style="background:white;" class="form-control" name="start_date" id="start_date" placeholder="{% trans 'Start Book Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Start Date '" autocomplete="off" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <span><i class="fas fa-calendar-alt"></i> {% trans 'End Book Date' %}</span>
+                                    <div class="input-container-search-ticket">
+                                        <input type="text" style="background:white;" class="form-control" name="end_date" id="end_date" placeholder="{% trans 'End Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'End Date '" autocomplete="off" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <span>{% trans 'State' %}</span>
+                                    <div class="input-container-search-ticket">
+                                        <div class="form-select" id="default-select">
+                                            <select id="state">
+                                                <option value="all">All</option>
+                                                <option value="draft">Draft</option>
+                                                <option value="booked">Booked</option>
+                                                <option value="issued">Issued</option>
+                                                <option value="pending">Pending</option>
+                                                <option value="done">Done</option>
+                                                <option value="rejected">Rejected</option>
+                                                <option value="cancel">Cancelled</option>
+                                                <option value="cancel2">Expired</option>
+                                                <option value="fail_booked">Failed (Book)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12" style="text-align:right;">
+                                    <a href="#" style="font-size:14px; font-weight:600; text-decoration:underline;" onclick="reset_filter();"><i class="fas fa-redo"></i> {% trans 'RESET' %}</a>
+                                </div>
+
+                                <div class="col-lg-12" style="text-align:center;">
+                                    <input type="button" class="primary-btn-custom" value="Search" onclick="get_transactions('filter');" id="button"/>
                                 </div>
                             </div>
                         </div>

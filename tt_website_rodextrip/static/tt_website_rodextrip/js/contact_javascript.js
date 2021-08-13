@@ -10,7 +10,7 @@ function add_table_of_contact(data){
             </div>
             <div class="col-lg-3 col-md-3 col-sm-3">
                 <div class="input-container-search-ticket" style="display:unset;">`;
-                    if(template == 1 || template == 2){
+                    if(template == 1 || template == 2 || template == 6){
                         text+=`<div class="form-select">`;
                     }else if(template == 3){
                         text+=`<div class="default-select">`;
@@ -93,9 +93,14 @@ function get_contact(type){
                             text+=`<hr/><h2 class="footer-heading mb-4" style="color:black;">Contact Us</h2>`;
                         }else if(template == 5){
                             text+=`<hr/><h4 style="color:black;" class="mb-4">Contact Us</h4>`;
+                        }else if(template == 6){
+                            text+=`<hr/><h4 style="color:black;" class="mb-4">Contact Us</h4>`;
                         }
                     }
                     for(i in msg){
+                        if(template == 6){
+                            text += `<li>`;
+                        }
                         if(msg[i][0] == "Phone"){
                             text += `<a href="tel:`+msg[i][1]+`" target="_blank">`;
                             text+=`<img style="margin-bottom:10px; height:30px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/phone.png" alt="Phone"/>`+msg[i][0]+`: `+msg[i][1]+`</a>`;
@@ -117,7 +122,11 @@ function get_contact(type){
                         if(msg[i][2] != ''){
                             text+=` - `+msg[i][2]+``;
                         }
+
                         text+=`<br/>`;
+                        if(template == 6){
+                            text += `</li><br/>`;
+                        }
                     }
                 }
                 document.getElementById('contact_footer_div').innerHTML = text;
