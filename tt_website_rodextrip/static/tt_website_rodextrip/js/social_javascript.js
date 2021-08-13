@@ -10,7 +10,7 @@ function add_table_of_social(data){
             </div>
             <div class="col-lg-3 col-md-3 col-sm-3">
                 <div class="input-container-search-ticket" style="display:unset;">`;
-                    if(template == 1 || template == 2){
+                    if(template == 1 || template == 2 || template == 6){
                         text+=`<div class="form-select">`;
                     }else if(template == 3){
                         text+=`<div class="default-select">`;
@@ -93,10 +93,17 @@ function get_social(type){
                             text+=`<hr/><h2 class="footer-heading mb-4" style="color:black;">Follow Us</h2>`;
                         }else if(template == 5){
                             text+=`<hr/><h4 style="color:black;" class="mb-4">Follow Us</h4>`;
+                        }else if(template == 6){
+                            text+=`<hr/><h4 style="color:black;" class="mb-4">Follow Us</h4>`;
                         }
                     }
                     for(i in msg){
+                        if(template == 6){
+                            text += `<li>`;
+                        }
+
                         text += `<a href="`+msg[i][2]+`" title="`+msg[i][1]+`" target="_blank">`;
+
                         if(msg[i][0] == "Facebook"){
                             text+=`<img style="margin-bottom:10px; height:30px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/facebook.png" alt="Facebook"/>`;
                         }else if(msg[i][0] == "Instagram"){
@@ -110,6 +117,9 @@ function get_social(type){
                         }
                         text+=`</a>`;
 
+                        if(template == 6){
+                            text += `</li>`;
+                        }
                         //if(msg[i][0] == 'Twitter'){
                         //    $('head').append( '<meta name="twitter:card" content="'+msg[i][0]+'" />' );
                         //    $('head').append( '<meta name="twitter:site" content="'+msg[i][1]+'" />' );
@@ -187,11 +197,12 @@ function get_social(type){
                 if(check_available_dynamic == 0){
                     document.getElementById('social_login_div').innerHTML = text;
                     document.getElementById('social_login_div2').innerHTML = text;
-                    document.getElementById("scroll_up_btn").style.display = "none";
                     document.getElementById("scroll_dn_btn").style.display = "none";
                     document.getElementById("go_more").style.display = "none";
                 }else{
                     document.getElementById('social_login_div3').innerHTML = text;
+                    document.getElementById("scroll_up_btn").style.display = "block";
+
                 }
             }
        },

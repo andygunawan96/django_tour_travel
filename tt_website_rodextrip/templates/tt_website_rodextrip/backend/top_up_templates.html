@@ -242,6 +242,49 @@
         </div>
     </div>
 </section>
+{% elif template == 6 %}
+<div id="overlay-div-box" onclick="close_div('payment_acq');"></div>
+<section class="destinations-area" style="padding-top:50px; padding-bottom:40px;">
+    <div class="container">
+        <div class="row">
+            <div class="banner-right" style="margin-bottom:25px;">
+                <form action="{% url 'tt_website_rodextrip:top_up_history'%}" name="top_up_form" method="POST" id="top_up_form" class="form-wrap" style="padding:15px !important;">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-lg-12" style="border:1px solid #cdcdcd; background:white; padding:20px;" id="top_up_method_div">
+                            <div class="row" style="text-align:left; padding:15px;" id="top_up_div">
+
+                            </div>
+                            <div id="loading_payment_acq" style="display:none;">
+                                <div class="sk-circle">
+                                    <div class="sk-circle1 sk-child"></div>
+                                    <div class="sk-circle2 sk-child"></div>
+                                    <div class="sk-circle3 sk-child"></div>
+                                    <div class="sk-circle4 sk-child"></div>
+                                    <div class="sk-circle5 sk-child"></div>
+                                    <div class="sk-circle6 sk-child"></div>
+                                    <div class="sk-circle7 sk-child"></div>
+                                    <div class="sk-circle8 sk-child"></div>
+                                    <div class="sk-circle9 sk-child"></div>
+                                    <div class="sk-circle10 sk-child"></div>
+                                    <div class="sk-circle11 sk-child"></div>
+                                    <div class="sk-circle12 sk-child"></div>
+                                </div>
+                                <div style="text-align:center"><h6>{% trans 'PLEASE WAIT' %}</h6></div>
+                            </div>
+                            <div class="payment_acq" style="background-color:white; padding:10px; margin-top:10px; border:1px solid {{color}};position:relative;" id="payment_acq" hidden>
+
+                            </div>
+                        </div>
+                        <!--<div class="col-lg-4" style="padding-bottom:20px;">-->
+
+                        <!--</div>-->
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
 {%endif%}
 
 {% include 'tt_website_rodextrip/footer.html' %}

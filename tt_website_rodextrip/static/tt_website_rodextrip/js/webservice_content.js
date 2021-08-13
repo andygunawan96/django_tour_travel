@@ -258,17 +258,81 @@ function get_banner(type,page){
                         document.getElementById(type).style.display = 'none';
                     if(type == 'big_banner'){
                         banner_list['big_banner'] = msg.result.response;
-                        text+=`<div class="owl-carousel-banner owl-theme">`;
-                        for(i in msg.result.response){
-                            text+=`
-                            <div class="item">
-                                <center>
-                                    <img style="cursor:pointer" src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('big_banner','`+msg.result.response[i].seq_id+`')" />
-                                </center>
-                            </div>`;
+                        if(template != 6){
+                            text+=`<div class="owl-carousel-banner owl-theme">`;
+                            for(i in msg.result.response){
+                                text+=`
+                                <div class="item">
+                                    <center>
+                                        <img style="cursor:pointer" src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('big_banner','`+msg.result.response[i].seq_id+`')" />
+                                    </center>
+                                </div>`;
+                            }
+                            text+=`</div>`;
                         }
+                        else{
+                            var cek_active = 0;
+                            for(i in msg.result.response){
+                                if(msg.result.response[i].active == true){
+                                    cek_active = 1;
+                                }
+                            }
+
+                            text+=`
+                                <div class="csslider infinity" id="slider1">`;
+                                if(cek_active == 1){
+                                    for(i in msg.result.response){
+                                        temp_slider = parseInt(i)+1;
+                                        if(temp_slider == 1){
+                                            text+=`<input type="radio" name="slides" checked="checked" id="slides_`+temp_slider+`" />`;
+                                        }else{
+                                            text+=`<input type="radio" name="slides" id="slides_`+temp_slider+`" />`;
+                                        }
+                                    }
+                                }else{
+                                    text+=`<input type="radio" name="slides" checked="checked" id="slides_1" />`;
+                                }
+                                text+=`<ul>`;
+                                if(cek_active == 1){
+                                    for(i in msg.result.response){
+                                        temp_slider = parseInt(i)+1;
+                                        text+=`
+                                        <li>
+                                            <div class="banner-top`+temp_slider+`" id="banner-top`+temp_slider+`">
+                                                <div class="overlay"></div>
+                                            </div>
+                                        </li>`;
+                                    }
+                                }else{
+                                    text+=`
+                                    <li>
+                                        <div class="banner-top1" id="banner-top1">
+                                            <div class="overlay"></div>
+                                        </div>
+                                    </li>`;
+                                }
+                                text+=`</ul>
+                                <div class="arrows">`;
+                                if(cek_active == 1){
+                                    for(i in msg.result.response){
+                                        temp_slider = parseInt(i)+1;
+                                        text+=`
+                                            <label for="slides_`+temp_slider+`"></label>
+                                        `;
+                                    }
+                                }
+                                text+=`</div>`;
+                            }
                         text+=`</div>`;
-                    }else if(type == 'small_banner'){
+                    }
+                    else if(type == 'small_banner'){
+                        var cek_active = 0;
+                        for(i in msg.result.response){
+                            if(msg.result.response[i].active == true){
+                                cek_active = 1;
+                            }
+                        }
+
                         banner_list['small_banner'] = msg.result.response;
                         if(template == 1){
                             text+=`
@@ -420,8 +484,39 @@ function get_banner(type,page){
                                     </div>
                                 </div>
                             </section>`;
+                        }else if(template == 6){
+                            if(cek_active == 1){
+                                text+=`
+                                <section class="about">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-lg-12">`;
+                                                text+=`
+                                                <div class="fetured-info py-lg-3 py-3 mb-3">
+                                                    <h3 class="text-center">
+                                                        HOT DEALS
+                                                    </h3>
+                                                </div>
+                                                <div class="owl-carousel-suggest owl-theme">`;
+                                                for(i in msg.result.response){
+                                                    text+=`
+                                                    <div class="item">
+                                                        <div class="single-destination relative">
+                                                            <div class="thumb relative">
+                                                                <img style="cursor:pointer;" src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+                                                }
+                                                text+=`</div>`;
+                                            text+=`
+                                        </div>
+                                    </div>
+                                </section>`;
+                            }
                         }
-                    }else if(type == 'promotion'){
+                    }
+                    else if(type == 'promotion'){
                         banner_list['promotion'] = msg.result.response;
 //                    <div class="col-lg-12">
 //                                            <center>
@@ -471,6 +566,7 @@ function get_banner(type,page){
                         </div>`;
                     }
                 }
+
                 else if(page == 'admin'){
                     //<img src="`+msg.result.response[i].url+`" id="`+msg.result.response[i].seq_id+`" alt="" style="height:220px;width:auto"/>
                     text += `<div class="row">`;
@@ -548,19 +644,87 @@ function get_banner(type,page){
                     text += `</div>`;
                     banner_list[type] = msg.result.response;
                 }
+
                 else{
+                    var cek_active = 0;
+                    for(i in msg.result.response){
+                        if(msg.result.response[i].provider_type == page){
+                            cek_available_provider = 1;
+                            if(msg.result.response[i].active == true){
+                                cek_active = 1;
+                            }
+                        }
+                    }
+
                     if(msg.result.response.length == 0)
                         document.getElementById(type).style.display = 'none';
 
+                    if(type == 'big_banner'){
+                        banner_list['big_banner'] = msg.result.response;
+                        if(template != 6){
+                            text+=`<div class="owl-carousel-banner owl-theme">`;
+                            for(i in msg.result.response){
+                                text+=`
+                                <div class="item">
+                                    <center>
+                                        <img style="cursor:pointer" src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('big_banner','`+msg.result.response[i].seq_id+`')" />
+                                    </center>
+                                </div>`;
+                            }
+                            text+=`</div>`;
+                        }
+                        else{
+                            text+=`
+                                <div class="csslider infinity" id="slider1">`;
+                                if(cek_active == 1){
+                                    for(i in msg.result.response){
+                                        temp_slider = parseInt(i)+1;
+                                        if(temp_slider == 1){
+                                            text+=`<input type="radio" name="slides" checked="checked" id="slides_`+temp_slider+`" />`;
+                                        }else{
+                                            text+=`<input type="radio" name="slides" id="slides_`+temp_slider+`" />`;
+                                        }
+                                    }
+                                }else{
+                                    text+=`<input type="radio" name="slides" checked="checked" id="slides_1" />`;
+                                }
+                                text+=`<ul>`;
+                                if(cek_active == 1){
+                                    for(i in msg.result.response){
+                                        temp_slider = parseInt(i)+1;
+                                        text+=`
+                                        <li>
+                                            <div class="banner-top`+temp_slider+`" id="banner-top`+temp_slider+`">
+                                                <div class="overlay"></div>
+                                            </div>
+                                        </li>`;
+                                    }
+                                }else{
+                                    text+=`
+                                    <li>
+                                        <div class="banner-top1" id="banner-top1">
+                                            <div class="overlay"></div>
+                                        </div>
+                                    </li>`;
+                                }
+                                text+=`</ul>
+                                <div class="arrows">`;
+                                if(cek_active == 1){
+                                    for(i in msg.result.response){
+                                        temp_slider = parseInt(i)+1;
+                                        text+=`
+                                            <label for="slides_`+temp_slider+`"></label>
+                                        `;
+                                    }
+                                }
+                                text+=`</div>`;
+                            }
+                        text+=`</div>`;
+                    }
                     if(type == 'small_banner'){
                         //banner_list['small_banner'] = msg.result.response;
-                        for(i in msg.result.response){
-                            if(msg.result.response[i].provider_type == page){
-                                cek_available_provider = 1;
-                            }
-                        }
-                        if(cek_available_provider == 1){
-                            if(template == 1){
+                        if(cek_active == 1){
+                        if(template == 1){
                                 text+=`
                                 <section class="popular-destination-area section-gap" style="z-index:0; position:relative;">
                                     <div class="container">
@@ -717,10 +881,53 @@ function get_banner(type,page){
                                     </div>
                                 </section>`;
                             }
+                            else if(template == 6){
+                                text+=`
+                                <section class="about py-lg-5 py-md-5 py-3" style="background:#f7f7f7;">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="fetured-info py-lg-3 py-3 mb-3">
+                                                    <h3 class="text-center">
+                                                        HOT DEALS
+                                                    </h3>
+                                                </div>
+                                                <div class="owl-carousel-suggest owl-theme">`;
+                                                //<div style="background:red; position:absolute; right:0px; padding:5px; z-index:10;">
+                                                //    <h5 style="color:`+text_color+`;">SOLD OUT BRO</h5>
+                                                //</div>
+                                                var cek_active = 0;
+                                                for(i in msg.result.response){
+                                                    if(msg.result.response[i].active == true){
+                                                        cek_active = 1;
+                                                    }
+                                                }
+                                                if(cek_active == 1){
+                                                    console.log(msg.result.response);
+                                                    for(i in msg.result.response){
+                                                        if(msg.result.response[i].provider_type == page){
+                                                            text+=`
+                                                            <div class="item">
+                                                                <div class="single-destination relative">
+                                                                    <div class="thumb relative">
+                                                                        <img style="cursor:pointer;" src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
+                                                                    </div>
+                                                                </div>
+                                                            </div>`;
+                                                        }
+                                                    }
+                                                }
+                                                text+=`</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>`;
+                                }
                         }
                     }
                 }
                 document.getElementById(type).innerHTML = text;
+
                 if(page == 'admin'){
                     for(i in msg.result.response){
                         $("#"+type+i+`_provider_type`).niceSelect();
@@ -732,43 +939,63 @@ function get_banner(type,page){
                         checkCookie();
 
                         if(type == 'big_banner'){
-                            $('.owl-carousel-banner').owlCarousel({
-                                loop:true,
-                                nav: true,
-                                rewind: false,
-                                margin: 20,
-                                responsiveClass:true,
-                                dots: true,
-                                lazyLoad:true,
-                                merge: true,
-                                smartSpeed:500,
-                                center: true,
-                                autoHeight: false,
-                                autoWidth: false,
-                                autoplay: true,
-                                autoplayTimeout:10000,
-                                autoplayHoverPause:false,
-                                navText: ['<i class="fas fa-chevron-left owl-wh"/>', '<i class="fas fa-chevron-right owl-wh"/>'],
-                                responsive:{
-                                    0:{
-                                        items:1,
-                                        nav:true,
-                                        center: false,
-                                        autoWidth: false,
-                                    },
-                                    600:{
-                                        items:1,
-                                        nav:true,
-                                        center: false,
-                                        autoWidth: false,
-                                    },
-                                    1000:{
-                                        items:1,
-                                        nav:true,
+                            if(template != 6){
+                                $('.owl-carousel-banner').owlCarousel({
+                                    loop:true,
+                                    nav: true,
+                                    rewind: false,
+                                    margin: 20,
+                                    responsiveClass:true,
+                                    dots: true,
+                                    lazyLoad:true,
+                                    merge: true,
+                                    smartSpeed:500,
+                                    center: true,
+                                    autoHeight: false,
+                                    autoWidth: false,
+                                    autoplay: true,
+                                    autoplayTimeout:10000,
+                                    autoplayHoverPause:false,
+                                    navText: ['<i class="fas fa-chevron-left owl-wh"/>', '<i class="fas fa-chevron-right owl-wh"/>'],
+                                    responsive:{
+                                        0:{
+                                            items:1,
+                                            nav:true,
+                                            center: false,
+                                            autoWidth: false,
+                                        },
+                                        600:{
+                                            items:1,
+                                            nav:true,
+                                            center: false,
+                                            autoWidth: false,
+                                        },
+                                        1000:{
+                                            items:1,
+                                            nav:true,
+                                        }
+                                    }
+                                });
+                            }
+                            else{
+                                var cek_active = 0;
+                                for(i in msg.result.response){
+                                    if(msg.result.response[i].active == true){
+                                        cek_active = 1;
                                     }
                                 }
-                            });
+
+                                if(cek_active == 1){
+                                    for(i in msg.result.response){
+                                        temp_slider = parseInt(i)+1;
+                                        document.getElementById("banner-top"+temp_slider).style = "background: url('"+msg.result.response[i].url+"'); background-repeat: no-repeat; background-size: 100% 100%;";
+                                    }
+                                }else{
+                                    document.getElementById("banner-top1").style = "background: url('"+background+"'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
+                                }
+                            }
                         }
+
                         else if(type == 'small_banner'){
                             $('.owl-carousel-suggest').owlCarousel({
                                 loop:false,
@@ -856,45 +1083,128 @@ function get_banner(type,page){
                                 checkCookie();
                             })
                         }
-                    }else{
+                    }
+
+                    else{
                         if(cek_available_provider == 1){
-                            if(type == 'small_banner'){
-                            $('.owl-carousel-suggest').owlCarousel({
-                                loop:false,
-                                nav: true,
-                                navRewind:true,
-                                rewind: true,
-                                margin: 20,
-                                items:4,
-                                responsiveClass:true,
-                                dots: false,
-                                merge: false,
-                                lazyLoad:true,
-                                smartSpeed:500,
-                                autoplay: false,
-                                autoplayTimeout:10000,
-                                autoplayHoverPause:false,
-                                navText: ['<i class="fa fa-chevron-left owl-wh"/>', '<i class="fa fa-chevron-right owl-wh"/>'],
-                                responsive:{
-                                    0:{
-                                        items:2,
-                                        nav:true
-                                    },
-                                    480:{
-                                        items:2,
-                                        nav:true
-                                    },
-                                    768:{
-                                        items:3,
-                                        nav:true
-                                    },
-                                    961:{
-                                        items:4,
-                                        nav:true,
+                            if(type == 'big_banner'){
+                                if(template != 6){
+                                    $('.owl-carousel-banner').owlCarousel({
+                                        loop:true,
+                                        nav: true,
+                                        rewind: false,
+                                        margin: 20,
+                                        responsiveClass:true,
+                                        dots: true,
+                                        lazyLoad:true,
+                                        merge: true,
+                                        smartSpeed:500,
+                                        center: true,
+                                        autoHeight: false,
+                                        autoWidth: false,
+                                        autoplay: true,
+                                        autoplayTimeout:10000,
+                                        autoplayHoverPause:false,
+                                        navText: ['<i class="fas fa-chevron-left owl-wh"/>', '<i class="fas fa-chevron-right owl-wh"/>'],
+                                        responsive:{
+                                            0:{
+                                                items:1,
+                                                nav:true,
+                                                center: false,
+                                                autoWidth: false,
+                                            },
+                                            600:{
+                                                items:1,
+                                                nav:true,
+                                                center: false,
+                                                autoWidth: false,
+                                            },
+                                            1000:{
+                                                items:1,
+                                                nav:true,
+                                            }
+                                        }
+                                    });
+                                }
+
+                                else{
+                                    var cek_active = 0;
+                                    for(i in msg.result.response){
+                                        if(msg.result.response[i].active == true){
+                                            cek_active = 1;
+                                        }
+                                    }
+
+                                    if(cek_active == 1){
+                                        for(i in msg.result.response){
+                                            temp_slider = parseInt(i)+1;
+                                            document.getElementById("banner-top"+temp_slider).style = "background: url('"+msg.result.response[i].url+"'); background-repeat: no-repeat; background-size: 100% 100%;";
+                                        }
+                                    }else{
+                                        document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_airlines.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
                                     }
                                 }
-                            });
+                            }
+                            if(type == 'small_banner'){
+                                $('.owl-carousel-suggest').owlCarousel({
+                                    loop:false,
+                                    nav: true,
+                                    navRewind:true,
+                                    rewind: true,
+                                    margin: 20,
+                                    items:4,
+                                    responsiveClass:true,
+                                    dots: false,
+                                    merge: false,
+                                    lazyLoad:true,
+                                    smartSpeed:500,
+                                    autoplay: false,
+                                    autoplayTimeout:10000,
+                                    autoplayHoverPause:false,
+                                    navText: ['<i class="fa fa-chevron-left owl-wh"/>', '<i class="fa fa-chevron-right owl-wh"/>'],
+                                    responsive:{
+                                        0:{
+                                            items:2,
+                                            nav:true
+                                        },
+                                        480:{
+                                            items:2,
+                                            nav:true
+                                        },
+                                        768:{
+                                            items:3,
+                                            nav:true
+                                        },
+                                        961:{
+                                            items:4,
+                                            nav:true,
+                                        }
+                                    }
+                                });
+                            }
                         }
+                        else{
+                            if(template == 6){
+                                if(type == "big_banner"){
+                                    if(page == "airline"){
+                                        document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_airlines.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
+                                    }else if(page == "hotel"){
+                                        document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_hotel.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
+                                    }else if(page == "train"){
+                                        document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_train.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
+                                    }else if(page == "ppob"){
+                                        document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_ppob.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
+                                    }else if(page == "activity"){
+                                        document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_activity.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
+                                    }else if(page == "tour"){
+                                        document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_tour.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
+                                    }else if(page == "visa"){
+                                        document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_visa.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
+                                    }else if(page == "passport"){
+                                        document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_passport.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -1095,13 +1405,16 @@ function get_dynamic_page(type){
                             text+=`
                             <div class="single-recent-blog-post item" style="margin-top:0px; cursor:unset; margin-bottom:10px; border:1px solid #cdcdcd;">
                                 <div class="single-destination relative" style="margin-bottom:unset;">
-                                    <div class="thumb relative" alt="`+msg.result.response[i].title+`" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:170px; background: white url('`+msg.result.response[i].image_carousel+`'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="window.location.href='/page/`+msg.result.response[i].url+`'">
-                                        <div class="overlay overlay-bg"></div>
+                                    <div class="thumb relative" alt="`+msg.result.response[i].title+`" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:170px; background: white url('`+msg.result.response[i].image_carousel+`'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="window.location.href='/page/`+msg.result.response[i].url+`'">`;
+                                    if(template != 6){
+                                        text+=`<div class="overlay overlay-bg"></div>`;
+                                    }
+                                    text+=`
                                     </div>
                                     <div class="card card-effect-promotion" style="border:unset;">
                                         <div class="card-body" style="padding:5px 10px 10px 10px; border:unset;">
                                             <div class="row details">
-                                                <div class="col-lg-12" style="height:140px;">
+                                                <div class="col-lg-12" style="height:160px;">
                                                     <h6 style="cursor:pointer; font-size:16px; width:fit-content; padding-top:10px; border-bottom:4px solid `+color+`; padding-right:5px; font-weight:bold; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;" onclick="window.location.href='/page/`+msg.result.response[i].url+`'">`+msg.result.response[i].title+`</h6>
                                                     <div style="padding-top:10px; height:65px;display: block; text-overflow: ellipsis; word-wrap: break-word; overflow: hidden; max-height: 4.6em; line-height: 1.8em;">
                                                         `+msg.result.response[i].body+`
@@ -1123,8 +1436,10 @@ function get_dynamic_page(type){
                     text+=`</div>`;
 
                     if(type == 'login'){
+                        if(template != 6){
                         document.getElementById('owl-login').innerHTML = text;
 //                        document.getElementById('owl-login2').innerHTML = text;
+                        }
 
                         if(check_dynamic){
                             if(template == 1){
@@ -1155,9 +1470,18 @@ function get_dynamic_page(type){
                                     </div>
                                     <br/>
                                 </div>`;
+                            }else if(template == 6){
+                                document.getElementById('dynamic_page').innerHTML = `
+                                <div class="menu-content">
+                                    <div class="fetured-info py-lg-3 py-3">
+                                        <h3>INFORMATION</h3>
+                                    </div>
+                                    <br/>
+                                </div>`;
                             }
                             check_available_dynamic = 1;
                         }
+                        get_social('login');
                     }else if(type == 'home'){
                         if(check_dynamic){
                             if(template == 1){
@@ -1185,6 +1509,14 @@ function get_dynamic_page(type){
                                 <div class="menu-content">
                                     <div class="title text-center">
                                         <h1>INFORMATION</h1>
+                                    </div>
+                                    <br/>
+                                </div>`;
+                            }else if(template == 6){
+                                document.getElementById('dynamic_page').innerHTML = `
+                                <div class="menu-content">
+                                    <div class="fetured-info py-lg-3 py-3">
+                                        <h3>INFORMATION</h3>
                                     </div>
                                     <br/>
                                 </div>`;

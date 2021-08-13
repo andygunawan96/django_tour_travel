@@ -43,6 +43,8 @@ function get_payment_partner(type){
                             text+=`<hr/><h2 class="footer-heading mb-4" style="color:black;">Payment Partner</h2>`;
                         }else if(template == 5){
                             text+=`<hr/><h4 class="mb-4" style="color:black;">Payment Partner</h4>`;
+                        }else if(template == 6){
+                            text+=`<h4 class="mb-4" style="color:black;">Payment Partner</h4><hr/>`;
                         }
                     }
                     for(j in sortable){

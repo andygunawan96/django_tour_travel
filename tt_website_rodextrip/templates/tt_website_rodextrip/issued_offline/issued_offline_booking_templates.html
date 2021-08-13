@@ -180,6 +180,42 @@
         </div>
     </div>
 </header>
+{% elif template == 6 %}
+<header>
+    <div class="container" style="padding-top:15px; padding-bottom:15px;">
+        <div class="row align-items-center justify-content-between d-flex mobile-menu">
+            <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                <a class="nav-brand" href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="Logo {{name}}" title="{{name}}" /></a>
+            </div>
+            <div class="col-lg-10 col-md-10 col-sm-10" style="display:flex; padding-top:5px; padding-left:15px;">
+                <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_rodextrip:index'%}';">
+                    <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
+                    <span style="padding-left:5px;">Home</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>
+                <div class="breadcrumbs-rdx br-book" onclick="location.href='{% url 'tt_website_rodextrip:airline_search'%}';">
+                    <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>
+                    <span style="padding-left:5px;">Search</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>
+                <div class="breadcrumbs-rdx br-book">
+                    <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>
+                    <span style="padding-left:5px;">Passenger</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>
+                <div class="breadcrumbs-rdx br-book">
+                    <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>
+                    <span style="padding-left:5px;">Booking</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>
+                <div class="breadcrumbs-rdx br-active" id="issued-breadcrumb">
+                    <span class="breadcrumb-rdx-icon br-icon-active" id="issued-breadcrumb-icon">5</span>
+                    <span id="issued-breadcrumb-span" style="padding-left:5px;">Issued</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
 {% endif %}
 
 <div id="overlay-div-box" onclick="close_div('payment_acq');"></div>
@@ -193,6 +229,8 @@
 <section class="banner-area relative" style="padding:15px 0px 15px 0px; background:#f7f7f7; border-bottom:2px solid #cdcdcd;">
 {% elif template == 5 %}
 <section style="padding:30px 0px 15px 0px; background:#f7f7f7; border-bottom:2px solid #cdcdcd;">
+{% elif template == 6 %}
+<section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
 {% endif %}
     <div class="container">
         <div class="row">
