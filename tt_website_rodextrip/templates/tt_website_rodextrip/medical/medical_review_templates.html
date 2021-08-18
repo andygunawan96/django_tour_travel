@@ -94,7 +94,14 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div style="padding:10px; background-color:white; border:1px solid #cdcdcd;">
-                                <h4>{% trans 'Medical Detail' %}</h4>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <h4>{% trans 'Medical Detail' %}</h4>
+                                    </div>
+                                    <div class="col-lg-6" id="test_type_text" style="text-align:right">
+
+                                    </div>
+                                </div>
                                 <hr/>
                                 <table style="width:100%;">
                                     <tr>
@@ -113,7 +120,7 @@
                                         <td></td>
                                         {% endif %}
                                         <td>{{rec.date}}
-                                            {% if rec.time == '15:09' %}
+                                            {% if rec.time == '09:09' %}
                                                 <br/>08:00 - 15:00
                                             {% else %}
                                                 {{rec.time}}
@@ -284,6 +291,7 @@
                             </button>
                             {% endif %}
                         </div>
+                        <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
                         <div class="col-lg-6" style="padding-bottom:10px;">
                         </div>
                     </div>
@@ -308,6 +316,31 @@
 {% include 'tt_website_rodextrip/modal_signin_signup.html' %}
 {% endif %}
 <script>
+    $text = '';
+    $text += 'Test Area\n';
+    {% for rec in data.data.test_list %}
+        {% if forloop.counter == 1 %}
+            $text += 'Area: {{data.data.area}}\n';
+            $text += 'Address: {{data.data.address}}\n';
+        {% endif %}
+        $text += 'Date: {{rec.date}}\n';
+        {% if rec.time == '09:09' %}
+            $text += 'Time: 08:00 - 15:00\n'
+        {% else %}
+            $text += 'Time: {{rec.time}}\n'
+        {% endif %}
+    {% endfor %}
+    $text += '\nCustomer\n'
+    {% for adult in data.passengers%}
+        $text += 'Name: {{adult.title}} {{adult.first_name}} {{adult.last_name}}\n';
+        $text += 'Birth Date: {{adult.birth_date}}\n';
+        $text += '{{adult.identity.identity_type}}: {{adult.identity.identity_number}}\n';
+        {% if vendor == 'periksain' %}
+        $text += 'Sample Method: {{adult.sample_method}}\n';
+        {% endif %}
+    {% endfor %}
+    $text += `\n`;
+    get_config_medical('review','{{vendor}}');
     $( document ).ready(function() {
         breadcrumb_create("medical", 3, 0);
         medical_get_cache_price();

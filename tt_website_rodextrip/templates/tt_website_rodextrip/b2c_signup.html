@@ -10,7 +10,7 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    {% if website_mode == 'btb' or website_mode == 'btc_btb' %}
+                    {% if website_mode == 'btb' or website_mode == 'btc_btb' or website_mode == 'btb_with_signup_b2c' %}
                     <div class="{% if website_mode == 'btc_btb' %} col-lg-4 {% else %} col-lg-12 {% endif %}" style="margin-bottom:15px;text-align:center;">
                         <div id="b2c_signup" style="background-color:white; padding:20px; border:2px solid #cdcdcd;">
                             <h3 style="font-weight:bold; margin-bottom:15px;">{% trans 'Want to join us as an agent?' %}</h3>
@@ -19,7 +19,7 @@
                         <!--href="{% url 'tt_website_rodextrip:registration' %}-->
                     </div>
                     {% endif %}
-                    {% if website_mode == 'btc' or website_mode == 'btc_btb' %}
+                    {% if website_mode == 'btc' or website_mode == 'btc_btb' or website_mode == 'btb_with_signup_b2c' %}
                     <div class="{% if website_mode == 'btc_btb' %} col-lg-8 {% else %} col-lg-12 {% endif %}">
                         <div style="background-color:white; padding:10px; border:2px solid #cdcdcd;">
                             <h6 style="font-weight:bold; color:{{color}};">{% trans 'Register User Form' %}</h6><hr/>

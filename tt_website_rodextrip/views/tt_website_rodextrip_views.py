@@ -77,7 +77,7 @@ def index(request):
         if not request.session.get('user_account') and values['website_mode'] == 'btc' or not request.session.get('user_account') and values['website_mode'] == 'btc_btb':
             provider = signin_btc(request)
             values = get_data_template(request, 'home', provider['result']['response']['provider'])
-        elif request.session.get('user_account') and values['website_mode'] == 'btb':
+        elif request.session.get('user_account') and values['website_mode'] == 'btb' or request.session.get('user_account') and values['website_mode'] == 'btb_with_signup_b2c':
             if request.session.get('user_account').get('co_user_login') == user_default:
                 for key in reversed(list(request.session._session.keys())):
                     if key != '_language':
@@ -501,7 +501,7 @@ def login(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
         # return goto_dashboard()
-        if values['website_mode'] == 'btb':
+        if values['website_mode'] == 'btb' or values['website_mode'] == 'btb_with_signup_b2c':
             return render(request, MODEL_NAME+'/login_templates.html', values)
         else:
             try:

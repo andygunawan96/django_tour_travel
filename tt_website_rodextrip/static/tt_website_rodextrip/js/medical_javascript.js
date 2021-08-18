@@ -1661,50 +1661,6 @@ function add_table_of_passenger(type){
                                 </div>
                             </div>
                         </div>`;
-                        text_div_paxs += `
-                        <div class="col-lg-12 col-md-12 col-sm-12 mt-3">
-                            <h4>Test</h4>
-                        </div>
-                        <div class="col-lg-12 col-md-12 col-sm-12">
-                            <span style="padding-right:10px; font-weight:700; font-size:15px;font-weight:bold;color:red">DATA HARUS BENAR KARENA TIDAK BISA DIUBAH</span><br/>
-                        </div>`;
-                        text_div_paxs+=`
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <label style="color:red !important">*</label>
-                            <label>Sample Method</label>`;
-                            if(template == 1){
-                                text_div_paxs+=`<div class="input-container-search-ticket">`;
-                            }else if(template == 2){
-                                text_div_paxs+=`<div>`;
-                            }else if(template == 3){
-                                text_div_paxs+=`<div class="default-select">`;
-                            }else if(template == 4){
-                                text_div_paxs+=`<div class="input-container-search-ticket">`;
-                            }else if(template == 5){
-                                text_div_paxs+=`<div class="input-container-search-ticket">`;
-                            }else if(template == 6){
-                                text_div_paxs+=`<div class="default-select">`;
-                            }
-
-                            if(template == 5){
-                                text_div_paxs+=`<div class="form-select">`;
-                            }else{
-                                text_div_paxs+=`<div class="form-select-2">`;
-                            }
-
-                            if(template == 4){
-                                text_div_paxs+=`<select class="nice-select-default rounded" id="adult_sample_method`+parseInt(counter_passenger+1)+`" name="adult_sample_method`+parseInt(counter_passenger+1)+`">`;
-                            }else{
-                                text_div_paxs+=`<select id="adult_sample_method`+parseInt(counter_passenger+1)+`" name="adult_sample_method`+parseInt(counter_passenger+1)+`">`;
-                            }
-                            text_div_paxs+=`
-                                        <option value="">Choose Sample Method</option>
-                                        <option value="saliva">Saliva</option>
-                                        <option value="nasal_swab">Nasal Swab</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>`;
                     }
 
                     //ini phc
@@ -5306,6 +5262,16 @@ function check_passenger(){
         else{
             request['passenger'] = []
             if(vendor == 'periksain'){
+                if(document.getElementById('adult_sample_method').value == ''){
+                    error_log += 'Please choose sample method test!</br>\n';
+                    $("#adult_sample_method").each(function() {
+                        $(this).parent().find('.nice-select').css('border', '1px solid red');
+                    });
+                }else{
+                    $("#adult_sample_method").each(function() {
+                        $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
+                    });
+                }
                 for(i=0; i < counter_passenger; i++){
                     var check_form_periksain = 0;
                     nomor_pax = (i + 1);
@@ -5371,17 +5337,6 @@ function check_passenger(){
                             check_form_periksain = 1;
                         }else{
                             document.getElementById('adult_email' + nomor_pax).style['border-color'] = '#EFEFEF';
-                        }
-                        if(document.getElementById('adult_sample_method' + nomor_pax).value == ''){
-                            error_log+= 'Please choose sample method for customer '+nomor_pax+'!</br>\n';
-                            $("#adult_sample_method"+nomor_pax).each(function() {
-                                $(this).parent().find('.nice-select').css('border', '1px solid red');
-                            });
-                            check_form_periksain = 1;
-                        }else{
-                            $("#adult_sample_method"+nomor_pax).each(function() {
-                                $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
-                            });
                         }
                         if(document.getElementById('adult_address' + nomor_pax).value == ''){
                             error_log+= 'Please fill address for customer '+nomor_pax+'!</br>\n';
@@ -5556,7 +5511,7 @@ function check_passenger(){
                                 "identity_number": document.getElementById('adult_identity_number' + nomor_pax).value,
                             },
                             "passenger_seq_id": document.getElementById('adult_id' + nomor_pax).value,
-                            "sample_method": document.getElementById('adult_sample_method' + nomor_pax).value,
+                            "sample_method": document.getElementById('adult_sample_method').value,
                             "address": document.getElementById('adult_address' + nomor_pax).value,
                             "provinsi": document.getElementById('adult_provinsi' + nomor_pax + '_id').value,
                             "kabupaten": document.getElementById('adult_kabupaten' + nomor_pax + '_id').value,
@@ -7107,6 +7062,34 @@ function radio_timeslot_type_func(val){
     }
 }
 
+function copy_data(){
+    //
+    document.getElementById('data_copy').innerHTML = $text;
+    document.getElementById('data_copy').hidden = false;
+    var el = document.getElementById('data_copy');
+    el.select();
+    document.execCommand('copy');
+    document.getElementById('data_copy').hidden = true;
+
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000
+    })
+
+    Toast.fire({
+      type: 'success',
+      title: 'Copied Successfully'
+    })
+//    const el = document.createElement('textarea');
+//    el.innerHTML = $text;
+//    document.body.appendChild(el);
+//    el.select();
+//    document.execCommand('copy');
+//    document.body.removeChild(el);
+}
+
 function add_table(change_rebooking=false){
     var tempcounter = parseInt(document.getElementById('passenger').value);
     if(tempcounter > last_counter){
@@ -7859,9 +7842,9 @@ function auto_fill_periksain(){
         }
         document.getElementById('adult_email'+counter).value = passenger_data_cache_medical[idx].email;
         if(passenger_data_cache_medical[idx].hasOwnProperty('sample_method_code'))
-            document.getElementById('adult_sample_method'+counter).value = passenger_data_cache_medical[idx].sample_method_code;
+            document.getElementById('adult_sample_method').value = passenger_data_cache_medical[idx].sample_method_code;
         else
-            document.getElementById('adult_sample_method'+counter).value = passenger_data_cache_medical[idx].sample_method;
+            document.getElementById('adult_sample_method').value = passenger_data_cache_medical[idx].sample_method;
         document.getElementById('adult_address'+counter).value = passenger_data_cache_medical[idx].address;
 
         document.getElementById('adult_provinsi'+counter).value = passenger_data_cache_medical[idx].provinsi;

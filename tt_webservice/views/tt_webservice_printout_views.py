@@ -74,6 +74,7 @@ def get_printout(request):
             'bill_to_name': request.POST['bill_name_to'],
             'bill_address': request.POST['bill_address'],
             'additional_information': request.POST['additional_information'],
+            'kwitansi_name': request.POST['kwitansi_name'],
         }
         if request.POST['mode'] == 'itinerary' and request.POST['provider_type'] == 'hotel':
             data.update({
