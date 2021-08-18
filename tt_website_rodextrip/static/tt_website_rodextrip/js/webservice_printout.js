@@ -6,6 +6,7 @@ function get_printout(order_number,type,provider_type, timeout=60){
         bill_name_to = '';
         bill_address = '';
         additional_information = '';
+        kwitansi_name = '';
         try{
             bill_name_to = document.getElementById('bill_name').value;
         }catch(err){}
@@ -14,6 +15,9 @@ function get_printout(order_number,type,provider_type, timeout=60){
         }catch(err){}
         try{
             additional_information = document.getElementById('additional_information').value;
+        }catch(err){}
+        try{
+            kwitansi_name = document.getElementById('kwitansi_name').value;
         }catch(err){}
 
         if(type == 'ticket'){
@@ -47,7 +51,8 @@ function get_printout(order_number,type,provider_type, timeout=60){
                 'bill_address': bill_address,
                 'additional_information': additional_information,
                 'signature': signature,
-                'timeout': timeout
+                'timeout': timeout,
+                'kwitansi_name': kwitansi_name
            },
            success: function(msg) {
                 console.log(msg);

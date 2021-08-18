@@ -169,6 +169,19 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <label style="color:red !important">*</label>
+                                <label>{% trans "Sample Method" %}</label>
+                                <div class="input-container-search-ticket">
+                                    <div class="form-select-2" id="default-select">
+                                        <select id="adult_sample_method" name="adult_sample_method" class="nice-select-default" onchange="reset_other_time();change_area('change_area_display');">
+                                            <option value="">Choose Sample Method</option>
+                                            <option value="saliva">Saliva</option>
+                                            <option value="nasal_swab">Nasal Swab</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
 
                             <div class="col-lg-12 mt-4  " style="padding:15px 15px 0px 15px; border-top:1px solid #cdcdcd; display:none;" id="medical_timeslot">
                                 <div class="row">

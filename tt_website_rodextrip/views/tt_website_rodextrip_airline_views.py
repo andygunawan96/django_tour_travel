@@ -405,6 +405,7 @@ def passenger(request):
 
         is_lionair = False
         is_international = False
+        is_garuda = False
         airline_price_provider_temp = request.session['airline_sell_journey']['sell_journey_provider'] if request.session.get('airline_sell_journey') else request.session['airline_price_itinerary']['price_itinerary_provider']
         for airline in airline_price_provider_temp:
             for journey in airline['journeys']:
@@ -417,6 +418,8 @@ def passenger(request):
                             break
             if airline['provider'] == 'lionair':
                 is_lionair = True
+            elif airline['provider'] == 'altea':
+                is_garuda = True
             try:
                 ff_request = request.session['airline_get_ff_availability']['result']['response']['ff_availability_provider']
             except:
@@ -427,6 +430,7 @@ def passenger(request):
                 'ff_request': ff_request,
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'is_lionair': is_lionair,
+                'is_garuda': is_garuda,
                 'is_international': is_international,
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
@@ -1192,10 +1196,10 @@ def review(request):
                     passport_number = ''
                     passport_ed = ''
                     passport_country_of_issued = ''
-                    if request.POST['adult_passport_number' + str(i + 1)] and request.POST['adult_passport_expired_date' + str(i + 1)] and request.POST['adult_country_of_issued' + str(i + 1)]:
-                        passport_number = request.POST['adult_passport_number' + str(i + 1)]
-                        passport_ed = request.POST['adult_passport_expired_date' + str(i + 1)]
-                        passport_country_of_issued = request.POST['adult_country_of_issued' + str(i + 1)]
+                    if request.POST['adult_id_type' + str(i + 1)]:
+                        passport_number = request.POST.get('adult_passport_number' + str(i + 1))
+                        passport_ed = request.POST.get('adult_passport_expired_date' + str(i + 1))
+                        passport_country_of_issued = request.POST.get('adult_country_of_issued' + str(i + 1))
                     adult.append({
                         "pax_type": "ADT",
                         "first_name": request.POST['adult_first_name' + str(i + 1)],
@@ -1207,7 +1211,7 @@ def review(request):
                         "identity_expdate": passport_ed,
                         "identity_number": passport_number,
                         "passenger_seq_id": request.POST['adult_id' + str(i + 1)],
-                        "identity_type": "passport",
+                        "identity_type": request.POST['adult_id_type' + str(i + 1)],
                         "ff_numbers": ff_number
                     })
 
@@ -1320,7 +1324,7 @@ def review(request):
                         "identity_expdate": passport_ed,
                         "identity_country_of_issued_name": passport_country_of_issued,
                         "passenger_seq_id": request.POST['child_id' + str(i + 1)],
-                        "identity_type": "passport",
+                        "identity_type": request.POST['child_id_type' + str(i + 1)],
                         "ff_numbers": ff_number
                     })
 
@@ -1343,7 +1347,7 @@ def review(request):
                         "identity_expdate": passport_ed,
                         "identity_country_of_issued_name": passport_country_of_issued,
                         "passenger_seq_id": request.POST['infant_id' + str(i + 1)],
-                        "identity_type": "passport",
+                        "identity_type": request.POST['infant_id_type' + str(i + 1)],
                     })
                 airline_create_passengers = {
                     'booker': booker,

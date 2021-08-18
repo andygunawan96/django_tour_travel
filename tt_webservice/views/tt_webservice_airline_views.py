@@ -1218,15 +1218,16 @@ def update_passengers(request):
                                 pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
                                 pax['birth_date'].split(' ')[0]),
                         })
-                    if pax['identity_expdate'] != '':
-                        pax.update({
-                            'identity_expdate': '%s-%s-%s' % (
-                                pax['identity_expdate'].split(' ')[2], month[pax['identity_expdate'].split(' ')[1]],
-                                pax['identity_expdate'].split(' ')[0])
-                        })
+                    if pax['identity_type'] != '':
+                        if pax['identity_expdate'] != '':
+                            pax.update({
+                                'identity_expdate': '%s-%s-%s' % (
+                                    pax['identity_expdate'].split(' ')[2], month[pax['identity_expdate'].split(' ')[1]],
+                                    pax['identity_expdate'].split(' ')[0])
+                            })
                         pax['identity'] = {
                             "identity_country_of_issued_name": pax.pop('identity_country_of_issued_name'),
-                            "identity_country_of_issued_code": pax.pop('identity_country_of_issued_code'),
+                            "identity_country_of_issued_code": pax.get('identity_country_of_issued_code') or '',
                             "identity_expdate": pax.pop('identity_expdate'),
                             "identity_number": pax.pop('identity_number'),
                             "identity_type": pax.pop('identity_type'),
