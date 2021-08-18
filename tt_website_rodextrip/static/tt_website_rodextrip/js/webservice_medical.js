@@ -1670,7 +1670,7 @@ function medical_get_booking(order_number, sync=false){
                                                     <div style="text-align:right;">
                                                         <span>Don't want to edit? just submit</span>
                                                         <br/>
-                                                        <button type="button" id="button-issued-print" class="primary-btn ld-ext-right" onclick="get_printout('`+msg.result.response.order_number+`', 'invoice','medical');">
+                                                        <button type="button" id="button-issued-print" class="primary-btn ld-ext-right" onclick="get_printout('`+msg.result.response.order_number+`', 'kwitansi','medical');">
                                                             Submit
                                                             <div class="ld ld-ring ld-cycle"></div>
                                                         </button>
