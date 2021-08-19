@@ -116,6 +116,14 @@ function get_config_medical(type='', vendor=''){
                 }else if(type == 'passenger_edit'){
                     data_kota = medical_config['result']['response']['kota'];
                     add_table_verify(true);
+                }else if(type == 'review'){
+                    for(i in medical_config.result.response.carriers_code){
+                        if(medical_config.result.response.carriers_code[i].code == test_type){
+                            $text = medical_config.result.response.carriers_code[i].name + '\n\n' + $text;
+                            document.getElementById('test_type_text').innerHTML = `<h4>`+medical_config.result.response.carriers_code[i].name+`</h4>`;
+                            break;
+                        }
+                    }
                 }
             }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 auto_logout();
@@ -481,17 +489,26 @@ function medical_get_cache_price(){
                     </div>`;
                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                     text+=`
-                        <div class="col-lg-12" style="text-align:center; display:none;" id="show_commission">
+                        <div class="col-lg-12" style="text-align:center; display:none;padding-bottom:10px;" id="show_commission">
                             <div class="alert alert-success">
                                 <span style="font-size:13px; font-weight: bold;">Your Commission: IDR `+getrupiah(msg.result.response.total_commission)+`</span><br>
                             </div>
                         </div>`;
                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                     text+=`
-                        <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"><br/>`;
-
+                        <input class="primary-btn-white" id="show_commission_button" style="width:100%;margin-bottom:10px;" type="button" onclick="show_commission('commission');" value="Show Commission"><br/>`;
+                text+=`
+                    <div>
+                        <center>
+                            <input type="button" class="primary-btn-white" style="width:100%;" onclick="copy_data();" value="Copy"/>
+                        </center>
+                    </div>`;
                 document.getElementById('medical_detail').innerHTML = text;
                 document.getElementById('medical_detail').style.display = 'block';
+                $text += 'Price:\n';
+                $text += msg.result.response.service_charges[0].pax_count+`x Fare @IDR `+getrupiah(msg.result.response.service_charges[0].amount) + `\n`;
+                $text += 'Grand Total: IDR' + getrupiah(msg.result.response.total_price)
+
 
 //                if(document.URL.split('/')[document.URL.split('/').length-1] == 'review'){
 //                    tax = 0;
@@ -863,6 +880,118 @@ function medical_get_booking(order_number, sync=false){
                     medical_get_detail = msg;
                     $text = '';
                     $text += 'Order Number: '+ msg.result.response.order_number + '\n';
+
+                    //======================= Button Issued ==================
+                    if(msg.result.response.state == 'booked'){
+                       check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'medical', signature, msg.result.response.payment_acquirer_number);
+                       $(".issued_booking_btn").show();
+                       $text += 'Status: Booked\n';
+                       document.getElementById('div_sync_status').hidden = false;
+                       /*document.getElementById('div_sync_status').innerHTML =`
+                       <input type="button" class="primary-btn" id="button-sync-status" style="width:100%;" value="Sync Status" onclick="please_wait_transaction();medical_get_booking('`+order_number+`',true)">`*/
+                       document.getElementById('alert-state').innerHTML = `
+                       <div class="alert alert-success" role="alert">
+                           <h5>Your booking has been successfully Booked. Please proceed to payment or review your booking again.</h5>
+                       </div>`;
+                    }
+                    else if(msg.result.response.state == 'issued'){
+                        document.getElementById('issued-breadcrumb').classList.add("br-active");
+                        document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
+                        document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
+                        document.getElementById('show_title_medical').hidden = true;
+                        document.getElementById('display_state').innerHTML = `Your Order Has Been Issued`;
+                        document.getElementById('alert-state').innerHTML = `
+                        <div class="alert alert-success" role="alert">
+                            <h5>Your booking has been successfully Issued!</h5>
+                        </div>`;
+
+                        //check permission klo ada button di update
+                        if(msg.result.response.test_address_map_link){
+                            document.getElementById('div_sync_status').hidden = false;
+                            document.getElementById('div_sync_status').innerHTML =`
+                                <button type="button" class="primary-btn-white" id="button-sync-status" style="width:100%;" onclick="window.open('`+msg.result.response.test_address_map_link.test_address_map_link+`','_blank');">
+                                    Map <i class="fas fa-map-marker-alt"></i>
+                                </button>`;
+                        }
+                        //document.getElementById('display_prices').style.display = "none";
+                        $text += 'Status: Issued\n';
+                    }
+                    else if(msg.result.response.state == 'cancel2'){
+                        $text += 'Status: Expired \n';
+                        document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                        document.getElementById('issued-breadcrumb').classList.add("br-fail");
+                        document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                        document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+                        document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                        document.getElementById('issued-breadcrumb-span').innerHTML = `Expired`;
+                        document.getElementById('display_state').innerHTML = `Your Order Has Been Expired`;
+                        document.getElementById('div_sync_status').hidden = true;
+                        document.getElementById('alert-state').innerHTML = `
+                        <div class="alert alert-danger" role="alert">
+                            <h5>Your booking has been Expired!</h5>
+                        </div>`;
+                    }
+                    else if(msg.result.response.state == 'fail_issued'){
+                        $text = 'Failed (Issue)';
+                        document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                        document.getElementById('issued-breadcrumb').classList.add("br-fail");
+                        document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                        document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+                        document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                        document.getElementById('issued-breadcrumb-span').innerHTML = `Failed (Issue)`;
+                        document.getElementById('display_state').innerHTML = `Your Order Has Been Failed (Issue)`;
+                        document.getElementById('div_sync_status').hidden = true;
+                        document.getElementById('alert-state').innerHTML = `
+                        <div class="alert alert-danger" role="alert">
+                            <h5>Your booking has been Fail (Issued)!</h5>
+                        </div>`;
+
+                    }
+                    else if(msg.result.response.state == 'fail_booked'){
+                        $text = 'Failed (Book)';
+                        document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                        document.getElementById('issued-breadcrumb').classList.add("br-fail");
+                        document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                        document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+                        document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                        document.getElementById('issued-breadcrumb-span').innerHTML = `Failed (Book)`;
+                        document.getElementById('display_state').innerHTML = `Your Order Has Been Failed (Book)`;
+                        document.getElementById('div_sync_status').hidden = true;
+                        document.getElementById('alert-state').innerHTML = `
+                        <div class="alert alert-danger" role="alert">
+                            <h5>Your booking has been Fail (Booked)!</h5>
+                        </div>`;
+                    }
+                    else if(msg.result.response.state == 'fail_refunded'){
+                        $text = 'Failed (Refunded)';
+                        document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                        document.getElementById('issued-breadcrumb').classList.add("br-fail");
+                        document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                        document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+                        document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                        document.getElementById('issued-breadcrumb-span').innerHTML = `Failed (Refunded)`;
+                        document.getElementById('display_state').innerHTML = `Your Order Has Been Failed (Refunded)`;
+                        document.getElementById('div_sync_status').hidden = true;
+                        document.getElementById('alert-state').innerHTML = `
+                        <div class="alert alert-danger" role="alert">
+                            <h5>Your booking has been Fail (Refunded)!</h5>
+                        </div>`;
+                    }
+                    else if(msg.result.response.state == 'refund'){
+                        $text = 'Refunded';
+                        document.getElementById('issued-breadcrumb').classList.add("br-active");
+                        document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
+                        document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
+                        document.getElementById('issued-breadcrumb-span').innerHTML = `Refunded`;
+                        document.getElementById('display_state').innerHTML = `Your Order Has Been Refunded`;
+                        document.getElementById('div_sync_status').hidden = true;
+                        document.getElementById('alert-state').innerHTML = `
+                        <div class="alert alert-success" role="alert">
+                            <h5>Your booking has been Refund!</h5>
+                        </div>`;
+                    }
+                    $text += `\n`+msg.result.response.provider_bookings[0].carrier_name + '\n\nTest\n';
+
                     text = `
                     <div class="mb-3" style="padding:15px; background:white; border:1px solid #cdcdcd;">
                         <div class="row">
@@ -871,8 +1000,7 @@ function medical_get_booking(order_number, sync=false){
                             </div>
                             <div class="col-lg-6" style="text-align:right">
                                 <h5>`+msg.result.response.provider_bookings[0].carrier_name+`</h5>
-                            </div>
-                        `;
+                            </div>`;
                             for(i in msg.result.response.provider_bookings){
                                 if(msg.result.response.provider_bookings[i].error_msg.length != 0 && msg.result.response.provider_bookings[i].state != 'issued')
                                     text += `<div class="alert alert-danger">
@@ -887,11 +1015,13 @@ function medical_get_booking(order_number, sync=false){
                                         text+=`
                                         <span>Hold Date: </span>
                                         <span style="font-weight:600;">`+msg.result.response.hold_date+`</span><br/>`;
+                                        $text += 'Hold Date: '+msg.result.response.hold_date+'\n';
                                     }
                                 text+=`
                                     <span>Test Place: </span>
                                     <span style="font-weight:600;">`+msg.result.response.test_address+`</span>
                                 `;
+                                $text += `Address: `+msg.result.response.test_address;
                             }
                     text+=`</div>
                         </div>`;
@@ -934,30 +1064,37 @@ function medical_get_booking(order_number, sync=false){
                         </div>
                         <hr/>`;
                         if(Object.keys(msg.result.response.picked_timeslot).length>0){
-                        text+=`
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <h6>Test</h6>
-                                <span>Area: <b>`;
-                                    text+=msg.result.response.picked_timeslot.area;
+                            text+=`
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <h6>Test</h6>
+                                    <span>Area: <b>`;
+                                        text+=msg.result.response.picked_timeslot.area;
 
-                                    text+=`</b>
-                                </span><br/>`;
-                                text+=`<span>Date: <b>`;
-                                tes = moment.utc(msg.result.response.picked_timeslot.datetimeslot).format('YYYY-MM-DD HH:mm')
-                                localTime  = moment.utc(tes).toDate();
+                                        text+=`</b>
+                                    </span><br/>`;
+                                    $text += `Area: `+ msg.result.response.picked_timeslot.area+'\n';
+                                    text+=`<span>Date: <b>`;
+                                    tes = moment.utc(msg.result.response.picked_timeslot.datetimeslot).format('YYYY-MM-DD HH:mm')
+                                    localTime  = moment.utc(tes).toDate();
 
-                                text+=moment(msg.result.response.picked_timeslot.datetimeslot.split(' ')[0], 'YYYY-MM-DD').format('DD MMM YYYY') + ' ';
-                                if(msg.result.response.provider_bookings[0].carrier_code == 'PHCHCKATG' || msg.result.response.provider_bookings[0].carrier_code == 'PHCHCKPCR' || msg.result.response.provider_bookings[0].carrier_code == "PRKATG")
-                                    text += moment(localTime).format('HH:mm') + ' ' + gmt + timezone;
-                                else{
-                                    text+= `08.00 - 15.00 ` + gmt + timezone;
-                                }
+                                    text+=moment(msg.result.response.picked_timeslot.datetimeslot.split(' ')[0], 'YYYY-MM-DD').format('DD MMM YYYY') + ' ';
+                                    $text += `Date: `+ moment(msg.result.response.picked_timeslot.datetimeslot.split(' ')[0], 'YYYY-MM-DD').format('DD MMM YYYY')+'\n';
+                                    if(msg.result.response.provider_bookings[0].carrier_code == 'PHCHCKATG' || msg.result.response.provider_bookings[0].carrier_code == 'PHCHCKPCR' || msg.result.response.provider_bookings[0].carrier_code == "PRKATG"){
+                                        text += moment(localTime).format('HH:mm') + ' ' + gmt + timezone;
+                                        $text += `Time: `+moment(localTime).format('HH:mm') + ' ' + gmt + timezone+`\n`;
+                                    }else{
+                                        text+= `08.00 - 15.00 ` + gmt + timezone;
+                                        $text += `Time: 08.00 - 15.00 ` + gmt + timezone+`\n`;
+                                    }
 
-                                    text+=`</b>
+
+                                        text+=`</b>
+                                </div>
                             </div>
-                        </div>
-                        <hr/>`;
+                            <hr/>`;
+
+
                         }
                    text+=`<div class="row">`;
                    text+=`<div class="col-lg-12"></div>`;
@@ -1193,7 +1330,7 @@ function medical_get_booking(order_number, sync=false){
                                     coma = true
                                 }
                             }
-                            $text += currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC))+'\n';
+                            $text += `IDR `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC))+'\n';
                             if(counter_service_charge == 0){
                                 total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC);
                             }else{
@@ -1246,6 +1383,7 @@ function medical_get_booking(order_number, sync=false){
                             <span style="font-size:13px; font-weight: bold;">`;
                             try{
                                 text_detail+= price.currency+` `+getrupiah(total_price);
+                                $text += `\n` + 'Grand Total: ' +price.currency+` `+ getrupiah(total_price);
                             }catch(err){
 
                             }
@@ -1329,7 +1467,14 @@ function medical_get_booking(order_number, sync=false){
                     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                     text_detail+=`
                     <div>
-                        <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"/>
+                        <input class="primary-btn-white" id="show_commission_button" style="width:100%;margin-bottom:10px;" type="button" onclick="show_commission('commission');" value="Show Commission"/>
+                    </div>`;
+
+                    text_detail+=`
+                    <div>
+                        <center>
+                            <input type="button" class="primary-btn-white" style="width:100%;" onclick="copy_data();" value="Copy"/>
+                        </center>
                     </div>`;
                     if (msg.result.response.state  == 'issued' && msg.result.response.order_number.includes('PH')) {
                         var verify = false;
@@ -1396,115 +1541,7 @@ function medical_get_booking(order_number, sync=false){
 
                 document.getElementById('medical_detail').innerHTML = text_detail;
                 document.getElementById('update_data_passenger').innerHTML = text_update_data_pax;
-                    //======================= Button Issued ==================
-                    if(msg.result.response.state == 'booked'){
-                       check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'medical', signature, msg.result.response.payment_acquirer_number);
-                       $(".issued_booking_btn").show();
-                       $text += 'Status: Booked\n';
-                       document.getElementById('div_sync_status').hidden = false;
-                       /*document.getElementById('div_sync_status').innerHTML =`
-                       <input type="button" class="primary-btn" id="button-sync-status" style="width:100%;" value="Sync Status" onclick="please_wait_transaction();medical_get_booking('`+order_number+`',true)">`*/
-                       document.getElementById('alert-state').innerHTML = `
-                       <div class="alert alert-success" role="alert">
-                           <h5>Your booking has been successfully Booked. Please proceed to payment or review your booking again.</h5>
-                       </div>`;
-                    }
-                    else if(msg.result.response.state == 'issued'){
-                        document.getElementById('issued-breadcrumb').classList.add("br-active");
-                        document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
-                        document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
-                        document.getElementById('show_title_medical').hidden = true;
-                        document.getElementById('display_state').innerHTML = `Your Order Has Been Issued`;
-                        document.getElementById('alert-state').innerHTML = `
-                        <div class="alert alert-success" role="alert">
-                            <h5>Your booking has been successfully Issued!</h5>
-                        </div>`;
 
-                        //check permission klo ada button di update
-                        if(msg.result.response.test_address_map_link){
-                            document.getElementById('div_sync_status').hidden = false;
-                            document.getElementById('div_sync_status').innerHTML =`
-                                <button type="button" class="primary-btn-white" id="button-sync-status" style="width:100%;" onclick="window.open('http://maps.google.com/?q=`+lat+`,`+long+`','_blank');">
-                                    Map <i class="fas fa-map-marker-alt"></i>
-                                </button>`;
-                        }
-                        //document.getElementById('display_prices').style.display = "none";
-                        $text += 'Status: Issued\n';
-                    }
-                    else if(msg.result.response.state == 'cancel2'){
-                        $text += 'Status: Expired \n';
-                        document.getElementById('issued-breadcrumb').classList.remove("br-active");
-                        document.getElementById('issued-breadcrumb').classList.add("br-fail");
-                        document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
-                        document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
-                        document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
-                        document.getElementById('issued-breadcrumb-span').innerHTML = `Expired`;
-                        document.getElementById('display_state').innerHTML = `Your Order Has Been Expired`;
-                        document.getElementById('div_sync_status').hidden = true;
-                        document.getElementById('alert-state').innerHTML = `
-                        <div class="alert alert-danger" role="alert">
-                            <h5>Your booking has been Expired!</h5>
-                        </div>`;
-                    }
-                    else if(msg.result.response.state == 'fail_issued'){
-                        $text = 'Failed (Issue)';
-                        document.getElementById('issued-breadcrumb').classList.remove("br-active");
-                        document.getElementById('issued-breadcrumb').classList.add("br-fail");
-                        document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
-                        document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
-                        document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
-                        document.getElementById('issued-breadcrumb-span').innerHTML = `Failed (Issue)`;
-                        document.getElementById('display_state').innerHTML = `Your Order Has Been Failed (Issue)`;
-                        document.getElementById('div_sync_status').hidden = true;
-                        document.getElementById('alert-state').innerHTML = `
-                        <div class="alert alert-danger" role="alert">
-                            <h5>Your booking has been Fail (Issued)!</h5>
-                        </div>`;
-
-                    }
-                    else if(msg.result.response.state == 'fail_booked'){
-                        $text = 'Failed (Book)';
-                        document.getElementById('issued-breadcrumb').classList.remove("br-active");
-                        document.getElementById('issued-breadcrumb').classList.add("br-fail");
-                        document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
-                        document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
-                        document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
-                        document.getElementById('issued-breadcrumb-span').innerHTML = `Failed (Book)`;
-                        document.getElementById('display_state').innerHTML = `Your Order Has Been Failed (Book)`;
-                        document.getElementById('div_sync_status').hidden = true;
-                        document.getElementById('alert-state').innerHTML = `
-                        <div class="alert alert-danger" role="alert">
-                            <h5>Your booking has been Fail (Booked)!</h5>
-                        </div>`;
-                    }
-                    else if(msg.result.response.state == 'fail_refunded'){
-                        $text = 'Failed (Refunded)';
-                        document.getElementById('issued-breadcrumb').classList.remove("br-active");
-                        document.getElementById('issued-breadcrumb').classList.add("br-fail");
-                        document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
-                        document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
-                        document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
-                        document.getElementById('issued-breadcrumb-span').innerHTML = `Failed (Refunded)`;
-                        document.getElementById('display_state').innerHTML = `Your Order Has Been Failed (Refunded)`;
-                        document.getElementById('div_sync_status').hidden = true;
-                        document.getElementById('alert-state').innerHTML = `
-                        <div class="alert alert-danger" role="alert">
-                            <h5>Your booking has been Fail (Refunded)!</h5>
-                        </div>`;
-                    }
-                    else if(msg.result.response.state == 'refund'){
-                        $text = 'Refunded';
-                        document.getElementById('issued-breadcrumb').classList.add("br-active");
-                        document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
-                        document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
-                        document.getElementById('issued-breadcrumb-span').innerHTML = `Refunded`;
-                        document.getElementById('display_state').innerHTML = `Your Order Has Been Refunded`;
-                        document.getElementById('div_sync_status').hidden = true;
-                        document.getElementById('alert-state').innerHTML = `
-                        <div class="alert alert-success" role="alert">
-                            <h5>Your booking has been Refund!</h5>
-                        </div>`;
-                    }
 
 
                     //======================= Option =========================
@@ -1513,7 +1550,7 @@ function medical_get_booking(order_number, sync=false){
                     //======================= Extra Question =========================
 
                     //==================== Print Button =====================
-                    var print_text = '<div class="col-lg-4" style="padding-bottom:10px;">';
+                    var print_text = '<div class="col-lg-6" style="padding-bottom:10px;">';
                     // === Button 1 ===
                     if (msg.result.response.state  == 'issued') {
                         print_text+=`
@@ -1522,7 +1559,7 @@ function medical_get_booking(order_number, sync=false){
                             <div class="ld ld-ring ld-cycle"></div>
                         </button>`;
                     }
-                    print_text += '</div><div class="col-lg-4" style="padding-bottom:10px;">';
+                    print_text += '</div><div class="col-lg-6" style="padding-bottom:10px;">';
                     // === Button 2 ===
                     if (msg.result.response.state  == 'booked'){
                         print_text+=`
@@ -1537,7 +1574,7 @@ function medical_get_booking(order_number, sync=false){
                             <div class="ld ld-ring ld-cycle"></div>
                         </button>`;
                     }
-                    print_text += '</div><div class="col-lg-4" style="padding-bottom:10px;">';
+                    print_text += '</div><div class="col-lg-6" style="padding-bottom:10px;">';
                     // === Button 3 ===
                     if (msg.result.response.state  == 'issued') {
                         print_text+=`
@@ -1597,6 +1634,56 @@ function medical_get_booking(order_number, sync=false){
                                     </div>
                                 </div>
                             `;
+                    }
+                    if(msg.result.response.provider_type == 'phc'){
+                        print_text += '</div><div class="col-lg-6" style="padding-bottom:10px;">';
+                        // === Button 3 ===
+                        if (msg.result.response.state  == 'issued') {
+                            print_text+=`
+                                <a class="issued-booking-train ld-ext-right" style="color:`+text_color+`;">
+                                    <button type="button" class="primary-btn-white" style="width:100%;" data-toggle="modal" data-target="#printKwitansi">
+                                        Print Kwitansi
+                                    </button>
+                                    <div class="ld ld-ring ld-cycle"></div>
+                                </a>`;
+                                // modal invoice
+                                print_text+=`
+                                    <div class="modal fade" id="printKwitansi" role="dialog" data-keyboard="false">
+                                        <div class="modal-dialog">
+
+                                          <!-- Modal content-->
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title" style="color:`+text_color+`">Kwitansi</h4>
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                                                            <span class="control-label" for="Name">Name</span>
+                                                            <div class="input-container-search-ticket">
+                                                                <input type="text" class="form-control o_website_form_input" id="kwitansi_name" name="kwitansi_name" placeholder="Name" required="1"/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <br/>
+                                                    <div style="text-align:right;">
+                                                        <span>Don't want to edit? just submit</span>
+                                                        <br/>
+                                                        <button type="button" id="button-issued-print" class="primary-btn ld-ext-right" onclick="get_printout('`+msg.result.response.order_number+`', 'kwitansi','medical');">
+                                                            Submit
+                                                            <div class="ld ld-ring ld-cycle"></div>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `;
+                        }
                     }
                     print_text += '</div>';
                     document.getElementById('medical_btn_printout').innerHTML = print_text;
