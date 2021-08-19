@@ -4667,39 +4667,39 @@ function airline_get_booking(data, sync=false){
                                            <div class="col-lg-6" style="text-align:right;">`
                                     text+=`<h5>State: `+msg.result.response.reschedule_list[i].state+`</h5>`;
                                     text+=`</div></div>`;
-                                    for(j in msg.result.response.reschedule_list[i].new_segments){
+                                    for(j in msg.result.response.reschedule_list[i].old_segments){
 
-                                        text+=`<h5>PNR: `+msg.result.response.reschedule_list[i].new_segments[j].pnr+`</h5>`;
+                                        text+=`<h5>PNR: `+msg.result.response.reschedule_list[i].old_segments[j].pnr+`</h5>`;
                                         text+=`<h6>Flight `+flight_counter+`</h6>`;
                                         flight_counter++;
                                         var cabin_class = '';
                                         //yang baru harus diganti
-                                        if(msg.result.response.reschedule_list[i].new_segments[j].cabin_class == 'Y')
+                                        if(msg.result.response.reschedule_list[i].old_segments[j].cabin_class == 'Y')
                                             cabin_class = 'Economy Class';
-                                        else if(msg.result.response.reschedule_list[i].new_segments[j].cabin_class == 'W')
+                                        else if(msg.result.response.reschedule_list[i].old_segments[j].cabin_class == 'W')
                                             cabin_class = 'Premium Economy Class';
-                                        else if(msg.result.response.reschedule_list[i].new_segments[j].cabin_class == 'C')
+                                        else if(msg.result.response.reschedule_list[i].old_segments[j].cabin_class == 'C')
                                             cabin_class = 'Business Class';
-                                        else if(msg.result.response.reschedule_list[i].new_segments[j].cabin_class == 'F')
+                                        else if(msg.result.response.reschedule_list[i].old_segments[j].cabin_class == 'F')
                                             cabin_class = 'First Class';
-                                        for(k in msg.result.response.reschedule_list[i].new_segments[j].legs){
+                                        for(k in msg.result.response.reschedule_list[i].old_segments[j].legs){
                                             text+= `
                                             <div class="row">
                                                 <div class="col-lg-4">`;
                                                 try{
-                                                    text += `<img data-toggle="tooltip" style="width:50px; height:50px;" alt="`+airline_carriers[msg.result.response.reschedule_list[i].new_segments[j].carrier_code].name+`" title="`+airline_carriers[msg.result.response.reschedule_list[i].new_segments[j].carrier_code].name+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+msg.result.response.reschedule_list[i].new_segments[j].carrier_code+`.png"/>`;
+                                                    text += `<img data-toggle="tooltip" style="width:50px; height:50px;" alt="`+airline_carriers[msg.result.response.reschedule_list[i].old_segments[j].carrier_code].name+`" title="`+airline_carriers[msg.result.response.reschedule_list[i].old_segments[j].carrier_code].name+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+msg.result.response.reschedule_list[i].old_segments[j].carrier_code+`.png"/>`;
                                                 }catch(err){
-                                                    text += `<img data-toggle="tooltip" style="width:50px; height:50px;" alt="`+msg.result.response.reschedule_list[i].new_segments[j].carrier_code+`" title="`+msg.result.response.reschedule_list[i].new_segments[j].carrier_code+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+msg.result.response.reschedule_list[i].new_segments[j].carrier_code+`.png"/>`;
+                                                    text += `<img data-toggle="tooltip" style="width:50px; height:50px;" alt="`+msg.result.response.reschedule_list[i].old_segments[j].carrier_code+`" title="`+msg.result.response.reschedule_list[i].old_segments[j].carrier_code+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+msg.result.response.reschedule_list[i].old_segments[j].carrier_code+`.png"/>`;
                                                 }
-                                                text+=`<h5>`+msg.result.response.reschedule_list[i].new_segments[j].carrier_name+' '+msg.result.response.reschedule_list[i].new_segments[j].carrier_number+`</h5>
-                                                    <span>Class : `+cabin_class+` (`+msg.result.response.reschedule_list[i].new_segments[j].class_of_service+`)</span><br/>
+                                                text+=`<h5>`+msg.result.response.reschedule_list[i].old_segments[j].carrier_name+' '+msg.result.response.reschedule_list[i].old_segments[j].carrier_number+`</h5>
+                                                    <span>Class : `+cabin_class+` (`+msg.result.response.reschedule_list[i].old_segments[j].class_of_service+`)</span><br/>
                                                 </div>
                                                 <div class="col-lg-8" style="padding-top:10px;">
                                                     <div class="row">
                                                         <div class="col-lg-6 col-xs-6">
                                                             <table style="width:100%">
                                                                 <tr>
-                                                                    <td><h5>`+msg.result.response.reschedule_list[i].new_segments[j].legs[k].departure_date.split('  ')[1]+`</h5></td>
+                                                                    <td><h5>`+msg.result.response.reschedule_list[i].old_segments[j].legs[k].departure_date.split('  ')[1]+`</h5></td>
                                                                     <td style="padding-left:15px;">
                                                                         <img src="/static/tt_website_rodextrip/img/icon/airlines-01.png" alt="Airline" style="width:20px; height:20px;"/>
                                                                     </td>
@@ -4712,20 +4712,20 @@ function airline_get_booking(data, sync=false){
                                                                     </td>
                                                                 </tr>
                                                             </table>
-                                                            <span>`+msg.result.response.reschedule_list[i].new_segments[j].legs[k].departure_date.split('  ')[0]+`</span><br/>
-                                                            <span style="font-weight:500;">`+msg.result.response.reschedule_list[i].new_segments[j].legs[k].origin_name+` - `+msg.result.response.reschedule_list[i].new_segments[j].legs[k].origin_city+` (`+msg.result.response.reschedule_list[i].new_segments[j].legs[k].origin+`)</span>
+                                                            <span>`+msg.result.response.reschedule_list[i].old_segments[j].legs[k].departure_date.split('  ')[0]+`</span><br/>
+                                                            <span style="font-weight:500;">`+msg.result.response.reschedule_list[i].old_segments[j].legs[k].origin_name+` - `+msg.result.response.reschedule_list[i].old_segments[j].legs[k].origin_city+` (`+msg.result.response.reschedule_list[i].old_segments[j].legs[k].origin+`)</span>
                                                         </div>
 
                                                         <div class="col-lg-6 col-xs-6" style="padding:0;">
                                                             <table style="width:100%; margin-bottom:6px;">
                                                                 <tr>
-                                                                    <td><h5>`+msg.result.response.reschedule_list[i].new_segments[j].legs[k].arrival_date.split('  ')[1]+`</h5></td>
+                                                                    <td><h5>`+msg.result.response.reschedule_list[i].old_segments[j].legs[k].arrival_date.split('  ')[1]+`</h5></td>
                                                                     <td></td>
                                                                     <td style="height:30px;padding:0 15px;width:100%"></td>
                                                                 </tr>
                                                             </table>
-                                                            <span>`+msg.result.response.reschedule_list[i].new_segments[j].legs[k].arrival_date.split('  ')[0]+`</span><br/>
-                                                            <span style="font-weight:500;">`+msg.result.response.reschedule_list[i].new_segments[j].legs[k].destination_name+` - `+msg.result.response.reschedule_list[i].new_segments[j].legs[k].destination_city+` (`+msg.result.response.reschedule_list[i].new_segments[j].legs[k].destination+`)</span>
+                                                            <span>`+msg.result.response.reschedule_list[i].old_segments[j].legs[k].arrival_date.split('  ')[0]+`</span><br/>
+                                                            <span style="font-weight:500;">`+msg.result.response.reschedule_list[i].old_segments[j].legs[k].destination_name+` - `+msg.result.response.reschedule_list[i].old_segments[j].legs[k].destination_city+` (`+msg.result.response.reschedule_list[i].old_segments[j].legs[k].destination+`)</span>
                                                         </div>
                                                     </div>
                                                 </div>
