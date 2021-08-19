@@ -1617,6 +1617,45 @@ def get_booking(request):
                                         'destination_name': destination['name'],
                                     })
                                     break
+                    for segment in reschedule['old_segments']:
+                        segment.update({
+                            'departure_date': convert_string_to_date_to_string_front_end_with_time(segment['departure_date']),
+                            'arrival_date': convert_string_to_date_to_string_front_end_with_time(segment['arrival_date'])
+                        })
+                        for destination in airline_destinations:
+                            if destination['code'] == segment['origin']:
+                                segment.update({
+                                    'origin_city': destination['city'],
+                                    'origin_name': destination['name'],
+                                })
+                                break
+                        for destination in airline_destinations:
+                            if destination['code'] == segment['destination']:
+                                segment.update({
+                                    'destination_city': destination['city'],
+                                    'destination_name': destination['name'],
+                                })
+                                break
+                        for leg in segment['legs']:
+                            leg.update({
+                                'departure_date': convert_string_to_date_to_string_front_end_with_time(
+                                    leg['departure_date']),
+                                'arrival_date': convert_string_to_date_to_string_front_end_with_time(leg['arrival_date']),
+                            })
+                            for destination in airline_destinations:
+                                if destination['code'] == leg['origin']:
+                                    leg.update({
+                                        'origin_city': destination['city'],
+                                        'origin_name': destination['name'],
+                                    })
+                                    break
+                            for destination in airline_destinations:
+                                if destination['code'] == leg['destination']:
+                                    leg.update({
+                                        'destination_city': destination['city'],
+                                        'destination_name': destination['name'],
+                                    })
+                                    break
             response = copy.deepcopy(res)
             for rec in response['result']['response']['provider_bookings']:
                 rec['error_msg'] = ''
