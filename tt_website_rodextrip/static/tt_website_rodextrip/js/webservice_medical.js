@@ -1550,7 +1550,7 @@ function medical_get_booking(order_number, sync=false){
                     //======================= Extra Question =========================
 
                     //==================== Print Button =====================
-                    var print_text = '<div class="col-lg-6" style="padding-bottom:10px;">';
+                    var print_text = '<div class="col-lg-4" style="padding-bottom:10px;">';
                     // === Button 1 ===
                     if (msg.result.response.state  == 'issued') {
                         print_text+=`
@@ -1559,7 +1559,7 @@ function medical_get_booking(order_number, sync=false){
                             <div class="ld ld-ring ld-cycle"></div>
                         </button>`;
                     }
-                    print_text += '</div><div class="col-lg-6" style="padding-bottom:10px;">';
+                    print_text += '</div><div class="col-lg-4" style="padding-bottom:10px;">';
                     // === Button 2 ===
                     if (msg.result.response.state  == 'booked'){
                         print_text+=`
@@ -1574,7 +1574,7 @@ function medical_get_booking(order_number, sync=false){
                             <div class="ld ld-ring ld-cycle"></div>
                         </button>`;
                     }
-                    print_text += '</div><div class="col-lg-6" style="padding-bottom:10px;">';
+                    print_text += '</div><div class="col-lg-4" style="padding-bottom:10px;">';
                     // === Button 3 ===
                     if (msg.result.response.state  == 'issued') {
                         print_text+=`
@@ -1635,8 +1635,9 @@ function medical_get_booking(order_number, sync=false){
                                 </div>
                             `;
                     }
+                    /*
                     if(msg.result.response.provider_type == 'phc'){
-                        print_text += '</div><div class="col-lg-6" style="padding-bottom:10px;">';
+                        print_text += '</div><div class="col-lg-4" style="padding-bottom:10px;">';
                         // === Button 3 ===
                         if (msg.result.response.state  == 'issued') {
                             print_text+=`
@@ -1684,7 +1685,7 @@ function medical_get_booking(order_number, sync=false){
                                     </div>
                                 `;
                         }
-                    }
+                    }*/
                     print_text += '</div>';
                     document.getElementById('medical_btn_printout').innerHTML = print_text;
 
