@@ -154,6 +154,10 @@ function get_list_report_footer(){
                             show_header_medical(printout[i].html);
                             check_header = false;
                             break;
+                        }else if(vendor == 'phc' && test_type == 'PHCDTOPCR' && printout[i].code == "PHCDTOPCR"){
+                            show_header_medical(printout[i].html);
+                            check_header = false;
+                            break;
                         }else if(vendor == 'phc' && test_type == 'PHCHCKATG' && printout[i].code == "phc_antigen_homecare_information"){
                             show_header_medical(printout[i].html);
                             check_header = false;
