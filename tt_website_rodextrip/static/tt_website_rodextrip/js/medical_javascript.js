@@ -1059,11 +1059,11 @@ function add_table_of_passenger(type){
                     if(vendor == 'phc'){
                         if(test_type.includes('PCR')){
                             text_div_paxs+=`
-                            <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="col-lg-6 col-md-6 col-sm-6" hidden>
                                 <label style="color:red !important">*</label>
                                 <label>Mother name</label>
                                 <div class="input-container-search-ticket" style="margin-bottom:5px;">
-                                    <input type="text" class="form-control" name="adult_mother_name`+parseInt(counter_passenger+1)+`" id="adult_mother_name`+parseInt(counter_passenger+1)+`" placeholder="Mother Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Mother Name '">
+                                    <input type="text" class="form-control" name="adult_mother_name`+parseInt(counter_passenger+1)+`" id="adult_mother_name`+parseInt(counter_passenger+1)+`" placeholder="Mother Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Mother Name '" value="NA">
                                 </div>
                             </div>`;
                         }
