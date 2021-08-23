@@ -45,7 +45,7 @@ def send_notif(msg, url, segments='All', icon=False):
         # "excluded_segments"
 
         res = requests.post("https://onesignal.com/api/v1/notifications", headers=header, data=json.dumps(payload))
-        _logger.info(json.dumps(res))
+        _logger.info(json.dumps(res.text))
         return {
             "result": {
                 "error_code": 0,
