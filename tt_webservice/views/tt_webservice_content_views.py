@@ -17,6 +17,7 @@ _logger = logging.getLogger("rodextrip_logger")
 from django.core.files.storage import FileSystemStorage
 import os
 import uuid
+from .onesignal import *
 
 month = {
     'Jan': '01',
@@ -104,6 +105,8 @@ def api_models(request):
             res = youtube_api_check(request)
         elif req_data['action'] == 'cancel_payment_method_api':
             res = cancel_payment_method_api(request)
+        elif req_data['action'] == 'send_notif_message':
+            res = send_notif_message(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -294,6 +297,14 @@ def cancel_payment_method_api(request):
             _logger.error("ERROR cancel payment SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def send_notif_message(request):
+    data = {
+        "contents": request.POST['message'],
+        "headings": request.POST['title']
+    }
+    res = send_notif(msg=data,url=request.POST['url'])
     return res
 
 def youtube_api_check(request):

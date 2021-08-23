@@ -775,8 +775,6 @@ def get_new_cache(signature, type='all'):
                             empty_sequence = True
                         elif isinstance(int(rec['sequence']), int) and last_sequence < int(rec['sequence']): #check isi int atau tidak
                             last_sequence = int(rec['sequence'])
-                        if rec['provider_type'] == False:
-                            rec['provider_type'] = 'external'
                     if empty_sequence:
                         for rec in res['result']['response']:
                             if rec['sequence'] == '':

@@ -732,6 +732,11 @@ def admin(request):
                     write_cache_with_folder(text, "youtube")
 
                     text = ''
+                    text += request.POST.get('app_id_one_signal') + '\n' or '' + '\n'
+                    text += request.POST.get('url_one_signal') + '\n' or '' + '\n'
+                    write_cache_with_folder(text, "one_signal")
+
+                    text = ''
                     text += request.POST.get('top_up_term')
                     write_cache_with_folder(text, "top_up_term")
 
@@ -1216,6 +1221,8 @@ def get_data_template(request, type='home', provider_type = []):
     api_key_youtube = ''
     channel_id_youtube = ''
     google_api_key = ''
+    app_id_one_signal = ''
+    url_one_signal = ''
     font = {
         "name": '',
         "font": ''
@@ -1252,10 +1259,20 @@ def get_data_template(request, type='home', provider_type = []):
                 api_key_youtube = line
             elif idx == 1 and line != '':
                 channel_id_youtube = line
+
     # printout color
     file = read_cache_with_folder_path("color_printout", 90911)
     if file:
         printout_color = file
+
+    # one signal
+    file = read_cache_with_folder_path("one_signal", 90911)
+    if file:
+        for idx, line in enumerate(file.split('\n')):
+            if idx == 0 and line != '':
+                app_id_one_signal = line
+            elif idx == 1 and line != '':
+                url_one_signal = line
 
     # google
     file = read_cache_with_folder_path("google_recaptcha", 90911)
@@ -1504,7 +1521,10 @@ def get_data_template(request, type='home', provider_type = []):
         'font': font,
         'api_key_youtube': api_key_youtube,
         'channel_id_youtube': channel_id_youtube,
-        'google_api_key': google_api_key
+        'google_api_key': google_api_key,
+        'app_id_one_signal': app_id_one_signal,
+        'url_one_signal': url_one_signal
+
     }
 
 
