@@ -66,15 +66,15 @@
 
     var OneSignal = window.OneSignal || [];
     var initConfig = {
-        appId: "fb606faa-cb30-41d7-bbf4-744b7add505a",
+        appId: "{{app_id_one_signal}}",
         notifyButton: {
             enable: true
         },
     };
     OneSignal.push(function () {
         OneSignal.SERVICE_WORKER_PARAM = { scope: '/onesignal/' };
-        OneSignal.SERVICE_WORKER_PATH = '{{ static_path }}onesignal/OneSignalSDKWorker.js'
-        OneSignal.SERVICE_WORKER_UPDATER_PATH = '{{ static_path }}onesignal/OneSignalSDKUpdaterWorker.js'
+        OneSignal.SERVICE_WORKER_PATH = '{{ static_path }}/onesignal/OneSignalSDKWorker.js'
+        OneSignal.SERVICE_WORKER_UPDATER_PATH = '{{ static_path }}/onesignal/OneSignalSDKUpdaterWorker.js'
         OneSignal.init(initConfig);
     });
 

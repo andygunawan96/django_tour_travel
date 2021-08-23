@@ -82,6 +82,9 @@
                             {% if "cache_version" in username.co_agent_frontend_security %}
                             <li class="create_tab-link" data-tab="third_party-tab"><label style="color:{{text_color}}; font-size:15px;">{% trans 'Third Party Key Setting' %}</label></li>
                             {% endif %}
+                            {% if "send_notification" in username.co_agent_frontend_security %}
+                            <li class="create_tab-link" data-tab="send_notification-tab"><label style="color:{{text_color}}; font-size:15px;">{% trans 'Send Notification' %}</label></li>
+                            {% endif %}
                         </ul>
                     </div>
 
@@ -1178,8 +1181,52 @@
                                             <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Secret Key' %}</h6>
                                             <input type="text" class="form-control" name="secret_key" id="secret_key" placeholder="Secret Key " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Secret Key '" value="{{secret_key}}">
                                         </div>
+
+                                        <div class="col-lg-12">
+                                            <h5 style="margin-bottom:10px;color:{{text_color}};">One Signal</h5>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'App Id' %}</h6>
+                                            <input type="text" class="form-control" name="app_id_one_signal" id="app_id_one_signal" placeholder="App Id " onfocus="this.placeholder = ''" onblur="this.placeholder = 'App Id '" value="{{app_id_one_signal}}">
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Default URL' %}</h6>
+                                            <input type="text" class="form-control" name="url_one_signal" id="url_one_signal" placeholder="Default URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Default URL '" value="{{url_one_signal}}">
+                                        </div>
+
                                         <div class="col-lg-12 mt-3" style="text-align:center;">
                                             <button type="button" class="primary-btn update_banner_btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="send_notification-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
+                                <div style="background:{{tab_color}}">
+                                    <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                        <div class="col-lg-12">
+                                            <h4 style="margin-bottom:10px;color:{{text_color}};">Send Notification</h4>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'URL' %}</h6>
+                                            <div class="form-select">
+                                                <input type="text" class="form-control" name="notif_url" id="notif_url" placeholder="Keep Empty To Use Default URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Keep Empty To Use Default URL '">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Title' %}</h6>
+                                            <div class="form-select">
+                                                <input type="text" class="form-control" name="notif_title" id="notif_title" placeholder="Title " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Title '">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Message' %}</h6>
+                                            <div class="input-container-search-ticket">
+                                                <textarea style="width:100%; resize: none;" rows="4" id="notif_message" name="notif_message" placeholder="Message"></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-12 mt-3" style="text-align:center;">
+                                            <button type="button" class="primary-btn update_banner_btn" onclick="send_notif_message();">{% trans 'Send Notif' %}</button>
                                         </div>
                                     </div>
                                 </div>
