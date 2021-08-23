@@ -1057,7 +1057,7 @@
                                         <label style="color:red !important;">*</label>
                                         <label>{% trans 'Test Address' %}</label>
                                         <div class="input-container-search-ticket">
-                                            <textarea type="text" class="form-control" style="height:120px; background:white;" name="booker_address" id="booker_address" placeholder="{% trans 'Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address '" onchange="change_booker_value('train');"></textarea>
+                                            <textarea type="text" class="form-control" style="height:120px; background:white !important;" name="booker_address" id="booker_address" placeholder="{% trans 'Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address '" onchange="change_booker_value('train');"></textarea>
                                         </div>
                                         <label style="font-size:12px; padding:0;">{% trans 'Example' %}: Jl. Raya Darmo 177b</label>
                                     </div>
@@ -2711,7 +2711,7 @@
     <!--    {% include 'tt_website_rodextrip/header_signin_signup.html' %}-->
     <!--    {% endif %}-->
 </header>
-<section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
+<section class="destinations-area" style="padding-top:30px; padding-bottom:40px; background:#f7f7f7;">
     <div class="container">
         <div class="banner-right">
             <div style="padding:0; text-align:unset;">
@@ -2755,7 +2755,7 @@
                                 <label style="color:red !important;">*</label>
                                 <label>{% trans "Area Test" %}</label>
                                 <div class="input-container-search-ticket">
-                                    <div class="form-select-2" id="default-select">
+                                    <div class="form-select" id="default-select">
                                         <select id="booker_area" name="booker_area" class="nice-select-default" onchange="reset_other_time();change_area('change_area_display');">
 
                                         </select>
@@ -2767,7 +2767,7 @@
                                 <label style="color:red !important">*</label>
                                 <label>{% trans "Sample Method" %}</label>
                                 <div class="input-container-search-ticket">
-                                    <div class="form-select-2" id="default-select">
+                                    <div class="form-select" id="default-select">
                                         <select id="adult_sample_method" name="adult_sample_method" class="nice-select-default" onchange="reset_other_time();change_area('change_area_display');">
                                             <option value="">Choose Sample Method</option>
                                             <option value="saliva">Saliva</option>
@@ -2842,7 +2842,7 @@
                                         <label style="color:red !important;">*</label>
                                         <label>{% trans "Number of Customers" %}</label>
                                         <div class="input-container-search-ticket">
-                                            <div class="form-select-2" id="default-select">
+                                            <div class="form-select" id="default-select">
                                                 <select id="passenger" name="passenger" class="nice-select-default" onchange="add_table();">
                                                     <!--ganti phc boleh minimal 1 orang -->
                                                     <option value="1">1</option>
@@ -3007,7 +3007,7 @@
                                             <label style="color:red !important;">*</label>
                                             <label>{% trans "Title" %}</label>
                                             <div class="input-container-search-ticket">
-                                                <div class="form-select-2" id="default-select">
+                                                <div class="form-select" id="default-select">
                                                     <select id="booker_title" name="booker_title" class="nice-select-default" onchange="change_booker_value('train');">
                                                         {% for title in adult_title%}
                                                         <option>{{title}}</option>
@@ -3128,7 +3128,7 @@
                                     <label style="color:red !important;">*</label>
                                     <label>{% trans 'Test Address' %}</label>
                                     <div class="input-container-search-ticket">
-                                        <textarea type="text" class="form-control" style="height:120px;" name="booker_address" id="booker_address" placeholder="{% trans 'Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address '" onchange="change_booker_value('train');"></textarea>
+                                        <textarea type="text" class="form-control" style="height:120px; background:white;" name="booker_address" id="booker_address" placeholder="{% trans 'Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address '" onchange="change_booker_value('train');"></textarea>
                                     </div>
                                     <label style="font-size:12px; padding:0;">{% trans 'Example' %}: Jl. Raya Darmo 177b</label>
                                 </div>
