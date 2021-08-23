@@ -61,6 +61,7 @@
     {% endif %}
 </script>
 
+{% if "{{app_id_one_signal}}" != ""%}
 <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
 <script>
 
@@ -79,6 +80,7 @@
     });
 
 </script>
+{% endif %}
 
 <style>
     {% if template == 6%}

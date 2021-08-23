@@ -734,6 +734,7 @@ def admin(request):
                     text = ''
                     text += request.POST.get('app_id_one_signal') + '\n' or '' + '\n'
                     text += request.POST.get('url_one_signal') + '\n' or '' + '\n'
+                    text += request.POST.get('authorization_one_signal') + '\n' or '' + '\n'
                     write_cache_with_folder(text, "one_signal")
 
                     text = ''
@@ -1223,6 +1224,7 @@ def get_data_template(request, type='home', provider_type = []):
     google_api_key = ''
     app_id_one_signal = ''
     url_one_signal = ''
+    authorization_one_signal = ''
     font = {
         "name": '',
         "font": ''
@@ -1273,6 +1275,8 @@ def get_data_template(request, type='home', provider_type = []):
                 app_id_one_signal = line
             elif idx == 1 and line != '':
                 url_one_signal = line
+            elif idx == 2 and line != '':
+                authorization_one_signal = line
 
     # google
     file = read_cache_with_folder_path("google_recaptcha", 90911)
@@ -1523,7 +1527,8 @@ def get_data_template(request, type='home', provider_type = []):
         'channel_id_youtube': channel_id_youtube,
         'google_api_key': google_api_key,
         'app_id_one_signal': app_id_one_signal,
-        'url_one_signal': url_one_signal
+        'url_one_signal': url_one_signal,
+        'authorization_one_signal': authorization_one_signal
 
     }
 
