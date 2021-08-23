@@ -5,7 +5,7 @@ from .tt_webservice_views import *
 import logging
 _logger = logging.getLogger("rodextrip_logger")
 
-def send_notif(msg, url, segments='All', icon=False):
+def send_notif(msg, url, segments='Subscribed Users', icon=False):
 
     file = read_cache_with_folder_path("one_signal", 90911)
     if file:
@@ -25,7 +25,7 @@ def send_notif(msg, url, segments='All', icon=False):
             "contents": {
                 "en": msg['contents'],
             },
-            'included_segments': segments,
+            "included_segments": [segments],
             "headings": {
                 "en": msg['headings']
             }
