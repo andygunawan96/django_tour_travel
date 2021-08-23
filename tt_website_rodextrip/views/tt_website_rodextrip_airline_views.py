@@ -1574,6 +1574,8 @@ def booking(request, order_number):
         javascript_version = get_javascript_version()
         if 'airline_create_passengers' in request.session:
             del request.session['airline_create_passengers']
+        if 'airline_get_booking_response' in request.session:
+            del request.session['airline_get_booking_response']
         if 'user_account' not in request.session:
             signin_btc(request)
         try:
