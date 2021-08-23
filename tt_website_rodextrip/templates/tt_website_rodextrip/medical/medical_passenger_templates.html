@@ -170,7 +170,7 @@
                                 </div>
                             </div>
                             {% if vendor == 'periksain'%}
-                            <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="col-lg-6">
                                 <label style="color:red !important">*</label>
                                 <label>{% trans "Sample Method" %}</label>
                                 <div class="input-container-search-ticket">
@@ -185,7 +185,7 @@
                             </div>
                             {% endif %}
 
-                            <div class="col-lg-12 mt-4  " style="padding:15px 15px 0px 15px; border-top:1px solid #cdcdcd; display:none;" id="medical_timeslot">
+                            <div class="col-lg-12 mt-4" style="padding:15px 15px 0px 15px; border-top:1px solid #cdcdcd; display:none;" id="medical_timeslot">
                                 <div class="row">
                                     <div class="col-lg-12" id="timeslot_type" style="padding:0px; text-align:left;margin-bottom:10px;">
                                         <label class="radio-button-custom" style="margin-left:15px;">
@@ -687,7 +687,24 @@
                                     </div>
                                 </div>
 
-                                <div class="col-lg-12 mt-4  " style="padding:15px 15px 0px 15px; border-top:1px solid #cdcdcd; display:none;" id="medical_timeslot">
+                                {% if vendor == 'periksain'%}
+                                <div class="col-lg-6">
+                                    <label style="color:red !important">*</label>
+                                    <label>{% trans "Sample Method" %}</label>
+                                    <div class="input-container-search-ticket">
+                                        <div class="form-select-2" id="default-select">
+                                            <select id="adult_sample_method" name="adult_sample_method" class="nice-select-default" onchange="reset_other_time();change_area('change_area_display');">
+                                                <option value="">Choose Sample Method</option>
+                                                <option value="saliva">Saliva</option>
+                                                <option value="nasal_swab">Nasal Swab</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+
+
+                                <div class="col-lg-12 mt-4" style="padding:15px 15px 0px 15px; border-top:1px solid #cdcdcd; display:none;" id="medical_timeslot">
                                     <div class="row">
                                         <div class="col-lg-12" id="timeslot_type" style="padding:0px; text-align:left;margin-bottom:10px;">
                                             <label class="radio-button-custom" style="margin-left:15px;">
@@ -1191,7 +1208,23 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-12 mt-4  " style="padding:15px 15px 0px 15px; border-top:1px solid #cdcdcd; display:none;" id="medical_timeslot">
+                            {% if vendor == 'periksain'%}
+                            <div class="col-lg-6">
+                                <label style="color:red !important">*</label>
+                                <label>{% trans "Sample Method" %}</label>
+                                <div class="input-container-search-ticket">
+                                    <div class="form-select-2" id="default-select">
+                                        <select id="adult_sample_method" name="adult_sample_method" class="nice-select-default" onchange="reset_other_time();change_area('change_area_display');">
+                                            <option value="">Choose Sample Method</option>
+                                            <option value="saliva">Saliva</option>
+                                            <option value="nasal_swab">Nasal Swab</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            <div class="col-lg-12 mt-4" style="padding:15px 15px 0px 15px; border-top:1px solid #cdcdcd; display:none;" id="medical_timeslot">
                                 <div class="row">
                                     <div class="col-lg-12" id="timeslot_type" style="padding:0px; text-align:left;margin-bottom:10px;">
                                         <label class="radio-button-custom" style="margin-left:15px;">
@@ -1693,7 +1726,23 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-12 mt-4  " style="padding:15px 15px 0px 15px; border-top:1px solid #cdcdcd; display:none;" id="medical_timeslot">
+                        {% if vendor == 'periksain'%}
+                        <div class="col-lg-6">
+                            <label style="color:red !important">*</label>
+                            <label>{% trans "Sample Method" %}</label>
+                            <div class="input-container-search-ticket">
+                                <div class="form-select-2" id="default-select">
+                                    <select id="adult_sample_method" name="adult_sample_method" class="nice-select-default" onchange="reset_other_time();change_area('change_area_display');">
+                                        <option value="">Choose Sample Method</option>
+                                        <option value="saliva">Saliva</option>
+                                        <option value="nasal_swab">Nasal Swab</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        <div class="col-lg-12 mt-4" style="padding:15px 15px 0px 15px; border-top:1px solid #cdcdcd; display:none;" id="medical_timeslot">
                             <div class="row">
                                 <div class="col-lg-12" id="timeslot_type" style="padding:0px; text-align:left;margin-bottom:10px;">
                                     <label class="radio-button-custom" style="margin-left:15px;">
@@ -2195,7 +2244,23 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-12 mt-4  " style="padding:15px 15px 0px 15px; border-top:1px solid #cdcdcd; display:none;" id="medical_timeslot">
+                            {% if vendor == 'periksain'%}
+                            <div class="col-lg-6">
+                                <label style="color:red !important">*</label>
+                                <label>{% trans "Sample Method" %}</label>
+                                <div class="input-container-search-ticket">
+                                    <div class="form-select-2" id="default-select">
+                                        <select id="adult_sample_method" name="adult_sample_method" class="nice-select-default" onchange="reset_other_time();change_area('change_area_display');">
+                                            <option value="">Choose Sample Method</option>
+                                            <option value="saliva">Saliva</option>
+                                            <option value="nasal_swab">Nasal Swab</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            <div class="col-lg-12 mt-4" style="padding:15px 15px 0px 15px; border-top:1px solid #cdcdcd; display:none;" id="medical_timeslot">
                                 <div class="row">
                                     <div class="col-lg-12" id="timeslot_type" style="padding:0px; text-align:left;margin-bottom:10px;">
                                         <label class="radio-button-custom" style="margin-left:15px;">
@@ -2549,6 +2614,521 @@
                                     <label>{% trans 'Test Address' %}</label>
                                     <div class="input-container-search-ticket">
                                         <textarea type="text" class="form-control" style="height:120px; background: white !important;" name="booker_address" id="booker_address" placeholder="{% trans 'Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address '" onchange="change_booker_value('train');"></textarea>
+                                    </div>
+                                    <label style="font-size:12px; padding:0;">{% trans 'Example' %}: Jl. Raya Darmo 177b</label>
+                                </div>
+                                <div id="map"></div>
+                                <div id="googleMap" style=""></div>
+
+                                <div class="col-lg-12" style="text-align:left; margin-top:20px; margin-bottom:15px;display:none;" id="table_passenger_list">
+                                    <div class="row" id="loading-booker-train" style="display:none;">
+                                        <div class="col-lg-12">
+                                            <div class="sk-circle">
+                                                <div class="sk-circle1 sk-child"></div>
+                                                <div class="sk-circle2 sk-child"></div>
+                                                <div class="sk-circle3 sk-child"></div>
+                                                <div class="sk-circle4 sk-child"></div>
+                                                <div class="sk-circle5 sk-child"></div>
+                                                <div class="sk-circle6 sk-child"></div>
+                                                <div class="sk-circle7 sk-child"></div>
+                                                <div class="sk-circle8 sk-child"></div>
+                                                <div class="sk-circle9 sk-child"></div>
+                                                <div class="sk-circle10 sk-child"></div>
+                                                <div class="sk-circle11 sk-child"></div>
+                                                <div class="sk-circle12 sk-child"></div>
+                                            </div>
+                                            <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row" id="div_of_passenger">
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-8"></div>
+                                <div class="col-lg-4">
+                                    <button class="primary-btn-ticket next-passenger-train ld-ext-right" style="width:100%;display:none;" id="next_medical" type="button" value="Next" onclick="check_passenger();">
+                                        {% trans 'Next' %}
+                                        <i class="fas fa-angle-right"></i>
+                                        <div class="ld ld-ring ld-cycle"></div>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" id="copy_booker_to_pax_div" hidden>
+                    <div class="col-lg-8" style="display:none;">
+                        <div style="background:white; padding:10px; border:1px solid #cdcdcd;">
+                            <label>{% trans 'Do you book this reservation for you?' %}</label>
+                            <label class="radio-button-custom">
+                                {% trans 'Yes' %}
+                                <input type="radio" name="myRadios" onchange="copy_booker_to_passenger('copy','medical');" value="yes"/>
+                                <span class="checkmark-radio"></span>
+                            </label>
+
+                            <label class="radio-button-custom">
+                                {% trans 'No' %}
+                                <input type="radio" name="myRadios" onchange="copy_booker_to_passenger('change','medical');" value="no" checked="checked"/>
+                                <span class="checkmark-radio"></span>
+                            </label>
+
+                            <br/>
+                            <label>{% trans 'Passenger Data' %}</label><br/>
+                            <ul>
+                                <li>{% trans '1. Caution: the name of the passenger must be right and appropriate with international passport, and domestic route can match with KTP/Passport/SIM' %}</li>
+                                <li>{% trans "2. Passenger data can't be changed after the passing of this page" %}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-4"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{%elif template == 6%}
+<header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
+    <div class="main-menu">
+        <div class="container">
+            <div class="row align-items-center justify-content-between d-flex">
+                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                    <a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="Logo {{name}}" title="{{name}}" /></a>
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
+
+                </div>
+            </div>
+            <div class="row">
+                {% include 'tt_website_rodextrip/balance_credit.html' %}
+            </div>
+        </div>
+    </div>
+    <!--    {% if username.co_user_login == 'agent_b2c' %}-->
+    <!--    {% include 'tt_website_rodextrip/header_signin_signup.html' %}-->
+    <!--    {% endif %}-->
+</header>
+<section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
+    <div class="container">
+        <div class="banner-right">
+            <div style="padding:0; text-align:unset;">
+                <div class="row">
+                    <div class="col-lg-12 mb-3">
+                        <h3 id="medical_product" style=""></h3>
+                    </div>
+                    <div class="col-lg-12" style="margin-top:10px;">
+                        {% if vendor == 'periksain' %}
+                        <img src="{{static_path}}images/icon/periksain.jpeg" alt="Periksain" class="img-phc-priksain">
+                        {% elif vendor == 'phc' %}
+                        <img src="{{static_path}}images/icon/phc.png" alt="PHC" class="img-phc-priksain">
+                        {% endif %}
+                    </div>
+                    <div class="col-lg-12" style="margin-top:10px;">
+                        <div class="row" style="padding:15px;">
+                            <div class="col-lg-12" style="padding:15px; background-color:white; border:1px solid #cdcdcd;display:none;" id="informasi_penting">
+                                <h3 style="color:red;">INFORMASI PENTING!</h3>
+                                <hr/>
+                            </div>
+                            <div class="col-lg-12" style="background:white; border:1px solid #cdcdcd; padding:15px; display:none;" id="information_div_checkbox">
+                                <label class="check_box_custom">
+                                    <span>I acknowledge that i have read and agree to the above Terms and Conditions</span>
+                                    <input type="checkbox" id="information_checkbox" name="information_checkbox" value="false"/>
+                                    <span class="check_box_span_custom"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row mt-3" style="padding:15px;">
+                    <div class="col-lg-12" id="div_schedule_medical" style="padding:15px; background:white; border:1px solid #cdcdcd;">
+                        <h4>
+                            Schedule
+                            <i class="fas fa-pen" id="icon_shcedule" style="padding-left:5px; cursor:pointer" onclick="open_date_schedule(`+parseInt(counter_passenger+1)+`);"></i>
+                        </h4><hr/>
+                        <div class="row">
+                            <!--testaddress-->
+                            <div class="col-lg-6">
+                                <label style="color:red !important;">*</label>
+                                <label>{% trans "Area Test" %}</label>
+                                <div class="input-container-search-ticket">
+                                    <div class="form-select-2" id="default-select">
+                                        <select id="booker_area" name="booker_area" class="nice-select-default" onchange="reset_other_time();change_area('change_area_display');">
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            {% if vendor == 'periksain'%}
+                            <div class="col-lg-6">
+                                <label style="color:red !important">*</label>
+                                <label>{% trans "Sample Method" %}</label>
+                                <div class="input-container-search-ticket">
+                                    <div class="form-select-2" id="default-select">
+                                        <select id="adult_sample_method" name="adult_sample_method" class="nice-select-default" onchange="reset_other_time();change_area('change_area_display');">
+                                            <option value="">Choose Sample Method</option>
+                                            <option value="saliva">Saliva</option>
+                                            <option value="nasal_swab">Nasal Swab</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            <div class="col-lg-12 mt-4  " style="padding:15px 15px 0px 15px; border-top:1px solid #cdcdcd; display:none;" id="medical_timeslot">
+                                <div class="row">
+                                    <div class="col-lg-12" id="timeslot_type" style="padding:0px; text-align:left;margin-bottom:10px;">
+                                        <label class="radio-button-custom" style="margin-left:15px;">
+                                            <span style="font-size:14px;">Fix Time</span>
+                                            <input type="radio" checked="checked" id="fix" name="timeslot_type" value="Fix" onclick="radio_timeslot_type_func('fix');">
+                                            <span class="checkmark-radio"></span>
+                                        </label>
+                                        <!--<label class="radio-button-custom">-->
+                                        <!--<span style="font-size:14px;">Flexible Time</span>-->
+                                        <!--<input type="radio" id="flexible" name="timeslot_type" value="Flexible" onclick="radio_timeslot_type_func('flexible');">-->
+                                        <!--<span class="checkmark-radio"></span>-->
+                                        <!--</label>-->
+                                    </div>
+                                    <div class="col-lg-12 mt-2" style="text-align:center;" id="add_test_time_button" hidden>
+                                        <button class="primary-btn-ticket" type="button" value="" onclick="add_other_time();">
+                                            Add more timeslot
+                                        </button>
+                                    </div>
+
+                                    <div id="test" class="col-lg-12">
+
+                                    </div>
+
+                                    {% if vendor == 'phc' %}
+                                    {% if 'PCR' in test_type %}
+                                    <div class="col-lg-12 mt-2">
+                                        <span style="font-size:16px; font-weight:bold;">Kuota yang terisi: </span>
+                                        <div style="text-align:left; margin-top:10px; margin-bottom:10px;">
+                                            <span style="font-size:16px; color:{{color}}; font-weight:bold;" id="count_kuota_phc"> 0 </span>
+                                            <span style="font-size:16px; font-weight:bold;"> dari </span>
+                                            <span style="font-size:16px; color:{{color}}; font-weight:bold;" id="total_pcr_timeslot"> 0 </span>
+                                            <span style="font-size:16px; font-weight:bold;"> orang </span>
+                                            <span style="font-size:16px; font-weight:bold;" id="show_icon_kuota">  </span>
+                                        </div>
+                                        <div class="progress_kuota">
+                                            <div class="bar_kuota" id="bar_kuota_phc" style="width:0%">
+                                                <p class="percent_kuota" id="percent_kuota_phc">
+
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 mt-2" style="text-align:left;">
+                                        <h6 class="mb-2">
+                                            <i class="fas fa-check-circle" style="color:#27b522;"></i> Tersedia
+                                        </h6>
+                                        <h6 class="mb-2">
+                                            <i class="fas fa-exclamation-circle" style="color:#d9d93d;"></i> Hampir Penuh
+                                        </h6>
+                                        <h6 class="mb-2">
+                                            <i class="fas fa-times-circle" style="color:#f00c50;"></i> Penuh
+                                        </h6>
+                                    </div>
+                                    <div class="col-lg-12 mt-3 mb-3" style="text-align:left;">
+                                        <h6 style="color:{{color}};">Note: Ketersedian kuota bisa berubah sewaktu-waktu</h6>
+                                    </div>
+                                    {% endif %}
+                                    {% endif %}
+
+                                    <div class="col-lg-12 pt-3" style="border-top:1px solid #cdcdcd;">
+                                        <label style="color:red !important;">*</label>
+                                        <label>{% trans "Number of Customers" %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <div class="form-select-2" id="default-select">
+                                                <select id="passenger" name="passenger" class="nice-select-default" onchange="add_table();">
+                                                    <!--ganti phc boleh minimal 1 orang -->
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                    <option value="5">5</option>
+                                                    <option value="6">6</option>
+                                                    <option value="7">7</option>
+                                                    <option value="8">8</option>
+                                                    <option value="9">9</option>
+                                                    <option value="10">10</option>
+                                                    <option value="11">11</option>
+                                                    <option value="12">12</option>
+                                                    <option value="13">13</option>
+                                                    <option value="14">14</option>
+                                                    <option value="15">15</option>
+                                                    <option value="16">16</option>
+                                                    <option value="17">17</option>
+                                                    <option value="18">18</option>
+                                                    <option value="19">19</option>
+                                                    <option value="20">20</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        {% if wa_number != '' %}
+                                        <label>{% trans "For 20 pax / greater you can call" %} {{wa_number}} {% trans "for special price"%}</label>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="col-lg-12" style="text-align:left;">
+                                        <button id="check_price_medical" class="primary-btn-ticket mt-3" type="button" value="" onclick="medical_check_price();" hidden>
+                                            Check Price
+                                        </button>
+                                    </div>
+                                    {% if vendor != 'phc' %}
+                                    <div class="col-lg-12" style="margin-top:15px; text-align:left;">
+                                        <a style="width:100%; color:{{color}}; text-decoration:underline; cursor:pointer;" onclick="window.location.href='/phc/passenger/swab_antigen'">
+                                            Can't find right time for test? Search other time here
+                                        </a>
+                                    </div>
+                                    {% endif %}
+
+                                    <div class="col-lg-12" style="margin-top:15px; border-top:1px solid #cdcdcd;">
+
+                                        <div class="row" id="loading-booker-medical" style="display:none;">
+                                            <div class="col-lg-12">
+                                                <div class="sk-circle">
+                                                    <div class="sk-circle1 sk-child"></div>
+                                                    <div class="sk-circle2 sk-child"></div>
+                                                    <div class="sk-circle3 sk-child"></div>
+                                                    <div class="sk-circle4 sk-child"></div>
+                                                    <div class="sk-circle5 sk-child"></div>
+                                                    <div class="sk-circle6 sk-child"></div>
+                                                    <div class="sk-circle7 sk-child"></div>
+                                                    <div class="sk-circle8 sk-child"></div>
+                                                    <div class="sk-circle9 sk-child"></div>
+                                                    <div class="sk-circle10 sk-child"></div>
+                                                    <div class="sk-circle11 sk-child"></div>
+                                                    <div class="sk-circle12 sk-child"></div>
+                                                </div>
+                                                <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="mt-3" style="background-color:white; display:none;" id="medical_detail">
+
+                                        </div>
+                                        <br/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-lg-12" style="margin-top:10px;">
+                        <div class="col-lg-12" id="show_loading_booking_medical">
+                            <div class="center-div">
+                                <div>
+                                    <img src="{{static_path}}img/loading-screen-white.gif" style="height:25px; width:25px;"/>
+                                </div>
+                            </div>
+                            <div style="text-align:center">
+                                <span style="font-size:18px; font-weight:bold;">{% trans 'PLEASE WAIT' %} ... </span>
+                            </div>
+                        </div>
+                        <div class="row" style="display:none;">
+                            <div class="col-lg-12">
+                                <div id="booker" style="background-color:white; padding:10px; border:1px solid #cdcdcd;">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+
+                                            <h4>{% trans 'Booker Information' %}</h4>
+                                            <hr/>
+                                        </div>
+                                        <div class="col-lg-6" style="text-align:left;">
+                                            <!--                                            <label>Booker Type :</label><br/>-->
+                                            <!--                                            <label class="radio-button-custom">-->
+                                            <!--                                                Corporate-->
+                                            <!--                                                <input type="radio" checked="checked" name="radio-booker-type">-->
+                                            <!--                                                <span class="checkmark-radio"></span>-->
+                                            <!--                                            </label>-->
+                                            <!--                                            <label class="radio-button-custom">-->
+                                            <!--                                                Individual-->
+                                            <!--                                                <input type="radio" name="radio-booker-type">-->
+                                            <!--                                                <span class="checkmark-radio"></span>-->
+                                            <!--                                            </label>-->
+                                        </div>
+                                        <div class="col-lg-6" style="text-align:right;">
+                                            {% if 'b2c_limitation' not in username.co_agent_frontend_security and 'corp_limitation' not in username.co_agent_frontend_security %}
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal" onclick="loadingPaxHide();"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" id="booker_clear" onclick="clear_passenger('Booker', 0);" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
+                                            {% endif %}
+                                        </div>
+
+                                        <div class="modal fade" id="myModal" role="dialog">
+                                            <div class="modal-dialog">
+
+                                                <!-- Modal content-->
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Booker List' %} <i class="fas fa-address-card"></i></h4>
+                                                        <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('booker','');">&times;</button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="row">
+                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                                <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
+                                                            </div>
+                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                                <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','0','train');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-lg-12">
+                                                                <br/>
+                                                                <span><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> {% trans "Using this means you can't change title, first name, and last name" %}</span><br/>
+                                                                <span><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> {% trans "Max 100 customers in 1 search" %}</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row loading-booker-train" style="display:none;">
+                                                            <div class="col-lg-12">
+                                                                <br/>
+                                                                <div style="text-align:center">
+                                                                    <span style="font-size:18px; font-weight:bold;">{% trans "PLEASE WAIT" %} </span><img src="{{static_path}}img/search.gif" alt="Search" style="height:50px; width:50px;"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="search_result">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('booker','');">{% trans "Close" %}</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6 col-xs-6">
+                                            <label style="color:red !important;">*</label>
+                                            <label>{% trans "Title" %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select-2" id="default-select">
+                                                    <select id="booker_title" name="booker_title" class="nice-select-default" onchange="change_booker_value('train');">
+                                                        {% for title in adult_title%}
+                                                        <option>{{title}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
+                                            <div class="row" style="margin:0">
+                                                <button type="button" class="btn btn-secondary" style="width:42px;height:42px;margin-right:5px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
+                                                <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker" data-tooltip=""><i class="fas fa-money-bill-wave-alt"></i> {% trans "Corporate Booker" %}</button>
+                                                <div class="modal fade" id="myModalHelp" role="dialog">
+                                                    <div class="modal-dialog">
+
+                                                        <!-- Modal content-->
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h4 class="modal-title" style="color:{{text_color}};">{% trans "Help" %} <i class="fas fa-address-card"></i></h4>
+                                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="col-sm-12">
+                                                                    <center><img src="/static/tt_website_rodextrip/img/id_card.png" alt="ID Card" style="width:100%; height:100%;"></center>
+                                                                </div>
+                                                                <div>
+                                                                    <p>{% trans '1. Please fill passenger name as written in your ID card, including characters such as "," or "." or foreign characters (i.e: Chinese/Japanese characters).' %}</p>
+                                                                    <p>{% trans '2. Maximum total characters for title, first name, and last name is 30. If your title, first name, and last name exceeds 30 characters, you can put only the first 30 characters.' %}</p>
+                                                                    <p>{% trans '3. Passenger last name cannot be more than 1 word and must contain at least 2 characters.' %}</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <br/>
+                                            <label style="color:red !important;">*</label>
+                                            <label>{% trans 'First name and middle name (if any)' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" onchange="capitalizeInput('booker_first_name');change_booker_value('train');" class="form-control" name="booker_first_name" id="booker_first_name" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                                <input type="hidden" class="form-control" name="booker_birth_date" id="booker_birth_date" />
+                                                <input type="hidden" class="form-control" name="booker_id_type" id="booker_id_type" />
+                                                <input type="hidden" class="form-control" name="booker_id_number" id="booker_id_number" />
+                                                <input type="hidden" class="form-control" name="booker_id_number" id="booker_exp_date" />
+                                                <input type="hidden" class="form-control" name="booker_id_number" id="booker_country_of_issued" />
+                                            </div>
+                                            <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <br/>
+                                            <label>{% trans 'Last name' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" onchange="capitalizeInput('booker_last_name');change_booker_value('train');" class="form-control" name="booker_last_name" id="booker_last_name" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                            </div>
+                                            <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <label style="color:red !important;">*</label>
+                                            <label>{% trans 'Nationality' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select">
+                                                    <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('booker_nationality');change_booker_value('train');" class="nice-select-default">
+                                                        {% for country in countries %}
+                                                        <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <input type="hidden" name="booker_nationality" id="booker_nationality" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <label style="color:red !important;">*</label>
+                                            <label>{% trans 'Contact Email Address' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control" name="booker_email" id="booker_email" placeholder="{% trans 'Email Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" onchange="change_booker_value('train');">
+                                            </div>
+                                            <label style="font-size:12px; padding:0;">{% trans 'Example' %}: email@example.com</label>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <label style="color:red !important;">*</label>
+                                            <label style="margin:0;">{% trans 'WA Number (WhatsApp Number)' %}:</label>
+                                            <div class="row">
+                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                    <div class="form-select">
+                                                        <select class="form-control js-example-basic-single" name="booker_phone_code_id" style="width:100%;" id="booker_phone_code_id" onchange="auto_complete('booker_phone_code');change_booker_value('train');" class="nice-select-default">
+                                                            {% for phone in phone_code %}
+                                                            <option value="{{phone}}" {% if phone == 62%} selected {%endif%}>{{phone}}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                    <input type="hidden" name="booker_phone_code" id="booker_phone_code" />
+                                                </div>
+                                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                                    <input type="text" class="form-control" name="booker_phone" id="booker_phone" placeholder="{% trans 'Phone' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" onchange="change_booker_value('train');">
+                                                    <input type="hidden" class="form-control" name="booker_id" id="booker_id">
+                                                </div>
+                                            </div>
+                                            <label style="font-size:12px; padding:0;">{% trans 'Example' %}: 812345678</label>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12" style="padding:15px; background:white; border:1px solid #cdcdcd;" id="medical_pax_div" hidden>
+                            <h4>Form Customer</h4><hr/>
+                            <div class="row ">
+                                <div class="col-lg-12 mt-2">
+                                    <label style="color:red !important;">*</label>
+                                    <label>{% trans 'Test Address' %}</label>
+                                    <div class="input-container-search-ticket">
+                                        <textarea type="text" class="form-control" style="height:120px;" name="booker_address" id="booker_address" placeholder="{% trans 'Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address '" onchange="change_booker_value('train');"></textarea>
                                     </div>
                                     <label style="font-size:12px; padding:0;">{% trans 'Example' %}: Jl. Raya Darmo 177b</label>
                                 </div>

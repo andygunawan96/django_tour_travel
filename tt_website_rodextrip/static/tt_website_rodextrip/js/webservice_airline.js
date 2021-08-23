@@ -2085,8 +2085,13 @@ function get_price_itinerary_request(){
                                                 </tr>
                                             </table>
                                             <span style="font-size:13px;">`+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].departure_date.split(' - ')[0]+`</span></br>
-                                            <span style="font-size:13px; font-weight:500;">`+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].origin_city+` (`+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].origin+`)</span><br/>
-                                            <span style="font-size:13px; font-weight:500;">Terminal: `+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].origin_terminal+`</span>
+                                            <span style="font-size:13px; font-weight:500;">`+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].origin_city+` (`+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].origin+`)</span><br/>`;
+                                        if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].origin_terminal != ''){
+                                            text+=`<span style="font-size:13px; font-weight:500;">Terminal: `+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].origin_terminal+`</span>`;
+                                        }else{
+                                            text+=`<span style="font-size:13px; font-weight:500;">Terminal: -</span>`;
+                                        }
+                                        text+=`
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                             <table style="width:100%; margin-bottom:6px;">
@@ -2097,8 +2102,15 @@ function get_price_itinerary_request(){
                                                 </tr>
                                             </table>
                                             <span style="font-size:13px;">`+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].arrival_date.split(' - ')[0]+`</span><br/>
-                                            <span style="font-size:13px; font-weight:500;">`+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].destination_city+` (`+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].destination+`)</span><br/>
-                                            <span style="font-size:13px; font-weight:500;">Terminal: `+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].destination_terminal+`</span>
+                                            <span style="font-size:13px; font-weight:500;">`+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].destination_city+` (`+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].destination+`)</span><br/>`;
+
+                                            if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].destination_terminal != ''){
+                                                text+=`<span style="font-size:13px; font-weight:500;">Terminal: `+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].destination_terminal+`</span>`;
+                                            }else{
+                                                text+=`<span style="font-size:13px; font-weight:500;">Terminal: -</span>`;
+                                            }
+
+                                        text+=`
                                         </div>
                                     </div>`;
                             }
@@ -4580,8 +4592,13 @@ function airline_get_booking(data, sync=false){
                                                             </tr>
                                                         </table>
                                                         <span>`+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[0]+`</span><br/>
-                                                        <span style="font-weight:500;">`+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin_name+` - `+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin_city+` (`+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin+`)</span><br/>
-                                                        <span style="font-weight:500;">Terminal:`+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin_terminal+`</span>
+                                                        <span style="font-weight:500;">`+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin_name+` - `+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin_city+` (`+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin+`)</span><br/>`;
+                                                        if(msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin_terminal != ''){
+                                                            text+=`<span style="font-size:13px; font-weight:500;">Terminal: `+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin_terminal+`</span>`;
+                                                        }else{
+                                                            text+=`<span style="font-size:13px; font-weight:500;">Terminal: -</span>`;
+                                                        }
+                                                    text+=`
                                                     </div>
 
                                                     <div class="col-lg-6 col-xs-6" style="padding:0;">
@@ -4593,8 +4610,13 @@ function airline_get_booking(data, sync=false){
                                                             </tr>
                                                         </table>
                                                         <span>`+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date.split('  ')[0]+`</span><br/>
-                                                        <span style="font-weight:500;">`+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_name+` - `+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_city+` (`+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination+`)</span><br/>
-                                                        <span style="font-weight:500;">Terminal:`+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_terminal+`</span>
+                                                        <span style="font-weight:500;">`+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_name+` - `+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_city+` (`+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination+`)</span><br/>`;
+                                                        if(msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_terminal != ''){
+                                                            text+=`<span style="font-size:13px; font-weight:500;">Terminal: `+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_terminal+`</span>`;
+                                                        }else{
+                                                            text+=`<span style="font-size:13px; font-weight:500;">Terminal: -</span>`;
+                                                        }
+                                                    text+=`
                                                     </div>
                                                 </div>
                                             </div>
@@ -7397,8 +7419,14 @@ function render_ticket_reissue(){
                                                            <span class="copy_legs_date_depart">`+airline[i].segments[j].legs[k].departure_date.split(' - ')[0]+` - `+airline[i].segments[j].legs[k].departure_date.split(' - ')[1]+`</span>
                                                        </div>
                                                        <div>
-                                                           <span style="font-weight:500;" class="copy_legs_depart">`+airline[i].segments[j].legs[k].origin_city+` - `+airline[i].segments[j].legs[k].origin_name+` (`+airline[i].segments[j].legs[k].origin+`)</span></br>
-                                                           <span>Terminal: `+airline[i].segments[j].origin_terminal+`</span>
+                                                           <span style="font-weight:500;" class="copy_legs_depart">`+airline[i].segments[j].legs[k].origin_city+` - `+airline[i].segments[j].legs[k].origin_name+` (`+airline[i].segments[j].legs[k].origin+`)</span></br>`;
+
+                                                       if(airline[i].segments[j].origin_terminal != ''){
+                                                           text+=`<span style="font-size:13px; font-weight:500;">Terminal: `+airline[i].segments[j].origin_terminal+`</span>`;
+                                                       }else{
+                                                           text+=`<span style="font-size:13px; font-weight:500;">Terminal: -</span>`;
+                                                       }
+                                                       text+=`
                                                       </div>
                                                    </li>
                                                    <li class="StepProgress-item is-end">
@@ -7406,8 +7434,14 @@ function render_ticket_reissue(){
                                                            <span class="copy_legs_date_arr">`+airline[i].segments[j].legs[k].arrival_date.split(' - ')[0]+` - `+airline[i].segments[j].legs[k].arrival_date.split(' - ')[1]+`</span>
                                                        </div>
                                                        <div>
-                                                           <span style="font-weight:500;" class="copy_legs_arr">`+airline[i].segments[j].legs[k].destination_city+` - `+airline[i].segments[j].legs[k].destination_name+` (`+airline[i].segments[j].legs[k].destination+`)</span><br/>
-                                                           <span>Terminal: `+airline[i].segments[j].destination_terminal+`</span>
+                                                           <span style="font-weight:500;" class="copy_legs_arr">`+airline[i].segments[j].legs[k].destination_city+` - `+airline[i].segments[j].legs[k].destination_name+` (`+airline[i].segments[j].legs[k].destination+`)</span><br/>`;
+                                                       if(airline[i].segments[j].destination_terminal != ''){
+                                                           text+=`<span style="font-size:13px; font-weight:500;">Terminal: `+airline[i].segments[j].destination_terminal+`</span>`;
+                                                       }else{
+                                                           text+=`<span style="font-size:13px; font-weight:500;">Terminal: -</span>`;
+                                                       }
+
+                                                       text+=`
                                                        </div>
                                                   </li>
                                                </ul>
@@ -7995,8 +8029,14 @@ function get_chosen_ticket(type='all'){
                                             `+airline_pick_list[i].segments[j].departure_date.split(' - ')[0]+` - `+airline_pick_list[i].segments[j].departure_date.split(' - ')[1]+`
                                         </div>
                                         <div>
-                                            <span style="font-weight:500;">`+airline_pick_list[i].segments[j].origin_city+` - `+airline_pick_list[i].segments[j].origin_name+` (`+airline_pick_list[i].segments[j].origin+`)</span></br>
-                                            <span>Terminal: `+airline_pick_list[i].segments[j].origin_terminal+`</span>
+                                            <span style="font-weight:500;">`+airline_pick_list[i].segments[j].origin_city+` - `+airline_pick_list[i].segments[j].origin_name+` (`+airline_pick_list[i].segments[j].origin+`)</span></br>`;
+                                        if(airline_pick_list[i].segments[j].origin_terminal != ''){
+                                           text+=`<span style="font-size:13px; font-weight:500;">Terminal: `+airline_pick_list[i].segments[j].origin_terminal+`</span>`;
+                                        }else{
+                                           text+=`<span style="font-size:13px; font-weight:500;">Terminal: -</span>`;
+                                        }
+
+                                        text+=`
                                         </div>
                                     </li>
                                     <li class="StepProgress-item is-end">
@@ -8004,8 +8044,13 @@ function get_chosen_ticket(type='all'){
                                             `+airline_pick_list[i].segments[j].arrival_date.split(' - ')[0]+` - `+airline_pick_list[i].segments[j].arrival_date.split(' - ')[1]+`
                                         </div>
                                         <div>
-                                            <span style="font-weight:500;">`+airline_pick_list[i].segments[j].destination_city+`</span> - <span>`+airline_pick_list[i].segments[j].destination_name+` (`+airline_pick_list[i].segments[j].destination+`)</span><br/>
-                                            <span>Terminal: `+airline_pick_list[i].segments[j].destination_terminal+`</span>
+                                            <span style="font-weight:500;">`+airline_pick_list[i].segments[j].destination_city+`</span> - <span>`+airline_pick_list[i].segments[j].destination_name+` (`+airline_pick_list[i].segments[j].destination+`)</span><br/>`;
+                                        if(airline_pick_list[i].segments[j].destination_terminal != ''){
+                                           text+=`<span style="font-size:13px; font-weight:500;">Terminal: `+airline_pick_list[i].segments[j].destination_terminal+`</span>`;
+                                        }else{
+                                           text+=`<span style="font-size:13px; font-weight:500;">Terminal: -</span>`;
+                                        }
+                                        text+=`
                                         </div>
                                     </li>
                                 </ul>

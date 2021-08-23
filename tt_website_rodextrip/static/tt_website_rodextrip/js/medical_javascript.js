@@ -430,6 +430,8 @@ function add_table_of_passenger_verify(type){
 
                         if(template == 5){
                             text_div_paxs+=`<div class="form-select">`;
+                        }else if(template == 3 || template == 6){
+                            text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                         }else{
                             text_div_paxs+=`<div class="form-select-2">`;
                         }
@@ -494,9 +496,19 @@ function add_table_of_passenger_verify(type){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 5){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
+                            }else if(template == 6){
+                                text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }
+
+                            if(template == 5){
+                                text_div_paxs+=`<div class="form-select">`;
+                            }else if(template == 3 || template == 6){
+                                text_div_paxs+=`<div class="form-select" style="width:100%;">`;
+                            }else{
+                                text_div_paxs+=`<div class="form-select-2">`;
+                            }
+
                             text_div_paxs+=`
-                            <div class="form-select">
                                 <select class="form-control js-example-basic-single" name="adult_tempat_lahir`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_tempat_lahir`+parseInt(counter_passenger+1)+`_id" placeholder="Tempat Lahir" onchange="auto_complete('adult_tempat_lahir`+parseInt(counter_passenger+1)+`');">
                                     <option value="">Select Tempat Lahir</option>`;
                                 for(i in data_kota)
@@ -542,6 +554,8 @@ function add_table_of_passenger_verify(type){
 
                         if(template == 5){
                             text_div_paxs+=`<div class="form-select">`;
+                        }else if(template == 3 || template == 6){
+                            text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                         }else{
                             text_div_paxs+=`<div class="form-select-2">`;
                         }
@@ -974,6 +988,8 @@ function add_table_of_passenger(type){
 
                         if(template == 5){
                             text_div_paxs+=`<div class="form-select">`;
+                        }else if(template == 3 || template == 6){
+                            text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                         }else{
                             text_div_paxs+=`<div class="form-select-2">`;
                         }
@@ -1006,10 +1022,14 @@ function add_table_of_passenger(type){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 5){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
+                            }else if(template == 6){
+                                text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }
 
                             if(template == 5){
                                 text_div_paxs+=`<div class="form-select">`;
+                            }else if(template == 3 || template == 6){
+                                text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                             }else{
                                 text_div_paxs+=`<div class="form-select-2">`;
                             }
@@ -1073,7 +1093,7 @@ function add_table_of_passenger(type){
                     <div class="col-lg-6 col-md-6 col-sm-6">
                         <label style="color:red !important">*</label>
                         <label>Nationality</label>`;
-                        if(template == 1 || template == 5){
+                        if(template == 1 || template == 5 || template == 6){
                             text_div_paxs+=`<div class="input-container-search-ticket">`;
                         }
                         text_div_paxs+=`
@@ -1089,7 +1109,7 @@ function add_table_of_passenger(type){
                                 text_div_paxs+=`</select>
                             </div>
                             <input type="hidden" name="adult_nationality`+parseInt(counter_passenger+1)+`" id="adult_nationality`+parseInt(counter_passenger+1)+`" />`;
-                        if(template == 1 || template == 5){
+                        if(template == 1 || template == 5 || template == 6){
                             text_div_paxs+=`</div>`;
                         }
                     text_div_paxs+=`
@@ -1120,9 +1140,19 @@ function add_table_of_passenger(type){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 5){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
+                            }else if(template == 6){
+                                text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }
+
+                            if(template == 5){
+                                text_div_paxs+=`<div class="form-select">`;
+                            }else if(template == 3 || template == 6){
+                                text_div_paxs+=`<div class="form-select" style="width:100%;">`;
+                            }else{
+                                text_div_paxs+=`<div class="form-select-2">`;
+                            }
+
                             text_div_paxs+=`
-                            <div class="form-select">
                                 <select class="form-control js-example-basic-single" name="adult_tempat_lahir`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_tempat_lahir`+parseInt(counter_passenger+1)+`_id" placeholder="Tempat Lahir" onchange="auto_complete('adult_tempat_lahir`+parseInt(counter_passenger+1)+`');">
                                     <option value="">Select Tempat Lahir</option>`;
                                 for(i in data_kota)
@@ -1164,6 +1194,8 @@ function add_table_of_passenger(type){
 
                         if(template == 5){
                             text_div_paxs+=`<div class="form-select">`;
+                        }else if(template == 3 || template == 6){
+                            text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                         }else{
                             text_div_paxs+=`<div class="form-select-2">`;
                         }
@@ -1371,8 +1403,18 @@ function add_table_of_passenger(type){
                             text_div_paxs+=`<div class="input-container-search-ticket">`;
                         }else if(template == 5){
                             text_div_paxs+=`<div class="input-container-search-ticket">`;
+                        }else if(template == 6){
+                            text_div_paxs+=`<div class="input-container-search-ticket">`;
                         }
-                        text_div_paxs+=`<div class="form-select-2">`;
+
+                        if(template == 5){
+                            text_div_paxs+=`<div class="form-select">`;
+                        }else if(template == 3 || template == 6){
+                            text_div_paxs+=`<div class="form-select" style="width:100%;">`;
+                        }else{
+                            text_div_paxs+=`<div class="form-select-2">`;
+                        }
+
                         if(template == 4){
                             text_div_paxs+=`<select class="nice-select-default rounded" id="adult_klinis_golongan_darah`+parseInt(counter_passenger+1)+`" name="adult_klinis_golongan_darah`+parseInt(counter_passenger+1)+`">`;
                         }else{
@@ -1408,10 +1450,14 @@ function add_table_of_passenger(type){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 5){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
+                            }else if(template == 6){
+                                text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }
 
                             if(template == 5){
                                 text_div_paxs+=`<div class="form-select">`;
+                            }else if(template == 3 || template == 6){
+                                text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                             }else{
                                 text_div_paxs+=`<div class="form-select-2">`;
                             }
@@ -1458,10 +1504,14 @@ function add_table_of_passenger(type){
                                     text_div_paxs+=`<div class="input-container-search-ticket">`;
                                 }else if(template == 5){
                                     text_div_paxs+=`<div class="input-container-search-ticket">`;
+                                }else if(template == 6){
+                                    text_div_paxs+=`<div class="input-container-search-ticket">`;
                                 }
 
                                 if(template == 5){
                                     text_div_paxs+=`<div class="form-select">`;
+                                }else if(template == 3 || template == 6){
+                                    text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                                 }else{
                                     text_div_paxs+=`<div class="form-select-2">`;
                                 }
@@ -1526,11 +1576,13 @@ function add_table_of_passenger(type){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 5){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
+                            }else if(template == 6){
+                                text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }
 
                             if(template == 5){
                                 text_div_paxs+=`<div class="form-select">`;
-                            }else if(template == 3){
+                            }else if(template == 3 || template == 6){
                                 text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                             }else{
                                 text_div_paxs+=`<div class="form-select-2">`;
@@ -1563,11 +1615,13 @@ function add_table_of_passenger(type){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 5){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
+                            }else if(template == 6){
+                                text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }
 
                             if(template == 5){
                                 text_div_paxs+=`<div class="form-select">`;
-                            }else if(template == 3){
+                            }else if(template == 3 || template == 6){
                                 text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                             }else{
                                 text_div_paxs+=`<div class="form-select-2">`;
@@ -1598,15 +1652,18 @@ function add_table_of_passenger(type){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 5){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
+                            }else if(template == 6){
+                                text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }
 
                             if(template == 5){
                                 text_div_paxs+=`<div class="form-select">`;
-                            }else if(template == 3){
+                            }else if(template == 3 || template == 6){
                                 text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                             }else{
                                 text_div_paxs+=`<div class="form-select-2">`;
                             }
+
                             text_div_paxs+=`
                                         <select class="form-control js-example-basic-single" name="adult_kecamatan`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_kecamatan`+parseInt(counter_passenger+1)+`_id" placeholder="Kecamatan" onchange="auto_complete('adult_kecamatan`+parseInt(counter_passenger+1)+`');get_kelurahan('adult_kecamatan`+parseInt(counter_passenger+1)+`_id','adult_kelurahan`+parseInt(counter_passenger+1)+`_id');">
                                             <option value="">Select Kecamatan</option>`;
@@ -1632,11 +1689,13 @@ function add_table_of_passenger(type){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 5){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
+                            }else if(template == 6){
+                                text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }
 
                             if(template == 5){
                                 text_div_paxs+=`<div class="form-select">`;
-                            }else if(template == 3){
+                            }else if(template == 3 || template == 6){
                                 text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                             }else{
                                 text_div_paxs+=`<div class="form-select-2">`;
@@ -1715,11 +1774,13 @@ function add_table_of_passenger(type){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 5){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
+                            }else if(template == 6){
+                                text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }
 
                             if(template == 5){
                                 text_div_paxs+=`<div class="form-select">`;
-                            }else if(template == 3){
+                            }else if(template == 3 || template == 6){
                                 text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                             }else{
                                 text_div_paxs+=`<div class="form-select-2">`;
@@ -1752,11 +1813,13 @@ function add_table_of_passenger(type){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 5){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
+                            }else if(template == 6){
+                                text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }
 
                             if(template == 5){
                                 text_div_paxs+=`<div class="form-select">`;
-                            }else if(template == 3){
+                            }else if(template == 3 || template == 6){
                                 text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                             }else{
                                 text_div_paxs+=`<div class="form-select-2">`;
@@ -1787,11 +1850,13 @@ function add_table_of_passenger(type){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 5){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
+                            }else if(template == 6){
+                                text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }
 
                             if(template == 5){
                                 text_div_paxs+=`<div class="form-select">`;
-                            }else if(template == 3){
+                            }else if(template == 3 || template == 6){
                                 text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                             }else{
                                 text_div_paxs+=`<div class="form-select-2">`;
@@ -1881,11 +1946,13 @@ function add_table_of_passenger(type){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 5){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
+                            }else if(template == 6){
+                                text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }
 
                             if(template == 5){
                                 text_div_paxs+=`<div class="form-select">`;
-                            }else if(template == 3){
+                            }else if(template == 3 || template == 6){
                                 text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                             }else{
                                 text_div_paxs+=`<div class="form-select-2">`;
@@ -1918,11 +1985,13 @@ function add_table_of_passenger(type){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 5){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
+                            }else if(template == 6){
+                                text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }
 
                             if(template == 5){
                                 text_div_paxs+=`<div class="form-select">`;
-                            }else if(template == 3){
+                            }else if(template == 3 || template == 6){
                                 text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                             }else{
                                 text_div_paxs+=`<div class="form-select-2">`;
@@ -1953,11 +2022,13 @@ function add_table_of_passenger(type){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }else if(template == 5){
                                 text_div_paxs+=`<div class="input-container-search-ticket">`;
+                            }else if(template == 6){
+                                text_div_paxs+=`<div class="input-container-search-ticket">`;
                             }
 
                             if(template == 5){
                                 text_div_paxs+=`<div class="form-select">`;
-                            }else if(template == 3){
+                            }else if(template == 3 || template == 6){
                                 text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                             }else{
                                 text_div_paxs+=`<div class="form-select-2">`;
@@ -2035,10 +2106,14 @@ function add_table_of_passenger(type){
                                         text_div_paxs+=`<div class="input-container-search-ticket">`;
                                     }else if(template == 5){
                                         text_div_paxs+=`<div class="input-container-search-ticket">`;
+                                    }else if(template == 6){
+                                        text_div_paxs+=`<div class="input-container-search-ticket">`;
                                     }
 
                                     if(template == 5){
                                         text_div_paxs+=`<div class="form-select">`;
+                                    }else if(template == 3 || template == 6){
+                                        text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                                     }else{
                                         text_div_paxs+=`<div class="form-select-2">`;
                                     }
@@ -2085,10 +2160,14 @@ function add_table_of_passenger(type){
                                         text_div_paxs+=`<div class="input-container-search-ticket">`;
                                     }else if(template == 5){
                                         text_div_paxs+=`<div class="input-container-search-ticket">`;
+                                    }else if(template == 6){
+                                        text_div_paxs+=`<div class="input-container-search-ticket">`;
                                     }
 
                                     if(template == 5){
                                         text_div_paxs+=`<div class="form-select">`;
+                                    }else if(template == 3 || template == 6){
+                                        text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                                     }else{
                                         text_div_paxs+=`<div class="form-select-2">`;
                                     }
@@ -2151,10 +2230,14 @@ function add_table_of_passenger(type){
                                         text_div_paxs+=`<div class="input-container-search-ticket">`;
                                     }else if(template == 5){
                                         text_div_paxs+=`<div class="input-container-search-ticket">`;
+                                    }else if(template == 6){
+                                        text_div_paxs+=`<div class="input-container-search-ticket">`;
                                     }
 
                                     if(template == 5){
                                         text_div_paxs+=`<div class="form-select">`;
+                                    }else if(template == 3 || template == 6){
+                                        text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                                     }else{
                                         text_div_paxs+=`<div class="form-select-2">`;
                                     }
@@ -2186,10 +2269,14 @@ function add_table_of_passenger(type){
                                         text_div_paxs+=`<div class="input-container-search-ticket">`;
                                     }else if(template == 5){
                                         text_div_paxs+=`<div class="input-container-search-ticket">`;
+                                    }else if(template == 6){
+                                        text_div_paxs+=`<div class="input-container-search-ticket">`;
                                     }
 
                                     if(template == 5){
                                         text_div_paxs+=`<div class="form-select">`;
+                                    }else if(template == 3 || template == 6){
+                                        text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                                     }else{
                                         text_div_paxs+=`<div class="form-select-2">`;
                                     }
@@ -2221,10 +2308,14 @@ function add_table_of_passenger(type){
                                         text_div_paxs+=`<div class="input-container-search-ticket">`;
                                     }else if(template == 5){
                                         text_div_paxs+=`<div class="input-container-search-ticket">`;
+                                    }else if(template == 6){
+                                        text_div_paxs+=`<div class="input-container-search-ticket">`;
                                     }
 
                                     if(template == 5){
                                         text_div_paxs+=`<div class="form-select">`;
+                                    }else if(template == 3 || template == 6){
+                                        text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                                     }else{
                                         text_div_paxs+=`<div class="form-select-2">`;
                                     }
@@ -2256,10 +2347,14 @@ function add_table_of_passenger(type){
                                         text_div_paxs+=`<div class="input-container-search-ticket">`;
                                     }else if(template == 5){
                                         text_div_paxs+=`<div class="input-container-search-ticket">`;
+                                    }else if(template == 6){
+                                        text_div_paxs+=`<div class="input-container-search-ticket">`;
                                     }
 
                                     if(template == 5){
                                         text_div_paxs+=`<div class="form-select">`;
+                                    }else if(template == 3 || template == 6){
+                                        text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                                     }else{
                                         text_div_paxs+=`<div class="form-select-2">`;
                                     }
@@ -2300,10 +2395,14 @@ function add_table_of_passenger(type){
                                         text_div_paxs+=`<div class="input-container-search-ticket">`;
                                     }else if(template == 5){
                                         text_div_paxs+=`<div class="input-container-search-ticket">`;
+                                    }else if(template == 6){
+                                        text_div_paxs+=`<div class="input-container-search-ticket">`;
                                     }
 
                                     if(template == 5){
                                         text_div_paxs+=`<div class="form-select">`;
+                                    }else if(template == 3 || template == 6){
+                                        text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                                     }else{
                                         text_div_paxs+=`<div class="form-select-2">`;
                                     }
@@ -2335,8 +2434,18 @@ function add_table_of_passenger(type){
                                         text_div_paxs+=`<div class="input-container-search-ticket">`;
                                     }else if(template == 5){
                                         text_div_paxs+=`<div class="input-container-search-ticket">`;
+                                    }else if(template == 6){
+                                        text_div_paxs+=`<div class="input-container-search-ticket">`;
                                     }
-                                    text_div_paxs+=`<div class="form-select-2">`;
+
+                                    if(template == 5){
+                                        text_div_paxs+=`<div class="form-select">`;
+                                    }else if(template == 3 || template == 6){
+                                        text_div_paxs+=`<div class="form-select" style="width:100%;">`;
+                                    }else{
+                                        text_div_paxs+=`<div class="form-select-2">`;
+                                    }
+
                                     if(template == 4){
                                         text_div_paxs+=`<select class="nice-select-default rounded" id="adult_klinis_ada_ards`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_ards`+parseInt(counter_passenger+1)+`" onchange="onchange_ards(`+parseInt(counter_passenger+1)+`);">`;
                                     }else{
@@ -2373,8 +2482,18 @@ function add_table_of_passenger(type){
                                         text_div_paxs+=`<div class="input-container-search-ticket">`;
                                     }else if(template == 5){
                                         text_div_paxs+=`<div class="input-container-search-ticket">`;
+                                    }else if(template == 6){
+                                        text_div_paxs+=`<div class="input-container-search-ticket">`;
                                     }
-                                    text_div_paxs+=`<div class="form-select-2">`;
+
+                                    if(template == 5){
+                                        text_div_paxs+=`<div class="form-select">`;
+                                    }else if(template == 3 || template == 6){
+                                        text_div_paxs+=`<div class="form-select" style="width:100%;">`;
+                                    }else{
+                                        text_div_paxs+=`<div class="form-select-2">`;
+                                    }
+
                                     if(template == 4){
                                         text_div_paxs+=`<select class="nice-select-default rounded" id="adult_klinis_ada_penyakit_pernafasan`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_penyakit_pernafasan`+parseInt(counter_passenger+1)+`">`;
                                     }else{
@@ -2417,8 +2536,18 @@ function add_table_of_passenger(type){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }else if(template == 5){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
+                                        }else if(template == 6){
+                                            text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }
-                                        text_div_paxs+=`<div class="form-select-2">`;
+
+                                        if(template == 5){
+                                            text_div_paxs+=`<div class="form-select">`;
+                                        }else if(template == 3 || template == 6){
+                                            text_div_paxs+=`<div class="form-select" style="width:100%;">`;
+                                        }else{
+                                            text_div_paxs+=`<div class="form-select-2">`;
+                                        }
+
                                         if(template == 4){
                                             text_div_paxs+=`<select class="nice-select-default rounded" id="adult_gejala`+parseInt(counter_passenger+1)+`" name="adult_gejala`+parseInt(counter_passenger+1)+`" onchange="onchange_gejala(`+parseInt(counter_passenger+1)+`);">`;
                                         }else{
@@ -2465,8 +2594,18 @@ function add_table_of_passenger(type){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }else if(template == 5){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
+                                        }else if(template == 6){
+                                            text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }
-                                        text_div_paxs+=`<div class="form-select-2">`;
+
+                                        if(template == 5){
+                                            text_div_paxs+=`<div class="form-select">`;
+                                        }else if(template == 3 || template == 6){
+                                            text_div_paxs+=`<div class="form-select" style="width:100%;">`;
+                                        }else{
+                                            text_div_paxs+=`<div class="form-select-2">`;
+                                        }
+
                                         if(template == 4){
                                             text_div_paxs+=`<select class="nice-select-default rounded" id="adult_klinis_ada_demam`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_demam`+parseInt(counter_passenger+1)+`" onchange="onchange_demam(`+parseInt(counter_passenger+1)+`)">`;
                                         }else{
@@ -2506,8 +2645,18 @@ function add_table_of_passenger(type){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }else if(template == 5){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
+                                        }else if(template == 6){
+                                            text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }
-                                        text_div_paxs+=`<div class="form-select-2">`;
+
+                                        if(template == 5){
+                                            text_div_paxs+=`<div class="form-select">`;
+                                        }else if(template == 3 || template == 6){
+                                            text_div_paxs+=`<div class="form-select" style="width:100%;">`;
+                                        }else{
+                                            text_div_paxs+=`<div class="form-select-2">`;
+                                        }
+
                                         if(template == 4){
                                             text_div_paxs+=`<select class="nice-select-default rounded" id="adult_klinis_ada_batuk`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_batuk`+parseInt(counter_passenger+1)+`">`;
                                         }else{
@@ -2536,8 +2685,18 @@ function add_table_of_passenger(type){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }else if(template == 5){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
+                                        }else if(template == 6){
+                                            text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }
-                                        text_div_paxs+=`<div class="form-select-2">`;
+
+                                        if(template == 5){
+                                            text_div_paxs+=`<div class="form-select">`;
+                                        }else if(template == 3 || template == 6){
+                                            text_div_paxs+=`<div class="form-select" style="width:100%;">`;
+                                        }else{
+                                            text_div_paxs+=`<div class="form-select-2">`;
+                                        }
+
                                         if(template == 4){
                                             text_div_paxs+=`<select class="nice-select-default rounded" id="adult_klinis_ada_pilek`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_pilek`+parseInt(counter_passenger+1)+`">`;
                                         }else{
@@ -2566,8 +2725,18 @@ function add_table_of_passenger(type){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }else if(template == 5){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
+                                        }else if(template == 6){
+                                            text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }
-                                        text_div_paxs+=`<div class="form-select-2">`;
+
+                                        if(template == 5){
+                                            text_div_paxs+=`<div class="form-select">`;
+                                        }else if(template == 3 || template == 6){
+                                            text_div_paxs+=`<div class="form-select" style="width:100%;">`;
+                                        }else{
+                                            text_div_paxs+=`<div class="form-select-2">`;
+                                        }
+
                                         if(template == 4){
                                             text_div_paxs+=`<select class="nice-select-default rounded" id="adult_klinis_ada_sakit_tenggorokan`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_sakit_tenggorokan`+parseInt(counter_passenger+1)+`">`;
                                         }else{
@@ -2596,8 +2765,18 @@ function add_table_of_passenger(type){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }else if(template == 5){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
+                                        }else if(template == 6){
+                                            text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }
-                                        text_div_paxs+=`<div class="form-select-2">`;
+
+                                        if(template == 5){
+                                            text_div_paxs+=`<div class="form-select">`;
+                                        }else if(template == 3 || template == 6){
+                                            text_div_paxs+=`<div class="form-select" style="width:100%;">`;
+                                        }else{
+                                            text_div_paxs+=`<div class="form-select-2">`;
+                                        }
+
                                         if(template == 4){
                                             text_div_paxs+=`<select class="nice-select-default rounded" id="adult_klinis_ada_sesak`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_sesak`+parseInt(counter_passenger+1)+`">`;
                                         }else{
@@ -2626,8 +2805,18 @@ function add_table_of_passenger(type){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }else if(template == 5){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
+                                        }else if(template == 6){
+                                            text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }
-                                        text_div_paxs+=`<div class="form-select-2">`;
+
+                                        if(template == 5){
+                                            text_div_paxs+=`<div class="form-select">`;
+                                        }else if(template == 3 || template == 6){
+                                            text_div_paxs+=`<div class="form-select" style="width:100%;">`;
+                                        }else{
+                                            text_div_paxs+=`<div class="form-select-2">`;
+                                        }
+
                                         if(template == 4){
                                             text_div_paxs+=`<select class="nice-select-default rounded" id="adult_klinis_ada_sakit_kepala`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_sakit_kepala`+parseInt(counter_passenger+1)+`">`;
                                         }else{
@@ -2656,8 +2845,18 @@ function add_table_of_passenger(type){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }else if(template == 5){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
+                                        }else if(template == 6){
+                                            text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }
-                                        text_div_paxs+=`<div class="form-select-2">`;
+
+                                        if(template == 5){
+                                            text_div_paxs+=`<div class="form-select">`;
+                                        }else if(template == 3 || template == 6){
+                                            text_div_paxs+=`<div class="form-select" style="width:100%;">`;
+                                        }else{
+                                            text_div_paxs+=`<div class="form-select-2">`;
+                                        }
+
                                         if(template == 4){
                                             text_div_paxs+=`<select class="nice-select-default rounded" id="adult_klinis_ada_badan_lemah`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_badan_lemah`+parseInt(counter_passenger+1)+`">`;
                                         }else{
@@ -2686,8 +2885,18 @@ function add_table_of_passenger(type){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }else if(template == 5){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
+                                        }else if(template == 6){
+                                            text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }
-                                        text_div_paxs+=`<div class="form-select-2">`;
+
+                                        if(template == 5){
+                                            text_div_paxs+=`<div class="form-select">`;
+                                        }else if(template == 3 || template == 6){
+                                            text_div_paxs+=`<div class="form-select" style="width:100%;">`;
+                                        }else{
+                                            text_div_paxs+=`<div class="form-select-2">`;
+                                        }
+
                                         if(template == 4){
                                             text_div_paxs+=`<select class="nice-select-default rounded" id="adult_klinis_ada_nyeri_otot`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_nyeri_otot`+parseInt(counter_passenger+1)+`">`;
                                         }else{
@@ -2716,8 +2925,18 @@ function add_table_of_passenger(type){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }else if(template == 5){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
+                                        }else if(template == 6){
+                                            text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }
-                                        text_div_paxs+=`<div class="form-select-2">`;
+
+                                        if(template == 5){
+                                            text_div_paxs+=`<div class="form-select">`;
+                                        }else if(template == 3 || template == 6){
+                                            text_div_paxs+=`<div class="form-select" style="width:100%;">`;
+                                        }else{
+                                            text_div_paxs+=`<div class="form-select-2">`;
+                                        }
+
                                         if(template == 4){
                                             text_div_paxs+=`<select class="nice-select-default rounded" id="adult_klinis_ada_mual`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_mual`+parseInt(counter_passenger+1)+`">`;
                                         }else{
@@ -2746,8 +2965,18 @@ function add_table_of_passenger(type){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }else if(template == 5){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
+                                        }else if(template == 6){
+                                            text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }
-                                        text_div_paxs+=`<div class="form-select-2">`;
+
+                                        if(template == 5){
+                                            text_div_paxs+=`<div class="form-select">`;
+                                        }else if(template == 3 || template == 6){
+                                            text_div_paxs+=`<div class="form-select" style="width:100%;">`;
+                                        }else{
+                                            text_div_paxs+=`<div class="form-select-2">`;
+                                        }
+
                                         if(template == 4){
                                             text_div_paxs+=`<select class="nice-select-default rounded" id="adult_klinis_ada_nyeri_abdomen`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_nyeri_abdomen`+parseInt(counter_passenger+1)+`">`;
                                         }else{
@@ -2776,8 +3005,18 @@ function add_table_of_passenger(type){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }else if(template == 5){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
+                                        }else if(template == 6){
+                                            text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }
-                                        text_div_paxs+=`<div class="form-select-2">`;
+
+                                        if(template == 5){
+                                            text_div_paxs+=`<div class="form-select">`;
+                                        }else if(template == 3 || template == 6){
+                                            text_div_paxs+=`<div class="form-select" style="width:100%;">`;
+                                        }else{
+                                            text_div_paxs+=`<div class="form-select-2">`;
+                                        }
+
                                         if(template == 4){
                                             text_div_paxs+=`<select class="nice-select-default rounded" id="adult_klinis_ada_diare`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_diare`+parseInt(counter_passenger+1)+`">`;
                                         }else{
@@ -2806,8 +3045,18 @@ function add_table_of_passenger(type){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }else if(template == 5){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
+                                        }else if(template == 6){
+                                            text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }
-                                        text_div_paxs+=`<div class="form-select-2">`;
+
+                                        if(template == 5){
+                                            text_div_paxs+=`<div class="form-select">`;
+                                        }else if(template == 3 || template == 6){
+                                            text_div_paxs+=`<div class="form-select" style="width:100%;">`;
+                                        }else{
+                                            text_div_paxs+=`<div class="form-select-2">`;
+                                        }
+
                                         if(template == 4){
                                             text_div_paxs+=`<select class="nice-select-default rounded" id="adult_klinis_ada_gangguan_penciuman`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_gangguan_penciuman`+parseInt(counter_passenger+1)+`">`;
                                         }else{
@@ -2851,8 +3100,18 @@ function add_table_of_passenger(type){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }else if(template == 5){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
+                                        }else if(template == 6){
+                                            text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }
-                                        text_div_paxs+=`<div class="form-select-2">`;
+
+                                        if(template == 5){
+                                            text_div_paxs+=`<div class="form-select">`;
+                                        }else if(template == 3 || template == 6){
+                                            text_div_paxs+=`<div class="form-select" style="width:100%;">`;
+                                        }else{
+                                            text_div_paxs+=`<div class="form-select-2">`;
+                                        }
+
                                         if(template == 4){
                                             text_div_paxs+=`<select class="nice-select-default rounded" id="adult_penyakit_bawaan`+parseInt(counter_passenger+1)+`" name="adult_penyakit_bawaan`+parseInt(counter_passenger+1)+`" onchange="onchange_penyakit_bawaan(`+parseInt(counter_passenger+1)+`)">`;
                                         }else{
@@ -2886,8 +3145,18 @@ function add_table_of_passenger(type){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }else if(template == 5){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
+                                        }else if(template == 6){
+                                            text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }
-                                        text_div_paxs+=`<div class="form-select-2">`;
+
+                                        if(template == 5){
+                                            text_div_paxs+=`<div class="form-select">`;
+                                        }else if(template == 3 || template == 6){
+                                            text_div_paxs+=`<div class="form-select" style="width:100%;">`;
+                                        }else{
+                                            text_div_paxs+=`<div class="form-select-2">`;
+                                        }
+
                                         if(template == 4){
                                             text_div_paxs+=`<select class="nice-select-default rounded" id="adult_klinis_ada_diabetes`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_diabetes`+parseInt(counter_passenger+1)+`">`;
                                         }else{
@@ -2916,8 +3185,18 @@ function add_table_of_passenger(type){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }else if(template == 5){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
+                                        }else if(template == 6){
+                                            text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }
-                                        text_div_paxs+=`<div class="form-select-2">`;
+
+                                        if(template == 5){
+                                            text_div_paxs+=`<div class="form-select">`;
+                                        }else if(template == 3 || template == 6){
+                                            text_div_paxs+=`<div class="form-select" style="width:100%;">`;
+                                        }else{
+                                            text_div_paxs+=`<div class="form-select-2">`;
+                                        }
+
                                         if(template == 4){
                                             text_div_paxs+=`<select class="nice-select-default rounded" id="adult_klinis_ada_penyakit_jantung`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_penyakit_jantung`+parseInt(counter_passenger+1)+`">`;
                                         }else{
@@ -2946,8 +3225,18 @@ function add_table_of_passenger(type){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }else if(template == 5){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
+                                        }else if(template == 6){
+                                            text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }
-                                        text_div_paxs+=`<div class="form-select-2">`;
+
+                                        if(template == 5){
+                                            text_div_paxs+=`<div class="form-select">`;
+                                        }else if(template == 3 || template == 6){
+                                            text_div_paxs+=`<div class="form-select" style="width:100%;">`;
+                                        }else{
+                                            text_div_paxs+=`<div class="form-select-2">`;
+                                        }
+
                                         if(template == 4){
                                             text_div_paxs+=`<select class="nice-select-default rounded" id="adult_klinis_ada_hipertensi`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_penyakit_jantung`+parseInt(counter_passenger+1)+`">`;
                                         }else{
@@ -2976,8 +3265,18 @@ function add_table_of_passenger(type){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }else if(template == 5){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
+                                        }else if(template == 6){
+                                            text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }
-                                        text_div_paxs+=`<div class="form-select-2">`;
+
+                                        if(template == 5){
+                                            text_div_paxs+=`<div class="form-select">`;
+                                        }else if(template == 3 || template == 6){
+                                            text_div_paxs+=`<div class="form-select" style="width:100%;">`;
+                                        }else{
+                                            text_div_paxs+=`<div class="form-select-2">`;
+                                        }
+
                                         if(template == 4){
                                             text_div_paxs+=`<select class="nice-select-default rounded" id="adult_klinis_ada_keganasan`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_keganasan`+parseInt(counter_passenger+1)+`">`;
                                         }else{
@@ -3006,8 +3305,18 @@ function add_table_of_passenger(type){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }else if(template == 5){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
+                                        }else if(template == 6){
+                                            text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }
-                                        text_div_paxs+=`<div class="form-select-2">`;
+
+                                        if(template == 5){
+                                            text_div_paxs+=`<div class="form-select">`;
+                                        }else if(template == 3 || template == 6){
+                                            text_div_paxs+=`<div class="form-select" style="width:100%;">`;
+                                        }else{
+                                            text_div_paxs+=`<div class="form-select-2">`;
+                                        }
+
                                         if(template == 4){
                                             text_div_paxs+=`<select class="nice-select-default rounded" id="adult_klinis_ada_gangguan_imunologi`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_gangguan_imunologi`+parseInt(counter_passenger+1)+`">`;
                                         }else{
@@ -3036,8 +3345,18 @@ function add_table_of_passenger(type){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }else if(template == 5){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
+                                        }else if(template == 6){
+                                            text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }
-                                        text_div_paxs+=`<div class="form-select-2">`;
+
+                                        if(template == 5){
+                                            text_div_paxs+=`<div class="form-select">`;
+                                        }else if(template == 3 || template == 6){
+                                            text_div_paxs+=`<div class="form-select" style="width:100%;">`;
+                                        }else{
+                                            text_div_paxs+=`<div class="form-select-2">`;
+                                        }
+
                                         if(template == 4){
                                             text_div_paxs+=`<select class="nice-select-default rounded" id="adult_klinis_ada_gangguan_ginjal`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_gangguan_ginjal`+parseInt(counter_passenger+1)+`">`;
                                         }else{
@@ -3066,8 +3385,18 @@ function add_table_of_passenger(type){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }else if(template == 5){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
+                                        }else if(template == 6){
+                                            text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }
-                                        text_div_paxs+=`<div class="form-select-2">`;
+
+                                        if(template == 5){
+                                            text_div_paxs+=`<div class="form-select">`;
+                                        }else if(template == 3 || template == 6){
+                                            text_div_paxs+=`<div class="form-select" style="width:100%;">`;
+                                        }else{
+                                            text_div_paxs+=`<div class="form-select-2">`;
+                                        }
+
                                         if(template == 4){
                                             text_div_paxs+=`<select class="nice-select-default rounded" id="adult_klinis_ada_gangguan_hati`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_gangguan_hati`+parseInt(counter_passenger+1)+`">`;
                                         }else{
@@ -3096,8 +3425,18 @@ function add_table_of_passenger(type){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }else if(template == 5){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
+                                        }else if(template == 6){
+                                            text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }
-                                        text_div_paxs+=`<div class="form-select-2">`;
+
+                                        if(template == 5){
+                                            text_div_paxs+=`<div class="form-select">`;
+                                        }else if(template == 3 || template == 6){
+                                            text_div_paxs+=`<div class="form-select" style="width:100%;">`;
+                                        }else{
+                                            text_div_paxs+=`<div class="form-select-2">`;
+                                        }
+
                                         if(template == 4){
                                             text_div_paxs+=`<select class="nice-select-default rounded" id="adult_klinis_ada_gangguan_paru_obstruksi_kronis`+parseInt(counter_passenger+1)+`" name="adult_klinis_ada_gangguan_paru_obstruksi_kronis`+parseInt(counter_passenger+1)+`">`;
                                         }else{
@@ -3169,8 +3508,18 @@ function add_table_of_passenger(type){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }else if(template == 5){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
+                                        }else if(template == 6){
+                                            text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }
-                                        text_div_paxs+=`<div class="form-select-2">`;
+
+                                        if(template == 5){
+                                            text_div_paxs+=`<div class="form-select">`;
+                                        }else if(template == 3 || template == 6){
+                                            text_div_paxs+=`<div class="form-select" style="width:100%;">`;
+                                        }else{
+                                            text_div_paxs+=`<div class="form-select-2">`;
+                                        }
+
                                         if(template == 4){
                                             text_div_paxs+=`<select class="nice-select-default rounded" id="adult_perjalanan`+parseInt(counter_passenger+1)+`" name="adult_perjalanan`+parseInt(counter_passenger+1)+`" onchange="onchange_perjalanan(`+parseInt(counter_passenger+1)+`)">`;
                                         }else{
@@ -3203,8 +3552,18 @@ function add_table_of_passenger(type){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }else if(template == 5){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
+                                        }else if(template == 6){
+                                            text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }
-                                        text_div_paxs+=`<div class="form-select-2">`;
+
+                                        if(template == 5){
+                                            text_div_paxs+=`<div class="form-select">`;
+                                        }else if(template == 3 || template == 6){
+                                            text_div_paxs+=`<div class="form-select" style="width:100%;">`;
+                                        }else{
+                                            text_div_paxs+=`<div class="form-select-2">`;
+                                        }
+
                                         if(template == 4){
                                             text_div_paxs+=`<select class="nice-select-default rounded" id="adult_perjalanan_keluar_negeri`+parseInt(counter_passenger+1)+`" name="adult_perjalanan_keluar_negeri`+parseInt(counter_passenger+1)+`" onchange="onchange_perjalanan_keluar_negeri(`+parseInt(counter_passenger+1)+`)">`;
                                         }else{
@@ -3238,8 +3597,18 @@ function add_table_of_passenger(type){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }else if(template == 5){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
+                                        }else if(template == 6){
+                                            text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }
-                                        text_div_paxs+=`<div class="form-select-2">`;
+
+                                        if(template == 5){
+                                            text_div_paxs+=`<div class="form-select">`;
+                                        }else if(template == 3 || template == 6){
+                                            text_div_paxs+=`<div class="form-select" style="width:100%;">`;
+                                        }else{
+                                            text_div_paxs+=`<div class="form-select-2">`;
+                                        }
+
                                         if(template == 4){
                                             text_div_paxs+=`<select class="nice-select-default rounded" id="adult_perjalanan_ke_transmisi_lokal`+parseInt(counter_passenger+1)+`" name="adult_perjalanan_ke_transmisi_lokal`+parseInt(counter_passenger+1)+`" onchange="onchange_perjalanan_ke_transmisi_lokal(`+parseInt(counter_passenger+1)+`)">`;
                                         }else{
@@ -3275,8 +3644,18 @@ function add_table_of_passenger(type){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }else if(template == 5){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
+                                        }else if(template == 6){
+                                            text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }
-                                        text_div_paxs+=`<div class="form-select-2">`;
+
+                                        if(template == 5){
+                                            text_div_paxs+=`<div class="form-select">`;
+                                        }else if(template == 3 || template == 6){
+                                            text_div_paxs+=`<div class="form-select" style="width:100%;">`;
+                                        }else{
+                                            text_div_paxs+=`<div class="form-select-2">`;
+                                        }
+
                                         if(template == 4){
                                             text_div_paxs+=`<select class="nice-select-default rounded" id="adult_berkunjung_ke_fasilitas_kesehatan`+parseInt(counter_passenger+1)+`" name="adult_berkunjung_ke_fasilitas_kesehatan`+parseInt(counter_passenger+1)+`" onchange="onchange_berkunjung_ke_fasilitas_kesehatan(`+parseInt(counter_passenger+1)+`)">`;
                                         }else{
@@ -3310,8 +3689,18 @@ function add_table_of_passenger(type){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }else if(template == 5){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
+                                        }else if(template == 6){
+                                            text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }
-                                        text_div_paxs+=`<div class="form-select-2">`;
+
+                                        if(template == 5){
+                                            text_div_paxs+=`<div class="form-select">`;
+                                        }else if(template == 3 || template == 6){
+                                            text_div_paxs+=`<div class="form-select" style="width:100%;">`;
+                                        }else{
+                                            text_div_paxs+=`<div class="form-select-2">`;
+                                        }
+
                                         if(template == 4){
                                             text_div_paxs+=`<select class="nice-select-default rounded" id="adult_berkunjung_ke_pasar_hewan`+parseInt(counter_passenger+1)+`" name="adult_berkunjung_ke_pasar_hewan`+parseInt(counter_passenger+1)+`" onchange="onchange_berkunjung_ke_pasar_hewan(`+parseInt(counter_passenger+1)+`)">`;
                                         }else{
@@ -3345,8 +3734,18 @@ function add_table_of_passenger(type){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }else if(template == 5){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
+                                        }else if(template == 6){
+                                            text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }
-                                        text_div_paxs+=`<div class="form-select-2">`;
+
+                                        if(template == 5){
+                                            text_div_paxs+=`<div class="form-select">`;
+                                        }else if(template == 3 || template == 6){
+                                            text_div_paxs+=`<div class="form-select" style="width:100%;">`;
+                                        }else{
+                                            text_div_paxs+=`<div class="form-select-2">`;
+                                        }
+
                                         if(template == 4){
                                             text_div_paxs+=`<select class="nice-select-default rounded" id="adult_berkunjung_ke_pasien_dalam_pengawasan`+parseInt(counter_passenger+1)+`" name="adult_berkunjung_ke_pasien_dalam_pengawasan`+parseInt(counter_passenger+1)+`" onchange="onchange_berkunjung_ke_pasien_dalam_pengawasan(`+parseInt(counter_passenger+1)+`)">`;
                                         }else{
@@ -3380,8 +3779,18 @@ function add_table_of_passenger(type){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }else if(template == 5){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
+                                        }else if(template == 6){
+                                            text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }
-                                        text_div_paxs+=`<div class="form-select-2">`;
+
+                                        if(template == 5){
+                                            text_div_paxs+=`<div class="form-select">`;
+                                        }else if(template == 3 || template == 6){
+                                            text_div_paxs+=`<div class="form-select" style="width:100%;">`;
+                                        }else{
+                                            text_div_paxs+=`<div class="form-select-2">`;
+                                        }
+
                                         if(template == 4){
                                             text_div_paxs+=`<select class="nice-select-default rounded" id="adult_berkunjung_ke_pasien_konfirmasi`+parseInt(counter_passenger+1)+`" name="adult_berkunjung_ke_pasien_konfirmasi`+parseInt(counter_passenger+1)+`" onchange="onchange_berkunjung_ke_pasien_konfirmasi(`+parseInt(counter_passenger+1)+`)">`;
                                         }else{
@@ -3415,8 +3824,18 @@ function add_table_of_passenger(type){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }else if(template == 5){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
+                                        }else if(template == 6){
+                                            text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }
-                                        text_div_paxs+=`<div class="form-select-2">`;
+
+                                        if(template == 5){
+                                            text_div_paxs+=`<div class="form-select">`;
+                                        }else if(template == 3 || template == 6){
+                                            text_div_paxs+=`<div class="form-select" style="width:100%;">`;
+                                        }else{
+                                            text_div_paxs+=`<div class="form-select-2">`;
+                                        }
+
                                         if(template == 4){
                                             text_div_paxs+=`<select class="nice-select-default rounded" id="adult_termasuk_cluster_ispa`+parseInt(counter_passenger+1)+`" name="adult_termasuk_cluster_ispa`+parseInt(counter_passenger+1)+`">`;
                                         }else{
@@ -3448,8 +3867,18 @@ function add_table_of_passenger(type){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }else if(template == 5){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
+                                        }else if(template == 6){
+                                            text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }
-                                        text_div_paxs+=`<div class="form-select-2">`;
+
+                                        if(template == 5){
+                                            text_div_paxs+=`<div class="form-select">`;
+                                        }else if(template == 3 || template == 6){
+                                            text_div_paxs+=`<div class="form-select" style="width:100%;">`;
+                                        }else{
+                                            text_div_paxs+=`<div class="form-select-2">`;
+                                        }
+
                                         if(template == 4){
                                             text_div_paxs+=`<select class="nice-select-default rounded" id="adult_merupakan_petugas_kesehatan`+parseInt(counter_passenger+1)+`" name="adult_merupakan_petugas_kesehatan`+parseInt(counter_passenger+1)+`" onchange="onchange_petugas_medis(`+parseInt(counter_passenger+1)+`)">`;
                                         }else{
@@ -3481,8 +3910,18 @@ function add_table_of_passenger(type){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }else if(template == 5){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
+                                        }else if(template == 6){
+                                            text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }
-                                        text_div_paxs+=`<div class="form-select-2">`;
+
+                                        if(template == 5){
+                                            text_div_paxs+=`<div class="form-select">`;
+                                        }else if(template == 3 || template == 6){
+                                            text_div_paxs+=`<div class="form-select" style="width:100%;">`;
+                                        }else{
+                                            text_div_paxs+=`<div class="form-select-2">`;
+                                        }
+
                                         if(template == 4){
                                             text_div_paxs+=`<select class="nice-select-default rounded" id="adult_apd_yang_digunakan`+parseInt(counter_passenger+1)+`" name="adult_apd_yang_digunakan`+parseInt(counter_passenger+1)+`">`;
                                         }else{
@@ -3512,8 +3951,18 @@ function add_table_of_passenger(type){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }else if(template == 5){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
+                                        }else if(template == 6){
+                                            text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }
-                                        text_div_paxs+=`<div class="form-select-2">`;
+
+                                        if(template == 5){
+                                            text_div_paxs+=`<div class="form-select">`;
+                                        }else if(template == 3 || template == 6){
+                                            text_div_paxs+=`<div class="form-select" style="width:100%;">`;
+                                        }else{
+                                            text_div_paxs+=`<div class="form-select-2">`;
+                                        }
+
                                         if(template == 4){
                                             text_div_paxs+=`<select class="nice-select-default rounded" id="adult_prosedur_menimbulkan_aerosol`+parseInt(counter_passenger+1)+`" name="adult_prosedur_menimbulkan_aerosol`+parseInt(counter_passenger+1)+`" onchange="onchange_aerosol(`+parseInt(counter_passenger+1)+`)">`;
                                         }else{

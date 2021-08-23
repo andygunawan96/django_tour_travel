@@ -8414,3 +8414,117 @@ ul.progress_tabs li.current .image-rounded-icon{
 .progress_tabs-content.current{
     display: inherit;
 }
+
+.progress_kuota {
+  padding:0;
+  width:100%;
+  height:30px;
+  overflow:hidden;
+  background:#e5e5e5;
+  border:1px solid darkgray;
+  border-radius:6px;
+}
+
+.bar_kuota {
+  position:relative;
+  float:left;
+  min-width:0%;
+  height:100%;
+  background:cornflowerblue;
+}
+
+.percent_kuota {
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  margin:0;
+  font-family:tahoma,arial,helvetica;
+  font-size:14px;
+  font-weight:bold;
+  color:black;
+}
+
+.img-phc-priksain{
+    margin-bottom: 15px;
+    background: white;
+    width: auto;
+    height:120px;
+}
+
+@media (max-width: 575px) {
+    .img-phc-priksain{
+        margin-bottom: 15px;
+        background: white;
+        width: auto;
+        height:70px;
+    }
+}
+
+
+ul.progress_tabs{
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+}
+ul.progress_tabs li{
+    background: white;
+    color: black;
+    display: inline-block;
+    padding: 15px 15px 10px 15px;
+    cursor: pointer;
+    margin:10px 5px;
+    border:1px solid #cdcdcd;
+}
+
+ul.progress_tabs li:hover{
+   color:#f15a22;
+}
+
+li.progress_tabs-link label{
+    cursor: pointer;
+    text-align:center;
+}
+
+ul.progress_tabs li.current{
+    /*background: rgba(0,0,0,0.5);*/
+    border-bottom: 5px solid #f15a22;
+    color: #f15a22;
+}
+
+ul.progress_tabs li.current .image-rounded-icon{
+    background: #f15a22 !important;
+}
+
+.progress_tabs-content{
+    display: none;
+    /*background: rgba(0,0,0,0.5);*/
+    padding: 20px;
+}
+
+.progress_tabs-content.current{
+    display: inherit;
+}
+
+.progresses_icon{
+    font-size: 12px;
+    font-weight:500;
+    padding-right:10px;
+    color:#9B9B9B;
+    text-align: center;
+}
+.progress_icon{
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+    line-height: 20px;
+    -moz-border-radius: 30px; /* or 50% */
+    border-radius: 30px; /* or 50% */
+    text-align: center;
+    background-color: #9B9B9B;
+    color: white;
+}
+.progress_flex{
+    display:flex;
+    padding-top:5px;
+}
