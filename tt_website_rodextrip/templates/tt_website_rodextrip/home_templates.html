@@ -8628,6 +8628,21 @@
             document.getElementById("airline_date_search").appendChild(node);
             node = document.createElement("div");
         }
+        else if(template == 6){
+            document.getElementById("airline_date_search").innerHTML = '';
+            text='';
+            var node = document.createElement("div");
+            text+=`
+            <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="airline_departure" id="airline_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;">
+            </div>
+            <input type="hidden" class="form-control" name="airline_return" id="airline_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
+
+            node.innerHTML = text;
+            document.getElementById("airline_date_search").appendChild(node);
+            node = document.createElement("div");
+        }
     }catch(err){
 
     }
