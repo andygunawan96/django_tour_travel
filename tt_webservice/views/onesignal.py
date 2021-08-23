@@ -2,12 +2,11 @@ import requests
 import json
 from tools import util, ERR
 from .tt_webservice_views import *
+import logging
+_logger = logging.getLogger("rodextrip_logger")
 
 def send_notif(msg, url, segments='All', icon=False):
-    header = {
-        "Content-Type": "application/json; charset=utf-8",
-        "Authorization": "Basic NTA0OGYzYjctMjU2Ni00YzhiLWI5MjYtMThiMzdiNjg1OTU0"
-    }
+
     file = read_cache_with_folder_path("one_signal", 90911)
     if file:
         url_data = ''
@@ -16,6 +15,10 @@ def send_notif(msg, url, segments='All', icon=False):
             url_data = url
         else:
             url_data = file.split('\n')[1]
+        header = {
+            "Content-Type": "application/json; charset=utf-8",
+            "Authorization": file.split('\n')[2]
+        }
         payload = {
             "app_id": app_id,
             "url": url_data,
@@ -41,7 +44,8 @@ def send_notif(msg, url, segments='All', icon=False):
 
         # "excluded_segments"
 
-        requests.post("https://onesignal.com/api/v1/notifications", headers=header, data=json.dumps(payload))
+        res = requests.post("https://onesignal.com/api/v1/notifications", headers=header, data=json.dumps(payload))
+        _logger.info(json.dumps(res))
         return {
             "result": {
                 "error_code": 0,
