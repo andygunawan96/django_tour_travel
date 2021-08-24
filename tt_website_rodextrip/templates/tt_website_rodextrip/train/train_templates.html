@@ -30,6 +30,13 @@
 </script>
 
 <style>
+    {% if template == 6%}
+        header{
+            background:unset;
+            position: absolute;
+        }
+    {% endif %}
+
     @media only screen and (min-width: 991px) {
         #slider_home {
             margin-top: 88px;
@@ -2338,7 +2345,6 @@
 
         </div>
     </section>
-    {% if website_mode == 'btc' or website_mode == 'btc_btb' %}
     <div class="title text-center" id="dynamic_page">
 
     </div>
@@ -2350,7 +2356,6 @@
             </div>
         </div>
     </section>
-    {% endif %}
 
 <!--    <section class="testomial-area section-gap">-->
 <!--        <div class="container">-->
@@ -2434,6 +2439,259 @@
 <!--            </div>-->
 <!--        </div>-->
 <!--    </section>-->
+
+    {% elif template == 6%}
+    <div id="big_banner">
+        <section class="banner_w3lspvt" id="home">
+
+        </section>
+    </div>
+
+    <section class="about py-3 mt-3" style="padding-top:50px;">
+        <div id="notification_div" class="col-sm-12" style="position:fixed;align-items:right;z-index:100;margin-top:-50px;"></div>
+        <div class="container">
+            <div class="row" style="padding:15px;">
+                <div class="col-lg-4 mb-5">
+                    <div class="text-center center_vh" style="width:100%;">
+                        <h3 class="heading mb-2" style="border-bottom:5px solid {{color}}; width:content;">
+                            <img style="width:auto; height:40px" src="{{static_path}}images/icon/train_black.png" alt="Airline Icon"/>
+                            TRAIN
+                        </h3>
+                        <h5 style="color:{{color}}; cursor:pointer;" data-toggle="modal" data-target="#myModalAnotherProduct">
+                            <i class="fas fa-sync"></i> Change Product
+                        </h5>
+                    </div>
+                </div>
+
+                {% if username.co_user_login != '' %}
+                <input type="hidden" id="country_id"/>
+                <input type="hidden" id="start"/>
+                <input type="hidden" id="end"/>
+
+                <div class="col-lg-8" id="div-search-overlay" style="background:{{tab_color}}; padding:15px;">
+                    {% if "ticketing_airline" in username.co_agent_frontend_security %}
+                    {% if "train" in provider %}
+                    <form action="{% url 'tt_website_rodextrip:train_search'%}" method="POST" class="form-wrap" id="train_searchForm" onsubmit="return search_train_validation()">
+                        {% csrf_token %}
+                        <input type="hidden" name="g-recaptcha-response" id='recaptcha_train'>
+                        <div class="row">
+                            <div class="col-lg-12" id="radio_train_search" style="text-align:left;margin-bottom:10px;">
+                                <label class="radio-button-custom crlabel" style="margin-bottom:0px;">
+                                    <span style="font-size:13px; color:{{text_color}};">{% trans 'One Way' %}</span>
+                                    <input type="radio" checked="checked" name="radio_train_type" value="oneway">
+                                    <span class="checkmark-radio crspan"></span>
+                                </label>
+                                <label class="radio-button-custom crlabel" style="margin-bottom:0px;">
+                                    <span style="font-size:13px; color:{{text_color}};">{% trans 'Round Trip' %}</span>
+                                    <input type="radio" name="radio_train_type" value="roundtrip">
+                                    <span class="checkmark-radio crspan"></span>
+                                </label>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6">
+                                        <span class="span-search-ticket"><i class="fas fa-train"></i> {% trans 'From' %}</span>
+                                        <div class="input-container-search-ticket">
+                                            <input id="train_origin" name="train_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('train_origin').select();" onclick="set_train_search_value_to_false();" value="BD - Bandung">
+                                        </div>
+                                    </div>
+                                    <div class="image-change-route-vertical2">
+                                        <h4><a href="javascript:train_switch();" style="z-index:5; color:black;" id="train_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                    </div>
+                                    <div class="image-change-route-horizontal2">
+                                        <h4><a class="horizontal-arrow" href="javascript:train_switch();" style="z-index:5; color:{{text_color}} !important;" id="train_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                    </div>
+
+                                    <div class="col-lg-6 col-md-6" style="z-index:5;">
+                                        <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> {% trans 'To' %}</span>
+                                        <div class="input-container-search-ticket">
+                                            <input id="train_destination" name="train_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('train_destination').select();" onclick="set_train_search_value_to_false();" value="GMR - Gambir">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6" id="train_date_search">
+                                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure' %}</span>
+                                <div class="input-container-search-ticket">
+                                    <input type="text" class="form-control" style="background:white;" id="train_departure" name="train_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly/>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6">
+                                <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
+                                <div class="input-container-search-ticket btn-group">
+                                    <button id="show_total_pax_train" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <div class="row" style="padding:10px;">
+                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                <div style="float:left;">
+                                                    <label>
+                                                        <span style="color:black; font-size:13px;">{% trans 'Adult' %}<br/></span>
+                                                        <span style="color:gray; font-size:11px;">({% trans 'Age' %} 3+)</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                    <button type="button" class="left-minus-adult-train btn-custom-circle" id="left-minus-adult-train" data-type="minus" data-field="" disabled>
+                                                        <i class="fas fa-minus"></i>
+                                                    </button>
+                                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="train_adult" name="train_adult" value="1" min="1" readonly>
+                                                    <button type="button" class="right-plus-adult-train btn-custom-circle" id="right-plus-adult-train" data-type="plus" data-field="">
+                                                        <i class="fas fa-plus"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                <div style="float:left;">
+                                                    <label>
+                                                        <span style="color:black; font-size:13px;">{% trans 'Infant' %}<br/></span>
+                                                        <span style="color:gray; font-size:11px;">({% trans 'Age' %} < 3)</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                    <button type="button" class="left-minus-infant-train btn-custom-circle" id="left-minus-infant-train" data-type="minus" data-field="" disabled>
+                                                        <i class="fas fa-minus"></i>
+                                                    </button>
+                                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="train_infant" name="train_infant" value="0" readonly>
+                                                    <button type="button" class="right-plus-infant-train btn-custom-circle" id="right-plus-infant-train" data-type="plus" data-field="">
+                                                        <i class="fas fa-plus"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12" style="text-align:right;">
+                                                <hr/>
+                                                <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('train','passenger');">Done</button>
+                                            </div>
+                                        </div>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+
+                        <input type="hidden" id="train_response" name="response"/>
+                        <center>
+                            <button class="primary-btn ld-ext-right" id="btn-search-train" type="button" onclick="get_captcha('recaptcha_train','train');" value="Submit">
+                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                {% trans 'Search' %}
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>
+                        </center>
+                    </form>
+                    {% endif %}
+                    {% endif %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    <div class="modal fade" id="myModalAnotherProduct" role="dialog" data-keyboard="false">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Our Product' %}</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="featured-left text-center row">
+                        {% for rec in provider_types_sequence %}
+                        {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security and rec.name == "airline" %}
+                        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3 mb-3">
+                            <a href="/{{rec.name}}">
+                                <div class="div_cst">
+                                     <img style="width:auto; height:40px" src="{{static_path}}images/icon/airlines_black.png" alt="Airline Icon"/>
+                                     <h6 class="hover_cst">{% trans 'AIRLINE' %}</h6>
+                                </div>
+                            </a>
+                        </div>
+                        {% elif "hotel" in provider and "ticketing_hotel" in username.co_agent_frontend_security and rec.name == "hotel" %}
+                        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3 mb-3">
+                            <a href="/{{rec.name}}">
+                                <div class="div_cst">
+                                    <img style="width:auto; height:40px" src="{{static_path}}images/icon/hotel_black.png" alt="Hotel Icon"/>
+                                    <h6 class="hover_cst">HOTEL</h6>
+                                </div>
+                            </a>
+                        </div>
+                        {% elif "ppob" in provider and "ticketing_ppob" in username.co_agent_frontend_security and rec.name == "ppob" %}
+                        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3 mb-3">
+                            <a href="/{{rec.name}}">
+                                <div class="div_cst">
+                                    <img style="width:auto; height:40px" src="{{static_path}}images/icon/ppob_black.png" alt="PPOB Icon"/>
+                                    <h6 class="hover_cst" style="font-size:14px;">{% trans 'BILLS & TOP UP' %}</h6>
+                                </div>
+                            </a>
+                        </div>
+                        {% elif "tour" in provider and "ticketing_tour" in username.co_agent_frontend_security and rec.name == "tour" %}
+                        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3 mb-3">
+                            <a href="/{{rec.name}}">
+                                <div class="div_cst">
+                                    <img style="width:auto; height:40px" src="{{static_path}}images/icon/tour_black.png" alt="Tour Icon"/>
+                                    <h6 class="hover_cst">{% trans 'TOUR' %}</h6>
+                                </div>
+                            </a>
+                        </div>
+                        {% elif "event" in provider and "ticketing_event" in username.co_agent_frontend_security and rec.name == "event" %}
+                        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3 mb-3">
+                            <a href="/{{rec.name}}">
+                                <div class="div_cst">
+                                    <img style="width:auto; height:40px" src="{{static_path}}images/icon/event_black.png" alt="Event Icon"/>
+                                    <h6 class="hover_cst">{% trans 'EVENT' %}</h6>
+                                </div>
+                            </a>
+                        </div>
+                        {% elif "activity" in provider and "ticketing_activity" in username.co_agent_frontend_security and rec.name == "activity" %}
+                        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3 mb-3">
+                            <a href="/{{rec.name}}">
+                                <div class="div_cst">
+                                    <img style="width:auto; height:40px" src="{{static_path}}images/icon/activity_black.png" alt="Event Icon"/>
+                                    <h6 class="hover_cst">{% trans 'ACTIVITY' %}</h6>
+                                </div>
+                            </a>
+                        </div>
+                        {% elif "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_visa" in username.co_agent_frontend_security and rec.name == "visa" %}
+                        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3 mb-3">
+                            <a href="/{{rec.name}}">
+                                <div class="div_cst">
+                                    <img style="width:auto; height:40px" src="{{static_path}}images/icon/visa_black.png" alt="Event Icon"/>
+                                    <h6 class="hover_cst">VISA</h6>
+                                </div>
+                            </a>
+                        </div>
+                        {% elif "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_passport" in username.co_agent_frontend_security and rec.name == "passport" %}
+                        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3 mb-3">
+                            <a href="/{{rec.name}}">
+                                <div class="div_cst">
+                                    <img style="width:auto; height:40px" src="{{static_path}}images/icon/passport_black.png" alt="Event Icon"/>
+                                    <h6 class="hover_cst">{% trans 'PASSPORT' %}</h6>
+                                </div>
+                            </a>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="small_banner" style="padding: 0px 0px 15px 0px;">
+
+    </div>
+    <div class="title text-center" id="dynamic_page">
+
+    </div>
+    <br/>
+    <div class="owl-carousel-login owl-theme form-box-login">
+        <div id="owl-login2" style="padding: 0px 0px 15px 0px;">
+
+        </div>
+    </div>
 
     {%endif%}
 
@@ -2535,11 +2793,9 @@
     {%endif%}
     //bank_get_balance();
     //get_transaction();
-    //get_banner('big_banner','home');
+    get_banner('big_banner','train');
     get_banner('small_banner','train');
-    {% if website_mode == 'btc' or website_mode == 'btc_btb' %}
     ///get_dynamic_page('home');
-    {% endif %}
     //get_banner('promotion','home');
 </script>
 

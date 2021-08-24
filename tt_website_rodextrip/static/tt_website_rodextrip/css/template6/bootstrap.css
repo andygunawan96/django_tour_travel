@@ -231,6 +231,7 @@ th {
 }
 
 label {
+  font-weight: bold;
   display: inline-block;
   margin-bottom: .5rem;
 }
@@ -5546,7 +5547,7 @@ button.close {
   -webkit-box-flex: 1;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
-  padding: 1rem;
+  padding: 15px;
 }
 
 .modal-footer {

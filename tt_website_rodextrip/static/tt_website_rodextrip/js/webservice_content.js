@@ -1329,6 +1329,39 @@ function get_page(data){
     });
 }
 
+function send_notif_message(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/content",
+       headers:{
+            'action': 'send_notif_message',
+       },
+       data: {
+            'title': document.getElementById('notif_title').value,
+            'message': document.getElementById('notif_message').value,
+            'url': document.getElementById('notif_url').value
+       },
+       success: function(msg) {
+            if(msg.result.error_code == 0){
+                Swal.fire({
+                  type: 'success',
+                  title: 'Nofication!',
+                  html: 'Send',
+               })
+            }else{
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: msg.result.error_msg,
+               })
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error update banner');
+       }
+    });
+}
+
 function test_ledger(val){
     for(i=0;i<val;i++){
         $.ajax({

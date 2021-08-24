@@ -61,6 +61,27 @@
     {% endif %}
 </script>
 
+{% if "{{app_id_one_signal}}" != ""%}
+<script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+<script>
+
+    var OneSignal = window.OneSignal || [];
+    var initConfig = {
+        appId: "{{app_id_one_signal}}",
+        notifyButton: {
+            enable: true
+        },
+    };
+    OneSignal.push(function () {
+        OneSignal.SERVICE_WORKER_PARAM = { scope: '/onesignal/' };
+        OneSignal.SERVICE_WORKER_PATH = '{{ static_path }}/onesignal/OneSignalSDKWorker.js'
+        OneSignal.SERVICE_WORKER_UPDATER_PATH = '{{ static_path }}/onesignal/OneSignalSDKUpdaterWorker.js'
+        OneSignal.init(initConfig);
+    });
+
+</script>
+{% endif %}
+
 <style>
     {% if template == 6%}
         header{
@@ -8595,6 +8616,21 @@
             node = document.createElement("div");
         }
         else if(template == 5){
+            document.getElementById("airline_date_search").innerHTML = '';
+            text='';
+            var node = document.createElement("div");
+            text+=`
+            <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="airline_departure" id="airline_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;">
+            </div>
+            <input type="hidden" class="form-control" name="airline_return" id="airline_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
+
+            node.innerHTML = text;
+            document.getElementById("airline_date_search").appendChild(node);
+            node = document.createElement("div");
+        }
+        else if(template == 6){
             document.getElementById("airline_date_search").innerHTML = '';
             text='';
             var node = document.createElement("div");

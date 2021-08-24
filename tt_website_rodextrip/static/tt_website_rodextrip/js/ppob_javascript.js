@@ -658,6 +658,125 @@ function set_container_bill(){
         }
     }
 
+    else if(template == 6){
+        if(bill_type == 'bpjs'){
+            text = `
+                <div class="col-lg-12 mb-3" style="text-align:left;">
+                    <div class="input-container-search-ticket">`;
+                        for(i in ppob_data.product_data[bill_type]){
+                            text+=`
+                            <label class="radio-button-custom" style="margin-bottom:0px;">
+                                <span style="font-size:13px; color:`+text_color+`;">`+ppob_data.product_data[bill_type][i].name+`</span>`;
+                            if(i == 0){
+                                text+=`<input type="radio" checked="checked" name="bpjs_type" onchange="get_bpjs_name('`+ppob_data.product_data[bill_type][i].name+`');" value="`+ppob_data.product_data[bill_type][i].code+`">`;
+                                $bpjs_type_name = ppob_data.product_data[bill_type][i].name;
+                            }else{
+                                text+=`<input type="radio" name="pln_type" onchange="get_bpjs_name('`+ppob_data.product_data[bill_type][i].name+`');" value="`+ppob_data.product_data[bill_type][i].code+`">`;
+                            }
+                            text+=`
+                                <span class="checkmark-radio"></span>
+                            </label>`;
+                        }
+                        text+=`
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12" id="train_date_search">
+                    <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Pay Until</span>
+                    <div class="input-container-search-ticket btn-group">
+                        <div class="form-select" id="default-select">
+                            <select id="bpjs_month" name="bpjs_month" class="nice-select-default">`;
+                            print_month = false;
+                            max_count = 12;
+                            for(i in month_list){
+                                if(moment().format('MMM') == month_list[i][1]){
+                                    print_month = true;
+                                    month_counter = 1;
+                                }if(print_month == true){
+                                    text+= `<option value='`+month_counter+`'>`+month_list[i][1]+` `+new Date().getFullYear()+`</option>`;
+                                    month_counter++;
+                                    max_count--;
+                                }
+                            }
+                            for(i in month_list){
+                                if(max_count != 0){
+                                    text+= `<option value='`+month_counter+`'>`+month_list[i][1]+` `+parseInt(new Date().getFullYear()+1)+`</option>`;
+                                    month_counter++;
+                                    max_count--;
+                                }else{
+                                    break;
+                                }
+                            }
+                text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-9 col-md-9 col-sm-12">
+                    <span class="span-search-ticket"><i class="fas fa-briefcase"></i> Nomor Virtual Account Keluarga / Perusahaan</span>
+                    <div class="input-container-search-ticket">
+                        <input type="text" class="form-control virtual_number" name="bpjs_number" id="bpjs_number" onkeyup="check_bpjs_number();" onpaste="setTimeout(check_bpjs_number.bind(null,this),100);" placeholder="Nomor Virtual Account Keluarga / Perusahaan" autocomplete="off"/>
+                    </div>
+                    <div style="text-align:left;">
+                        <span style="color:`+color+`; font-size:14px; font-weight:bold;" id="input_alert" style="display:none;"></span>
+                    </div>
+                </div>
+            `;
+        }
+        else if(bill_type == 'pln'){
+            text = `
+            <div class="col-lg-12" style="text-align:left;">
+                <div class="input-container-search-ticket">`;
+                    for(i in ppob_data.product_data[bill_type]){
+                        text+=`
+                        <label class="radio-button-custom" style="margin-bottom:0px;">
+                            <span style="font-size:13px; color:`+text_color+`;">`+ppob_data.product_data[bill_type][i].name+`</span>`;
+                        if(i == 0){
+                            text+=`<input type="radio" checked="checked" name="pln_type" onchange="get_pln_name('`+ppob_data.product_data[bill_type][i].name+`'); set_pln_div();" value="`+ppob_data.product_data[bill_type][i].code+`">`;
+                            $pln_type_name = ppob_data.product_data[bill_type][i].name;
+                        }else{
+                            text+=`<input type="radio" name="pln_type" onchange="get_pln_name('`+ppob_data.product_data[bill_type][i].name+`'); set_pln_div();" value="`+ppob_data.product_data[bill_type][i].code+`">`;
+                        }
+                        text+=`
+                            <span class="checkmark-radio"></span>
+                        </label>`;
+                    }
+                    text+=`
+                </div>
+            </div>
+            <div class="col-lg-12 mt-3" style="text-align:left;">
+                <div id="pln_div" class="row">
+                </div>
+            </div>`;
+        }
+        else if(bill_type == 'e-voucher'){
+            text = `
+                <div class="col-lg-12" style="text-align:left;">
+                    <div class="input-container-search-ticket">`;
+                        for(i in ppob_data.product_data[bill_type]){
+                            text+=`
+                            <label class="radio-button-custom" style="margin-bottom:0px;">
+                                <span style="font-size:13px; color:`+text_color+`;">`+ppob_data.product_data[bill_type][i].name+`</span>`;
+                            if(i == 0){
+                                text+=`<input type="radio" checked="checked" name="e-voucher_type" onchange="get_evoucher_name('`+ppob_data.product_data[bill_type][i].name+`'); set_evoucher_div();" value="`+ppob_data.product_data[bill_type][i].code+`">`;
+                                $evoucher_type_name = ppob_data.product_data[bill_type][i].name;
+                            }else{
+                                text+=`<input type="radio" name="e-voucher_type" onchange="get_evoucher_name('`+ppob_data.product_data[bill_type][i].name+`'); set_evoucher_div();" value="`+ppob_data.product_data[bill_type][i].code+`">`;
+                            }
+                            text+=`
+                                <span class="checkmark-radio"></span>
+                            </label>`;
+                        }
+                        text+=`
+                    </div>
+                </div>
+                <div class="col-lg-12 mt-3" style="text-align:left;">
+                    <div id="e-voucher_div" class="row">
+                    </div>
+                </div>
+            `;
+        }
+    }
+
 //    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
 //        text+=`
 //            <div class="col-lg-12 col-md-12 col-sm-12" style="padding:0px; text-align:left;margin-bottom:10px;">
@@ -891,6 +1010,46 @@ function set_pln_div(){
             </div>`;
         }
     }
+    else if(template == 6){
+        if($pln_type_name == 'PLN Prepaid'){
+            text = `<div class="col-lg-6 col-md-6 col-sm-6" style="text-align:left;margin-bottom:10px;">
+                        <span class="span-search-ticket"><i class="fas fa-bolt"></i> Nomor Meter / ID Pelanggan</span>
+                        <div class="input-container-search-ticket">
+                            <input type="text" class="form-control pln_number" name="bpjs_number" id="bpjs_number" onkeyup="check_pln_number();" onpaste="setTimeout(check_pln_number.bind(null,this),100);" placeholder="Nomor Meter / ID Pelanggan" autocomplete="off"/>
+                        </div>
+                        <div style="text-align:left;">
+                            <h6 style="color:`+color+`;" id="input_alert" style="display:none;"></h6>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:left;margin-bottom:10px;">
+                        <span class="span-search-ticket">Nominal</span>
+                        <div class="input-container-search-ticket btn-group">
+                            <div class="form-select" id="default-select">
+                                <select id="pln_nominal" name="pln_nominal" class="nice-select-default">`;
+                                for(i in ppob_data.allowed_denominations)
+                                    if(i == 0)
+                                        text+=`<option value="`+ppob_data.allowed_denominations[i]+`" selected>`+getrupiah(ppob_data.allowed_denominations[i])+`</option>`;
+                                    else
+                                        text+=`<option value="`+ppob_data.allowed_denominations[i]+`">`+getrupiah(ppob_data.allowed_denominations[i])+`</option>`;
+
+                                text+=`</select>
+                            </div>
+                        </div>
+                    </div>`;
+        }
+        else if($pln_type_name == 'PLN Postpaid' || $pln_type_name == 'PLN Non Tagihan'){
+            text = `
+            <div class="col-lg-12 col-md-12 col-sm-12" style="text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket"><i class="fas fa-bolt"></i> Nomor Meter / ID Pelanggan</span>
+                <div class="input-container-search-ticket">
+                    <input type="text" class="form-control pln_number" name="bpjs_number" id="bpjs_number" onkeyup="check_pln_number();" onpaste="setTimeout(check_pln_number.bind(null,this),100);" placeholder="Nomor Meter / ID Pelanggan" autocomplete="off"/>
+                </div>
+                <div style="text-align:left;">
+                    <h6 style="color:`+color+`;" id="input_alert" style="display:none;"></h6>
+                </div>
+            </div>`;
+        }
+    }
 
     document.getElementById('pln_div').innerHTML = text;
     $('#pln_nominal').niceSelect();
@@ -1011,6 +1170,29 @@ function set_evoucher_div(){
 
             </div>
             <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+                <div class="row" id="e-voucher_nominal_div">
+
+                </div>
+            </div>`;
+        }
+    }
+    else if(template == 6){
+        if($evoucher_type_name == 'Prepaid Mobile'){
+            text = `
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket"><i class="fas fa-mobile"></i> Nomor Handphone Pelanggan</span>
+                <div class="input-container-search-ticket">
+                    <input type="text" class="form-control hp_number" onkeyup="check_hp_number();" onpaste="setTimeout(check_hp_number.bind(null,this),100);" name="bpjs_number" id="bpjs_number" placeholder="Nomor Handphone Pelanggan" autocomplete="off"/>
+                </div>
+                <div style="text-align:left;">
+                    <h6 style="color:`+color+`;" id="input_alert" style="display:none;"></h6>
+                    <span style="color:`+text_color+`;">Contoh: 081234567890</span>
+                </div>
+            </div>
+            <div class="col-lg-12 mb-3" id="img_operator">
+
+            </div>
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
                 <div class="row" id="e-voucher_nominal_div">
 
                 </div>
