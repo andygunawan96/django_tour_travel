@@ -1520,7 +1520,7 @@ function medical_get_booking(order_number, sync=false){
                             </button>
                         `;
                     }
-                    if (msg.result.response.state  == 'issued' && msg.result.response.order_number.includes('PH')) {
+                    if (msg.result.response.state  == 'issued' && msg.result.response.order_number.includes('PH') == true && msg.result.response.provider_bookings[0].carrier_code.includes('PHCHC') == false) {
                         text_update_data_pax+=`
                             <button class="primary-btn hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="medical_get_result('` + msg.result.response.order_number + `');" style="width:100%;margin-top:15px;">
                                 Get Result
