@@ -410,6 +410,8 @@ def passenger(request):
         for airline in airline_price_provider_temp:
             for journey in airline['journeys']:
                 for segment in journey['segments']:
+                    if segment['carrier_code'] == 'GA':
+                        is_garuda = True
                     for leg in segment['legs']:
                         if leg['origin_country'] != 'Indonesia' or leg['destination_country'] != 'Indonesia':
                             is_international = True
@@ -418,8 +420,6 @@ def passenger(request):
                             break
             if airline['provider'] == 'lionair':
                 is_lionair = True
-            elif airline['provider'] == 'altea':
-                is_garuda = True
             try:
                 ff_request = request.session['airline_get_ff_availability']['result']['response']['ff_availability_provider']
             except:
