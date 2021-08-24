@@ -3771,14 +3771,14 @@ function airline_detail(type){
                         text += `<span><b>`;
                         if(price_itinerary_temp[i].journeys[j].segments[k].fares[0].cabin_class != '')
                             if(price_itinerary_temp[i].journeys[j].segments[k].fares[0].cabin_class == 'Y')
-                                text += 'Economy';
+                                text += 'Economy - ';
                             else if(price_itinerary_temp[i].journeys[j].segments[k].fares[0].cabin_class == 'W')
-                                text += 'Premium Economy';
+                                text += 'Premium Economy - ';
                             else if(price_itinerary_temp[i].journeys[j].segments[k].fares[0].cabin_class == 'C')
-                                text += 'Business ';
+                                text += 'Business - ';
                             else if(price_itinerary_temp[i].journeys[j].segments[k].fares[0].cabin_class == 'F')
-                                text += 'First Class';
-                        text+=` - Class: ` + price_itinerary_temp[i].journeys[j].segments[k].fares[0].class_of_service;
+                                text += 'First Class - ';
+                        text+=`Class: ` + price_itinerary_temp[i].journeys[j].segments[k].fares[0].class_of_service;
                         text+=`</b></span>`;
                     }
 
