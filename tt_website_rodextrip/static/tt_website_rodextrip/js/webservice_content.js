@@ -1469,10 +1469,8 @@ function get_dynamic_page(type){
                     text+=`</div>`;
 
                     if(type == 'login'){
-                        if(template != 6){
                         document.getElementById('owl-login').innerHTML = text;
 //                        document.getElementById('owl-login2').innerHTML = text;
-                        }
 
                         if(check_dynamic){
                             if(template == 1){
