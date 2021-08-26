@@ -29,6 +29,8 @@
     countries = JSON.parse(countries);
     google_api_key = '{{google_api_key}}';
     total_passengers_rebooking = {{total_passengers_rebooking}};
+    global_zip_code = '';
+    global_area = '';
 </script>
 
 <script type="text/javascript">
@@ -150,8 +152,22 @@
 
                     </div>
                 </div>
+                {% if vendor == 'phc' and test_type == 'PHCHCKATG' or vendor == 'phc' and test_type == 'PHCHCKPCR' %}
                 <div class="row mt-3" style="padding:15px;">
-                    <div class="col-lg-12" id="div_schedule_medical" style="padding:15px; background:white; border:1px solid #cdcdcd;">
+                    <div class="col-lg-12" id="div_maps" style="padding:15px; background:white; border:1px solid #cdcdcd;">
+                        <h4>
+                            Location Test
+                        </h4><hr/>
+                        <div class="row">
+                            <div id="map"></div>
+                            <div id="googleMap" style=""></div>
+                        </div>
+                    </div>
+
+                </div>
+                {% endif %}
+                <div class="row mt-3" style="padding:15px;">
+                    <div class="col-lg-12" id="div_schedule_medical" style="padding:15px; background:white; border:1px solid #cdcdcd;display:none;">
                         <h4>
                             Schedule
                             <i class="fas fa-pen" id="icon_shcedule" style="padding-left:5px; cursor:pointer" onclick="open_date_schedule(`+parseInt(counter_passenger+1)+`);"></i>
@@ -539,8 +555,10 @@
                                     </div>
                                     <label style="font-size:12px; padding:0;">{% trans 'Example' %}: Jl. Raya Darmo 177b</label>
                                 </div>
+                                {% if test_type != 'PHCHCKATG' and test_type != 'PHCHCKPCR' %}
                                 <div id="map"></div>
                                 <div id="googleMap" style=""></div>
+                                {% endif %}
 
                                 <div class="col-lg-12" style="text-align:left; margin-top:20px; margin-bottom:15px;display:none;" id="table_passenger_list">
                                     <div class="row" id="loading-booker-train" style="display:none;">
@@ -3375,7 +3393,8 @@
                     const bounds = new google.maps.LatLngBounds();
                     places.forEach((place) => {
                         console.log(place);
-                        callZipAPI(place.geometry.location);
+                        if(test_type.includes('PHCHC'))
+                            callZipAPI(place.geometry.location);
                         if (!place.geometry || !place.geometry.location) {
                             console.log("Returned place contains no geometry");
                             return;
@@ -3450,7 +3469,8 @@
     function placeMarker(location) {
         web_url = 'http://www.google.com/maps/place/';
         web_url += location.lat() + ',' + location.lng();
-        callZipAPI(location);
+        if(test_type.includes('PHCHC'))
+            callZipAPI(location);
         if(marker){
             marker.visible = true;
             marker.setPosition(location)
@@ -3467,14 +3487,14 @@
         var latlng = new google.maps.LatLng(latlng_obj.lat(), latlng_obj.lng());
         geocoder = new google.maps.Geocoder();
         geocoder.geocode({'latLng': latlng}, function(results, status) {
-            console.log(results);
-            console.log(status);
             if (status == google.maps.GeocoderStatus.OK) {
                 if (results[0]) {
                     for (j = 0; j < results[0].address_components.length; j++) {
-                        if (results[0].address_components[j].types[0] == 'postal_code')
+                        if (results[0].address_components[j].types[0] == 'postal_code'){
                             console.log("Zip Code: " + results[0].address_components[j].short_name);
-                            //alert("Zip Code: " + results[0].address_components[j].short_name);
+                            global_zip_code = results[0].address_components[j].short_name;
+                            get_area_global();
+                        }
                     }
                 }
             } else {
