@@ -231,23 +231,59 @@ function update_timeslot(val){
     var medical_date_pick = moment(document.getElementById('booker_test_date'+val).value).format('YYYY-MM-DD');
     var now = moment();
     for(i in medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick]){
-        if(medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].availability == false){
-            text+= `<option disabled value="`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].seq_id+`~`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].time+`">`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].time+``;
-        }else{
-            text+= `<option value="`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].seq_id+`~`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].time+`">`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].time+``;
+        if(global_area == '' || medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].subarea == 'surabaya_all'){
+            text += print_timeslot(i,medical_date_pick);
+        }else if(global_area == medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].subarea){
+            text += print_timeslot(i,medical_date_pick);
         }
-        if(medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].group_booking == true)
-            text+= ` Group Booking`;
-        if(medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].availability == false)
-            text+= ` Full`;
-        else if(medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].availability == true)
-            text+= ` Available`;
-        text+=`</option>`;
+
     }
     document.getElementById('booker_timeslot_id'+val).innerHTML = text;
     $('#booker_timeslot_id'+val).niceSelect('update');
     change_timeslot(val);
     document.getElementById('next_medical').style.display='none';
+}
+
+function get_area_global(){
+    global_area = '';
+    var found = false;
+    for(i in zip_code_list['result']['response']){
+        for(j in zip_code_list['result']['response'][i]){
+            for(k in zip_code_list['result']['response'][i][j]){
+                if(global_zip_code == zip_code_list['result']['response'][i][j][k]){
+                    global_area = i;
+                    found = true;
+                    break;
+                }
+            }
+            if(found)
+                break
+        }
+        if(found)
+            break
+    }
+    for(i=1;i<test_time;i++){
+        update_timeslot(i);
+    }
+    if(test_type.includes('PHCHC'))
+        document.getElementById('div_schedule_medical').style.display = 'block';
+}
+
+function print_timeslot(i,medical_date_pick){
+    text_timeslot = '';
+    if(medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].availability == false){
+        text_timeslot+= `<option disabled value="`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].seq_id+`~`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].time+`">`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].time+` - `+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].time_end;
+    }else{
+        text_timeslot+= `<option value="`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].seq_id+`~`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].time+`">`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].time+` - `+ medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].time_end;
+    }
+    if(medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].group_booking == true)
+        text_timeslot+= ` Group Booking`;
+    if(medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].availability == false)
+        text_timeslot+= ` Full`;
+    else if(medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].availability == true)
+        text_timeslot+= ` Available`;
+    text_timeslot+=`</option>`;
+    return text_timeslot;
 }
 
 function change_timeslot(val){
@@ -7563,7 +7599,7 @@ function add_table(change_rebooking=false){
     document.getElementById('next_medical').style.display = 'none';
 
     try{
-    document.getElementById('medical_pax_div').hidden = true;
+//    document.getElementById('medical_pax_div').hidden = true;
     }catch(err){}
 
     if(change_rebooking == true && total_passengers_rebooking != 0){

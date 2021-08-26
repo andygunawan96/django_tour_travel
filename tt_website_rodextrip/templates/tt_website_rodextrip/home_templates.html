@@ -34,6 +34,7 @@
 <link rel="stylesheet" type="text/css" href="{{ static_path }}login/css/owl.theme.default.min.css?version={{javascript_version}}">
 <link rel="stylesheet" type="text/css" href="{{ static_path }}login/css/owl.theme.green.min.css?version={{javascript_version}}">
 <script src="{{ static_path }}js/vendor/owl.carousel.min.js?version={{javascript_version}}"></script>
+<script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
 <script>
     signature = `{{signature}}`;
     static_path_url_server = '{{static_path_url_server}}'
@@ -61,26 +62,25 @@
     {% endif %}
 </script>
 
-{% if "{{app_id_one_signal}}" != ""%}
-<script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
 <script>
-
-    var OneSignal = window.OneSignal || [];
-    var initConfig = {
-        appId: "{{app_id_one_signal}}",
-        notifyButton: {
-            enable: true
-        },
-    };
-    OneSignal.push(function () {
-        OneSignal.SERVICE_WORKER_PARAM = { scope: '/onesignal/' };
-        OneSignal.SERVICE_WORKER_PATH = '{{ static_path }}/onesignal/OneSignalSDKWorker.js'
-        OneSignal.SERVICE_WORKER_UPDATER_PATH = '{{ static_path }}/onesignal/OneSignalSDKUpdaterWorker.js'
-        OneSignal.init(initConfig);
-    });
+    var app_id_one_signal = '{{app_id_one_signal}}';
+    if(app_id_one_signal){
+        var OneSignal = window.OneSignal || [];
+        var initConfig = {
+            appId: "{{app_id_one_signal}}",
+            notifyButton: {
+                enable: true
+            },
+        };
+        OneSignal.push(function () {
+            OneSignal.SERVICE_WORKER_PARAM = { scope: '/onesignal/' };
+            OneSignal.SERVICE_WORKER_PATH = '{{ static_path }}/onesignal/OneSignalSDKWorker.js'
+            OneSignal.SERVICE_WORKER_UPDATER_PATH = '{{ static_path }}/onesignal/OneSignalSDKUpdaterWorker.js'
+            OneSignal.init(initConfig);
+        });
+    }
 
 </script>
-{% endif %}
 
 <style>
     {% if template == 6%}

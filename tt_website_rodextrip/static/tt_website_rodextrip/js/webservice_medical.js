@@ -82,7 +82,10 @@ function get_config_medical(type='', vendor=''){
                     print_check_price++;
                     if(print_check_price == 2){
                         document.getElementById('check_price_medical').hidden = false;
-                        document.getElementById('div_schedule_medical').style.display = 'block';
+                        if(test_type.includes('PHCHC'))
+                            document.getElementById('div_schedule_medical').style.display = 'none';
+                        else
+                            document.getElementById('div_schedule_medical').style.display = 'block';
                     }
                     data_kota = medical_config['result']['response']['kota']
                     var product = '';
@@ -287,7 +290,10 @@ function medical_get_availability(){
                 print_check_price++;
                 if(print_check_price == 2){
                     document.getElementById('check_price_medical').hidden = false;
-                    document.getElementById('div_schedule_medical').style.display = 'block';
+                    if(test_type.includes('PHCHC'))
+                        document.getElementById('div_schedule_medical').style.display = 'none';
+                    else
+                        document.getElementById('div_schedule_medical').style.display = 'block';
                 }
                 msg = msg.result.response;
                 if(Object.keys(msg).length > 0){
