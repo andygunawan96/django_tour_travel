@@ -16,6 +16,7 @@ function medical_signin(data){
                signature = msg.result.response.signature;
                if(data == 'passenger'){
                     get_config_medical(data, vendor);
+                    get_zip_code();
                     medical_get_availability();
                }else{
                     //get booking
@@ -125,6 +126,39 @@ function get_config_medical(type='', vendor=''){
                         }
                     }
                 }
+            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                auto_logout();
+            }else{
+               Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: msg.result.error_msg,
+               })
+               try{
+                $("#show_loading_booking_medical").hide();
+               }catch(err){}
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get config medical');
+       },timeout: 300000
+    });
+}
+
+function get_zip_code(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/medical",
+       headers:{
+            'action': 'get_zip_code',
+       },
+       data: {
+            'signature': signature,
+       },
+       success: function(msg) {
+            console.log(msg);
+            if(msg.result.error_code == 0){
+                zip_code_list = msg;
             }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 auto_logout();
             }else{
