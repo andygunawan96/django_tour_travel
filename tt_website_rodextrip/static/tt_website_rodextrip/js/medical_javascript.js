@@ -781,7 +781,7 @@ function add_table_of_passenger_verify(type){
 //        $('#adult_kecamatan_ktp'+parseInt(counter_passenger+1)).niceSelect();
 //        $('#adult_kelurahan_ktp'+parseInt(counter_passenger+1)).niceSelect();
         $('#adult_profession'+parseInt(counter_passenger+1)).niceSelect();
-    }else if(vendor == 'periksain'){
+    }else if(vendor == 'periksain' && test_type == 'PRKATG'){
         $('#adult_sample_method'+parseInt(counter_passenger+1)).niceSelect();
     }
 //    get_kecamatan(`adult_kabupaten`+parseInt(counter_passenger+1),`adult_kecamatan`+parseInt(counter_passenger+1));
@@ -4179,7 +4179,8 @@ function add_table_of_passenger(type){
         hidden_readonly_medical(parseInt(counter_passenger+1), 'profession', 'hidden');
         copy_ktp(parseInt(counter_passenger+1));
     }else if(vendor == 'periksain'){
-        $('#adult_sample_method'+parseInt(counter_passenger+1)).niceSelect();
+        if(test_type == 'PRKATG')
+            $('#adult_sample_method'+parseInt(counter_passenger+1)).niceSelect();
         $('#adult_provinsi'+parseInt(counter_passenger+1)+'_id').select2();
     }
 //    get_kecamatan(`adult_kabupaten`+parseInt(counter_passenger+1),`adult_kecamatan`+parseInt(counter_passenger+1));
@@ -5711,15 +5712,17 @@ function check_passenger(){
         else{
             request['passenger'] = []
             if(vendor == 'periksain'){
-                if(document.getElementById('adult_sample_method').value == ''){
-                    error_log += 'Please choose sample method test!</br>\n';
-                    $("#adult_sample_method").each(function() {
-                        $(this).parent().find('.nice-select').css('border', '1px solid red');
-                    });
-                }else{
-                    $("#adult_sample_method").each(function() {
-                        $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
-                    });
+                if(test_type == 'PRKATG'){
+                    if(document.getElementById('adult_sample_method').value == ''){
+                        error_log += 'Please choose sample method test!</br>\n';
+                        $("#adult_sample_method").each(function() {
+                            $(this).parent().find('.nice-select').css('border', '1px solid red');
+                        });
+                    }else{
+                        $("#adult_sample_method").each(function() {
+                            $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
+                        });
+                    }
                 }
                 for(i=0; i < counter_passenger; i++){
                     var check_form_periksain = 0;
@@ -5946,6 +5949,10 @@ function check_passenger(){
                                 'is_also_booker': true
                             }]
                         }
+                        sample_method = '';
+                        if(test_type == 'PRKATG'){
+                            sample_method = document.getElementById('adult_sample_method').value;
+                        }
                         request['passenger'].push({
                             "pax_type": "ADT",
                             "first_name": document.getElementById('adult_first_name' + nomor_pax).value,
@@ -5960,7 +5967,7 @@ function check_passenger(){
                                 "identity_number": document.getElementById('adult_identity_number' + nomor_pax).value,
                             },
                             "passenger_seq_id": document.getElementById('adult_id' + nomor_pax).value,
-                            "sample_method": document.getElementById('adult_sample_method').value,
+                            "sample_method": sample_method,
                             "address": document.getElementById('adult_address' + nomor_pax).value,
                             "provinsi": document.getElementById('adult_provinsi' + nomor_pax + '_id').value,
                             "kabupaten": document.getElementById('adult_kabupaten' + nomor_pax + '_id').value,
@@ -8290,10 +8297,12 @@ function auto_fill_periksain(){
             document.getElementById('adult_phone'+counter).value = passenger_data_cache_medical[idx].phone_number.substr(2,100);
         }
         document.getElementById('adult_email'+counter).value = passenger_data_cache_medical[idx].email;
-        if(passenger_data_cache_medical[idx].hasOwnProperty('sample_method_code'))
-            document.getElementById('adult_sample_method').value = passenger_data_cache_medical[idx].sample_method_code;
-        else
-            document.getElementById('adult_sample_method').value = passenger_data_cache_medical[idx].sample_method;
+        try{
+            if(passenger_data_cache_medical[idx].hasOwnProperty('sample_method_code'))
+                document.getElementById('adult_sample_method').value = passenger_data_cache_medical[idx].sample_method_code;
+            else
+                document.getElementById('adult_sample_method').value = passenger_data_cache_medical[idx].sample_method;
+        }catch(err){}
         document.getElementById('adult_address'+counter).value = passenger_data_cache_medical[idx].address;
 
         document.getElementById('adult_provinsi'+counter).value = passenger_data_cache_medical[idx].provinsi;

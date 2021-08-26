@@ -52,6 +52,8 @@ def api_models(request):
             res = login(request)
         elif req_data['action'] == 'get_config':
             res = get_config(request)
+        elif req_data['action'] == 'get_zip_code':
+            res = get_zip_code(request)
         elif req_data['action'] == 'get_kecamatan':
             res = get_kecamatan(request)
         elif req_data['action'] == 'get_desa':
@@ -211,6 +213,27 @@ def get_config(request):
     try:
         pass
     except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    return res
+
+def get_zip_code(request):
+    try:
+        file = open("tt_webservice/static/tt_webservice/zip_code.json", "r")
+        res = {
+            "result": {
+                "error_msg": '',
+                "error_code": 0,
+                "response": json.loads(file.read())
+            }
+        }
+    except Exception as e:
+        res = {
+            "result": {
+                "error_msg": 'zip code not found',
+                "error_code": 500,
+                "response": ''
+            }
+        }
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
 

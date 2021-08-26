@@ -169,7 +169,7 @@
                                     </div>
                                 </div>
                             </div>
-                            {% if vendor == 'periksain'%}
+                            {% if vendor == 'periksain' and test_type == 'PRKATG' %}
                             <div class="col-lg-6">
                                 <label style="color:red !important">*</label>
                                 <label>{% trans "Sample Method" %}</label>
@@ -687,7 +687,7 @@
                                     </div>
                                 </div>
 
-                                {% if vendor == 'periksain'%}
+                                {% if vendor == 'periksain' and test_type == 'PRKATG' %}
                                 <div class="col-lg-6">
                                     <label style="color:red !important">*</label>
                                     <label>{% trans "Sample Method" %}</label>
@@ -1208,7 +1208,7 @@
                                 </div>
                             </div>
 
-                            {% if vendor == 'periksain'%}
+                            {% if vendor == 'periksain' and test_type == 'PRKATG' %}
                             <div class="col-lg-6">
                                 <label style="color:red !important">*</label>
                                 <label>{% trans "Sample Method" %}</label>
@@ -1726,7 +1726,7 @@
                             </div>
                         </div>
 
-                        {% if vendor == 'periksain'%}
+                        {% if vendor == 'periksain' and test_type == 'PRKATG' %}
                         <div class="col-lg-6">
                             <label style="color:red !important">*</label>
                             <label>{% trans "Sample Method" %}</label>
@@ -2244,7 +2244,7 @@
                                 </div>
                             </div>
 
-                            {% if vendor == 'periksain'%}
+                            {% if vendor == 'periksain' and test_type == 'PRKATG' %}
                             <div class="col-lg-6">
                                 <label style="color:red !important">*</label>
                                 <label>{% trans "Sample Method" %}</label>
@@ -2762,7 +2762,7 @@
                                     </div>
                                 </div>
                             </div>
-                            {% if vendor == 'periksain'%}
+                            {% if vendor == 'periksain' and test_type == 'PRKATG' %}
                             <div class="col-lg-6">
                                 <label style="color:red !important">*</label>
                                 <label>{% trans "Sample Method" %}</label>
@@ -3375,6 +3375,7 @@
                     const bounds = new google.maps.LatLngBounds();
                     places.forEach((place) => {
                         console.log(place);
+                        callZipAPI(place.geometry.location);
                         if (!place.geometry || !place.geometry.location) {
                             console.log("Returned place contains no geometry");
                             return;
@@ -3449,6 +3450,7 @@
     function placeMarker(location) {
         web_url = 'http://www.google.com/maps/place/';
         web_url += location.lat() + ',' + location.lng();
+        callZipAPI(location);
         if(marker){
             marker.visible = true;
             marker.setPosition(location)
@@ -3459,6 +3461,26 @@
                 title: "Test location"
             });
 
+    }
+
+    function callZipAPI(latlng_obj){
+        var latlng = new google.maps.LatLng(latlng_obj.lat(), latlng_obj.lng());
+        geocoder = new google.maps.Geocoder();
+        geocoder.geocode({'latLng': latlng}, function(results, status) {
+            console.log(results);
+            console.log(status);
+            if (status == google.maps.GeocoderStatus.OK) {
+                if (results[0]) {
+                    for (j = 0; j < results[0].address_components.length; j++) {
+                        if (results[0].address_components[j].types[0] == 'postal_code')
+                            console.log("Zip Code: " + results[0].address_components[j].short_name);
+                            //alert("Zip Code: " + results[0].address_components[j].short_name);
+                    }
+                }
+            } else {
+                //alert("Geocoder failed due to: " + status);
+            }
+        });
     }
 
 </script>
