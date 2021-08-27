@@ -231,7 +231,7 @@ function update_timeslot(val){
     var medical_date_pick = moment(document.getElementById('booker_test_date'+val).value).format('YYYY-MM-DD');
     var now = moment();
     for(i in medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick]){
-        if(global_area == '' || medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].subarea == 'surabaya_all'){
+        if(global_area == '' && test_type.includes('PHCHC') == false || medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].subarea == 'surabaya_all'){
             text += print_timeslot(i,medical_date_pick);
         }else if(global_area == medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].subarea){
             text += print_timeslot(i,medical_date_pick);
