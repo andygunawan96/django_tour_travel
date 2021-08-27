@@ -395,13 +395,14 @@ input:focus {
 #scrollUp {
   position: fixed;
   font-size: 24px;
-  line-height: 55px;
-  height:55px;
-  width:55px;
-  bottom: 55px;
-  left: 0px;
+  line-height: 45px;
+  height:50px;
+  width:50px;
+  bottom: 60px;
+  left: 15px;
   background-color: #f15a22;
   color: #ffffff;
+  border-radius: 28px;
   text-align: center;
   -webkit-transition-duration: 500ms;
   -o-transition-duration: 500ms;

@@ -30,6 +30,13 @@
 </script>
 
 <style>
+    {% if template == 6%}
+        header{
+            background:unset;
+            position: absolute;
+        }
+    {% endif %}
+
     @media only screen and (min-width: 991px) {
         #slider_home {
             margin-top: 88px;
@@ -2112,6 +2119,194 @@
 <!--        </div>-->
 <!--    </section>-->
 
+    {% elif template == 6%}
+    <div id="big_banner">
+        <section class="banner_w3lspvt" id="home">
+
+        </section>
+    </div>
+
+    <section class="about py-3 mt-3" style="padding-top:50px;">
+        <div id="notification_div" class="col-sm-12" style="position:fixed;align-items:right;z-index:100;margin-top:-50px;"></div>
+        <div class="container">
+            <div class="row" style="padding:15px;">
+                <div class="col-lg-4 mb-5">
+                    <div class="text-center center_vh" style="width:100%;">
+                        <h3 class="heading mb-2" style="border-bottom:5px solid {{color}}; width:content;">
+                            <img style="width:auto; height:40px" src="{{static_path}}images/icon/passport_black.png" alt="Airline Icon"/>
+                            PASSPORT
+                        </h3>
+                        <h5 style="color:{{color}}; cursor:pointer;" data-toggle="modal" data-target="#myModalAnotherProduct">
+                            <i class="fas fa-sync"></i> Change Product
+                        </h5>
+                    </div>
+                </div>
+
+                {% if username.co_user_login != '' %}
+                <input type="hidden" id="country_id"/>
+                <input type="hidden" id="start"/>
+                <input type="hidden" id="end"/>
+
+                <div class="col-lg-8" id="div-search-overlay" style="background:{{tab_color}}; padding:15px;">
+                    {% if "ticketing_passport" in username.co_agent_frontend_security %}
+                    {% if "passport" in provider %}
+                    <form action="{% url 'tt_website_rodextrip:passport_search'%}" class="form-wrap" id="passport_searchForm" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="g-recaptcha-response" id='recaptcha_tour'>
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Passport Type' %}</span>
+                                <div class="input-container-search-ticket">
+                                    <div class="form-select">
+                                        <select class="form-control js-example-basic-single" style="width:100%;" id="passport_type_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('passport_type')">
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="passport_type" id="passport_type" />
+                            </div>
+                            <div class="col-lg-4">
+                                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Apply Type' %}</span>
+                                <div class="input-container-search-ticket">
+                                    <div class="form-select">
+                                        <select class="form-control js-example-basic-single" style="width:100%;" id="passport_apply_type_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('passport_apply_type')">
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="passport_apply_type" id="passport_apply_type" />
+                            </div>
+                            <div class="col-lg-4">
+                                <span class="span-search-ticket"><i class="fas fa-city"></i> {% trans 'Consulate' %}</span>
+                                <div class="input-container-search-ticket">
+                                    <div class="form-select">
+                                        <select class="form-control js-example-basic-single" style="width:100%;" id="consulate_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('consulate')">
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="consulate" id="consulate" />
+                            </div>
+                        </div>
+                        <br/>
+                        <button class="button-search primary-btn ld-ext-right" style="float:right;" type="button" onclick="get_captcha('recaptcha_passport','passport');" value="Submit">
+                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                            {% trans 'Search' %}
+                            <div class="ld ld-ring ld-cycle"></div>
+                        </button>
+                    </form>
+                    {% endif %}
+                    {% endif %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    <div class="modal fade" id="myModalAnotherProduct" role="dialog" data-keyboard="false">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Our Product' %}</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="featured-left text-center row">
+                        {% for rec in provider_types_sequence %}
+                        {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security and rec.name == "airline" %}
+                        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3 mb-3">
+                            <a href="/{{rec.name}}">
+                                <div class="div_cst">
+                                     <img style="width:auto; height:40px" src="{{static_path}}images/icon/airlines_black.png" alt="Airline Icon"/>
+                                     <h6 class="hover_cst">{% trans 'AIRLINE' %}</h6>
+                                </div>
+                            </a>
+                        </div>
+                        {% elif "hotel" in provider and "ticketing_hotel" in username.co_agent_frontend_security and rec.name == "hotel" %}
+                        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3 mb-3">
+                            <a href="/{{rec.name}}">
+                                <div class="div_cst">
+                                    <img style="width:auto; height:40px" src="{{static_path}}images/icon/hotel_black.png" alt="Hotel Icon"/>
+                                    <h6 class="hover_cst">HOTEL</h6>
+                                </div>
+                            </a>
+                        </div>
+                        {% elif "ppob" in provider and "ticketing_ppob" in username.co_agent_frontend_security and rec.name == "ppob" %}
+                        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3 mb-3">
+                            <a href="/{{rec.name}}">
+                                <div class="div_cst">
+                                    <img style="width:auto; height:40px" src="{{static_path}}images/icon/ppob_black.png" alt="PPOB Icon"/>
+                                    <h6 class="hover_cst" style="font-size:14px;">{% trans 'BILLS & TOP UP' %}</h6>
+                                </div>
+                            </a>
+                        </div>
+                        {% elif "tour" in provider and "ticketing_tour" in username.co_agent_frontend_security and rec.name == "tour" %}
+                        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3 mb-3">
+                            <a href="/{{rec.name}}">
+                                <div class="div_cst">
+                                    <img style="width:auto; height:40px" src="{{static_path}}images/icon/tour_black.png" alt="Tour Icon"/>
+                                    <h6 class="hover_cst">{% trans 'TOUR' %}</h6>
+                                </div>
+                            </a>
+                        </div>
+                        {% elif "event" in provider and "ticketing_event" in username.co_agent_frontend_security and rec.name == "event" %}
+                        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3 mb-3">
+                            <a href="/{{rec.name}}">
+                                <div class="div_cst">
+                                    <img style="width:auto; height:40px" src="{{static_path}}images/icon/event_black.png" alt="Event Icon"/>
+                                    <h6 class="hover_cst">{% trans 'EVENT' %}</h6>
+                                </div>
+                            </a>
+                        </div>
+                        {% elif "train" in provider and "ticketing_train" in username.co_agent_frontend_security and rec.name == "train" %}
+                        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3 mb-3">
+                            <a href="/{{rec.name}}">
+                                <div class="div_cst">
+                                    <img style="width:auto; height:40px" src="{{static_path}}images/icon/train_black.png" alt="Train Icon"/>
+                                    <h6 class="hover_cst">{% trans 'TRAIN' %}</h6>
+                                </div>
+                            </a>
+                        </div>
+                        {% elif "activity" in provider and "ticketing_activity" in username.co_agent_frontend_security and rec.name == "activity" %}
+                        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3 mb-3">
+                            <a href="/{{rec.name}}">
+                                <div class="div_cst">
+                                    <img style="width:auto; height:40px" src="{{static_path}}images/icon/activity_black.png" alt="Event Icon"/>
+                                    <h6 class="hover_cst">{% trans 'ACTIVITY' %}</h6>
+                                </div>
+                            </a>
+                        </div>
+                        {% elif "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_passport" in username.co_agent_frontend_security and rec.name == "passport" %}
+                        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3 mb-3">
+                            <a href="/{{rec.name}}">
+                                <div class="div_cst">
+                                    <img style="width:auto; height:40px" src="{{static_path}}images/icon/passport_black.png" alt="Event Icon"/>
+                                    <h6 class="hover_cst">{% trans 'PASSPORT' %}</h6>
+                                </div>
+                            </a>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="small_banner" style="padding: 0px 0px 15px 0px;">
+
+    </div>
+    <div class="title text-center" id="dynamic_page">
+
+    </div>
+    <br/>
+    <div class="owl-carousel-login owl-theme form-box-login">
+        <div id="owl-login2" style="padding: 0px 0px 15px 0px;">
+
+        </div>
+    </div>
+
     {%endif%}
 
     <div id="promotion">
@@ -2136,11 +2331,9 @@
     {%endif%}
     //bank_get_balance();
     //get_transaction();
-    //get_banner('big_banner','home');
+    get_banner('big_banner','passport');
     get_banner('small_banner','passport');
-    {% if website_mode == 'btc' or website_mode == 'btc_btb' %}
     ///get_dynamic_page('home');
-    {% endif %}
     //get_banner('promotion','home');
 </script>
 

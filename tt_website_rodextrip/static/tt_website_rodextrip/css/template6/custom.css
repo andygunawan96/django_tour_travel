@@ -1313,20 +1313,20 @@ div.scrollmenu li {
 
 
 #myBtnBTP {
-  display: none;
-  position: fixed;
-  bottom: 55px;
-  left: 0px;
-  z-index: 999;
-  font-size: 20px;
-  border: 1px solid #cdcdcd;
-  outline: none;
-  background-color: #f15a22;
-  color: white;
-  cursor: pointer;
-  height:55px;
-  width:55px;
-  /*border-radius: 28px;*/
+    display: none;
+    position: fixed;
+    bottom: 60px;
+    left: 15px;
+    z-index: 999;
+    font-size: 20px;
+    border: 1px solid #cdcdcd;
+    outline: none;
+    background-color: #f15a22;
+    color: white;
+    cursor: pointer;
+    height: 50px;
+    width: 50px;
+    border-radius: 28px;
 }
 
 #myBtnBTP:hover {
@@ -3670,4 +3670,54 @@ ul.progress_tabs li.current .image-rounded-icon{
 .progress_flex{
     display:flex;
     padding-top:5px;
+}
+
+
+.menu li{
+    list-style-type:unset;
+}
+
+
+small {
+  font-size: 80%;
+}
+
+small,
+.small {
+  font-size: 80%;
+  font-weight: 400;
+}
+
+.tags_btn{
+    padding:3px 7px;
+    font-size:12px;
+    margin-right:5px;
+    color: #f15a22;
+    background: white;
+    border: 1px solid #cdcdcd;
+    border-radius:3px;
+    cursor:pointer;
+    line-height:26px;
+}
+
+.tags_btn:hover{
+    background: #f15a22;
+    color:white;
+}
+
+.tags_btn_rsv{
+    padding:0px 5px;
+    font-size:13px;
+    margin-right:5px;
+    color: #f15a22;
+    background: white;
+    border: 1px solid #cdcdcd;
+    border-radius:3px;
+    cursor:pointer;
+    line-height:26px;
+}
+
+.tags_btn_rsv:hover{
+    background: #f15a22;
+    color:white;
 }

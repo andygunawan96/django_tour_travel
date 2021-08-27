@@ -307,6 +307,9 @@ function medical_get_availability(){
                                 tes = moment.utc(j + ' '+ msg[i].timeslots[j][k].time).format('YYYY-MM-DD HH:mm:ss')
                                 localTime  = moment.utc(tes).toDate();
                                 msg[i].timeslots[j][k].time = moment(localTime).format('HH:mm');
+                                tes = moment.utc(j + ' '+ msg[i].timeslots[j][k].time_end).format('YYYY-MM-DD HH:mm:ss')
+                                localTime  = moment.utc(tes).toDate();
+                                msg[i].timeslots[j][k].time_end = moment(localTime).format('HH:mm');
                             }
                         }
                     }
