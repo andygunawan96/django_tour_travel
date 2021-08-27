@@ -416,6 +416,10 @@ Licence URI: http://www.os-templates.com/template-terms
         }
     </style>
     <style>
+
+        .sticky-event-active{
+            background: {{color}};
+        }
         .forgot-pass-login{
             color:{{text_color}};
             font-size:15px;
@@ -956,7 +960,7 @@ Licence URI: http://www.os-templates.com/template-terms
             background-color: {{color}};
             color: white;
             height: 32px;
-            width: 160px;
+            width: 180px;
             border: 1px solid transparent;
             border-radius: 3px;
             cursor: pointer;
@@ -978,7 +982,7 @@ Licence URI: http://www.os-templates.com/template-terms
             background-color: {{color}};
             color: white;
             height: 32px;
-            width: 160px;
+            width: 180px;
             border: 1px solid transparent;
             border-radius: 3px;
             cursor: pointer;
@@ -1688,6 +1692,18 @@ Licence URI: http://www.os-templates.com/template-terms
             opacity:0.8;
         }
         {% elif template == 5 %}
+        .owl-theme .owl-nav [class*=owl-]{
+            color: {{color}} !important;
+        }
+        .owl-theme .owl-nav [class*=owl-]:hover{
+            background: {{color}} !important;
+            color: white !important;
+            opacity: 1;
+        }
+        .owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots .owl-dot:hover span{
+            background: {{color}} !important;
+        }
+
         #mobile-nav .sign_up_login{
             color:white;
         }
@@ -1700,6 +1716,14 @@ Licence URI: http://www.os-templates.com/template-terms
         .btn-txt-color{
             color: {{text_color}};
         }
+        #myBtnBTP {
+            background-color: {{color}};
+        }
+        #myBtnBTP:hover {
+            background-color: {{color}};
+            opacity: 0.9;
+        }
+
         .image-rounded-icon{
             background: {{color}};
         }
@@ -1758,6 +1782,9 @@ Licence URI: http://www.os-templates.com/template-terms
         }
 
         {% elif template == 6 %}
+        ul.create_tabs li:hover{
+            color: {{color}} !important;
+        }
         nav a{
             color:{{text_color}};
         }

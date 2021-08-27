@@ -1277,13 +1277,14 @@ function check_on_off_radio(pax_type,number,value){
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"><h6>Document</h6><br/></div>
                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><h6>Original</h6><br/></div>
                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><h6>Copy</h6><br/></div>`;
-                for(j in visa.list_of_visa[i].requirements){
+                if(visa.list_of_visa[i].requirements.length != 0){
+                    for(j in visa.list_of_visa[i].requirements){
 //                    if(visa.list_of_visa[i].requirements[j].required == true){
                         if(template == 1){
                             text_requirements += `<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">`;
                         }else if(template == 2 || template == 3){
                             text_requirements += `<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-bottom:15px;">`;
-                        }else if(template == 4 || template == 5){
+                        }else if(template == 4 || template == 5 || template == 6){
                             text_requirements += `<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-bottom:20px;">`;
                         }
                         text_requirements += `
@@ -1310,6 +1311,9 @@ function check_on_off_radio(pax_type,number,value){
                             </label>
                         </div>`;
 //                    }
+                }
+                }else{
+                    text_requirements+=`<div class="col-lg-12" style="text-align:center;"><h6>Sorry, No Document Needed</h6><br/></div>`;
                 }
                 text_requirements+=`</div>`;
 

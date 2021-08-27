@@ -1906,7 +1906,7 @@ function activity_filter_render(){
     }else if(template == 3){
         text+=`
         <div class="header-right" style="background:unset; border:unset;">`;
-    }else if(template == 4 || template == 5){
+    }else if(template == 4 || template == 5 || template == 6){
         text+=`
         <div>`;
     }
@@ -2289,7 +2289,7 @@ function sort(activity_dat, check){
                                 }else{
                                     text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+activity_dat[i].sequence+`')">`;
                                 }
-                                if(template != 5){
+                                if(template != 5 && template != 6){
                                     text+=`<div class="overlay overlay-bg"></div>`;
                                 }
                                 text+=`

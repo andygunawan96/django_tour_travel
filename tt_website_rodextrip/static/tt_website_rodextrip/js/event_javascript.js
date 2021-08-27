@@ -341,7 +341,8 @@ function sort(response, check_filter){
                         </form>
                     </div>
                 </div>`;
-               }else{
+               }
+               else{
                     if(template == 5){
                         text+=`<div class="single-post-area activity_box" style="margin-bottom:15px; cursor:pointer; border:1px solid #cdcdcd; transform:unset; -webkit-transform:unset;">`;
                     }else{
@@ -358,7 +359,7 @@ function sort(response, check_filter){
                             text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('/static/tt_website_rodextrip/images/no pic/no-event.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="goto_detail('event',`+i+`)">`;
                         }
 
-                        if(template != 5){
+                        if(template != 5 && template != 6){
                             text+=`<div class="overlay overlay-bg"></div>`;
                         }
                         text+=`
@@ -577,7 +578,8 @@ function sort(response, check_filter){
                             </form>
                         </div>
                     </div>`;
-                   }else{
+                   }
+                   else{
                         if(template == 5){
                             text+=`<div class="single-post-area activity_box" style="margin-bottom:15px; cursor:pointer; border:1px solid #cdcdcd; transform:unset; -webkit-transform:unset;">`;
                         }else{
@@ -591,6 +593,7 @@ function sort(response, check_filter){
 
                         <div class="single-destination avail-sd relative" style="margin-bottom:unset;">
                             <form id="event`+i+`" action="/event/detail" method="POST">`;
+
                             if(response[i].images.length != 0){
                                 text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('`+response[i].images[0].url+`'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="goto_detail('event',`+i+`)">`;
                             }
@@ -598,9 +601,10 @@ function sort(response, check_filter){
                                 text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('/static/tt_website_rodextrip/images/no pic/no-event.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="goto_detail('event',`+i+`)">`;
                             }
 
-                            if(template != 5){
+                            if(template != 5 && template != 6){
                                 text+=`<div class="overlay overlay-bg"></div>`;
                             }
+
                             text+=`
                             </div>
                             <div class="card card-effect-promotion" style="border:unset;">

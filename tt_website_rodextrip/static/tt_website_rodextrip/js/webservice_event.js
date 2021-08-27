@@ -163,6 +163,7 @@ function event_get_booking(data){
                 if(msg.result.error_code == 0){
                     document.getElementById('button-home').hidden = false;
                     document.getElementById('button-new-reservation').hidden = false;
+                    document.getElementById('show_loading_booking_airline').style.display = 'none';
                     hide_modal_waiting_transaction();
                     tes = moment.utc(msg.result.response.hold_date).format('YYYY-MM-DD HH:mm:ss')
                     localTime  = moment.utc(tes).toDate();
@@ -1083,8 +1084,15 @@ function event_options(id){
                                 text+=`
                                     <button type="button" class="btn-custom-circle" id="left-minus-event-`+i+`" data-type="minus" data-field="" disabled onclick="reduce_option(`+i+`);">
                                         <i class="fas fa-minus"></i>
-                                    </button>
-                                    <input type="text" class="form-control" style="padding:5px !important; background:none; text-align:center; width:30px; height:30px !important;" id="option_qty_`+i+`" name="option_qty_`+i+`" value="0" min="0" readonly>
+                                    </button>`;
+
+                                    if(template == 6){
+                                        text+=`<input type="text" class="form-control" style="padding:5px !important; background:none; text-align:center; width:40px; height:43px !important;" id="option_qty_`+i+`" name="option_qty_`+i+`" value="0" min="0" readonly>`;
+                                    }else{
+                                        text+=`<input type="text" class="form-control" style="padding:5px !important; background:none; text-align:center; width:30px; height:30px !important;" id="option_qty_`+i+`" name="option_qty_`+i+`" value="0" min="0" readonly>`;
+                                    }
+
+                                    text+=`
                                     <button type="button" class="btn-custom-circle" id="right-plus-event-`+i+`" data-type="plus" data-field="" onclick="add_option(`+i+`);">
                                         <i class="fas fa-plus"></i>
                                     </button>
