@@ -270,12 +270,13 @@ function get_area_global(){
 }
 
 function print_timeslot(i,medical_date_pick){
-    text_timeslot = '';
+    text_timeslot = '<option ';
     if(medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].availability == false){
-        text_timeslot+= `<option disabled value="`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].seq_id+`~`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].time+`">`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].time+` - `+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].time_end;
-    }else{
-        text_timeslot+= `<option value="`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].seq_id+`~`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].time+`">`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].time+` - `+ medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].time_end;
+        text_timeslot+= `disabled `;
     }
+    text_timeslot+= `value="`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].seq_id+`~`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].time+`">`+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].time;
+    if(medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].hasOwnProperty('time_end'))
+        text_timeslot += ` - `+medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].time_end;
     if(medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].group_booking == true)
         text_timeslot+= ` Group Booking`;
     if(medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].availability == false)
