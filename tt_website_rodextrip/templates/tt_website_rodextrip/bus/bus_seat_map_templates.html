@@ -1,0 +1,215 @@
+{% extends 'tt_website_rodextrip/template_website_booking.html' %}
+{% load i18n %}
+{% load static from staticfiles %}
+{% block content %}
+<!--<script src="{{ static_path }}js/webservice_token.js"></script>-->
+<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/bus_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/style.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_bus.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template1/jquery.nice-select.min.js?version={{javascript_version}}"></script>
+<script>
+    static_path_url_server = '{{static_path_url_server}}'
+    var slideIndex = [1,1];
+    var slideId = ["mySlides1", "mySlides2"];
+    signature = `{{signature}}`;
+    order_number = '{{order_number}}';
+    seat_map_pick = '';
+    pax_click = '';
+    pax = [];
+    seat_map_response = [];
+    {% for pax in paxs %}
+        pax.push({
+            name: `{{pax.name}}`,
+            seat: [],
+            seat_pick: []
+        })
+        {% for seat in pax.seat_list%}
+            pax[pax.length-1].seat.push({
+                'wagon': '{{seat.seat}}'.split(',')[0],
+                'seat': parseInt('{{seat.seat}}'.split(',')[1]),
+                'column': '{{seat.seat}}',
+                'seat_code': '{{seat.seat_code}}'
+            });
+            pax[pax.length-1].seat_pick.push({
+                'wagon': '{{seat.seat}}'.split(',')[0],
+                'seat': parseInt('{{seat.seat}}'.split(',')[1]),
+                'column': '{{seat.seat}}',
+                'seat_code': '{{seat.seat_code}}'
+            });
+        {% endfor %}
+    {% endfor %}
+</script>
+<style>
+* {box-sizing: border-box}
+.mySlides1, .mySlides2 {display: none}
+img {vertical-align: middle;}
+
+/* Slideshow container */
+.slideshow-container {
+  max-width: 1000px;
+  position: relative;
+  margin: auto;
+}
+
+/* Next & previous buttons */
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  padding: 16px;
+  margin-top: -22px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a grey background color */
+.prev:hover, .next:hover {
+  background-color: #f1f1f1;
+  color: black;
+}
+</style>
+{% include 'tt_website_rodextrip/header.html' %}
+{% include 'tt_website_rodextrip/logout.html' %}
+{% include 'tt_website_rodextrip/check_connection.html' %}
+<title id="title_search">{{name}} {% trans 'Bus' %} - {% trans 'Seat Map' %}</title>
+<section class="destinations-area" style="background:#f7f7f7;">
+    <div class="container">
+        <div class="row" style="padding:30px 0px 30px 0px;">
+            <div class="col-lg-12">
+                <form method="POST" id="bus_booking" action="">
+                    {% csrf_token %}
+                    <div class="row">
+                        <input type="text" id="order_number" name="order_number" hidden value="{{order_number}}"/>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="row" style="position:sticky; top:15px; z-index:10;">
+                                <div class="col-lg-12">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div style="width:100%;text-align:center;">
+                                                <h5>{% trans 'Select Passenger' %}</h5><br/>
+                                            </div>
+                                            {% for pax in paxs%}
+                                            <input class="button-seat-pass" type="button" id="passenger{{forloop.counter}}" style="width:100%;background-color:white;padding:10px;text-align:center;margin-bottom:10px;color:black;" onclick="select_passenger({{forloop.counter}});" value="{{forloop.counter}} {{pax.name}}">
+                                            {% endfor %}
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div style="width:100%;text-align:center;">
+                                                <h5>{% trans 'Select Journey' %}</h5><br/>
+                                            </div>
+                                            {% for pax in paxs%}
+                                            {% if forloop.counter == 1 %}
+                                            {% for seat in pax.seat_list%}
+                                            <button class="button-seat-pass" type="button" id="journey{{forloop.counter}}" style="width:100%;background-color:white;padding:10px;text-align:center;margin-bottom:10px;color:black;" onclick="select_journey({{forloop.counter}});">
+                                                {{seat.origin}} - {{seat.destination}} <span id="seat_journey{{forloop.counter}}"></span>
+                                            </button>
+                                            {% endfor %}
+                                            {% endif%}
+                                            {% endfor %}
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <button class="primary-btn-cancel change-seat-train-buttons" style="width:100%;padding:5px;text-align:center; margin-bottom:10px; margin-top:10px; border-radius:7px;" type="button" onclick="document.getElementById('bus_booking').submit();" value="Submit Seat">
+                                                {% trans 'Cancel All Change Seat' %}
+                                            </button>
+                                            <button class="primary-btn-ticket submit-seat-train change-seat-train-buttons ld-ext-right" style="width:100%;padding:5px;text-align:center; margin-bottom:30px; margin-top:10px; border-radius:7px;" type="button" onclick="bus_create_booking(0);" value="Submit Seat">
+                                                {% trans 'Submit Seat' %}
+                                                <div class="ld ld-ring ld-cycle"></div>
+                                            </button>
+                                        </div>
+
+                                        <!--                            <input class="primary-btn-ticket" type="button" style="width:100%;padding:5px;text-align:center; margin-bottom:30px; margin-top:10px; border-radius:7px;" onclick="train_manual_seat();" value="Submit Seat">-->
+
+                                        <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
+                                            <div style="text-align:center">
+                                                <span class="button-seat-map2" style="background-color:{{color}}"></span>
+                                                <br/>
+                                                <h6>{% trans 'Selected' %}</h6>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
+                                            <div style="text-align:center">
+                                                <span class="button-seat-map2" style="background-color:#656565"></span>
+                                                <br/>
+                                                <h6>{% trans 'Not Available' %}</h6>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
+                                            <div style="text-align:center">
+                                                <span class="button-seat-map2" style="background-color:#CACACA"></span>
+                                                <br/>
+                                                <h6>{% trans 'Available' %}</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-8">
+                            <div class="row" id="loading-search-train">
+                                <div class="col-lg-12">
+                                    <div class="sk-circle">
+                                        <div class="sk-circle1 sk-child"></div>
+                                        <div class="sk-circle2 sk-child"></div>
+                                        <div class="sk-circle3 sk-child"></div>
+                                        <div class="sk-circle4 sk-child"></div>
+                                        <div class="sk-circle5 sk-child"></div>
+                                        <div class="sk-circle6 sk-child"></div>
+                                        <div class="sk-circle7 sk-child"></div>
+                                        <div class="sk-circle8 sk-child"></div>
+                                        <div class="sk-circle9 sk-child"></div>
+                                        <div class="sk-circle10 sk-child"></div>
+                                        <div class="sk-circle11 sk-child"></div>
+                                        <div class="sk-circle12 sk-child"></div>
+                                    </div>
+                                    <div style="text-align:center"><h6>{% trans 'PLEASE WAIT' %}</h6></div>
+                                </div>
+                            </div>
+                            <div id="bus_seat_map">
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <form method="POST" id="bus_issued" action="{% url 'tt_website_rodextrip:payment'%}">
+                    {% csrf_token %}
+                    <input type="hidden" id="passengers" name="passengers"/>
+                    <input type="hidden" id="signature" name="signature"/>
+                    <input type="hidden" id="order_number2" name="order_number"/>  <!-- nama kembar sama yg get booking biar py tidak ubah ganti id saja-->
+                    <input type="hidden" id="provider" name="provider"/>
+                    <input type="hidden" id="discount" name="discount"/>
+                    <input type="hidden" id="voucher_code" name="voucher_code"/>
+                    <input type="hidden" id="type" name="type"/>
+                    <input type="hidden" id="session_time_input" name="session_time_input"/>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% include 'tt_website_rodextrip/footer.html' %}
+<script>
+
+    document.getElementById('bus_booking').action = '/bus/booking/' + btoa(order_number);
+    select_passenger(1);
+    select_journey(1);
+    get_seat_map_cache();
+</script>
+
+{% endblock %}
+
