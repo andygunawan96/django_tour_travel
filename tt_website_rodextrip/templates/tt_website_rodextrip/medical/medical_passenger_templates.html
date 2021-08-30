@@ -31,6 +31,7 @@
     total_passengers_rebooking = {{total_passengers_rebooking}};
     global_zip_code = '';
     global_area = '';
+    set_default_data = true;
 </script>
 
 <script type="text/javascript">
@@ -3428,11 +3429,14 @@
                 });
             }
         }else if(type == 'auto_marker'){
-            marker = new google.maps.Marker({
-                position: {"lat": list_map_choose.lat,"lng": list_map_choose.long},
-                map,
-                title: "Hello World!",
-            });
+            if(set_default_data){
+                marker = new google.maps.Marker({
+                    position: {"lat": list_map_choose.lat,"lng": list_map_choose.long},
+                    map,
+                    title: "Hello World!",
+                });
+                set_default_data = false;
+            }
         }else{
             if(list_map.length < 4 || type == 'change_area_display'){
                 if(vendor == 'periksain' || vendor == 'phc' && test_type.includes('PHCHC') || vendor == 'phc' && test_type.includes('PHCHC')){
