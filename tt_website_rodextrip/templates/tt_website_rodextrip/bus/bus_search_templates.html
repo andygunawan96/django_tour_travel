@@ -5,10 +5,10 @@
 <!--<script src="{{ static_path }}js/webservice_token.js"></script>-->
 <!--<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>-->
 <script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/train_javascript.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/webservice_train.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_bus.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/train_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/bus_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/daterangepicker.js?version={{javascript_version}}"></script>
 <script>
     static_path_url_server = '{{static_path_url_server}}'
@@ -17,47 +17,46 @@
         'arrival_time': 'all',
         'cabin_class': 'all'
     };
-    train_request = `{{train_request}}`;
-    train_request = JSON.parse(train_request.replace(/&#39;/g, '"'));
-    train_request_pick = 0;
-    console.log(train_request);
+    bus_request = `{{bus_request}}`;
+    bus_request = JSON.parse(bus_request.replace(/&#39;/g, '"'));
+    bus_request_pick = 0;
+    console.log(bus_request);
     time_limit = {{time_limit}};
     session_time_limit();
     signature = `{{signature}}`;
     sorting_value = '';
-    get_train_config('home');
+    get_bus_config();
     passengers = {
-        'adult': {{train_request.adult}},
-        'infant': {{train_request.infant}}
+        'adult': {{bus_request.adult}},
     }
 </script>
 {% include 'tt_website_rodextrip/header.html' %}
 {% include 'tt_website_rodextrip/plugin_passenger.html' %}
 {% include 'tt_website_rodextrip/logout.html' %}
 <div id="overlay-search-box" onclick="off_overlay()"></div>
-{%if train_request.direction == 'OW'%}
-<title id="title_search">{{name}} {% trans 'Train' %} - {% trans 'One Way' %} {% trans 'From' %} {{train_request.origin.0}} {% trans 'To' %} {{train_request.destination.0}}</title>
+{%if bus_request.direction == 'OW'%}
+<title id="title_search">{{name}} {% trans 'Bus' %} - {% trans 'One Way' %} {% trans 'From' %} {{bus_request.origin.0}} {% trans 'To' %} {{bus_request.destination.0}}</title>
 {% endif %}
 
-{%if train_request.direction == 'RT'%}
-<title id="title_search">{{name}} {% trans 'Train' %} - {% trans 'Round Trip' %} {% trans 'From' %} {{train_request.origin.0}} {% trans 'To' %} {{train_request.destination.0}}</title>
+{%if bus_request.direction == 'RT'%}
+<title id="title_search">{{name}} {% trans 'Bus' %} - {% trans 'Round Trip' %} {% trans 'From' %} {{bus_request.origin.0}} {% trans 'To' %} {{bus_request.destination.0}}</title>
 {% endif %}
 
 {%if template == 1%}
 <section class="destinations-area change_search_area" style="padding:15px 0px 15px 0px; background:white; border-bottom:1px solid #cdcdcd; position:sticky; top:0px; z-index:7;">
-    <div class="container" id="train_search_params">
+    <div class="container" id="bus_search_params">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
                 <div class="row">
                     <div class="col-lg-12">
                         <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                            <span style="text-transform: capitalize; font-size:12px;"> <span class="copy_span">{% if train_request.direction == 'OW' %} {% trans 'One Way' %} {% elif train_request.direction == 'RT' %} {% trans 'Round Trip' %} {% endif %}</span> - </span>
-                            <span style="text-transform: capitalize; font-size:12px;" title="{{train_request.origin}} > {{train_request.destination}}"><span class="copy_span">{{train_request.origin.0}}</span> {% if train_request.direction == 'OW' %} <i class="fas fa-arrow-right"></i> {% elif train_request.direction == 'RT' %} <i class="fas fa-arrows-alt-h"></i> {%endif%}<span class="copy_span">{{train_request.destination.0}}</span></span>
+                            <span style="text-transform: capitalize; font-size:12px;"> <span class="copy_span">{% if bus_request.direction == 'OW' %} {% trans 'One Way' %} {% elif bus_request.direction == 'RT' %} {% trans 'Round Trip' %} {% endif %}</span> - </span>
+                            <span style="text-transform: capitalize; font-size:12px;" title="{{bus_request.origin}} > {{bus_request.destination}}"><span class="copy_span">{{bus_request.origin.0}}</span> {% if bus_request.direction == 'OW' %} <i class="fas fa-arrow-right"></i> {% elif bus_request.direction == 'RT' %} <i class="fas fa-arrows-alt-h"></i> {%endif%}<span class="copy_span">{{bus_request.destination.0}}</span></span>
                         </div>
                     </div>
-                    <div class="col-lg-12" id="date_train">
-                        <span class="copy_span" style="text-transform: capitalize; font-size:13px;">{{train_request.departure.0}} {% if train_request.departure|length > 1%} - {{train_request.departure.1}} {% endif%} </span>
-                        <span style="text-transform: capitalize; font-size:12px; margin-left:5px;"><i class="fas fa-users"></i> <span class="copy_span">{% if train_request.adult != 0 %} {{train_request.adult}} {% trans 'Adult' %} {% endif %} {% if train_request.infant != 0 %}, {{train_request.infant}} {% trans 'Infant' %} {% endif %}</span></span>
+                    <div class="col-lg-12" id="date_bus">
+                        <span class="copy_span" style="text-transform: capitalize; font-size:13px;">{{bus_request.departure.0}} {% if bus_request.departure|length > 1%} - {{bus_request.departure.1}} {% endif%} </span>
+                        <span style="text-transform: capitalize; font-size:12px; margin-left:5px;"><i class="fas fa-users"></i> <span class="copy_span">{% if bus_request.adult != 0 %} {{bus_request.adult}} {% trans 'Adult' %} {% endif %} {% if bus_request.infant != 0 %}, {{bus_request.infant}} {% trans 'Infant' %} {% endif %}</span></span>
                     </div>
                 </div>
             </div>
@@ -77,18 +76,18 @@
         <div class="row">
             <div class="col-lg-12" style="padding:0;">
                 <div class="banner-right">
-                    <form action="{% url 'tt_website_rodextrip:train_search'%}" method="POST" class="form-wrap" id="train_searchForm" onsubmit="return search_train_validation()">
+                    <form action="{% url 'tt_website_rodextrip:bus_search'%}" method="POST" class="form-wrap" id="bus_searchForm" onsubmit="return search_bus_validation()">
                         {% csrf_token %}
                         <div class="row">
-                            <div class="col-lg-12" id="radio_train_search" style="padding:0px; text-align:left;margin-bottom:10px;">
+                            <div class="col-lg-12" id="radio_bus_search" style="padding:0px; text-align:left;margin-bottom:10px;">
                                 <label class="radio-button-custom" style="margin-bottom:0px;">
                                     <span style="font-size:13px; color:{{text_color}};">{% trans 'One Way' %}</span>
-                                    <input type="radio" {% if train_request.direction == 'OW' %}checked="checked" {% endif %} name="radio_train_type" value="oneway">
+                                    <input type="radio" {% if bus_request.direction == 'OW' %}checked="checked" {% endif %} name="radio_bus_type" value="oneway">
                                     <span class="checkmark-radio"></span>
                                 </label>
                                 <label class="radio-button-custom" style="margin-bottom:0px;">
                                     <span style="font-size:13px; color:{{text_color}};">{% trans 'Round Trip' %}</span>
-                                    <input type="radio" {% if train_request.direction == 'RT' %}checked="checked" {% endif %} name="radio_train_type" value="roundtrip">
+                                    <input type="radio" {% if bus_request.direction == 'RT' %}checked="checked" {% endif %} name="radio_bus_type" value="roundtrip">
                                     <span class="checkmark-radio"></span>
                                 </label>
                             </div>
@@ -97,34 +96,34 @@
                                     <div class="col-lg-6 col-md-6 col-sm-6 train-from" style="padding-left:0px;">
                                         <span class="span-search-ticket"><i class="fas fa-train"></i> {% trans 'From' %}</span>
                                         <div class="input-container-search-ticket">
-                                            <input id="train_origin" name="train_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('train_origin').select();" onclick="set_train_search_value_to_false();" value="{{train_request.origin}}">
+                                            <input id="bus_origin" name="bus_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_origin').select();" onclick="set_bus_search_value_to_false();" value="{{bus_request.origin}}">
                                         </div>
                                     </div>
                                     <div class="image-change-route-vertical2">
-                                        <h4><a href="javascript:train_switch();" style="z-index:5;" id="train_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                        <h4><a href="javascript:bus_switch();" style="z-index:5;" id="bus_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
                                     </div>
                                     <div class="image-change-route-horizontal2">
-                                        <h4><a class="horizontal-arrow" href="javascript:train_switch();" style="z-index:5; color:{{text_color}} !important;" id="train_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                        <h4><a class="horizontal-arrow" href="javascript:bus_switch();" style="z-index:5; color:{{text_color}} !important;" id="bus_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></h4>
                                     </div>
 
                                     <div class="col-lg-6 col-md-6 col-sm-6 train-to" style="z-index:5; padding-right:0px;">
                                         <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> {% trans 'To' %}</span>
                                         <div class="input-container-search-ticket">
-                                            <input id="train_destination" name="train_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('train_destination').select();" onclick="set_train_search_value_to_false();" value="{{train_request.destination}}">
+                                            <input id="bus_destination" name="bus_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_destination').select();" onclick="set_bus_search_value_to_false();" value="{{bus_request.destination}}">
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-md-6 col-sm-6" style="padding:0px;" id="train_date_search">
+                            <div class="col-lg-3 col-md-6 col-sm-6" style="padding:0px;" id="bus_date_search">
                                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure' %}</span>
                                 <div class="input-container-search-ticket">
-                                    <input type="text" class="form-control" id="train_departure" name="train_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly value=""/>
+                                    <input type="text" class="form-control" id="bus_departure" name="bus_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly value=""/>
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-6 col-sm-6" style="padding:0px;">
                                 <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
                                 <div class="input-container-search-ticket btn-group">
-                                    <button id="show_total_pax_train" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
+                                    <button id="show_total_pax_bus" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
                                     <ul class="dropdown-menu" role="menu">
                                         <div class="row" style="padding:10px;">
                                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
@@ -177,9 +176,9 @@
                         </div>
                         <br/>
 
-                        <input type="hidden" id="train_response" name="response"/>
+                        <input type="hidden" id="bus_response" name="response"/>
 
-                        <button class="primary-btn ld-ext-right" id="btn-search-train" type="button" onclick="train_check_search_values();" value="Submit">
+                        <button class="primary-btn ld-ext-right" id="btn-search-bus" type="button" onclick="bus_check_search_values();" value="Submit">
                             <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                             {% trans 'Search' %}
                             <div class="ld ld-ring ld-cycle"></div>
@@ -1281,249 +1280,6 @@
         </div>
     </div>
 </section>
-{% elif template == 6 %}
-<section class="destinations-area change_search_area" style="padding:15px 0px 5px 0px; background:white; border-bottom:1px solid #cdcdcd; position:sticky; top:0px; z-index:98;">
-    <div class="container" id="train_search_params">
-        <div class="row">
-            <div class="col-lg-6 col-md-6" style="text-align:left;">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                            <span style="text-transform: capitalize; font-size:12px;"> <span class="copy_span">{% if train_request.direction == 'OW' %} {% trans 'One Way' %} {% elif train_request.direction == 'RT' %} {% trans 'Round Trip' %} {% endif %}</span> - </span>
-                            <span style="text-transform: capitalize; font-size:12px;" title="{{train_request.origin}} > {{train_request.destination}}"><span class="copy_span">{{train_request.origin.0}}</span> {% if train_request.direction == 'OW' %} <i class="fas fa-arrow-right"></i> {% elif train_request.direction == 'RT' %} <i class="fas fa-arrows-alt-h"></i> {%endif%}<span class="copy_span">{{train_request.destination.0}}</span></span>
-                        </div>
-                    </div>
-                    <div class="col-lg-12" id="date_train">
-                        <span class="copy_span" style="text-transform: capitalize; font-size:13px;">{{train_request.departure.0}} {% if train_request.departure|length > 1%} - {{train_request.departure.1}} {% endif%} </span>
-                        <span style="text-transform: capitalize; font-size:12px; margin-left:5px;"><i class="fas fa-users"></i> <span class="copy_span">{% if train_request.adult != 0 %} {{train_request.adult}} {% trans 'Adult' %} {% endif %} {% if train_request.infant != 0 %}, {{train_request.infant}} {% trans 'Infant' %} {% endif %}</span></span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-6 col-md-6" style="text-align:right;">
-                <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
-                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                    <span id="change_search_text">{% trans 'Change Search' %}</span>
-                </button>
-            </div>
-        </div>
-    </div>
-</section>
-<section class="price-area" id="change_search_box" style="min-height:150px;padding-top:15px; padding-bottom:15px; background-image: url('{{background}}'); z-index:97; position:relative; display:none;">    <div class="container" id="div-search-overlay">
-        <div class="row">
-            <div class="col-lg-12">
-                <form action="{% url 'tt_website_rodextrip:train_search'%}" method="POST" class="form-wrap" id="train_searchForm" onsubmit="return search_train_validation()">
-                    {% csrf_token %}
-                    <div class="row">
-                        <div class="col-lg-12" id="radio_train_search" style="text-align:left;margin-bottom:10px;">
-                            <label class="radio-button-custom" style="margin-bottom:0px;">
-                                <span style="font-size:13px; color:{{text_color}};">{% trans 'One Way' %}</span>
-                                <input type="radio" {% if train_request.direction == 'OW' %}checked="checked" {% endif %} name="radio_train_type" value="oneway">
-                                <span class="checkmark-radio"></span>
-                            </label>
-                            <label class="radio-button-custom" style="margin-bottom:0px;">
-                                <span style="font-size:13px; color:{{text_color}};">{% trans 'Round Trip' %}</span>
-                                <input type="radio" {% if train_request.direction == 'RT' %}checked="checked" {% endif %} name="radio_train_type" value="roundtrip">
-                                <span class="checkmark-radio"></span>
-                            </label>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="row">
-                                <div class="col-lg-6 col-md-6 col-sm-6 train-from">
-                                    <span class="span-search-ticket"><i class="fas fa-train"></i> {% trans 'From' %}</span>
-                                    <div class="input-container-search-ticket">
-                                        <input id="train_origin" name="train_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('train_origin').select();" onclick="set_train_search_value_to_false();" value="{{train_request.origin}}">
-                                    </div>
-                                </div>
-                                <div class="image-change-route-vertical2">
-                                    <h4><a href="javascript:train_switch();" style="z-index:5;" id="train_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
-                                </div>
-                                <div class="image-change-route-horizontal2">
-                                    <h4><a class="horizontal-arrow" href="javascript:train_switch();" style="z-index:5; color:{{text_color}} !important;" id="train_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></h4>
-                                </div>
-
-                                <div class="col-lg-6 col-md-6 col-sm-6 train-to" style="z-index:5;">
-                                    <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> {% trans 'To' %}</span>
-                                    <div class="input-container-search-ticket">
-                                        <input id="train_destination" name="train_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('train_destination').select();" onclick="set_train_search_value_to_false();" value="{{train_request.destination}}">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-sm-6" id="train_date_search">
-                            <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure' %}</span>
-                            <div class="input-container-search-ticket">
-                                <input type="text" class="form-control" style="background:white;" id="train_departure" name="train_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly value=""/>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-sm-6">
-                            <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
-                            <div class="input-container-search-ticket btn-group">
-                                <button id="show_total_pax_train" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
-                                <ul class="dropdown-menu" role="menu">
-                                    <div class="row" style="padding:10px;">
-                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                            <div style="float:left;">
-                                                <label>
-                                                    <span style="color:black; font-size:13px;">{% trans 'Adult' %}<br/></span>
-                                                    <span style="color:gray; font-size:11px;">({% trans 'Age' %} 3+)</span>
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                <button type="button" class="left-minus-adult-train btn-custom-circle" id="left-minus-adult-train" data-type="minus" data-field="" disabled>
-                                                    <i class="fas fa-minus"></i>
-                                                </button>
-                                                <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="train_adult" name="train_adult" min="1" value="{{train_request.adult}}" readonly>
-                                                <button type="button" class="right-plus-adult-train btn-custom-circle" id="right-plus-adult-train" data-type="plus" data-field="">
-                                                    <i class="fas fa-plus"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                            <div style="float:left;">
-                                                <label>
-                                                    <span style="color:black; font-size:13px;">{% trans 'Infant' %}<br/></span>
-                                                    <span style="color:gray; font-size:11px;">({% trans 'Age' %} < 3)</span>
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                <button type="button" class="left-minus-infant-train btn-custom-circle" id="left-minus-infant-train" data-type="minus" data-field="" disabled>
-                                                    <i class="fas fa-minus"></i>
-                                                </button>
-                                                <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="train_infant" name="train_infant" value="{{train_request.infant}}" readonly>
-                                                <button type="button" class="right-plus-infant-train btn-custom-circle" id="right-plus-infant-train" data-type="plus" data-field="">
-                                                    <i class="fas fa-plus"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-12" style="text-align:right;">
-                                            <hr/>
-                                            <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('train','passenger');">Done</button>
-                                        </div>
-                                    </div>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <br/>
-
-                    <input type="hidden" id="train_response" name="response"/>
-                    <center>
-                        <button class="primary-btn ld-ext-right" id="btn-search-train" type="button" onclick="train_check_search_values();" value="Submit">
-                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                            {% trans 'Search' %}
-                            <div class="ld ld-ring ld-cycle"></div>
-                        </button>
-                    </center>
-                </form>
-
-                <!--<form action="{% url 'tt_website_rodextrip:train_search'%}" method="POST" class="form-wrap" id="train_searchForm">-->
-                <!--{% csrf_token %}-->
-                <!--<div class="row">-->
-                <!--<div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">-->
-                <!--<span class="span-search-ticket">From</span>-->
-                <!--<div class="input-container-search-ticket" style="z-index:4;">-->
-                <!--<input list="train_origin_name" id="train_origin" value="{{train_request.origin}}" class="form-control" name="train_origin" onkeyup="search_train('origin');" placeholder="City or Station " onfocus="this.placeholder = ''" onblur="this.placeholder = 'City or Station '" autocomplete="off"/>-->
-                <!--<datalist id="train_origin_name"/>-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--<div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="z-index:4; padding:0px;">-->
-                <!--<h2 class="image-change-route-vertical image-vertical"><a href="javascript:train_switch();" style="z-index:5;" id="train_switch"><i class="fas fa-exchange-alt"></i></a></h2>-->
-                <!--<span class="span-search-ticket">To</span>-->
-                <!--<div class="input-container-search-ticket" style="z-index:4;">-->
-                <!--<div class="input-container-search-ticket">-->
-                <!--<input list="train_destination_name" id="train_destination" value="{{train_request.destination}}" class="form-control" name="train_destination" onkeyup="search_train('destination');" placeholder="City or Station " onfocus="this.placeholder = ''" onblur="this.placeholder = 'City or Station '" autocomplete="off"/>-->
-                <!--<datalist id="train_destination_name"/>-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--<div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">-->
-                <!--<span class="span-search-ticket">Departure</span>-->
-                <!--<div class="input-container-search-ticket">-->
-                <!--<input type="text" class="form-control date-picker" id="train_departure" name="train_departure" value="{{train_request.departure}}" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '">-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--<div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">-->
-                <!--<span class="span-search-ticket">Passenger</span>-->
-
-                <!--<div class="input-container-search-ticket btn-group">-->
-                <!--<button id="show_total_pax_train" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>-->
-                <!--<ul class="dropdown-menu" role="menu">-->
-                <!--<div class="container">-->
-                <!--<div class="row">-->
-                <!--<div class="col-lg-6">-->
-                <!--<label>-->
-                <!--&lt;!&ndash;<img src="{{static_path}}img/icon/adult-icon.png" style="width:15px; height:25px;"/>&ndash;&gt;-->
-                <!--<span style="color:black; font-size:13px;">Adults<br/></span>-->
-                <!--<span style="color:gray; font-size:11px;">(Age 3+)</span>-->
-                <!--</label>-->
-                <!--</div>-->
-                <!--<div class="col-lg-6">-->
-                <!--<div style="text-align:right; padding:5px 0px 5px 5px;">-->
-                <!--<span class="input-group-btn">-->
-                <!--<button type="button" class="left-minus-adult-train btn-custom-circle" id="left-minus-adult-train" data-type="minus" data-field="" disabled>-->
-                <!--<span><i class="fas fa-minus"></i></span>-->
-                <!--</button>-->
-                <!--</span>-->
-                <!--<input type="hidden" id="train_adult" name="train_adult" value="{{train_request.adult}}" min="1">-->
-                <!--<span style="color:black; font-size:14px;padding:5px;" id="show_adult_train" id="show_adult_train"></span>-->
-                <!--<span class="input-group-btn">-->
-                <!--<button type="button" class="right-plus-adult-train btn-custom-circle" id="right-plus-adult-train" data-type="plus" data-field="">-->
-                <!--<span><i class="fas fa-plus"></i></span>-->
-                <!--</button>-->
-                <!--</span>-->
-                <!--</div>-->
-                <!--</div>-->
-
-                <!--<div class="col-sm-6">-->
-                <!--<label>-->
-                <!--&lt;!&ndash;<img src="{{static_path}}img/icon/adult-icon.png" style="width:15px; height:25px;"/>&ndash;&gt;-->
-                <!--<span style="color:black; font-size:13px;">Infant<br/></span>-->
-                <!--<span style="color:gray; font-size:11px;">(Age <3)</span>-->
-                <!--</label>-->
-                <!--</div>-->
-                <!--<div class="col-sm-6">-->
-                <!--<div style="float:right; padding:5px 0px 5px 5px;">-->
-                <!--<span class="input-group-btn">-->
-                <!--<button type="button" class="left-minus-infant-train btn-custom-circle" id="left-minus-infant-train" data-type="minus" data-field="" disabled>-->
-                <!--<span><i class="fas fa-minus"></i></span>-->
-                <!--</button>-->
-                <!--</span>-->
-                <!--<input type="hidden" id="train_infant" name="train_infant" value="{{train_request.infant}}">-->
-                <!--<span style="color:black; font-size:14px;padding:5px;" id="show_infant_train" id="show_infant_train"></span>-->
-                <!--<span class="input-group-btn">-->
-
-                <!--<button type="button" class="right-plus-infant-train btn-custom-circle" id="right-plus-infant-train" data-type="plus" data-field="">-->
-                <!--<span><i class="fas fa-plus"></i></span>-->
-                <!--</button>-->
-                <!--</span>-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--&lt;!&ndash;<input type="text" id="quantity" name="quantity" class="form-control input-number" value="10" min="1" max="100">&ndash;&gt;-->
-                <!--</div>-->
-                <!--</ul>-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--<br/>-->
-
-                <!--<input type="hidden" id="train_response" name="response"/>-->
-                <!--<button class="primary-btn" type="submit" value="Submit">-->
-                <!--<i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>-->
-                <!--Change Search-->
-                <!--</button>-->
-                <!--&lt;!&ndash;<a hrpoaef="#" class="primary-btn text-uppercase">Search for Ticket</a>&ndash;&gt;-->
-                <!--</form>-->
-            </div>
-        </div>
-    </div>
-</section>
 {%endif%}
 
 <button class="primary-btn-ticket btn_icon_fixed my_sticky_button" style="left:51%; width:20vw; height:50px; bottom:55px; position:fixed; z-index:99;" data-toggle="modal" data-target="#myModalSort">
@@ -1545,7 +1301,7 @@
                         </button>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding-left:2px;">
-                        <button class="primary-btn-all-sticky" style="width:100%;" data-toggle="modal" data-target="#myModalTicketTrain">
+                        <button class="primary-btn-all-sticky" style="width:100%;" data-toggle="modal" data-target="#myModalTicketBus">
                             <span style="color:{{text_color}}; font-size:12px;"> {% trans 'My Order' %} </span>
                             <span class="badge-notif2 animated bounceIn" id="badge-flight-notif2">0</span>
                         </button>
@@ -1667,12 +1423,12 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-lg-12" id="train_result">
+                    <div class="col-lg-12" id="bus_result">
 
                     </div>
                 </div>
 
-                <div class="row" id="loading-search-train">
+                <div class="row" id="loading-search-bus">
                     <div class="col-lg-12">
                         <div class="sk-circle">
                             <div class="sk-circle1 sk-child"></div>
@@ -1693,15 +1449,15 @@
                 </div>
 
                 <div class="row" id="show-search-train">
-                    <div class="col-lg-12" id="train_pick_ticket">
+                    <div class="col-lg-12" id="bus_pick_ticket">
 
                     </div>
-                    <div class="col-lg-12" id="train_ticket">
+                    <div class="col-lg-12" id="bus_ticket">
 
                     </div>
                 </div>
 
-                <div class="modal fade" id="myModalTicketTrain" role="dialog">
+                <div class="modal fade" id="myModalTicketBus" role="dialog">
                     <div class="modal-dialog">
                         <!-- Modal content-->
                         <div class="modal-content">
@@ -1710,9 +1466,9 @@
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
                             <div class="modal-body">
-                                <form action="{% url 'tt_website_rodextrip:train_passenger'%}" method="POST" id="train_passenger">
+                                <form action="{% url 'tt_website_rodextrip:bus_passenger'%}" method="POST" id="bus_passenger">
                                     {% csrf_token %}
-                                    <div id="train_detail">
+                                    <div id="bus_detail">
 
                                     </div>
                                 </form>
@@ -1750,26 +1506,26 @@
     </div>
 </div>
 
-<button class="myticket" id="button_chart_train" style="display:none;" data-toggle="modal" data-target="#myModalTicketTrain">
+<button class="myticket" id="button_chart_train" style="display:none;" data-toggle="modal" data-target="#myModalTicketBus">
     <span style="color:{{text_color}}; font-size:16px;"><i class="fas fa-shopping-cart"></i></span>
-    <span class="badge-notif animated bounceIn" id="badge-train-notif">0</span>
+    <span class="badge-notif animated bounceIn" id="badge-bus-notif">0</span>
 </button>
 
-<button class="mystickycopybot" style="display:none;" id="button_copy_train" data-toggle="modal" data-target="#myModalCopyTrain" onclick="get_checked_copy_result();">
+<button class="mystickycopybot" style="display:none;" id="button_copy_bus" data-toggle="modal" data-target="#myModalCopyBus" onclick="get_checked_copy_result();">
     <span style="color:{{text_color}}; font-size:18px;"><i class="fas fa-copy"></i></span>
     <span class="badge-notif animated bounceIn" id="badge-copy-notif">0</span>
 </button>
 
 <script>
-    document.getElementById('button_copy_train').style.bottom = JSON.parse(JSON.stringify(bottom.toString())) + 'px';
+    document.getElementById('button_copy_bus').style.bottom = JSON.parse(JSON.stringify(bottom.toString())) + 'px';
     console.log(bottom.toString() + 'px');
     bottom+=60;
 </script>
 <script>
-    document.getElementById('train_origin').value = '{{train_request.origin.0}}';
-    document.getElementById('train_destination').value = '{{train_request.destination.0}}';
+    document.getElementById('bus_origin').value = '{{bus_request.origin.0}}';
+    document.getElementById('bus_destination').value = '{{bus_request.destination.0}}';
     departure_date = '';
-    {% for departure in train_request.departure %}
+    {% for departure in bus_request.departure %}
         if(departure_date != '')
             departure_date += ' - '
         departure_date += '{{departure}}';
@@ -1777,7 +1533,7 @@
 
     $(document).ready(function () {
         new jBox('Tooltip', {
-            attach: '#button_copy_train',
+            attach: '#button_copy_bus',
             theme: 'TooltipBorder',
             width: 200,
             position: {
@@ -1791,7 +1547,7 @@
         });
 
         new jBox('Tooltip', {
-            attach: '#button_chart_train',
+            attach: '#button_chart_bus',
             theme: 'TooltipBorder',
             width: 200,
             position: {
@@ -1800,7 +1556,7 @@
             },
             outside: 'x',
             pointer: 'top:15',
-            content: 'Train<br/><b>Chart Train</b>',
+            content: 'Bus<br/><b>Chart Bus</b>',
             animation: 'move'
         });
 
@@ -1836,20 +1592,20 @@
     });
 
     $(function() {
-      var quantity_adult_train = parseInt($('#train_adult').val());
-      var quantity_infant_train = parseInt($('#train_infant').val());
-      if (quantity_adult_train == 4){
-        document.getElementById("left-minus-adult-train").disabled = false;
-        document.getElementById("right-plus-adult-train").disabled = true;
-      }else if (quantity_adult_train == 1){
-        document.getElementById("left-minus-adult-train").disabled = true;
-        document.getElementById("right-plus-adult-train").disabled = false;
+      var quantity_adult_bus = parseInt($('#bus_adult').val());
+      //var quantity_infant_train = parseInt($('#train_infant').val());
+      /*if (quantity_adult_bus == 4){
+        document.getElementById("left-minus-adult-bus").disabled = false;
+        document.getElementById("right-plus-adult-bus").disabled = true;
+      }else if (quantity_adult_bus == 1){
+        document.getElementById("left-minus-adult-bus").disabled = true;
+        document.getElementById("right-plus-adult-bus").disabled = false;
       }else{
-        document.getElementById("left-minus-adult-train").disabled = false;
-        document.getElementById("right-plus-adult-train").disabled = false;
-      }
+        document.getElementById("left-minus-adult-bus").disabled = false;
+        document.getElementById("right-plus-adult-bus").disabled = false;
+      }*/
 
-      if(quantity_infant_train == quantity_adult_train){
+      /*if(quantity_infant_train == quantity_adult_train){
         document.getElementById("left-minus-infant-train").disabled = false;
         document.getElementById("right-plus-infant-train").disabled = true;
       }
@@ -1860,17 +1616,17 @@
       else{
         document.getElementById("right-plus-infant-train").disabled = false;
         document.getElementById("left-minus-infant-train").disabled = false;
-      }
+      }*/
 
 
-        var radioValueTrain = $("input[name='radio_train_type']:checked").val();
-        if(radioValueTrain){
-            $radio_value_string = radioValueTrain;
+        var radioValueBus = $("input[name='radio_bus_type']:checked").val();
+        if(radioValueBus){
+            $radio_value_string = radioValueBus;
         }
 
         breadcrumb_create("train", 2, 0);
-        if('{{train_request.direction}}' == 'OW'){
-            $('input[name="train_departure"]').daterangepicker({
+        if('{{bus_request.direction}}' == 'OW'){
+            $('input[name="bus_departure"]').daterangepicker({
               singleDatePicker: true,
               autoUpdateInput: true,
               startDate: departure_date,
@@ -1883,13 +1639,13 @@
               }
             });
 
-            $('input[name="train_departure"]').on('apply.daterangepicker', function(ev, picker) {
+            $('input[name="bus_departure"]').on('apply.daterangepicker', function(ev, picker) {
                 setTimeout(function(){
-                    $("#show_total_pax_train").click();
+                    $("#show_total_pax_bus").click();
                 }, 200);
             });
         }else{
-            $('input[name="train_departure"]').daterangepicker({
+            $('input[name="bus_departure"]').daterangepicker({
               singleDatePicker: false,
               autoUpdateInput: true,
               autoApply: true,
@@ -1904,34 +1660,34 @@
               }
             });
 
-            $('input[name="train_departure"]').on('apply.daterangepicker', function(ev, picker) {
+            $('input[name="bus_departure"]').on('apply.daterangepicker', function(ev, picker) {
                 setTimeout(function(){
-                    $("#show_total_pax_train").click();
+                    $("#show_total_pax_bus").click();
                 }, 200);
             });
         }
     });
 
-    var train_origin = new autoComplete({
-        selector: '#train_origin',
+    var bus_origin = new autoComplete({
+        selector: '#bus_origin',
         minChars: 1,
         cache: false,
         delay:0,
         source: function(term, suggest){
-            if(term.split(' - ').length == 2)
+            if(term.split(' - ').length == 3)
                     term = ''
             if(term.length > 1)
-                suggest(train_search_autocomplete(term));
+                suggest(bus_search_autocomplete(term));
         },
         onSelect: function(e, term, item){
             setTimeout(function(){
-                $("#train_destination").focus();
+                $("#bus_destination").focus();
             }, 200);
-            set_train_search_value_to_true();
+            set_bus_search_value_to_true();
         }
     });
-    var train_destination = new autoComplete({
-        selector: '#train_destination',
+    var bus_destination = new autoComplete({
+        selector: '#bus_destination',
         minChars: 0,
         cache: false,
         delay:0,
@@ -1939,19 +1695,19 @@
             if(term.split(' - ').length == 4)
                 term = ''
             if(term.length > 1)
-                suggest(train_search_autocomplete(term));
+                suggest(bus_search_autocomplete(term));
         },
         onSelect: function(e, term, item){
             setTimeout(function(){
-                $("#train_departure").focus();
-                $("#train_departure_return").focus();
+                $("#bus_departure").focus();
+                $("#bus_departure_return").focus();
             }, 200);
-            set_train_search_value_to_true();
+            set_bus_search_value_to_true();
         }
     });
 
-    train_filter_render();
-    train_signin('');
+    //bus_filter_render();
+    bus_signin('');
     try{
         get_public_holiday(moment().format('YYYY-MM-DD'), moment().subtract(-1, 'years').format('YYYY-MM-DD'), 100 );
     }catch(err){

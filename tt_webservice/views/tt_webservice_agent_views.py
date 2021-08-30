@@ -753,6 +753,36 @@ def get_new_cache(signature, type='all'):
                     write_cache_with_folder(res, "medical_cache_data_%s" % provider)
             except Exception as e:
                 _logger.info("ERROR UPDATE CACHE medical " + provider + ' ' + json.dumps(res) + '\n' + str(e) + '\n' + traceback.format_exc())
+
+            #bug
+            data = {}
+            action = "get_config"
+
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
+                "action": 'get_config',
+                "signature": signature
+            }
+            url_request = url + 'booking/bus'
+            res = send_request_api({}, url_request, headers, data, 'POST', 120)
+            try:
+                if res['result']['error_code'] == 0:
+                    res = res['result']['response']
+                    write_cache_with_folder(res, "get_bus_config")
+                    _logger.info("get_bus_config BUS RENEW SUCCESS SIGNATURE " + headers['signature'])
+                else:
+                    try:
+                        file = read_cache_with_folder_path("get_bus_config")
+                        if file:
+                            res = file
+                        _logger.info("get_bus_config BUS RENEW SUCCESS SIGNATURE " + headers['signature'])
+                    except Exception as e:
+                        _logger.error('ERROR get_bus_config file\n' + str(e) + '\n' + traceback.format_exc())
+            except Exception as e:
+                _logger.error(str(e) + '\n' + traceback.format_exc())
+
+
         if type == 'all' or type == 'image':
             #banner
             headers = {

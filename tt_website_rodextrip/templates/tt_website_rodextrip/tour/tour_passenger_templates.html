@@ -4696,6 +4696,942 @@
         </div>
     </div>
 </div>
+{% elif template == 6 %}
+<header class="header_breadcrumb" style="position:sticky; top:0px;">
+    <div class="main-menu">
+        <div class="container">
+            <div class="row align-items-center justify-content-between d-flex">
+                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                    <a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="Logo {{name}}" title="{{name}}" /></a>
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
+                    <span style="font-size:14px; font-weight:600;">{% trans 'Session Time' %} <span class="count_time" id="session_time"> </span></span>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
+                    <span style="font-size:14px; font-weight:600;">{% trans 'Elapsed Time' %} <span class="count_time" id="elapse_time"> </span></span>
+                </div>
+                {% include 'tt_website_rodextrip/balance_credit.html' %}
+            </div>
+        </div>
+    </div>
+    {% if username.co_user_login == 'agent_b2c' %}
+    {% include 'tt_website_rodextrip/header_signin_signup.html' %}
+    {% endif %}
+</header>
+<div class="destinations-area" style="padding-top:30px; padding-bottom:40px; background:#f7f7f7;">
+    <div class="container">
+        <div class="banner-right">
+            <form id="tour_review" action="{% url 'tt_website_rodextrip:tour_review'%}" class="form-wrap" method="POST" style="padding:0; text-align:unset;" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" id="additional_price" name="additional_price">
+                <div class="row">
+                    <div class="col-lg-8 col-md-8" style="margin-top:10px;">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div id="booker" style="background-color:white; padding:10px; border:1px solid #cdcdcd;">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <h4>{% trans 'Booker Information' %}</h4>
+                                            <hr/>
+                                        </div>
+                                        <div class="col-lg-6" style="text-align:left;">
+                                            <!--                                            <label>Booker Type :</label><br/>-->
+                                            <!--                                            <label class="radio-button-custom">-->
+                                            <!--                                                Corporate-->
+                                            <!--                                                <input type="radio" checked="checked" name="radio-booker-type">-->
+                                            <!--                                                <span class="checkmark-radio"></span>-->
+                                            <!--                                            </label>-->
+                                            <!--                                            <label class="radio-button-custom">-->
+                                            <!--                                                Individual-->
+                                            <!--                                                <input type="radio" name="radio-booker-type">-->
+                                            <!--                                                <span class="checkmark-radio"></span>-->
+                                            <!--                                            </label>-->
+                                        </div>
+                                        <div class="col-lg-6" style="text-align:right;">
+                                            {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security %}
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal" onclick="loadingPaxHide();"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" id="booker_clear" onclick="clear_passenger('Booker', 0);" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
+                                            {% endif %}
+                                        </div>
+
+                                        <div class="modal fade" id="myModal" role="dialog">
+                                            <div class="modal-dialog">
+
+                                                <!-- Modal content-->
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Booker List' %} <i class="fas fa-address-card"></i></h4>
+                                                        <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('booker','');">&times;</button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="row">
+                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                                <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
+                                                            </div>
+                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                                <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','0','tour');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-lg-12">
+                                                                <br/>
+                                                                <span><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> {% trans "Using this means you can't change title, first name, and last name" %}</span><br/>
+                                                                <span><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> {% trans "Max 100 customers in 1 search" %}</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row loading-booker-train" style="display:none;">
+                                                            <div class="col-lg-12">
+                                                                <br/>
+                                                                <div style="text-align:center">
+                                                                    <span style="font-size:18px; font-weight:bold;">{% trans 'PLEASE WAIT' %} </span><img src="{{static_path}}img/search.gif" alt="Search" style="height:50px; width:50px;"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="search_result">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('booker','');">{% trans 'Close' %}</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6 col-xs-6">
+                                            <label style="color:red">*</label>
+                                            <label>{% trans 'Title' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select" id="default-select">
+                                                    <select id="booker_title" name="booker_title" class="nice-select-default" onchange="change_booker_value('tour');">
+                                                        {% for title in adult_title %}
+                                                        <option>{{title}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
+                                            <div class="row" style="margin:0">
+                                                <button type="button" class="btn btn-secondary" style="width:42px;height:42px;margin-right:5px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
+                                                <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker" data-tooltip=""><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
+                                                <div class="modal fade" id="myModalHelp" role="dialog">
+                                                    <div class="modal-dialog">
+
+                                                        <!-- Modal content-->
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Help' %} <i class="fas fa-address-card"></i></h4>
+                                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="col-sm-12">
+                                                                    <center><img src="/static/tt_website_rodextrip/img/id_card.png" alt="ID Card" style="width:50%;"></center>
+                                                                </div>
+                                                                <div>
+                                                                    <p>{% trans '1. Please fill passenger name as written in your ID card, including characters such as "," or "." or foreign characters (i.e: Chinese/Japanese characters).' %}</p>
+                                                                    <p>{% trans '2. Maximum total characters for title, first name, and last name is 30. If your title, first name, and last name exceeds 30 characters, you can put only the first 30 characters.' %}</p>
+                                                                    <p>{% trans '3. Passenger last name cannot be more than 1 word and must contain at least 2 characters.' %}</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <br/>
+                                            <label style="color:red">*</label>
+                                            <label>{% trans 'First name and middle name (if any)' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" onchange="capitalizeInput('booker_first_name'); change_booker_value('tour');" class="form-control" name="booker_first_name" id="booker_first_name" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                                <input type="hidden" class="form-control" name="booker_birth_date" id="booker_birth_date" />
+                                                <input type="hidden" class="form-control" name="booker_id_type" id="booker_id_type" />
+                                                <input type="hidden" class="form-control" name="booker_id_number" id="booker_id_number" />
+                                                <input type="hidden" class="form-control" name="booker_id_number" id="booker_exp_date" />
+                                                <input type="hidden" class="form-control" name="booker_id_number" id="booker_country_of_issued" />
+                                            </div>
+                                            <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <br/>
+                                            <label>{% trans 'Last Name' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" onchange="capitalizeInput('booker_last_name'); change_booker_value('tour');" class="form-control" name="booker_last_name" id="booker_last_name" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                            </div>
+                                            <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <label style="color:red">*</label>
+                                            <label>{% trans 'Nationality' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select">
+                                                    <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('booker_nationality');change_booker_value('tour');" class="nice-select-default">
+                                                        {% for country in countries %}
+                                                        <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <input type="hidden" name="booker_nationality" id="booker_nationality" />
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-lg-6">
+                                            <label style="color:red">*</label>
+                                            <label>{% trans 'Contact Email Address' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control" name="booker_email" id="booker_email" placeholder="{% trans 'Email Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" onchange="change_booker_value('tour');">
+                                            </div>
+                                            <label style="font-size:12px; padding:0;">{% trans 'Example' %}: email@example.com</label>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <label style="color:red">*</label>
+                                            <label style="margin:0;">{% trans 'Contact Person for Urgent Situation' %}</label>
+                                            <label style="font-size:10px; color:red;">({% trans "Must be filled with booker's mobile on first registration" %})</label>
+                                            <div class="row">
+                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                    <div class="form-select">
+                                                        <select class="form-control js-example-basic-single" name="booker_phone_code_id" style="width:100%;" id="booker_phone_code_id" onchange="auto_complete('booker_phone_code');change_booker_value('tour');" class="nice-select-default">
+                                                            {% for phone in phone_code %}
+                                                            <option value="{{phone}}" {% if phone == 62%} selected {%endif%}>{{phone}}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                    <input type="hidden" name="booker_phone_code" id="booker_phone_code" />
+                                                </div>
+                                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                                    <input type="text" class="form-control" name="booker_phone" id="booker_phone" placeholder="{% trans 'Phone Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" onchange="change_booker_value('tour');">
+                                                    <input type="hidden" class="form-control" name="booker_id" id="booker_id">
+                                                </div>
+                                            </div>
+                                            <label style="font-size:12px; padding:0;">{% trans 'Example' %}: 812345678</label>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+                        <div class="row" style="margin-bottom:20px;">
+                            <div class="col-lg-12">
+                                <div style="background:white; padding:10px; border:1px solid #cdcdcd;">
+                                    <label>{% trans 'Do you book this trip for you?' %}</label>
+                                    <label class="radio-button-custom">
+                                        {% trans 'Yes' %}
+                                        <input type="radio" name="myRadios" onchange="copy_booker_to_passenger('copy','tour');" value="yes"/>
+                                        <span class="checkmark-radio"></span>
+                                    </label>
+
+                                    <label class="radio-button-custom">
+                                        {% trans 'No' %}
+                                        <input type="radio" name="myRadios" onchange="copy_booker_to_passenger('change','tour');" value="no" checked="checked"/>
+                                        <span class="checkmark-radio"></span>
+                                    </label>
+
+                                    <br/>
+                                    <label>{% trans 'Passenger Data' %}</label><br/>
+                                    <ul>
+                                        <li>{% trans '1. Caution: the name of the passenger must be right and appropriate with international passsport, and domestic route can match with KTP/Passport/SIM' %}</li>
+                                        <li>{% trans "2. Passenger data can't be changed after the passing of this page" %}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        {% for adult in adults%}
+                        <div class="row" id="adult{{forloop.counter}}">
+                            <div class="col-lg-12">
+                                <div class="passenger_div" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                                            <span style="color:{{text_color}}; text-align:center; font-size:15px;">{% trans 'Guest' %} {% trans 'Adult' %} - {{forloop.counter}}</span>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px; {% if forloop.counter == 1 %} display:none; {% endif %}" id="adult_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_paxs{{forloop.counter}}">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:left;">
+                                            <div class="input-container-search-ticket">
+                                                <label class="check_box_custom">
+                                                    <span class="span-search-ticket" style="color:black;">{% trans 'Make this to Contact Person' %}</span>
+                                                    <input type="checkbox" id="adult_cp{{forloop.counter}}" name="adult_cp{{forloop.counter}}" onclick="update_contact_cp({{forloop.counter}})" />
+                                                    <span class="check_box_span_custom"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:right;">
+                                            {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" id="adult_clear{{forloop.counter}}" onclick="clear_passenger('Adult', {{forloop.counter}});" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
+                                            {% endif %}
+
+                                            <div class="modal fade" id="myModal_adult{{forloop.counter}}" role="dialog">
+                                                <div class="modal-dialog">
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Adult' %} - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
+                                                            <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('adult','{{forloop.counter}}');">&times;</button>
+                                                        </div>
+                                                        <div class="modal-body" style="text-align:left;">
+                                                            <div class="row">
+                                                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                                    <input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                </div>
+                                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                                    <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'tour')">{% trans 'Search' %}</button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-lg-12">
+                                                                    <br/>
+                                                                    <span><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> {% trans "Using this means you can't change title, first name, and last name" %}</span><br/>
+                                                                    <span><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> {% trans "Max 100 customers in 1 search" %}</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row loading-pax-train" style="display:none;">
+                                                                <div class="col-lg-12">
+                                                                    <br/>
+                                                                    <div style="text-align:center">
+                                                                        <span style="font-size:18px; font-weight:bold;">{% trans 'PLEASE WAIT' %} </span><img src="{{static_path}}img/search.gif" alt="Search" style="height:50px; width:50px;"/>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div id="search_result_adult{{forloop.counter}}">
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('adult','{{forloop.counter}}');">{% trans 'Close' %}</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label style="color:red">*</label>
+                                            <label>{% trans 'Title' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select">
+                                                    <select id="adult_title{{forloop.counter}}" name="adult_title{{forloop.counter}}" class="nice-select-default">
+                                                        {% for title in adult_title%}
+                                                        <option>{{title}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
+                                            <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_adult{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
+                                            <div class="modal fade" id="myModalHelp_adult{{forloop.counter}}" role="dialog">
+                                                <div class="modal-dialog">
+
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Help' %} <i class="fas fa-address-card"></i></h4>
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="col-sm-12">
+                                                                <center><img src="/static/tt_website_rodextrip/img/id_card.png" alt="ID Card" style="width:50%;"></center>
+                                                            </div>
+                                                            <div>
+                                                                <p>{% trans '1. Please fill passenger name as written in your ID card, including characters such as "," or "." or foreign characters (i.e: Chinese/Japanese characters).' %}</p>
+                                                                <p>{% trans '2. Maximum total characters for title, first name, and last name is 30. If your title, first name, and last name exceeds 30 characters, you can put only the first 30 characters.' %}</p>
+                                                                <p>{% trans '3. Passenger last name cannot be more than 1 word and must contain at least 2 characters.' %}</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <br/>
+                                            <label style="color:red">*</label>
+                                            <label>{% trans 'First name and middle name (if any)' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" onchange="capitalizeInput('adult_first_name{{forloop.counter}}');" class="form-control" name="adult_first_name{{forloop.counter}}" id="adult_first_name{{forloop.counter}}" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                                <input type="hidden" class="form-control" name="adult_id{{forloop.counter}}" id="adult_id{{forloop.counter}}">
+                                            </div>
+                                            <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <br/>
+                                            <label>{% trans 'Last Name' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" onchange="capitalizeInput('adult_last_name{{forloop.counter}}');" class="form-control" name="adult_last_name{{forloop.counter}}" id="adult_last_name{{forloop.counter}}" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                            </div>
+                                            <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label style="color:red">*</label>
+                                            <label>{% trans 'Nationality' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select">
+                                                    <select class="form-control js-example-basic-single" name="adult_nationality{{forloop.counter}}_id" style="width:100%;" id="adult_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('adult_nationality{{forloop.counter}}')" class="nice-select-default">
+                                                        {% for country in countries %}
+                                                        <option value="{{country.name}}" {% if country.name == 'Indonesia'%} selected {%endif%}>{{country.name}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <input type="hidden" name="adult_nationality{{forloop.counter}}" id="adult_nationality{{forloop.counter}}" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label style="color:red">*</label>
+                                            <label>{% trans 'Birth Date' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control date-picker-birth" style="background:white;" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}}, 'adult')" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
+                                                <input type="hidden" class="form-control" name="adult_years_old{{forloop.counter}}" id="adult_years_old{{forloop.counter}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label>{% trans 'Passport Number' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control" name="adult_passport_number{{forloop.counter}}" id="adult_passport_number{{forloop.counter}}" placeholder="{% trans 'Passport Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label>{% trans 'Passport Expired Date' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control date-picker-passport" style="background:white;" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Passport Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" autocomplete="off" readonly onchange="check_passport_expired_six_month(`adult_passport_expired_date{{forloop.counter}}`);">
+                                                <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label>{% trans 'Country of Issued' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select">
+                                                    <select class="form-control js-example-basic-single" name="adult_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('adult_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                        <option value="">{% trans 'Country of Issued' %}</option>
+                                                        {% for country in countries %}
+                                                        <option value="{{country.name}}">{{country.name}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                <input type="hidden" name="adult_country_of_issued{{forloop.counter}}" id="adult_country_of_issued{{forloop.counter}}" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden1_{{forloop.counter}}" hidden>
+                                            <label style="color:red">*</label>
+                                            <label>{% trans 'Contact Email Address' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control" name="adult_email{{forloop.counter}}" id="adult_email{{forloop.counter}}" placeholder="{% trans 'Email Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '">
+                                            </div>
+                                            <label style="font-size:12px; padding:0;">{% trans 'Example' %}: email@example.com</label>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden2_{{forloop.counter}}" hidden>
+                                            <label style="color:red">*</label>
+                                            <label style="margin:0;">{% trans 'Contact Person for Urgent Situation' %}</label>
+                                            <label style="font-size:10px; color:red;">({% trans "Must be filled with contact person's mobile on first registration" %})</label>
+                                            <div class="row">
+                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select">
+                                                            <select class="form-control js-example-basic-single" name="adult_phone_code{{forloop.counter}}_id" style="width:100%;" id="adult_phone_code{{forloop.counter}}_id" onchange="auto_complete('adult_phone_code{{forloop.counter}}')" class="nice-select-default">
+                                                                {% for phone in phone_code %}
+                                                                <option value="{{phone}}" {% if phone == 62%} selected {%endif%}>{{phone}}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                        <input type="hidden" name="adult_phone_code{{forloop.counter}}" id="adult_phone_code{{forloop.counter}}" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control" name="adult_phone{{forloop.counter}}" id="adult_phone{{forloop.counter}}" placeholder="{% trans 'Phone Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <label style="font-size:12px; padding:0;">{% trans 'Example' %}: 812345678</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+                        {% endfor %}
+
+                        {% for child in childs%}
+                        <div class="row" id="child{{forloop.counter}}">
+                            <div class="col-lg-12">
+                                <div class="passenger_div" onclick="show_paxs_airline('child', '{{forloop.counter}}');">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                                            <span style="color:{{text_color}}; text-align:center; font-size:15px;">{% trans 'Guest' %} {% trans 'Child' %} - {{forloop.counter}}</span>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px; display:none;" id="child_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px;" id="child_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; display:none;" id="child_paxs{{forloop.counter}}">
+                                    <div class="row">
+                                        <div class="col-lg-6" style="text-align:left;"></div>
+                                        <div class="col-lg-6" style="text-align:right;">
+                                            {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_child{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" id="child_clear{{forloop.counter}}" onclick="clear_passenger('Child', {{forloop.counter}});" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
+                                            {% endif %}
+                                        </div>
+                                        <div class="modal fade" id="myModal_child{{forloop.counter}}" role="dialog">
+                                            <div class="modal-dialog">
+                                                <!-- Modal content-->
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Child' %} - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
+                                                        <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('child','{{forloop.counter}}');">&times;</button>
+                                                    </div>
+                                                    <div class="modal-body" style="text-align:left;">
+                                                        <div class="row">
+                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                                <input class="form-control" type="text" id="train_child{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                            </div>
+                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                                <button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'tour')">{% trans 'Search' %}</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-lg-12">
+                                                                <br/>
+                                                                <span><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> {% trans "Using this means you can't change title, first name, and last name" %}</span><br/>
+                                                                <span><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> {% trans "Max 100 customers in 1 search" %}</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row loading-pax-train" style="display:none;">
+                                                            <div class="col-lg-12">
+                                                                <br/>
+                                                                <div style="text-align:center">
+                                                                    <span style="font-size:18px; font-weight:bold;">{% trans 'PLEASE WAIT' %} </span><img src="{{static_path}}img/search.gif" alt="Search" style="height:50px; width:50px;"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="search_result_child{{forloop.counter}}">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('child','{{forloop.counter}}');">{% trans 'Close' %}</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-xs-6">
+                                            <label style="color:red">*</label>
+                                            <label>{% trans 'Title' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select">
+                                                    <select id="child_title{{forloop.counter}}" name="child_title{{forloop.counter}}" class="nice-select-default">
+                                                        {% for title in infant_title%}
+                                                        <option>{{title}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
+                                            <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_child{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
+                                            <div class="modal fade" id="myModalHelp_child{{forloop.counter}}" role="dialog">
+                                                <div class="modal-dialog">
+
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Help' %} <i class="fas fa-address-card"></i></h4>
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="col-sm-12">
+                                                                <center><img src="/static/tt_website_rodextrip/img/id_card.png" alt="ID Card" style="width:50%;"></center>
+                                                            </div>
+                                                            <div>
+                                                                <p>{% trans '1. Please fill passenger name as written in your ID card, including characters such as "," or "." or foreign characters (i.e: Chinese/Japanese characters).' %}</p>
+                                                                <p>{% trans '2. Maximum total characters for title, first name, and last name is 30. If your title, first name, and last name exceeds 30 characters, you can put only the first 30 characters.' %}</p>
+                                                                <p>{% trans '3. Passenger last name cannot be more than 1 word and must contain at least 2 characters.' %}</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <br/>
+                                            <label style="color:red">*</label>
+                                            <label>{% trans 'First name and middle name (if any)' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" onchange="capitalizeInput('child_first_name{{forloop.counter}}');" class="form-control" name="child_first_name{{forloop.counter}}" id="child_first_name{{forloop.counter}}" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                                <input type="hidden" class="form-control" name="child_id{{forloop.counter}}" id="child_id{{forloop.counter}}">
+                                            </div>
+                                            <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <br/>
+                                            <label>{% trans 'Last Name' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" onchange="capitalizeInput('child_last_name{{forloop.counter}}');" class="form-control" name="child_last_name{{forloop.counter}}" id="child_last_name{{forloop.counter}}" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                            </div>
+                                            <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label style="color:red">*</label>
+                                            <label>{% trans 'Nationality' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select">
+                                                    <select class="form-control js-example-basic-single" name="child_nationality{{forloop.counter}}_id" style="width:100%;" id="child_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('child_nationality{{forloop.counter}}')" class="nice-select-default">
+                                                        {% for country in countries %}
+                                                        <option value="{{country.name}}" {% if country.name == 'Indonesia'%} selected {%endif%}>{{country.name}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <input type="hidden" name="child_nationality{{forloop.counter}}" id="child_nationality{{forloop.counter}}" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label style="color:red">*</label>
+                                            <label>{% trans 'Birth Date' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control date-picker-birth" style="background:white;" name="child_birth_date{{forloop.counter}}" id="child_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}}, 'child')" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
+                                                <input type="hidden" class="form-control" name="child_years_old{{forloop.counter}}" id="child_years_old{{forloop.counter}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label>{% trans 'Passport Number' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control" name="child_passport_number{{forloop.counter}}" id="child_passport_number{{forloop.counter}}" placeholder="{% trans 'Passport Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label>{% trans 'Passport Expired Date' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control date-picker-passport" style="background:white;" name="child_passport_expired_date{{forloop.counter}}" id="child_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Passport Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly onchange="check_passport_expired_six_month(`child_passport_expired_date{{forloop.counter}}`);">
+                                                <button type="button" class="primary-delete-date" onclick="delete_expired_date('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label>{% trans 'Country of Issued' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select">
+                                                    <select class="form-control js-example-basic-single" name="child_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="child_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('child_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                        <option value="">{% trans 'Country of Issued' %}</option>
+                                                        {% for country in countries %}
+                                                        <option value="{{country.name}}">{{country.name}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                <input type="hidden" name="child_country_of_issued{{forloop.counter}}" id="child_country_of_issued{{forloop.counter}}" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+                        {% endfor %}
+
+
+                        {% for infant in infants%}
+                        <div class="row" id="infant{{forloop.counter}}">
+                            <div class="col-lg-12">
+                                <div class="passenger_div" onclick="show_paxs_airline('infant', '{{forloop.counter}}');">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                                            <span style="color:{{text_color}}; text-align:center; font-size:15px;">{% trans 'Guest' %} {% trans 'Infant' %} - {{forloop.counter}}</span>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px; display:none;" id="infant_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px;" id="infant_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; display:none;" id="infant_paxs{{forloop.counter}}">
+                                    <div class="row">
+                                        <div class="col-lg-6" style="text-align:left;"></div>
+                                        <div class="col-lg-6" style="text-align:right;">
+                                            {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_infant{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" id="infant_clear{{forloop.counter}}" onclick="clear_passenger('Infant', {{forloop.counter}});" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
+                                            {% endif %}
+                                        </div>
+                                        <div class="modal fade" id="myModal_infant{{forloop.counter}}" role="dialog">
+                                            <div class="modal-dialog">
+
+                                                <!-- Modal content-->
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Infant' %} - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
+                                                        <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('infant','{{forloop.counter}}');">&times;</button>
+                                                    </div>
+                                                    <div class="modal-body" style="text-align:left;">
+                                                        <div class="row" >
+                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                                <input class="form-control" type="text" id="train_infant{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                            </div>
+                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                                <button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('infant',{{forloop.counter}}, 'tour')">{% trans 'Search' %}</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-lg-12">
+                                                                <br/>
+                                                                <span><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> {% trans "Using this means you can't change title, first name, and last name" %}</span><br/>
+                                                                <span><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> {% trans "Max 100 customers in 1 search" %}</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row loading-pax-train" style="display:none;">
+                                                            <div class="col-lg-12">
+                                                                <br/>
+                                                                <div style="text-align:center">
+                                                                    <span style="font-size:18px; font-weight:bold;">{% trans 'PLEASE WAIT' %} </span><img src="{{static_path}}img/search.gif" alt="Search" style="height:50px; width:50px;"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="search_result_infant{{forloop.counter}}">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('infant','{{forloop.counter}}');">{% trans 'Close' %}</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-xs-6">
+                                            <label style="color:red">*</label>
+                                            <label>{% trans 'Title' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select">
+                                                    <select id="infant_title{{forloop.counter}}" name="infant_title{{forloop.counter}}" class="nice-select-default">
+                                                        {% for title in infant_title%}
+                                                        <option>{{title}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
+                                            <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_infant{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
+                                            <div class="modal fade" id="myModalHelp_infant{{forloop.counter}}" role="dialog">
+                                                <div class="modal-dialog">
+
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Help' %} <i class="fas fa-address-card"></i></h4>
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="col-sm-12">
+                                                                <center><img src="/static/tt_website_rodextrip/img/id_card.png" alt="ID Card" style="width:50%;"></center>
+                                                            </div>
+                                                            <div>
+                                                                <p>{% trans '1. Please fill passenger name as written in your ID card, including characters such as "," or "." or foreign characters (i.e: Chinese/Japanese characters).' %}</p>
+                                                                <p>{% trans '2. Maximum total characters for title, first name, and last name is 30. If your title, first name, and last name exceeds 30 characters, you can put only the first 30 characters.' %}</p>
+                                                                <p>{% trans '3. Passenger last name cannot be more than 1 word and must contain at least 2 characters.' %}</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <br/>
+                                            <label style="color:red">*</label>
+                                            <label>{% trans 'First name and middle name (if any)' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" onchange="capitalizeInput('infant_first_name{{forloop.counter}}');" class="form-control" name="infant_first_name{{forloop.counter}}" id="infant_first_name{{forloop.counter}}" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                                <input type="hidden" class="form-control" name="infant_id{{forloop.counter}}" id="infant_id{{forloop.counter}}">
+                                            </div>
+                                            <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <br/>
+                                            <label>{% trans 'Last Name' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" onchange="capitalizeInput('infant_last_name{{forloop.counter}}');" class="form-control" name="infant_last_name{{forloop.counter}}" id="infant_last_name{{forloop.counter}}" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                            </div>
+                                            <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label style="color:red">*</label>
+                                            <label>{% trans 'Nationality' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select">
+                                                    <select class="form-control js-example-basic-single" name="infant_nationality{{forloop.counter}}_id" style="width:100%;" id="infant_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('infant_nationality{{forloop.counter}}')" class="nice-select-default">
+                                                        {% for country in countries %}
+                                                        <option value="{{country.name}}" {% if country.name == 'Indonesia'%} selected {%endif%}>{{country.name}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <input type="hidden" name="infant_nationality{{forloop.counter}}" id="infant_nationality{{forloop.counter}}" />
+                                            </div>
+
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label style="color:red">*</label>
+                                            <label>{% trans 'Birth Date' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control date-picker-birth" style="background:white;" name="infant_birth_date{{forloop.counter}}" id="infant_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}}, 'infant')" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
+                                                <input type="hidden" class="form-control" name="infant_years_old{{forloop.counter}}" id="infant_years_old{{forloop.counter}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label>{% trans 'Passport Number' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control" name="infant_passport_number{{forloop.counter}}" id="infant_passport_number{{forloop.counter}}" placeholder="{% trans 'Passport Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label>{% trans 'Passport Expired Date' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control date-picker-passport" style="background:white;" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Passport Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly onchange="check_passport_expired_six_month(`infant_passport_expired_date{{forloop.counter}}`);">
+                                                <button type="button" class="primary-delete-date" onclick="delete_expired_date('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label>{% trans 'Country of Issued' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select">
+                                                    <select class="form-control js-example-basic-single" name="infant_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="infant_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('infant_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                        <option value="">{% trans 'Country of Issued' %}</option>
+                                                        {% for country in countries %}
+                                                        <option value="{{country.name}}">{{country.name}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                <input type="hidden" name="infant_country_of_issued{{forloop.counter}}" id="infant_country_of_issued{{forloop.counter}}" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="padding-top:15px;"></div>
+                        </div>
+                        <br/>
+                        {% endfor %}
+
+                        <div class="row">
+                            <div class="col-lg-4"></div>
+                            <div class="col-lg-4"></div>
+                            <div class="col-lg-4">
+                                <!--<button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{adult_amt}}, {{child_amt}}, {{infant_amt}});">-->
+                                <!--Next-->
+                                <!--<div class="ld ld-ring ld-cycle"></div>-->
+                                <!--</button>-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4" style="margin-top:10px;">
+                        <div class="row">
+                            <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #cdcdcd;">
+                                <h4> {% trans 'Price Detail' %} </h4>
+                                <hr/>
+                                <span id="product_title" style="font-weight: bold;">{{tour_data.name}}</span>
+                                <br/><span id="product_date" style="font-size:13px; font-weight:500;">{{departure_date}} - {{arrival_date}}</span>
+                                <br/><br/>
+                                <div id="loading-price-tour" style="margin-bottom:20px;">
+                                    <div class="col-lg-12">
+                                        <div class="sk-circle">
+                                            <div class="sk-circle1 sk-child"></div>
+                                            <div class="sk-circle2 sk-child"></div>
+                                            <div class="sk-circle3 sk-child"></div>
+                                            <div class="sk-circle4 sk-child"></div>
+                                            <div class="sk-circle5 sk-child"></div>
+                                            <div class="sk-circle6 sk-child"></div>
+                                            <div class="sk-circle7 sk-child"></div>
+                                            <div class="sk-circle8 sk-child"></div>
+                                            <div class="sk-circle9 sk-child"></div>
+                                            <div class="sk-circle10 sk-child"></div>
+                                            <div class="sk-circle11 sk-child"></div>
+                                            <div class="sk-circle12 sk-child"></div>
+                                        </div>
+                                        <div style="text-align:center"><h6>{% trans 'PLEASE WAIT' %}</h6></div>
+                                    </div>
+                                </div>
+                                <div id="tour_detail_table" style="padding: 0; font-size: 12px !important;">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-8" style="margin-top:15px;">
+                        <div class="row">
+                            <div class="modal fade" id="myModalErrorPassenger" role="dialog">
+                                <div class="modal-dialog">
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" style="color:{{text_color}};"><i class="fas fa-search-minus"></i> {% trans 'Oops! Please check your details' %} </i></h4>
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div style="max-height:300px; overflow-y:auto;">
+                                                        <h5><i class="fas fa-times-circle" style="color:red; font-size:24px;"></i> {% trans 'We found a mistake in your data.' %}</h5>
+                                                        <br/>
+                                                        <span id="show_error_log" style="font-size:15px;">
+
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="primary-btn" data-dismiss="modal">OK</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4"></div>
+                            <div class="col-lg-4"></div>
+                            <div class="col-lg-4">
+                                <div id="tour_detail_next_btn">
+
+                                </div>
+                                <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="time_limit_input" value="{{time_limit}}" name="time_limit_input" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 {% endif %}
 {% if username.co_user_login == 'agent_b2c' %}
 {% include 'tt_website_rodextrip/modal_signin_signup.html' %}

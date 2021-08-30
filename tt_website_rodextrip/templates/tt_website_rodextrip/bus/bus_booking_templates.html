@@ -6,34 +6,29 @@
 <!--<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>-->
 <script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/event_javascript.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/webservice_event.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/train_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_train.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/pricing_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_payment_acq.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_printout.js?version={{javascript_version}}"></script>
-{% include 'tt_website_rodextrip/logout.html' %}
-{% include 'tt_website_rodextrip/loading_screen.html' %}
 <script>
     static_path_url_server = '{{static_path_url_server}}';
     order_number = '{{order_number}}';
+    id_types = [];
+    cabin_class_types = [];
+    {% for id_type in id_types%}
+        id_types.push(['{{id_type.0}}', '{{id_type.1}}']);
+    {% endfor %}
+    {% for cabin_class_type in cabin_class_types%}
+        cabin_class_types.push(['{{cabin_class_type.0}}', '{{cabin_class_type.1}}']);
+    {% endfor %}
 </script>
+{% include 'tt_website_rodextrip/logout.html' %}
+{% include 'tt_website_rodextrip/loading_screen.html' %}
 {% include 'tt_website_rodextrip/check_connection.html' %}
 {% include 'tt_website_rodextrip/modal_balance_vendor.html' %}
-<title id="title_search">{{name}} Event - {% trans 'Booking' %}</title>
-<div class="modal fade" id="waitingTransaction" role="dialog" style="background:rgba(20,20,20,0.8);">
-    <div class="modal-dialog" style="margin: 0; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-        <!-- Modal content-->
-        <div class="modal-content" style="background-color:transparent; border:unset;">
-            <div class="modal-body">
-                <div class="col-lg-12" id="viewWaitingTransaction">
-
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
+<div id="overlay-div-box" onclick="close_div('payment_acq');"></div>
+<title id="title_search">{{name}} {% trans 'Train' %} - {% trans 'Booking' %}</title>
 {%if template == 1%}
 <header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
     <div class="main-menu">
@@ -52,7 +47,7 @@
         </div>
     </div>
 </header>
-{% else %}
+{% elif template == 2 or template == 3 or template == 4 or template == 5%}
 <header class="header_breadcrumb" style="position:sticky; top:0px; z-index:100; border-bottom:1px solid #cdcdcd;">
     <div class="main-menu">
         <div class="container">
@@ -71,76 +66,82 @@
     </div>
 </header>
 {% endif %}
-<div id="overlay-div-box" onclick="close_div('payment_acq');"></div>
-<section class="destinations-area" style="padding-top:30px; padding-bottom:40px; z-index:1; background:#f7f7f7;">
+<div class="modal fade" id="waitingTransaction" role="dialog" style="background:rgba(20,20,20,0.8);">
+    <div class="modal-dialog" style="margin: 0; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+        <!-- Modal content-->
+        <div class="modal-content" style="background-color:transparent; border:unset;">
+            <div class="modal-body">
+                <div class="col-lg-12" id="viewWaitingTransaction">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="destinations-area" style="padding-top:30px; padding-bottom:40px; background:#f7f7f7;">
     <div class="container">
         <div class="row">
             <div class="col-lg-3">
                 <button type="button" class="primary-btn-white" style="width:100%;" onclick="window.location.href='/reservation'"> <i class="fas fa-arrow-left"></i> Back </button>
             </div>
             <div class="col-lg-9"></div>
-
-            <div class="col-lg-12 mt-3" id="show_title_event">
-                <h3>{% trans 'Please Review Your Booking' %}</h3>
-                <h5>{% trans 'Prices may changes at any time' %}</h5>
-            </div>
-            <div class="col-lg-12 mt-3">
-                <h3 id="display_state"></h3>
-            </div>
-            <div class="col-lg-12" id="show_loading_booking_airline" style="display:none;">
-                <div class="sk-circle">
-                    <div class="sk-circle1 sk-child"></div>
-                    <div class="sk-circle2 sk-child"></div>
-                    <div class="sk-circle3 sk-child"></div>
-                    <div class="sk-circle4 sk-child"></div>
-                    <div class="sk-circle5 sk-child"></div>
-                    <div class="sk-circle6 sk-child"></div>
-                    <div class="sk-circle7 sk-child"></div>
-                    <div class="sk-circle8 sk-child"></div>
-                    <div class="sk-circle9 sk-child"></div>
-                    <div class="sk-circle10 sk-child"></div>
-                    <div class="sk-circle11 sk-child"></div>
-                    <div class="sk-circle12 sk-child"></div>
+        </div>
+        <div class="mt-3" id="show_title_train" hidden>
+            <h3>{% trans 'Please Review Your Booking' %}</h3>
+            <h4>{% trans 'Prices may changes at any time' %}</h4>
+            <br/>
+        </div>
+        <div class="col-lg-12" id="show_loading_booking_train">
+            <div class="center-div">
+                <div>
+                    <img src="{{static_path}}img/loading-screen-white.gif" style="height:25px; width:25px;"/>
                 </div>
-                <div style="text-align:center"><h6>{% trans 'PLEASE WAIT' %}</h6></div>
             </div>
-            <div class="col-lg-8" id="event_resv_left">
+            <div style="text-align:center">
+                <span style="font-size:18px; font-weight:bold;">{% trans 'PLEASE WAIT' %} ... </span>
+            </div>
+        </div>
+        <div class="alert alert-warning" id="show_error_booking_airline" style="display:none;">
+            <h5>{% trans 'Oops! Something went wrong, please try again or check your internet connection.' %}</h5>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-8">
                 <div class="row">
-                    <div class="col-lg-12 mt-3" id="alert-state">
+                    <input type="text" id="order_number" name="order_number" hidden value="{{order_number}}"/>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12" id="alert-state">
 
                     </div>
                 </div>
-                <div class="row review-header" style="padding:15px;">
-                    <div class="col-lg-12" style="border:1px solid #cdcdcd; background-color:white; padding-top:15px; padding-bottom:15px;" id="event_booking">
 
-                    </div>
-                </div>
-
-                <div class="row review-detail" style="padding:15px;">
-                    <div class="col-lg-12" style="border:1px solid #cdcdcd; background-color:white; padding-top:15px; padding-bottom:15px;" id="event_list_option">
-
-                    </div>
-                </div>
-                <div class="row review-detail" style="margin-bottom:15px;" id="event_btn_printout">
+                <div id="train_booking">
 
                 </div>
-                <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
-                <textarea id="data_copy2" name="data_copy2" rows="4" hidden></textarea>
             </div>
-            <div class="col-lg-4" style="padding-bottom:20px; padding-top:10px;">
-                <div id="event_detail">
+            <div class="col-lg-4">
+                <div id="train_detail">
 
                 </div>
+
                 {% if 'issued_reservation' in username.co_agent_frontend_security %}
-                <div id="voucher_div" style="display:none;">
-                {% include 'tt_website_rodextrip/voucher_code.html'  %} <br/>
+                {% include 'tt_website_rodextrip/voucher_code.html'  %}
+                {% endif %}
+
+                <div class="alert alert-danger" style="border:1px solid #cdcdcd;" id="cancel" hidden>
+
                 </div>
-                <button class="primary-btn issued_booking_btn" type="button" style="width:100%; display:none;" onclick="focus_box('payment_acq');">
-                     {% trans 'Issued Booking' %}
+
+                {% if 'issued_reservation' in username.co_agent_frontend_security %}
+                <button id="issued_btn_train" class="primary-btn-ticket issued_booking_btn" type="button" style="width:100%; display:none;" onclick="focus_box('payment_acq');">
+                    {% trans 'Issued Booking' %}
                 </button>
                 {% endif %}
 
-                <div style="background-color:white; padding:10px; border:1px solid {{color}};margin-top:10px; position:relative;" id="payment_acq" hidden>
+                <div style="background-color:white; padding:10px; border:1px solid {{color}};margin-top:15px; position:relative;" id="payment_acq" hidden>
+
                 </div>
                 <button type="button" class="primary-btn" id="button-home" style="width:100%;margin-top:15px;" onclick="window.location.href='/'" hidden>
                     {% trans 'Home' %}
@@ -181,7 +182,7 @@
                                                 <div class="col-lg-12" style="margin-bottom:15px; margin-top:15px;">
                                                     <hr/>
                                                     <center>
-                                                        <input class="primary-btn-ticket" type="button" onclick="calculate('airline');" value="Calculate">
+                                                        <input class="primary-btn-ticket" type="button" onclick="calculate('train');" value="Calculate">
                                                     </center>
                                                 </div>
                                             </div>
@@ -214,47 +215,26 @@
 
 <script>
     try{
-    document.getElementById('voucher_div').style.display = 'none';
+        document.getElementById('voucher_discount').style.display = 'none';
     }catch(err){}
-    event_signin('{{order_number}}');
+    train_signin('{{order_number}}');
     $( document ).ready(function() {
-      breadcrumb_create("event", 6, 1);
+        breadcrumb_create("train", 5, 1);
     });
+    function goto_seat_map(){
+        document.getElementById('seat_map_request').innerHTML += `{% csrf_token %}`;
+        document.getElementById('seat_map_request').submit();
+    }
 </script>
-
 {% endblock %}
 
 
-<!--<div style="background-color:#f15a22;">-->
-<!--    <ul class="nav nav-tabs" id="myTab" role="tablist">-->
-<!--        <li class="nav-item">-->
-<!--            <a class="nav-link active" id="facilities-tab" data-toggle="tab" href="#facilities" role="tab" aria-controls="facilities" aria-selected="true">-->
-<!--                <span style="color:white;"> Facilities </span>-->
-<!--            </a>-->
-<!--        </li>-->
-<!--        <li class="nav-item">-->
-<!--            <a class="nav-link" id="description-tab" data-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="false">-->
-<!--                <span style="color:white;"> Description </span>-->
-<!--            </a>-->
-<!--        </li>-->
-<!--    </ul>-->
+<!--<div class="col-lg-4" style="padding-bottom:10px;">-->
+<!--    <a href="/train/seat_map" id="seat-map-link"><input type="button" id="button-choose-print" class="primary-btn" style="width:100%;" value="Choose Seat" onclick="train_create_booking();" /></a>-->
 <!--</div>-->
-
-<!--<div class="tab-content" id="myTabContent">-->
-<!--    <div class="tab-pane fade show active" id="facilities" role="tabpanel" aria-labelledby="facilities-tab" style="padding:10px; border-left:1px solid black; border-bottom:1px solid black; border-right:1px solid black; max-height: 410px; overflow-y: auto;">-->
-<!--        <span>-->
-<!--            {% for facility in response.facilities %}-->
-<!--            {{facility.facility_name.facility_name}}<br/>-->
-<!--            {% endfor %}-->
-<!--        </span>-->
-<!--    </div>-->
-<!--    <div class="tab-pane fade" id="description" role="tabpanel" aria-labelledby="description-tab" style="padding:10px; border-left:1px solid black; border-bottom:1px solid black; border-right:1px solid black; max-height: 410px; overflow-y: auto;">-->
-<!--        <p style="text-align: justify;">-->
-<!--            {% if response.description != '' %}-->
-<!--            {{response.description}}-->
-<!--            {% else %}-->
-<!--            No Description-->
-<!--            {% endif %}-->
-<!--        </p>-->
-<!--    </div>-->
+<!--<div class="col-lg-4" style="padding-bottom:10px;">-->
+<!--    <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Print Form" onclick="" />-->
+<!--</div>-->
+<!--<div class="col-lg-4" style="padding-bottom:10px;">-->
+<!--    <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" value="Issued" onclick="train_issued_booking();" />-->
 <!--</div>-->

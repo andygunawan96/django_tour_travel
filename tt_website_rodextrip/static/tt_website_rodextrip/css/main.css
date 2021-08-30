@@ -5797,10 +5797,27 @@ div.scrollmenu li {
 
 
 #myBtnBTP {
+    display: none;
+    position: fixed;
+    bottom: 60px;
+    left: 15px;
+    z-index: 999;
+    font-size: 20px;
+    border: 1px solid #cdcdcd;
+    outline: none;
+    background-color: #f15a22;
+    color: white;
+    cursor: pointer;
+    height: 50px;
+    width: 50px;
+    border-radius: 28px;
+}
+
+/*#myBtnBTP {
   display: none;
   position: fixed;
-  bottom: 55px;
-  left: 0px;
+  bottom: 120px;
+  left: 40px;
   z-index: 999;
   font-size: 20px;
   border: 1px solid #cdcdcd;
@@ -5810,8 +5827,10 @@ div.scrollmenu li {
   cursor: pointer;
   height:55px;
   width:55px;
-  /*border-radius: 28px;*/
+  //border-radius: 28px;
 }
+*/
+
 
 #myBtnBTP:hover {
   background-color: #C04B21;

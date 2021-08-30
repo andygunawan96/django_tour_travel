@@ -65,7 +65,7 @@
         </div>
     </div>
 </header>
-{% elif template == 2 or template == 3 or template == 4 or template == 5%}
+{% else %}
 <header class="header_breadcrumb" style="position:sticky; top:0px; z-index:100; border-bottom:1px solid #cdcdcd; background:white;">
     <div class="main-menu">
         <div class="container">
@@ -197,7 +197,11 @@
                                                         {%if template != 3%}
                                                         <div class="input-container-search-ticket">
                                                         {% endif %}
+                                                        {%if template == 6%}
+                                                            <div class="form-select">
+                                                        {% else %}
                                                             <div class="form-select-2">
+                                                        {% endif %}
                                                                 <select id="adult_passport{{forloop.counter}}" name="adult_title{{forloop.counter}}" class="nice-select-default" onchange="set_value('adult',{{counter}});">
                                                                     <option></option>
                                                                     {% for pass in passport.list_of_passport%}

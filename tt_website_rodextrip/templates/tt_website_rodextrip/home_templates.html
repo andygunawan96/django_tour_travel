@@ -16,9 +16,11 @@
 <script src="{{ static_path }}js/webservice_ppob.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_event.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_medical.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_bus.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/ppob_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/train_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/bus_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/passport_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/visa_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/activity_javascript.js?version={{javascript_version}}"></script>
@@ -34,6 +36,7 @@
 <link rel="stylesheet" type="text/css" href="{{ static_path }}login/css/owl.theme.default.min.css?version={{javascript_version}}">
 <link rel="stylesheet" type="text/css" href="{{ static_path }}login/css/owl.theme.green.min.css?version={{javascript_version}}">
 <script src="{{ static_path }}js/vendor/owl.carousel.min.js?version={{javascript_version}}"></script>
+<script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
 <script>
     signature = `{{signature}}`;
     static_path_url_server = '{{static_path_url_server}}'
@@ -61,26 +64,25 @@
     {% endif %}
 </script>
 
-{% if "{{app_id_one_signal}}" != ""%}
-<script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
 <script>
-
-    var OneSignal = window.OneSignal || [];
-    var initConfig = {
-        appId: "{{app_id_one_signal}}",
-        notifyButton: {
-            enable: true
-        },
-    };
-    OneSignal.push(function () {
-        OneSignal.SERVICE_WORKER_PARAM = { scope: '/onesignal/' };
-        OneSignal.SERVICE_WORKER_PATH = '{{ static_path }}/onesignal/OneSignalSDKWorker.js'
-        OneSignal.SERVICE_WORKER_UPDATER_PATH = '{{ static_path }}/onesignal/OneSignalSDKUpdaterWorker.js'
-        OneSignal.init(initConfig);
-    });
+    var app_id_one_signal = '{{app_id_one_signal}}';
+    if(app_id_one_signal){
+        var OneSignal = window.OneSignal || [];
+        var initConfig = {
+            appId: "{{app_id_one_signal}}",
+            notifyButton: {
+                enable: true
+            },
+        };
+        OneSignal.push(function () {
+            OneSignal.SERVICE_WORKER_PARAM = { scope: '/onesignal/' };
+            OneSignal.SERVICE_WORKER_PATH = '{{ static_path }}/onesignal/OneSignalSDKWorker.js'
+            OneSignal.SERVICE_WORKER_UPDATER_PATH = '{{ static_path }}/onesignal/OneSignalSDKUpdaterWorker.js'
+            OneSignal.init(initConfig);
+        });
+    }
 
 </script>
-{% endif %}
 
 <style>
     {% if template == 6%}
@@ -391,6 +393,13 @@
                             <a class="nav-link {%if forloop.counter == 1 %}active{%endif%}" id="medical2-tab" data-toggle="tab" href="#medical2" role="tab" aria-controls="medical2" aria-selected="false">
                                 <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Medical Icon"/></i>
                                 <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'Test Covid PHC' %} </span>
+                            </a>
+                        </li>
+                            {% elif "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security and rec.name == "bus" %}
+                        <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'bus');" id="nav_scroll_menu_bus">
+                            <a class="nav-link {%if forloop.counter == 1 %}active{%endif%}" id="bus-tab" data-toggle="tab" href="#bus" role="tab" aria-controls="bus" aria-selected="false">
+                                <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-train.png" alt="Bus Icon"/></i>
+                                <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'Bus' %} </span>
                             </a>
                         </li>
                             {% endif %}
@@ -725,6 +734,106 @@
                                 <input type="hidden" id="train_response" name="response"/>
                                 <center>
                                     <button class="primary-btn ld-ext-right" id="btn-search-train" type="button" onclick="get_captcha('recaptcha_train','train');" value="Submit">
+                                        <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                        {% trans 'Search' %}
+                                        <div class="ld ld-ring ld-cycle"></div>
+                                    </button>
+                                </center>
+                            </form>
+                        </div>
+                        {% endif %}
+                        {% if "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security%}
+                        <div class="tab-pane fade {%if provider_types_sequence.0.name == 'bus' %}show active {% endif %}" id="bus" role="tabpanel" aria-labelledby="train-bus">
+                            <!--<center>-->
+                            <!--<div style="padding:15px;">-->
+                            <!--<img style="width:auto; height:100px" src="{{static_path}}images/icon/sorry.png"/>-->
+                            <!--<h1 style="color:{{text_color}} !important;">Train under construction</h1>-->
+                            <!--</div>-->
+                            <!--</center>-->
+                            <form action="{% url 'tt_website_rodextrip:bus_search'%}" method="POST" class="form-wrap" id="bus_searchForm" onsubmit="return search_train_validation()">
+                                {% csrf_token %}
+                                <input type="hidden" name="g-recaptcha-response" id='recaptcha_bus'>
+                                <div class="row">
+                                    <div class="col-lg-12" id="radio_bus_search" style="padding:0px; text-align:left;margin-bottom:10px;">
+                                        <label class="radio-button-custom crlabel">
+                                            <span style="font-size:13px; color:{{text_color}};">{% trans 'One Way' %}</span>
+                                            <input type="radio" checked="checked" name="radio_bus_type" value="oneway">
+                                            <span class="checkmark-radio crspan"></span>
+                                        </label>
+                                        <label class="radio-button-custom crlabel">
+                                            <span style="font-size:13px; color:{{text_color}};">{% trans 'Round Trip' %}</span>
+                                            <input type="radio" name="radio_bus_type" value="roundtrip">
+                                            <span class="checkmark-radio crspan"></span>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6 col-sm-6 train-from" style="padding-left:0px;">
+                                                <span class="span-search-ticket"><i class="fas fa-train"></i> {% trans 'From' %}</span>
+                                                <div class="input-container-search-ticket">
+                                                    <input id="bus_origin" name="bus_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_origin').select();" onclick="set_train_search_value_to_false();" value="">
+                                                </div>
+                                            </div>
+                                            <div class="image-change-route-vertical2">
+                                                <span><a href="javascript:bus_switch();" style="z-index:5; color:black;" id="bus_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></span>
+                                            </div>
+                                            <div class="image-change-route-horizontal2">
+                                                <span><a class="horizontal-arrow" href="javascript:bus_switch();" style="z-index:5; color:{{text_color}} !important;" id="train_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></span>
+                                            </div>
+
+                                            <div class="col-lg-6 col-md-6 col-sm-6 train-to" style="z-index:5; padding-right:0px;">
+                                                <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> {% trans 'To' %}</span>
+                                                <div class="input-container-search-ticket">
+                                                    <input id="bus_destination" name="bus_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_destination').select();" onclick="set_train_search_value_to_false();" value="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-6 col-sm-6" style="padding:0px;" id="bus_date_search">
+                                        <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure' %}</span>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" class="form-control" id="bus_departure" name="bus_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly/>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-6 col-sm-6" style="padding:0px;">
+                                        <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
+                                        <div class="input-container-search-ticket btn-group">
+                                            <button id="show_total_pax_bus" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <div class="row" style="padding:10px;">
+                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                        <div style="float:left;">
+                                                            <label>
+                                                                <span style="color:black; font-size:13px;">{% trans 'Adult' %}<br/></span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                        <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                            <button type="button" class="left-minus-adult-train btn-custom-circle" id="left-minus-adult-train" data-type="minus" data-field="" disabled>
+                                                                <i class="fas fa-minus"></i>
+                                                            </button>
+                                                            <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="bus_adult" name="bus_adult" value="1" min="1" readonly>
+                                                            <button type="button" class="right-plus-adult-train btn-custom-circle" id="right-plus-adult-train" data-type="plus" data-field="">
+                                                                <i class="fas fa-plus"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-12" style="text-align:right;">
+                                                        <hr/>
+                                                        <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('train','passenger');">Done</button>
+                                                    </div>
+                                                </div>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br/>
+
+                                <input type="hidden" id="bus_response" name="response"/>
+                                <center>
+                                    <button class="primary-btn ld-ext-right" id="btn-search-train" type="button" onclick="get_captcha('recaptcha_bus','bus');" value="Submit">
                                         <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                         {% trans 'Search' %}
                                         <div class="ld ld-ring ld-cycle"></div>
@@ -7460,8 +7569,8 @@
                             <input type="hidden" value="ID - Indonesia" id="hotel_id_nationality" class="form-control" name="hotel_id_nationality" />
                         </div>
 
-                        <div class="col-lg-12" style="margin-top:5px;float:left; display:contents;">
-                            <label class="check_box_custom cblabel" style="margin:0px 15px;">
+                        <div class="col-lg-12" style="margin-top:15px;float:left;">
+                            <label class="check_box_custom cblabel" style="margin:0px;">
                                 <span class="span-search-ticket" id="business_trip_help_show" style="font-size:13px;">{% trans 'Business Trip' %}</span>
                                 <input type="checkbox" value="true" onclick="business_trip_check();">
                                 <input type="hidden" name="business_trip" id="business_trip" value="false"/>
@@ -7776,12 +7885,12 @@
 
                         <div class="col-lg-12">
                             <div class="row">
-                                <div class="col-lg-12 search_type">
+                                <div class="col-lg-12">
                                     <span class="span-search-ticket"><i class="fa fa-folder-open"></i> {% trans 'Category / Type' %} </span>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-lg-4 search_type">
+                                <div class="col-lg-4">
                                     <div class="form-select">
                                         <select class="js-example-basic-single" style="width:100%;" id="activity_type" name="activity_type" data-live-search="true" size="5">
                                             <option value="0" selected="">{% trans 'All Types' %}</option>
@@ -8527,6 +8636,48 @@
                 }
             });
             {% endif %}
+
+            {% if "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security %}
+            get_bus_config();
+
+            var bus_origin = new autoComplete({
+                selector: '#bus_origin',
+                minChars: 1,
+                cache: false,
+                delay:0,
+                source: function(term, suggest){
+                    if(term.split(' - ').length == 3)
+                            term = ''
+                    if(term.length > 1)
+                        suggest(bus_search_autocomplete(term,'origin'));
+                },
+                onSelect: function(e, term, item){
+                    setTimeout(function(){
+                        $("#bus_destination").focus();
+                    }, 200);
+                    set_bus_search_value_to_true();
+                }
+            });
+            var bus_destination = new autoComplete({
+                selector: '#bus_destination',
+                minChars: 0,
+                cache: false,
+                delay:0,
+                source: function(term, suggest){
+                    if(term.split(' - ').length == 3)
+                        term = ''
+                    if(term.length > 1)
+                        suggest(bus_search_autocomplete(term,'destination'));
+                },
+                onSelect: function(e, term, item){
+                    setTimeout(function(){
+                        $("#bus_departure").focus();
+                        $("#bus_departure_return").focus();
+                    }, 200);
+                    set_bus_search_value_to_true();
+                }
+            });
+            {% endif %}
             {% if "activity" in provider and "ticketing_activity" in username.co_agent_frontend_security %}
             var activity_autocomplete = new autoComplete({
                 selector: '#activity_query',
@@ -8767,6 +8918,43 @@
                 $('input[name="train_departure"]').on('apply.daterangepicker', function(ev, picker) {
                     setTimeout(function(){
                         $("#show_total_pax_train").click();
+                    }, 200);
+                });
+
+            {% endif %}
+
+            {% if "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security %}
+                try{
+                    document.getElementById('bus_origin').value = cache.bus.origin;
+                }catch(err){
+                    document.getElementById('bus_origin').value = '{{bus_origin}}';
+                }
+                try{
+                    document.getElementById('bus_destination').value = cache.bus.destination;
+                }catch(err){
+                    document.getElementById('bus_destination').value = '{{bus_destination}}';
+                }
+                try{
+                    bus_date = cache.bus.departure;
+                }catch(err){
+                    bus_date = now;
+                }
+                $('input[name="bus_departure"]').daterangepicker({
+                    singleDatePicker: true,
+                    autoUpdateInput: true,
+                    startDate: bus_date,
+                    minDate: moment(),
+                    maxDate: moment().subtract(-90, 'days'),
+                    showDropdowns: true,
+                    opens: 'center',
+                    locale: {
+                        format: 'DD MMM YYYY',
+                    }
+                });
+
+                $('input[name="bus_departure"]').on('apply.daterangepicker', function(ev, picker) {
+                    setTimeout(function(){
+                        $("#show_total_pax_bus").click();
                     }, 200);
                 });
 
