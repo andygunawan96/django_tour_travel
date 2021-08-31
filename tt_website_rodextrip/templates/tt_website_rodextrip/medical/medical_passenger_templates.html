@@ -32,6 +32,7 @@
     global_zip_code = '';
     global_area = '';
     set_default_data = true;
+    global_kecamatan = '';
 </script>
 
 <script type="text/javascript">
@@ -3549,10 +3550,14 @@
                         if (results[0].address_components[j].types[0] == 'postal_code'){
                             console.log("Zip Code: " + results[0].address_components[j].short_name);
                             global_zip_code = results[0].address_components[j].short_name;
-                            get_area_global();
+                        }else if(results[0].address_components[j].types[0] == 'administrative_area_level_3'){
+                            global_kecamatan = results[0].address_components[j].long_name;
+                            if(global_kecamatan.includes("Kecamatan"))
+                                global_kecamatan = global_kecamatan.replace('Kecamatan ','')
                         }
                     }
                 }
+                get_area_global();
             } else {
                 //alert("Geocoder failed due to: " + status);
             }
