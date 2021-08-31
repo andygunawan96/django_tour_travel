@@ -7730,7 +7730,7 @@ function add_table(change_rebooking=false){
     document.getElementById('next_medical').style.display = 'none';
 
     try{
-//    document.getElementById('medical_pax_div').hidden = true;
+    document.getElementById('medical_pax_div').hidden = true;
     }catch(err){}
 
     if(change_rebooking == true && total_passengers_rebooking != 0){
@@ -7768,6 +7768,10 @@ function add_table_verify(change_rebooking=false){
     }
     document.getElementById('medical_detail').style.display = 'none';
     document.getElementById('next_medical').style.display = 'none';
+    try{
+    document.getElementById('medical_pax_div').hidden = true;
+    }catch(err){}
+
     if(change_rebooking == true && total_passengers_rebooking != 0){
         //readd change value pax add table
         document.getElementById('passenger').value = total_passengers_rebooking;
