@@ -14,7 +14,7 @@ function add_other_time(type='add'){
                 <div class="col-lg-6">
                     <label style="color:red !important">*</label>
                     <label>Test Date</label>
-                    <div class="input-container-search-ticket">
+                    <div class="input-container-search-ticket mb-3">
                         <input type="text" class="form-control" style="cursor:pointer; background:white;" name="booker_test_date`+test_time+`" id="booker_test_date`+test_time+`" placeholder="Test Date" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Test Date '" autocomplete="off" readonly>
                     </div>
                 </div>`;
@@ -27,7 +27,7 @@ function add_other_time(type='add'){
         text+=`
                     <label style="color:red !important;">*</label>
                     <label>Timeslot</label>
-                    <div class="row">
+                    <div class="row mb-3">
                         <div class="col-lg-8">`;
 
                         if(template == 1){
@@ -49,8 +49,8 @@ function add_other_time(type='add'){
                         }
                         else if(template == 3){
                             text+=`
-                            <div class="form-group">
-                                <div class="default-select">
+                            <div class="input-container-search-ticket">
+                                <div class="form-select-2" style="width:100%;">
                                     <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot" onchange="change_timeslot(`+test_time+`)">
 
                                     </select>
@@ -60,8 +60,8 @@ function add_other_time(type='add'){
                         else if(template == 4){
                             text+=`
                             <div class="input-container-search-ticket">
-                                <div class="form-select" id="default-select" style="width:100%;">
-                                    <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot" onchange="change_timeslot(`+test_time+`)">
+                                <div class="form-select-2" style="width:100%;">
+                                    <select class="nice-select-default" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot" onchange="change_timeslot(`+test_time+`)">
 
                                     </select>
                                 </div>
@@ -130,13 +130,13 @@ function add_other_time(type='add'){
         $('input[name="booker_test_date'+test_time+'"]').on('apply.daterangepicker', function(ev, picker) {
             var val = parseInt(ev.target.id.replace('booker_test_date',''));
             update_timeslot(val);
-            if(vendor == 'phc'){
+            if (vendor == 'phc' && test_type != 'PHCHCKPCR'){
                 if(test_type.includes('PCR')){
                     check_kuota_phc();
                 }
             }
         });
-        if(vendor == 'phc'){
+        if (vendor == 'phc' && test_type != 'PHCHCKPCR'){
             if(test_type.includes('PCR')){
                 check_kuota_phc();
             }
@@ -199,7 +199,7 @@ function add_other_time(type='add'){
                 $('input[name="booker_test_date'+nomor_test+'"]').on('apply.daterangepicker', function(ev, picker) {
                     var val = parseInt(ev.target.id.replace('booker_test_date',''));
                     update_timeslot(val);
-                    if(vendor == 'phc'){
+                    if (vendor == 'phc' && test_type != 'PHCHCKPCR'){
                         if(test_type.includes('PCR')){
                             check_kuota_phc();
                         }
@@ -265,8 +265,12 @@ function get_area_global(){
     for(i=1;i<test_time;i++){
         update_timeslot(i);
     }
-    if(test_type.includes('PHCHC'))
+    if(test_type.includes('PHCHC')){
         document.getElementById('div_schedule_medical').style.display = 'block';
+        $('html, body').animate({
+            scrollTop: $("#div_schedule_medical").offset().top - 110
+        }, 500);
+    }
 }
 
 function print_timeslot(i,medical_date_pick){
@@ -467,7 +471,9 @@ function add_table_of_passenger_verify(type){
 
                         if(template == 5){
                             text_div_paxs+=`<div class="form-select">`;
-                        }else if(template == 3 || template == 6){
+                        }else if(template == 3){
+                            text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                        }else if(template == 6){
                             text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                         }else{
                             text_div_paxs+=`<div class="form-select-2">`;
@@ -539,7 +545,9 @@ function add_table_of_passenger_verify(type){
 
                             if(template == 5){
                                 text_div_paxs+=`<div class="form-select">`;
-                            }else if(template == 3 || template == 6){
+                            }else if(template == 3){
+                                text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                            }else if(template == 6){
                                 text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                             }else{
                                 text_div_paxs+=`<div class="form-select-2">`;
@@ -591,7 +599,9 @@ function add_table_of_passenger_verify(type){
 
                         if(template == 5){
                             text_div_paxs+=`<div class="form-select">`;
-                        }else if(template == 3 || template == 6){
+                        }else if(template == 3){
+                            text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                        }else if(template == 6){
                             text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                         }else{
                             text_div_paxs+=`<div class="form-select-2">`;
@@ -1025,7 +1035,9 @@ function add_table_of_passenger(type){
 
                         if(template == 5){
                             text_div_paxs+=`<div class="form-select">`;
-                        }else if(template == 3 || template == 6){
+                        }else if(template == 3){
+                            text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                        }else if(template == 6){
                             text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                         }else{
                             text_div_paxs+=`<div class="form-select-2">`;
@@ -1065,7 +1077,9 @@ function add_table_of_passenger(type){
 
                             if(template == 5){
                                 text_div_paxs+=`<div class="form-select">`;
-                            }else if(template == 3 || template == 6){
+                            }else if(template == 3){
+                                text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                            }else if(template == 6){
                                 text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                             }else{
                                 text_div_paxs+=`<div class="form-select-2">`;
@@ -1183,7 +1197,9 @@ function add_table_of_passenger(type){
 
                             if(template == 5){
                                 text_div_paxs+=`<div class="form-select">`;
-                            }else if(template == 3 || template == 6){
+                            }else if(template == 3){
+                                text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                            }else if(template == 6){
                                 text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                             }else{
                                 text_div_paxs+=`<div class="form-select-2">`;
@@ -1231,7 +1247,9 @@ function add_table_of_passenger(type){
 
                         if(template == 5){
                             text_div_paxs+=`<div class="form-select">`;
-                        }else if(template == 3 || template == 6){
+                        }else if(template == 3){
+                            text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                        }else if(template == 6){
                             text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                         }else{
                             text_div_paxs+=`<div class="form-select-2">`;
@@ -1446,7 +1464,9 @@ function add_table_of_passenger(type){
 
                         if(template == 5){
                             text_div_paxs+=`<div class="form-select">`;
-                        }else if(template == 3 || template == 6){
+                        }else if(template == 3){
+                            text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                        }else if(template == 6){
                             text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                         }else{
                             text_div_paxs+=`<div class="form-select-2">`;
@@ -1493,7 +1513,9 @@ function add_table_of_passenger(type){
 
                             if(template == 5){
                                 text_div_paxs+=`<div class="form-select">`;
-                            }else if(template == 3 || template == 6){
+                            }else if(template == 3){
+                                text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                            }else if(template == 6){
                                 text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                             }else{
                                 text_div_paxs+=`<div class="form-select-2">`;
@@ -1547,7 +1569,9 @@ function add_table_of_passenger(type){
 
                                 if(template == 5){
                                     text_div_paxs+=`<div class="form-select">`;
-                                }else if(template == 3 || template == 6){
+                                }else if(template == 3){
+                                    text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                                }else if(template == 6){
                                     text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                                 }else{
                                     text_div_paxs+=`<div class="form-select-2">`;
@@ -1619,7 +1643,9 @@ function add_table_of_passenger(type){
 
                             if(template == 5){
                                 text_div_paxs+=`<div class="form-select">`;
-                            }else if(template == 3 || template == 6){
+                            }else if(template == 3){
+                                text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                            }else if(template == 6){
                                 text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                             }else{
                                 text_div_paxs+=`<div class="form-select-2">`;
@@ -1658,7 +1684,9 @@ function add_table_of_passenger(type){
 
                             if(template == 5){
                                 text_div_paxs+=`<div class="form-select">`;
-                            }else if(template == 3 || template == 6){
+                            }else if(template == 3){
+                                text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                            }else if(template == 6){
                                 text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                             }else{
                                 text_div_paxs+=`<div class="form-select-2">`;
@@ -1695,7 +1723,9 @@ function add_table_of_passenger(type){
 
                             if(template == 5){
                                 text_div_paxs+=`<div class="form-select">`;
-                            }else if(template == 3 || template == 6){
+                            }else if(template == 3){
+                                text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                            }else if(template == 6){
                                 text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                             }else{
                                 text_div_paxs+=`<div class="form-select-2">`;
@@ -1732,7 +1762,9 @@ function add_table_of_passenger(type){
 
                             if(template == 5){
                                 text_div_paxs+=`<div class="form-select">`;
-                            }else if(template == 3 || template == 6){
+                            }else if(template == 3){
+                                text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                            }else if(template == 6){
                                 text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                             }else{
                                 text_div_paxs+=`<div class="form-select-2">`;
@@ -1817,7 +1849,9 @@ function add_table_of_passenger(type){
 
                             if(template == 5){
                                 text_div_paxs+=`<div class="form-select">`;
-                            }else if(template == 3 || template == 6){
+                            }else if(template == 3){
+                                text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                            }else if(template == 6){
                                 text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                             }else{
                                 text_div_paxs+=`<div class="form-select-2">`;
@@ -1856,7 +1890,9 @@ function add_table_of_passenger(type){
 
                             if(template == 5){
                                 text_div_paxs+=`<div class="form-select">`;
-                            }else if(template == 3 || template == 6){
+                            }else if(template == 3){
+                                text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                            }else if(template == 6){
                                 text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                             }else{
                                 text_div_paxs+=`<div class="form-select-2">`;
@@ -1893,7 +1929,9 @@ function add_table_of_passenger(type){
 
                             if(template == 5){
                                 text_div_paxs+=`<div class="form-select">`;
-                            }else if(template == 3 || template == 6){
+                            }else if(template == 3){
+                                text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                            }else if(template == 6){
                                 text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                             }else{
                                 text_div_paxs+=`<div class="form-select-2">`;
@@ -1989,7 +2027,9 @@ function add_table_of_passenger(type){
 
                             if(template == 5){
                                 text_div_paxs+=`<div class="form-select">`;
-                            }else if(template == 3 || template == 6){
+                            }else if(template == 3){
+                                text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                            }else if(template == 6){
                                 text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                             }else{
                                 text_div_paxs+=`<div class="form-select-2">`;
@@ -2028,7 +2068,9 @@ function add_table_of_passenger(type){
 
                             if(template == 5){
                                 text_div_paxs+=`<div class="form-select">`;
-                            }else if(template == 3 || template == 6){
+                            }else if(template == 3){
+                                text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                            }else if(template == 6){
                                 text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                             }else{
                                 text_div_paxs+=`<div class="form-select-2">`;
@@ -2065,7 +2107,9 @@ function add_table_of_passenger(type){
 
                             if(template == 5){
                                 text_div_paxs+=`<div class="form-select">`;
-                            }else if(template == 3 || template == 6){
+                            }else if(template == 3){
+                                text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                            }else if(template == 6){
                                 text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                             }else{
                                 text_div_paxs+=`<div class="form-select-2">`;
@@ -2149,7 +2193,9 @@ function add_table_of_passenger(type){
 
                                     if(template == 5){
                                         text_div_paxs+=`<div class="form-select">`;
-                                    }else if(template == 3 || template == 6){
+                                    }else if(template == 3){
+                                        text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                                    }else if(template == 6){
                                         text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                                     }else{
                                         text_div_paxs+=`<div class="form-select-2">`;
@@ -2203,7 +2249,9 @@ function add_table_of_passenger(type){
 
                                     if(template == 5){
                                         text_div_paxs+=`<div class="form-select">`;
-                                    }else if(template == 3 || template == 6){
+                                    }else if(template == 3){
+                                        text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                                    }else if(template == 6){
                                         text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                                     }else{
                                         text_div_paxs+=`<div class="form-select-2">`;
@@ -2273,7 +2321,9 @@ function add_table_of_passenger(type){
 
                                     if(template == 5){
                                         text_div_paxs+=`<div class="form-select">`;
-                                    }else if(template == 3 || template == 6){
+                                    }else if(template == 3){
+                                        text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                                    }else if(template == 6){
                                         text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                                     }else{
                                         text_div_paxs+=`<div class="form-select-2">`;
@@ -2312,7 +2362,9 @@ function add_table_of_passenger(type){
 
                                     if(template == 5){
                                         text_div_paxs+=`<div class="form-select">`;
-                                    }else if(template == 3 || template == 6){
+                                    }else if(template == 3){
+                                        text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                                    }else if(template == 6){
                                         text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                                     }else{
                                         text_div_paxs+=`<div class="form-select-2">`;
@@ -2351,7 +2403,9 @@ function add_table_of_passenger(type){
 
                                     if(template == 5){
                                         text_div_paxs+=`<div class="form-select">`;
-                                    }else if(template == 3 || template == 6){
+                                    }else if(template == 3){
+                                        text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                                    }else if(template == 6){
                                         text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                                     }else{
                                         text_div_paxs+=`<div class="form-select-2">`;
@@ -2390,7 +2444,9 @@ function add_table_of_passenger(type){
 
                                     if(template == 5){
                                         text_div_paxs+=`<div class="form-select">`;
-                                    }else if(template == 3 || template == 6){
+                                    }else if(template == 3){
+                                        text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                                    }else if(template == 6){
                                         text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                                     }else{
                                         text_div_paxs+=`<div class="form-select-2">`;
@@ -2438,7 +2494,9 @@ function add_table_of_passenger(type){
 
                                     if(template == 5){
                                         text_div_paxs+=`<div class="form-select">`;
-                                    }else if(template == 3 || template == 6){
+                                    }else if(template == 3){
+                                        text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                                    }else if(template == 6){
                                         text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                                     }else{
                                         text_div_paxs+=`<div class="form-select-2">`;
@@ -2477,7 +2535,9 @@ function add_table_of_passenger(type){
 
                                     if(template == 5){
                                         text_div_paxs+=`<div class="form-select">`;
-                                    }else if(template == 3 || template == 6){
+                                    }else if(template == 3){
+                                        text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                                    }else if(template == 6){
                                         text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                                     }else{
                                         text_div_paxs+=`<div class="form-select-2">`;
@@ -2525,7 +2585,9 @@ function add_table_of_passenger(type){
 
                                     if(template == 5){
                                         text_div_paxs+=`<div class="form-select">`;
-                                    }else if(template == 3 || template == 6){
+                                    }else if(template == 3){
+                                        text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                                    }else if(template == 6){
                                         text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                                     }else{
                                         text_div_paxs+=`<div class="form-select-2">`;
@@ -2579,7 +2641,9 @@ function add_table_of_passenger(type){
 
                                         if(template == 5){
                                             text_div_paxs+=`<div class="form-select">`;
-                                        }else if(template == 3 || template == 6){
+                                        }else if(template == 3){
+                                            text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                                        }else if(template == 6){
                                             text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                                         }else{
                                             text_div_paxs+=`<div class="form-select-2">`;
@@ -2637,7 +2701,9 @@ function add_table_of_passenger(type){
 
                                         if(template == 5){
                                             text_div_paxs+=`<div class="form-select">`;
-                                        }else if(template == 3 || template == 6){
+                                        }else if(template == 3){
+                                            text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                                        }else if(template == 6){
                                             text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                                         }else{
                                             text_div_paxs+=`<div class="form-select-2">`;
@@ -2688,7 +2754,9 @@ function add_table_of_passenger(type){
 
                                         if(template == 5){
                                             text_div_paxs+=`<div class="form-select">`;
-                                        }else if(template == 3 || template == 6){
+                                        }else if(template == 3){
+                                            text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                                        }else if(template == 6){
                                             text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                                         }else{
                                             text_div_paxs+=`<div class="form-select-2">`;
@@ -2728,7 +2796,9 @@ function add_table_of_passenger(type){
 
                                         if(template == 5){
                                             text_div_paxs+=`<div class="form-select">`;
-                                        }else if(template == 3 || template == 6){
+                                        }else if(template == 3){
+                                            text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                                        }else if(template == 6){
                                             text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                                         }else{
                                             text_div_paxs+=`<div class="form-select-2">`;
@@ -2768,7 +2838,9 @@ function add_table_of_passenger(type){
 
                                         if(template == 5){
                                             text_div_paxs+=`<div class="form-select">`;
-                                        }else if(template == 3 || template == 6){
+                                        }else if(template == 3){
+                                            text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                                        }else if(template == 6){
                                             text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                                         }else{
                                             text_div_paxs+=`<div class="form-select-2">`;
@@ -2808,7 +2880,9 @@ function add_table_of_passenger(type){
 
                                         if(template == 5){
                                             text_div_paxs+=`<div class="form-select">`;
-                                        }else if(template == 3 || template == 6){
+                                        }else if(template == 3){
+                                            text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                                        }else if(template == 6){
                                             text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                                         }else{
                                             text_div_paxs+=`<div class="form-select-2">`;
@@ -2848,7 +2922,9 @@ function add_table_of_passenger(type){
 
                                         if(template == 5){
                                             text_div_paxs+=`<div class="form-select">`;
-                                        }else if(template == 3 || template == 6){
+                                        }else if(template == 3){
+                                            text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                                        }else if(template == 6){
                                             text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                                         }else{
                                             text_div_paxs+=`<div class="form-select-2">`;
@@ -2888,7 +2964,9 @@ function add_table_of_passenger(type){
 
                                         if(template == 5){
                                             text_div_paxs+=`<div class="form-select">`;
-                                        }else if(template == 3 || template == 6){
+                                        }else if(template == 3){
+                                            text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                                        }else if(template == 6){
                                             text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                                         }else{
                                             text_div_paxs+=`<div class="form-select-2">`;
@@ -2928,7 +3006,9 @@ function add_table_of_passenger(type){
 
                                         if(template == 5){
                                             text_div_paxs+=`<div class="form-select">`;
-                                        }else if(template == 3 || template == 6){
+                                        }else if(template == 3){
+                                            text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                                        }else if(template == 6){
                                             text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                                         }else{
                                             text_div_paxs+=`<div class="form-select-2">`;
@@ -2968,7 +3048,9 @@ function add_table_of_passenger(type){
 
                                         if(template == 5){
                                             text_div_paxs+=`<div class="form-select">`;
-                                        }else if(template == 3 || template == 6){
+                                        }else if(template == 3){
+                                            text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                                        }else if(template == 6){
                                             text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                                         }else{
                                             text_div_paxs+=`<div class="form-select-2">`;
@@ -3008,7 +3090,9 @@ function add_table_of_passenger(type){
 
                                         if(template == 5){
                                             text_div_paxs+=`<div class="form-select">`;
-                                        }else if(template == 3 || template == 6){
+                                        }else if(template == 3){
+                                            text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                                        }else if(template == 6){
                                             text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                                         }else{
                                             text_div_paxs+=`<div class="form-select-2">`;
@@ -3048,7 +3132,9 @@ function add_table_of_passenger(type){
 
                                         if(template == 5){
                                             text_div_paxs+=`<div class="form-select">`;
-                                        }else if(template == 3 || template == 6){
+                                        }else if(template == 3){
+                                            text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                                        }else if(template == 6){
                                             text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                                         }else{
                                             text_div_paxs+=`<div class="form-select-2">`;
@@ -3088,7 +3174,9 @@ function add_table_of_passenger(type){
 
                                         if(template == 5){
                                             text_div_paxs+=`<div class="form-select">`;
-                                        }else if(template == 3 || template == 6){
+                                        }else if(template == 3){
+                                            text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                                        }else if(template == 6){
                                             text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                                         }else{
                                             text_div_paxs+=`<div class="form-select-2">`;
@@ -3143,7 +3231,9 @@ function add_table_of_passenger(type){
 
                                         if(template == 5){
                                             text_div_paxs+=`<div class="form-select">`;
-                                        }else if(template == 3 || template == 6){
+                                        }else if(template == 3){
+                                            text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                                        }else if(template == 6){
                                             text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                                         }else{
                                             text_div_paxs+=`<div class="form-select-2">`;
@@ -3188,7 +3278,9 @@ function add_table_of_passenger(type){
 
                                         if(template == 5){
                                             text_div_paxs+=`<div class="form-select">`;
-                                        }else if(template == 3 || template == 6){
+                                        }else if(template == 3){
+                                            text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                                        }else if(template == 6){
                                             text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                                         }else{
                                             text_div_paxs+=`<div class="form-select-2">`;
@@ -3228,7 +3320,9 @@ function add_table_of_passenger(type){
 
                                         if(template == 5){
                                             text_div_paxs+=`<div class="form-select">`;
-                                        }else if(template == 3 || template == 6){
+                                        }else if(template == 3){
+                                            text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                                        }else if(template == 6){
                                             text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                                         }else{
                                             text_div_paxs+=`<div class="form-select-2">`;
@@ -3268,7 +3362,9 @@ function add_table_of_passenger(type){
 
                                         if(template == 5){
                                             text_div_paxs+=`<div class="form-select">`;
-                                        }else if(template == 3 || template == 6){
+                                        }else if(template == 3){
+                                            text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                                        }else if(template == 6){
                                             text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                                         }else{
                                             text_div_paxs+=`<div class="form-select-2">`;
@@ -3308,7 +3404,9 @@ function add_table_of_passenger(type){
 
                                         if(template == 5){
                                             text_div_paxs+=`<div class="form-select">`;
-                                        }else if(template == 3 || template == 6){
+                                        }else if(template == 3){
+                                            text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                                        }else if(template == 6){
                                             text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                                         }else{
                                             text_div_paxs+=`<div class="form-select-2">`;
@@ -3348,7 +3446,9 @@ function add_table_of_passenger(type){
 
                                         if(template == 5){
                                             text_div_paxs+=`<div class="form-select">`;
-                                        }else if(template == 3 || template == 6){
+                                        }else if(template == 3){
+                                            text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                                        }else if(template == 6){
                                             text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                                         }else{
                                             text_div_paxs+=`<div class="form-select-2">`;
@@ -3388,7 +3488,9 @@ function add_table_of_passenger(type){
 
                                         if(template == 5){
                                             text_div_paxs+=`<div class="form-select">`;
-                                        }else if(template == 3 || template == 6){
+                                        }else if(template == 3){
+                                            text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                                        }else if(template == 6){
                                             text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                                         }else{
                                             text_div_paxs+=`<div class="form-select-2">`;
@@ -3428,7 +3530,9 @@ function add_table_of_passenger(type){
 
                                         if(template == 5){
                                             text_div_paxs+=`<div class="form-select">`;
-                                        }else if(template == 3 || template == 6){
+                                        }else if(template == 3){
+                                            text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                                        }else if(template == 6){
                                             text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                                         }else{
                                             text_div_paxs+=`<div class="form-select-2">`;
@@ -3468,7 +3572,9 @@ function add_table_of_passenger(type){
 
                                         if(template == 5){
                                             text_div_paxs+=`<div class="form-select">`;
-                                        }else if(template == 3 || template == 6){
+                                        }else if(template == 3){
+                                            text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                                        }else if(template == 6){
                                             text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                                         }else{
                                             text_div_paxs+=`<div class="form-select-2">`;
@@ -3551,7 +3657,9 @@ function add_table_of_passenger(type){
 
                                         if(template == 5){
                                             text_div_paxs+=`<div class="form-select">`;
-                                        }else if(template == 3 || template == 6){
+                                        }else if(template == 3){
+                                            text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                                        }else if(template == 6){
                                             text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                                         }else{
                                             text_div_paxs+=`<div class="form-select-2">`;
@@ -3595,7 +3703,9 @@ function add_table_of_passenger(type){
 
                                         if(template == 5){
                                             text_div_paxs+=`<div class="form-select">`;
-                                        }else if(template == 3 || template == 6){
+                                        }else if(template == 3){
+                                            text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                                        }else if(template == 6){
                                             text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                                         }else{
                                             text_div_paxs+=`<div class="form-select-2">`;
@@ -3640,7 +3750,9 @@ function add_table_of_passenger(type){
 
                                         if(template == 5){
                                             text_div_paxs+=`<div class="form-select">`;
-                                        }else if(template == 3 || template == 6){
+                                        }else if(template == 3){
+                                            text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                                        }else if(template == 6){
                                             text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                                         }else{
                                             text_div_paxs+=`<div class="form-select-2">`;
@@ -3687,7 +3799,9 @@ function add_table_of_passenger(type){
 
                                         if(template == 5){
                                             text_div_paxs+=`<div class="form-select">`;
-                                        }else if(template == 3 || template == 6){
+                                        }else if(template == 3){
+                                            text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                                        }else if(template == 6){
                                             text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                                         }else{
                                             text_div_paxs+=`<div class="form-select-2">`;
@@ -3732,7 +3846,9 @@ function add_table_of_passenger(type){
 
                                         if(template == 5){
                                             text_div_paxs+=`<div class="form-select">`;
-                                        }else if(template == 3 || template == 6){
+                                        }else if(template == 3){
+                                            text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                                        }else if(template == 6){
                                             text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                                         }else{
                                             text_div_paxs+=`<div class="form-select-2">`;
@@ -3777,7 +3893,9 @@ function add_table_of_passenger(type){
 
                                         if(template == 5){
                                             text_div_paxs+=`<div class="form-select">`;
-                                        }else if(template == 3 || template == 6){
+                                        }else if(template == 3){
+                                            text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                                        }else if(template == 6){
                                             text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                                         }else{
                                             text_div_paxs+=`<div class="form-select-2">`;
@@ -3822,7 +3940,9 @@ function add_table_of_passenger(type){
 
                                         if(template == 5){
                                             text_div_paxs+=`<div class="form-select">`;
-                                        }else if(template == 3 || template == 6){
+                                        }else if(template == 3){
+                                            text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                                        }else if(template == 6){
                                             text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                                         }else{
                                             text_div_paxs+=`<div class="form-select-2">`;
@@ -3867,7 +3987,9 @@ function add_table_of_passenger(type){
 
                                         if(template == 5){
                                             text_div_paxs+=`<div class="form-select">`;
-                                        }else if(template == 3 || template == 6){
+                                        }else if(template == 3){
+                                            text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                                        }else if(template == 6){
                                             text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                                         }else{
                                             text_div_paxs+=`<div class="form-select-2">`;
@@ -3910,7 +4032,9 @@ function add_table_of_passenger(type){
 
                                         if(template == 5){
                                             text_div_paxs+=`<div class="form-select">`;
-                                        }else if(template == 3 || template == 6){
+                                        }else if(template == 3){
+                                            text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                                        }else if(template == 6){
                                             text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                                         }else{
                                             text_div_paxs+=`<div class="form-select-2">`;
@@ -3953,7 +4077,9 @@ function add_table_of_passenger(type){
 
                                         if(template == 5){
                                             text_div_paxs+=`<div class="form-select">`;
-                                        }else if(template == 3 || template == 6){
+                                        }else if(template == 3){
+                                            text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                                        }else if(template == 6){
                                             text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                                         }else{
                                             text_div_paxs+=`<div class="form-select-2">`;
@@ -3994,7 +4120,9 @@ function add_table_of_passenger(type){
 
                                         if(template == 5){
                                             text_div_paxs+=`<div class="form-select">`;
-                                        }else if(template == 3 || template == 6){
+                                        }else if(template == 3){
+                                            text_div_paxs+=`<div class="form-select-2" style="width:100%;">`;
+                                        }else if(template == 6){
                                             text_div_paxs+=`<div class="form-select" style="width:100%;">`;
                                         }else{
                                             text_div_paxs+=`<div class="form-select-2">`;
