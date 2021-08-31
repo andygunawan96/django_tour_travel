@@ -462,7 +462,7 @@ function medical_check_price(){
                     document.getElementById('next_medical').style.display = 'block';
 
                     try{
-                    document.getElementById('medical_pax_div').style.display = 'block';
+                    document.getElementById('medical_pax_div').hidden = false;
                     }catch(err){}
                     $('html, body').animate({
                         scrollTop: $("#medical_detail").offset().top - 120
