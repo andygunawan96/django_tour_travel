@@ -248,9 +248,16 @@ function get_area_global(){
     global_area = '';
     var found = false;
     for(i in zip_code_list['result']['response']){
+        if(global_kecamatan in zip_code_list['result']['response'][i]){
+            console.log('found in kecamatan');
+            global_area = i;
+            found = true;
+            break;
+        }
         for(j in zip_code_list['result']['response'][i]){
             for(k in zip_code_list['result']['response'][i][j]){
                 if(global_zip_code == zip_code_list['result']['response'][i][j][k]){
+                    console.log('found in zip code');
                     global_area = i;
                     found = true;
                     break;
