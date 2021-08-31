@@ -242,6 +242,7 @@ function update_timeslot(val){
     $('#booker_timeslot_id'+val).niceSelect('update');
     change_timeslot(val);
     document.getElementById('next_medical').style.display='none';
+    document.getElementById('medical_pax_div').hidden = true;
 }
 
 function get_area_global(){
@@ -7644,6 +7645,7 @@ function reset_pax(){
     </tr>`;
     document.getElementById('table_passenger_list').style.display = 'none';
     document.getElementById('next_medical').style.display = 'none';
+    document.getElementById('medical_pax_div').hidden = true;
 }
 
 function show_commission(val){
