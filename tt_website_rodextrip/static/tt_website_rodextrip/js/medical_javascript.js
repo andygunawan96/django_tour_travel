@@ -242,6 +242,9 @@ function update_timeslot(val){
     $('#booker_timeslot_id'+val).niceSelect('update');
     change_timeslot(val);
     document.getElementById('next_medical').style.display='none';
+    try{
+    document.getElementById('medical_pax_div').hidden = true;
+    }catch(err){}
 }
 
 function get_area_global(){
@@ -7651,6 +7654,9 @@ function reset_pax(){
     </tr>`;
     document.getElementById('table_passenger_list').style.display = 'none';
     document.getElementById('next_medical').style.display = 'none';
+    try{
+    document.getElementById('medical_pax_div').hidden = true;
+    }catch(err){}
 }
 
 function show_commission(val){
@@ -7735,7 +7741,7 @@ function add_table(change_rebooking=false){
     document.getElementById('next_medical').style.display = 'none';
 
     try{
-//    document.getElementById('medical_pax_div').hidden = true;
+    document.getElementById('medical_pax_div').hidden = true;
     }catch(err){}
 
     if(change_rebooking == true && total_passengers_rebooking != 0){
@@ -7773,6 +7779,10 @@ function add_table_verify(change_rebooking=false){
     }
     document.getElementById('medical_detail').style.display = 'none';
     document.getElementById('next_medical').style.display = 'none';
+    try{
+    document.getElementById('medical_pax_div').hidden = true;
+    }catch(err){}
+
     if(change_rebooking == true && total_passengers_rebooking != 0){
         //readd change value pax add table
         document.getElementById('passenger').value = total_passengers_rebooking;
