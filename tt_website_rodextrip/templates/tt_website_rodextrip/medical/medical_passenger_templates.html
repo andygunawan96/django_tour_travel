@@ -32,6 +32,7 @@
     global_zip_code = '';
     global_area = '';
     set_default_data = true;
+    global_kecamatan = '';
 </script>
 
 <script type="text/javascript">
@@ -158,13 +159,14 @@
                     <div class="col-lg-12" id="div_maps" style="padding:15px; background:white; border:1px solid #cdcdcd;display:none;">
                         <h4>
                             Location Test
-                        </h4><hr/>
+                        </h4>
+                        <span style="color:{{color}}; font-weight:bold; font-size:14px;">Pilih lokasi test anda terlebih dahulu, sebelum melanjutkan ke tahap selanjutnya!</span>
+                        <hr/>
                         <div class="row">
                             <div id="map"></div>
                             <div id="googleMap" style=""></div>
                         </div>
                     </div>
-
                 </div>
                 {% endif %}
                 <div class="row mt-3" style="padding:15px;">
@@ -226,8 +228,7 @@
 
                                     </div>
 
-                                    {% if vendor == 'phc' %}
-                                    {% if 'PCR' in test_type %}
+                                    {% if vendor == 'phc' and test_type != 'PHCHCKPCR' and  'PCR' in test_type %}
                                     <div class="col-lg-12 mt-2">
                                         <span style="font-size:16px; font-weight:bold;">Kuota yang terisi: </span>
                                         <div style="text-align:left; margin-top:10px; margin-bottom:10px;">
@@ -259,7 +260,6 @@
                                     <div class="col-lg-12 mt-3 mb-3" style="text-align:left;">
                                         <h6 style="color:{{color}};">Note: Ketersedian kuota bisa berubah sewaktu-waktu</h6>
                                     </div>
-                                    {% endif %}
                                     {% endif %}
 
                                     <div class="col-lg-12 pt-3" style="border-top:1px solid #cdcdcd;">
@@ -552,7 +552,7 @@
                                     <label style="color:red !important;">*</label>
                                     <label>{% trans 'Test Address' %}</label>
                                     <div class="input-container-search-ticket">
-                                        <textarea type="text" class="form-control" style="height:120px;" name="booker_address" id="booker_address" placeholder="{% trans 'Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address '" onchange="change_booker_value('train');"></textarea>
+                                        <textarea type="text" class="form-control" style="height:120px; background:white !important;" name="booker_address" id="booker_address" placeholder="{% trans 'Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address '" onchange="change_booker_value('train');"></textarea>
                                     </div>
                                     <label style="font-size:12px; padding:0;">{% trans 'Example' %}: Jl. Raya Darmo 177b</label>
                                 </div>
@@ -632,7 +632,7 @@
     </div>
 </section>
 {% elif template == 2 %}
-<header class="header_breadcrumb" style="padding:15px 0px; background:white;">
+<header class="header_breadcrumb" style="position:sticky; top:0px; z-index:99;">
     <div class="main-menu">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
@@ -652,12 +652,11 @@
     <!--    {% include 'tt_website_rodextrip/header_signin_signup.html' %}-->
     <!--    {% endif %}-->
 </header>
-<section class="destinations-area" style="padding-top:30px; padding-bottom:40px; background:#f7f7f7; position:relative;">
+<section class="destinations-area" style="padding-top:30px; z-index:98; padding-bottom:40px; background:#f7f7f7; position:relative;">
     <div class="container">
         <div class="hotel-search-form-area" style="padding:unset; position:unset;">
             <div class="hotel-search-form" style="background-color:unset; box-shadow:unset; padding:unset;">
                 <div style="padding:0; text-align:unset;">
-
                     <div class="row">
                         <div class="col-lg-12 mb-3">
                             <h3 id="medical_product" style=""></h3>
@@ -686,8 +685,23 @@
 
                         </div>
                     </div>
+                    {% if vendor == 'phc' and test_type == 'PHCHCKATG' or vendor == 'phc' and test_type == 'PHCHCKPCR' %}
                     <div class="row mt-3" style="padding:15px;">
-                        <div class="col-lg-12" id="div_schedule_medical" style="padding:15px; background:white; border:1px solid #cdcdcd;">
+                        <div class="col-lg-12" id="div_maps" style="padding:15px; background:white; border:1px solid #cdcdcd;display:none;">
+                            <h4>
+                                Location Test
+                            </h4>
+                            <span style="color:{{color}}; font-weight:bold; font-size:14px;">Pilih lokasi test anda terlebih dahulu, sebelum melanjutkan ke tahap selanjutnya!</span>
+                            <hr/>
+                            <div class="row">
+                                <div id="map"></div>
+                                <div id="googleMap" style=""></div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    <div class="row mt-3" style="padding:15px;">
+                        <div class="col-lg-12" id="div_schedule_medical" style="padding:15px; background:white; border:1px solid #cdcdcd;display:none;">
                             <h4>
                                 Schedule
                                 <i class="fas fa-pen" id="icon_shcedule" style="padding-left:5px; cursor:pointer" onclick="open_date_schedule(`+parseInt(counter_passenger+1)+`);"></i>
@@ -705,7 +719,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 {% if vendor == 'periksain' and test_type == 'PRKATG' %}
                                 <div class="col-lg-6">
                                     <label style="color:red !important">*</label>
@@ -721,7 +734,6 @@
                                     </div>
                                 </div>
                                 {% endif %}
-
 
                                 <div class="col-lg-12 mt-4" style="padding:15px 15px 0px 15px; border-top:1px solid #cdcdcd; display:none;" id="medical_timeslot">
                                     <div class="row">
@@ -747,14 +759,13 @@
 
                                         </div>
 
-                                        {% if vendor == 'phc' %}
-                                        {% if 'PCR' in test_type %}
+                                        {% if vendor == 'phc' and test_type != 'PHCHCKPCR' and  'PCR' in test_type %}
                                         <div class="col-lg-12 mt-2">
                                             <span style="font-size:16px; font-weight:bold;">Kuota yang terisi: </span>
                                             <div style="text-align:left; margin-top:10px; margin-bottom:10px;">
                                                 <span style="font-size:16px; color:{{color}}; font-weight:bold;" id="count_kuota_phc"> 0 </span>
                                                 <span style="font-size:16px; font-weight:bold;"> dari </span>
-                                                <span style="font-size:16px; color:{{color}}; font-weight:bold;"> 175 </span>
+                                                <span style="font-size:16px; color:{{color}}; font-weight:bold;" id="total_pcr_timeslot"> 0 </span>
                                                 <span style="font-size:16px; font-weight:bold;"> orang </span>
                                                 <span style="font-size:16px; font-weight:bold;" id="show_icon_kuota">  </span>
                                             </div>
@@ -780,7 +791,6 @@
                                         <div class="col-lg-12 mt-3 mb-3" style="text-align:left;">
                                             <h6 style="color:{{color}};">Note: Ketersedian kuota bisa berubah sewaktu-waktu</h6>
                                         </div>
-                                        {% endif %}
                                         {% endif %}
 
                                         <div class="col-lg-12 pt-3" style="border-top:1px solid #cdcdcd;">
@@ -832,6 +842,7 @@
                                         {% endif %}
 
                                         <div class="col-lg-12" style="margin-top:15px; border-top:1px solid #cdcdcd;">
+
                                             <div class="row" id="loading-booker-medical" style="display:none;">
                                                 <div class="col-lg-12">
                                                     <div class="sk-circle">
@@ -851,15 +862,11 @@
                                                     <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
                                                 </div>
                                             </div>
+
                                             <div class="mt-3" style="background-color:white; display:none;" id="medical_detail">
 
                                             </div>
                                             <br/>
-                                            <input type="hidden" id="time_limit_input" name="time_limit_input" />
-                                            <input type="hidden" id="data" name="data" />
-                                            <input type="hidden" id="vendor" name="vendor" />
-                                            <input type="hidden" id="test_type" name="test_type" />
-                                            <input type="hidden" id="signature" name="signature" />
                                         </div>
                                     </div>
                                 </div>
@@ -1080,8 +1087,10 @@
                                         </div>
                                         <label style="font-size:12px; padding:0;">{% trans 'Example' %}: Jl. Raya Darmo 177b</label>
                                     </div>
+                                    {% if test_type != 'PHCHCKATG' and test_type != 'PHCHCKPCR' %}
                                     <div id="map"></div>
                                     <div id="googleMap" style=""></div>
+                                    {% endif %}
 
                                     <div class="col-lg-12" style="text-align:left; margin-top:20px; margin-bottom:15px;display:none;" id="table_passenger_list">
                                         <div class="row" id="loading-booker-train" style="display:none;">
@@ -1207,8 +1216,23 @@
 
                     </div>
                 </div>
+                {% if vendor == 'phc' and test_type == 'PHCHCKATG' or vendor == 'phc' and test_type == 'PHCHCKPCR' %}
                 <div class="row mt-3" style="padding:15px;">
-                    <div class="col-lg-12" id="div_schedule_medical" style="padding:15px; background:white; border:1px solid #cdcdcd;">
+                    <div class="col-lg-12" id="div_maps" style="padding:15px; background:white; border:1px solid #cdcdcd;display:none;">
+                        <h4>
+                            Location Test
+                        </h4>
+                        <span style="color:{{color}}; font-weight:bold; font-size:14px;">Pilih lokasi test anda terlebih dahulu, sebelum melanjutkan ke tahap selanjutnya!</span>
+                        <hr/>
+                        <div class="row">
+                            <div id="map"></div>
+                            <div id="googleMap" style=""></div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                <div class="row mt-3" style="padding:15px;">
+                    <div class="col-lg-12" id="div_schedule_medical" style="padding:15px; background:white; border:1px solid #cdcdcd;display:none;">
                         <h4>
                             Schedule
                             <i class="fas fa-pen" id="icon_shcedule" style="padding-left:5px; cursor:pointer" onclick="open_date_schedule(`+parseInt(counter_passenger+1)+`);"></i>
@@ -1226,13 +1250,12 @@
                                     </div>
                                 </div>
                             </div>
-
                             {% if vendor == 'periksain' and test_type == 'PRKATG' %}
                             <div class="col-lg-6">
                                 <label style="color:red !important">*</label>
                                 <label>{% trans "Sample Method" %}</label>
                                 <div class="input-container-search-ticket">
-                                    <div class="form-select-2" id="default-select">
+                                    <div class="form-select-2" style="width:100%;">
                                         <select id="adult_sample_method" name="adult_sample_method" class="nice-select-default" onchange="reset_other_time();change_area('change_area_display');">
                                             <option value="">Choose Sample Method</option>
                                             <option value="saliva">Saliva</option>
@@ -1267,14 +1290,13 @@
 
                                     </div>
 
-                                    {% if vendor == 'phc' %}
-                                    {% if 'PCR' in test_type %}
+                                    {% if vendor == 'phc' and test_type != 'PHCHCKPCR' and  'PCR' in test_type %}
                                     <div class="col-lg-12 mt-2">
                                         <span style="font-size:16px; font-weight:bold;">Kuota yang terisi: </span>
                                         <div style="text-align:left; margin-top:10px; margin-bottom:10px;">
                                             <span style="font-size:16px; color:{{color}}; font-weight:bold;" id="count_kuota_phc"> 0 </span>
                                             <span style="font-size:16px; font-weight:bold;"> dari </span>
-                                            <span style="font-size:16px; color:{{color}}; font-weight:bold;"> 175 </span>
+                                            <span style="font-size:16px; color:{{color}}; font-weight:bold;" id="total_pcr_timeslot"> 0 </span>
                                             <span style="font-size:16px; font-weight:bold;"> orang </span>
                                             <span style="font-size:16px; font-weight:bold;" id="show_icon_kuota">  </span>
                                         </div>
@@ -1301,13 +1323,12 @@
                                         <h6 style="color:{{color}};">Note: Ketersedian kuota bisa berubah sewaktu-waktu</h6>
                                     </div>
                                     {% endif %}
-                                    {% endif %}
 
                                     <div class="col-lg-12 pt-3" style="border-top:1px solid #cdcdcd;">
                                         <label style="color:red !important;">*</label>
                                         <label>{% trans "Number of Customers" %}</label>
                                         <div class="input-container-search-ticket">
-                                            <div class="form-select-2" id="default-select" style="width:100%;">
+                                            <div class="form-select-2" style="width:100%;">
                                                 <select id="passenger" name="passenger" class="nice-select-default" onchange="add_table();">
                                                     <!--ganti phc boleh minimal 1 orang -->
                                                     <option value="1">1</option>
@@ -1352,6 +1373,7 @@
                                     {% endif %}
 
                                     <div class="col-lg-12" style="margin-top:15px; border-top:1px solid #cdcdcd;">
+
                                         <div class="row" id="loading-booker-medical" style="display:none;">
                                             <div class="col-lg-12">
                                                 <div class="sk-circle">
@@ -1371,15 +1393,11 @@
                                                 <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
                                             </div>
                                         </div>
+
                                         <div class="mt-3" style="background-color:white; display:none;" id="medical_detail">
 
                                         </div>
                                         <br/>
-                                        <input type="hidden" id="time_limit_input" name="time_limit_input" />
-                                        <input type="hidden" id="data" name="data" />
-                                        <input type="hidden" id="vendor" name="vendor" />
-                                        <input type="hidden" id="test_type" name="test_type" />
-                                        <input type="hidden" id="signature" name="signature" />
                                     </div>
                                 </div>
                             </div>
@@ -1475,7 +1493,7 @@
                                             <label style="color:red !important;">*</label>
                                             <label>{% trans "Title" %}</label>
                                             <div class="input-container-search-ticket">
-                                                <div class="form-select-2" id="default-select">
+                                                <div class="form-select-2" style="width:100%;">
                                                     <select id="booker_title" name="booker_title" class="nice-select-default" onchange="change_booker_value('train');">
                                                         {% for title in adult_title%}
                                                         <option>{{title}}</option>
@@ -1490,7 +1508,6 @@
                                                 <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker" data-tooltip=""><i class="fas fa-money-bill-wave-alt"></i> {% trans "Corporate Booker" %}</button>
                                                 <div class="modal fade" id="myModalHelp" role="dialog">
                                                     <div class="modal-dialog">
-
                                                         <!-- Modal content-->
                                                         <div class="modal-content">
                                                             <div class="modal-header">
@@ -1543,7 +1560,7 @@
                                             <label style="color:red !important;">*</label>
                                             <label>{% trans 'Nationality' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <div class="form-select">
+                                                <div class="form-select-2" style="width:100%;">
                                                     <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('booker_nationality');change_booker_value('train');" class="nice-select-default">
                                                         {% for country in countries %}
                                                         <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
@@ -1568,7 +1585,7 @@
                                             <label style="margin:0;">{% trans 'WA Number (WhatsApp Number)' %}:</label>
                                             <div class="row">
                                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                                    <div class="form-select">
+                                                    <div class="form-select-2" style="width:100%;">
                                                         <select class="form-control js-example-basic-single" name="booker_phone_code_id" style="width:100%;" id="booker_phone_code_id" onchange="auto_complete('booker_phone_code');change_booker_value('train');" class="nice-select-default">
                                                             {% for phone in phone_code %}
                                                             <option value="{{phone}}" {% if phone == 62%} selected {%endif%}>{{phone}}</option>
@@ -1596,12 +1613,14 @@
                                     <label style="color:red !important;">*</label>
                                     <label>{% trans 'Test Address' %}</label>
                                     <div class="input-container-search-ticket">
-                                        <textarea type="text" class="form-control" style="height:120px; background:white; !important;" name="booker_address" id="booker_address" placeholder="{% trans 'Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address '" onchange="change_booker_value('train');"></textarea>
+                                        <textarea type="text" class="form-control" style="height:120px; background:white !important;" name="booker_address" id="booker_address" placeholder="{% trans 'Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address '" onchange="change_booker_value('train');"></textarea>
                                     </div>
                                     <label style="font-size:12px; padding:0;">{% trans 'Example' %}: Jl. Raya Darmo 177b</label>
                                 </div>
+                                {% if test_type != 'PHCHCKATG' and test_type != 'PHCHCKPCR' %}
                                 <div id="map"></div>
                                 <div id="googleMap" style=""></div>
+                                {% endif %}
 
                                 <div class="col-lg-12" style="text-align:left; margin-top:20px; margin-bottom:15px;display:none;" id="table_passenger_list">
                                     <div class="row" id="loading-booker-train" style="display:none;">
@@ -1725,8 +1744,23 @@
 
                 </div>
             </div>
+            {% if vendor == 'phc' and test_type == 'PHCHCKATG' or vendor == 'phc' and test_type == 'PHCHCKPCR' %}
             <div class="row mt-3" style="padding:15px;">
-                <div class="col-lg-12" id="div_schedule_medical" style="padding:15px; background:white; border:1px solid #cdcdcd;">
+                <div class="col-lg-12" id="div_maps" style="padding:15px; background:white; border:1px solid #cdcdcd;display:none;">
+                    <h4>
+                        Location Test
+                    </h4>
+                    <span style="color:{{color}}; font-weight:bold; font-size:14px;">Pilih lokasi test anda terlebih dahulu, sebelum melanjutkan ke tahap selanjutnya!</span>
+                    <hr/>
+                    <div class="row">
+                        <div id="map"></div>
+                        <div id="googleMap" style=""></div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            <div class="row mt-3" style="padding:15px;">
+                <div class="col-lg-12" id="div_schedule_medical" style="padding:15px; background:white; border:1px solid #cdcdcd;display:none;">
                     <h4>
                         Schedule
                         <i class="fas fa-pen" id="icon_shcedule" style="padding-left:5px; cursor:pointer" onclick="open_date_schedule(`+parseInt(counter_passenger+1)+`);"></i>
@@ -1737,20 +1771,19 @@
                             <label style="color:red !important;">*</label>
                             <label>{% trans "Area Test" %}</label>
                             <div class="input-container-search-ticket">
-                                <div class="form-select-2" id="default-select">
+                                <div class="form-select-2" id="default-select" style="width:100%;">
                                     <select id="booker_area" name="booker_area" class="nice-select-default" onchange="reset_other_time();change_area('change_area_display');">
 
                                     </select>
                                 </div>
                             </div>
                         </div>
-
                         {% if vendor == 'periksain' and test_type == 'PRKATG' %}
                         <div class="col-lg-6">
                             <label style="color:red !important">*</label>
                             <label>{% trans "Sample Method" %}</label>
                             <div class="input-container-search-ticket">
-                                <div class="form-select-2" id="default-select">
+                                <div class="form-select-2" style="width:100%;">
                                     <select id="adult_sample_method" name="adult_sample_method" class="nice-select-default" onchange="reset_other_time();change_area('change_area_display');">
                                         <option value="">Choose Sample Method</option>
                                         <option value="saliva">Saliva</option>
@@ -1785,14 +1818,13 @@
 
                                 </div>
 
-                                {% if vendor == 'phc' %}
-                                {% if 'PCR' in test_type %}
+                                {% if vendor == 'phc' and test_type != 'PHCHCKPCR' and  'PCR' in test_type %}
                                 <div class="col-lg-12 mt-2">
                                     <span style="font-size:16px; font-weight:bold;">Kuota yang terisi: </span>
                                     <div style="text-align:left; margin-top:10px; margin-bottom:10px;">
                                         <span style="font-size:16px; color:{{color}}; font-weight:bold;" id="count_kuota_phc"> 0 </span>
                                         <span style="font-size:16px; font-weight:bold;"> dari </span>
-                                        <span style="font-size:16px; color:{{color}}; font-weight:bold;"> 175 </span>
+                                        <span style="font-size:16px; color:{{color}}; font-weight:bold;" id="total_pcr_timeslot"> 0 </span>
                                         <span style="font-size:16px; font-weight:bold;"> orang </span>
                                         <span style="font-size:16px; font-weight:bold;" id="show_icon_kuota">  </span>
                                     </div>
@@ -1819,13 +1851,12 @@
                                     <h6 style="color:{{color}};">Note: Ketersedian kuota bisa berubah sewaktu-waktu</h6>
                                 </div>
                                 {% endif %}
-                                {% endif %}
 
                                 <div class="col-lg-12 pt-3" style="border-top:1px solid #cdcdcd;">
                                     <label style="color:red !important;">*</label>
                                     <label>{% trans "Number of Customers" %}</label>
                                     <div class="input-container-search-ticket">
-                                        <div class="form-select-2" id="default-select">
+                                        <div class="form-select-2" style="width:100%;">
                                             <select id="passenger" name="passenger" class="nice-select-default" onchange="add_table();">
                                                 <!--ganti phc boleh minimal 1 orang -->
                                                 <option value="1">1</option>
@@ -1870,6 +1901,7 @@
                                 {% endif %}
 
                                 <div class="col-lg-12" style="margin-top:15px; border-top:1px solid #cdcdcd;">
+
                                     <div class="row" id="loading-booker-medical" style="display:none;">
                                         <div class="col-lg-12">
                                             <div class="sk-circle">
@@ -1889,15 +1921,11 @@
                                             <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
                                         </div>
                                     </div>
+
                                     <div class="mt-3" style="background-color:white; display:none;" id="medical_detail">
 
                                     </div>
                                     <br/>
-                                    <input type="hidden" id="time_limit_input" name="time_limit_input" />
-                                    <input type="hidden" id="data" name="data" />
-                                    <input type="hidden" id="vendor" name="vendor" />
-                                    <input type="hidden" id="test_type" name="test_type" />
-                                    <input type="hidden" id="signature" name="signature" />
                                 </div>
                             </div>
                         </div>
@@ -1993,7 +2021,7 @@
                                         <label style="color:red !important;">*</label>
                                         <label>{% trans "Title" %}</label>
                                         <div class="input-container-search-ticket">
-                                            <div class="form-select-2" id="default-select">
+                                            <div class="form-select-2" style="width:100%;">
                                                 <select id="booker_title" name="booker_title" class="nice-select-default" onchange="change_booker_value('train');">
                                                     {% for title in adult_title%}
                                                     <option>{{title}}</option>
@@ -2008,7 +2036,6 @@
                                             <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker" data-tooltip=""><i class="fas fa-money-bill-wave-alt"></i> {% trans "Corporate Booker" %}</button>
                                             <div class="modal fade" id="myModalHelp" role="dialog">
                                                 <div class="modal-dialog">
-
                                                     <!-- Modal content-->
                                                     <div class="modal-content">
                                                         <div class="modal-header">
@@ -2061,7 +2088,7 @@
                                         <label style="color:red !important;">*</label>
                                         <label>{% trans 'Nationality' %}</label>
                                         <div class="input-container-search-ticket">
-                                            <div class="form-select">
+                                            <div class="form-select-2" style="width:100%;">
                                                 <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('booker_nationality');change_booker_value('train');" class="nice-select-default">
                                                     {% for country in countries %}
                                                     <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
@@ -2086,7 +2113,7 @@
                                         <label style="margin:0;">{% trans 'WA Number (WhatsApp Number)' %}:</label>
                                         <div class="row">
                                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                                <div class="form-select">
+                                                <div class="form-select-2" style="width:100%;">
                                                     <select class="form-control js-example-basic-single" name="booker_phone_code_id" style="width:100%;" id="booker_phone_code_id" onchange="auto_complete('booker_phone_code');change_booker_value('train');" class="nice-select-default">
                                                         {% for phone in phone_code %}
                                                         <option value="{{phone}}" {% if phone == 62%} selected {%endif%}>{{phone}}</option>
@@ -2114,12 +2141,14 @@
                                 <label style="color:red !important;">*</label>
                                 <label>{% trans 'Test Address' %}</label>
                                 <div class="input-container-search-ticket">
-                                    <textarea type="text" class="form-control" style="height:120px !important; resize: none; background: white !important;" name="booker_address" id="booker_address" placeholder="{% trans 'Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address '" onchange="change_booker_value('train');"></textarea>
+                                    <textarea type="text" class="form-control" style="height:120px; background:white !important;" name="booker_address" id="booker_address" placeholder="{% trans 'Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address '" onchange="change_booker_value('train');"></textarea>
                                 </div>
                                 <label style="font-size:12px; padding:0;">{% trans 'Example' %}: Jl. Raya Darmo 177b</label>
                             </div>
+                            {% if test_type != 'PHCHCKATG' and test_type != 'PHCHCKPCR' %}
                             <div id="map"></div>
                             <div id="googleMap" style=""></div>
+                            {% endif %}
 
                             <div class="col-lg-12" style="text-align:left; margin-top:20px; margin-bottom:15px;display:none;" id="table_passenger_list">
                                 <div class="row" id="loading-booker-train" style="display:none;">
@@ -2243,8 +2272,23 @@
 
                     </div>
                 </div>
+                {% if vendor == 'phc' and test_type == 'PHCHCKATG' or vendor == 'phc' and test_type == 'PHCHCKPCR' %}
                 <div class="row mt-3" style="padding:15px;">
-                    <div class="col-lg-12" id="div_schedule_medical" style="padding:15px; background:white; border:1px solid #cdcdcd;">
+                    <div class="col-lg-12" id="div_maps" style="padding:15px; background:white; border:1px solid #cdcdcd;display:none;">
+                        <h4>
+                            Location Test
+                        </h4>
+                        <span style="color:{{color}}; font-weight:bold; font-size:14px;">Pilih lokasi test anda terlebih dahulu, sebelum melanjutkan ke tahap selanjutnya!</span>
+                        <hr/>
+                        <div class="row">
+                            <div id="map"></div>
+                            <div id="googleMap" style=""></div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                <div class="row mt-3" style="padding:15px;">
+                    <div class="col-lg-12" id="div_schedule_medical" style="padding:15px; background:white; border:1px solid #cdcdcd;display:none;">
                         <h4>
                             Schedule
                             <i class="fas fa-pen" id="icon_shcedule" style="padding-left:5px; cursor:pointer" onclick="open_date_schedule(`+parseInt(counter_passenger+1)+`);"></i>
@@ -2262,13 +2306,12 @@
                                     </div>
                                 </div>
                             </div>
-
                             {% if vendor == 'periksain' and test_type == 'PRKATG' %}
                             <div class="col-lg-6">
                                 <label style="color:red !important">*</label>
                                 <label>{% trans "Sample Method" %}</label>
                                 <div class="input-container-search-ticket">
-                                    <div class="form-select-2" id="default-select">
+                                    <div class="form-select-2" style="width:100%;">
                                         <select id="adult_sample_method" name="adult_sample_method" class="nice-select-default" onchange="reset_other_time();change_area('change_area_display');">
                                             <option value="">Choose Sample Method</option>
                                             <option value="saliva">Saliva</option>
@@ -2303,14 +2346,13 @@
 
                                     </div>
 
-                                    {% if vendor == 'phc' %}
-                                    {% if 'PCR' in test_type %}
+                                    {% if vendor == 'phc' and test_type != 'PHCHCKPCR' and  'PCR' in test_type %}
                                     <div class="col-lg-12 mt-2">
                                         <span style="font-size:16px; font-weight:bold;">Kuota yang terisi: </span>
                                         <div style="text-align:left; margin-top:10px; margin-bottom:10px;">
                                             <span style="font-size:16px; color:{{color}}; font-weight:bold;" id="count_kuota_phc"> 0 </span>
                                             <span style="font-size:16px; font-weight:bold;"> dari </span>
-                                            <span style="font-size:16px; color:{{color}}; font-weight:bold;"> 175 </span>
+                                            <span style="font-size:16px; color:{{color}}; font-weight:bold;" id="total_pcr_timeslot"> 0 </span>
                                             <span style="font-size:16px; font-weight:bold;"> orang </span>
                                             <span style="font-size:16px; font-weight:bold;" id="show_icon_kuota">  </span>
                                         </div>
@@ -2337,13 +2379,12 @@
                                         <h6 style="color:{{color}};">Note: Ketersedian kuota bisa berubah sewaktu-waktu</h6>
                                     </div>
                                     {% endif %}
-                                    {% endif %}
 
                                     <div class="col-lg-12 pt-3" style="border-top:1px solid #cdcdcd;">
                                         <label style="color:red !important;">*</label>
                                         <label>{% trans "Number of Customers" %}</label>
                                         <div class="input-container-search-ticket">
-                                            <div class="form-select-2" id="default-select" style="width:100%;">
+                                            <div class="form-select-2" style="width:100%;">
                                                 <select id="passenger" name="passenger" class="nice-select-default" onchange="add_table();">
                                                     <!--ganti phc boleh minimal 1 orang -->
                                                     <option value="1">1</option>
@@ -2388,6 +2429,7 @@
                                     {% endif %}
 
                                     <div class="col-lg-12" style="margin-top:15px; border-top:1px solid #cdcdcd;">
+
                                         <div class="row" id="loading-booker-medical" style="display:none;">
                                             <div class="col-lg-12">
                                                 <div class="sk-circle">
@@ -2407,15 +2449,11 @@
                                                 <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
                                             </div>
                                         </div>
+
                                         <div class="mt-3" style="background-color:white; display:none;" id="medical_detail">
 
                                         </div>
                                         <br/>
-                                        <input type="hidden" id="time_limit_input" name="time_limit_input" />
-                                        <input type="hidden" id="data" name="data" />
-                                        <input type="hidden" id="vendor" name="vendor" />
-                                        <input type="hidden" id="test_type" name="test_type" />
-                                        <input type="hidden" id="signature" name="signature" />
                                     </div>
                                 </div>
                             </div>
@@ -2511,7 +2549,7 @@
                                             <label style="color:red !important;">*</label>
                                             <label>{% trans "Title" %}</label>
                                             <div class="input-container-search-ticket">
-                                                <div class="form-select-2" id="default-select">
+                                                <div class="form-select-2" style="width:100%;">
                                                     <select id="booker_title" name="booker_title" class="nice-select-default" onchange="change_booker_value('train');">
                                                         {% for title in adult_title%}
                                                         <option>{{title}}</option>
@@ -2526,7 +2564,6 @@
                                                 <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker" data-tooltip=""><i class="fas fa-money-bill-wave-alt"></i> {% trans "Corporate Booker" %}</button>
                                                 <div class="modal fade" id="myModalHelp" role="dialog">
                                                     <div class="modal-dialog">
-
                                                         <!-- Modal content-->
                                                         <div class="modal-content">
                                                             <div class="modal-header">
@@ -2579,7 +2616,7 @@
                                             <label style="color:red !important;">*</label>
                                             <label>{% trans 'Nationality' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <div class="form-select">
+                                                <div class="form-select-2" style="width:100%;">
                                                     <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('booker_nationality');change_booker_value('train');" class="nice-select-default">
                                                         {% for country in countries %}
                                                         <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
@@ -2604,7 +2641,7 @@
                                             <label style="margin:0;">{% trans 'WA Number (WhatsApp Number)' %}:</label>
                                             <div class="row">
                                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                                    <div class="form-select">
+                                                    <div class="form-select-2" style="width:100%;">
                                                         <select class="form-control js-example-basic-single" name="booker_phone_code_id" style="width:100%;" id="booker_phone_code_id" onchange="auto_complete('booker_phone_code');change_booker_value('train');" class="nice-select-default">
                                                             {% for phone in phone_code %}
                                                             <option value="{{phone}}" {% if phone == 62%} selected {%endif%}>{{phone}}</option>
@@ -2632,12 +2669,14 @@
                                     <label style="color:red !important;">*</label>
                                     <label>{% trans 'Test Address' %}</label>
                                     <div class="input-container-search-ticket">
-                                        <textarea type="text" class="form-control" style="height:120px; background: white !important;" name="booker_address" id="booker_address" placeholder="{% trans 'Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address '" onchange="change_booker_value('train');"></textarea>
+                                        <textarea type="text" class="form-control" style="height:120px; background:white !important;" name="booker_address" id="booker_address" placeholder="{% trans 'Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address '" onchange="change_booker_value('train');"></textarea>
                                     </div>
                                     <label style="font-size:12px; padding:0;">{% trans 'Example' %}: Jl. Raya Darmo 177b</label>
                                 </div>
+                                {% if test_type != 'PHCHCKATG' and test_type != 'PHCHCKPCR' %}
                                 <div id="map"></div>
                                 <div id="googleMap" style=""></div>
+                                {% endif %}
 
                                 <div class="col-lg-12" style="text-align:left; margin-top:20px; margin-bottom:15px;display:none;" id="table_passenger_list">
                                     <div class="row" id="loading-booker-train" style="display:none;">
@@ -2762,8 +2801,23 @@
 
                     </div>
                 </div>
+                {% if vendor == 'phc' and test_type == 'PHCHCKATG' or vendor == 'phc' and test_type == 'PHCHCKPCR' %}
                 <div class="row mt-3" style="padding:15px;">
-                    <div class="col-lg-12" id="div_schedule_medical" style="padding:15px; background:white; border:1px solid #cdcdcd;">
+                    <div class="col-lg-12" id="div_maps" style="padding:15px; background:white; border:1px solid #cdcdcd;display:none;">
+                        <h4>
+                            Location Test
+                        </h4>
+                        <span style="color:{{color}}; font-weight:bold; font-size:14px;">Pilih lokasi test anda terlebih dahulu, sebelum melanjutkan ke tahap selanjutnya!</span>
+                        <hr/>
+                        <div class="row">
+                            <div id="map"></div>
+                            <div id="googleMap" style=""></div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                <div class="row mt-3" style="padding:15px;">
+                    <div class="col-lg-12" id="div_schedule_medical" style="padding:15px; background:white; border:1px solid #cdcdcd;display:none;">
                         <h4>
                             Schedule
                             <i class="fas fa-pen" id="icon_shcedule" style="padding-left:5px; cursor:pointer" onclick="open_date_schedule(`+parseInt(counter_passenger+1)+`);"></i>
@@ -2774,7 +2828,7 @@
                                 <label style="color:red !important;">*</label>
                                 <label>{% trans "Area Test" %}</label>
                                 <div class="input-container-search-ticket">
-                                    <div class="form-select" id="default-select">
+                                    <div class="form-select-2" id="default-select" style="width:100%;">
                                         <select id="booker_area" name="booker_area" class="nice-select-default" onchange="reset_other_time();change_area('change_area_display');">
 
                                         </select>
@@ -2786,7 +2840,7 @@
                                 <label style="color:red !important">*</label>
                                 <label>{% trans "Sample Method" %}</label>
                                 <div class="input-container-search-ticket">
-                                    <div class="form-select" id="default-select">
+                                    <div class="form-select-2" style="width:100%;">
                                         <select id="adult_sample_method" name="adult_sample_method" class="nice-select-default" onchange="reset_other_time();change_area('change_area_display');">
                                             <option value="">Choose Sample Method</option>
                                             <option value="saliva">Saliva</option>
@@ -2797,7 +2851,7 @@
                             </div>
                             {% endif %}
 
-                            <div class="col-lg-12 mt-4  " style="padding:15px 15px 0px 15px; border-top:1px solid #cdcdcd; display:none;" id="medical_timeslot">
+                            <div class="col-lg-12 mt-4" style="padding:15px 15px 0px 15px; border-top:1px solid #cdcdcd; display:none;" id="medical_timeslot">
                                 <div class="row">
                                     <div class="col-lg-12" id="timeslot_type" style="padding:0px; text-align:left;margin-bottom:10px;">
                                         <label class="radio-button-custom" style="margin-left:15px;">
@@ -2821,8 +2875,7 @@
 
                                     </div>
 
-                                    {% if vendor == 'phc' %}
-                                    {% if 'PCR' in test_type %}
+                                    {% if vendor == 'phc' and test_type != 'PHCHCKPCR' and  'PCR' in test_type %}
                                     <div class="col-lg-12 mt-2">
                                         <span style="font-size:16px; font-weight:bold;">Kuota yang terisi: </span>
                                         <div style="text-align:left; margin-top:10px; margin-bottom:10px;">
@@ -2855,13 +2908,12 @@
                                         <h6 style="color:{{color}};">Note: Ketersedian kuota bisa berubah sewaktu-waktu</h6>
                                     </div>
                                     {% endif %}
-                                    {% endif %}
 
                                     <div class="col-lg-12 pt-3" style="border-top:1px solid #cdcdcd;">
                                         <label style="color:red !important;">*</label>
                                         <label>{% trans "Number of Customers" %}</label>
                                         <div class="input-container-search-ticket">
-                                            <div class="form-select" id="default-select">
+                                            <div class="form-select-2" style="width:100%;">
                                                 <select id="passenger" name="passenger" class="nice-select-default" onchange="add_table();">
                                                     <!--ganti phc boleh minimal 1 orang -->
                                                     <option value="1">1</option>
@@ -3026,7 +3078,7 @@
                                             <label style="color:red !important;">*</label>
                                             <label>{% trans "Title" %}</label>
                                             <div class="input-container-search-ticket">
-                                                <div class="form-select" id="default-select">
+                                                <div class="form-select-2" style="width:100%;">
                                                     <select id="booker_title" name="booker_title" class="nice-select-default" onchange="change_booker_value('train');">
                                                         {% for title in adult_title%}
                                                         <option>{{title}}</option>
@@ -3041,7 +3093,6 @@
                                                 <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker" data-tooltip=""><i class="fas fa-money-bill-wave-alt"></i> {% trans "Corporate Booker" %}</button>
                                                 <div class="modal fade" id="myModalHelp" role="dialog">
                                                     <div class="modal-dialog">
-
                                                         <!-- Modal content-->
                                                         <div class="modal-content">
                                                             <div class="modal-header">
@@ -3094,7 +3145,7 @@
                                             <label style="color:red !important;">*</label>
                                             <label>{% trans 'Nationality' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <div class="form-select">
+                                                <div class="form-select-2" style="width:100%;">
                                                     <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('booker_nationality');change_booker_value('train');" class="nice-select-default">
                                                         {% for country in countries %}
                                                         <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
@@ -3119,7 +3170,7 @@
                                             <label style="margin:0;">{% trans 'WA Number (WhatsApp Number)' %}:</label>
                                             <div class="row">
                                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                                    <div class="form-select">
+                                                    <div class="form-select-2" style="width:100%;">
                                                         <select class="form-control js-example-basic-single" name="booker_phone_code_id" style="width:100%;" id="booker_phone_code_id" onchange="auto_complete('booker_phone_code');change_booker_value('train');" class="nice-select-default">
                                                             {% for phone in phone_code %}
                                                             <option value="{{phone}}" {% if phone == 62%} selected {%endif%}>{{phone}}</option>
@@ -3147,12 +3198,14 @@
                                     <label style="color:red !important;">*</label>
                                     <label>{% trans 'Test Address' %}</label>
                                     <div class="input-container-search-ticket">
-                                        <textarea type="text" class="form-control" style="height:120px; background:white;" name="booker_address" id="booker_address" placeholder="{% trans 'Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address '" onchange="change_booker_value('train');"></textarea>
+                                        <textarea type="text" class="form-control" style="height:120px; background:white !important;" name="booker_address" id="booker_address" placeholder="{% trans 'Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address '" onchange="change_booker_value('train');"></textarea>
                                     </div>
                                     <label style="font-size:12px; padding:0;">{% trans 'Example' %}: Jl. Raya Darmo 177b</label>
                                 </div>
+                                {% if test_type != 'PHCHCKATG' and test_type != 'PHCHCKPCR' %}
                                 <div id="map"></div>
                                 <div id="googleMap" style=""></div>
+                                {% endif %}
 
                                 <div class="col-lg-12" style="text-align:left; margin-top:20px; margin-bottom:15px;display:none;" id="table_passenger_list">
                                     <div class="row" id="loading-booker-train" style="display:none;">
@@ -3497,10 +3550,14 @@
                         if (results[0].address_components[j].types[0] == 'postal_code'){
                             console.log("Zip Code: " + results[0].address_components[j].short_name);
                             global_zip_code = results[0].address_components[j].short_name;
-                            get_area_global();
+                        }else if(results[0].address_components[j].types[0] == 'administrative_area_level_3'){
+                            global_kecamatan = results[0].address_components[j].long_name;
+                            if(global_kecamatan.includes("Kecamatan"))
+                                global_kecamatan = global_kecamatan.replace('Kecamatan ','')
                         }
                     }
                 }
+                get_area_global();
             } else {
                 //alert("Geocoder failed due to: " + status);
             }
