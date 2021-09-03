@@ -2054,7 +2054,7 @@ function sort(){
         }
         if(sorting_value != ''){
             sorting = sorting_value;
-       }
+        }
         for(var i = 0; i < airline.length-1; i++) {
             for(var j = i+1; j < airline.length; j++) {
                 if(sorting == ''){
@@ -2107,6 +2107,22 @@ function sort(){
                 }
             }
         }
+        //SORT AVAILABLE
+        for(var i = airline.length-1; i >= 0; i--) {
+            if(airline[i].can_book == false || airline[i].available_count < parseInt(airline_request.adult + airline_request.child + airline_request.infant)){
+                for(j=i;j<airline.length-1;j++){
+                    if(airline[j+1].can_book == false || airline[j+1].available_count < parseInt(airline_request.adult + airline_request.child + airline_request.infant)){
+                        break;
+                    }else{
+                        temp = airline[j];
+                        airline[j] = airline[j+1];
+                        airline[j+1] = temp
+                    }
+                }
+            }
+        }
+
+
         airline_data_filter = airline;
         //change sort render
 
