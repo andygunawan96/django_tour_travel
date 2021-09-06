@@ -421,10 +421,14 @@ function medical_check_price(){
                         <h4 style="color:`+color+`;"> Price Detail</h4>`;
                     for(i in msg.result.response.service_charges){
                         if(msg.result.response.service_charges[i].charge_code != 'rac'){
+                            if(msg.result.response.service_charges[i].charge_type == 'fare')
+                                charge_code = 'FARE';
+                            else if(msg.result.response.service_charges[i].charge_type == 'adm')
+                                change_code = 'Admin Fee Drive Thru';
                             text+=`
                             <div class="row" style="margin-bottom:5px;">
                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                    <span style="font-size:12px;">`+msg.result.response.service_charges[i].pax_count+`x `+msg.result.response.service_charges[i].charge_type+` @IDR `+getrupiah(msg.result.response.service_charges[i].amount)+`</span>`;
+                                    <span style="font-size:12px;">`+msg.result.response.service_charges[i].pax_count+`x `+change_code+` @IDR `+getrupiah(msg.result.response.service_charges[i].amount)+`</span>`;
                         text+=`</div>
                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
                                     <b><span style="font-size:13px;">IDR `+getrupiah(msg.result.response.service_charges[i].total_amount)+`</span></b>
@@ -540,10 +544,14 @@ function medical_get_cache_price(){
                 <hr/>`;
                 for(i in msg.result.response.service_charges){
                     if(msg.result.response.service_charges[i].charge_code != 'rac'){
+                        if(msg.result.response.service_charges[i].charge_type == 'fare')
+                            charge_code = 'FARE';
+                        else if(msg.result.response.service_charges[i].charge_type == 'adm')
+                            change_code = 'Admin Fee Drive Thru';
                         text+=`
                         <div class="row" style="margin-bottom:5px;">
                             <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                <span style="font-size:12px;">`+msg.result.response.service_charges[i].pax_count+`x `+msg.result.response.service_charges[i].charge_type+` @IDR `+getrupiah(msg.result.response.service_charges[i].amount)+`</span>`;
+                                <span style="font-size:12px;">`+msg.result.response.service_charges[i].pax_count+`x `+change_code+` @IDR `+getrupiah(msg.result.response.service_charges[i].amount)+`</span>`;
                     text+=`</div>
                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
                                 <b><span style="font-size:13px;">IDR `+getrupiah(msg.result.response.service_charges[i].total_amount)+`</span></b>
@@ -1315,7 +1323,7 @@ function medical_get_booking(order_number, sync=false){
                     csc = 0;
                     try{
                         for(j in msg.result.response.passengers){
-                            price = {'FARE': 0, 'RAC': 0, 'ADMIN FEE':0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
+                            price = {'FARE': 0, 'RAC': 0, 'ADMIN_FEE_MEDICAL':0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
                             for(k in msg.result.response.passengers[j].sale_service_charges[msg.result.response.provider_bookings[i].pnr]){
                                 price[k] += msg.result.response.passengers[j].sale_service_charges[msg.result.response.provider_bookings[i].pnr][k].amount;
                                 if(price['currency'] == '')
@@ -1335,13 +1343,13 @@ function medical_get_booking(order_number, sync=false){
                             if(check == 0){
                                 pax_type_repricing.push([msg.result.response.passengers[j].name, msg.result.response.passengers[j].name]);
                                 price_arr_repricing[msg.result.response.passengers[j].name] = {
-                                    'Fare': price['FARE'] + price['SSR'] + price['SEAT'] + price['DISC'] + price['ADMIN FEE'],
+                                    'Fare': price['FARE'] + price['SSR'] + price['SEAT'] + price['DISC'] + price['ADMIN_FEE_MEDICAL'],
                                     'Tax': price['TAX'] + price['ROC'],
                                     'Repricing': price['CSC']
                                 }
                             }else{
                                 price_arr_repricing[msg.result.response.passengers[j].name] = {
-                                    'Fare': price_arr_repricing[msg.result.response.passengers[j].name]['Fare'] + price['FARE'] + price['DISC'] + price['SSR'] + price['SEAT'] + price['ADMIN FEE'],
+                                    'Fare': price_arr_repricing[msg.result.response.passengers[j].name]['Fare'] + price['FARE'] + price['DISC'] + price['SSR'] + price['SEAT'] + price['ADMIN_FEE_MEDICAL'],
                                     'Tax': price_arr_repricing[msg.result.response.passengers[j].name]['Tax'] + price['TAX'] + price['ROC'],
                                     'Repricing': price['CSC']
                                 }
@@ -1379,7 +1387,7 @@ function medical_get_booking(order_number, sync=false){
                                     <span style="font-size:12px;">`+msg.result.response.passengers[j].name+`</span>`;
                                 text_detail+=`</div>
                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                    <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.SSR + price.SEAT + price['ADMIN FEE']))+`</span>
+                                    <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.SSR + price.SEAT + price['ADMIN_FEE_MEDICAL']))+`</span>
                                 </div>
                             </div>`;
                             $text += msg.result.response.passengers[j].title +' '+ msg.result.response.passengers[j].name + ' ['+msg.result.response.provider_bookings[i].pnr+'] ';
@@ -1403,11 +1411,11 @@ function medical_get_booking(order_number, sync=false){
                                     coma = true
                                 }
                             }
-                            $text += `IDR `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC + price['ADMIN FEE']))+'\n';
+                            $text += `IDR `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC + price['ADMIN_FEE_MEDICAL']))+'\n';
                             if(counter_service_charge == 0){
-                                total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC + price['ADMIN FEE']);
+                                total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC + price['ADMIN_FEE_MEDICAL']);
                             }else{
-                                total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC + price['ADMIN FEE']);
+                                total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC + price['ADMIN_FEE_MEDICAL']);
                             }
                             commission += parseInt(price.RAC);
                             total_price_provider.push({
