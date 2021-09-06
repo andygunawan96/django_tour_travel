@@ -10082,7 +10082,8 @@ function airline_get_reschedule_availability_v2(){
 //       url: "{% url 'tt_backend_rodextrip:social_media_tree_update' %}",
        data: {
             'data':JSON.stringify(provider_list),
-            'signature': signature
+            'signature': signature,
+            'booking': JSON.stringify(airline_get_detail)
        },
        success: function(msg) {
            console.log(msg);
