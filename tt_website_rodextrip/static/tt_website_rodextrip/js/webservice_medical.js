@@ -421,14 +421,14 @@ function medical_check_price(){
                         <h4 style="color:`+color+`;"> Price Detail</h4>`;
                     for(i in msg.result.response.service_charges){
                         if(msg.result.response.service_charges[i].charge_code != 'rac'){
-                            if(msg.result.response.service_charges[i].charge_type == 'fare')
+                            if(msg.result.response.service_charges[i].charge_code == 'fare')
                                 charge_code = 'FARE';
-                            else if(msg.result.response.service_charges[i].charge_type == 'adm')
-                                change_code = 'Admin Fee Drive Thru';
+                            else if(msg.result.response.service_charges[i].charge_code == 'adm')
+                                charge_code = 'Admin Fee Drive Thru';
                             text+=`
                             <div class="row" style="margin-bottom:5px;">
                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                    <span style="font-size:12px;">`+msg.result.response.service_charges[i].pax_count+`x `+change_code+` @IDR `+getrupiah(msg.result.response.service_charges[i].amount)+`</span>`;
+                                    <span style="font-size:12px;">`+msg.result.response.service_charges[i].pax_count+`x `+charge_code+` @IDR `+getrupiah(msg.result.response.service_charges[i].amount)+`</span>`;
                         text+=`</div>
                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
                                     <b><span style="font-size:13px;">IDR `+getrupiah(msg.result.response.service_charges[i].total_amount)+`</span></b>
@@ -544,14 +544,14 @@ function medical_get_cache_price(){
                 <hr/>`;
                 for(i in msg.result.response.service_charges){
                     if(msg.result.response.service_charges[i].charge_code != 'rac'){
-                        if(msg.result.response.service_charges[i].charge_type == 'fare')
+                        if(msg.result.response.service_charges[i].charge_code == 'fare')
                             charge_code = 'FARE';
-                        else if(msg.result.response.service_charges[i].charge_type == 'adm')
-                            change_code = 'Admin Fee Drive Thru';
+                        else if(msg.result.response.service_charges[i].charge_code == 'adm')
+                            charge_code = 'Admin Fee Drive Thru';
                         text+=`
                         <div class="row" style="margin-bottom:5px;">
                             <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                <span style="font-size:12px;">`+msg.result.response.service_charges[i].pax_count+`x `+change_code+` @IDR `+getrupiah(msg.result.response.service_charges[i].amount)+`</span>`;
+                                <span style="font-size:12px;">`+msg.result.response.service_charges[i].pax_count+`x `+charge_code+` @IDR `+getrupiah(msg.result.response.service_charges[i].amount)+`</span>`;
                     text+=`</div>
                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
                                 <b><span style="font-size:13px;">IDR `+getrupiah(msg.result.response.service_charges[i].total_amount)+`</span></b>
