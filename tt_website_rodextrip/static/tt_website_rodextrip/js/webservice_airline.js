@@ -1025,13 +1025,33 @@ function carrier_to_provider(){
         airline.push({});
         for(j in airline_carriers_data_awal[i]){
             if(airline_carriers_data_awal[i][j].code == 'all' && airline_carriers_data_awal[i][j].bool == true){
-                for(k in provider_list){
-                    airline[i][k] = [];
-                    for(l in provider_list[k]){
-                        airline[i][k].push(provider_list[k][l]);
+                for(i in airline_carriers_data_awal){
+                    for(j in airline_carriers_data_awal[i]){
+                        try{
+                            if(airline_carriers_data_awal[i][j].code != 'all'){
+                                if(airline[i].hasOwnProperty(airline_carriers_data_awal[i][j].code) == false)
+                                    for(k in airline_carriers_data_awal[i][j].provider){
+                                        if(provider_list[airline_carriers_data_awal[i][j].code].includes(airline_carriers_data_awal[i][j].provider[k]) == true){
+                                            if(airline[i].hasOwnProperty(airline_carriers_data_awal[i][j].code) == true)
+                                                airline[i][airline_carriers_data_awal[i][j].code].push(airline_carriers_data_awal[i][j].provider[k]);
+                                            else
+                                                airline[i][airline_carriers_data_awal[i][j].code] = [airline_carriers_data_awal[i][j].provider[k]];
+                                        }
+                                    }
+                                else{
+                                    for(k in airline_carriers_data_awal[i][j].provider){
+                                        if(airline[i][airline_carriers_data_awal[i][j].code].includes(airline_carriers_data_awal[i][j].provider[k]) == false && provider_list[airline_carriers_data_awal[i][j].code].includes(airline_carriers_data_awal[i][j].provider[k]))
+                                            if(airline[i].hasOwnProperty(airline_carriers_data_awal[i][j].code) == true)
+                                                airline[i][airline_carriers_data_awal[i][j].code].push(airline_carriers_data_awal[i][j].provider[k]);
+                                            else
+                                                airline[i][airline_carriers_data_awal[i][j].code] = [airline_carriers_data_awal[i][j].provider[k]];
+                                    }
+                                }
+                            }
+                        }catch(err){console.log(err);}
                     }
                 }
-                break;
+                break
             }else if(airline_carriers_data_awal[i][j].bool == true){
                 try{
                     if(airline[i].hasOwnProperty(airline_carriers_data_awal[i][j].code) == false)
