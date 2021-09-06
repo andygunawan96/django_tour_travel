@@ -1321,6 +1321,7 @@ function medical_get_booking(order_number, sync=false){
                                 </div>`;
                     for(i in msg.result.response.provider_bookings){
                     csc = 0;
+                    ADMIN_FEE_MEDICAL = 0;
                     try{
                         for(j in msg.result.response.passengers){
                             price = {'FARE': 0, 'RAC': 0, 'ADMIN_FEE_MEDICAL':0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
@@ -1384,12 +1385,13 @@ function medical_get_booking(order_number, sync=false){
                             text_detail+=`
                             <div class="row" style="margin-bottom:5px;">
                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                    <span style="font-size:12px;">`+msg.result.response.passengers[j].name+`</span>`;
+                                    <span style="font-size:12px;">`+msg.result.response.passengers[j].name+` Fare</span>`;
                                 text_detail+=`</div>
                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                    <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.SSR + price.SEAT + price['ADMIN_FEE_MEDICAL']))+`</span>
+                                    <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.SSR + price.SEAT))+`</span>
                                 </div>
                             </div>`;
+                            ADMIN_FEE_MEDICAL += price['ADMIN_FEE_MEDICAL'];
                             $text += msg.result.response.passengers[j].title +' '+ msg.result.response.passengers[j].name + ' ['+msg.result.response.provider_bookings[i].pnr+'] ';
                             journey_code = [];
                             for(k in msg.result.response.provider_bookings[i].journeys){
@@ -1424,6 +1426,18 @@ function medical_get_booking(order_number, sync=false){
                                 'price': JSON.parse(JSON.stringify(price))
                             });
                         }
+                        if(ADMIN_FEE_MEDICAL){
+                            text_detail+=`
+                            <div class="row" style="margin-bottom:5px;">
+                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                    <span style="font-size:12px;">`+msg.result.response.passengers.length+`x Admin Fee Drive Thru</span>`;
+                                text_detail+=`</div>
+                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                    <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(ADMIN_FEE_MEDICAL))+`</span>
+                                </div>
+                            </div>`;
+                        }
+
                         if(csc != 0){
                             text_detail+=`
                                 <div class="row" style="margin-bottom:5px;">
