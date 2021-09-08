@@ -239,9 +239,9 @@ def parser_get_booking_product(data):
     data_send = {}
     for rec in data:
         data_send[rec] = data[rec]
-    if data_send['date']:
+    if data_send.get('date'):
         data_send['date'] = parse_date_time_to_server(data_send['date'])
-    if data_send['product'] == 'airline' and data_send['forget_booking'] == True:
+    if data_send['product'] == 'airline' and data_send.get('forget_booking') == True:
         data_send['origin'] = data_send['origin'].split(' - ')[0]
         data_send['destination'] = data_send['destination'].split(' - ')[0]
     return data_send

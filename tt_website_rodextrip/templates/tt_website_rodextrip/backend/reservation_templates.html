@@ -476,6 +476,8 @@
             document.getElementById('gotobooking'+key).action = '/event/booking/' + btoa(data_search[key].order_number);
         }else if(data_search[key].provider_type == 'periksain' || data_search[key].provider_type == 'phc'){
             document.getElementById('gotobooking'+key).action = '/medical/booking/' + btoa(data_search[key].order_number);
+        }else if(data_search[key].provider_type == 'medical'){
+            document.getElementById('gotobooking'+key).action = '/medical_global/booking/' + btoa(data_search[key].order_number);
         }
         document.getElementById('gotobooking'+key).submit();
     }

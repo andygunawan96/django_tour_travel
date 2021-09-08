@@ -3635,7 +3635,7 @@ function next_prev_form_medical(type, counter, id){
     }
 }
 
-function auto_fill_phc_antigen(){
+function auto_fill_data(){
     var counter = 1;
     for(idx in passenger_data_cache_medical){
         if(idx == 0){
@@ -3681,8 +3681,6 @@ function auto_fill_phc_antigen(){
               }
         });
         document.getElementById('adult_birth_date'+counter).value = passenger_data_cache_medical[idx].birth_date;
-        document.getElementById('adult_tempat_lahir'+counter).value = passenger_data_cache_medical[idx].tempat_lahir;
-        document.getElementById('select2-adult_tempat_lahir'+counter+'_id-container').innerHTML = passenger_data_cache_medical[idx].tempat_lahir;
         if(passenger_data_cache_medical[idx].identity_type != 'passport'){
             document.getElementById('adult_identity_type'+counter).value = passenger_data_cache_medical[idx].identity_type;
             document.getElementById('adult_identity_number'+counter).value = passenger_data_cache_medical[idx].identity_number;
@@ -3703,49 +3701,8 @@ function auto_fill_phc_antigen(){
             document.getElementById('adult_phone'+counter).value = passenger_data_cache_medical[idx].phone_number.substr(2,100);
         }
         document.getElementById('adult_email'+counter).value = passenger_data_cache_medical[idx].email;
-
-
-
-        document.getElementById('adult_profession'+counter).value = passenger_data_cache_medical[idx].profession;
-        if(passenger_data_cache_medical[idx].work_place)
-            document.getElementById('adult_work_place'+counter).value = passenger_data_cache_medical[idx].work_place;
-
-        document.getElementById('adult_address_ktp'+counter).value = passenger_data_cache_medical[idx].address_ktp;
-        document.getElementById('adult_rt_ktp'+counter).value = passenger_data_cache_medical[idx].rt_ktp;
-        document.getElementById('adult_rw_ktp'+counter).value = passenger_data_cache_medical[idx].rw_ktp;
-        document.getElementById('adult_kabupaten_ktp'+counter).value = passenger_data_cache_medical[idx].kabupaten_ktp;
-        document.getElementById('select2-adult_kabupaten_ktp'+counter+'_id-container').innerHTML = passenger_data_cache_medical[idx].kabupaten_ktp;
-        get_kecamatan('adult_kabupaten_ktp'+counter,'adult_kecamatan_ktp'+counter+'_id');
-
-        console.log(passenger_data_cache_medical[idx]);
-        document.getElementById('adult_kecamatan_ktp'+counter).value = passenger_data_cache_medical[idx].kecamatan_ktp;
-        document.getElementById('select2-adult_kecamatan_ktp'+counter+'_id-container').innerHTML = passenger_data_cache_medical[idx].kecamatan_ktp;
-        get_kelurahan('adult_kecamatan_ktp'+counter,'adult_kelurahan_ktp'+counter+'_id');
-
-        document.getElementById('adult_kelurahan_ktp'+counter).value = passenger_data_cache_medical[idx].kelurahan_ktp;
-        document.getElementById('select2-adult_kelurahan_ktp'+counter+'_id-container').innerHTML = passenger_data_cache_medical[idx].kelurahan_ktp;
-
-        document.getElementById('adult_address'+counter).value = passenger_data_cache_medical[idx].address;
-        document.getElementById('adult_rt'+counter).value = passenger_data_cache_medical[idx].rt;
-        document.getElementById('adult_rw'+counter).value = passenger_data_cache_medical[idx].rw;
-        document.getElementById('adult_kabupaten'+counter).value = passenger_data_cache_medical[idx].kabupaten;
-        document.getElementById('select2-adult_kabupaten'+counter+'_id-container').innerHTML = passenger_data_cache_medical[idx].kabupaten;
-        get_kecamatan('adult_kabupaten'+counter,'adult_kecamatan'+counter+'_id');
-
-        document.getElementById('adult_kecamatan'+counter).value = passenger_data_cache_medical[idx].kecamatan;
-        document.getElementById('select2-adult_kecamatan'+counter+'_id-container').innerHTML = passenger_data_cache_medical[idx].kecamatan;
-        get_kelurahan('adult_kecamatan'+counter,'adult_kelurahan'+counter+'_id');
-
-        document.getElementById('adult_kelurahan'+counter).value = passenger_data_cache_medical[idx].kelurahan;
-        document.getElementById('select2-adult_kelurahan'+counter+'_id-container').innerHTML = passenger_data_cache_medical[idx].kelurahan;
-
-        if(Object.keys(passenger_data_cache_medical[idx].pcr_data).length != 0 &&  passenger_data_cache_medical[idx].pcr_data.klinis_golongan_darah != undefined){
-            document.getElementById('adult_klinis_golongan_darah' + counter).value = passenger_data_cache_medical[idx].pcr_data.klinis_golongan_darah;
-        }
         $('#adult_title'+counter).niceSelect('update');
         $('#adult_identity_type'+counter).niceSelect('update');
-        $('#adult_profession'+counter).niceSelect('update');
-        $('#adult_klinis_golongan_darah'+counter).niceSelect('update');
         update_contact('passenger',counter);
         counter++;
     }

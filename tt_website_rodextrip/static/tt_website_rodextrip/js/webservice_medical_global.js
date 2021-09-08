@@ -671,6 +671,67 @@ function pre_medical_global_commit_booking(val){
     }
 }
 
+function confirm_order(){
+    $('#loading-search-reservation').show();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/medical_global",
+       headers:{
+            'action': 'confirm_order',
+       },
+       data: {
+           'order_number': order_number,
+           'signature': signature,
+       },
+       success: function(msg) {
+           console.log(msg);
+           if(msg.result.error_code == 0){
+                //update ticket
+                document.getElementById('show_loading_booking_medical').hidden = false;
+                hide_modal_waiting_transaction();
+                document.getElementById('medical_booking').innerHTML = '';
+                document.getElementById('medical_detail').innerHTML = '';
+                document.getElementById('payment_acq').innerHTML = '';
+                //document.getElementById('voucher_div').style.display = 'none';
+                document.getElementById('payment_acq').hidden = true;
+                document.getElementById('div_sync_status').hidden = true;
+                document.getElementById('button-print-print').hidden = true;
+
+                document.getElementById("overlay-div-box").style.display = "none";
+                $(".issued_booking_btn").hide(); //kalau error masih keluar button awal remove ivan
+                medical_get_booking(data);
+           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                auto_logout();
+           }else{
+                //update ticket
+                document.getElementById('show_loading_booking_medical').hidden = false;
+                hide_modal_waiting_transaction();
+                document.getElementById('medical_booking').innerHTML = '';
+                document.getElementById('medical_detail').innerHTML = '';
+                document.getElementById('payment_acq').innerHTML = '';
+                //document.getElementById('voucher_div').style.display = 'none';
+                document.getElementById('payment_acq').hidden = true;
+                document.getElementById('div_sync_status').hidden = true;
+                document.getElementById('button-print-print').hidden = true;
+
+                document.getElementById("overlay-div-box").style.display = "none";
+                $(".issued_booking_btn").hide(); //kalau error masih keluar button awal remove ivan
+                medical_get_booking(data);
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error medical confirm order </span>' + msg.result.error_msg,
+                })
+           }
+           $('#loading-search-reservation').hide();
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            hide_modal_waiting_transaction();
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get price medical');
+       },timeout: 300000
+    });
+}
+
 function medical_global_commit_booking(val){
     $('.hold-seat-booking-train').addClass("running");
     $('.hold-seat-booking-train').attr("disabled", true);
@@ -1542,57 +1603,15 @@ function medical_global_get_booking(order_number, sync=false){
                             <input type="button" class="primary-btn-white" style="width:100%;" onclick="copy_data();" value="Copy"/>
                         </center>
                     </div>`;
-                    if (msg.result.response.state  == 'issued' && msg.result.response.order_number.includes('PH')) {
-                        var verify = false;
-//                        var verify = true;
-//                        for(i in msg.result.response.passengers){
-//                            if(msg.result.response.passengers[i].verify == false){
-//                                verify = false;
-//                                break;
-//                            }
-//                        }
-                        if(verify == false){
-                            text_update_data_pax+=`<button class="primary-btn-white hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="update_data_passengers();" style="width:100%;margin-top:15px;">
-                            Update Data Customers`;
+                    if(window.location.pathname.includes('confirm_order') && user_login.co_agent_frontend_security.includes('confirm_order_medical') && msg.result.response.state_vendor == 'new_order'){
+                        text_detail+=`
+                        <div style="margin-top:10px;">
+                            <center>
+                                <input type="button" class="primary-btn" style="width:100%;" onclick="confirm_order();" value="Confirm Order"/>
+                            </center>
+                        </div>`;
+                    }
 
-                            if(user_login.co_agent_frontend_security.includes('verify_phc') == true && verify == false){
-                                text_update_data_pax+= ` / Verify Data`;
-                            }
-                            text_update_data_pax+=`
-                                <i class="fas fa-user-edit"></i>
-                                <div class="ld ld-ring ld-cycle"></div>
-                            </button>`;
-                        }
-                        /*if(user_login.co_agent_frontend_security.includes('verify_phc') == true){
-                            text_detail+=`
-                            <button class="primary-btn hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="verify_passenger();" style="width:100%;margin-top:15px;">
-                                Verify Data
-                                <div class="ld ld-ring ld-cycle"></div>
-                            </button>`;
-                        }*/
-                        document.getElementById('cancel_reservation').innerHTML = '';
-                    }
-                    else if(msg.result.response.state  == 'booked' && msg.result.response.order_number.includes('PH')){
-                        text_update_data_pax+=`<button class="primary-btn-white hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="update_data_passengers();" style="width:100%;margin-top:15px;">
-                            Update Data Customers <i class="fas fa-user-edit"></i>`;
-                            text_update_data_pax+=`
-                                <div class="ld ld-ring ld-cycle"></div>
-                            </button>`;
-                        document.getElementById('cancel_reservation').innerHTML = `
-                            <button class="primary-btn-white hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="medical_cancel_booking('` + msg.result.response.order_number + `');" style="width:100%;">
-                                Cancel Booking
-                                <i class="fas fa-times" style="padding-left:5px; color:red; font-size:16px;"></i>
-                                <div class="ld ld-ring ld-cycle"></div>
-                            </button>
-                        `;
-                    }
-                    if (msg.result.response.state  == 'issued' && msg.result.response.order_number.includes('PH') == true && msg.result.response.provider_bookings[0].carrier_code.includes('PHCHC') == false) {
-                        text_update_data_pax+=`
-                            <button class="primary-btn hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="medical_get_result('` + msg.result.response.order_number + `');" style="width:100%;margin-top:15px;">
-                                Get Result
-                                <div class="ld ld-ring ld-cycle"></div>
-                            </button>`;
-                    }
                     text_detail+=`
                 </div>`;
                 }catch(err){console.log(err);}
@@ -2600,8 +2619,8 @@ function create_new_reservation(){
     var text = '';
     var option = '';
     for(i in medical_get_detail.result.response.provider_bookings){
-        for(j in medical_config.result.response.carriers_code){
-            option += `<option value="`+medical_config.result.response.carriers_code[j].code+`">`+medical_config.result.response.carriers_code[j].name+`</option>`;
+        for(j in medical_config.result.response){
+            option += `<option value="`+medical_config.result.response[j].code+`">`+medical_config.result.response[j].name+`</option>`;
         }
     }
     text += `<div style="background:white;margin-top:15px;padding:5px 10px; border:1px solid #cdcdcd;">
@@ -2681,7 +2700,7 @@ function medical_reorder(){
         }
     }
     if(checked){
-        var path = '/'+medical_get_detail.result.response.provider_bookings[0].provider+'/passenger/' + document.getElementById('test_type').value;
+        var path = '/medical_global/passenger/';
         document.getElementById('data').value = JSON.stringify(passenger_list_copy);
         var data_temp = {
             "address": medical_get_detail.result.response.test_address,
@@ -2689,6 +2708,7 @@ function medical_reorder(){
             "place_url_by_google": medical_get_detail.result.response.test_address_map_link,
             "test_list": []
         }
+        document.getElementById('medical_global_type').value = document.getElementById('test_type').value;
         document.getElementById('booking_data').value = JSON.stringify(data_temp);
         document.getElementById('medical_edit_passenger').action = path;
         document.getElementById('medical_edit_passenger').submit();
@@ -2715,17 +2735,7 @@ function get_data_cache_passenger_medical(type){
        success: function(msg) {
             console.log(msg);
             passenger_data_cache_medical = msg;
-            if(type == 'verify'){
-                auto_fill_verify_data();
-            }else if(vendor == 'periksain'){
-                auto_fill_periksain();
-            }else if(vendor == 'phc'){
-                if(test_type.includes('PCR')){
-                    auto_fill_phc_pcr();
-                }else{
-                    auto_fill_phc_antigen();
-                }
-            }
+            auto_fill_data();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get price medical');

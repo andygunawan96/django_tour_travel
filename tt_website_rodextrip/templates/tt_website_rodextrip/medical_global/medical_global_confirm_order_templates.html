@@ -14,15 +14,15 @@
 <script src="{{ static_path }}js/webservice_printout.js?version={{javascript_version}}"></script>
 <script>
     static_path_url_server = '{{static_path_url_server}}';
-    order_number = '{{order_number}}';
     id_types = [];
+    signature = `{{signature}}`;
 </script>
 {% include 'tt_website_rodextrip/logout.html' %}
 {% include 'tt_website_rodextrip/loading_screen.html' %}
 {% include 'tt_website_rodextrip/check_connection.html' %}
 {% include 'tt_website_rodextrip/modal_balance_vendor.html' %}
 <div id="overlay-div-box" onclick="close_div('payment_acq');"></div>
-<title id="title_search">{{name}} Medical - {% trans 'Booking' %}</title>
+<title id="title_search">{{name}} Medical - {% trans 'Confirm Order' %}</title>
 {%if template == 1%}
 <header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
     <div class="main-menu">
@@ -145,10 +145,6 @@
 
                 </div>
 
-                {% if 'issued_reservation' in username.co_agent_frontend_security %}
-                {% include 'tt_website_rodextrip/voucher_code.html'  %}
-                {% endif %}
-
                 <div class="alert alert-danger" style="border:1px solid #cdcdcd;" id="cancel" hidden>
 
                 </div>
@@ -243,13 +239,105 @@
 {% include 'tt_website_rodextrip/footer.html' %}
 
 <script>
-    try{
-        document.getElementById('voucher_discount').style.display = 'none';
-    }catch(err){}
+
     $( document ).ready(function() {
-        medical_global_signin('{{order_number}}');
+        if(user_login.co_agent_frontend_security.includes('confirm_order_medical') == false){
+            render_login('medical');
+        }else{
+            //print field order number, nama booker
+            document.getElementById('medical_booking').innerHTML = `
+                <form action="" class="form-wrap" style="padding:15px; text-align:left;" method="POST" id="form_identity_passenger" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6">
+                                <div id="booking_id">
+                                    <label style="color:red">*</label>
+                                    <label>{% trans 'Order Number (ref. Number)' %}</label>
+                                    <div class="input-container-search-ticket">
+                                        <input type="text" class="form-control" name="order_number_field" id="order_number_field" placeholder="{% trans 'Order Number (ref. Number)' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Booking ID (ref. Number)'">
+                                    </div>
+                                </div>
+                                <label style="font-size:12px; padding:0;" id="example_booking_id">{% trans 'Example' %}: MD.2000002000</label>
+                            </div>
+                            <div class="col-lg-6 col-md-6">
+                                <label style="color:red">*</label>
+                                <label>{% trans 'Booker Name' %}</label>
+                                <div class="input-container-search-ticket">
+                                    <input type="text" class="form-control" name="booker_name_field" id="booker_name_field" placeholder="{% trans 'Booker Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Booker Name'">
+                                </div>
+                                <label style="font-size:12px; padding:0;" id="example_booking_id">{% trans 'Example' %}: John Smith</label>
+                            </div>
+
+                            <div class="col-lg-12" style="text-align:right;">
+                                <input type="button" id="get_booking" class="primary-btn btn-next ld-ext-right" onclick="check_booking();" value="Confirm Order Booking"/>
+                            </div>
+                        </div>
+                    </form>
+            `;
+            document.getElementById('form_identity_passenger').style.background = 'white';
+        }
+        try{
+            $("#show_loading_booking_medical").hide();
+        }catch(err){}
+
         breadcrumb_create("medical", 4, 1);
     });
+    function check_booking(){
+        if(document.getElementById('order_number_field').value != '' &&
+           document.getElementById('booker_name_field').value != ''){
+            var product = 'medical';
+            get_booking_product(product);
+        }else{
+            error_log = '';
+            if(document.getElementById('order_number_field').value == '')
+                error_log += 'Please input order number<br/>';
+            if(document.getElementById('booker_name_field').value == '')
+                error_log += 'Please input booker name<br/>';
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: error_log,
+            })
+        }
+    }
+
+    function get_booking_product(product){
+        getToken();
+        show_loading();
+        document.getElementById('get_booking').disabled = true;
+        data = {
+            'product': 'medical',
+            'signature': signature,
+            'booker_name': document.getElementById('booker_name_field').value,
+            'order_number': document.getElementById('order_number_field').value.replace(' ','').toUpperCase()
+        }
+
+        $.ajax({
+           type: "POST",
+           url: "/webservice/content",
+           headers:{
+                'action': 'get_booking',
+           },
+           data: {
+                data: JSON.stringify(data)
+           },
+           success: function(msg) {
+               console.log(msg);
+               if(msg.result.error_code == 0 && msg.result.response != ''){
+                    window.location.href = '/medical_global/confirm_order/'+btoa(msg.result.response.order_number);
+               }else{
+                   Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: "Booking not found",
+                   })
+               }
+               document.getElementById('get_booking').disabled = false;
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                document.getElementById('get_booking').disabled = false;
+           },timeout: 60000
+        });
+    }
 </script>
 {% endblock %}
 

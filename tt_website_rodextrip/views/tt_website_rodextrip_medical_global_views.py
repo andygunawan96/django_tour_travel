@@ -299,6 +299,64 @@ def booking(request, order_number):
     return render(request, MODEL_NAME+'/medical_global/medical_global_booking_templates.html', values)
 
 
+def confirm_order(request):
+    try:
+        javascript_version = get_javascript_version()
+        values = get_data_template(request)
+        if 'user_account' not in request.session:
+            signin_btc(request)
+        values.update({
+            'static_path': path_util.get_static_path(MODEL_NAME),
+            'id_types': id_type,
+            'cabin_class_types': cabin_class_type,
+            'username': request.session.get('user_account') or {'co_user_login': ''},
+            'signature': request.session['signature'],
+            # 'cookies': json.dumps(res['result']['cookies']),
+            'javascript_version': javascript_version,
+            'static_path_url_server': get_url_static_path(),
+        })
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+        raise Exception('Make response code 500!')
+    return render(request, MODEL_NAME+'/medical_global/medical_global_confirm_order_templates.html', values)
+
+
+def confirm_order_booking(request, order_number):
+    try:
+        javascript_version = get_javascript_version()
+        values = get_data_template(request)
+        if 'user_account' not in request.session:
+            signin_btc(request)
+        try:
+            set_session(request, 'medical_order_number', base64.b64decode(order_number).decode('ascii'))
+        except:
+            set_session(request, 'medical_order_number', order_number)
+        try:
+            if request.session.get('medical_passenger_cache'):
+                del request.session['medical_passenger_cache']
+        except:
+            pass
+        try:
+            if request.session.get('medical_data_cache'):
+                del request.session['medical_data_cache']
+        except:
+            pass
+        values.update({
+            'static_path': path_util.get_static_path(MODEL_NAME),
+            'id_types': id_type,
+            'cabin_class_types': cabin_class_type,
+            'order_number': request.session['medical_order_number'],
+            'username': request.session.get('user_account') or {'co_user_login': ''},
+            'signature': request.session['signature'],
+            # 'cookies': json.dumps(res['result']['cookies']),
+            'javascript_version': javascript_version,
+            'static_path_url_server': get_url_static_path(),
+        })
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+        raise Exception('Make response code 500!')
+    return render(request, MODEL_NAME+'/medical_global/medical_global_booking_templates.html', values)
+
 def passenger_edit(request, vendor,test_type, order_number):
     if 'user_account' in request.session._session:
         try:
