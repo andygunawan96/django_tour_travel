@@ -959,6 +959,9 @@ function medical_global_get_booking(order_number, sync=false){
 
                 //======================= Resv =========================
                 if(msg.result.error_code == 0){
+                    if(window.location.pathname.includes('confirm_order') && user_login.co_agent_frontend_security.includes('confirm_order_medical') == false){
+                        window.location.href = '/confirm_order/';
+                    }
                     medical_get_detail = msg;
                     document.getElementById('show_loading_booking_medical').hidden = true;
 //                    document.getElementById('button-home').hidden = false;
