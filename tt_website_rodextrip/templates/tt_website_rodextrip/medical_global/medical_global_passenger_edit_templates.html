@@ -1,0 +1,1042 @@
+{% extends 'tt_website_rodextrip/template_website_booking.html' %}
+{% load i18n %}
+{% load static from staticfiles %}
+{% block content %}
+<!--<script src="{{ static_path }}js/webservice_token.js"></script>-->
+<!--<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>-->
+<script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/medical_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_medical.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
+
+<script>
+    signature = '{{signature}}';
+    time_limit = {{time_limit}};
+    //session_time_limit();
+    counter_passenger = 0;
+    titles = `{{titles}}`;
+    titles = JSON.parse(titles.replace(/&#39;/g, '"'));
+    countries = `{{countries}}`;
+    countries = countries.replace(/&quot;Côte d&#39;Ivoire&quot;/g, `"Cote D'Ivoire"`); //case khusus
+    countries = countries.replace(/&#39;/g, '"');
+    countries = countries.replace(/&quot;/g, '"');
+    countries = countries.replace(/False/g, 'false');
+    countries = countries.replace(/True/g, 'true');
+    countries = JSON.parse(countries);
+    total_passengers_rebooking = {{total_passengers_rebooking}};
+    last_counter = 0;
+    vendor = `{{vendor}}`;
+    test_type = `{{test_type}}`;
+    order_number = `{{order_number}}`;
+    state = `{{state}}`;
+</script>
+{% include 'tt_website_rodextrip/logout.html' %}
+{% include 'tt_website_rodextrip/loading_screen.html' %}
+{% include 'tt_website_rodextrip/check_connection.html' %}
+{% include 'tt_website_rodextrip/modal_balance_vendor.html' %}
+<title id="title_search">{{name}} {% trans 'Medical' %} - {% trans 'Customer' %}</title>
+<style>
+    label{
+        color:black !important;
+    }
+    .pac-card {
+      margin: 10px 10px 0 0;
+      border-radius: 2px 0 0 2px;
+      box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      outline: none;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      background-color: #fff;
+      font-family: Roboto;
+    }
+
+    #googleMap {
+        margin: 0px 15px;
+    }
+
+    #pac-container {
+      padding-bottom: 12px;
+      margin-right: 12px;
+    }
+
+    .pac-controls {
+      display: inline-block;
+      padding: 5px 11px;
+    }
+
+    .pac-controls label {
+      font-family: Roboto;
+      font-size: 13px;
+      font-weight: 300;
+    }
+
+    #pac-input {
+      background-color: #fff;
+      font-family: Roboto;
+      font-size: 15px;
+      font-weight: 300;
+      margin-left: 12px;
+      padding: 0 11px 0 13px;
+      text-overflow: ellipsis;
+      width: 400px;
+    }
+
+    #pac-input:focus {
+      border-color: #4d90fe;
+    }
+    .nice-select .list {
+        max-height: 130px !important;
+        min-height: 50px !important;
+        height: unset !important;
+    }
+</style>
+{%if template == 1%}
+<header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
+    <div class="main-menu">
+        <div class="container">
+            <div class="row align-items-center justify-content-between d-flex">
+                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                    <a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="Logo {{name}}" title="{{name}}" /></a>
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
+
+                </div>
+            </div>
+            <div class="row">
+                {% include 'tt_website_rodextrip/balance_credit.html' %}
+            </div>
+        </div>
+    </div>
+<!--    {% if username.co_user_login == 'agent_b2c' %}-->
+<!--    {% include 'tt_website_rodextrip/header_signin_signup.html' %}-->
+<!--    {% endif %}-->
+</header>
+<section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
+    <div class="container">
+        <div class="banner-right">
+            <form id="medical_review" class="form-wrap" action="/medical/{{vendor}}/review" method="POST" style="padding:15px; text-align:unset;">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-lg-12 mb-3">
+                        <h3 id="medical_product"></h3>
+                    </div>
+                    <div class="col-lg-12" style="padding:0px;">
+                        {% if vendor == 'periksain' %}
+                        <img src="{{static_path}}images/icon/periksain.jpeg" alt="Periksain" style="margin-bottom:15px;background:white; width:auto; height:100px;">
+                        {% elif vendor == 'phc' %}
+                        <img src="{{static_path}}images/icon/phc.png" alt="PHC" style="margin-bottom:15px;background:white; width:auto; height:100px;">
+                        {% endif %}
+                    </div>
+                    <div class="col-lg-12" style="margin-top:10px;">
+                        <div class="row">
+                            <div class="col-lg-12" style="padding:15px; background:white; border:1px solid #cdcdcd;" id="medical_pax_div" >
+                                <h4>Customer</h4><hr/>
+                                <div class="row ">
+                                    <div class="col-lg-6 col-xs-6" hidden>
+                                        <label style="color:red !important;">*</label>
+                                        <label>{% trans "Number of Customers" %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <div class="form-select-2" id="default-select">
+                                                <select id="passenger" name="passenger" class="nice-select-default" onchange="add_table();">
+                                                    <!--ganti phc boleh minimal 1 orang -->
+                                                    <option value="1" selected>1</option>
+                                                    <option value="{{total_passengers_rebooking}}">{{total_passengers_rebooking}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <label style="font-size:12px; padding:0;"></label>
+                                    </div>
+
+
+                                    <div class="col-lg-12" style="text-align:left; margin-top:20px; margin-bottom:15px;display:none;" id="table_passenger_list">
+                                        <div class="row" id="loading-booker-train" style="display:none;">
+                                            <div class="col-lg-12">
+                                                <div class="sk-circle">
+                                                    <div class="sk-circle1 sk-child"></div>
+                                                    <div class="sk-circle2 sk-child"></div>
+                                                    <div class="sk-circle3 sk-child"></div>
+                                                    <div class="sk-circle4 sk-child"></div>
+                                                    <div class="sk-circle5 sk-child"></div>
+                                                    <div class="sk-circle6 sk-child"></div>
+                                                    <div class="sk-circle7 sk-child"></div>
+                                                    <div class="sk-circle8 sk-child"></div>
+                                                    <div class="sk-circle9 sk-child"></div>
+                                                    <div class="sk-circle10 sk-child"></div>
+                                                    <div class="sk-circle11 sk-child"></div>
+                                                    <div class="sk-circle12 sk-child"></div>
+                                                </div>
+                                                <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row" id="div_of_passenger">
+
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4" style="text-align:left; margin-top:20px; margin-bottom:15px;display:none;" id="btn_cancel">
+                                        <button class="primary-btn-ticket" type="button" style="background-color:red" onclick="cancel_data();"><i class="fas fa-times"></i> Cancel</button>
+                                    </div>
+                                    <div class="col-lg-4" style="text-align:center; margin-top:20px; margin-bottom:15px;display:none;" id="btn_save">
+                                        <button class="primary-btn-ticket" type="button" onclick="save_data_pax_backend('save_backend')"><i class="fas fa-save"></i> Save</button>
+                                    </div>
+                                    <div class="col-lg-4" style="text-align:right; margin-top:20px; margin-bottom:15px;" id="button_verify">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-7"></div>
+                    <div class="col-lg-5" style="margin-top:10px;">
+                        <div class="modal fade" id="myModalErrorPassenger" role="dialog">
+                            <div class="modal-dialog">
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" style="color:{{text_color}};"><i class="fas fa-search-minus"></i> {% trans 'Oops! Please check your details' %} </i></h4>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div style="max-height:300px; overflow-y:auto;">
+                                                    <h5><i class="fas fa-times-circle" style="color:red; font-size:24px;"></i> {% trans 'We found a mistake in your data.' %}</h5>
+                                                    <br/>
+                                                    <span id="show_error_log" style="font-size:15px;">
+
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="primary-btn" data-dismiss="modal">OK</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;display:none;" id="medical_detail">
+
+                        </div>
+                        <br/>
+                        <input type="hidden" id="time_limit_input" name="time_limit_input" />
+                        <input type="hidden" id="data" name="data" />
+                        <input type="hidden" id="vendor" name="vendor" />
+                        <input type="hidden" id="test_type" name="test_type" />
+                        <input type="hidden" id="signature" name="signature" />
+                    </div>
+
+                    <div class="col-lg-7"></div>
+                    <div class="col-lg-5">
+                        <button class="primary-btn-ticket next-passenger-train ld-ext-right" style="width:100%;display:none;" id="next_medical" type="button" value="Next" onclick="check_passenger();">
+                            {% trans 'Next' %}
+                            <i class="fas fa-angle-right"></i>
+                            <div class="ld ld-ring ld-cycle"></div>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{%elif template == 2%}
+<header class="header_breadcrumb" style="padding:15px 0px; background:white;">
+    <div class="main-menu">
+        <div class="container">
+            <div class="row align-items-center justify-content-between d-flex">
+                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                    <a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="Logo {{name}}" title="{{name}}" /></a>
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
+
+                </div>
+            </div>
+            <div class="row">
+                {% include 'tt_website_rodextrip/balance_credit.html' %}
+            </div>
+        </div>
+    </div>
+<!--    {% if username.co_user_login == 'agent_b2c' %}-->
+<!--    {% include 'tt_website_rodextrip/header_signin_signup.html' %}-->
+<!--    {% endif %}-->
+</header>
+<section class="destinations-area" style="padding-top:30px; padding-bottom:40px; background:#f7f7f7; position:relative;">
+    <div class="container">
+        <div class="hotel-search-form-area" style="padding:unset; position:unset;">
+            <div class="hotel-search-form" style="background-color:unset; box-shadow:unset; padding:unset;">
+                <form id="medical_review" class="form-wrap" action="/medical/{{vendor}}/review" method="POST" style="padding:15px; text-align:unset;">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-lg-12 mb-3">
+                        <h3 id="medical_product"></h3>
+                    </div>
+                    <div class="col-lg-12" style="padding:0px;">
+                        {% if vendor == 'periksain' %}
+                        <img src="{{static_path}}images/icon/periksain.jpeg" alt="Periksain" style="margin-bottom:15px;background:white; width:auto; height:100px;">
+                        {% elif vendor == 'phc' %}
+                        <img src="{{static_path}}images/icon/phc.png" alt="PHC" style="margin-bottom:15px;background:white; width:auto; height:100px;">
+                        {% endif %}
+                    </div>
+                    <div class="col-lg-12" style="margin-top:10px;">
+                        <div class="row">
+                            <div class="col-lg-12" style="padding:15px; background:white; border:1px solid #cdcdcd;" id="medical_pax_div" >
+                                <h4>Customer</h4><hr/>
+                                <div class="row ">
+                                    <div class="col-lg-6 col-xs-6" hidden>
+                                        <label style="color:red !important;">*</label>
+                                        <label>{% trans "Number of Customers" %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <div class="form-select-2" id="default-select">
+                                                <select id="passenger" name="passenger" class="nice-select-default" onchange="add_table();">
+                                                    <!--ganti phc boleh minimal 1 orang -->
+                                                    <option value="1" selected>1</option>
+                                                    <option value="{{total_passengers_rebooking}}">{{total_passengers_rebooking}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <label style="font-size:12px; padding:0;"></label>
+                                    </div>
+
+
+                                    <div class="col-lg-12" style="text-align:left; margin-top:20px; margin-bottom:15px;display:none;" id="table_passenger_list">
+                                        <div class="row" id="loading-booker-train" style="display:none;">
+                                            <div class="col-lg-12">
+                                                <div class="sk-circle">
+                                                    <div class="sk-circle1 sk-child"></div>
+                                                    <div class="sk-circle2 sk-child"></div>
+                                                    <div class="sk-circle3 sk-child"></div>
+                                                    <div class="sk-circle4 sk-child"></div>
+                                                    <div class="sk-circle5 sk-child"></div>
+                                                    <div class="sk-circle6 sk-child"></div>
+                                                    <div class="sk-circle7 sk-child"></div>
+                                                    <div class="sk-circle8 sk-child"></div>
+                                                    <div class="sk-circle9 sk-child"></div>
+                                                    <div class="sk-circle10 sk-child"></div>
+                                                    <div class="sk-circle11 sk-child"></div>
+                                                    <div class="sk-circle12 sk-child"></div>
+                                                </div>
+                                                <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row" id="div_of_passenger">
+
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4" style="text-align:left; margin-top:20px; margin-bottom:15px;display:none;" id="btn_cancel">
+                                        <button class="primary-btn-ticket" type="button" style="background-color:red" onclick="cancel_data();"><i class="fas fa-times"></i> Cancel</button>
+                                    </div>
+                                    <div class="col-lg-4" style="text-align:center; margin-top:20px; margin-bottom:15px;display:none;" id="btn_save">
+                                        <button class="primary-btn-ticket" type="button" onclick="save_data_pax_backend('save_backend')"><i class="fas fa-save"></i> Save</button>
+                                    </div>
+                                    <div class="col-lg-4" style="text-align:right; margin-top:20px; margin-bottom:15px;" id="button_verify">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-7"></div>
+                    <div class="col-lg-5" style="margin-top:10px;">
+                        <div class="modal fade" id="myModalErrorPassenger" role="dialog">
+                            <div class="modal-dialog">
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" style="color:{{text_color}};"><i class="fas fa-search-minus"></i> {% trans 'Oops! Please check your details' %} </i></h4>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div style="max-height:300px; overflow-y:auto;">
+                                                    <h5><i class="fas fa-times-circle" style="color:red; font-size:24px;"></i> {% trans 'We found a mistake in your data.' %}</h5>
+                                                    <br/>
+                                                    <span id="show_error_log" style="font-size:15px;">
+
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="primary-btn" data-dismiss="modal">OK</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;display:none;" id="medical_detail">
+
+                        </div>
+                        <br/>
+                        <input type="hidden" id="time_limit_input" name="time_limit_input" />
+                        <input type="hidden" id="data" name="data" />
+                        <input type="hidden" id="vendor" name="vendor" />
+                        <input type="hidden" id="test_type" name="test_type" />
+                        <input type="hidden" id="signature" name="signature" />
+                    </div>
+
+                    <div class="col-lg-7"></div>
+                    <div class="col-lg-5">
+                        <button class="primary-btn-ticket next-passenger-train ld-ext-right" style="width:100%;display:none;" id="next_medical" type="button" value="Next" onclick="check_passenger();">
+                            {% trans 'Next' %}
+                            <i class="fas fa-angle-right"></i>
+                            <div class="ld ld-ring ld-cycle"></div>
+                        </button>
+                    </div>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+</section>
+{%elif template == 3%}
+<header class="header_breadcrumb" style="padding:15px 0px; background:white;">
+    <div class="main-menu">
+        <div class="container">
+            <div class="row align-items-center justify-content-between d-flex">
+                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                    <a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="Logo {{name}}" title="{{name}}" /></a>
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
+
+                </div>
+            </div>
+            <div class="row">
+                {% include 'tt_website_rodextrip/balance_credit.html' %}
+            </div>
+        </div>
+    </div>
+<!--    {% if username.co_user_login == 'agent_b2c' %}-->
+<!--    {% include 'tt_website_rodextrip/header_signin_signup.html' %}-->
+<!--    {% endif %}-->
+</header>
+<section class="destinations-area" style="padding-top:30px; padding-bottom:40px; background:#f7f7f7; position:relative;">
+    <div class="container">
+        <div class="hotel-search-form-area" style="padding:unset; position:unset;">
+            <div class="hotel-search-form" style="background-color:unset; box-shadow:unset; padding:unset;">
+                <form id="medical_review" class="form-wrap" action="/medical/{{vendor}}/review" method="POST" style="padding:15px; text-align:unset;">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-lg-12 mb-3">
+                        <h3 id="medical_product"></h3>
+                    </div>
+                    <div class="col-lg-12" style="padding:0px;">
+                        {% if vendor == 'periksain' %}
+                        <img src="{{static_path}}images/icon/periksain.jpeg" alt="Periksain" style="margin-bottom:15px;background:white; width:auto; height:100px;">
+                        {% elif vendor == 'phc' %}
+                        <img src="{{static_path}}images/icon/phc.png" alt="PHC" style="margin-bottom:15px;background:white; width:auto; height:100px;">
+                        {% endif %}
+                    </div>
+                    <div class="col-lg-12" style="margin-top:10px;">
+                        <div class="row">
+                            <div class="col-lg-12" style="padding:15px; background:white; border:1px solid #cdcdcd;" id="medical_pax_div" >
+                                <h4>Customer</h4><hr/>
+                                <div class="row ">
+                                    <div class="col-lg-6 col-xs-6" hidden>
+                                        <label style="color:red !important;">*</label>
+                                        <label>{% trans "Number of Customers" %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <div class="form-select-2" id="default-select">
+                                                <select id="passenger" name="passenger" class="nice-select-default" onchange="add_table();">
+                                                    <!--ganti phc boleh minimal 1 orang -->
+                                                    <option value="1" selected>1</option>
+                                                    <option value="{{total_passengers_rebooking}}">{{total_passengers_rebooking}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <label style="font-size:12px; padding:0;"></label>
+                                    </div>
+
+
+                                    <div class="col-lg-12" style="text-align:left; margin-top:20px; margin-bottom:15px;display:none;" id="table_passenger_list">
+                                        <div class="row" id="loading-booker-train" style="display:none;">
+                                            <div class="col-lg-12">
+                                                <div class="sk-circle">
+                                                    <div class="sk-circle1 sk-child"></div>
+                                                    <div class="sk-circle2 sk-child"></div>
+                                                    <div class="sk-circle3 sk-child"></div>
+                                                    <div class="sk-circle4 sk-child"></div>
+                                                    <div class="sk-circle5 sk-child"></div>
+                                                    <div class="sk-circle6 sk-child"></div>
+                                                    <div class="sk-circle7 sk-child"></div>
+                                                    <div class="sk-circle8 sk-child"></div>
+                                                    <div class="sk-circle9 sk-child"></div>
+                                                    <div class="sk-circle10 sk-child"></div>
+                                                    <div class="sk-circle11 sk-child"></div>
+                                                    <div class="sk-circle12 sk-child"></div>
+                                                </div>
+                                                <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row" id="div_of_passenger">
+
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4" style="text-align:left; margin-top:20px; margin-bottom:15px;display:none;" id="btn_cancel">
+                                        <button class="primary-btn-ticket" type="button" style="background-color:red" onclick="cancel_data();"><i class="fas fa-times"></i> Cancel</button>
+                                    </div>
+                                    <div class="col-lg-4" style="text-align:center; margin-top:20px; margin-bottom:15px;display:none;" id="btn_save">
+                                        <button class="primary-btn-ticket" type="button" onclick="save_data_pax_backend('save_backend')"><i class="fas fa-save"></i> Save</button>
+                                    </div>
+                                    <div class="col-lg-4" style="text-align:right; margin-top:20px; margin-bottom:15px;" id="button_verify">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-7"></div>
+                    <div class="col-lg-5" style="margin-top:10px;">
+                        <div class="modal fade" id="myModalErrorPassenger" role="dialog">
+                            <div class="modal-dialog">
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" style="color:{{text_color}};"><i class="fas fa-search-minus"></i> {% trans 'Oops! Please check your details' %} </i></h4>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div style="max-height:300px; overflow-y:auto;">
+                                                    <h5><i class="fas fa-times-circle" style="color:red; font-size:24px;"></i> {% trans 'We found a mistake in your data.' %}</h5>
+                                                    <br/>
+                                                    <span id="show_error_log" style="font-size:15px;">
+
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="primary-btn" data-dismiss="modal">OK</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;display:none;" id="medical_detail">
+
+                        </div>
+                        <br/>
+                        <input type="hidden" id="time_limit_input" name="time_limit_input" />
+                        <input type="hidden" id="data" name="data" />
+                        <input type="hidden" id="vendor" name="vendor" />
+                        <input type="hidden" id="test_type" name="test_type" />
+                        <input type="hidden" id="signature" name="signature" />
+                    </div>
+
+                    <div class="col-lg-7"></div>
+                    <div class="col-lg-5">
+                        <button class="primary-btn-ticket next-passenger-train ld-ext-right" style="width:100%;display:none;" id="next_medical" type="button" value="Next" onclick="check_passenger();">
+                            {% trans 'Next' %}
+                            <i class="fas fa-angle-right"></i>
+                            <div class="ld ld-ring ld-cycle"></div>
+                        </button>
+                    </div>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+</section>
+{%elif template == 4%}
+<header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
+    <div class="main-menu">
+        <div class="container">
+            <div class="row align-items-center justify-content-between d-flex">
+                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                    <a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="Logo {{name}}" title="{{name}}" /></a>
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
+
+                </div>
+            </div>
+            <div class="row">
+                {% include 'tt_website_rodextrip/balance_credit.html' %}
+            </div>
+        </div>
+    </div>
+<!--    {% if username.co_user_login == 'agent_b2c' %}-->
+<!--    {% include 'tt_website_rodextrip/header_signin_signup.html' %}-->
+<!--    {% endif %}-->
+</header>
+<section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
+    <div class="container">
+        <div class="banner-right">
+            <form id="medical_review" class="form-wrap" action="/medical/{{vendor}}/review" method="POST" style="padding:15px; text-align:unset;">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-lg-12 mb-3">
+                        <h3 id="medical_product"></h3>
+                    </div>
+                    <div class="col-lg-12" style="padding:0px;">
+                        {% if vendor == 'periksain' %}
+                        <img src="{{static_path}}images/icon/periksain.jpeg" alt="Periksain" style="margin-bottom:15px;background:white; width:auto; height:100px;">
+                        {% elif vendor == 'phc' %}
+                        <img src="{{static_path}}images/icon/phc.png" alt="PHC" style="margin-bottom:15px;background:white; width:auto; height:100px;">
+                        {% endif %}
+                    </div>
+                    <div class="col-lg-12" style="margin-top:10px;">
+                        <div class="row">
+                            <div class="col-lg-12" style="padding:15px; background:white; border:1px solid #cdcdcd;" id="medical_pax_div" >
+                                <h4>Customer</h4><hr/>
+                                <div class="row ">
+                                    <div class="col-lg-6 col-xs-6" hidden>
+                                        <label style="color:red !important;">*</label>
+                                        <label>{% trans "Number of Customers" %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <div class="form-select-2" id="default-select">
+                                                <select id="passenger" name="passenger" class="nice-select-default" onchange="add_table();">
+                                                    <!--ganti phc boleh minimal 1 orang -->
+                                                    <option value="1" selected>1</option>
+                                                    <option value="{{total_passengers_rebooking}}">{{total_passengers_rebooking}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <label style="font-size:12px; padding:0;"></label>
+                                    </div>
+
+
+                                    <div class="col-lg-12" style="text-align:left; margin-top:20px; margin-bottom:15px;display:none;" id="table_passenger_list">
+                                        <div class="row" id="loading-booker-train" style="display:none;">
+                                            <div class="col-lg-12">
+                                                <div class="sk-circle">
+                                                    <div class="sk-circle1 sk-child"></div>
+                                                    <div class="sk-circle2 sk-child"></div>
+                                                    <div class="sk-circle3 sk-child"></div>
+                                                    <div class="sk-circle4 sk-child"></div>
+                                                    <div class="sk-circle5 sk-child"></div>
+                                                    <div class="sk-circle6 sk-child"></div>
+                                                    <div class="sk-circle7 sk-child"></div>
+                                                    <div class="sk-circle8 sk-child"></div>
+                                                    <div class="sk-circle9 sk-child"></div>
+                                                    <div class="sk-circle10 sk-child"></div>
+                                                    <div class="sk-circle11 sk-child"></div>
+                                                    <div class="sk-circle12 sk-child"></div>
+                                                </div>
+                                                <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row" id="div_of_passenger">
+
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4" style="text-align:left; margin-top:20px; margin-bottom:15px;display:none;" id="btn_cancel">
+                                        <button class="primary-btn-ticket" type="button" style="background-color:red" onclick="cancel_data();"><i class="fas fa-times"></i> Cancel</button>
+                                    </div>
+                                    <div class="col-lg-4" style="text-align:center; margin-top:20px; margin-bottom:15px;display:none;" id="btn_save">
+                                        <button class="primary-btn-ticket" type="button" onclick="save_data_pax_backend('save_backend')"><i class="fas fa-save"></i> Save</button>
+                                    </div>
+                                    <div class="col-lg-4" style="text-align:right; margin-top:20px; margin-bottom:15px;" id="button_verify">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-7"></div>
+                    <div class="col-lg-5" style="margin-top:10px;">
+                        <div class="modal fade" id="myModalErrorPassenger" role="dialog">
+                            <div class="modal-dialog">
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" style="color:{{text_color}};"><i class="fas fa-search-minus"></i> {% trans 'Oops! Please check your details' %} </i></h4>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div style="max-height:300px; overflow-y:auto;">
+                                                    <h5><i class="fas fa-times-circle" style="color:red; font-size:24px;"></i> {% trans 'We found a mistake in your data.' %}</h5>
+                                                    <br/>
+                                                    <span id="show_error_log" style="font-size:15px;">
+
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="primary-btn" data-dismiss="modal">OK</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;display:none;" id="medical_detail">
+
+                        </div>
+                        <br/>
+                        <input type="hidden" id="time_limit_input" name="time_limit_input" />
+                        <input type="hidden" id="data" name="data" />
+                        <input type="hidden" id="vendor" name="vendor" />
+                        <input type="hidden" id="test_type" name="test_type" />
+                        <input type="hidden" id="signature" name="signature" />
+                    </div>
+
+                    <div class="col-lg-7"></div>
+                    <div class="col-lg-5">
+                        <button class="primary-btn-ticket next-passenger-train ld-ext-right" style="width:100%;display:none;" id="next_medical" type="button" value="Next" onclick="check_passenger();">
+                            {% trans 'Next' %}
+                            <i class="fas fa-angle-right"></i>
+                            <div class="ld ld-ring ld-cycle"></div>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{%elif template == 5%}
+<header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
+    <div class="main-menu">
+        <div class="container">
+            <div class="row align-items-center justify-content-between d-flex">
+                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                    <a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="Logo {{name}}" title="{{name}}" /></a>
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
+
+                </div>
+            </div>
+            <div class="row">
+                {% include 'tt_website_rodextrip/balance_credit.html' %}
+            </div>
+        </div>
+    </div>
+<!--    {% if username.co_user_login == 'agent_b2c' %}-->
+<!--    {% include 'tt_website_rodextrip/header_signin_signup.html' %}-->
+<!--    {% endif %}-->
+</header>
+<section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
+    <div class="container">
+        <div class="banner-right">
+            <form id="medical_review" class="form-wrap" action="/medical/{{vendor}}/review" method="POST" style="padding:15px; text-align:unset;">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-lg-12 mb-3">
+                        <h3 id="medical_product"></h3>
+                    </div>
+                    <div class="col-lg-12" style="padding:0px;">
+                        {% if vendor == 'periksain' %}
+                        <img src="{{static_path}}images/icon/periksain.jpeg" alt="Periksain" style="margin-bottom:15px;background:white; width:auto; height:100px;">
+                        {% elif vendor == 'phc' %}
+                        <img src="{{static_path}}images/icon/phc.png" alt="PHC" style="margin-bottom:15px;background:white; width:auto; height:100px;">
+                        {% endif %}
+                    </div>
+                    <div class="col-lg-12" style="margin-top:10px;">
+                        <div class="row">
+                            <div class="col-lg-12" style="padding:15px; background:white; border:1px solid #cdcdcd;" id="medical_pax_div" >
+                                <h4>Customer</h4><hr/>
+                                <div class="row ">
+                                    <div class="col-lg-6 col-xs-6" hidden>
+                                        <label style="color:red !important;">*</label>
+                                        <label>{% trans "Number of Customers" %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <div class="form-select-2" id="default-select">
+                                                <select id="passenger" name="passenger" class="nice-select-default" onchange="add_table();">
+                                                    <!--ganti phc boleh minimal 1 orang -->
+                                                    <option value="1" selected>1</option>
+                                                    <option value="{{total_passengers_rebooking}}">{{total_passengers_rebooking}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <label style="font-size:12px; padding:0;"></label>
+                                    </div>
+
+
+                                    <div class="col-lg-12" style="text-align:left; margin-top:20px; margin-bottom:15px;display:none;" id="table_passenger_list">
+                                        <div class="row" id="loading-booker-train" style="display:none;">
+                                            <div class="col-lg-12">
+                                                <div class="sk-circle">
+                                                    <div class="sk-circle1 sk-child"></div>
+                                                    <div class="sk-circle2 sk-child"></div>
+                                                    <div class="sk-circle3 sk-child"></div>
+                                                    <div class="sk-circle4 sk-child"></div>
+                                                    <div class="sk-circle5 sk-child"></div>
+                                                    <div class="sk-circle6 sk-child"></div>
+                                                    <div class="sk-circle7 sk-child"></div>
+                                                    <div class="sk-circle8 sk-child"></div>
+                                                    <div class="sk-circle9 sk-child"></div>
+                                                    <div class="sk-circle10 sk-child"></div>
+                                                    <div class="sk-circle11 sk-child"></div>
+                                                    <div class="sk-circle12 sk-child"></div>
+                                                </div>
+                                                <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row" id="div_of_passenger">
+
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4" style="text-align:left; margin-top:20px; margin-bottom:15px;display:none;" id="btn_cancel">
+                                        <button class="primary-btn-ticket" type="button" style="background-color:red" onclick="cancel_data();"><i class="fas fa-times"></i> Cancel</button>
+                                    </div>
+                                    <div class="col-lg-4" style="text-align:center; margin-top:20px; margin-bottom:15px;display:none;" id="btn_save">
+                                        <button class="primary-btn-ticket" type="button" onclick="save_data_pax_backend('save_backend')"><i class="fas fa-save"></i> Save</button>
+                                    </div>
+                                    <div class="col-lg-4" style="text-align:right; margin-top:20px; margin-bottom:15px;" id="button_verify">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-7"></div>
+                    <div class="col-lg-5" style="margin-top:10px;">
+                        <div class="modal fade" id="myModalErrorPassenger" role="dialog">
+                            <div class="modal-dialog">
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" style="color:{{text_color}};"><i class="fas fa-search-minus"></i> {% trans 'Oops! Please check your details' %} </i></h4>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div style="max-height:300px; overflow-y:auto;">
+                                                    <h5><i class="fas fa-times-circle" style="color:red; font-size:24px;"></i> {% trans 'We found a mistake in your data.' %}</h5>
+                                                    <br/>
+                                                    <span id="show_error_log" style="font-size:15px;">
+
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="primary-btn" data-dismiss="modal">OK</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;display:none;" id="medical_detail">
+
+                        </div>
+                        <br/>
+                        <input type="hidden" id="time_limit_input" name="time_limit_input" />
+                        <input type="hidden" id="data" name="data" />
+                        <input type="hidden" id="vendor" name="vendor" />
+                        <input type="hidden" id="test_type" name="test_type" />
+                        <input type="hidden" id="signature" name="signature" />
+                    </div>
+
+                    <div class="col-lg-7"></div>
+                    <div class="col-lg-5">
+                        <button class="primary-btn-ticket next-passenger-train ld-ext-right" style="width:100%;display:none;" id="next_medical" type="button" value="Next" onclick="check_passenger();">
+                            {% trans 'Next' %}
+                            <i class="fas fa-angle-right"></i>
+                            <div class="ld ld-ring ld-cycle"></div>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{%elif template == 6%}
+<header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
+    <div class="main-menu">
+        <div class="container">
+            <div class="row align-items-center justify-content-between d-flex">
+                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                    <a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="Logo {{name}}" title="{{name}}" /></a>
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
+
+                </div>
+            </div>
+            <div class="row">
+                {% include 'tt_website_rodextrip/balance_credit.html' %}
+            </div>
+        </div>
+    </div>
+<!--    {% if username.co_user_login == 'agent_b2c' %}-->
+<!--    {% include 'tt_website_rodextrip/header_signin_signup.html' %}-->
+<!--    {% endif %}-->
+</header>
+<section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
+    <div class="container">
+        <div class="banner-right">
+            <form id="medical_review" class="form-wrap" action="/medical/{{vendor}}/review" method="POST" style="padding:15px; text-align:unset;">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-lg-12 mb-3">
+                        <h3 id="medical_product"></h3>
+                    </div>
+                    <div class="col-lg-12" style="padding:0px;">
+                        {% if vendor == 'periksain' %}
+                        <img src="{{static_path}}images/icon/periksain.jpeg" alt="Periksain" style="margin-bottom:15px;background:white; width:auto; height:100px;">
+                        {% elif vendor == 'phc' %}
+                        <img src="{{static_path}}images/icon/phc.png" alt="PHC" style="margin-bottom:15px;background:white; width:auto; height:100px;">
+                        {% endif %}
+                    </div>
+                    <div class="col-lg-12" style="margin-top:10px;">
+                        <div class="row">
+                            <div class="col-lg-12" style="padding:15px; background:white; border:1px solid #cdcdcd;" id="medical_pax_div" >
+                                <h4>Customer</h4><hr/>
+                                <div class="row ">
+                                    <div class="col-lg-6 col-xs-6" hidden>
+                                        <label style="color:red !important;">*</label>
+                                        <label>{% trans "Number of Customers" %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <div class="form-select-2" id="default-select">
+                                                <select id="passenger" name="passenger" class="nice-select-default" onchange="add_table();">
+                                                    <!--ganti phc boleh minimal 1 orang -->
+                                                    <option value="1" selected>1</option>
+                                                    <option value="{{total_passengers_rebooking}}">{{total_passengers_rebooking}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <label style="font-size:12px; padding:0;"></label>
+                                    </div>
+
+
+                                    <div class="col-lg-12" style="text-align:left; margin-top:20px; margin-bottom:15px;display:none;" id="table_passenger_list">
+                                        <div class="row" id="loading-booker-train" style="display:none;">
+                                            <div class="col-lg-12">
+                                                <div class="sk-circle">
+                                                    <div class="sk-circle1 sk-child"></div>
+                                                    <div class="sk-circle2 sk-child"></div>
+                                                    <div class="sk-circle3 sk-child"></div>
+                                                    <div class="sk-circle4 sk-child"></div>
+                                                    <div class="sk-circle5 sk-child"></div>
+                                                    <div class="sk-circle6 sk-child"></div>
+                                                    <div class="sk-circle7 sk-child"></div>
+                                                    <div class="sk-circle8 sk-child"></div>
+                                                    <div class="sk-circle9 sk-child"></div>
+                                                    <div class="sk-circle10 sk-child"></div>
+                                                    <div class="sk-circle11 sk-child"></div>
+                                                    <div class="sk-circle12 sk-child"></div>
+                                                </div>
+                                                <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row" id="div_of_passenger">
+
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4" style="text-align:left; margin-top:20px; margin-bottom:15px;display:none;" id="btn_cancel">
+                                        <button class="primary-btn-ticket" type="button" style="background-color:red" onclick="cancel_data();"><i class="fas fa-times"></i> Cancel</button>
+                                    </div>
+                                    <div class="col-lg-4" style="text-align:center; margin-top:20px; margin-bottom:15px;display:none;" id="btn_save">
+                                        <button class="primary-btn-ticket" type="button" onclick="save_data_pax_backend('save_backend')"><i class="fas fa-save"></i> Save</button>
+                                    </div>
+                                    <div class="col-lg-4" style="text-align:right; margin-top:20px; margin-bottom:15px;" id="button_verify">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-7"></div>
+                    <div class="col-lg-5" style="margin-top:10px;">
+                        <div class="modal fade" id="myModalErrorPassenger" role="dialog">
+                            <div class="modal-dialog">
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" style="color:{{text_color}};"><i class="fas fa-search-minus"></i> {% trans 'Oops! Please check your details' %} </i></h4>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div style="max-height:300px; overflow-y:auto;">
+                                                    <h5><i class="fas fa-times-circle" style="color:red; font-size:24px;"></i> {% trans 'We found a mistake in your data.' %}</h5>
+                                                    <br/>
+                                                    <span id="show_error_log" style="font-size:15px;">
+
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="primary-btn" data-dismiss="modal">OK</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;display:none;" id="medical_detail">
+
+                        </div>
+                        <br/>
+                        <input type="hidden" id="time_limit_input" name="time_limit_input" />
+                        <input type="hidden" id="data" name="data" />
+                        <input type="hidden" id="vendor" name="vendor" />
+                        <input type="hidden" id="test_type" name="test_type" />
+                        <input type="hidden" id="signature" name="signature" />
+                    </div>
+
+                    <div class="col-lg-7"></div>
+                    <div class="col-lg-5">
+                        <button class="primary-btn-ticket next-passenger-train ld-ext-right" style="width:100%;display:none;" id="next_medical" type="button" value="Next" onclick="check_passenger();">
+                            {% trans 'Next' %}
+                            <i class="fas fa-angle-right"></i>
+                            <div class="ld ld-ring ld-cycle"></div>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<div id="modal_passenger_list">
+</div>
+
+{% include 'tt_website_rodextrip/footer.html' %}
+
+
+{% if username.co_user_login == 'agent_b2c' %}
+{% include 'tt_website_rodextrip/modal_signin_signup.html' %}
+{% endif %}
+<script>
+    $('.loader-rodextrip').fadeOut();
+    $( document ).ready(function() {
+        $('.js-example-basic-single').niceSelect('destroy');
+        $('.js-example-basic-single').select2();
+        get_config_medical('passenger_edit', vendor);
+        //add_table();
+    });
+    $(function() {
+      //breadcrumb_create("medical", 2, 0);
+
+    });
+    function check_years_old(sequence){
+        var birth_date = '';
+        birth_date = moment(document.getElementById('adult_birth_date'+sequence).value, 'DD MMM YYYY');
+        document.getElementById('adult_years_old'+sequence).value = parseInt(Math.abs(moment(new Date()) - birth_date)/31536000000);
+    }
+</script>
+<!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB0B4gWu6auyPm91HyHd55huvqFX9-0kr4&callback=initMap&libraries=drawing&v=weekly" async></script>-->
+{% include 'tt_website_rodextrip/plugin_passenger.html' %}
+{% endblock %}
