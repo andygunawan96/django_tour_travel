@@ -84,6 +84,8 @@ def api_models(request):
             res = verify_data(request)
         elif req_data['action'] == 'cancel':
             res = cancel(request)
+        elif req_data['action'] == 'confirm_order':
+            res = confirm_order(request)
         elif req_data['action'] == 'get_medical_information':
             res = get_medical_information(request)
         elif req_data['action'] == 'update_medical_information':
@@ -534,12 +536,7 @@ def cancel(request):
         data = {
             'order_number': request.POST['order_number'],
         }
-        additional_url = 'booking/'
-        if 'PK' in request.POST['order_number']:
-            additional_url += 'periksain'
-        else:
-            additional_url += 'phc'
-
+        additional_url = 'booking/medical'
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -556,6 +553,33 @@ def cancel(request):
             _logger.info("SUCCESS medical_cancel SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR medical_cancel SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+
+def confirm_order(request):
+    try:
+        data = {
+            'order_number': request.POST['order_number'],
+        }
+        additional_url = 'booking/medical'
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "confirm_order",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    url_request = url + additional_url
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
+    try:
+        if res['result']['error_code'] == 0:
+            _logger.info("SUCCESS medical_confirm_order SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("ERROR medical_confirm_order SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
