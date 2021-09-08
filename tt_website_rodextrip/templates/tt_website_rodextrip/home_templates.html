@@ -16,6 +16,7 @@
 <script src="{{ static_path }}js/webservice_ppob.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_event.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_medical.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_medical_global.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_bus.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/ppob_javascript.js?version={{javascript_version}}"></script>
@@ -400,6 +401,13 @@
                             <a class="nav-link {%if forloop.counter == 1 %}active{%endif%}" id="bus-tab" data-toggle="tab" href="#bus" role="tab" aria-controls="bus" aria-selected="false">
                                 <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-train.png" alt="Bus Icon"/></i>
                                 <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'Bus' %} </span>
+                            </a>
+                        </li>
+                            {% elif "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security and rec.name == "medical" %}
+                        <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'medical2');" id="nav_scroll_menu_medical2">
+                            <a class="nav-link {%if forloop.counter == 1 %}active{%endif%}" id="medical_global-tab" data-toggle="tab" href="#medical_global" role="tab" aria-controls="medical2" aria-selected="false">
+                                <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Medical Icon"/></i>
+                                <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'Medical' %} </span>
                             </a>
                         </li>
                             {% endif %}
@@ -810,11 +818,11 @@
                                                     </div>
                                                     <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
                                                         <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                            <button type="button" class="left-minus-adult-train btn-custom-circle" id="left-minus-adult-train" data-type="minus" data-field="" disabled>
+                                                            <button type="button" class="left-minus-adult-train btn-custom-circle" id="left-minus-adult-bus" data-type="minus" data-field="" disabled>
                                                                 <i class="fas fa-minus"></i>
                                                             </button>
                                                             <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="bus_adult" name="bus_adult" value="1" min="1" readonly>
-                                                            <button type="button" class="right-plus-adult-train btn-custom-circle" id="right-plus-adult-train" data-type="plus" data-field="">
+                                                            <button type="button" class="right-plus-adult-train btn-custom-circle" id="right-plus-adult-bus" data-type="plus" data-field="">
                                                                 <i class="fas fa-plus"></i>
                                                             </button>
                                                         </div>
@@ -822,7 +830,7 @@
 
                                                     <div class="col-lg-12" style="text-align:right;">
                                                         <hr/>
-                                                        <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('train','passenger');">Done</button>
+                                                        <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('bus','passenger');">Done</button>
                                                     </div>
                                                 </div>
                                             </ul>
@@ -834,6 +842,34 @@
                                 <input type="hidden" id="bus_response" name="response"/>
                                 <center>
                                     <button class="primary-btn ld-ext-right" id="btn-search-train" type="button" onclick="get_captcha('recaptcha_bus','bus');" value="Submit">
+                                        <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                        {% trans 'Search' %}
+                                        <div class="ld ld-ring ld-cycle"></div>
+                                    </button>
+                                </center>
+                            </form>
+                        </div>
+                        {% endif %}
+                        {% if "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security %}
+                        <div class="tab-pane fade {%if provider_types_sequence.0.name == 'medical' %}show active {% endif %} " id="medical_global" role="tabpanel" aria-labelledby="medical_global-tab">
+                            <form action="{% url 'tt_website_rodextrip:medical_global_passenger'%}" class="form-wrap" id="medical_global_searchForm" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="g-recaptcha-response" id='recaptcha_medical_global'>
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12" style="padding:0px;">
+                                        <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Medical Type' %}</span>
+                                        <div class="input-container-search-ticket">
+                                            <div class="form-select">
+                                                <select id="medical_global_type" name="medical_global_type" class="nice-select-default">
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br/>
+                                <center>
+                                    <button class="button-search primary-btn ld-ext-right" type="button" onclick="get_captcha('recaptcha_medical_global','medical_global');" value="Submit">
                                         <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                         {% trans 'Search' %}
                                         <div class="ld ld-ring ld-cycle"></div>
@@ -8432,6 +8468,9 @@
             {% endif %}
             {% if "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security %}
             get_config_medical('home','periksain');
+            {% endif %}
+            {% if "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security %}
+            get_config_medical_global('home');
             {% endif %}
             {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security %}
             get_airline_config('home');
