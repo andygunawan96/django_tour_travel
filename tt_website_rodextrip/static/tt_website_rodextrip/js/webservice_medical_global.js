@@ -1611,7 +1611,7 @@ function medical_global_get_booking(order_number, sync=false){
                                 <input type="button" class="primary-btn-white" style="width:100%;" onclick="copy_data();" value="Copy"/>
                             </center>
                         </div>`;
-                        if(window.location.pathname.includes('confirm_order') && user_login.co_agent_frontend_security.includes('confirm_order_medical') && msg.result.response.state_vendor == 'new_order'){
+                        if(window.location.pathname.includes('confirm_order') && user_login.co_agent_frontend_security.includes('confirm_order_medical') && msg.result.response.state_vendor == 'new_order' && moment().format('YYYY-MM-DD') == msg.result.response.picked_timeslot.datetimeslot.substr(0,10)){
                             text_detail+=`
                             <div style="margin-top:10px;">
                                 <center>

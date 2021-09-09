@@ -105,8 +105,6 @@ def medical(request):
 
 def passenger(request):
     try:
-        if 'b2c_limitation' in request.session['user_account']['co_agent_frontend_security'] and vendor == 'periksain':
-            return no_session_logout(request)
         javascript_version = get_javascript_version()
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)

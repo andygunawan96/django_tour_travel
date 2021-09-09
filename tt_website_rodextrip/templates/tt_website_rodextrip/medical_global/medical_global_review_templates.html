@@ -169,7 +169,7 @@
                         </div>
 
                         <div class="col-lg-12" style="padding-bottom:20px;">
-                            <button type="button" class="primary-btn-white hold-seat-booking-train ld-ext-right" id="btn-search-train" onclick="window.location.href = `{{go_back_url}}`;" style="width:100%;">
+                            <button type="button" class="primary-btn-white hold-seat-booking-train ld-ext-right" id="btn-search-train" onclick="goto_edit_passenger();" style="width:100%;">
                                 {% trans 'Edit Passenger' %} <i class="fas fa-user-edit"></i>
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>
@@ -309,6 +309,11 @@
             <input type="hidden" id="type" name="type"/>
             <input type="hidden" id="session_time_input" name="session_time_input"/>
         </form>
+        <form id="medical_edit_passenger" class="form-wrap" action=`{{go_back_url}}` method="POST">
+            {% csrf_token %}
+            <input type="hidden" id="signature_data" name="signature" value="{{signature}}" />
+            <input type="hidden" id="medical_global_type" name="medical_global_type" value="{{test_type}}" />
+        </form>
     </div>
 </section>
 {% include 'tt_website_rodextrip/footer.html' %}
@@ -346,6 +351,9 @@
         medical_global_get_cache_price();
         $('.loader-rodextrip').fadeOut();
     });
+    function goto_edit_passenger(){
+        document.getElementById('medical_edit_passenger').submit();
+    }
 </script>
 
 {% endblock %}
