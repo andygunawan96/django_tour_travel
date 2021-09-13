@@ -56,8 +56,8 @@
     price_itinerary = `{{price}}`;
     price_itinerary = price_itinerary.replace(/&#39;/g, '"');
     price_itinerary = price_itinerary.replace(/None/g, '"None"');
-    price_itinerary = price_itinerary.replace(/True/g, '"true"');
-    price_itinerary = price_itinerary.replace(/False/g, '"false"');
+    price_itinerary = price_itinerary.replace(/True/g, true);
+    price_itinerary = price_itinerary.replace(/False/g, false);
     price_itinerary = JSON.parse(price_itinerary);
     airline_carriers = `{{airline_carriers}}`;
     airline_carriers = airline_carriers.replace(/&#39;/g, '"');
