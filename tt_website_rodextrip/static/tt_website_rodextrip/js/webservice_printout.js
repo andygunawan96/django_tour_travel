@@ -166,6 +166,10 @@ function get_list_report_footer(){
                             show_header_medical(printout[i].html);
                             check_header = false;
                             break;
+                        }else if(vendor == 'phc' && test_type == 'PHCDTKSRBD' && printout[i].code == "phc_srbd_drive_thru_information"){
+                            show_header_medical(printout[i].html);
+                            check_header = false;
+                            break;
                         }else if(vendor == 'periksain' && test_type.includes('PCR') && printout[i].code == "periksain_pcr_information"){
                             show_header_medical(printout[i].html);
                             check_header = false;
