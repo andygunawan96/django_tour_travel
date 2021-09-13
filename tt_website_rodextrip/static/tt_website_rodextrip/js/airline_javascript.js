@@ -2928,10 +2928,6 @@ function airline_pick_mc(type){
                 <h6 style="color:`+text_color+`;">Flight - `+(airline_pick_list[i].airline_pick_sequence)+`</h6>
             </div>`;
         }
-        for(j in airline_pick_list[i].search_banner){
-            text += `<span>`+airline_pick_list[i].search_banner[j].name+`</span>`;
-
-        }
 
         text+=`
         <div style="background-color:white; border:1px solid `+color+`; margin-bottom:15px; padding:10px;" id="journey2`+airline_pick_list[i].airline_pick_sequence+`">
