@@ -107,6 +107,14 @@ def api_models(request):
             res = cancel_payment_method_api(request)
         elif req_data['action'] == 'send_notif_message':
             res = send_notif_message(request)
+        elif req_data['action'] == 'update_notification_train':
+            res = update_notification_train(request)
+        elif req_data['action'] == 'update_notification_airline':
+            res = update_notification_airline(request)
+        elif req_data['action'] == 'get_notification_train':
+            res = get_notification_train(request)
+        elif req_data['action'] == 'get_notification_airline':
+            res = get_notification_airline(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -305,6 +313,184 @@ def send_notif_message(request):
         "headings": request.POST['title']
     }
     res = send_notif(msg=data,url=request.POST['url'])
+    return res
+
+def update_notification_train(request):
+    try:
+        text = ''
+        text += request.POST['train_page'] + '\n'
+        text += request.POST['train_search'] + '\n'
+        text += request.POST['train_passenger'] + '\n'
+        text += request.POST['train_review'] + '\n'
+        text += request.POST['train_booking'] + '\n'
+        text += request.POST['html']
+        write_cache_with_folder(text, "notification_train")
+
+        res = {
+            'result': {
+                'error_code': 0,
+                'error_msg': '',
+                'response': ''
+            }
+        }
+    except Exception as e:
+        res = {
+            'result': {
+                'error_code': 500,
+                'error_msg': 'not found',
+                'response': []
+            }
+        }
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    return res
+
+def update_notification_airline(request):
+    try:
+        text = ''
+        text += request.POST['airline_page'] + '\n'
+        text += request.POST['airline_search'] + '\n'
+        text += request.POST['airline_passenger'] + '\n'
+        text += request.POST['airline_review'] + '\n'
+        text += request.POST['airline_booking'] + '\n'
+        text += request.POST['html']
+        write_cache_with_folder(text, "notification_airline")
+
+        res = {
+            'result': {
+                'error_code': 0,
+                'error_msg': '',
+                'response': ''
+            }
+        }
+    except Exception as e:
+        res = {
+            'result': {
+                'error_code': 500,
+                'error_msg': 'not found',
+                'response': []
+            }
+        }
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    return res
+
+def get_notification_train(request):
+    try:
+        file = read_cache_with_folder_path("notification_train", 90911)
+        if file:
+            data = {}
+            for idx,rec in enumerate(file.split('\n')):
+                if idx == 0:
+                    if rec == 'true':
+                        data['train_page'] = True
+                    else:
+                        data['train_page'] = False
+                elif idx == 1:
+                    if rec == 'true':
+                        data['train_search'] = True
+                    else:
+                        data['train_search'] = False
+                elif idx == 2:
+                    if rec == 'true':
+                        data['train_passenger'] = True
+                    else:
+                        data['train_passenger'] = False
+                elif idx == 3:
+                    if rec == 'true':
+                        data['train_review'] = True
+                    else:
+                        data['train_review'] = False
+                elif idx == 4:
+                    if rec == 'true':
+                        data['train_booking'] = True
+                    else:
+                        data['train_booking'] = False
+                elif idx == 5:
+                    data['html'] = rec
+
+            res = {
+                'result': {
+                    'error_code': 0,
+                    'error_msg': '',
+                    'response': data
+                }
+            }
+        else:
+            res = {
+                'result': {
+                    'error_code': 500,
+                    'error_msg': 'file not found',
+                    'response': ''
+                }
+            }
+    except Exception as e:
+        res = {
+            'result': {
+                'error_code': 500,
+                'error_msg': 'file not found',
+                'response': ''
+            }
+        }
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    return res
+
+def get_notification_airline(request):
+    try:
+        file = read_cache_with_folder_path("notification_airline", 90911)
+        if file:
+            data = {}
+            for idx,rec in enumerate(file.split('\n')):
+                if idx == 0:
+                    if rec == 'true':
+                        data['airline_page'] = True
+                    else:
+                        data['airline_page'] = False
+                elif idx == 1:
+                    if rec == 'true':
+                        data['airline_search'] = True
+                    else:
+                        data['airline_search'] = False
+                elif idx == 2:
+                    if rec == 'true':
+                        data['airline_passenger'] = True
+                    else:
+                        data['airline_passenger'] = False
+                elif idx == 3:
+                    if rec == 'true':
+                        data['airline_review'] = True
+                    else:
+                        data['airline_review'] = False
+                elif idx == 4:
+                    if rec == 'true':
+                        data['airline_booking'] = True
+                    else:
+                        data['airline_booking'] = False
+                elif idx == 5:
+                    data['html'] = rec
+
+            res = {
+                'result': {
+                    'error_code': 0,
+                    'error_msg': '',
+                    'response': data
+                }
+            }
+        else:
+            res = {
+                'result': {
+                    'error_code': 500,
+                    'error_msg': 'file not found',
+                    'response': ''
+                }
+            }
+    except Exception as e:
+        res = {
+            'result': {
+                'error_code': 500,
+                'error_msg': 'file not found',
+                'response': ''
+            }
+        }
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
 
 def youtube_api_check(request):

@@ -2036,3 +2036,257 @@ function preview_show_hide(prev){
         preview_btn.innerHTML = 'Preview Your Changes <i class="fas fa-eye"></i>';
     }
 }
+
+function get_notif_train(page=""){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/content",
+       headers:{
+            'action': 'get_notification_train',
+       },
+       data: data,
+       success: function(msg) {
+            console.log(msg);
+            if(msg.result.error_code == 0){
+                if(page == 'admin'){
+                    if(msg.result.response.train_page){
+                        document.getElementById('notification_train1').checked = true
+                    }
+                    if(msg.result.response.train_search){
+                        document.getElementById('notification_train2').checked = true
+                    }
+                    if(msg.result.response.train_passenger){
+                        document.getElementById('notification_train3').checked = true
+                    }
+                    if(msg.result.response.train_review){
+                        document.getElementById('notification_train4').checked = true
+                    }
+                    if(msg.result.response.train_booking){
+                        document.getElementById('notification_train5').checked = true
+                    }
+                    CKEDITOR.instances['notification_train'].setData(msg.result.response.html)
+                }else{
+                    page = document.URL.split('/')[document.URL.split('/').length-1];
+                    if(page == 'train' && msg.result.response.train_page ||
+                       page == 'search' && msg.result.response.train_search ||
+                       page == 'passenger' && msg.result.response.train_passenger ||
+                       page == 'review' && msg.result.response.train_review ||
+                       document.URL.includes('booking') && msg.result.response.train_booking){
+                        document.getElementById('product_notification_body').innerHTML = msg.result.response.html;
+                        $('#myModalNotificationProduct').modal('show');
+                    }
+                }
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+       },timeout: 60000
+    });
+}
+
+function get_notif_airline(page=""){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/content",
+       headers:{
+            'action': 'get_notification_airline',
+       },
+       data: data,
+       success: function(msg) {
+            console.log(msg);
+            if(msg.result.error_code == 0){
+                if(page == 'admin'){
+                    if(msg.result.response.airline_page){
+                        document.getElementById('notification_airline1').checked = true
+                    }
+                    if(msg.result.response.airline_search){
+                        document.getElementById('notification_airline2').checked = true
+                    }
+                    if(msg.result.response.airline_passenger){
+                        document.getElementById('notification_airline3').checked = true
+                    }
+                    if(msg.result.response.airline_review){
+                        document.getElementById('notification_airline4').checked = true
+                    }
+                    if(msg.result.response.airline_booking){
+                        document.getElementById('notification_airline5').checked = true
+                    }
+                    CKEDITOR.instances['notification_airline'].setData(msg.result.response.html)
+                }else{
+                    page = document.URL.split('/')[document.URL.split('/').length-1];
+                    if(page == 'airline' && msg.result.response.airline_page ||
+                       page == 'search' && msg.result.response.airline_search ||
+                       page == 'passenger' && msg.result.response.airline_passenger ||
+                       page == 'review' && msg.result.response.airline_review ||
+                       document.URL.includes('booking') && msg.result.response.airline_booking){
+                        document.getElementById('product_notification_body').innerHTML = msg.result.response.html;
+                        $('#myModalNotificationProduct').modal('show');
+                    }
+                }
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+       },timeout: 60000
+    });
+}
+
+function update_notification_train(){
+    document.getElementsByClassName("update_banner_btn")[0].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[1].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[2].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[3].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[4].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[5].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[6].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[7].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[8].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[9].disabled = true;
+
+    var data = {
+        'signature': signature,
+        'html': CKEDITOR.instances['notification_train'].getData(),
+        'train_page': document.getElementById('notification_train1').checked,
+        'train_search': document.getElementById('notification_train2').checked,
+        'train_passenger': document.getElementById('notification_train3').checked,
+        'train_review': document.getElementById('notification_train4').checked,
+        'train_booking': document.getElementById('notification_train5').checked,
+    }
+
+    $.ajax({
+       type: "POST",
+       url: "/webservice/content",
+       headers:{
+            'action': 'update_notification_train',
+       },
+       data: data,
+       success: function(msg) {
+            console.log(msg);
+            if(msg.result.error_code == 0){
+                Swal.fire({
+                  type: 'success',
+                  title: 'Updated!',
+                  html: 'Notification Train',
+                })
+                document.getElementsByClassName("update_banner_btn")[0].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[1].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[2].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[3].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[4].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[5].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[6].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[7].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[8].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[9].disabled = false;
+            }else{
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: msg.result.error_msg,
+                })
+                document.getElementsByClassName("update_banner_btn")[0].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[1].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[2].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[3].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[4].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[5].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[6].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[7].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[8].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[9].disabled = false;
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error update');
+            document.getElementsByClassName("update_banner_btn")[0].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[1].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[2].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[3].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[4].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[5].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[6].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[7].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[8].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[9].disabled = false;
+       },timeout: 60000
+    });
+}
+
+function update_notification_airline(){
+    document.getElementsByClassName("update_banner_btn")[0].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[1].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[2].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[3].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[4].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[5].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[6].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[7].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[8].disabled = true;
+    document.getElementsByClassName("update_banner_btn")[9].disabled = true;
+
+    var data = {
+        'signature': signature,
+        'html': CKEDITOR.instances['notification_airline'].getData(),
+        'airline_page': document.getElementById('notification_airline1').checked,
+        'airline_search': document.getElementById('notification_airline2').checked,
+        'airline_passenger': document.getElementById('notification_airline3').checked,
+        'airline_review': document.getElementById('notification_airline4').checked,
+        'airline_booking': document.getElementById('notification_airline5').checked,
+    }
+
+    $.ajax({
+       type: "POST",
+       url: "/webservice/content",
+       headers:{
+            'action': 'update_notification_airline',
+       },
+       data: data,
+       success: function(msg) {
+            console.log(msg);
+            if(msg.result.error_code == 0){
+                Swal.fire({
+                  type: 'success',
+                  title: 'Updated!',
+                  html: 'Notification Airline',
+                })
+                document.getElementsByClassName("update_banner_btn")[0].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[1].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[2].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[3].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[4].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[5].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[6].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[7].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[8].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[9].disabled = false;
+            }else{
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: msg.result.error_msg,
+                })
+                document.getElementsByClassName("update_banner_btn")[0].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[1].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[2].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[3].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[4].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[5].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[6].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[7].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[8].disabled = false;
+                document.getElementsByClassName("update_banner_btn")[9].disabled = false;
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error update');
+            document.getElementsByClassName("update_banner_btn")[0].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[1].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[2].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[3].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[4].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[5].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[6].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[7].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[8].disabled = false;
+            document.getElementsByClassName("update_banner_btn")[9].disabled = false;
+       },timeout: 60000
+    });
+}
