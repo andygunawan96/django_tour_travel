@@ -1550,7 +1550,7 @@ function medical_global_get_booking(order_number, sync=false){
                         text_detail+=`
                             </div>
                         </div>`;
-                        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+                        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false && window.location.pathname.includes('confirm_order') == false){
                             text_detail+=`
                             <div class="row" id="show_commission" style="display:none;">
                                 <div class="col-lg-12 col-xs-12" style="text-align:center;">
@@ -1599,12 +1599,12 @@ function medical_global_get_booking(order_number, sync=false){
     //                            <input type="button" class="primary-btn-white" style="width:100%;" onclick="copy_data();" value="Copy"/>
     //                        </center>
     //                    </div>`;
-                        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false && window.location.pathname.includes('confirm_order') == false)
                         text_detail+=`
                         <div>
                             <input class="primary-btn-white" id="show_commission_button" style="width:100%;margin-bottom:10px;" type="button" onclick="show_commission('commission');" value="Show Commission"/>
                         </div>`;
-
+                        if(window.location.pathname.includes('confirm_order') == false)
                         text_detail+=`
                         <div>
                             <center>
@@ -1616,6 +1616,20 @@ function medical_global_get_booking(order_number, sync=false){
                             <div style="margin-top:10px;">
                                 <center>
                                     <input type="button" class="primary-btn" style="width:100%;" onclick="confirm_order();" value="Confirm Order"/>
+                                </center>
+                            </div>`;
+                        }else if(msg.result.response.state_vendor == 'confirmed_order'){
+                            text_detail+=`
+                            <div style="margin-top:10px;">
+                                <center>
+                                    <span>Order Already confirmed</span>
+                                </center>
+                            </div>`;
+                        }else if( moment().format('YYYY-MM-DD') != msg.result.response.picked_timeslot.datetimeslot.substr(0,10)){
+                            text_detail+=`
+                            <div style="margin-top:10px;">
+                                <center>
+                                    <span>Order can only confirmed on the test date</span>
                                 </center>
                             </div>`;
                         }
@@ -1641,86 +1655,89 @@ function medical_global_get_booking(order_number, sync=false){
 
 
                         //======================= Extra Question =========================
-
+                    var print_text = '';
                         //==================== Print Button =====================
-                        var print_text = '<div class="col-lg-4" style="padding-bottom:10px;">';
-                        // === Button 1 ===
-                        if (msg.result.response.state  == 'issued') {
-                            print_text+=`
-                            <button class="primary-btn-white hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="get_printout('` + msg.result.response.order_number + `','ticket','medical');" style="width:100%;">
-                                Print Ticket
-                                <div class="ld ld-ring ld-cycle"></div>
-                            </button>`;
-                        }
-                        print_text += '</div><div class="col-lg-4" style="padding-bottom:10px;">';
-                        // === Button 2 ===
-                        if (msg.result.response.state  == 'issued'){
-                            print_text+=`
-                            <button class="primary-btn-white hold-seat-booking-train ld-ext-right" type="button" id="button-print-print" onclick="get_printout('` + msg.result.response.order_number + `','ticket_price','medical');" style="width:100%;">
-                                Print Ticket (With Price)
-                                <div class="ld ld-ring ld-cycle"></div>
-                            </button>`;
-                        }
-                        print_text += '</div><div class="col-lg-4" style="padding-bottom:10px;">';
-                        // === Button 3 ===
-                        if (msg.result.response.state  == 'issued') {
-                            print_text+=`
-                                <a class="issued-booking-train ld-ext-right" style="color:`+text_color+`;">
-                                    <button type="button" class="primary-btn-white" style="width:100%;" data-toggle="modal" data-target="#printInvoice">
-                                        Print Invoice
-                                    </button>
-                                    <div class="ld ld-ring ld-cycle"></div>
-                                </a>`;
-                                // modal invoice
+                        if(window.location.pathname.includes('confirm_order') == false){
+                            print_text += '<div class="col-lg-4" style="padding-bottom:10px;">';
+                            // === Button 1 ===
+                            if (msg.result.response.state  == 'issued') {
                                 print_text+=`
-                                    <div class="modal fade" id="printInvoice" role="dialog" data-keyboard="false">
-                                        <div class="modal-dialog">
+                                <button class="primary-btn-white hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="get_printout('` + msg.result.response.order_number + `','ticket','medical');" style="width:100%;">
+                                    Print Ticket
+                                    <div class="ld ld-ring ld-cycle"></div>
+                                </button>`;
+                            }
+                            print_text += '</div><div class="col-lg-4" style="padding-bottom:10px;">';
+                            // === Button 2 ===
+                            if (msg.result.response.state  == 'issued'){
+                                print_text+=`
+                                <button class="primary-btn-white hold-seat-booking-train ld-ext-right" type="button" id="button-print-print" onclick="get_printout('` + msg.result.response.order_number + `','ticket_price','medical');" style="width:100%;">
+                                    Print Ticket (With Price)
+                                    <div class="ld ld-ring ld-cycle"></div>
+                                </button>`;
+                            }
+                            print_text += '</div><div class="col-lg-4" style="padding-bottom:10px;">';
+                            // === Button 3 ===
+                            if (msg.result.response.state  == 'issued') {
+                                print_text+=`
+                                    <a class="issued-booking-train ld-ext-right" style="color:`+text_color+`;">
+                                        <button type="button" class="primary-btn-white" style="width:100%;" data-toggle="modal" data-target="#printInvoice">
+                                            Print Invoice
+                                        </button>
+                                        <div class="ld ld-ring ld-cycle"></div>
+                                    </a>`;
+                                    // modal invoice
+                                    print_text+=`
+                                        <div class="modal fade" id="printInvoice" role="dialog" data-keyboard="false">
+                                            <div class="modal-dialog">
 
-                                          <!-- Modal content-->
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h4 class="modal-title" style="color:`+text_color+`">Invoice</h4>
-                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <div class="row">
-                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
-                                                            <span class="control-label" for="Name">Name</span>
-                                                            <div class="input-container-search-ticket">
-                                                                <input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_name" placeholder="Name" required="1"/>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
-                                                            <span class="control-label" for="Additional Information">Additional Information</span>
-                                                            <div class="input-container-search-ticket">
-                                                                <textarea style="width:100%; resize: none;" rows="4" id="additional_information" name="additional_information" placeholder="Additional Information"></textarea>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
-                                                            <span class="control-label" for="Address">Address</span>
-                                                            <div class="input-container-search-ticket">
-                                                                <textarea style="width:100%; resize: none;" rows="4" id="bill_address" name="bill_address" placeholder="Address"></textarea>
-                                                                <!--<input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_address" placeholder="Address" required="1"/>-->
-                                                            </div>
-                                                        </div>
+                                              <!-- Modal content-->
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title" style="color:`+text_color+`">Invoice</h4>
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                     </div>
-                                                    <br/>
-                                                    <div style="text-align:right;">
-                                                        <span>Don't want to edit? just submit</span>
+                                                    <div class="modal-body">
+                                                        <div class="row">
+                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                                                                <span class="control-label" for="Name">Name</span>
+                                                                <div class="input-container-search-ticket">
+                                                                    <input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_name" placeholder="Name" required="1"/>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                                                                <span class="control-label" for="Additional Information">Additional Information</span>
+                                                                <div class="input-container-search-ticket">
+                                                                    <textarea style="width:100%; resize: none;" rows="4" id="additional_information" name="additional_information" placeholder="Additional Information"></textarea>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                                                                <span class="control-label" for="Address">Address</span>
+                                                                <div class="input-container-search-ticket">
+                                                                    <textarea style="width:100%; resize: none;" rows="4" id="bill_address" name="bill_address" placeholder="Address"></textarea>
+                                                                    <!--<input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_address" placeholder="Address" required="1"/>-->
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                         <br/>
-                                                        <button type="button" id="button-issued-print" class="primary-btn ld-ext-right" onclick="get_printout('`+msg.result.response.order_number+`', 'invoice','medical');">
-                                                            Submit
-                                                            <div class="ld ld-ring ld-cycle"></div>
-                                                        </button>
+                                                        <div style="text-align:right;">
+                                                            <span>Don't want to edit? just submit</span>
+                                                            <br/>
+                                                            <button type="button" id="button-issued-print" class="primary-btn ld-ext-right" onclick="get_printout('`+msg.result.response.order_number+`', 'invoice','medical');">
+                                                                Submit
+                                                                <div class="ld ld-ring ld-cycle"></div>
+                                                            </button>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                    <div class="modal-footer">
+                                                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                `;
+                                    `;
+                            }
+                            print_text += '</div>';
                         }
                         /*
                         if(msg.result.response.provider_type == 'phc'){
@@ -1773,8 +1790,8 @@ function medical_global_get_booking(order_number, sync=false){
                                     `;
                             }
                         }*/
-                        print_text += '</div>';
-                        document.getElementById('medical_btn_printout').innerHTML = print_text;
+                        if(print_text)
+                            document.getElementById('medical_btn_printout').innerHTML = print_text;
 
                         //======================= Other =========================
                         add_repricing();
