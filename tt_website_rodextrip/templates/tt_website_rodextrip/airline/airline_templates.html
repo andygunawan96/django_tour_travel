@@ -58,6 +58,24 @@
             padding-top:10px;
         }
     }
+    ul {
+        list-style-type: disc;
+        list-style-position: inside;
+    }
+    ol {
+       list-style-type: decimal;
+       list-style-position: inside;
+    }
+    ul ul, ol ul {
+       list-style-type: circle;
+       list-style-position: inside;
+       margin-left: 15px;
+    }
+    ol ol, ul ol {
+       list-style-type: lower-latin;
+       list-style-position: inside;
+       margin-left: 15px;
+    }
 </style>
 <title>{{name}} - {% trans 'Airline' %}</title>
 
@@ -66,6 +84,7 @@
 {% include 'tt_website_rodextrip/logout.html' %}
 {% endif %}
 {% include 'tt_website_rodextrip/header.html' %}
+{% include 'tt_website_rodextrip/notification.html' %}
 {%if template == 1%}
 <section class="testimonial-area section-gap overlay-bg" data-aos="fade-up" style="padding-top:60px; padding-bottom:60px; z-index:1; position:relative; background-image:url('{{static_path}}images/bg_airlines.jpg') !important">
     <div class="overlay overlay-bg"></div>

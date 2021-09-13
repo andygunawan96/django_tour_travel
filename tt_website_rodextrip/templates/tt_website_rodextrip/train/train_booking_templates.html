@@ -23,10 +23,31 @@
         cabin_class_types.push(['{{cabin_class_type.0}}', '{{cabin_class_type.1}}']);
     {% endfor %}
 </script>
+<style>
+    ul {
+        list-style-type: disc;
+        list-style-position: inside;
+    }
+    ol {
+       list-style-type: decimal;
+       list-style-position: inside;
+    }
+    ul ul, ol ul {
+       list-style-type: circle;
+       list-style-position: inside;
+       margin-left: 15px;
+    }
+    ol ol, ul ol {
+       list-style-type: lower-latin;
+       list-style-position: inside;
+       margin-left: 15px;
+    }
+</style>
 {% include 'tt_website_rodextrip/logout.html' %}
 {% include 'tt_website_rodextrip/loading_screen.html' %}
 {% include 'tt_website_rodextrip/check_connection.html' %}
 {% include 'tt_website_rodextrip/modal_balance_vendor.html' %}
+{% include 'tt_website_rodextrip/notification.html' %}
 <div id="overlay-div-box" onclick="close_div('payment_acq');"></div>
 <title id="title_search">{{name}} {% trans 'Train' %} - {% trans 'Booking' %}</title>
 {%if template == 1%}
