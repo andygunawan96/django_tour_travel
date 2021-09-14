@@ -8,6 +8,7 @@
 <!--<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>-->
 <script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_content.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_airline.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/airline_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
@@ -56,8 +57,8 @@
     price_itinerary = `{{price}}`;
     price_itinerary = price_itinerary.replace(/&#39;/g, '"');
     price_itinerary = price_itinerary.replace(/None/g, '"None"');
-    price_itinerary = price_itinerary.replace(/True/g, '"true"');
-    price_itinerary = price_itinerary.replace(/False/g, '"false"');
+    price_itinerary = price_itinerary.replace(/True/g, true);
+    price_itinerary = price_itinerary.replace(/False/g, false);
     price_itinerary = JSON.parse(price_itinerary);
     airline_carriers = `{{airline_carriers}}`;
     airline_carriers = airline_carriers.replace(/&#39;/g, '"');
@@ -108,8 +109,28 @@
 {% include 'tt_website_rodextrip/loading_screen.html' %}
 {% include 'tt_website_rodextrip/check_connection.html' %}
 {% include 'tt_website_rodextrip/modal_balance_vendor.html' %}
+{% include 'tt_website_rodextrip/notification.html' %}
 <title>{{name}} {% trans 'Airline' %} - {% trans 'Passenger' %}</title>
-
+<style>
+    ul {
+        list-style-type: disc;
+        list-style-position: inside;
+    }
+    ol {
+       list-style-type: decimal;
+       list-style-position: inside;
+    }
+    ul ul, ol ul {
+       list-style-type: circle;
+       list-style-position: inside;
+       margin-left: 15px;
+    }
+    ol ol, ul ol {
+       list-style-type: lower-latin;
+       list-style-position: inside;
+       margin-left: 15px;
+    }
+</style>
 {%if template == 1%}
 <header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
     <div class="main-menu">

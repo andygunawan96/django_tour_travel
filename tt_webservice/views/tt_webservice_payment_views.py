@@ -112,6 +112,8 @@ def get_payment_acquirer(request):
             url_post = 'booking/periksain'
         elif request.session.get('vendor_%s' % request.POST['signature']) == 'phc': #force issued
             url_post = 'booking/phc'
+    elif request.POST['type'] == 'medical_global' or request.POST['type'] == 'medical_global_review':
+        url_post = 'booking/medical'
     url_request = url + url_post
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:

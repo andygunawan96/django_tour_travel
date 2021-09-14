@@ -2164,11 +2164,28 @@ function sort(){
                                <span class="copy_journey" hidden>`+i+`</span>
                                <div class="row" style="padding:10px;">
                                    <div class="col-xs-10">`;
-                                   if(airline_recommendations_list.length != 0)
+                                   if(airline_recommendations_list.length != 0){
                                        if(airline_recommendations_combo_list[airline_recommendations_list.indexOf(airline[i].journey_ref_id)] == true)
-                                            text+=`<label style="background:`+color+`; color:`+text_color+`;padding:2px 10px;">Combo Price</label>`;
+                                            text+=`<label style="background:`+color+`; color:`+text_color+`;padding:5px 10px;">Combo Price</label>`;
                                        else
                                             text+=`<label>Combo Price with changed class</label>`;
+                                   }
+
+                                   //search banner
+                                   //counter_search-1
+                                   if(airline[i].hasOwnProperty('search_banner')){
+                                       for(banner_counter in airline[i].search_banner){
+                                           var max_banner_date = moment().subtract(parseInt(-1*airline[i].search_banner[banner_counter].minimum_days), 'days').format('YYYY-MM-DD');
+                                           var selected_banner_date = moment(airline[i].departure_date.split(' - ')[0]).format('YYYY-MM-DD');
+
+                                           if(selected_banner_date <= max_banner_date){
+                                               if(airline[i].search_banner[banner_counter].active == true){
+                                                   text+=`<label style="background:`+airline[i].search_banner[banner_counter].banner_color+`; color:`+text_color+`;padding:5px 10px;">`+airline[i].search_banner[banner_counter].name+`</label>`;
+                                               }
+                                           }
+                                       }
+                                   }
+
                                    text+=`
                                    </div>
                                    <div class="col-xs-2" style="padding:0px 10px 15px 15px;">`;
@@ -2193,7 +2210,7 @@ function sort(){
                                             text +=`
                                             <div class="col-lg-12" id="copy_div_airline`+i+``+j+`">
                                                 <span class="copy_airline" hidden>`+i+``+j+`</span>
-                                                <div class="row">
+                                                <div class="row mt-2">
                                                     <div class="col-lg-2" style="padding-top:10px;">
                                                         <span class="copy_po" hidden>`+j+`</span>`;
                                                         text+=`<div class="row"><div class="col-lg-12" id="copy_provider_operated`+i+``+j+`">`;
@@ -2278,7 +2295,7 @@ function sort(){
                                         text+=`
                                         <div class="col-lg-12" id="copy_div_airline`+i+`">
                                             <span class="copy_airline" hidden>`+i+`</span>
-                                            <div class="row">
+                                            <div class="row mt-2">
                                                 <div class="col-lg-2">`;
                                                     for(j in airline[i].segments){
                                                         //ganti sini
@@ -2911,10 +2928,28 @@ function airline_pick_mc(type){
                 <h6 style="color:`+text_color+`;">Flight - `+(airline_pick_list[i].airline_pick_sequence)+`</h6>
             </div>`;
         }
+
         text+=`
         <div style="background-color:white; border:1px solid `+color+`; margin-bottom:15px; padding:10px;" id="journey2`+airline_pick_list[i].airline_pick_sequence+`">
             <div class="row">`;
-                carrier_code_airline = []
+                carrier_code_airline = [];
+
+                text+=`<div class="col-lg-12">`;
+
+                if(airline_pick_list[i].hasOwnProperty('search_banner')){
+                   for(banner_counter in airline_pick_list[i].search_banner){
+                       var max_banner_date = moment().subtract(parseInt(-1*airline_pick_list[i].search_banner[banner_counter].minimum_days), 'days').format('YYYY-MM-DD');
+                       var selected_banner_date = moment(airline_pick_list[i].departure_date.split(' - ')[0]).format('YYYY-MM-DD');
+
+                       if(selected_banner_date <= max_banner_date){
+                           if(airline_pick_list[i].search_banner[banner_counter].active == true){
+                               text+=`<label style="background:`+airline_pick_list[i].search_banner[banner_counter].banner_color+`; color:`+text_color+`;padding:5px 10px;">`+airline_pick_list[i].search_banner[banner_counter].name+`</label>`;
+                           }
+                       }
+                   }
+                }
+
+                text+=`</div>`;
                 if(airline_pick_list[i].is_combo_price == true){
                     for(j in airline_pick_list[i].segments){
                         flight_number = parseInt(j) + 1;
@@ -3711,6 +3746,18 @@ function airline_detail(type){
                 }
                 text += `<h6>Flight `+flight_count+`</h6>`;
                 $text +='Flight '+flight_count+'\n';
+                if(price_itinerary_temp[i].journeys[j].hasOwnProperty('search_banner')){
+                   for(banner_counter in price_itinerary_temp[i].journeys[j].search_banner){
+                       var max_banner_date = moment().subtract(parseInt(-1*price_itinerary_temp[i].journeys[j].search_banner[banner_counter].minimum_days), 'days').format('YYYY-MM-DD');
+                       var selected_banner_date = moment(price_itinerary_temp[i].journeys[j].departure_date.split(' - ')[0]).format('YYYY-MM-DD');
+
+                       if(selected_banner_date <= max_banner_date){
+                           if(price_itinerary_temp[i].journeys[j].search_banner[banner_counter].active == true){
+                               text+=`<label style="background:`+price_itinerary_temp[i].journeys[j].search_banner[banner_counter].banner_color+`; color:`+text_color+`;padding:5px 10px;">`+price_itinerary_temp[i].journeys[j].search_banner[banner_counter].name+`</label>`;
+                           }
+                       }
+                   }
+                }
                 //logo
                 carrier_code_list = Array.from(new Set(price_itinerary_temp[i].journeys[j].carrier_code_list))
                 for(k in carrier_code_list) //print gambar airline

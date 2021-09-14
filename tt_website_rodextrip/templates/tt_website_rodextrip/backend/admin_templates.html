@@ -629,6 +629,8 @@
                                                 <li class="edit_tab-link " data-tab="payment-tab_edit"><label style="color:{{text_color}};">{% trans 'Payment Information' %}</label></li>
                                                 <li class="edit_tab-link " data-tab="printout-tab_edit"><label style="color:{{text_color}};">{% trans 'Printout Footer Setting Page' %}</label></li>
                                                 <li class="edit_tab-link " data-tab="printout_color-tab_edit"><label style="color:{{text_color}};">{% trans 'Printout Setting Color' %}</label></li>
+                                                <li class="edit_tab-link " data-tab="notification_train-tab_edit"><label style="color:{{text_color}};">{% trans 'Notification Train' %}</label></li>
+                                                <li class="edit_tab-link " data-tab="notification_airline-tab_edit"><label style="color:{{text_color}};">{% trans 'Notification Airline' %}</label></li>
                                             </ul>
                                             <div class="banner-right" style="border: 1px solid {{text_color}};">
                                                 <div id="about-tab_edit" class="edit_tab-content current" style="padding:20px 0px 10px 0px;">
@@ -986,6 +988,133 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div id="notification_train-tab_edit" class="edit_tab-content" style="padding:20px 0px 15px 0px;">
+                                                    <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                        <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                            <h3 style="color:white;">{% trans 'Notification Train' %}</h3>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                            <h4 style="color:white;">{% trans 'Show In' %}</h4>
+                                                            <div class="row">
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Train</span>
+                                                                            <input type="checkbox" id="notification_train1" name="notification_train1" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Search</span>
+                                                                            <input type="checkbox" id="notification_train2" name="notification_train2" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Passenger</span>
+                                                                            <input type="checkbox" id="notification_train3" name="notification_train3" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Review</span>
+                                                                            <input type="checkbox" id="notification_train4" name="notification_train4" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Booking</span>
+                                                                            <input type="checkbox" id="notification_train5" name="notification_train5" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                            <textarea class="ckeditor" name="notification_train" id="notification_train"></textarea>
+                                                        </div>
+                                                        <div class="col-lg-12" style="text-align:center;">
+                                                            <button type="button" class="primary-btn update_banner_btn" onclick="update_notification_train();">{% trans 'Save Change' %}</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div id="notification_airline-tab_edit" class="edit_tab-content" style="padding:20px 0px 15px 0px;">
+                                                    <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                        <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                            <h3 style="color:white;">{% trans 'Notification Airline' %}</h3>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                            <h4 style="color:white;">{% trans 'Show In' %}</h4>
+                                                            <div class="row">
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Airline</span>
+                                                                            <input type="checkbox" id="notification_airline1" name="notification_airline1" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Search</span>
+                                                                            <input type="checkbox" id="notification_airline2" name="notification_airline2" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Passenger</span>
+                                                                            <input type="checkbox" id="notification_airline3" name="notification_airline3" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Review</span>
+                                                                            <input type="checkbox" id="notification_airline4" name="notification_airline4" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Booking</span>
+                                                                            <input type="checkbox" id="notification_airline5" name="notification_airline5" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                            <textarea class="ckeditor" name="notification_airline" id="notification_airline"></textarea>
+                                                        </div>
+                                                        <div class="col-lg-12" style="text-align:center;">
+                                                            <button type="button" class="primary-btn update_banner_btn" onclick="update_notification_airline();">{% trans 'Save Change' %}</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
                                             </div>
                                         </div>
                                         <!--<div class="col-lg-6">-->
@@ -1810,6 +1939,8 @@
                                             <li class="edit_tab-link " data-tab="payment-tab_edit"><label style="color:{{text_color}};">{% trans 'Payment Information' %}</label></li>
                                             <li class="edit_tab-link " data-tab="printout-tab_edit"><label style="color:{{text_color}};">{% trans 'Printout Footer Setting Page' %}</label></li>
                                             <li class="edit_tab-link " data-tab="printout_color-tab_edit"><label style="color:{{text_color}};">{% trans 'Printout Setting Color' %}</label></li>
+                                            <li class="edit_tab-link " data-tab="notification_train-tab_edit"><label style="color:{{text_color}};">{% trans 'Notification Train' %}</label></li>
+                                            <li class="edit_tab-link " data-tab="notification_airline-tab_edit"><label style="color:{{text_color}};">{% trans 'Notification Airline' %}</label></li>
                                         </ul>
                                         <div class="banner-right" style="border: 1px solid {{text_color}};">
                                             <div id="about-tab_edit" class="edit_tab-content current" style="padding:20px 0px 10px 0px;">
@@ -2159,6 +2290,132 @@
                                                         <button type="button" class="primary-btn update_banner_btn" onclick="update_printout_color();">{% trans 'Save Change' %}</button>
                                                     </div>
                                                 </div>
+                                            </div>
+                                            <div id="notification_train-tab_edit" class="edit_tab-content" style="padding:20px 0px 15px 0px;">
+                                                    <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                        <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                            <h3 style="color:white;">{% trans 'Notification Train' %}</h3>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                            <h4 style="color:white;">{% trans 'Show In' %}</h4>
+                                                            <div class="row">
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Train</span>
+                                                                            <input type="checkbox" id="notification_train1" name="notification_train1" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Search</span>
+                                                                            <input type="checkbox" id="notification_train2" name="notification_train2" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Passenger</span>
+                                                                            <input type="checkbox" id="notification_train3" name="notification_train3" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Review</span>
+                                                                            <input type="checkbox" id="notification_train4" name="notification_train4" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Booking</span>
+                                                                            <input type="checkbox" id="notification_train5" name="notification_train5" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                            <textarea class="ckeditor" name="notification_train" id="notification_train"></textarea>
+                                                        </div>
+                                                        <div class="col-lg-12" style="text-align:center;">
+                                                            <button type="button" class="primary-btn update_banner_btn" onclick="update_notification_train();">{% trans 'Save Change' %}</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            <div id="notification_airline-tab_edit" class="edit_tab-content" style="padding:20px 0px 15px 0px;">
+                                                    <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                        <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                            <h3 style="color:white;">{% trans 'Notification Airline' %}</h3>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                            <h4 style="color:white;">{% trans 'Show In' %}</h4>
+                                                            <div class="row">
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Airline</span>
+                                                                            <input type="checkbox" id="notification_airline1" name="notification_airline1" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Search</span>
+                                                                            <input type="checkbox" id="notification_airline2" name="notification_airline2" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Passenger</span>
+                                                                            <input type="checkbox" id="notification_airline3" name="notification_airline3" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Review</span>
+                                                                            <input type="checkbox" id="notification_airline4" name="notification_airline4" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Booking</span>
+                                                                            <input type="checkbox" id="notification_airline5" name="notification_airline5" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                            <textarea class="ckeditor" name="notification_airline" id="notification_airline"></textarea>
+                                                        </div>
+                                                        <div class="col-lg-12" style="text-align:center;">
+                                                            <button type="button" class="primary-btn update_banner_btn" onclick="update_notification_airline();">{% trans 'Save Change' %}</button>
+                                                        </div>
+                                                    </div>
                                             </div>
 
                                         </div>
@@ -2986,6 +3243,8 @@
                                     <li class="edit_tab-link " data-tab="payment-tab_edit"><label style="color:{{text_color}};">{% trans 'Payment Information' %}</label></li>
                                     <li class="edit_tab-link " data-tab="printout-tab_edit"><label style="color:{{text_color}};">{% trans 'Printout Footer Setting Page' %}</label></li>
                                     <li class="edit_tab-link " data-tab="printout_color-tab_edit"><label style="color:{{text_color}};">{% trans 'Printout Setting Color' %}</label></li>
+                                    <li class="edit_tab-link " data-tab="notification_train-tab_edit"><label style="color:{{text_color}};">{% trans 'Notification Train' %}</label></li>
+                                    <li class="edit_tab-link " data-tab="notification_airline-tab_edit"><label style="color:{{text_color}};">{% trans 'Notification Airline' %}</label></li>
                                 </ul>
                                 <div class="banner-right" style="border: 1px solid {{text_color}};">
                                     <div id="about-tab_edit" class="edit_tab-content current" style="padding:20px 0px 10px 0px;">
@@ -3336,6 +3595,132 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div id="notification_train-tab_edit" class="edit_tab-content" style="padding:20px 0px 15px 0px;">
+                                                    <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                        <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                            <h3 style="color:white;">{% trans 'Notification Train' %}</h3>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                            <h4 style="color:white;">{% trans 'Show In' %}</h4>
+                                                            <div class="row">
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Train</span>
+                                                                            <input type="checkbox" id="notification_train1" name="notification_train1" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Search</span>
+                                                                            <input type="checkbox" id="notification_train2" name="notification_train2" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Passenger</span>
+                                                                            <input type="checkbox" id="notification_train3" name="notification_train3" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Review</span>
+                                                                            <input type="checkbox" id="notification_train4" name="notification_train4" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Booking</span>
+                                                                            <input type="checkbox" id="notification_train5" name="notification_train5" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                            <textarea class="ckeditor" name="notification_train" id="notification_train"></textarea>
+                                                        </div>
+                                                        <div class="col-lg-12" style="text-align:center;">
+                                                            <button type="button" class="primary-btn update_banner_btn" onclick="update_notification_train();">{% trans 'Save Change' %}</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                    <div id="notification_airline-tab_edit" class="edit_tab-content" style="padding:20px 0px 15px 0px;">
+                                                    <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                        <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                            <h3 style="color:white;">{% trans 'Notification Airline' %}</h3>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                            <h4 style="color:white;">{% trans 'Show In' %}</h4>
+                                                            <div class="row">
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Airline</span>
+                                                                            <input type="checkbox" id="notification_airline1" name="notification_airline1" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Search</span>
+                                                                            <input type="checkbox" id="notification_airline2" name="notification_airline2" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Passenger</span>
+                                                                            <input type="checkbox" id="notification_airline3" name="notification_airline3" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Review</span>
+                                                                            <input type="checkbox" id="notification_airline4" name="notification_airline4" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Booking</span>
+                                                                            <input type="checkbox" id="notification_airline5" name="notification_airline5" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                            <textarea class="ckeditor" name="notification_airline" id="notification_airline"></textarea>
+                                                        </div>
+                                                        <div class="col-lg-12" style="text-align:center;">
+                                                            <button type="button" class="primary-btn update_banner_btn" onclick="update_notification_airline();">{% trans 'Save Change' %}</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                 </div>
                             </div>
                             <!--<div class="col-lg-6">-->
@@ -4159,6 +4544,8 @@
                                 <li class="edit_tab-link " data-tab="payment-tab_edit"><label style="color:{{text_color}};">{% trans 'Payment Information' %}</label></li>
                                 <li class="edit_tab-link " data-tab="printout-tab_edit"><label style="color:{{text_color}};">{% trans 'Printout Footer Setting Page' %}</label></li>
                                 <li class="edit_tab-link " data-tab="printout_color-tab_edit"><label style="color:{{text_color}};">{% trans 'Printout Setting Color' %}</label></li>
+                                <li class="edit_tab-link " data-tab="notification_train-tab_edit"><label style="color:{{text_color}};">{% trans 'Notification Train' %}</label></li>
+                                <li class="edit_tab-link " data-tab="notification_airline-tab_edit"><label style="color:{{text_color}};">{% trans 'Notification Airline' %}</label></li>
                             </ul>
                             <div class="banner-right" style="border: 1px solid {{text_color}};">
                                 <div id="about-tab_edit" class="edit_tab-content current" style="padding:20px 0px 10px 0px;">
@@ -4515,6 +4902,132 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div id="notification_train-tab_edit" class="edit_tab-content" style="padding:20px 0px 15px 0px;">
+                                                    <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                        <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                            <h3 style="color:white;">{% trans 'Notification Train' %}</h3>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                            <h4 style="color:white;">{% trans 'Show In' %}</h4>
+                                                            <div class="row">
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Train</span>
+                                                                            <input type="checkbox" id="notification_train1" name="notification_train1" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Search</span>
+                                                                            <input type="checkbox" id="notification_train2" name="notification_train2" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Passenger</span>
+                                                                            <input type="checkbox" id="notification_train3" name="notification_train3" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Review</span>
+                                                                            <input type="checkbox" id="notification_train4" name="notification_train4" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Booking</span>
+                                                                            <input type="checkbox" id="notification_train5" name="notification_train5" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                            <textarea class="ckeditor" name="notification_train" id="notification_train"></textarea>
+                                                        </div>
+                                                        <div class="col-lg-12" style="text-align:center;">
+                                                            <button type="button" class="primary-btn update_banner_btn" onclick="update_notification_train();">{% trans 'Save Change' %}</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                <div id="notification_airline-tab_edit" class="edit_tab-content" style="padding:20px 0px 15px 0px;">
+                                                    <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                        <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                            <h3 style="color:white;">{% trans 'Notification Airline' %}</h3>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                            <h4 style="color:white;">{% trans 'Show In' %}</h4>
+                                                            <div class="row">
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Airline</span>
+                                                                            <input type="checkbox" id="notification_airline1" name="notification_airline1" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Search</span>
+                                                                            <input type="checkbox" id="notification_airline2" name="notification_airline2" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Passenger</span>
+                                                                            <input type="checkbox" id="notification_airline3" name="notification_airline3" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Review</span>
+                                                                            <input type="checkbox" id="notification_airline4" name="notification_airline4" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Booking</span>
+                                                                            <input type="checkbox" id="notification_airline5" name="notification_airline5" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                            <textarea class="ckeditor" name="notification_airline" id="notification_airline"></textarea>
+                                                        </div>
+                                                        <div class="col-lg-12" style="text-align:center;">
+                                                            <button type="button" class="primary-btn update_banner_btn" onclick="update_notification_airline();">{% trans 'Save Change' %}</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
                             </div>
                         </div>
                         <!--<div class="col-lg-6">-->
@@ -5339,6 +5852,8 @@
                                         <li class="edit_tab-link " data-tab="payment-tab_edit"><label style="color:{{text_color}};">{% trans 'Payment Information' %}</label></li>
                                         <li class="edit_tab-link " data-tab="printout-tab_edit"><label style="color:{{text_color}};">{% trans 'Printout Footer Setting Page' %}</label></li>
                                         <li class="edit_tab-link " data-tab="printout_color-tab_edit"><label style="color:{{text_color}};">{% trans 'Printout Setting Color' %}</label></li>
+                                        <li class="edit_tab-link " data-tab="notification_train-tab_edit"><label style="color:{{text_color}};">{% trans 'Notification Train' %}</label></li>
+                                        <li class="edit_tab-link " data-tab="notification_airline-tab_edit"><label style="color:{{text_color}};">{% trans 'Notification Airline' %}</label></li>
                                     </ul>
                                     <div class="banner-right" style="border: 1px solid {{text_color}};">
                                         <div id="about-tab_edit" class="edit_tab-content current" style="padding:20px 0px 10px 0px;">
@@ -5695,6 +6210,132 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div id="notification_train-tab_edit" class="edit_tab-content" style="padding:20px 0px 15px 0px;">
+                                                    <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                        <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                            <h3 style="color:white;">{% trans 'Notification Train' %}</h3>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                            <h4 style="color:white;">{% trans 'Show In' %}</h4>
+                                                            <div class="row">
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Train</span>
+                                                                            <input type="checkbox" id="notification_train1" name="notification_train1" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Search</span>
+                                                                            <input type="checkbox" id="notification_train2" name="notification_train2" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Passenger</span>
+                                                                            <input type="checkbox" id="notification_train3" name="notification_train3" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Review</span>
+                                                                            <input type="checkbox" id="notification_train4" name="notification_train4" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Booking</span>
+                                                                            <input type="checkbox" id="notification_train5" name="notification_train5" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                            <textarea class="ckeditor" name="notification_train" id="notification_train"></textarea>
+                                                        </div>
+                                                        <div class="col-lg-12" style="text-align:center;">
+                                                            <button type="button" class="primary-btn update_banner_btn" onclick="update_notification_train();">{% trans 'Save Change' %}</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                        <div id="notification_airline-tab_edit" class="edit_tab-content" style="padding:20px 0px 15px 0px;">
+                                                    <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                        <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                            <h3 style="color:white;">{% trans 'Notification Airline' %}</h3>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                            <h4 style="color:white;">{% trans 'Show In' %}</h4>
+                                                            <div class="row">
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Airline</span>
+                                                                            <input type="checkbox" id="notification_airline1" name="notification_airline1" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Search</span>
+                                                                            <input type="checkbox" id="notification_airline2" name="notification_airline2" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Passenger</span>
+                                                                            <input type="checkbox" id="notification_airline3" name="notification_airline3" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Review</span>
+                                                                            <input type="checkbox" id="notification_airline4" name="notification_airline4" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Booking</span>
+                                                                            <input type="checkbox" id="notification_airline5" name="notification_airline5" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                            <textarea class="ckeditor" name="notification_airline" id="notification_airline"></textarea>
+                                                        </div>
+                                                        <div class="col-lg-12" style="text-align:center;">
+                                                            <button type="button" class="primary-btn update_banner_btn" onclick="update_notification_airline();">{% trans 'Save Change' %}</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                     </div>
                                 </div>
                                 <!--<div class="col-lg-6">-->
@@ -6730,6 +7371,8 @@
                                             <li class="edit_tab-link " data-tab="payment-tab_edit"><label style="color:{{text_color}};">{% trans 'Payment Information' %}</label></li>
                                             <li class="edit_tab-link " data-tab="printout-tab_edit"><label style="color:{{text_color}};">{% trans 'Printout Footer Setting Page' %}</label></li>
                                             <li class="edit_tab-link " data-tab="printout_color-tab_edit"><label style="color:{{text_color}};">{% trans 'Printout Setting Color' %}</label></li>
+                                            <li class="edit_tab-link " data-tab="notification_train-tab_edit"><label style="color:{{text_color}};">{% trans 'Notification Train' %}</label></li>
+                                            <li class="edit_tab-link " data-tab="notification_airline-tab_edit"><label style="color:{{text_color}};">{% trans 'Notification Airline' %}</label></li>
                                         </ul>
                                         <div class="banner-right" style="border: 1px solid {{text_color}};">
                                             <div id="about-tab_edit" class="edit_tab-content current" style="padding:20px 0px 10px 0px;">
@@ -7087,6 +7730,132 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div id="notification_train-tab_edit" class="edit_tab-content" style="padding:20px 0px 15px 0px;">
+                                                    <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                        <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                            <h3 style="color:white;">{% trans 'Notification Train' %}</h3>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                            <h4 style="color:white;">{% trans 'Show In' %}</h4>
+                                                            <div class="row">
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Train</span>
+                                                                            <input type="checkbox" id="notification_train1" name="notification_train1" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Search</span>
+                                                                            <input type="checkbox" id="notification_train2" name="notification_train2" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Passenger</span>
+                                                                            <input type="checkbox" id="notification_train3" name="notification_train3" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Review</span>
+                                                                            <input type="checkbox" id="notification_train4" name="notification_train4" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Booking</span>
+                                                                            <input type="checkbox" id="notification_train5" name="notification_train5" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                            <textarea class="ckeditor" name="notification_train" id="notification_train"></textarea>
+                                                        </div>
+                                                        <div class="col-lg-12" style="text-align:center;">
+                                                            <button type="button" class="primary-btn update_banner_btn" onclick="update_notification_train();">{% trans 'Save Change' %}</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            <div id="notification_airline-tab_edit" class="edit_tab-content" style="padding:20px 0px 15px 0px;">
+                                                    <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                        <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                            <h3 style="color:white;">{% trans 'Notification Airline' %}</h3>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                            <h4 style="color:white;">{% trans 'Show In' %}</h4>
+                                                            <div class="row">
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Airline</span>
+                                                                            <input type="checkbox" id="notification_airline1" name="notification_airline1" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Search</span>
+                                                                            <input type="checkbox" id="notification_airline2" name="notification_airline2" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Passenger</span>
+                                                                            <input type="checkbox" id="notification_airline3" name="notification_airline3" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Review</span>
+                                                                            <input type="checkbox" id="notification_airline4" name="notification_airline4" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:left;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:white;">Booking</span>
+                                                                            <input type="checkbox" id="notification_airline5" name="notification_airline5" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                            <textarea class="ckeditor" name="notification_airline" id="notification_airline"></textarea>
+                                                        </div>
+                                                        <div class="col-lg-12" style="text-align:center;">
+                                                            <button type="button" class="primary-btn update_banner_btn" onclick="update_notification_airline();">{% trans 'Save Change' %}</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                         </div>
                                     </div>
                                     <!--<div class="col-lg-6">-->
@@ -7495,6 +8264,8 @@
         $('.js-example-basic-single').select2();
         if(`{{bg_tab_color}}` == 'transpa')
             no_fill();
+        get_notif_train('admin');
+        get_notif_airline('admin');
     });
 </script>
 {% endblock %}

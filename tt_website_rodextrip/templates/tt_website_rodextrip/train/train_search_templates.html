@@ -8,6 +8,7 @@
 <script src="{{ static_path }}js/train_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_train.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_content.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/train_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/daterangepicker.js?version={{javascript_version}}"></script>
 <script>
@@ -31,7 +32,28 @@
         'infant': {{train_request.infant}}
     }
 </script>
+<style>
+    ul {
+        list-style-type: disc;
+        list-style-position: inside;
+    }
+    ol {
+       list-style-type: decimal;
+       list-style-position: inside;
+    }
+    ul ul, ol ul {
+       list-style-type: circle;
+       list-style-position: inside;
+       margin-left: 15px;
+    }
+    ol ol, ul ol {
+       list-style-type: lower-latin;
+       list-style-position: inside;
+       margin-left: 15px;
+    }
+</style>
 {% include 'tt_website_rodextrip/header.html' %}
+{% include 'tt_website_rodextrip/notification.html' %}
 {% include 'tt_website_rodextrip/plugin_passenger.html' %}
 {% include 'tt_website_rodextrip/logout.html' %}
 <div id="overlay-search-box" onclick="off_overlay()"></div>

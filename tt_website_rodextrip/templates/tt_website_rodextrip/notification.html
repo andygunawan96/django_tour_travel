@@ -1,0 +1,31 @@
+{% load i18n %}
+
+<div class="modal fade" id="myModalNotificationProduct" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Notification' %} <i class="fas fa-warning"></i></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="col-lg-12 div_cont" id="product_notification_body">
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $( document ).ready(function() {
+        if(document.URL.includes('airline')){
+            get_notif_airline();
+        }else if(document.URL.includes('train')){
+            get_notif_train();
+        }
+    });
+</script>

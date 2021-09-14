@@ -6,9 +6,9 @@
 <!--<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>-->
 <script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/webservice_content.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/train_javascript.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/webservice_train.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/medical_global_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_medical_global.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/pricing_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_payment_acq.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_printout.js?version={{javascript_version}}"></script>
@@ -16,41 +16,13 @@
     static_path_url_server = '{{static_path_url_server}}';
     order_number = '{{order_number}}';
     id_types = [];
-    cabin_class_types = [];
-    {% for id_type in id_types%}
-        id_types.push(['{{id_type.0}}', '{{id_type.1}}']);
-    {% endfor %}
-    {% for cabin_class_type in cabin_class_types%}
-        cabin_class_types.push(['{{cabin_class_type.0}}', '{{cabin_class_type.1}}']);
-    {% endfor %}
 </script>
-<style>
-    ul {
-        list-style-type: disc;
-        list-style-position: inside;
-    }
-    ol {
-       list-style-type: decimal;
-       list-style-position: inside;
-    }
-    ul ul, ol ul {
-       list-style-type: circle;
-       list-style-position: inside;
-       margin-left: 15px;
-    }
-    ol ol, ul ol {
-       list-style-type: lower-latin;
-       list-style-position: inside;
-       margin-left: 15px;
-    }
-</style>
 {% include 'tt_website_rodextrip/logout.html' %}
 {% include 'tt_website_rodextrip/loading_screen.html' %}
 {% include 'tt_website_rodextrip/check_connection.html' %}
 {% include 'tt_website_rodextrip/modal_balance_vendor.html' %}
-{% include 'tt_website_rodextrip/notification.html' %}
 <div id="overlay-div-box" onclick="close_div('payment_acq');"></div>
-<title id="title_search">{{name}} {% trans 'Train' %} - {% trans 'Booking' %}</title>
+<title id="title_search">{{name}} Medical - {% trans 'Booking' %}</title>
 {%if template == 1%}
 <header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
     <div class="main-menu">
@@ -100,20 +72,22 @@
         </div>
     </div>
 </div>
+
+<form id="medical_edit_passenger" class="form-wrap" action="" method="POST">
+    {% csrf_token %}
+    <input type="hidden" id="data" name="data" />
+    <input type="hidden" id="signature_data" name="signature" />
+    <input type="hidden" id="booking_data" name="booking_data" />
+    <input type="hidden" id="medical_global_type" name="medical_global_type" />
+</form>
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; background:#f7f7f7;">
     <div class="container">
-        <div class="row">
-            <div class="col-lg-3">
-                <button type="button" class="primary-btn-white" style="width:100%;" onclick="window.location.href='/reservation'"> <i class="fas fa-arrow-left"></i> Back </button>
-            </div>
-            <div class="col-lg-9"></div>
-        </div>
-        <div class="mt-3" id="show_title_train" hidden>
+        <div id="show_title_medical" hidden>
             <h3>{% trans 'Please Review Your Booking' %}</h3>
             <h4>{% trans 'Prices may changes at any time' %}</h4>
             <br/>
         </div>
-        <div class="col-lg-12" id="show_loading_booking_train">
+        <div class="col-lg-12" id="show_loading_booking_medical">
             <div class="center-div">
                 <div>
                     <img src="{{static_path}}img/loading-screen-white.gif" style="height:25px; width:25px;"/>
@@ -131,20 +105,43 @@
             <div class="col-lg-8">
                 <div class="row">
                     <input type="text" id="order_number" name="order_number" hidden value="{{order_number}}"/>
-                </div>
 
+                    <div class="col-lg-12">
+                        <h3 id="display_state" class="mb-2"></h3>
+                    </div>
+                    <div class="col-lg-4 mt-3">
+                        <button type="button" class="primary-btn-white" style="width:100%;" id="back_btn_medical"> <i class="fas fa-arrow-left"></i> Back </button>
+                    </div>
+                    <div class="col-lg-4 mt-3" id="div_sync_status" hidden>
+
+                    </div>
+                    <div class="col-lg-4 mt-3 mb-3">
+                        <button type="button" id="button-re-order" class="primary-btn" style="width:100%;" onclick="create_new_reservation();" hidden>
+                            {% trans 'Re Order' %} <i class="fas fa-redo-alt"></i>
+                        </button>
+                    </div>
+                    <div class="col-lg-12 mt-3">
+                        <div class="mb-3" id="button-new-reservation" hidden>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4"></div>
+            <div class="col-lg-8">
                 <div class="row">
                     <div class="col-lg-12" id="alert-state">
 
                     </div>
                 </div>
+                <div id="medical_booking">
 
-                <div id="train_booking">
+                </div>
+                <div class="row review-detail" style="margin-bottom:15px;" id="medical_btn_printout">
 
                 </div>
             </div>
             <div class="col-lg-4">
-                <div id="train_detail">
+                <div id="medical_detail">
 
                 </div>
 
@@ -153,6 +150,14 @@
                 {% endif %}
 
                 <div class="alert alert-danger" style="border:1px solid #cdcdcd;" id="cancel" hidden>
+
+                </div>
+
+                <div id="update_data_passenger" class="mb-3">
+
+                </div>
+
+                <div id="cancel_reservation" class="mb-3">
 
                 </div>
 
@@ -165,13 +170,15 @@
                 <div style="background-color:white; padding:10px; border:1px solid {{color}};margin-top:15px; position:relative;" id="payment_acq" hidden>
 
                 </div>
-                <button type="button" class="primary-btn" id="button-home" style="width:100%;margin-top:15px;" onclick="window.location.href='/'" hidden>
-                    {% trans 'Home' %}
-                </button>
-                <button type="button" class="primary-btn" id="button-new-reservation" style="width:100%;margin-top:15px;" onclick="window.location.href='/'+window.location.href.split('/')[3]" hidden>
-                    {% trans 'Book New Reservation' %}
-                </button>
+<!--                <button type="button" class="primary-btn-white" id="button-home" style="width:100%;margin-top:15px;" onclick="window.location.href='/'" hidden>-->
+<!--                    {% trans 'Home' %}-->
+<!--                </button>-->
+
+<!--                <button type="button" class="primary-btn-white" id="new-reservation" style="width:100%;margin-top:15px;" onclick="window.location.href='/'+window.location.href.split('/')[3]+'/'+window.location.href.split('/')[3]" hidden>-->
+<!--                    {% trans 'Book New Reservation' %}-->
+<!--                </button>-->
             </div>
+            <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
             <div class="modal fade" id="myModalRepricing" role="dialog">
                 <div class="modal-dialog" style="width:100% !important; height:100% !important; max-width:1200px;padding: 0;">
 
@@ -237,16 +244,15 @@
 
 <script>
     try{
+        document.getElementById('back_btn_medical').onclick = function() {
+          window.location.href=document.referrer;
+        }
         document.getElementById('voucher_discount').style.display = 'none';
     }catch(err){}
-    train_signin('{{order_number}}');
     $( document ).ready(function() {
-        breadcrumb_create("train", 5, 1);
+        medical_global_signin('{{order_number}}');
+        breadcrumb_create("medical", 4, 1);
     });
-    function goto_seat_map(){
-        document.getElementById('seat_map_request').innerHTML += `{% csrf_token %}`;
-        document.getElementById('seat_map_request').submit();
-    }
 </script>
 {% endblock %}
 

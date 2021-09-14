@@ -6,6 +6,7 @@
 <!--<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>-->
 <script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_content.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/airline_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_airline.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/moment.min.js?version={{javascript_version}}"></script>
@@ -23,10 +24,31 @@
     airline_carriers = JSON.parse(airline_carriers);
     order_number = '{{order_number}}';
 </script>
+<style>
+    ul {
+        list-style-type: disc;
+        list-style-position: inside;
+    }
+    ol {
+       list-style-type: decimal;
+       list-style-position: inside;
+    }
+    ul ul, ol ul {
+       list-style-type: circle;
+       list-style-position: inside;
+       margin-left: 15px;
+    }
+    ol ol, ul ol {
+       list-style-type: lower-latin;
+       list-style-position: inside;
+       margin-left: 15px;
+    }
+</style>
 {% include 'tt_website_rodextrip/logout.html' %}
 {% include 'tt_website_rodextrip/loading_screen.html' %}
 {% include 'tt_website_rodextrip/check_connection.html' %}
 {% include 'tt_website_rodextrip/modal_balance_vendor.html' %}
+{% include 'tt_website_rodextrip/notification.html' %}
 <title>{{name}} {% trans 'Airline' %} - {% trans 'Booking' %}</title>
 <div class="modal fade" id="waitingTransaction" role="dialog" style="background:rgba(20,20,20,0.8);">
     <div class="modal-dialog" style="margin: 0; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">

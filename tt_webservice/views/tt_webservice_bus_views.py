@@ -398,9 +398,8 @@ def commit_booking(request):
                                 pax['birth_date'].split(' ')[0]),
                         })
                     if pax_request_seat:
-                        pax.update({
-                            "seat_list": pax_request_seat[pax_count]
-                        })
+                        for idx, seat_pick in enumerate(pax_request_seat[pax_count]['seat_pick']):
+                            pax['seat_list'][idx]['seat_pick'] = seat_pick
                         pax_count+=1
                     if pax['pax_type'] == 'ADT':
                         try:

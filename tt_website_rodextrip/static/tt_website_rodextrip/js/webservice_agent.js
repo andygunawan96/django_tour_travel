@@ -267,7 +267,46 @@ function signin_booking(){
                   }
                 })
                 window.location.reload();
+            }else if(msg.result.error_code == 0 && msg.result.response.co_agent_frontend_security.includes('confirm_order_medical') == true){
+                let timerInterval
+                Swal.fire({
+                  type: 'success',
+                  title: 'Login Success!',
+                  html: 'Please Wait ...',
+                  timer: 50000,
+                  onBeforeOpen: () => {
+                    Swal.showLoading()
+                    timerInterval = setInterval(() => {
+                      Swal.getContent().querySelector('strong')
+                        .textContent = Swal.getTimerLeft()
+                    }, 100)
+                  },
+                  onClose: () => {
+                    clearInterval(timerInterval)
+                  }
+                }).then((result) => {
+                  if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.timer
+                  ) {
+
+                  }
+                })
+                window.location.reload();
+            }else if(msg.result.error_code == 0){
+                $('.btn-next').removeClass('running');
+                $('.btn-next').prop('disabled', false);
+                $('.button-login').prop('disabled', false);
+                $('.button-login').removeClass("running");
+
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  text: "Permission Denied!",
+                })
             }else{
+                $('.btn-next').removeClass('running');
+                $('.btn-next').prop('disabled', false);
                 $('.button-login').prop('disabled', false);
                 $('.button-login').removeClass("running");
 

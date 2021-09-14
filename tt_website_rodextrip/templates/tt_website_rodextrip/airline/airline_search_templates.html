@@ -19,6 +19,7 @@
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_airline.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_content.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
 <script>
     static_path_url_server = '{{static_path_url_server}}'
@@ -89,10 +90,30 @@
     }
     template = {{template}};
 </script>
-
+<style>
+    ul {
+        list-style-type: disc;
+        list-style-position: inside;
+    }
+    ol {
+       list-style-type: decimal;
+       list-style-position: inside;
+    }
+    ul ul, ol ul {
+       list-style-type: circle;
+       list-style-position: inside;
+       margin-left: 15px;
+    }
+    ol ol, ul ol {
+       list-style-type: lower-latin;
+       list-style-position: inside;
+       margin-left: 15px;
+    }
+</style>
 {% include 'tt_website_rodextrip/header.html' %}
 {% include 'tt_website_rodextrip/plugin_passenger.html' %}
 {% include 'tt_website_rodextrip/logout.html' %}
+{% include 'tt_website_rodextrip/notification.html' %}
 <div id="overlay-search-box" onclick="off_overlay()"></div>
 {%if airline_request.direction == 'OW'%}
 <title id="title_search">{{name}} {% trans 'Airline' %} - {% trans 'One Way' %}</title>

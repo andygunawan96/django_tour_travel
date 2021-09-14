@@ -16,6 +16,7 @@
 <script src="{{ static_path }}js/webservice_ppob.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_event.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_medical.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_medical_global.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_bus.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/ppob_javascript.js?version={{javascript_version}}"></script>
@@ -400,6 +401,13 @@
                             <a class="nav-link {%if forloop.counter == 1 %}active{%endif%}" id="bus-tab" data-toggle="tab" href="#bus" role="tab" aria-controls="bus" aria-selected="false">
                                 <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-train.png" alt="Bus Icon"/></i>
                                 <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'Bus' %} </span>
+                            </a>
+                        </li>
+                            {% elif "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security and rec.name == "medical" %}
+                        <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'medical2');" id="nav_scroll_menu_medical2">
+                            <a class="nav-link {%if forloop.counter == 1 %}active{%endif%}" id="medical_global-tab" data-toggle="tab" href="#medical_global" role="tab" aria-controls="medical2" aria-selected="false">
+                                <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Medical Icon"/></i>
+                                <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'Medical' %} </span>
                             </a>
                         </li>
                             {% endif %}
@@ -810,11 +818,11 @@
                                                     </div>
                                                     <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
                                                         <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                            <button type="button" class="left-minus-adult-train btn-custom-circle" id="left-minus-adult-train" data-type="minus" data-field="" disabled>
+                                                            <button type="button" class="left-minus-adult-train btn-custom-circle" id="left-minus-adult-bus" data-type="minus" data-field="" disabled>
                                                                 <i class="fas fa-minus"></i>
                                                             </button>
                                                             <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="bus_adult" name="bus_adult" value="1" min="1" readonly>
-                                                            <button type="button" class="right-plus-adult-train btn-custom-circle" id="right-plus-adult-train" data-type="plus" data-field="">
+                                                            <button type="button" class="right-plus-adult-train btn-custom-circle" id="right-plus-adult-bus" data-type="plus" data-field="">
                                                                 <i class="fas fa-plus"></i>
                                                             </button>
                                                         </div>
@@ -822,7 +830,7 @@
 
                                                     <div class="col-lg-12" style="text-align:right;">
                                                         <hr/>
-                                                        <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('train','passenger');">Done</button>
+                                                        <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('bus','passenger');">Done</button>
                                                     </div>
                                                 </div>
                                             </ul>
@@ -834,6 +842,34 @@
                                 <input type="hidden" id="bus_response" name="response"/>
                                 <center>
                                     <button class="primary-btn ld-ext-right" id="btn-search-train" type="button" onclick="get_captcha('recaptcha_bus','bus');" value="Submit">
+                                        <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                        {% trans 'Search' %}
+                                        <div class="ld ld-ring ld-cycle"></div>
+                                    </button>
+                                </center>
+                            </form>
+                        </div>
+                        {% endif %}
+                        {% if "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security %}
+                        <div class="tab-pane fade {%if provider_types_sequence.0.name == 'medical' %}show active {% endif %} " id="medical_global" role="tabpanel" aria-labelledby="medical_global-tab">
+                            <form action="{% url 'tt_website_rodextrip:medical_global_passenger'%}" class="form-wrap" id="medical_global_searchForm" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="g-recaptcha-response" id='recaptcha_medical_global'>
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12" style="padding:0px;">
+                                        <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Medical Type' %}</span>
+                                        <div class="input-container-search-ticket">
+                                            <div class="form-select">
+                                                <select id="medical_global_type" name="medical_global_type" class="nice-select-default">
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br/>
+                                <center>
+                                    <button class="button-search primary-btn ld-ext-right" type="button" onclick="get_captcha('recaptcha_medical_global','medical_global');" value="Submit">
                                         <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                         {% trans 'Search' %}
                                         <div class="ld ld-ring ld-cycle"></div>
@@ -2218,6 +2254,10 @@
                             {% endif %}
                             {% elif "phc" in provider and "ticketing_phc" in username.co_agent_frontend_security and rec.name == "phc" %}
                         <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-phc" onclick="scroll_menu_horizontal('tab-link', 'phc');" id="nav_scroll_menu_phc"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="PHC Icon"/></i><label class="btn-txt-color">PHC</label></li>
+                            {% elif "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security and rec.name == "medical" %}
+                        <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-medical" onclick="scroll_menu_horizontal('tab-link', 'medical2');" id="nav_scroll_menu_medical2"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Medical Icon"/></i><label class="btn-txt-color">Medical</label></li>
+                            {% elif "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security and rec.name == "bus" %}
+                        <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-bus" onclick="scroll_menu_horizontal('tab-link', 'bus');" id="nav_scroll_menu_bus"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-train.png" alt="Bus Icon"/></i><label class="btn-txt-color">Bus</label></li>
                             {% endif %}
                         {% endfor %}
 
@@ -3081,6 +3121,134 @@
                         </form>
                     </div>
                     {% endif %}
+                    {% if "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security %}
+                    <div id="tab-medical" class="tab-content {%if provider_types_sequence.0.name == 'medical' %}current{% endif %}">
+                        <form action="{% url 'tt_website_rodextrip:medical_global_passenger'%}" class="form-wrap" id="medical_global_searchForm" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="g-recaptcha-response" id='recaptcha_medical_global'>
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Medical Type' %}</span>
+                                    <div class="input-container-search-ticket">
+                                        <select id="medical_global_type" name="medical_global_type" style="width:100%;" class="nice-select-default">
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+                            <center>
+                                <button class="button-search primary-btn ld-ext-right" type="button" onclick="get_captcha('recaptcha_medical_global','medical_global');" value="Submit">
+                                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                    {% trans 'Search' %}
+                                    <div class="ld ld-ring ld-cycle"></div>
+                                </button>
+                            </center>
+                        </form>
+                    </div>
+                    {% endif %}
+                    {% if "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security%}
+                    <div id="tab-bus" class="tab-content {%if provider_types_sequence.0.name == 'bus' %}current{% endif %}">
+                        <!--<center>-->
+                        <!--<div style="padding:15px;">-->
+                        <!--<img style="width:auto; height:100px" src="{{static_path}}images/icon/sorry.png"/>-->
+                        <!--<h1 style="color:{{text_color}} !important;">Train under construction</h1>-->
+                        <!--</div>-->
+                        <!--</center>-->
+                        <form action="{% url 'tt_website_rodextrip:bus_search'%}" method="POST" class="form-wrap" id="bus_searchForm" onsubmit="return search_train_validation()">
+                            {% csrf_token %}
+                            <input type="hidden" name="g-recaptcha-response" id='recaptcha_bus'>
+                            <div class="row">
+                                <div class="col-lg-12" id="radio_bus_search" style="text-align:left;margin-bottom:10px;">
+                                    <label class="radio-button-custom crlabel">
+                                        <span style="font-size:13px; color:{{text_color}};">{% trans 'One Way' %}</span>
+                                        <input type="radio" checked="checked" name="radio_bus_type" value="oneway">
+                                        <span class="checkmark-radio crspan"></span>
+                                    </label>
+                                    <label class="radio-button-custom crlabel">
+                                        <span style="font-size:13px; color:{{text_color}};">{% trans 'Round Trip' %}</span>
+                                        <input type="radio" name="radio_bus_type" value="roundtrip">
+                                        <span class="checkmark-radio crspan"></span>
+                                    </label>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 train-from">
+                                            <span class="span-search-ticket"><i class="fas fa-train"></i> {% trans 'From' %}</span>
+                                            <div class="input-container-search-ticket">
+                                                <input id="bus_origin" name="bus_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_origin').select();" onclick="set_train_search_value_to_false();" value="">
+                                            </div>
+                                        </div>
+                                        <div class="image-change-route-vertical2">
+                                            <span><a href="javascript:bus_switch();" style="z-index:5; color:black;" id="bus_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></span>
+                                        </div>
+                                        <div class="image-change-route-horizontal2">
+                                            <span><a class="horizontal-arrow" href="javascript:bus_switch();" style="z-index:5; color:{{text_color}} !important;" id="train_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></span>
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6 col-sm-6 train-to" style="z-index:5;">
+                                            <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> {% trans 'To' %}</span>
+                                            <div class="input-container-search-ticket">
+                                                <input id="bus_destination" name="bus_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_destination').select();" onclick="set_train_search_value_to_false();" value="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6 col-sm-6" id="bus_date_search">
+                                    <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure' %}</span>
+                                    <div class="input-container-search-ticket">
+                                        <input type="text" class="form-control" style="background:white;" id="bus_departure" name="bus_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly/>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6 col-sm-6">
+                                    <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
+                                    <div class="input-container-search-ticket btn-group">
+                                        <button id="show_total_pax_bus" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <div class="row" style="padding:10px;">
+                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                    <div style="float:left;">
+                                                        <label>
+                                                            <span style="color:black; font-size:13px;">{% trans 'Adult' %}<br/></span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                    <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                        <button type="button" class="left-minus-adult-train btn-custom-circle" id="left-minus-adult-bus" data-type="minus" data-field="" disabled>
+                                                            <i class="fas fa-minus"></i>
+                                                        </button>
+                                                        <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="bus_adult" name="bus_adult" value="1" min="1" readonly>
+                                                        <button type="button" class="right-plus-adult-train btn-custom-circle" id="right-plus-adult-bus" data-type="plus" data-field="">
+                                                            <i class="fas fa-plus"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-12" style="text-align:right;">
+                                                    <hr/>
+                                                    <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('bus','passenger');">Done</button>
+                                                </div>
+                                            </div>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+
+                            <input type="hidden" id="bus_response" name="response"/>
+                            <center>
+                                <button class="primary-btn ld-ext-right" id="btn-search-train" type="button" onclick="get_captcha('recaptcha_bus','bus');" value="Submit">
+                                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                    {% trans 'Search' %}
+                                    <div class="ld ld-ring ld-cycle"></div>
+                                </button>
+                            </center>
+                        </form>
+                    </div>
+                    {% endif %}
+
+
                     {% if name == "Rodextrip" %}
                     <!--<div id="tab-deal" class="tab-content">-->
                         <!--<form method="POST" class="form-wrap">-->
@@ -3447,6 +3615,10 @@
                                     {% endif %}
                                     {% elif "phc" in provider and "ticketing_phc" in username.co_agent_frontend_security and rec.name == "phc" %}
                                 <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-phc" onclick="scroll_menu_horizontal('tab-link', 'phc');" id="nav_scroll_menu_phc"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/swab.png" alt="PHC Icon"/></i><label class="btn-txt-color">PHC</label></li>
+                                    {% elif "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security and rec.name == "medical" %}
+                                <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-medical" onclick="scroll_menu_horizontal('tab-link', 'medical2');" id="nav_scroll_menu_medical2"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/swab.png" alt="Medical Icon"/></i><label class="btn-txt-color">MEDICAL</label></li>
+                                    {% elif "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security and rec.name == "bus" %}
+                                <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-bus" onclick="scroll_menu_horizontal('tab-link', 'bus');" id="nav_scroll_menu_bus"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/home-train.png" alt="Bus Icon"/></i><label class="btn-txt-color">BUS</label></li>
                                     {% endif %}
                                 {% endfor %}
                                 {% if name == 'Rodextrip' %}
@@ -4326,6 +4498,136 @@
                         </div>
                         {% endif %}
 
+                        {% if "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security %}
+                        <div id="tab-medical" class="tab-content {%if provider_types_sequence.0.name == 'medical' %}current{% endif %}">
+                            <form action="{% url 'tt_website_rodextrip:medical_global_passenger'%}" class="form-wrap" id="medical_global_searchForm" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="g-recaptcha-response" id='recaptcha_medical_global'>
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                        <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Medical Type' %}</span>
+                                        <div class="input-container-search-ticket">
+                                            <select id="medical_global_type" name="medical_global_type" style="width:100%;" class="nice-select-default">
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br/>
+                                <center>
+                                    <button class="button-search primary-btn ld-ext-right" type="button" onclick="get_captcha('recaptcha_medical_global','medical_global');" value="Submit">
+                                        <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                        {% trans 'Search' %}
+                                        <div class="ld ld-ring ld-cycle"></div>
+                                    </button>
+                                </center>
+                            </form>
+                        </div>
+                        {% endif %}
+
+
+                        {% if "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security%}
+                        <div id="tab-bus" class="tab-content {%if provider_types_sequence.0.name == 'bus' %}current{% endif %}">
+                            <!--<center>-->
+                            <!--<div style="padding:15px;">-->
+                            <!--<img style="width:auto; height:100px" src="{{static_path}}images/icon/sorry.png"/>-->
+                            <!--<h1 style="color:{{text_color}} !important;">Train under construction</h1>-->
+                            <!--</div>-->
+                            <!--</center>-->
+                            <form action="{% url 'tt_website_rodextrip:bus_search'%}" method="POST" class="form-wrap" id="bus_searchForm" onsubmit="return search_train_validation()">
+                                {% csrf_token %}
+                                <input type="hidden" name="g-recaptcha-response" id='recaptcha_bus'>
+                                <div class="row">
+                                    <div class="col-lg-12" id="radio_bus_search" style="text-align:left;margin-bottom:10px;">
+                                        <label class="radio-button-custom crlabel">
+                                            <span style="font-size:13px; color:{{text_color}};">{% trans 'One Way' %}</span>
+                                            <input type="radio" checked="checked" name="radio_bus_type" value="oneway">
+                                            <span class="checkmark-radio crspan"></span>
+                                        </label>
+                                        <label class="radio-button-custom crlabel">
+                                            <span style="font-size:13px; color:{{text_color}};">{% trans 'Round Trip' %}</span>
+                                            <input type="radio" name="radio_bus_type" value="roundtrip">
+                                            <span class="checkmark-radio crspan"></span>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6 train-from">
+                                                <span class="span-search-ticket"><i class="fas fa-train"></i> {% trans 'From' %}</span>
+                                                <div class="input-container-search-ticket">
+                                                    <input id="bus_origin" name="bus_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_origin').select();" onclick="set_train_search_value_to_false();" value="">
+                                                </div>
+                                            </div>
+                                            <div class="image-change-route-vertical2">
+                                                <span><a href="javascript:bus_switch();" style="z-index:5; color:black;" id="bus_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></span>
+                                            </div>
+                                            <div class="image-change-route-horizontal2">
+                                                <span><a class="horizontal-arrow" href="javascript:bus_switch();" style="z-index:5; color:{{text_color}} !important;" id="train_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></span>
+                                            </div>
+
+                                            <div class="col-lg-6 col-md-6 train-to" style="z-index:5;">
+                                                <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> {% trans 'To' %}</span>
+                                                <div class="input-container-search-ticket">
+                                                    <input id="bus_destination" name="bus_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_destination').select();" onclick="set_train_search_value_to_false();" value="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6" id="bus_date_search">
+                                        <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure' %}</span>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" class="form-control" style="background:white;" id="bus_departure" name="bus_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly/>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
+                                        <div class="input-container-search-ticket btn-group">
+                                            <button id="show_total_pax_bus" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <div class="row" style="padding:10px;">
+                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                        <div style="float:left;">
+                                                            <label>
+                                                                <span style="color:black; font-size:13px;">{% trans 'Adult' %}<br/></span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                        <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                            <button type="button" class="left-minus-adult-train btn-custom-circle" id="left-minus-adult-bus" data-type="minus" data-field="" disabled>
+                                                                <i class="fas fa-minus"></i>
+                                                            </button>
+                                                            <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="bus_adult" name="bus_adult" value="1" min="1" readonly>
+                                                            <button type="button" class="right-plus-adult-train btn-custom-circle" id="right-plus-adult-bus" data-type="plus" data-field="">
+                                                                <i class="fas fa-plus"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-12" style="text-align:right;">
+                                                        <hr/>
+                                                        <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('bus','passenger');">Done</button>
+                                                    </div>
+                                                </div>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br/>
+
+                                <input type="hidden" id="bus_response" name="response"/>
+                                <center>
+                                    <button class="primary-btn ld-ext-right" id="btn-search-train" type="button" onclick="get_captcha('recaptcha_bus','bus');" value="Submit">
+                                        <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                        {% trans 'Search' %}
+                                        <div class="ld ld-ring ld-cycle"></div>
+                                    </button>
+                                </center>
+                            </form>
+                        </div>
+                        {% endif %}
+
+
                         {% if name == 'Rodextrip' %}
                         <div id="tab-deal" class="tab-content">
                             <form method="POST" class="form-wrap">
@@ -4721,6 +5023,10 @@
                                             {% endif %}
                                             {% elif "phc" in provider and "ticketing_phc" in username.co_agent_frontend_security and rec.name == "phc" %}
                                         <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-phc" onclick="scroll_menu_horizontal('tab-link', 'phc');" id="nav_scroll_menu_phc"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="PHC Icon"/></i><label class="btn-txt-color">PHC</label></li>
+                                            {% elif "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security and rec.name == "medical" %}
+                                        <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-medical" onclick="scroll_menu_horizontal('tab-link', 'medical2');" id="nav_scroll_menu_medical2"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="PHC Icon"/></i><label class="btn-txt-color">MEDICAL</label></li>
+                                            {% elif "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security and rec.name == "bus" %}
+                                        <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-bus" onclick="scroll_menu_horizontal('tab-link', 'bus');" id="nav_scroll_menu_bus"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/home-train.png" alt="Bus Icon"/></i><label class="btn-txt-color">BUS</label></li>
                                             {% endif %}
                                         {% endfor %}
                                         {% if name == 'Rodextrip' %}
@@ -5623,6 +5929,134 @@
                                 </div>
                                 {% endif %}
 
+                                {% if "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security %}
+                                <div id="tab-medical" class="tab-content {%if provider_types_sequence.0.name == 'medical' %}current{% endif %}">
+                                    <form action="{% url 'tt_website_rodextrip:medical_global_passenger'%}" class="form-wrap mt-4 mb-4" id="medical_global_searchForm" method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="g-recaptcha-response" id='recaptcha_medical_global'>
+                                        <div class="row">
+                                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Medical Type' %}</span>
+                                                <div class="input-container-search-ticket">
+                                                    <select id="medical_global_type" name="medical_global_type" style="width:100%;" class="nice-select-default">
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                        <center>
+                                            <button class="button-search primary-btn ld-ext-right" type="button" onclick="get_captcha('recaptcha_medical_global','medical_global');" value="Submit">
+                                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                                {% trans 'Search' %}
+                                                <div class="ld ld-ring ld-cycle"></div>
+                                            </button>
+                                        </center>
+                                    </form>
+                                </div>
+                                {% endif %}
+
+                                {% if "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security%}
+                                <div id="tab-bus" class="tab-content {%if provider_types_sequence.0.name == 'bus' %}current{% endif %}">
+                                    <!--<center>-->
+                                    <!--<div style="padding:15px;">-->
+                                    <!--<img style="width:auto; height:100px" src="{{static_path}}images/icon/sorry.png"/>-->
+                                    <!--<h1 style="color:{{text_color}} !important;">Train under construction</h1>-->
+                                    <!--</div>-->
+                                    <!--</center>-->
+                                    <form action="{% url 'tt_website_rodextrip:bus_search'%}" method="POST" class="form-wrap" id="bus_searchForm" onsubmit="return search_train_validation()">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="g-recaptcha-response" id='recaptcha_bus'>
+                                        <div class="row">
+                                            <div class="col-lg-12" id="radio_bus_search" style="text-align:left;margin-bottom:10px;">
+                                                <label class="radio-button-custom crlabel">
+                                                    <span style="font-size:13px; color:{{text_color}};">{% trans 'One Way' %}</span>
+                                                    <input type="radio" checked="checked" name="radio_bus_type" value="oneway">
+                                                    <span class="checkmark-radio crspan"></span>
+                                                </label>
+                                                <label class="radio-button-custom crlabel">
+                                                    <span style="font-size:13px; color:{{text_color}};">{% trans 'Round Trip' %}</span>
+                                                    <input type="radio" name="radio_bus_type" value="roundtrip">
+                                                    <span class="checkmark-radio crspan"></span>
+                                                </label>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="row">
+                                                    <div class="col-lg-6 col-md-6 train-from">
+                                                        <span class="span-search-ticket"><i class="fas fa-train"></i> {% trans 'From' %}</span>
+                                                        <div class="input-container-search-ticket">
+                                                            <input id="bus_origin" name="bus_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_origin').select();" onclick="set_train_search_value_to_false();" value="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="image-change-route-vertical2">
+                                                        <span><a href="javascript:bus_switch();" style="z-index:5; color:black;" id="bus_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></span>
+                                                    </div>
+                                                    <div class="image-change-route-horizontal2">
+                                                        <span><a class="horizontal-arrow" href="javascript:bus_switch();" style="z-index:5; color:{{text_color}} !important;" id="train_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></span>
+                                                    </div>
+
+                                                    <div class="col-lg-6 col-md-6 train-to" style="z-index:5;">
+                                                        <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> {% trans 'To' %}</span>
+                                                        <div class="input-container-search-ticket">
+                                                            <input id="bus_destination" name="bus_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_destination').select();" onclick="set_train_search_value_to_false();" value="">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6" id="bus_date_search">
+                                                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure' %}</span>
+                                                <div class="input-container-search-ticket">
+                                                    <input type="text" class="form-control" style="background:white;" id="bus_departure" name="bus_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly/>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6">
+                                                <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
+                                                <div class="input-container-search-ticket btn-group">
+                                                    <button id="show_total_pax_bus" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
+                                                    <ul class="dropdown-menu" role="menu">
+                                                        <div class="row" style="padding:10px;">
+                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                                <div style="float:left;">
+                                                                    <label>
+                                                                        <span style="color:black; font-size:13px;">{% trans 'Adult' %}<br/></span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                    <button type="button" class="left-minus-adult-train btn-custom-circle" id="left-minus-adult-bus" data-type="minus" data-field="" disabled>
+                                                                        <i class="fas fa-minus"></i>
+                                                                    </button>
+                                                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="bus_adult" name="bus_adult" value="1" min="1" readonly>
+                                                                    <button type="button" class="right-plus-adult-train btn-custom-circle" id="right-plus-adult-bus" data-type="plus" data-field="">
+                                                                        <i class="fas fa-plus"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-lg-12" style="text-align:right;">
+                                                                <hr/>
+                                                                <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('bus','passenger');">Done</button>
+                                                            </div>
+                                                        </div>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br/>
+
+                                        <input type="hidden" id="bus_response" name="response"/>
+                                        <center>
+                                            <button class="primary-btn ld-ext-right" id="btn-search-train" type="button" onclick="get_captcha('recaptcha_bus','bus');" value="Submit">
+                                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                                {% trans 'Search' %}
+                                                <div class="ld ld-ring ld-cycle"></div>
+                                            </button>
+                                        </center>
+                                    </form>
+                                </div>
+                                {% endif %}
+
 
                                 {% if name == 'Rodextrip' %}
                                 <div class="form-search-wrap tab-content" id="tab-deal" data-aos-delay="200">
@@ -6014,6 +6448,10 @@
                                             {% endif %}
                                             {% elif "phc" in provider and "ticketing_phc" in username.co_agent_frontend_security and rec.name == "phc" %}
                                         <li class="tab-link {%if forloop.counter == 1%}current{%endif%}" data-tab="tab-phc" onclick="scroll_menu_horizontal('tab-link', 'phc');" id="nav_scroll_menu_phc"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="PHC Icon"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">PHC</label></li>
+                                            {% elif "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security and rec.name == "medical" %}
+                                        <li class="tab-link {%if forloop.counter == 1%}current{%endif%}" data-tab="tab-medical" onclick="scroll_menu_horizontal('tab-link', 'medical2');" id="nav_scroll_menu_medical2"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Medical Icon"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">MEDICAL</label></li>
+                                            {% elif "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security and rec.name == "bus" %}
+                                        <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-bus" onclick="scroll_menu_horizontal('tab-link', 'bus');" id="nav_scroll_menu_bus"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-train.png" alt="Bus Icon"/></i><label class="btn-txt-color">Bus</label></li>
                                             {% endif%}
                                         {% endfor %}
                                         {% if name == 'Rodextrip' %}
@@ -6905,6 +7343,134 @@
                                 </div>
                                 {% endif %}
 
+                                {% if "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security %}
+                                <div id="tab-medical" class="tab-content {%if provider_types_sequence.0.name == 'medical' %}current{% endif %}">
+                                    <form action="{% url 'tt_website_rodextrip:medical_global_passenger'%}" class="form-wrap mt-4 mb-4" id="medical_global_searchForm" method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="g-recaptcha-response" id='recaptcha_medical_global'>
+                                        <div class="row">
+                                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Medical Type' %}</span>
+                                                <div class="input-container-search-ticket">
+                                                    <select id="medical_global_type" name="medical_global_type" style="width:100%;" class="nice-select-default">
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                        <center>
+                                            <button class="button-search primary-btn ld-ext-right" type="button" onclick="get_captcha('recaptcha_medical_global','medical_global');" value="Submit">
+                                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                                {% trans 'Search' %}
+                                                <div class="ld ld-ring ld-cycle"></div>
+                                            </button>
+                                        </center>
+                                    </form>
+                                </div>
+                                {% endif %}
+
+                                {% if "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security%}
+                                <div id="tab-bus" class="tab-content {%if provider_types_sequence.0.name == 'bus' %}current{% endif %}">
+                                    <!--<center>-->
+                                    <!--<div style="padding:15px;">-->
+                                    <!--<img style="width:auto; height:100px" src="{{static_path}}images/icon/sorry.png"/>-->
+                                    <!--<h1 style="color:{{text_color}} !important;">Train under construction</h1>-->
+                                    <!--</div>-->
+                                    <!--</center>-->
+                                    <form action="{% url 'tt_website_rodextrip:bus_search'%}" method="POST" class="form-wrap" id="bus_searchForm" onsubmit="return search_train_validation()">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="g-recaptcha-response" id='recaptcha_bus'>
+                                        <div class="row">
+                                            <div class="col-lg-12" id="radio_bus_search" style="text-align:left;margin-bottom:10px;">
+                                                <label class="radio-button-custom crlabel">
+                                                    <span style="font-size:13px; color:{{text_color}};">{% trans 'One Way' %}</span>
+                                                    <input type="radio" checked="checked" name="radio_bus_type" value="oneway">
+                                                    <span class="checkmark-radio crspan"></span>
+                                                </label>
+                                                <label class="radio-button-custom crlabel">
+                                                    <span style="font-size:13px; color:{{text_color}};">{% trans 'Round Trip' %}</span>
+                                                    <input type="radio" name="radio_bus_type" value="roundtrip">
+                                                    <span class="checkmark-radio crspan"></span>
+                                                </label>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="row">
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 train-from">
+                                                        <span class="span-search-ticket"><i class="fas fa-train"></i> {% trans 'From' %}</span>
+                                                        <div class="input-container-search-ticket">
+                                                            <input id="bus_origin" name="bus_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_origin').select();" onclick="set_train_search_value_to_false();" value="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="image-change-route-vertical2">
+                                                        <span><a href="javascript:bus_switch();" style="z-index:5; color:black;" id="bus_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></span>
+                                                    </div>
+                                                    <div class="image-change-route-horizontal2">
+                                                        <span><a class="horizontal-arrow" href="javascript:bus_switch();" style="z-index:5; color:{{text_color}} !important;" id="train_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></span>
+                                                    </div>
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 train-to" style="z-index:5;">
+                                                        <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> {% trans 'To' %}</span>
+                                                        <div class="input-container-search-ticket">
+                                                            <input id="bus_destination" name="bus_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_destination').select();" onclick="set_train_search_value_to_false();" value="">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-6 col-sm-6" id="bus_date_search">
+                                                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure' %}</span>
+                                                <div class="input-container-search-ticket">
+                                                    <input type="text" class="form-control" style="background:white;" id="bus_departure" name="bus_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly/>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-6 col-sm-6">
+                                                <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
+                                                <div class="input-container-search-ticket btn-group">
+                                                    <button id="show_total_pax_bus" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
+                                                    <ul class="dropdown-menu" role="menu">
+                                                        <div class="row" style="padding:10px;">
+                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                                <div style="float:left;">
+                                                                    <label>
+                                                                        <span style="color:black; font-size:13px;">{% trans 'Adult' %}<br/></span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                    <button type="button" class="left-minus-adult-train btn-custom-circle" id="left-minus-adult-bus" data-type="minus" data-field="" disabled>
+                                                                        <i class="fas fa-minus"></i>
+                                                                    </button>
+                                                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="bus_adult" name="bus_adult" value="1" min="1" readonly>
+                                                                    <button type="button" class="right-plus-adult-train btn-custom-circle" id="right-plus-adult-bus" data-type="plus" data-field="">
+                                                                        <i class="fas fa-plus"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-lg-12" style="text-align:right;">
+                                                                <hr/>
+                                                                <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('bus','passenger');">Done</button>
+                                                            </div>
+                                                        </div>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br/>
+
+                                        <input type="hidden" id="bus_response" name="response"/>
+                                        <center>
+                                            <button class="primary-btn ld-ext-right" id="btn-search-train" type="button" onclick="get_captcha('recaptcha_bus','bus');" value="Submit">
+                                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                                {% trans 'Search' %}
+                                                <div class="ld ld-ring ld-cycle"></div>
+                                            </button>
+                                        </center>
+                                    </form>
+                                </div>
+                                {% endif %}
+
 
                                 {% if name == 'Rodextrip' %}
                                 <div class="tab-content" id="tab-deal">
@@ -7213,6 +7779,20 @@
                         <div class="div_cst" onclick="product_change_box('phc')">
                             <img style="width:auto; height:40px" src="{{static_path}}images/icon/swab_black.png" alt="PHC Icon"/>
                             <h6 class="hover_cst">{% trans 'Test Covid PHC' %}</h6>
+                        </div>
+                    </div>
+                    {% elif "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security and rec.name == "medical" %}
+                    <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3 mb-3">
+                        <div class="div_cst" onclick="product_change_box('medical')">
+                            <img style="width:auto; height:40px" src="{{static_path}}images/icon/swab_black.png" alt="PHC Icon"/>
+                            <h6 class="hover_cst">{% trans 'Medical' %}</h6>
+                        </div>
+                    </div>
+                    {% elif "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security and rec.name == "bus" %}
+                    <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3 mb-3">
+                        <div class="div_cst" onclick="product_change_box('bus')">
+                            <img style="width:auto; height:40px" src="{{static_path}}images/icon/bus_black.png" alt="Bus Icon"/>
+                            <h6 class="hover_cst">{% trans 'Bus' %}</h6>
                         </div>
                     </div>
                     {% endif %}
@@ -8362,6 +8942,213 @@
 </section>
 {% endif %}
 
+{% if "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security %}
+<section class="about" style="margin-top:50px; margin-bottom:50px; padding:15px; display:none;" id="box_medical">
+    <div class="container">
+        <div class="row" style="padding:15px;">
+            <div class="col-lg-4 mb-5">
+                <div class="text-center center_vh" style="width:100%;">
+                    <h3 class="heading mb-2" style="border-bottom:5px solid {{color}}; width:content;">
+                        <img style="width:auto; height:40px" src="{{static_path}}images/icon/swab_black.png" alt="Airline Icon"/>
+                        Test Covid PHC
+                    </h3>
+                </div>
+            </div>
+
+            <div class="col-lg-8" id="div-search-overlay" style="background:{{tab_color}}; padding:30px; border-radius:14px;">
+                <button class="primary-btn-white mb-1" onclick="product_change_box('choose')">
+                    <i class="fas fa-arrow-circle-left"></i> Back
+                </button>
+                <hr style="border-bottom:2px solid {{text_color}};"/>
+                <form action="{% url 'tt_website_rodextrip:medical_global_passenger'%}" class="form-wrap mt-4 mb-4" id="medical_global_searchForm" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="g-recaptcha-response" id='recaptcha_medical_global'>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Medical Type' %}</span>
+                            <div class="input-container-search-ticket">
+                                <select id="medical_global_type" name="medical_global_type" style="width:100%;" class="nice-select-default">
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+                    <center>
+                        <button class="button-search primary-btn ld-ext-right" type="button" onclick="get_captcha('recaptcha_medical_global','medical_global');" value="Submit">
+                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                            {% trans 'Search' %}
+                            <div class="ld ld-ring ld-cycle"></div>
+                        </button>
+                    </center>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+
+{% if "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security %}
+<section class="about" style="margin-top:50px; margin-bottom:50px; padding:15px; display:none;" id="box_medical">
+    <div class="container">
+        <div class="row" style="padding:15px;">
+            <div class="col-lg-4 mb-5">
+                <div class="text-center center_vh" style="width:100%;">
+                    <h3 class="heading mb-2" style="border-bottom:5px solid {{color}}; width:content;">
+                        <img style="width:auto; height:40px" src="{{static_path}}images/icon/swab_black.png" alt="Airline Icon"/>
+                        Medical
+                    </h3>
+                </div>
+            </div>
+
+            <div class="col-lg-8" id="div-search-overlay" style="background:{{tab_color}}; padding:30px; border-radius:14px;">
+                <button class="primary-btn-white mb-1" onclick="product_change_box('choose')">
+                    <i class="fas fa-arrow-circle-left"></i> Back
+                </button>
+                <hr style="border-bottom:2px solid {{text_color}};"/>
+                <form action="{% url 'tt_website_rodextrip:medical_global_passenger'%}" class="form-wrap mt-4 mb-4" id="medical_global_searchForm" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="g-recaptcha-response" id='recaptcha_medical_global'>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Medical Type' %}</span>
+                            <div class="input-container-search-ticket">
+                                <select id="medical_global_type" name="medical_global_type" style="width:100%;" class="nice-select-default">
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+                    <center>
+                        <button class="button-search primary-btn ld-ext-right" type="button" onclick="get_captcha('recaptcha_medical_global','medical_global');" value="Submit">
+                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                            {% trans 'Search' %}
+                            <div class="ld ld-ring ld-cycle"></div>
+                        </button>
+                    </center>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% if "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security%}
+
+<section class="about" style="margin-top:50px; margin-bottom:50px; padding:15px; display:none;" id="box_bus">
+    <div class="container">
+        <div class="row" style="padding:15px;">
+            <div class="col-lg-4 mb-5">
+                <div class="text-center center_vh" style="width:100%;">
+                    <h3 class="heading mb-2" style="border-bottom:5px solid {{color}}; width:content;">
+                        <img style="width:auto; height:40px" src="{{static_path}}images/icon/bus_black.png" alt="Bus Icon"/>
+                        Bus
+                    </h3>
+                </div>
+            </div>
+
+            <div class="col-lg-8" id="div-search-overlay" style="background:{{tab_color}}; padding:30px; border-radius:14px;">
+                <button class="primary-btn-white mb-1" onclick="product_change_box('choose')">
+                    <i class="fas fa-arrow-circle-left"></i> Back
+                </button>
+                <hr style="border-bottom:2px solid {{text_color}};"/>
+                <form action="{% url 'tt_website_rodextrip:bus_search'%}" method="POST" class="form-wrap" id="bus_searchForm" onsubmit="return search_train_validation()">
+                    {% csrf_token %}
+                    <input type="hidden" name="g-recaptcha-response" id='recaptcha_bus'>
+                    <div class="row">
+                        <div class="col-lg-12" id="radio_bus_search" style="text-align:left;margin-bottom:10px;">
+                            <label class="radio-button-custom crlabel">
+                                <span style="font-size:13px; color:{{text_color}};">{% trans 'One Way' %}</span>
+                                <input type="radio" checked="checked" name="radio_bus_type" value="oneway">
+                                <span class="checkmark-radio crspan"></span>
+                            </label>
+                            <label class="radio-button-custom crlabel">
+                                <span style="font-size:13px; color:{{text_color}};">{% trans 'Round Trip' %}</span>
+                                <input type="radio" name="radio_bus_type" value="roundtrip">
+                                <span class="checkmark-radio crspan"></span>
+                            </label>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <span class="span-search-ticket"><i class="fas fa-train"></i> {% trans 'From' %}</span>
+                                    <div class="input-container-search-ticket">
+                                        <input id="bus_origin" name="bus_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_origin').select();" onclick="set_train_search_value_to_false();" value="">
+                                    </div>
+                                </div>
+                                <div class="image-change-route-vertical2">
+                                    <span><a href="javascript:bus_switch();" style="z-index:5; color:black;" id="bus_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></span>
+                                </div>
+                                <div class="image-change-route-horizontal2">
+                                    <span><a class="horizontal-arrow" href="javascript:bus_switch();" style="z-index:5; color:{{text_color}} !important;" id="train_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></span>
+                                </div>
+
+                                <div class="col-lg-6 col-md-6 col-sm-6" style="z-index:5;">
+                                    <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> {% trans 'To' %}</span>
+                                    <div class="input-container-search-ticket">
+                                        <input id="bus_destination" name="bus_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_destination').select();" onclick="set_train_search_value_to_false();" value="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6" id="bus_date_search">
+                            <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure' %}</span>
+                            <div class="input-container-search-ticket">
+                                <input type="text" class="form-control" style="background:white;" id="bus_departure" name="bus_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly/>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
+                            <div class="input-container-search-ticket btn-group">
+                                <button id="show_total_pax_bus" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <div class="row" style="padding:10px;">
+                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                            <div style="float:left;">
+                                                <label>
+                                                    <span style="color:black; font-size:13px;">{% trans 'Adult' %}<br/></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                <button type="button" class="left-minus-adult-train btn-custom-circle" id="left-minus-adult-bus" data-type="minus" data-field="" disabled>
+                                                    <i class="fas fa-minus"></i>
+                                                </button>
+                                                <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="bus_adult" name="bus_adult" value="1" min="1" readonly>
+                                                <button type="button" class="right-plus-adult-train btn-custom-circle" id="right-plus-adult-bus" data-type="plus" data-field="">
+                                                    <i class="fas fa-plus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-12" style="text-align:right;">
+                                            <hr/>
+                                            <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('bus','passenger');">Done</button>
+                                        </div>
+                                    </div>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+
+                    <input type="hidden" id="bus_response" name="response"/>
+                    <center>
+                        <button class="primary-btn ld-ext-right" id="btn-search-train" type="button" onclick="get_captcha('recaptcha_bus','bus');" value="Submit">
+                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                            {% trans 'Search' %}
+                            <div class="ld ld-ring ld-cycle"></div>
+                        </button>
+                    </center>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
 
 <div id="small_banner" class="pt-3 pb-3" style="background:#f7f7f7;">
 
@@ -8432,6 +9219,9 @@
             {% endif %}
             {% if "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security %}
             get_config_medical('home','periksain');
+            {% endif %}
+            {% if "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security %}
+            get_config_medical_global('home');
             {% endif %}
             {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security %}
             get_airline_config('home');
