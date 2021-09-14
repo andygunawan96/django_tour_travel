@@ -560,6 +560,7 @@ function train_get_booking(data){
         try{
             document.getElementById('button-home').hidden = false;
             document.getElementById('button-new-reservation').hidden = false;
+            var give_space = false;
             if(msg.result.error_code == 0){
                 train_get_detail = msg;
                 if(msg.result.response.hold_date != false && msg.result.response.hold_date != ''){
@@ -849,14 +850,16 @@ function train_get_booking(data){
                     <table style="width:100%" id="list-of-passenger">
                         <tr>
                             <th style="width:5%;" class="list-of-passenger-left">No</th>
-                            <th style="width:30%;">Name</th>
+                            <th style="width:15%;">Name</th>
                             <th style="width:15%;">Birth Date</th>
-                            <th style="width:15%;">Identity Type</th>
+                            <th style="width:10%;">Identity Type</th>
                             <th style="width:20%;">ID</th>
-                            <th style="width:20%;">Seat</th>
+                            <th style="width:15%;">Seat</th>
+                            <th style="width:15%;">Status</th>
                         </tr>`;
                         for(pax in msg.result.response.passengers){
                             ticket = [];
+                            give_space = false;
                             for(i in msg.result.response.provider_bookings){
                                 for(j in msg.result.response.provider_bookings[i].journeys){
                                     for(k in msg.result.response.provider_bookings[i].journeys[j].seats){
@@ -889,6 +892,25 @@ function train_get_booking(data){
                                     text += ticket[i].journey+`<br/>`+ticket[i].seat.split(',')[0] + ' ' + ticket[i].seat.split(',')[1] +`<br/>`;
                                 text+=`
                                 </td>
+                                <td>`;
+
+                            if(msg.result.response.passengers[pax].hasOwnProperty('temporary_field'))
+                                for(j in msg.result.response.passengers[pax].temporary_field){
+                                    for(k in msg.result.response.passengers[pax].temporary_field[j]){
+                                        if(give_space)
+                                            text += `<br/>`;
+                                        if(give_space == false)
+                                            give_space = true;
+                                        text += `<span>`+k+` </span>`;
+                                        if(msg.result.response.passengers[pax].temporary_field[j][k])
+                                            text += `<i class="fas fa-check-square" style="color:blue"></i>`;
+                                        else
+                                            text += `<i class="fas fa-times" style="color:blue"></i>`;
+
+                                    }
+                                }
+                        text+=`</td>
+
                             </tr>`;
                         }
 
