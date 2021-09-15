@@ -97,6 +97,8 @@ def get_payment_acquirer(request):
         url_post = 'booking/issued_offline'
     elif request.POST['type'] == 'ppob':
         url_post = 'booking/ppob'
+    elif request.POST['type'] == 'bus':
+        url_post = 'booking/bus'
     elif request.POST['type'] == 'hotel_review' or request.POST['type'] == 'hotel':
         url_post = 'booking/hotel'
     elif request.POST['type'] == 'tour':
