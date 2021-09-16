@@ -1684,7 +1684,7 @@ function bus_cancel_booking(){
                 Swal.fire({
                   type: 'error',
                   title: 'Oops!',
-                  html: '<span style="color: #ff9900;">Error cancel train </span>' + msg.result.error_msg,
+                  html: '<span style="color: #ff9900;">Error cancel bus </span>' + msg.result.error_msg,
                 }).then((result) => {
                   if (result.value) {
                     hide_modal_waiting_transaction();

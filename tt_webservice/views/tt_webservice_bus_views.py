@@ -662,9 +662,9 @@ def cancel(request):
     res = send_request_api(request, url_request, headers, data, 'POST', 480)
     try:
         if res['result']['error_code'] == 0:
-            _logger.info("SUCCESS cancel TRAIN SIGNATURE " + request.POST['signature'])
+            _logger.info("SUCCESS cancel BUS SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("ERROR cancel_train TRAIN SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR cancel_train BUS SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
 
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
