@@ -10585,6 +10585,7 @@ function get_post_ssr_availability_v2(){
                 }
                 if(check_ssr == 1){
                     document.getElementById('get_booking_data_json').value = JSON.stringify(airline_get_detail);
+                    document.getElementById('after_sales_data').value = JSON.stringify(msg);
                     document.getElementById('after_sales_form').action = '/airline/ssr';
                     document.getElementById('after_sales_form').submit();
                 }else{
@@ -10634,6 +10635,7 @@ function get_post_seat_availability_v2(){
             if(msg.result.error_code == 0){
                 if(msg.result.response.seat_availability_provider.length > 0){
                     document.getElementById('get_booking_data_json').value = JSON.stringify(airline_get_detail);
+                    document.getElementById('after_sales_data').value = JSON.stringify(msg);
                     document.getElementById('after_sales_form').action = '/airline/seat_map';
                     document.getElementById('after_sales_form').submit();
                 }else{
@@ -10763,4 +10765,549 @@ function show_hide_flight(id){
         general_down.style.display = "none";
         general_show.style.display = "block";
     }
+}
+
+function pre_refund_login_v2(){
+    document.getElementById('request_captcha').disabled = true;
+    var passengers = [];
+    $('.refund_pax:checkbox:checked').each(function( index ) {
+        //console.log( index + ": " + $('.refund_pax:checkbox:checked')[0].id );
+        passengers.push($('.refund_pax:checkbox:checked')[index].id);
+    });
+    $.ajax({
+       type: "POST",
+       url: "/webservice/airline",
+       headers:{
+            'action': 'pre_refund_login_v2',
+       },
+       data: {
+            'signature': signature,
+            'booking': JSON.stringify(airline_get_detail),
+            'passengers': JSON.stringify(passengers)
+       },
+       success: function(msg) {
+           console.log(msg);
+           document.getElementById('request_captcha').disabled = false;
+           $('#request_captcha').removeClass("running");
+           refund_msg = msg;
+           check_image = 0;
+           if(msg.result.error_code ==0){
+                if(msg.result.response.init_cancel_provider.length == 0){
+                    document.getElementById('cancel').hidden = false;
+                    document.getElementById('cancel').innerHTML += `<div id="refund_detail" style="display:none;"></div>`;
+//                    document.getElementById('cancel').innerHTML += `<input class="primary-btn-ticket" style="width:100%;" id="full_refund" type="button" onclick="check_refund_partial_btn();" value="Check Refund Price Booking">`;
+                    document.getElementById('cancel').innerHTML += `<input class="primary-btn-ticket" style="width:100%;" id="full_refund" type="button" onclick="check_refund_partial_btn_v2();" value="Check Refund Price Booking">`;
+                    document.getElementById('captcha').hidden = true;
+                }else{
+                    for(i in msg.result.response.init_cancel_provider){
+                        if(msg.result.response.init_cancel_provider[i].img != ''){
+                            document.getElementById('cancel').innerHTML += msg.result.response.init_cancel_provider[i].pnr+`<center><img style="margin-bottom:5px;" src="data:image/png;base64,`+msg.result.response.init_cancel_provider[i].img+`"/></center><br/>`;
+                            document.getElementById('cancel').innerHTML += `<input style="margin-bottom:5px;" type="text" class="form-control" name="captcha`+parseInt(i+1)+`" id="captcha`+parseInt(i+1)+`" placeholder="Captcha " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Captcha '">`
+                            check_image++;
+                        }
+                    }
+                }
+                if(check_image != 0){
+                    document.getElementById('cancel').hidden = false;
+                    document.getElementById('captcha').innerHTML = `
+                    <div class="row" style="padding-top:10px">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <span style="font-size:13px; font-weight:500; padding-right:10px;">Session Time </span>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right">
+                            <span class="count_time" id="session_time_captcha"><i class="fas fa-stopwatch"></i> 10s</span>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-top:10px">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <span style="font-size:13px; font-weight:500; padding-right:10px;">Elapsed Time </span>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right">
+                            <span class="count_time" id="elapse_time_captcha"></i> 0s</span>
+                        </div>
+                    </div>`;
+                    document.getElementById('cancel').innerHTML += `<div id="refund_detail" style="display:none;"></div>`;
+//                    document.getElementById('cancel').innerHTML += `<input class="primary-btn-ticket" style="width:100%;" id="full_refund" type="button" onclick="check_refund_partial_btn();" value="Check Refund Price Booking">`;
+                    document.getElementById('cancel').innerHTML += `<input class="primary-btn-ticket" style="width:100%;" id="full_refund" type="button" onclick="check_refund_partial_btn_v2();" value="Check Refund Price Booking">`;
+                    time_limit_captcha = captcha_time;
+                    captcha_time_limit_airline();
+                }else{
+                    document.getElementById('cancel').innerHTML = `<div id="refund_detail" style="display:none;"></div>`;
+//                    document.getElementById('cancel').innerHTML += `<input class="primary-btn-ticket" style="width:100%;" id="full_refund" type="button" onclick="check_refund_partial_btn();" value="Check Refund Price Booking">`;
+                    document.getElementById('cancel').innerHTML += `<input class="primary-btn-ticket" style="width:100%;" id="full_refund" type="button" onclick="check_refund_partial_btn_v2();" value="Check Refund Price Booking">`;
+                    document.getElementById('cancel').hidden = false;
+//                    check_refund_partial_btn();
+                    check_refund_partial_btn_v2();
+                }
+           }else{
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error get refund price </span>' + msg.result.error_additional_msg,
+                })
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline command cryptic');
+            $('.loader-rodextrip').fadeOut();
+       },timeout: 300000
+    });
+}
+
+function check_refund_partial_btn_v2(){
+    try{
+        clearInterval(timeLimitInterval);
+    }catch(err){}
+    show_loading();
+    please_wait_transaction();
+    getToken();
+
+    var passengers = [];
+    $('.refund_pax:checkbox:checked').each(function( index ) {
+        //console.log( index + ": " + $('.refund_pax:checkbox:checked')[0].id );
+        passengers.push($('.refund_pax:checkbox:checked')[index].id);
+    });
+    //console.log(passengers);
+    captcha = {};
+    if(refund_msg.result.response.length>0){
+        for(i in refund_msg.result.response){
+            if(refund_msg.result.response[i].img != '')
+                captcha[refund_msg.result.response[i].pnr] = document.getElementById('captcha'+parseInt(i+1)).value;
+            else
+                captcha[refund_msg.result.response[i].pnr] = '';
+        }
+    }
+    $.ajax({
+           type: "POST",
+           url: "/webservice/airline",
+           headers:{
+                'action': 'get_cancel_booking',
+           },
+           data: {
+               'order_number': airline_get_detail.result.response.order_number,
+               'signature': signature,
+               'passengers': JSON.stringify(passengers),
+               'booking': JSON.stringify(airline_get_detail),
+               'captcha':JSON.stringify(captcha)
+           },
+           success: function(msg) {
+               hide_modal_waiting_transaction();
+               document.getElementById("overlay-div-box").style.display = "none";
+               console.log(msg);
+               if(msg.result.error_code == 0){
+                   airline_refund_response = msg.result.response
+                   //update ticket
+                   document.getElementById('refund_detail').hidden = false;
+                   text = '<h5>Refund:<h5>';
+                   total = 0;
+                   pinalty_amount_with_admin_fee = 0;
+                   pnr_refund_list = {};
+                   total_hitung_frontend = 0;
+                   var is_amadeus = [];
+                   for (i in msg.result.response.cancel_booking_provider){
+                       currency = msg.result.response.cancel_booking_provider[i].penalty_currency;
+//                       if(msg.result.response.cancel_booking_provider[i].hasOwnProperty('resv_total_price')){ //NANTI UPDATE
+                       if(msg.result.response.cancel_booking_provider[i].hasOwnProperty('penalty_amount')){
+                           try{
+                                total += msg.result.response.cancel_booking_provider[i].penalty_amount;
+                           }catch(err){console.log(err)}
+                           is_amadeus.push(false);
+                           for(j in msg.result.response.cancel_booking_provider[i].passengers){
+                                for(k in msg.result.response.cancel_booking_provider[i].passengers[j].fees){
+                                    if(msg.result.response.cancel_booking_provider[i].passengers[j].fees[k].fee_type == 'RF'){
+                                        is_amadeus[i] = true;
+                                        if(Object.keys(pnr_refund_list).includes(msg.result.response.cancel_booking_provider[i].pnr) == false){
+                                            pnr_refund_list[msg.result.response.cancel_booking_provider[i].pnr] = [];
+                                        }
+                                        text+= `
+                                            <div class="row" style="margin-bottom:5px;">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:left;">
+                                                    <span style="font-size:12px;">`+msg.result.response.cancel_booking_provider[i].passengers[j].title+` `+msg.result.response.cancel_booking_provider[i].passengers[j].first_name+` `+msg.result.response.cancel_booking_provider[i].passengers[j].last_name+` `+msg.result.response.cancel_booking_provider[i].passengers[j].fees[k].fee_name+` `+msg.result.response.cancel_booking_provider[i].pnr+`</span>
+                                                </div>
+                                            </div>
+                                            `;
+                                        for(l in msg.result.response.cancel_booking_provider[i].passengers[j].fees[k].service_charges){
+                                            // AMADEUS EDIT REFUND
+                                            /*
+                                            text+=`
+                                                <div class="row" style="margin-bottom:5px;">
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                                                        <span style="font-size:12px;">`+msg.result.response.cancel_booking_provider[i].passengers[j].fees[k].service_charges[l].charge_type+` `+msg.result.response.cancel_booking_provider[i].passengers[j].fees[k].service_charges[l].charge_code+` `+msg.result.response.cancel_booking_provider[i].pnr+`</span>
+                                                    </div>`;
+                                            if(msg.result.response.cancel_booking_provider[i].passengers[j].fees[k].fee_code != 'com'){
+                                                text+=`
+                                                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1" style="text-align:right;">
+                                                        <span style="font-size:13px;">`+currency+`</span>
+                                                        <input type="hidden" id="`+msg.result.response.cancel_booking_provider[i].passengers[j].first_name+`_`+msg.result.response.cancel_booking_provider[i].passengers[j].last_name+`_`+msg.result.response.cancel_booking_provider[i].passengers[j].fees[k].fee_name+`_`+msg.result.response.cancel_booking_provider[i].passengers[j].fees[k].service_charges[l].charge_type+`_`+msg.result.response.cancel_booking_provider[i].passengers[j].fees[k].service_charges[l].sequence+`_type" value="amount"/>
+                                                    </div>`;
+                                                total_hitung_frontend += msg.result.response.cancel_booking_provider[i].passengers[j].fees[k].service_charges[l].amount;
+                                            }else{
+                                                text+=`
+                                                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1" style="text-align:right;">
+                                                        <span style="font-size:13px;">%</span>
+                                                        <input type="hidden" id="`+msg.result.response.cancel_booking_provider[i].passengers[j].first_name+`_`+msg.result.response.cancel_booking_provider[i].passengers[j].last_name+`_`+msg.result.response.cancel_booking_provider[i].passengers[j].fees[k].fee_name+`_`+msg.result.response.cancel_booking_provider[i].passengers[j].fees[k].service_charges[l].charge_type+`_`+msg.result.response.cancel_booking_provider[i].passengers[j].fees[k].service_charges[l].sequence+`_type" value="percentage"/>
+                                                    </div>`;
+                                            }
+                                            text+=`
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
+                                                        <input type="text" id="`+msg.result.response.cancel_booking_provider[i].passengers[j].first_name+`_`+msg.result.response.cancel_booking_provider[i].passengers[j].last_name+`_`+msg.result.response.cancel_booking_provider[i].passengers[j].fees[k].fee_name+`_`+msg.result.response.cancel_booking_provider[i].passengers[j].fees[k].service_charges[l].charge_type+`_`+msg.result.response.cancel_booking_provider[i].passengers[j].fees[k].service_charges[l].sequence+`" value="`+getrupiah(msg.result.response.cancel_booking_provider[i].passengers[j].fees[k].service_charges[l].amount)+`" onchange="change_refund_price('`+msg.result.response.cancel_booking_provider[i].passengers[j].first_name+`_`+msg.result.response.cancel_booking_provider[i].passengers[j].last_name+`_`+msg.result.response.cancel_booking_provider[i].passengers[j].fees[k].fee_name+`_`+msg.result.response.cancel_booking_provider[i].passengers[j].fees[k].service_charges[l].charge_type+`_`+msg.result.response.cancel_booking_provider[i].passengers[j].fees[k].service_charges[l].sequence+`')" style="width:130%"/>
+
+                                                    </div>
+                                                </div>`;
+                                            */
+                                            text+=`
+                                                <div class="row" style="margin-bottom:5px;">
+                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                                        <span style="font-size:12px;" id="`+msg.result.response.cancel_booking_provider[i].passengers[j].first_name+`_`+msg.result.response.cancel_booking_provider[i].passengers[j].last_name+`_`+msg.result.response.cancel_booking_provider[i].passengers[j].fees[k].fee_name+`_`+msg.result.response.cancel_booking_provider[i].passengers[j].fees[k].service_charges[l].charge_type+`_`+msg.result.response.cancel_booking_provider[i].passengers[j].fees[k].service_charges[l].sequence+`">`+msg.result.response.cancel_booking_provider[i].passengers[j].fees[k].service_charges[l].charge_type+` `+msg.result.response.cancel_booking_provider[i].passengers[j].fees[k].service_charges[l].charge_code+` `+msg.result.response.cancel_booking_provider[i].pnr+`</span>
+                                                    </div>
+                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                                        <span style="font-size:13px;">`;
+                                            if(msg.result.response.cancel_booking_provider[i].passengers[j].fees[k].fee_code != 'com'){
+                                                text+=currency;
+                                                text+=`<input type="hidden" id="`+msg.result.response.cancel_booking_provider[i].passengers[j].first_name+`_`+msg.result.response.cancel_booking_provider[i].passengers[j].last_name+`_`+msg.result.response.cancel_booking_provider[i].passengers[j].fees[k].fee_name+`_`+msg.result.response.cancel_booking_provider[i].passengers[j].fees[k].service_charges[l].charge_type+`_`+msg.result.response.cancel_booking_provider[i].passengers[j].fees[k].service_charges[l].sequence+`_type" value="amount"/>`;
+                                                total_hitung_frontend += msg.result.response.cancel_booking_provider[i].passengers[j].fees[k].service_charges[l].amount;
+                                            }else{
+                                                text+=`%`;
+                                                text+=`<input type="hidden" id="`+msg.result.response.cancel_booking_provider[i].passengers[j].first_name+`_`+msg.result.response.cancel_booking_provider[i].passengers[j].last_name+`_`+msg.result.response.cancel_booking_provider[i].passengers[j].fees[k].fee_name+`_`+msg.result.response.cancel_booking_provider[i].passengers[j].fees[k].service_charges[l].charge_type+`_`+msg.result.response.cancel_booking_provider[i].passengers[j].fees[k].service_charges[l].sequence+`_type" value="percentage"/>`;
+                                            }
+                                            text+=getrupiah(msg.result.response.cancel_booking_provider[i].passengers[j].fees[k].service_charges[l].amount);
+                                            text+=`
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                    `;
+
+                                            pnr_refund_list[msg.result.response.cancel_booking_provider[i].pnr].push(msg.result.response.cancel_booking_provider[i].passengers[j].first_name+`_`+msg.result.response.cancel_booking_provider[i].passengers[j].last_name+`_`+msg.result.response.cancel_booking_provider[i].passengers[j].fees[k].fee_name+`_`+msg.result.response.cancel_booking_provider[i].passengers[j].fees[k].service_charges[l].charge_type+`_`+msg.result.response.cancel_booking_provider[i].passengers[j].fees[k].service_charges[l].sequence)
+                                        }
+                                    }
+                                }
+                           }
+                           text+=`
+                            <div class="row" style="margin-bottom:5px;">
+                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                    <span style="font-size:12px;">Receive Amount `+msg.result.response.cancel_booking_provider[i].pnr+`</span>
+                                </div>
+                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                    <span style="font-size:13px;" id="total_`+msg.result.response.cancel_booking_provider[i].pnr+`">`+currency+` `;
+                                    if(is_amadeus[i] == false){
+                                        text+=getrupiah(parseInt(msg.result.response.cancel_booking_provider[i].resv_total_price - msg.result.response.cancel_booking_provider[i].penalty_amount))+`</span>`;
+                                        total = total - msg.result.response.cancel_booking_provider[i].penalty_amount - msg.result.response.cancel_booking_provider[i].admin_fee;
+                                    }else{
+                                        text+=getrupiah(parseInt(total_hitung_frontend))+`</span>`;
+                                        total = total_hitung_frontend - msg.result.response.cancel_booking_provider[i].penalty_amount - msg.result.response.cancel_booking_provider[i].admin_fee;
+                                    }
+                                    text+=`
+                                </div>
+                            </div>`;
+//                            text+=`
+//                            <div class="row" style="margin-bottom:5px;">
+//                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+//                                    <span style="font-size:12px;">Refund Fee</span>
+//                                </div>
+//                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+//                                    <span style="font-size:13px;">`+currency+` -`+getrupiah(parseInt(msg.result.response.cancel_booking_provider[i].penalty_amount))+`</span>
+//                                </div>
+//                            </div>`;
+                            text+=`
+                            <div class="row" style="margin-bottom:5px;">
+                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                    <span style="font-size:12px;">Admin Fee `+msg.result.response.cancel_booking_provider[i].pnr+`</span>
+                                </div>
+                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                    <span style="font-size:13px;">`+currency+` -`+getrupiah(parseInt(msg.result.response.cancel_booking_provider[i].admin_fee))+`</span>
+                                </div>
+                            </div>`;
+                            pinalty_amount_with_admin_fee -= msg.result.response.cancel_booking_provider[i].penalty_amount - msg.result.response.cancel_booking_provider[i].admin_fee;
+                        }
+                    }
+                   text+=`
+                        <hr/>
+                        <div class="row" style="margin-bottom:5px;">
+                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                <span style="font-size:12px;">Grand Total</span>
+                            </div>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">`;
+                            if(total_hitung_frontend == 0){
+                            text+=`
+                                <span style="font-size:13px;" id="grand_total_refund">`+currency+` `+getrupiah(parseInt(total))+`</span>`;
+                            }else{
+                            text+=`
+                                <span style="font-size:13px;" id="grand_total_refund">`+currency+` `+getrupiah(parseInt(total_hitung_frontend - msg.result.response.cancel_booking_provider[i].admin_fee))+`</span>`;
+                            }
+                            text+=`
+                            </div>
+                        </div>`;
+
+
+                   document.getElementById('refund_detail').innerHTML = text;
+                   document.getElementById('refund_detail').style.display = 'block';
+                   document.getElementById('full_refund').value = 'Proceed';
+                   document.getElementById('full_refund').setAttribute('onClick', 'cancel_btn_v2();');
+                   hide_modal_waiting_transaction();
+               }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                    auto_logout();
+               }else{
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: #ff9900;">Error airline refund </span>' + msg.result.error_msg,
+                    })
+                    hide_modal_waiting_transaction();
+                    document.getElementById("overlay-div-box").style.display = "none";
+
+                    $('.hold-seat-booking-train').prop('disabled', false);
+                    $('.hold-seat-booking-train').removeClass("running");
+                    document.getElementById('captcha').innerHTML = `
+                        <!--<button class="btn-next primary-btn next-passenger-train ld-ext-right" id="request_captcha" style="width:100%;" type="button" value="Next" onclick="next_disabled();pre_refund_login();">-->
+                            <button class="btn-next primary-btn next-passenger-train ld-ext-right" id="request_captcha" style="width:100%;" type="button" value="Next" onclick="next_disabled();pre_refund_login_v2();">
+                            Check Refund Price
+                            <div class="ld ld-ring ld-cycle"></div>
+                        </button>`;
+                    document.getElementById('cancel').hidden = true;
+                    document.getElementById('cancel').innerHTML = '';
+               }
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline issued');
+                price_arr_repricing = {};
+                pax_type_repricing = [];
+                document.getElementById('show_loading_booking_airline').hidden = false;
+                document.getElementById('airline_booking').innerHTML = '';
+                document.getElementById('airline_detail').innerHTML = '';
+                document.getElementById('payment_acq').innerHTML = '';
+                document.getElementById('show_loading_booking_airline').style.display = 'block';
+                document.getElementById('show_loading_booking_airline').hidden = false;
+                document.getElementById('payment_acq').hidden = true;
+                hide_modal_waiting_transaction();
+                document.getElementById("overlay-div-box").style.display = "none";
+                $('.hold-seat-booking-train').prop('disabled', false);
+                $('.hold-seat-booking-train').removeClass("running");
+                airline_get_booking(airline_get_detail.result.response.order_number);
+           },timeout: 300000
+        });
+}
+
+function cancel_btn_v2(){
+    Swal.fire({
+      title: 'Are you sure want to Cancel this booking?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        show_loading();
+        please_wait_transaction();
+        getToken();
+//        AMADEUS UPDATE REFUND BOOKING
+        var optional_request = false;
+        for(i in airline_get_detail.result.response.provider_bookings){
+            if(airline_get_detail.result.response.provider_bookings[i].provider == 'amadeus' || airline_get_detail.result.response.provider_bookings[i].provider == 'lionair' || airline_get_detail.result.response.provider_bookings[i].provider == 'lionairapi'){
+                optional_request = true
+            }
+        }
+        if(optional_request){
+            var passengers = [];
+            $('.refund_pax:checkbox:checked').each(function( index ) {
+                //console.log( index + ": " + $('.refund_pax:checkbox:checked')[0].id );
+                passengers.push($('.refund_pax:checkbox:checked')[index].id);
+            });
+            var passengers_remarks = []
+            $('.refund_remarks:input').each(function( index ) {
+                console.log(index);
+                passengers_remarks.push({
+                    "value": $('.refund_remarks:input')[index].value,
+                    "id": $('.refund_remarks:input')[index].id
+                });
+            });
+            var list_price_refund = [];
+            var provider = [];
+            for(i in airline_refund_response.provider_bookings){
+                if(provider.includes(airline_refund_response.provider_bookings[i].pnr)==false)
+                    provider.push(airline_refund_response.provider_bookings[i].provider);
+                for(j in airline_refund_response.provider_bookings[i].passengers){
+                    for(k in airline_refund_response.provider_bookings[i].passengers[j].fees){
+                        if(airline_refund_response.provider_bookings[i].passengers[j].fees[k].fee_type == 'RF'){
+                            list_price_refund.push(airline_refund_response.provider_bookings[i].passengers[j].fees[k])
+                            list_price_refund[list_price_refund.length-1].pnr = airline_refund_response.provider_bookings[i].pnr;
+                            list_price_refund[list_price_refund.length-1].sequence = airline_refund_response.provider_bookings[i].passengers[j].sequence;
+                            list_price_refund[list_price_refund.length-1].first_name = airline_refund_response.provider_bookings[i].passengers[j].first_name;
+                            list_price_refund[list_price_refund.length-1].last_name = airline_refund_response.provider_bookings[i].passengers[j].last_name;
+                        }
+                    }
+                }
+            }
+            total = 0;
+//            for(i in pnr_refund_list){
+//                for(j in pnr_refund_list[i]){
+//                    total = parseInt(document.getElementById(pnr_refund_list[i][j]).value.split(',').join(''));
+//                    name = pnr_refund_list[i][j];
+//                    for(k in list_price_refund){
+//                        if(name.split('_')[0] == list_price_refund[k].first_name && name.split('_')[1] == list_price_refund[k].last_name && i == list_price_refund[k].pnr && name.split('_')[2] == list_price_refund[k].fee_name){
+//                            for(l in list_price_refund[k].service_charges){
+//                                if(name.split('_')[3] == list_price_refund[k].service_charges[l].charge_type && name.split('_')[4] == list_price_refund[k].service_charges[l].sequence){
+//                                    list_price_refund[k].service_charges[l].amount = total;
+//                                    break;
+//                                }
+//                            }
+//                            break;
+//                        }
+//                    }
+//                }
+//            }
+
+            $.ajax({
+               type: "POST",
+               url: "/webservice/airline",
+               headers:{
+                    'action': 'update_refund_booking_v2',
+               },
+               data: {
+                   'order_number': airline_get_detail.result.response.order_number,
+                   'signature': signature,
+                   'passengers': JSON.stringify(passengers),
+//                   'list_price_refund': JSON.stringify(list_price_refund),
+                   'provider': JSON.stringify(provider),
+                   'remarks': JSON.stringify(passengers_remarks),
+                   'refund_response': JSON.stringify(airline_refund_response)
+               },
+               success: function(msg) {
+                   console.log(msg);
+                   if(msg.result.error_code == 0){
+                       cancel_reservation_airline_v2();
+                   }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                        auto_logout();
+                   }else{
+                        Swal.fire({
+                          type: 'error',
+                          title: 'Oops!',
+                          html: '<span style="color: #ff9900;">Error airline cancel </span>' + msg.result.error_msg,
+                        })
+                        price_arr_repricing = {};
+                        pax_type_repricing = [];
+                        document.getElementById('show_loading_booking_airline').hidden = false;
+                        document.getElementById('airline_booking').innerHTML = '';
+                        document.getElementById('airline_detail').innerHTML = '';
+                        document.getElementById('payment_acq').innerHTML = '';
+                        document.getElementById('show_loading_booking_airline').style.display = 'block';
+                        document.getElementById('show_loading_booking_airline').hidden = false;
+                        document.getElementById('payment_acq').hidden = true;
+
+                        hide_modal_waiting_transaction();
+                        document.getElementById("overlay-div-box").style.display = "none";
+
+                        $('.hold-seat-booking-train').prop('disabled', false);
+                        $('.hold-seat-booking-train').removeClass("running");
+                        airline_get_booking_refund(airline_get_detail.result.response.order_number);
+                   }
+               },
+               error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline issued');
+                    price_arr_repricing = {};
+                    pax_type_repricing = [];
+                    document.getElementById('show_loading_booking_airline').hidden = false;
+                    document.getElementById('airline_booking').innerHTML = '';
+                    document.getElementById('airline_detail').innerHTML = '';
+                    document.getElementById('payment_acq').innerHTML = '';
+                    document.getElementById('show_loading_booking_airline').style.display = 'block';
+                    document.getElementById('show_loading_booking_airline').hidden = false;
+                    document.getElementById('payment_acq').hidden = true;
+                    hide_modal_waiting_transaction();
+                    document.getElementById("overlay-div-box").style.display = "none";
+                    $('.hold-seat-booking-train').prop('disabled', false);
+                    $('.hold-seat-booking-train').removeClass("running");
+                    airline_get_booking(airline_get_detail.result.response.order_number);
+               },timeout: 300000
+            });
+        }else
+            cancel_reservation_airline_v2();
+      }
+    })
+}
+
+function cancel_reservation_airline_v2(){
+    var passengers = [];
+    $('.refund_pax:checkbox:checked').each(function( index ) {
+        //console.log( index + ": " + $('.refund_pax:checkbox:checked')[0].id );
+        passengers.push($('.refund_pax:checkbox:checked')[index].id);
+    });
+    $.ajax({
+           type: "POST",
+       url: "/webservice/airline",
+       headers:{
+            'action': 'cancel_v2',
+       },
+       data: {
+           'order_number': airline_get_detail.result.response.order_number,
+           'signature': signature,
+           'passengers': JSON.stringify(passengers),
+           'refund_response': JSON.stringify(airline_refund_response)
+       },
+       success: function(msg) {
+           console.log(msg);
+           if(msg.result.error_code == 0){
+               //update ticket
+               window.location = "/airline/booking/" + btoa(airline_get_detail.result.response.order_number);
+               document.getElementById('airline_reissue_div').innerHTML = '';
+               price_arr_repricing = {};
+               pax_type_repricing = [];
+               hide_modal_waiting_transaction();
+               document.getElementById('show_loading_booking_airline').hidden = false;
+               document.getElementById('airline_booking').innerHTML = '';
+               document.getElementById('airline_detail').innerHTML = '';
+               document.getElementById('payment_acq').innerHTML = '';
+               document.getElementById('show_loading_booking_airline').style.display = 'block';
+               document.getElementById('show_loading_booking_airline').hidden = false;
+               document.getElementById('payment_acq').hidden = true;
+               document.getElementById("overlay-div-box").style.display = "none";
+               $(".issued_booking_btn").remove();
+               //airline_get_booking_refund(airline_get_detail.result.response.order_number);
+           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                auto_logout();
+           }else{
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error airline cancel </span>' + msg.result.error_msg,
+                })
+                price_arr_repricing = {};
+                pax_type_repricing = [];
+                document.getElementById('show_loading_booking_airline').hidden = false;
+                document.getElementById('airline_booking').innerHTML = '';
+                document.getElementById('airline_detail').innerHTML = '';
+                document.getElementById('payment_acq').innerHTML = '';
+                document.getElementById('show_loading_booking_airline').style.display = 'block';
+                document.getElementById('show_loading_booking_airline').hidden = false;
+                document.getElementById('payment_acq').hidden = true;
+
+                hide_modal_waiting_transaction();
+                document.getElementById("overlay-div-box").style.display = "none";
+
+                $('.hold-seat-booking-train').prop('disabled', false);
+                $('.hold-seat-booking-train').removeClass("running");
+                if(window.location.href.split('/').length == 7)
+                    airline_get_booking_refund(airline_get_detail.result.response.order_number);
+                else if(window.location.href.split('/').length == 6)
+                    airline_get_booking(airline_get_detail.result.response.order_number);
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline reissued');
+            price_arr_repricing = {};
+            pax_type_repricing = [];
+            document.getElementById('show_loading_booking_airline').hidden = false;
+            document.getElementById('airline_booking').innerHTML = '';
+            document.getElementById('airline_detail').innerHTML = '';
+            document.getElementById('payment_acq').innerHTML = '';
+            document.getElementById('show_loading_booking_airline').style.display = 'block';
+            document.getElementById('show_loading_booking_airline').hidden = false;
+            document.getElementById('payment_acq').hidden = true;
+            hide_modal_waiting_transaction();
+            document.getElementById("overlay-div-box").style.display = "none";
+            $('.hold-seat-booking-train').prop('disabled', false);
+            $('.hold-seat-booking-train').removeClass("running");
+            airline_get_booking_refund(airline_get_detail.result.response.order_number);
+       },timeout: 300000
+    });
 }
