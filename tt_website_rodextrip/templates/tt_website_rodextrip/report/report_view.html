@@ -338,7 +338,16 @@
                 </div>
             </div>
             <div class="col-lg-12" id="div_overview_first" style="background:white; border:1px solid #cdcdcd; padding:15px; display:block;">
-                <h2>Overview</h2>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h2>Overview</h2>
+                    </div>
+                    <div class="col-lg-6">
+                        <button class="primary-btn-ticket" type="button" onclick="exportToExcel(1)" style="float:right;">Export Excel</button>
+                    </div>
+
+                </div>
+
                 <hr>
                 <div class="first_container" id="first_overview_content">
 
@@ -359,7 +368,15 @@
                 </div>
             </div>
             <div class="col-lg-12" id="div_overview_second" style="background:white; border:1px solid #cdcdcd; padding:15px;">
-                <h2>Overview</h2>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h2>Overview</h2>
+                    </div>
+                    <div class="col-lg-6">
+                        <button class="primary-btn-ticket" type="button" onclick="exportToExcel(2)" style="float:right;">Export Excel</button>
+                    </div>
+
+                </div>
                 <hr>
                 <div class="second_container" id="second_overview_content" style="display:none">
 
@@ -380,7 +397,15 @@
                 </div>
             </div>
             <div class="col-lg-12" style="background:white; border:1px solid #cdcdcd; padding:15px;">
-                <h2>Overview</h2>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h2>Overview</h2>
+                    </div>
+                    <div class="col-lg-6">
+                        <button class="primary-btn-ticket" type="button" onclick="exportToExcel(3)" style="float:right;">Export Excel</button>
+                    </div>
+
+                </div>
                 <hr>
                 <div class="third_container" id="third_overview_content" style="display:none">
 
@@ -401,7 +426,15 @@
                 </div>
             </div>
             <div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px;">
-                <h2>Overview</h2>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h2>Overview</h2>
+                    </div>
+                    <div class="col-lg-6">
+                        <button class="primary-btn-ticket" type="button" onclick="exportToExcel(4)" style="float:right;">Export Excel</button>
+                    </div>
+
+                </div>
                 <hr>
                 <div class="fourth_container" id="fourth_overview_content" style="display:none">
 
@@ -417,7 +450,15 @@
                 </div>
             </div>
             <div class="col-lg-12" style="background:white; border:1px solid #cdcdcd; padding:15px;">
-                <h2>Overview</h2>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h2>Overview</h2>
+                    </div>
+                    <div class="col-lg-6">
+                        <button class="primary-btn-ticket" type="button" onclick="exportToExcel(5)" style="float:right;">Export Excel</button>
+                    </div>
+
+                </div>
                 <hr>
                 <div class="fourth_container" id="fifth_overview_content" style="display:none">
 
@@ -465,6 +506,152 @@
             $('.fourth_container').show();
         });
     });
+
+    function exportToExcel(type){
+        var htmls = "";
+        var uri = 'data:application/vnd.ms-excel;base64,';
+        var template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>';
+        var base64 = function(s) {
+            return window.btoa(unescape(encodeURIComponent(s)))
+        };
+        var name = '';
+        var format = function(s, c) {
+            return s.replace(/{(\w+)}/g, function(m, p) {
+                return c[p];
+            })
+        };
+        htmls = `<html><head><style> table, td {border:thin solid black}
+            table {border-collapse:collapse}</style></head><body>`;
+
+        htmls += `<h2>Date: `+document.getElementById('date_report').value+`<h2>`;
+        if(document.getElementById('provider_type').value == 'overall')
+            htmls += `<h2>Provider Type: All<h2>`;
+        else{
+            htmls += `<h2>Provider Type: `+document.getElementById('provider_type').value+`<h2>`;
+            if(document.getElementById('provider').value != '')
+                htmls += `<h2>Provider: `+document.getElementById('provider').value+`<h2>`;
+        }
+        if(document.getElementById('agent').value == '')
+            htmls += `<h2>Agent: All<h2>`;
+        else{
+            htmls += `<h2>Agent: `+document.getElementById('provider_type').value+`<h2>`;
+        }
+        htmls+=`<table>`;
+        if(type == 1){
+            htmls += `<tr>
+                        <th>Provider</th>
+                        <th># of Issued</th>
+                      </tr>
+                     `;
+            for(i in data_report.raw_data.result.response.first_overview){
+                htmls += `
+                      <tr>
+                        <td>`+data_report.raw_data.result.response.first_overview[i].provider+`</td>
+                        <td>`+data_report.raw_data.result.response.first_overview[i].issued+`</td>
+                      </tr>`
+            }
+            name += 'Issued report';
+        }else if(type == 2){
+            htmls += `<tr>
+                        <th>Provider</th>
+                        <th># Reservation</th>
+                        <th>Book</th>
+                        <th>Issued</th>
+                        <th>Expired</th>
+                      </tr>
+                     `;
+            for(i in data_report.raw_data.result.response.second_overview){
+                htmls += `
+                      <tr>
+                        <td>`+data_report.raw_data.result.response.second_overview[i].provider+`</td>
+                        <td>`+data_report.raw_data.result.response.second_overview[i].counter+`</td>
+                        <td>`+data_report.raw_data.result.response.second_overview[i].booked+`</td>
+                        <td>`+data_report.raw_data.result.response.second_overview[i].issued+`</td>
+                        <td>`+data_report.raw_data.result.response.second_overview[i].cancel2+`</td>
+                      </tr>`
+            }
+            name += 'Book issued report';
+        }else if(type == 3){
+            htmls += `<tr>
+                        <th>Agent</th>
+                        <th># Reservation</th>
+                        <th>Revenue</th>
+                        <th>Profit</th>
+                      </tr>
+                     `;
+            for(i in data_report.raw_data.result.response.third_overview){
+                htmls += `
+                      <tr>
+                        <td>`+data_report.raw_data.result.response.third_overview[i].agent_name+`</td>
+                        <td>`+data_report.raw_data.result.response.third_overview[i].reservation+`</td>
+                        <td>`+data_report.raw_data.result.response.third_overview[i].revenue+`</td>
+                        <td>`+data_report.raw_data.result.response.third_overview[i].profit+`</td>
+                      </tr>`
+            }
+            name += 'Channel rank report';
+        }else if(type == 4){
+            htmls += `<tr>
+                        <th>Customer</th>
+                        <th># Reservation</th>
+                        <th>Revenue</th>
+                        <th>Profit</th>
+                      </tr>
+                     `;
+            for(i in data_report.raw_data.result.response.fourth_overview){
+                htmls += `
+                      <tr>
+                        <td>`+data_report.raw_data.result.response.fourth_overview[i].customer_parent_name+`</td>
+                        <td>`+data_report.raw_data.result.response.fourth_overview[i].reservation+`</td>
+                        <td>`+data_report.raw_data.result.response.fourth_overview[i].revenue+`</td>
+                        <td>`+data_report.raw_data.result.response.fourth_overview[i].profit+`</td>
+                      </tr>`
+            }
+            name += 'Booker report';
+        }else if(type == 5){
+            htmls += `<tr>
+                        <th>Booker</th>
+                        <th># Reservation</th>
+                        <th>Revenue</th>
+                        <th>Profit</th>
+                      </tr>
+                     `;
+            for(i in data_report.raw_data.result.response.fifth_overview){
+                htmls += `
+                      <tr>
+                        <td>`+data_report.raw_data.result.response.fifth_overview[i].customer_name+`</td>
+                        <td>`+data_report.raw_data.result.response.fifth_overview[i].reservation+`</td>
+                        <td>`+data_report.raw_data.result.response.fifth_overview[i].revenue+`</td>
+                        <td>`+data_report.raw_data.result.response.fifth_overview[i].profit+`</td>
+                      </tr>`
+            }
+            name += 'Customer report';
+        }
+        if(document.getElementById('agent').value == '')
+            name += ` All Agent`;
+        else
+            name += ` `+document.getElementById('agent').value;
+        if(document.getElementById('provider_type').value == 'overall')
+            name += ` All Provider Type`;
+        else{
+            name += ` Provider Type `+document.getElementById('provider_type').value;
+            if(document.getElementById('provider').value != '')
+                name += ` Provider `+document.getElementById('provider').value;
+        }
+        name += ` `+document.getElementById('date_report').value;
+        name += `.xls`
+        htmls += "</html>";
+
+        var ctx = {
+            worksheet : 'Worksheet',
+            table : htmls
+        }
+
+
+        var link = document.createElement("a");
+        link.download = name;
+        link.href = uri + base64(format(template, ctx));
+        link.click();
+    }
 </script>
 
 

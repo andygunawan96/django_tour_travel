@@ -499,7 +499,7 @@ def get_booking(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    url_request = url + 'booking/train'
+    url_request = url + 'booking/bus'
     res = send_request_api(request, url_request, headers, data, 'POST', 480)
     try:
         if res['result']['error_code'] == 0:
@@ -553,7 +553,7 @@ def update_service_charge(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/train'
+    url_request = url + 'booking/bus'
     res = send_request_api(request, url_request, headers, data, 'POST', 480)
     try:
         if res['result']['error_code'] == 0:
@@ -633,7 +633,7 @@ def issued(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/train'
+    url_request = url + 'booking/bus'
     res = send_request_api(request, url_request, headers, data, 'POST', 480)
     try:
         if res['result']['error_code'] == 0:
@@ -658,7 +658,7 @@ def cancel(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/train'
+    url_request = url + 'booking/bus'
     res = send_request_api(request, url_request, headers, data, 'POST', 480)
     try:
         if res['result']['error_code'] == 0:

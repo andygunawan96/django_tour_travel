@@ -120,6 +120,7 @@ function get_report_overall(){
         success: function(result){
             console.log("This one sparks joy");
             console.log(result);
+            data_report = result
             document.getElementById('update_chart_button').disabled = false;
             filter_agent(result, '');
             $("#get_report_startdate").val(result.start_date);
@@ -1128,6 +1129,7 @@ $('#report_form').submit(function(evt){
         success: function(result){
             // for debugging purpose
             console.log(result);
+            data_report = result
             //console.log(data.date.start);
 //            $("#get_report_startdate").val(result.start_date);
 //            console.log(data.date.end);
