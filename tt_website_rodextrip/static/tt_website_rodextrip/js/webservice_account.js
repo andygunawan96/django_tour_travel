@@ -289,9 +289,37 @@ function get_transactions_notification(val){
                                         </div>`;
                                 }
                                 check_notif++;
+                                url_goto = '';
+                                if(msg.result.response[i][j].provider_type == 'airline'){
+                                    url_goto = '/airline/booking/';
+                                }else if(data_search[key].provider_type == 'train'){
+                                    url_goto = '/train/booking/';
+                                }else if(data_search[key].provider_type == 'activity'){
+                                    url_goto = '/activity/booking/';
+                                }else if(data_search[key].provider_type == 'hotel'){
+                                    url_goto = '/hotel/booking/';
+                                }else if(data_search[key].provider_type == 'visa'){
+                                    url_goto = '/visa/booking/';
+                                }else if(data_search[key].provider_type == 'tour'){
+                                    url_goto = '/tour/booking/';
+                                }else if(data_search[key].provider_type == 'offline'){
+                                    url_goto = '/issued_offline/booking/';
+                                }else if(data_search[key].provider_type == 'passport'){
+                                    url_goto = '/passport/booking/';
+                                }else if(data_search[key].provider_type == 'ppob'){
+                                    url_goto = '/ppob/booking/';
+                                }else if(data_search[key].provider_type == 'event'){
+                                    url_goto = '/event/booking/';
+                                }else if(data_search[key].provider_type == 'periksain' || data_search[key].provider_type == 'phc'){
+                                    url_goto = '/medical/booking/';
+                                }else if(data_search[key].provider_type == 'medical'){
+                                    url_goto = '/medical_global/booking/';
+                                }else if(data_search[key].provider_type == 'bus'){
+                                    url_goto = '/bus/booking/';
+                                }
                                 text = '';
                                 text+=`<div class="col-lg-12 notification-hover" style="cursor:pointer;">`;
-                                text+=`<form action="airline/booking/`+btoa(msg.result.response[i][j].order_number)+`" method="post" id="notification_`+check_notif+`" onclick="set_csrf_notification(`+check_notif+`)">`;
+                                text+=`<form action="`+url_goto+btoa(msg.result.response[i][j].order_number)+`" method="post" id="notification_`+check_notif+`" onclick="set_csrf_notification(`+check_notif+`)">`;
                                 text+=`<div class="row">
                                         <div class="col-sm-6">`;
                                 text+=`<span style="font-weight:500;"> `+check_notif+`. `+msg.result.response[i][j].order_number+` - `+msg.result.response[i][j].pnr+`</span>`;
