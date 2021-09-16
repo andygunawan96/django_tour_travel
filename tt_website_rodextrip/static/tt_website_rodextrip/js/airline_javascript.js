@@ -4507,7 +4507,7 @@ function check_passenger(adult, child, infant){
            error_log+= 'Please fill nationality for passenger adult '+i+'!</br>\n';
            document.getElementById('adult_nationality'+i).style['border-color'] = 'red';
        }else{
-           if(is_identity_required)
+           if(is_identity_required == 'true')
                if(document.getElementById('adult_id_type'+i).value == ''){
                     error_log+= 'Please fill id type for passenger adult '+i+'!</br>\n';
                     document.getElementById('adult_id_type'+i).style['border-color'] = 'red';
@@ -4680,7 +4680,7 @@ function check_passenger(adult, child, infant){
            error_log+= 'Please fill nationality for passenger child '+i+'!</br>\n';
            document.getElementById('child_nationality'+i).style['border-color'] = 'red';
        }else{
-           if(is_identity_required)
+           if(is_identity_required == 'true')
                if(document.getElementById('child_id_type'+i).value == ''){
                     error_log+= 'Please fill id type for passenger child '+i+'!</br>\n';
                     document.getElementById('child_id_type'+i).style['border-color'] = 'red';
@@ -4834,7 +4834,7 @@ function check_passenger(adult, child, infant){
            error_log+= 'Please fill nationality for passenger infant '+i+'!</br>\n';
            document.getElementById('infant_nationality'+i).style['border-color'] = 'red';
        }else{
-           if(is_identity_required)
+           if(is_identity_required == 'true')
                if(document.getElementById('infant_id_type'+i).value == ''){
                     error_log+= 'Please fill id type for passenger infant '+i+'!</br>\n';
                     document.getElementById('infant_id_type'+i).style['border-color'] = 'red';
