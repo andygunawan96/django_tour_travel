@@ -98,11 +98,11 @@
     is_garuda = is_garuda.replace(/True/g, 'true');
 
     is_identity_required = `{{is_identity_required}}`;
-    is_identity_required = is_identity_required.replace(/False/g, 'false');
-    is_identity_required = is_identity_required.replace(/True/g, 'true');
+    is_identity_required = is_identity_required.replace(/False/g, false);
+    is_identity_required = is_identity_required.replace(/True/g, true);
     is_international = `{{is_international}}`;
-    is_international = is_international.replace(/False/g, false);
-    is_international = is_international.replace(/True/g, true);
+    is_international = is_international.replace(/False/g, 'false');
+    is_international = is_international.replace(/True/g, 'true');
     time_limit = {{time_limit}};
     session_time_limit();
 </script>
