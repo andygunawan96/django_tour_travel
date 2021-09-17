@@ -1376,8 +1376,8 @@ function bus_get_booking(data){
                 }else{
                    //document.getElementById('issued-breadcrumb').classList.remove("current");
                    //document.getElementById('issued-breadcrumb').classList.add("active");
-                    document.getElementById('cancel').hidden = true;
-                    document.getElementById('cancel').innerHTML = '';
+                   document.getElementById('cancel').hidden = false;
+                   document.getElementById('cancel').innerHTML = `<button class="primary-btn-white" style="width:100%;" id="bus_cancel_booking_btn" type="button" onclick="bus_cancel_booking();">Cancel Booking <i class="fas fa-times" style="padding-left:5px; color:red; font-size:16px;"></i></button>`;
 
                    document.getElementById('issued-breadcrumb').classList.add("br-active");
                    document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
