@@ -2093,7 +2093,7 @@ function get_price_itinerary_request(){
                             for(l in resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares){
                                 for(m in cabin_class){
                                     if(cabin_class[m].value == resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].cabin_class){
-                                        $text += cabin_class[i].name + ' (' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].class_of_service + ')';
+                                        $text += cabin_class[m].name + ' (' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].class_of_service + ')';
                                         break
                                     }
                                 }
