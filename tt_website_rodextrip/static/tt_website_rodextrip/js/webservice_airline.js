@@ -4281,10 +4281,20 @@ function airline_get_booking(data, sync=false){
                    </div>`;
                 }
                 last_date = '';
+                var advance_order = false;
                 for(i in msg.result.response.provider_bookings){
+                    if(msg.result.response.provider_bookings[i].hasOwnProperty('is_advance_purchase') && msg.result.response.provider_bookings[i].is_advance_purchase){
+                        advance_order = true;
+                    }
                     for(j in msg.result.response.provider_bookings[i].journeys){
                         last_date = moment(msg.result.response.provider_bookings[i].journeys[j].departure_date).format('YYYY-MM-DD HH:mm:SS');
                     }
+                }
+                if(advance_order){
+                    text += `<div class="alert alert-warning" role="alert">
+                                <h5>Advance Purchase</h5>
+                             </div>`;
+                    $text += 'Advance Purchase\n';
                 }
                 col = 4;
                 if(msg.result.response.state == 'issued' || msg.result.response.state == 'rescheduled' || msg.result.response.state == 'reissue'){
@@ -4581,7 +4591,7 @@ function airline_get_booking(data, sync=false){
                                            }
                                        }
                                    }
-                               }
+                                }
                                 for(k in msg.result.response.provider_bookings[i].journeys[j].segments){
                                     $text+='• Airline: ';
                                     var cabin_class = '';
