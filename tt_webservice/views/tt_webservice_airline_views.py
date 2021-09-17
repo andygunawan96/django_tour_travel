@@ -164,6 +164,16 @@ def api_models(request):
         elif req_data['action'] == 'update_booking_v2':
             res = update_booking_v2(request)
 
+        elif req_data['action'] == 'pre_refund_login_v2':
+            res = pre_refund_login_v2(request)
+        elif req_data['action'] == 'get_cancel_booking':
+            res = get_cancel_booking(request)
+        elif req_data['action'] == 'update_refund_booking_v2':
+            res = update_refund_booking_v2(request)
+
+        elif req_data['action'] == 'cancel_v2':
+            res = cancel_v2(request)
+
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -2388,6 +2398,62 @@ def compute_pax_js_new(paxs):
 
     return journeys
 
+def compute_pax_js_new_v2(paxs):
+    # {PNR: lalala
+    #  journeys:[{
+    #      'desti'
+    #      'origin'
+    #      'departure_date':
+    #      'pax':[{}]
+    #  }]
+    # }
+    journeys = []
+    for journey in json.loads(paxs):
+        for rec in journey.split(' - '):
+            rec_pax = rec.split('~')
+            check = True
+            for idx,pnr in enumerate(journeys):
+                if pnr['pnr'] == rec_pax[1]:
+                    for journey in pnr['journeys']:
+                        if rec_pax[3] == journey['origin'] and rec_pax[4] == journey['destination'] and convert_frontend_datetime_to_server_format(rec_pax[5]) == journey['departure_date'] and rec_pax[2] not in journeys[idx]['passengers']:
+                            if int(rec_pax[2]) not in journeys[idx]['pax']:
+                                journeys[idx]['pax'].append(int(rec_pax[2]))
+                            check = False
+                    if check == True:
+                        pnr['journeys'].append({
+                            'destination': rec_pax[4],
+                            'origin': rec_pax[3],
+                            'departure_date': convert_frontend_datetime_to_server_format(rec_pax[5]),
+                            'pax': []
+                        })
+                        if int(rec_pax[2]) not in journeys[idx]['pax']:
+                            journeys[idx]['pax'].append(int(rec_pax[2]))
+                    check = False
+
+            if check == True:
+                journeys.append({
+                    'pnr': rec_pax[1],
+                    'journeys': [],
+                    'pax': [],
+                    'passengers': [],
+                    'init_code': ''
+                })
+                journeys[len(journeys)-1]['journeys'].append({
+                    'destination': rec_pax[4],
+                    'origin': rec_pax[3],
+                    'departure_date': convert_frontend_datetime_to_server_format(rec_pax[5]),
+                    # 'pax': []
+                })
+                if int(rec_pax[2]) not in journeys[len(journeys) - 1]['pax']:
+                    journeys[len(journeys) - 1]['pax'].append(int(rec_pax[2]))
+
+    for rec in journeys:
+        for pax in rec['pax']:
+            rec['passengers'].append({"passenger_number": pax})
+        rec.pop('journeys')
+        rec.pop('pax')
+    return journeys
+
 def pre_refund_login(request):
     try:
         provider = []
@@ -3453,4 +3519,168 @@ def update_booking_v2(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
+    return res
+
+
+def pre_refund_login_v2(request):
+    try:
+        schedules = compute_pax_js_new_v2(request.POST['passengers'])
+        airline_get_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+
+        data = {
+            "schedules": schedules,
+            "order_number": airline_get_booking['result']['response']['order_number']
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "init_cancel_booking",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    url_request = url + 'booking/airline'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
+    try:
+        if res['result']['error_code'] == 0:
+            _logger.info("SUCCESS cancel AIRLINE SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("ERROR cancel_airline AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def get_cancel_booking(request):
+    try:
+        schedules = compute_pax_js_new_v2(request.POST['passengers'])
+        airline_get_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+        captcha = json.loads(request.POST['captcha'])
+        if captcha:
+            for idx, rec in enumerate(schedules):
+                rec['init_code'] = captcha[idx]
+        data = {
+            "schedules": schedules,
+            "order_number": airline_get_booking['result']['response']['order_number']
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_cancel_booking",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    url_request = url + 'booking/airline'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
+    try:
+        if res['result']['error_code'] == 0:
+            _logger.info("SUCCESS cancel AIRLINE SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("ERROR cancel_airline AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def update_refund_booking_v2(request):
+    # nanti ganti ke get_ssr_availability
+    try:
+        schedules = compute_pax_js_new_v2(request.POST['passengers'])
+        provider_bookings = request.POST.get('passengers') and compute_pax_js_new(request.POST['passengers']) or []
+        remarks = json.loads(request.POST['remarks'])
+        # fees = json.loads(request.POST['list_price_refund']) #DI PAKAI KLO SUDAH TEXTBOX
+        provider = json.loads(request.POST['provider'])
+        airline_refund_data = json.loads(request.POST['refund_response'])
+        idx = 0
+        for seq_schedule,schedule in enumerate(schedules):
+            for passenger in schedule['passengers']:
+                passenger['reason_code'] = remarks[idx]['value']
+                passenger['fees'] = []
+                for data_fee_refund in airline_refund_data['cancel_booking_provider'][seq_schedule]['passengers'][idx]['fees']:
+                    passenger['fees'].append(data_fee_refund)
+
+
+        # for idx, provider_booking in enumerate(provider_bookings):
+        #     provider_booking['provider'] = provider[idx]
+        #     if provider_booking['provider'] == 'amadeus' and len(provider_booking['journeys']) > 1:
+        #         provider_booking['journeys'].pop()
+        #     for journey in provider_booking['journeys']:
+        #         journey['passengers'] = []
+        #         for fee in fees:
+        #             if provider_booking['pnr'] == fee['pnr']:
+        #                 add_fee = True
+        #                 for pax_obj in journey['passengers']:
+        #                     if pax_obj['sequence'] == fee['sequence']:
+        #                         add_fee = False
+        #                         pax_obj['fees'].append(fee)
+        #
+        #                 if add_fee == True:
+        #                     journey['passengers'].append({
+        #                         'first_name': fee['first_name'],
+        #                         'last_name': fee['last_name'],
+        #                         'sequence': fee['sequence'],
+        #                         'fees': [fee],
+        #                         'remark': ''
+        #                     })
+        # for remark in remarks:
+        #     if remark['value'] != '':
+        #         remark['id'] = remark['id'].split(' - ')[0].split('~')
+        #         for provider_booking in provider_bookings:
+        #             if remark['id'][1] == provider_booking['pnr']:
+        #                 for journey in provider_booking['journeys']:
+        #                     if remark['id'][3] == journey['origin'] and remark['id'][4] == journey['destination'] and convert_frontend_datetime_to_server_format(remark['id'][5]) == journey['departure_date']:
+        #                         for pax in journey['passengers']:
+        #                             if pax['sequence'] == int(remark['id'][2]):
+        #                                 pax['remark'] = remark['value']
+        data = {
+            'order_number': request.POST['order_number'],
+            'schedules': schedules
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "update_cancel_booking",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    url_request = url + 'booking/airline'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
+    try:
+        if res['result']['error_code'] == 0:
+            _logger.info("SUCCESS cancel AIRLINE SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("ERROR cancel_airline AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def cancel_v2(request):
+    # nanti ganti ke get_ssr_availability
+    try:
+        schedules = compute_pax_js_new_v2(request.POST['passengers'])
+        data = {
+            'order_number': request.POST['order_number'],
+            'schedules': schedules
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "process_cancel_booking",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    url_request = url + 'booking/airline'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
+    try:
+        if res['result']['error_code'] == 0:
+            _logger.info("SUCCESS cancel AIRLINE SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("ERROR cancel_airline AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
     return res

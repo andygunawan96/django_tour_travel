@@ -6,8 +6,8 @@
 <!--<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>-->
 <script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/train_javascript.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/webservice_train.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/bus_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_bus.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/pricing_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_payment_acq.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_printout.js?version={{javascript_version}}"></script>
@@ -28,7 +28,7 @@
 {% include 'tt_website_rodextrip/check_connection.html' %}
 {% include 'tt_website_rodextrip/modal_balance_vendor.html' %}
 <div id="overlay-div-box" onclick="close_div('payment_acq');"></div>
-<title id="title_search">{{name}} {% trans 'Train' %} - {% trans 'Booking' %}</title>
+<title id="title_search">{{name}} {% trans 'Bus' %} - {% trans 'Booking' %}</title>
 {%if template == 1%}
 <header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
     <div class="main-menu">
@@ -217,7 +217,7 @@
     try{
         document.getElementById('voucher_discount').style.display = 'none';
     }catch(err){}
-    train_signin('{{order_number}}');
+    bus_signin('{{order_number}}');
     $( document ).ready(function() {
         breadcrumb_create("train", 5, 1);
     });
