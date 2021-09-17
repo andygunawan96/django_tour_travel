@@ -4707,7 +4707,7 @@ function airline_get_booking(data, sync=false){
                                         else if(msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details[l].detail_type == 'ML')
                                             $text += 'Meal ';
 
-                                        $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details[l].amount + ' ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details[l].unit +' for ' + msg.result.response.passengers.length + ' person\n';
+                                        $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details[l].amount + ' ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details[l].unit +' for 1 person\n';
                                     }
                                     $text += '\n';
                                 }
