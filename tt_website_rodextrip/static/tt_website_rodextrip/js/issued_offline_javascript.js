@@ -867,6 +867,7 @@ function add_table_of_line(type){
 
         </div><hr/>`;
         node.innerHTML = text;
+        node.setAttribute('id', 'table_line'+counter_line);
         node.className = "col-lg-12";
         document.getElementById("table_of_line").appendChild(node);
     }

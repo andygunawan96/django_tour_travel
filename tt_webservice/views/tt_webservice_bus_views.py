@@ -382,7 +382,6 @@ def commit_booking(request):
         pax_request_seat = request.POST.get('paxs')
         if pax_request_seat:
             pax_request_seat = json.loads(pax_request_seat)
-        pax_count = 0
         for pax_type in request.session['bus_create_passengers']:
             if pax_type != 'booker' and pax_type != 'contact':
                 for pax in request.session['bus_create_passengers'][pax_type]:
@@ -397,10 +396,6 @@ def commit_booking(request):
                                 pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
                                 pax['birth_date'].split(' ')[0]),
                         })
-                    if pax_request_seat:
-                        for idx, seat_pick in enumerate(pax_request_seat[pax_count]['seat_pick']):
-                            pax['seat_list'][idx]['seat_pick'] = seat_pick
-                        pax_count+=1
                     if pax['pax_type'] == 'ADT':
                         try:
                             pax.update({
@@ -430,10 +425,22 @@ def commit_booking(request):
                         pax.pop('identity_number')
                         pax.pop('identity_type')
                     passenger.append(pax)
+
+        schedules = request.session['bus_booking']
+        for schedule in schedules:
+            for journey_count, journey in enumerate(schedule['journeys']):
+                if pax_request_seat:
+                    if not journey.get('seat'):
+                        journey['seat'] = []
+                    for idx, request_seat in enumerate(pax_request_seat):
+                        journey['seat'].append(request_seat['seat_pick'][journey_count])
+                        journey['seat'][len(journey['seat'])-1].update({
+                            "sequence": idx+1
+                        })
         data = {
             "contacts": contacts,
             "passengers": passenger,
-            "schedules": request.session['bus_booking'],
+            "schedules": schedules,
             "booker": booker,
             'force_issued': bool(int(request.POST['value'])),
             'voucher': {}
