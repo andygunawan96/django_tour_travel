@@ -2068,15 +2068,8 @@ function get_price_itinerary_request(){
                             text += `<br/>`;
                             if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares.length > 0){
                                 text += `<span>`
-                                if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].cabin_class != '')
-                                    if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].cabin_class == 'Y')
-                                        text += 'Economy';
-                                    else if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].cabin_class == 'W')
-                                        text += 'Premium Economy';
-                                    else if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].cabin_class == 'C')
-                                        text += 'Business';
-                                    else if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].cabin_class == 'F')
-                                        text += 'First Class';
+                                if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].cabin_class != '' &&  airline_cabin_class_list.hasOwnProperty(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].cabin_class))
+                                    text += airline_cabin_class_list[resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].cabin_class]
                                 text += `<br/>Class: `+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].class_of_service+`</span>`;
                             }
                         }
@@ -2091,12 +2084,10 @@ function get_price_itinerary_request(){
                                 $text += resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_code + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_number + ' ';
                             }
                             for(l in resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares){
-                                for(m in cabin_class){
-                                    if(cabin_class[m].value == resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].cabin_class){
-                                        $text += cabin_class[m].name + ' (' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].class_of_service + ')';
-                                        break
-                                    }
-                                }
+                                if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].cabin_class != '' && airline_cabin_class_list.hasOwnProperty(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].cabin_class))
+                                    $text += airline_cabin_class_list[resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].cabin_class];
+                                $text += ' (' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].class_of_service + ')';
+
                             }
                             $text += '\n\n';
                             $text += '‣ Departure:\n';
@@ -4283,7 +4274,7 @@ function airline_get_booking(data, sync=false){
                 last_date = '';
                 var advance_order = false;
                 for(i in msg.result.response.provider_bookings){
-                    if(msg.result.response.provider_bookings[i].hasOwnProperty('is_advance_purchase') && msg.result.response.provider_bookings[i].is_advance_purchase){
+                    if(msg.result.response.provider_bookings[i].hasOwnProperty('is_advance_purchase') && msg.result.response.provider_bookings[i].is_advance_purchase && msg.result.response.state == 'booked'){
                         advance_order = true;
                     }
                     for(j in msg.result.response.provider_bookings[i].journeys){
