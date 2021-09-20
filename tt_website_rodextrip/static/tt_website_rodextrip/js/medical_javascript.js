@@ -1270,14 +1270,12 @@ function add_table_of_passenger(type){
                         }
                         if(vendor == 'phc')
                             text_div_paxs+=`
-                            <option value="ktp">NIK(KTP/KSK)</option>`;
+                            <option value="ktp">NIK(KTP/KSK)</option>
+                            <option value="passport">Passport</option>`;
                         else
                             text_div_paxs+=`
                             <option value="ktp">KTP</option>`;
-                        if(test_type != 'PHCHCKATG' && test_type != 'PHCDTKATG')
-                        text_div_paxs+=`
-                            <option value="passport">Passport</option>`;
-                            text_div_paxs+=`</select>
+                        text_div_paxs+=`</select>
                             </div>
                         </div>
                     </div>
