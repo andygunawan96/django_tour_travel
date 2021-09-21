@@ -558,7 +558,7 @@
                                         <div class="col-lg-12" id="adult_identity_type{{forloop.counter}}" style="{% if is_garuda == True or is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    {% if is_lionair == True and is_international == True or is_identity_required == True or is_identity_required == True %}
+                                                    {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'ID Type' %}</label>
@@ -576,7 +576,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    {% if is_lionair == True and is_international == True %}
+                                                    {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'Identity Number' %}</label>
@@ -585,7 +585,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    {% if is_lionair == True and is_international == True %}
+                                                    {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'Identity Expired Date' %}</label>
@@ -595,7 +595,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    {% if is_lionair == True and is_international == True %}
+                                                    {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'Country of Issued' %}</label>
@@ -839,7 +839,7 @@
                                         <div class="col-lg-12" id="child_identity_type{{forloop.counter}}" style="{% if is_garuda == True or is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    {% if is_lionair == True and is_international == True or is_identity_required == True %}
+                                                    {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'ID Type' %}</label>
@@ -857,7 +857,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    {% if is_lionair == True and is_international == True %}
+                                                    {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'Identity Number' %}</label>
@@ -866,7 +866,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    {% if is_lionair == True and is_international == True %}
+                                                    {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'Passport Expired Date' %}</label>
@@ -876,7 +876,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    {% if is_lionair == True and is_international == True %}
+                                                    {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'Country of Issued' %}</label>
@@ -1086,7 +1086,7 @@
                                         <div class="col-lg-12" id="infant_identity_type{{forloop.counter}}" style="{% if is_garuda == True or is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    {% if is_lionair == True and is_international == True or is_identity_required == True %}
+                                                    {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'ID Type' %}</label>
@@ -1104,7 +1104,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    {% if is_lionair == True and is_international == True %}
+                                                    {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'Identity Number' %}</label>
@@ -1113,7 +1113,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    {% if is_lionair == True and is_international == True %}
+                                                    {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'Identity Expired Date' %}</label>
@@ -1123,7 +1123,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    {% if is_lionair == True and is_international == True %}
+                                                    {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'Country of Issued' %}</label>
@@ -1612,7 +1612,7 @@
                                                 <div class="col-lg-12" id="adult_identity_type{{forloop.counter}}" style="{% if is_garuda == True or is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
                                                     <div class="row">
                                                         <div class="col-lg-6 col-md-6 col-sm-6">
-                                                            {% if is_lionair == True and is_international == True or is_identity_required == True %}
+                                                            {% if is_identity_required == True %}
                                                             <label style="color:red">*</label>
                                                             {% endif %}
                                                             <label>{% trans 'ID Type' %}</label>
@@ -1630,12 +1630,18 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6 col-md-6 col-sm-6">
+                                                            {% if is_identity_required == True %}
+                                                            <label style="color:red">*</label>
+                                                            {% endif %}
                                                             <label>{% trans 'Identity Number' %}</label>
                                                             <div class="input-container-search-ticket">
                                                                 <input type="text" class="form-control" name="adult_passport_number{{forloop.counter}}" id="adult_passport_number{{forloop.counter}}" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6 col-md-6 col-sm-6">
+                                                            {% if is_identity_required == True %}
+                                                            <label style="color:red">*</label>
+                                                            {% endif %}
                                                             <label>{% trans 'Identity Expired Date' %}</label>
                                                             <div class="input-container-search-ticket">
                                                                 <input type="text" style="background:white;" class="form-control date-picker-passport" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Identity Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Expired Date '" autocomplete="off" readonly onchange="check_passport_expired_six_month(`adult_passport_expired_date{{forloop.counter}}`);">
@@ -1643,6 +1649,9 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6 col-md-6 col-sm-6">
+                                                            {% if is_identity_required == True %}
+                                                            <label style="color:red">*</label>
+                                                            {% endif %}
                                                             <label>{% trans 'Country of Issued' %}</label>
                                                             <div class="input-container-search-ticket">
                                                                 <select class="form-control js-example-basic-single" name="adult_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('adult_country_of_issued{{forloop.counter}}')" class="nice-select-default">
@@ -1840,7 +1849,7 @@
                                                 <div class="col-lg-12" id="child_identity_type{{forloop.counter}}" style="{% if is_garuda == True or is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
                                                     <div class="row">
                                                         <div class="col-lg-6 col-md-6 col-sm-6">
-                                                            {% if is_lionair == True and is_international == True or is_identity_required == True %}
+                                                            {% if is_identity_required == True %}
                                                             <label style="color:red">*</label>
                                                             {% endif %}
                                                             <label>{% trans 'ID Type' %}</label>
@@ -1858,12 +1867,18 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
+                                                            {% if is_identity_required == True %}
+                                                            <label style="color:red">*</label>
+                                                            {% endif %}
                                                             <label>{% trans 'Identity Number' %}</label>
                                                             <div class="input-container-search-ticket">
                                                                 <input type="text" class="form-control" name="child_passport_number{{forloop.counter}}" id="child_passport_number{{forloop.counter}}" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
+                                                            {% if is_identity_required == True %}
+                                                            <label style="color:red">*</label>
+                                                            {% endif %}
                                                             <label>{% trans 'Identity Expired Date' %}</label>
                                                             <div class="input-container-search-ticket">
                                                                 <input type="text" style="background:white;" class="form-control date-picker-passport" name="child_passport_expired_date{{forloop.counter}}" id="child_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Identity Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Expired Date '" readonly onchange="check_passport_expired_six_month(`child_passport_expired_date{{forloop.counter}}`);">
@@ -1871,6 +1886,9 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
+                                                            {% if is_identity_required == True %}
+                                                            <label style="color:red">*</label>
+                                                            {% endif %}
                                                             <label>{% trans 'Country of Issued' %}</label>
                                                             <div class="input-container-search-ticket">
                                                                 <select class="form-control js-example-basic-single" name="child_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="child_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('child_country_of_issued{{forloop.counter}}')" class="nice-select-default">
@@ -2037,7 +2055,7 @@
                                                 <div class="col-lg-12" id="infant_identity_type{{forloop.counter}}" style="{% if is_garuda == True or is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
                                                     <div class="row">
                                                         <div class="col-lg-6 col-md-6 col-sm-6">
-                                                            {% if is_lionair == True and is_international == True or is_identity_required == True %}
+                                                            {% if is_identity_required == True %}
                                                             <label style="color:red">*</label>
                                                             {% endif %}
                                                             <label>{% trans 'ID Type' %}</label>
@@ -2055,12 +2073,18 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
+                                                            {% if is_identity_required == True %}
+                                                            <label style="color:red">*</label>
+                                                            {% endif %}
                                                             <label>{% trans 'Identity Number' %}</label>
                                                             <div class="input-container-search-ticket">
                                                                 <input type="text" class="form-control" name="infant_passport_number{{forloop.counter}}" id="infant_passport_number{{forloop.counter}}" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
+                                                            {% if is_identity_required == True %}
+                                                            <label style="color:red">*</label>
+                                                            {% endif %}
                                                             <label>{% trans 'Identity Expired Date' %}</label>
                                                             <div class="input-container-search-ticket">
                                                                 <input type="text" style="background:white;" class="form-control date-picker-passport" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Identity Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Expired Date '" readonly onchange="check_passport_expired_six_month(`infant_passport_expired_date{{forloop.counter}}`);">
@@ -2068,6 +2092,9 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
+                                                            {% if is_identity_required == True %}
+                                                            <label style="color:red">*</label>
+                                                            {% endif %}
                                                             <label>{% trans 'Country of Issued' %}</label>
                                                             <div class="input-container-search-ticket">
                                                                 <select class="form-control js-example-basic-single" name="infant_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="infant_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('infant_country_of_issued{{forloop.counter}}')" class="nice-select-default">
@@ -2577,7 +2604,7 @@
                                         <div class="col-lg-12" id="adult_identity_type{{forloop.counter}}" style="{% if is_garuda == True or is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    {% if is_lionair == True and is_international == True or is_identity_required == True %}
+                                                    {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'ID Type' %}</label>
@@ -2595,7 +2622,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    {% if is_lionair == True and is_international == True %}
+                                                    {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'Identity Number' %}</label>
@@ -2604,7 +2631,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    {% if is_lionair == True and is_international == True %}
+                                                    {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'Identity Expired Date' %}</label>
@@ -2614,7 +2641,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    {% if is_lionair == True and is_international == True %}
+                                                    {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'Country of Issued' %}</label>
@@ -2860,7 +2887,7 @@
                                         <div class="col-lg-12" id="child_identity_type{{forloop.counter}}" style="{% if is_garuda == True or is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    {% if is_lionair == True and is_international == True or is_identity_required == True %}
+                                                    {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'ID Type' %}</label>
@@ -2878,7 +2905,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    {% if is_lionair == True and is_international == True %}
+                                                    {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'Identity Number' %}</label>
@@ -2887,7 +2914,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    {% if is_lionair == True and is_international == True %}
+                                                    {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'Identity Expired Date' %}</label>
@@ -2897,7 +2924,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    {% if is_lionair == True and is_international == True %}
+                                                    {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'Country of Issued' %}</label>
@@ -3109,7 +3136,7 @@
                                         <div class="col-lg-12" id="infant_identity_type{{forloop.counter}}" style="{% if is_garuda == True or is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    {% if is_lionair == True and is_international == True or is_identity_required == True %}
+                                                    {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'ID Type' %}</label>
@@ -3127,7 +3154,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    {% if is_lionair == True and is_international == True %}
+                                                    {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'Identity Number' %}</label>
@@ -3136,7 +3163,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    {% if is_lionair == True and is_international == True %}
+                                                    {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'Identity Expired Date' %}</label>
@@ -3146,7 +3173,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    {% if is_lionair == True and is_international == True %}
+                                                    {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'Country of Issued' %}</label>
@@ -3675,7 +3702,7 @@
                                     <div class="col-lg-12" id="adult_identity_type{{forloop.counter}}" style="{% if is_garuda == True or is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 col-sm-6">
-                                                {% if is_lionair == True and is_international == True or is_identity_required == True %}
+                                                {% if is_identity_required == True %}
                                                 <label style="color:red">*</label>
                                                 {% endif %}
                                                 <label>{% trans 'ID Type' %}</label>
@@ -3693,7 +3720,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6">
-                                                {% if is_lionair == True and is_international == True %}
+                                                {% if is_identity_required == True %}
                                                 <label style="color:red">*</label>
                                                 {% endif %}
                                                 <label>{% trans 'Identity Number' %}</label>
@@ -3702,7 +3729,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6">
-                                                {% if is_lionair == True and is_international == True %}
+                                                {% if is_identity_required == True %}
                                                 <label style="color:red">*</label>
                                                 {% endif %}
                                                 <label>{% trans 'Identity Expired Date' %}</label>
@@ -3712,7 +3739,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6">
-                                                {% if is_lionair == True and is_international == True %}
+                                                {% if is_identity_required == True %}
                                                 <label style="color:red">*</label>
                                                 {% endif %}
                                                 <label>{% trans 'Country of Issued' %}</label>
@@ -3955,7 +3982,7 @@
                                     <div class="col-lg-12" id="child_identity_type{{forloop.counter}}" style="{% if is_garuda == True or is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 col-sm-6">
-                                                {% if is_lionair == True and is_international == True or is_identity_required == True %}
+                                                {% if is_identity_required == True %}
                                                 <label style="color:red">*</label>
                                                 {% endif %}
                                                 <label>{% trans 'ID Type' %}</label>
@@ -3973,7 +4000,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
-                                                {% if is_lionair == True and is_international == True %}
+                                                {% if is_identity_required == True %}
                                                 <label style="color:red">*</label>
                                                 {% endif %}
                                                 <label>{% trans 'Identity Number' %}</label>
@@ -3982,7 +4009,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
-                                                {% if is_lionair == True and is_international == True %}
+                                                {% if is_identity_required == True %}
                                                 <label style="color:red">*</label>
                                                 {% endif %}
                                                 <label>{% trans 'Identity Expired Date' %}</label>
@@ -3992,7 +4019,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
-                                                {% if is_lionair == True and is_international == True %}
+                                                {% if is_identity_required == True %}
                                                 <label style="color:red">*</label>
                                                 {% endif %}
                                                 <label>{% trans 'Country of Issued' %}</label>
@@ -4202,7 +4229,7 @@
                                     <div class="col-lg-12" id="infant_identity_type{{forloop.counter}}" style="{% if is_garuda == True or is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 col-sm-6">
-                                                {% if is_lionair == True and is_international == True or is_identity_required == True %}
+                                                {% if is_identity_required == True %}
                                                 <label style="color:red">*</label>
                                                 {% endif %}
                                                 <label>{% trans 'ID Type' %}</label>
@@ -4220,7 +4247,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
-                                                {% if is_lionair == True and is_international == True %}
+                                                {% if is_identity_required == True %}
                                                 <label style="color:red">*</label>
                                                 {% endif %}
                                                 <label>{% trans 'Identity Number' %}</label>
@@ -4229,7 +4256,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
-                                                {% if is_lionair == True and is_international == True %}
+                                                {% if is_identity_required == True %}
                                                 <label style="color:red">*</label>
                                                 {% endif %}
                                                 <label>{% trans 'Identity Expired Date' %}</label>
@@ -4239,7 +4266,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
-                                                {% if is_lionair == True and is_international == True %}
+                                                {% if is_identity_required == True %}
                                                 <label style="color:red">*</label>
                                                 {% endif %}
                                                 <label>{% trans 'Country of Issued' %}</label>
@@ -4756,7 +4783,7 @@
                                         <div class="col-lg-12" id="adult_identity_type{{forloop.counter}}" style="{% if is_garuda == True or is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    {% if is_lionair == True and is_international == True or is_identity_required == True %}
+                                                    {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'ID Type' %}</label>
@@ -4774,7 +4801,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    {% if is_lionair == True and is_international == True %}
+                                                    {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'Identity Number' %}</label>
@@ -4783,7 +4810,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    {% if is_lionair == True and is_international == True %}
+                                                    {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'Identity Expired Date' %}</label>
@@ -4793,7 +4820,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    {% if is_lionair == True and is_international == True %}
+                                                    {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'Country of Issued' %}</label>
@@ -5036,7 +5063,7 @@
                                         <div class="col-lg-12" id="child_identity_type{{forloop.counter}}" style="{% if is_garuda == True or is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    {% if is_lionair == True and is_international == True or is_identity_required == True %}
+                                                    {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'ID Type' %}</label>
@@ -5054,7 +5081,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    {% if is_lionair == True and is_international == True %}
+                                                    {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'Identity Number' %}</label>
@@ -5063,7 +5090,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    {% if is_lionair == True and is_international == True %}
+                                                    {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'Identity Expired Date' %}</label>
@@ -5073,7 +5100,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    {% if is_lionair == True and is_international == True %}
+                                                    {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'Country of Issued' %}</label>
@@ -5258,7 +5285,7 @@
                                         <div class="col-lg-12" id="infant_identity_type{{forloop.counter}}" style="{% if is_garuda == True or is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    {% if is_lionair == True and is_international == True or is_identity_required == True %}
+                                                    {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'ID Type' %}</label>
@@ -5276,7 +5303,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    {% if is_lionair == True and is_international == True %}
+                                                    {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'Identity Number' %}</label>
@@ -5285,7 +5312,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    {% if is_lionair == True and is_international == True %}
+                                                    {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'Identity Expired Date' %}</label>
@@ -5295,7 +5322,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    {% if is_lionair == True and is_international == True %}
+                                                    {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'Country of Issued' %}</label>
@@ -5837,7 +5864,7 @@
                                         <div class="col-lg-12" id="adult_identity_type{{forloop.counter}}" style="{% if is_garuda == True or is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    {% if is_lionair == True and is_international == True or is_identity_required == True %}
+                                                    {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'ID Type' %}</label>
@@ -5855,7 +5882,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    {% if is_lionair == True and is_international == True %}
+                                                    {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'Identity Number' %}</label>
@@ -5864,7 +5891,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    {% if is_lionair == True and is_international == True %}
+                                                    {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'Identity Expired Date' %}</label>
@@ -5874,7 +5901,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    {% if is_lionair == True and is_international == True %}
+                                                    {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'Country of Issued' %}</label>
@@ -6117,7 +6144,7 @@
                                         <div class="col-lg-12" id="child_identity_type{{forloop.counter}}" style="{% if is_garuda == True or is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    {% if is_lionair == True and is_international == True or is_identity_required == True %}
+                                                    {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'ID Type' %}</label>
@@ -6135,7 +6162,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    {% if is_lionair == True and is_international == True %}
+                                                    {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'Identity Number' %}</label>
@@ -6144,7 +6171,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    {% if is_lionair == True and is_international == True %}
+                                                    {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'Identity Expired Date' %}</label>
@@ -6154,7 +6181,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    {% if is_lionair == True and is_international == True %}
+                                                    {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'Country of Issued' %}</label>
@@ -6339,7 +6366,7 @@
                                         <div class="col-lg-12" id="infant_identity_type{{forloop.counter}}" style="{% if is_garuda == True or is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    {% if is_lionair == True and is_international == True or is_identity_required == True %}
+                                                    {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'ID Type' %}</label>
@@ -6357,7 +6384,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    {% if is_lionair == True and is_international == True %}
+                                                    {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'Identity Number' %}</label>
@@ -6366,7 +6393,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    {% if is_lionair == True and is_international == True %}
+                                                    {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'Identity Expired Date' %}</label>
@@ -6376,7 +6403,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    {% if is_lionair == True and is_international == True %}
+                                                    {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'Country of Issued' %}</label>
