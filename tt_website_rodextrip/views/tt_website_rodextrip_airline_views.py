@@ -375,7 +375,6 @@ def passenger(request):
             # agent
 
             # get_balance(request)
-            carrier_code = read_cache_with_folder_path("get_airline_carriers")
             #pax
             adult = []
             infant = []
@@ -402,7 +401,7 @@ def passenger(request):
             signature = request.POST['signature']
         except:
             signature = request.session['airline_signature']
-
+        carrier_code = read_cache_with_folder_path("get_airline_carriers", 90911)
         is_lionair = False
         is_international = False
         is_garuda = False
@@ -420,7 +419,7 @@ def passenger(request):
                                 if carrier_code[segment['carrier_code']]['required_identity_required_international']:
                                     is_identity_required = True
                             break
-                        elif is_international == True:
+                        else:
                             if carrier_code:
                                 if carrier_code[segment['carrier_code']]['required_identity_required_domestic']:
                                     is_identity_required = True

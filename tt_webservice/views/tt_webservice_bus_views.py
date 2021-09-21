@@ -429,9 +429,9 @@ def commit_booking(request):
         schedules = request.session['bus_booking']
         for schedule in schedules:
             for journey_count, journey in enumerate(schedule['journeys']):
+                if not journey.get('seat'):
+                    journey['seat'] = []
                 if pax_request_seat:
-                    if not journey.get('seat'):
-                        journey['seat'] = []
                     for idx, request_seat in enumerate(pax_request_seat):
                         journey['seat'].append(request_seat['seat_pick'][journey_count])
                         journey['seat'][len(journey['seat'])-1].update({
@@ -487,14 +487,14 @@ def commit_booking(request):
 def get_booking(request):
     try:
         train_destinations = []
-        file = read_cache_with_folder_path("train_cache_data", 90911)
+        file = read_cache_with_folder_path("get_bus_config", 90911)
         if file:
             response = file
-        for country in response:
-            train_destinations.append({
-                'code': country['code'],
-                'name': country['name'],
-            })
+            for country in response['station']:
+                train_destinations.append({
+                    'code': country['code'],
+                    'name': country['name'],
+                })
         data = {
             'order_number': request.POST['order_number']
         }
