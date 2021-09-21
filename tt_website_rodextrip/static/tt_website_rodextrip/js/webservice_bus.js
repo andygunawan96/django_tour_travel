@@ -658,7 +658,9 @@ function bus_get_booking(data){
                                 <td>`+msg.result.response.provider_bookings[i].pnr+`</td>`;
                             else
                                 text+=`<td> - </td>`;
-
+                            if(msg.result.response.state == 'booked')
+                                text +=`
+                                <td>`+msg.result.response.provider_bookings[i].hold_date+`</td>`;
                             text +=`
                                 <td id='pnr'>`+msg.result.response.provider_bookings[i].state_description+`</td>
                             </tr>`;
