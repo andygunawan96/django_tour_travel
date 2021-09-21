@@ -472,7 +472,7 @@ function update_table(type){
         $text += '\nPrice\n';
         for(i in passport.list_of_passport){
             if(passport.list_of_passport[i].pax_count != 0){
-                $text += passport.list_of_passport[i].total_pax;
+                $text += passport.list_of_passport[i].pax_count + ' ' + passport.list_of_passport[i].name;
                 $text += ' @'+ passport.list_of_passport[i].sale_price.currency+ ' ' +getrupiah(passport.list_of_passport[i].sale_price.total_price) + '\n';
             }
         }
@@ -572,7 +572,6 @@ function update_table(type){
 
         $text = '';
         $text += 'Order Number: '+ passport.journey.name+'\n';
-        $text += passport.journey.country + ' ' + passport.journey.departure_date + ' ' + passport.journey.state_visa + '\n';
         $text += passport.journey.state_passport + '\n'
 
         $text += '\nContact Person:\n';
