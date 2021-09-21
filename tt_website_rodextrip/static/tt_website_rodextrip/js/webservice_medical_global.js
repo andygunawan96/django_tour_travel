@@ -1625,7 +1625,7 @@ function medical_global_get_booking(order_number, sync=false){
                                     <span>Order Already confirmed</span>
                                 </center>
                             </div>`;
-                        }else if( moment().format('YYYY-MM-DD') != msg.result.response.picked_timeslot.datetimeslot.substr(0,10)){
+                        }else if( moment().format('YYYY-MM-DD') != msg.result.response.picked_timeslot.datetimeslot.substr(0,10) && window.location.pathname.includes('confirm_order') == true){
                             text_detail+=`
                             <div style="margin-top:10px;">
                                 <center>
