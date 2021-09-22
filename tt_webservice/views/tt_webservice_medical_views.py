@@ -267,11 +267,13 @@ def get_config_mobile(request):
         else:
             res = file
             if request.data['type'] == 'kota':
+                temporary = {}
                 res['result']['response'].pop('carriers_code')
                 res['result']['max_page'] = len(res['result']['response']['kota'])-1
                 for idx, rec in enumerate(res['result']['response']['kota']):
                     if request.data['page'] == idx:
-                        res['result']['response']['kota'] = rec
+                        temporary[rec] = res['result']['response']['kota'][rec]
+                        res['result']['response']['kota'] = temporary
                         break
             else:
                 res['result']['response'].pop('kota')
