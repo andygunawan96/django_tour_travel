@@ -52,6 +52,8 @@ def api_models(request):
             res = login(request)
         elif req_data['action'] == 'get_config':
             res = get_config(request)
+        elif req_data['action'] == 'get_config_mobile':
+            res = get_config_mobile(request)
         elif req_data['action'] == 'get_zip_code':
             res = get_zip_code(request)
         elif req_data['action'] == 'get_kecamatan':
@@ -207,6 +209,72 @@ def get_config(request):
 
         else:
             res = file
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+
+    try:
+        pass
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    return res
+
+def get_config_mobile(request):
+    try:
+        additional_url = ''
+        # DARI MOBILE
+        if request.data['provider'] == 'periksain':
+            provider = request.data['provider']
+            additional_url += 'content'
+            data = {
+                'provider_type': provider
+            }
+            action = "get_carriers"
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": action,
+            "signature": request.data['signature']
+        }
+
+
+        file = read_cache_with_folder_path("medical_cache_data_%s" % provider, 86400)
+        # TODO VIN: Some Update Mekanisme ontime misal ada perubahan data dkk
+        if not file:
+            url_request = url + additional_url
+            res = send_request_api(request, url_request, headers, data, 'POST')
+            try:
+                if res['result']['error_code'] == 0:
+                    if request.POST['provider'] == 'periksain':
+                        file = open("tt_webservice/static/tt_webservice/periksain_city.json", "r")
+                        res['result']['response'] = {
+                            "carriers_code": res['result']['response'],
+                            "kota": json.loads(file.read())
+                        }
+                    write_cache_with_folder(res, "medical_cache_data_%s" % provider)
+                    if request.data['type'] == 'kota':
+                        res['result']['response'].pop('carriers_code')
+                    else:
+                        res['result']['response'].pop('kota')
+            except Exception as e:
+                _logger.info("ERROR GET CACHE medical " + provider + ' ' + json.dumps(res) + '\n' + str(e) + '\n' + traceback.format_exc())
+                file = read_cache_with_folder_path("medical_cache_data_%s" % provider, 86400)
+                if file:
+                    res = file
+                    if request.data['type'] == 'kota':
+                        res['result']['response'].pop('carriers_code')
+                    else:
+                        res['result']['response'].pop('kota')
+        else:
+            res = file
+            if request.data['type'] == 'kota':
+                res['result']['response'].pop('carriers_code')
+                res['result']['max_page'] = len(res['result']['response']['kota'])-1
+                for idx, rec in enumerate(res['result']['response']['kota']):
+                    if request.data['page'] == idx:
+                        res['result']['response']['kota'] = rec
+                        break
+            else:
+                res['result']['response'].pop('kota')
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
