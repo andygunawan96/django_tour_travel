@@ -271,7 +271,7 @@ def get_config_mobile(request):
                 res['result']['response'].pop('carriers_code')
                 res['result']['max_page'] = len(res['result']['response']['kota'])-1
                 for idx, rec in enumerate(res['result']['response']['kota']):
-                    if request.data['page'] == idx:
+                    if rec == "15":
                         temporary[rec] = res['result']['response']['kota'][rec]
                         res['result']['response']['kota'] = temporary
                         break
