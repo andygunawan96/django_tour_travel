@@ -369,7 +369,7 @@ function medical_global_check_price(){
 
         }
     }
-    if(timeslot_list.length != 0 && error_log == '' || vendor == 'phc' && test_type.includes('DT')){
+    if(timeslot_list.length != 0 && error_log == '' || test_type.includes('DT')){
         $.ajax({
            type: "POST",
            url: "/webservice/medical_global",
