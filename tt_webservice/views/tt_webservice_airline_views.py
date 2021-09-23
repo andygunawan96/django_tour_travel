@@ -1072,7 +1072,7 @@ def get_ssr_availability(request):
         "signature": request.POST['signature'],
     }
     url_request = url + 'booking/airline'
-    res = send_request_api(request, url_request, headers, data, 'POST')
+    res = send_request_api(request, url_request, headers, data, 'POST',timeout=300)
     try:
         if res['result']['error_code'] == 0:
             try:
@@ -1119,7 +1119,7 @@ def get_seat_availability(request):
         "signature": request.POST['signature'],
     }
     url_request = url + 'booking/airline'
-    res = send_request_api(request, url_request, headers, data, 'POST')
+    res = send_request_api(request, url_request, headers, data, 'POST',timeout=300)
     set_session(request, 'airline_get_seat_availability', res)
     _logger.info(json.dumps(request.session['airline_get_seat_availability']))
     try:
@@ -1140,7 +1140,7 @@ def get_ff_availability(request):
         "signature": request.POST['signature'],
     }
     url_request = url + 'booking/airline'
-    res = send_request_api(request, url_request, headers, data, 'POST')
+    res = send_request_api(request, url_request, headers, data, 'POST',timeout=300)
     set_session(request, 'airline_get_ff_availability', res)
     _logger.info(json.dumps(request.session['airline_get_ff_availability']))
     try:
