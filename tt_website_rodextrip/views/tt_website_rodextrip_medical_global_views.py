@@ -162,7 +162,7 @@ def passenger(request):
             # 'cookies': json.dumps(res['result']['cookies']),
             'javascript_version': javascript_version,
             'static_path_url_server': get_url_static_path(),
-            'vendor': 'nathos',
+            'vendor': 'national_hospital',
             'test_type': request.POST['medical_global_type'],
             'total_passengers_rebooking': len(passengers)
         })

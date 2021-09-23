@@ -64,8 +64,10 @@ def get_printout(request):
         if provider_type == 'medical':
             if 'PK' in request.POST['order_number']:
                 provider_type = 'periksain'
-            else:
+            elif 'PH' in request.POST['order_number']:
                 provider_type = 'phc'
+            elif 'MD' in request.POST['order_number']:
+                provider_type = 'medical'
 
         data = {
             'order_number': request.POST['order_number'],

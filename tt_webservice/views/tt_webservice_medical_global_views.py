@@ -269,7 +269,7 @@ def get_availability(request):
         }
 
         data = {
-            'provider': 'nathos', #hardcode dulu
+            'provider': 'national_hospital', #hardcode dulu
             'carrier_code': request.POST['carrier_code']
         }
     except Exception as e:
@@ -296,7 +296,7 @@ def get_price(request):
         data = {
             'timeslot_list': json.loads(request.POST['timeslot_list']),
             'pax_count': int(request.POST['pax_count']),
-            'provider': 'nathos',
+            'provider': 'national_hospital',
             'carrier_code': request.POST['carrier_code']
         }
     except Exception as e:
@@ -336,7 +336,7 @@ def commit_booking(request):
         elif request.session.get('test_type_%s' % request.POST['signature']):
             data['data']['carrier_code'] = request.session['test_type_%s' % request.POST['signature']]
         if request.POST.get('provider'):
-            data['provider'] = 'nathos'
+            data['provider'] = 'national_hospital'
         elif request.session.get('vendor_%s' % request.POST['signature']):
             data['provider'] = request.session['vendor_%s' % request.POST['signature']]
 
