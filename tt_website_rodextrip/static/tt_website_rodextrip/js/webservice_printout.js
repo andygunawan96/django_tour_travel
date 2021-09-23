@@ -170,11 +170,19 @@ function get_list_report_footer(){
                             show_header_medical(printout[i].html);
                             check_header = false;
                             break;
-                        }else if(vendor == 'nathos' && test_type == 'NHDTKATG' && printout[i].code == "nathos_antigen_information"){
+                        }else if(vendor == 'national_hospital' && test_type == 'NHDTKATG' && printout[i].code == "nathos_antigen_information"){
                             show_header_medical(printout[i].html);
                             check_header = false;
                             break;
-                        }else if(vendor == 'nathos' && test_type == 'NHDTKPCR' && printout[i].code == "nathos_pcr_information"){
+                        }else if(vendor == 'national_hospital' && test_type == 'NHDTKPCR24' && printout[i].code == "nathos_pcr_24_hours_information"){
+                            show_header_medical(printout[i].html);
+                            check_header = false;
+                            break;
+                        }else if(vendor == 'national_hospital' && test_type == 'NHDTKATG24' && printout[i].code == "nathos_antigen_24_hours_information"){
+                            show_header_medical(printout[i].html);
+                            check_header = false;
+                            break;
+                        }else if(vendor == 'national_hospital' && test_type == 'NHDTKPCR' && printout[i].code == "nathos_pcr_information"){
                             show_header_medical(printout[i].html);
                             check_header = false;
                             break;
