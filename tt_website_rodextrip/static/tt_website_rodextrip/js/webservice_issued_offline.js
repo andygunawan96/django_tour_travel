@@ -1150,21 +1150,19 @@ function get_booking_offline(data){
                                 <span>by <b>`+msg.result.response.booked_by+`</b><span>
                             </div>
 
-                            <div class="col-lg-6">
-                                <h6>Issued</h6>`;
+                            <div class="col-lg-6 mb-3">`;
                                 if(msg.result.response.state == 'issued'){
-                                    text+=`<span>Date: <b>`;
-                                    if(msg.result.response.issued_date != ""){
-                                        text+=``+msg.result.response.issued_date+``;
-                                    }else{
-                                        text+=`-`
-                                    }
+                                    text+=`<h6>Issued</h6>
+                                        <span>Date: <b>`;
+                                        if(msg.result.response.issued_date != ""){
+                                            text+=``+msg.result.response.issued_date+``;
+                                        }else{
+                                            text+=`-`
+                                        }
                                     text+=`</b>
                                     </span>
                                     <br/>
                                     <span>by <b>`+msg.result.response.issued_by+`</b><span>`;
-                                }else{
-                                    text+=`<b>-</b>`;
                                 }
                                 text+=`
                             </div>

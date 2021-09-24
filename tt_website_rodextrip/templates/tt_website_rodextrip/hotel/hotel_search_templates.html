@@ -1378,8 +1378,18 @@
     </div>
 </section>
 
-{% include 'tt_website_rodextrip/footer.html' %}
+<button class="mystickycopybot" style="display:none;" id="button_copy_hotel" data-toggle="modal" data-target="#myModalCopyHotel" onclick="get_checked_copy_result();">
+    <span style="color:{{text_color}}; font-size:18px;"><i class="fas fa-copy"></i></span>
+    <span class="badge-notif animated bounceIn" id="badge-copy-notif">0</span>
+</button>
 
+
+{% include 'tt_website_rodextrip/footer.html' %}
+<script>
+    document.getElementById('button_copy_hotel').style.bottom = JSON.parse(JSON.stringify(bottom.toString())) + 'px';
+    console.log(bottom.toString() + 'px');
+    bottom+=60;
+</script>
 <script>
     //guest_child_age2();
     hotel_signin('');

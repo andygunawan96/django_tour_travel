@@ -768,21 +768,19 @@ function passport_get_data(data){
                                              <span>by <b>`+passport.booked_by+`</b><span>
                                          </div>
 
-                                         <div class="col-lg-6">
-                                             <h6>Issued</h6>`;
-                                             if(passport.state == 'issued'){
-                                                 text+=`<span>Date: <b>`;
-                                                 if(passport.issued_date != ""){
-                                                     text+=``+passport.issued_date+``;
-                                                 }else{
-                                                     text+=`-`
-                                                 }
+                                         <div class="col-lg-6 mb-3">`;
+                                             if(msg.result.response.state == 'issued'){
+                                                 text+=`<h6>Issued</h6>
+                                                     <span>Date: <b>`;
+                                                     if(msg.result.response.issued_date != ""){
+                                                         text+=``+msg.result.response.issued_date+``;
+                                                     }else{
+                                                         text+=`-`
+                                                     }
                                                  text+=`</b>
                                                  </span>
                                                  <br/>
-                                                 <span>by <b>`+passport.issued_by+`</b><span>`;
-                                             }else{
-                                                 text+=`<b>-</b>`;
+                                                 <span>by <b>`+msg.result.response.issued_by+`</b><span>`;
                                              }
                                              text+=`
                                          </div>

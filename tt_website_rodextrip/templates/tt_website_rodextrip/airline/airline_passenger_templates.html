@@ -13,7 +13,10 @@
 <script src="{{ static_path }}js/airline_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
-
+<script src="{{ static_path }}js/jbox/jBox.all.js"></script>
+<script src="{{ static_path }}js/jbox/playground-avatars.js"></script>
+<script src="{{ static_path }}js/jbox/playground-inception.js"></script>
+<script src="{{ static_path }}js/jbox/playground-login.js"></script>
 <script>
     static_path_url_server = '{{static_path_url_server}}'
     function check_years_old(sequence, type){
@@ -568,7 +571,7 @@
                                                                 <option value="">Choose Identity Type</option>
                                                                 {% if is_garuda == True and is_international == False %}
                                                                 <option value="ktp">NIK</option>
-                                                                {% elif  is_lionair == True %}
+                                                                {% elif is_lionair == True %}
                                                                 <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
                                                                 {% else %}
@@ -852,7 +855,7 @@
                                                                 <option value="">Choose Identity Type</option>
                                                                 {% if is_garuda == True and is_international == False %}
                                                                 <option value="ktp">NIK</option>
-                                                                {% elif  is_lionair == True %}
+                                                                {% elif is_lionair == True %}
                                                                 <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
                                                                 {% else %}
@@ -1102,7 +1105,7 @@
                                                                 <option value="">Choose Identity Type</option>
                                                                 {% if is_garuda == True and is_international == False %}
                                                                 <option value="ktp">NIK</option>
-                                                                {% elif  is_lionair == True %}
+                                                                {% elif is_lionair == True %}
                                                                 <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
                                                                 {% else %}
@@ -1631,7 +1634,7 @@
                                                                         <option value="">Choose Identity Type</option>
                                                                         {% if is_garuda == True and is_international == False %}
                                                                         <option value="ktp">NIK</option>
-                                                                        {% elif  is_lionair == True %}
+                                                                        {% elif is_lionair == True %}
                                                                         <option value="ktp">NIK</option>
                                                                         <option value="passport">Passport</option>
                                                                         {% else %}
@@ -1871,7 +1874,7 @@
                                                                         <option value="">Choose Identity Type</option>
                                                                         {% if is_garuda == True and is_international == False %}
                                                                         <option value="ktp">NIK</option>
-                                                                        {% elif  is_lionair == True %}
+                                                                        {% elif is_lionair == True %}
                                                                         <option value="ktp">NIK</option>
                                                                         <option value="passport">Passport</option>
                                                                         {% else %}
@@ -2080,7 +2083,7 @@
                                                                         <option value="">Choose Identity Type</option>
                                                                         {% if is_garuda == True and is_international == False %}
                                                                         <option value="ktp">NIK</option>
-                                                                        {% elif  is_lionair == True %}
+                                                                        {% elif is_lionair == True %}
                                                                         <option value="ktp">NIK</option>
                                                                         <option value="passport">Passport</option>
                                                                         {% else %}
@@ -2632,7 +2635,7 @@
                                                                 <option value="">Choose Identity Type</option>
                                                                 {% if is_garuda == True and is_international == False %}
                                                                 <option value="ktp">NIK</option>
-                                                                {% elif  is_lionair == True %}
+                                                                {% elif is_lionair == True %}
                                                                 <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
                                                                 {% else %}
@@ -2918,7 +2921,7 @@
                                                                 <option value="">Choose Identity Type</option>
                                                                 {% if is_garuda == True and is_international == False %}
                                                                 <option value="ktp">NIK</option>
-                                                                {% elif  is_lionair == True %}
+                                                                {% elif is_lionair == True %}
                                                                 <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
                                                                 {% else %}
@@ -3170,7 +3173,7 @@
                                                                 <option value="">Choose Identity Type</option>
                                                                 {% if is_garuda == True and is_international == False %}
                                                                 <option value="ktp">NIK</option>
-                                                                {% elif  is_lionair == True %}
+                                                                {% elif is_lionair == True %}
                                                                 <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
                                                                 {% else %}
@@ -3739,7 +3742,7 @@
                                                             <option value="">Choose Identity Type</option>
                                                             {% if is_garuda == True and is_international == False %}
                                                             <option value="ktp">NIK</option>
-                                                            {% elif  is_lionair == True %}
+                                                            {% elif is_lionair == True %}
                                                             <option value="ktp">NIK</option>
                                                             <option value="passport">Passport</option>
                                                             {% else %}
@@ -4022,7 +4025,7 @@
                                                             <option value="">Choose Identity Type</option>
                                                             {% if is_garuda == True and is_international == False %}
                                                             <option value="ktp">NIK</option>
-                                                            {% elif  is_lionair == True %}
+                                                            {% elif is_lionair == True %}
                                                             <option value="ktp">NIK</option>
                                                             <option value="passport">Passport</option>
                                                             {% else %}
@@ -4272,7 +4275,7 @@
                                                             <option value="">Choose Identity Type</option>
                                                             {% if is_garuda == True and is_international == False %}
                                                             <option value="ktp">NIK</option>
-                                                            {% elif  is_lionair == True %}
+                                                            {% elif is_lionair == True %}
                                                             <option value="ktp">NIK</option>
                                                             <option value="passport">Passport</option>
                                                             {% else %}
@@ -4829,7 +4832,7 @@
                                                                 <option value="">Choose Identity Type</option>
                                                                 {% if is_garuda == True and is_international == False %}
                                                                 <option value="ktp">NIK</option>
-                                                                {% elif  is_lionair == True %}
+                                                                {% elif is_lionair == True %}
                                                                 <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
                                                                 {% else %}
@@ -5112,7 +5115,7 @@
                                                                 <option value="">Choose Identity Type</option>
                                                                 {% if is_garuda == True and is_international == False %}
                                                                 <option value="ktp">NIK</option>
-                                                                {% elif  is_lionair == True %}
+                                                                {% elif is_lionair == True %}
                                                                 <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
                                                                 {% else %}
@@ -5337,7 +5340,7 @@
                                                                 <option value="">Choose Identity Type</option>
                                                                 {% if is_garuda == True and is_international == False %}
                                                                 <option value="ktp">NIK</option>
-                                                                {% elif  is_lionair == True %}
+                                                                {% elif is_lionair == True %}
                                                                 <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
                                                                 {% else %}
@@ -5919,7 +5922,7 @@
                                                                 <option value="">Choose Identity Type</option>
                                                                 {% if is_garuda == True and is_international == False %}
                                                                 <option value="ktp">NIK</option>
-                                                                {% elif  is_lionair == True %}
+                                                                {% elif is_lionair == True %}
                                                                 <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
                                                                 {% else %}
@@ -6202,7 +6205,7 @@
                                                                 <option value="">Choose Identity Type</option>
                                                                 {% if is_garuda == True and is_international == False %}
                                                                 <option value="ktp">NIK</option>
-                                                                {% elif  is_lionair == True %}
+                                                                {% elif is_lionair == True %}
                                                                 <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
                                                                 {% else %}
@@ -6427,7 +6430,7 @@
                                                                 <option value="">Choose Identity Type</option>
                                                                 {% if is_garuda == True and is_international == False %}
                                                                 <option value="ktp">NIK</option>
-                                                                {% elif  is_lionair == True %}
+                                                                {% elif is_lionair == True %}
                                                                 <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
                                                                 {% else %}

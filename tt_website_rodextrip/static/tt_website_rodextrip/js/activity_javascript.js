@@ -284,18 +284,19 @@ function activity_table_detail(){
        $test += document.getElementById('product_type_title').innerHTML + '\n';
 
    var visit_date_txt = document.getElementById('activity_date').value;
-   $test +='Visit Date : '+document.getElementById('activity_date').value+
+   $test +='‣ Visit Date : '+document.getElementById('activity_date').value+
            '\n';
    try{
         if(document.getElementById('timeslot_1').value)
         {
-            $test += 'Time slot: '+ document.getElementById('timeslot_1').options[document.getElementById('timeslot_1').selectedIndex].text+'\n\n';
+            $test += '‣ Time slot: '+ document.getElementById('timeslot_1').options[document.getElementById('timeslot_1').selectedIndex].text+'\n\n';
             visit_date_txt += ' (' + document.getElementById('timeslot_1').options[document.getElementById('timeslot_1').selectedIndex].text + ')';
         }
    }catch(err){
 
    }
    document.getElementById('product_visit_date').innerHTML = visit_date_txt;
+   $test += '‣ Price \n';
    try{
        skus = activity_date[event_pick][activity_date_pick].prices;
        for (sku in skus)
@@ -357,10 +358,10 @@ function activity_table_detail(){
    }
 
    if(additional_price != 0)
-       $test += 'Additional price @IDR '+getrupiah(additional_price)+'\n';
+       $test += '‣ Additional price @IDR '+getrupiah(additional_price)+'\n';
 
    if(grand_total != 0)
-       $test+= '\nGrand Total : IDR '+ getrupiah(grand_total)+
+       $test+= '\n‣ Grand Total : IDR '+ getrupiah(grand_total)+
                '\nPrices and availability may change at any time';
    console.log(grand_total);
    if (additional_price)
@@ -506,11 +507,11 @@ function activity_table_detail2(pagetype){
            '\n';
    }
    var visit_date_txt = price.date.split('-')[2]+' '+month[price.date.split('-')[1]]+' '+price.date.split('-')[0];
-   $test += 'Visit Date : '+price.date.split('-')[2]+' '+month[price.date.split('-')[1]]+' '+price.date.split('-')[0]+
+   $test += '‣ Visit Date : '+price.date.split('-')[2]+' '+month[price.date.split('-')[1]]+' '+price.date.split('-')[0]+
            '\n';
    if(time_slot_pick != '')
    {
-       $test += 'Time slot: ' + time_slot_pick + '\n\n';
+       $test += '‣ Time slot: ' + time_slot_pick + '\n\n';
        visit_date_txt += ' (' + time_slot_pick + ')';
    }
    else
@@ -524,19 +525,20 @@ function activity_table_detail2(pagetype){
 
    try{
         if(document.URL.split('/')[document.URL.split('/').length-1] == 'review'){
-           $test += 'Contact Person:\n';
+           $test += '‣ Contact Person:\n';
            $test += contact[0].title + ' ' + contact[0].first_name + ' ' + contact[0].last_name + '\n';
            $test += contact[0].email + '\n';
            $test += contact[0].calling_code + ' - ' + contact[0].mobile + '\n\n';
         }
         for(i in all_pax){
             if(i == 0)
-                $test += 'Passengers:\n';
+                $test += '‣ Passengers:\n';
             $test += all_pax[i].title + ' ' + all_pax[i].first_name + ' ' + all_pax[i].last_name + '\n';
         }
         $test +='\n';
    }catch(err){}
 
+   $test += '‣ Price:\n';
    try{
        skus = price.prices;
        console.log(skus);
@@ -618,14 +620,14 @@ function activity_table_detail2(pagetype){
    }
 
    if(additional_price != 0)
-       $test += 'Additional price @IDR '+getrupiah(additional_price)+'\n';
+       $test += '‣ Additional price @IDR '+getrupiah(additional_price)+'\n';
 
    try{
         grand_total += upsell_price;
    }catch(err){
    }
 
-   $test+= '\nGrand Total : IDR '+ getrupiah(grand_total)+
+   $test+= '\n‣ Grand Total : IDR '+ getrupiah(grand_total)+
            '\nPrices and availability may change at any time';
    console.log(grand_total);
    if (additional_price)
