@@ -317,108 +317,108 @@
                 <div class="banner-right scrollmenu style-scrollbar" id="div_scroll_menu">
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         {% for rec in provider_types_sequence %}
-                            {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security and rec.name == "airline" %}
+                        {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security and rec.name == "airline" %}
                         <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'airline');" id="nav_scroll_menu_airline">
                             <a class="nav-link {%if forloop.counter == 1 %}active{%endif%}" id="airline-tab" data-toggle="tab" href="#airline" role="tab" aria-controls="airline" aria-selected="true">
                                 <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-airline.png" alt="Airline Icon"/></i>
                                 <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'AIRLINE' %} </span>
                             </a>
                         </li>
-                            {% elif "hotel" in provider and "ticketing_hotel" in username.co_agent_frontend_security and rec.name == "hotel" %}
+                        {% elif "hotel" in provider and "ticketing_hotel" in username.co_agent_frontend_security and rec.name == "hotel" %}
                         <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'hotel');" id="nav_scroll_menu_hotel">
                             <a class="nav-link {%if forloop.counter == 1 %}active{%endif%}" id="hotel-tab" data-toggle="tab" href="#hotel" role="tab" aria-controls="hotel" aria-selected="false">
                                 <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-hotel.png" alt="Hotel Icon"/></i>
                                 <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> HOTEL </span>
                             </a>
                         </li>
-                            {% elif "train" in provider and "ticketing_train" in username.co_agent_frontend_security and rec.name == "train" %}
+                        {% elif "train" in provider and "ticketing_train" in username.co_agent_frontend_security and rec.name == "train" %}
                         <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'train');" id="nav_scroll_menu_train">
                             <a class="nav-link {%if forloop.counter == 1 %}active{%endif%}" id="train-tab" data-toggle="tab" href="#train" role="tab" aria-controls="train" aria-selected="false">
                                 <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-train.png" alt="Train Icon"/></i>
                                 <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'TRAIN' %} </span>
                             </a>
                         </li>
-                            {% elif "ppob" in provider and "ticketing_ppob" in username.co_agent_frontend_security and rec.name == "ppob" %}
+                        {% elif "ppob" in provider and "ticketing_ppob" in username.co_agent_frontend_security and rec.name == "ppob" %}
                         <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'ppob');" id="nav_scroll_menu_ppob">
                             <a class="nav-link {%if forloop.counter == 1 %}active{%endif%}" id="bills-tab" data-toggle="tab" href="#bills" role="tab" aria-controls="bills" aria-selected="false">
                                 <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/bill.png" alt="PPOB Icon"/></i>
                                 <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'BILLS & TOP UP' %} </span>
                             </a>
                         </li>
-                            {% elif "tour" in provider and "ticketing_tour" in username.co_agent_frontend_security and rec.name == "tour" %}
+                        {% elif "tour" in provider and "ticketing_tour" in username.co_agent_frontend_security and rec.name == "tour" %}
                         <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'tour');" id="nav_scroll_menu_tour">
                             <a class="nav-link {%if forloop.counter == 1 %}active{%endif%}" id="tour-tab" data-toggle="tab" href="#tour" role="tab" aria-controls="tour" aria-selected="false">
                                 <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-tour.png" alt="Tour Icon"/></i>
                                 <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'TOUR' %} </span>
                             </a>
                         </li>
-                            {% elif "event" in provider and "ticketing_event" in username.co_agent_frontend_security and rec.name == "event" %}
+                        {% elif "event" in provider and "ticketing_event" in username.co_agent_frontend_security and rec.name == "event" %}
                         <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'event');" id="nav_scroll_menu_event">
                             <a class="nav-link {%if forloop.counter == 1 %}active{%endif%}" id="event-tab" data-toggle="tab" href="#event" role="tab" aria-controls="event" aria-selected="false">
                                 <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-event.png" alt="Event Icon"/></i>
                                 <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'EVENT' %} </span>
                             </a>
                         </li>
-                            {% elif "activity" in provider and "ticketing_activity" in username.co_agent_frontend_security and rec.name == "activity" %}
+                        {% elif "activity" in provider and "ticketing_activity" in username.co_agent_frontend_security and rec.name == "activity" %}
                         <li class="nav-item " onclick="scroll_menu_horizontal('nav-item', 'activity');" id="nav_scroll_menu_activity">
                             <a class="nav-link {%if forloop.counter == 1 %}active{%endif%}" id="activity-tab" data-toggle="tab" href="#activity" role="tab" aria-controls="activity" aria-selected="false">
                                 <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-activity.png" alt="Activity Icon"/></i>
                                 <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'ACTIVITY' %} </span>
                             </a>
                         </li>
-                            {% elif "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_visa" in username.co_agent_frontend_security and rec.name == "visa" %}
+                        {% elif "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_visa" in username.co_agent_frontend_security and rec.name == "visa" %}
                         <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'visa');" id="nav_scroll_menu_visa">
                             <a class="nav-link {%if forloop.counter == 1 %}active{%endif%}" id="visa-tab" data-toggle="tab" href="#visa" role="tab" aria-controls="visa" aria-selected="false">
                                 <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-visa.png" alt="Visa Icon"/></i>
                                 <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> VISA </span>
                             </a>
                         </li>
-                            {% elif "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_passport" in username.co_agent_frontend_security and rec.name == "passport" %}
+                        {% elif "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_passport" in username.co_agent_frontend_security and rec.name == "passport" %}
                         <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'passport');" id="nav_scroll_menu_passport">
                             <a class="nav-link {%if forloop.counter == 1 %}active{%endif%}" id="passport-tab" data-toggle="tab" href="#passport" role="tab" aria-controls="passport" aria-selected="false">
                                 <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/passport.png" alt="Passport Icon"/></i>
                                 <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'PASSPORT' %} </span>
                             </a>
                         </li>
-                            {% elif "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security and rec.name == "periksain" %}
-                                {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                        {% elif "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security and rec.name == "periksain" %}
+                        {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                         <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'medical1');" id="nav_scroll_menu_medical1">
                             <a class="nav-link {%if forloop.counter == 1 %}active{%endif%}" id="medical1-tab" data-toggle="tab" href="#medical1" role="tab" aria-controls="medical1" aria-selected="false">
                                 <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Periksain Icon"/></i>
                                 <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'PERIKSAIN' %} </span>
                             </a>
                         </li>
-                                {% endif %}
-                            {% elif "phc" in provider and "ticketing_phc" in username.co_agent_frontend_security and rec.name == "phc" %}
+                        {% endif %}
+                        {% elif "phc" in provider and "ticketing_phc" in username.co_agent_frontend_security and rec.name == "phc" %}
                         <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'medical2');" id="nav_scroll_menu_medical2">
                             <a class="nav-link {%if forloop.counter == 1 %}active{%endif%}" id="medical2-tab" data-toggle="tab" href="#medical2" role="tab" aria-controls="medical2" aria-selected="false">
                                 <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Medical Icon"/></i>
                                 <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'Test Covid PHC' %} </span>
                             </a>
                         </li>
-                            {% elif "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security and rec.name == "bus" %}
+                        {% elif "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security and rec.name == "bus" %}
                         <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'bus');" id="nav_scroll_menu_bus">
                             <a class="nav-link {%if forloop.counter == 1 %}active{%endif%}" id="bus-tab" data-toggle="tab" href="#bus" role="tab" aria-controls="bus" aria-selected="false">
                                 <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-train.png" alt="Bus Icon"/></i>
                                 <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'Bus' %} </span>
                             </a>
                         </li>
-                            {% elif "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security and rec.name == "medical" %}
+                        {% elif "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security and rec.name == "medical" %}
                         <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'medical2');" id="nav_scroll_menu_medical2">
                             <a class="nav-link {%if forloop.counter == 1 %}active{%endif%}" id="medical_global-tab" data-toggle="tab" href="#medical_global" role="tab" aria-controls="medical2" aria-selected="false">
                                 <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Medical Icon"/></i>
                                 <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'Medical' %} </span>
                             </a>
                         </li>
-                            {% endif %}
+                        {% endif %}
                         {% endfor %}
 
                         {% if name == "Rodextrip" %}
                         <!--<li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'deal');" id="nav_scroll_menu_deal">-->
-                            <!--<a class="nav-link" id="deal-tab" data-toggle="tab" href="#deal" role="tab" aria-controls="deal" aria-selected="false">-->
-                                <!--<i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/coupon.png" alt="Rodexshop Icon"/></i>-->
-                                <!--<span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> Rodexshop </span>-->
-                            <!--</a>-->
+                        <!--<a class="nav-link" id="deal-tab" data-toggle="tab" href="#deal" role="tab" aria-controls="deal" aria-selected="false">-->
+                        <!--<i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/coupon.png" alt="Rodexshop Icon"/></i>-->
+                        <!--<span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> Rodexshop </span>-->
+                        <!--</a>-->
                         <!--</li>-->
                         {% endif %}
 
@@ -818,11 +818,11 @@
                                                     </div>
                                                     <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
                                                         <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                            <button type="button" class="left-minus-adult-train btn-custom-circle" id="left-minus-adult-bus" data-type="minus" data-field="" disabled>
+                                                            <button type="button" class="left-minus-adult-bus btn-custom-circle" id="left-minus-adult-bus" data-type="minus" data-field="" disabled>
                                                                 <i class="fas fa-minus"></i>
                                                             </button>
                                                             <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="bus_adult" name="bus_adult" value="1" min="1" readonly>
-                                                            <button type="button" class="right-plus-adult-train btn-custom-circle" id="right-plus-adult-bus" data-type="plus" data-field="">
+                                                            <button type="button" class="right-plus-adult-bus btn-custom-circle" id="right-plus-adult-bus" data-type="plus" data-field="">
                                                                 <i class="fas fa-plus"></i>
                                                             </button>
                                                         </div>
@@ -1294,7 +1294,7 @@
                         </div>
                         {% endif %}
                         {% if "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security %}
-                            {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                        {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                         <div class="tab-pane fade {%if provider_types_sequence.0.name == 'periksain' %}show active {% endif %}" id="medical1" role="tabpanel" aria-labelledby="medical1-tab">
                             <form action="periksain/passenger/antigen" class="form-wrap" id="medical_searchForm1" method="post">
                                 <div class="row">
@@ -1320,7 +1320,7 @@
                                 </center>
                             </form>
                         </div>
-                            {% endif %}
+                        {% endif %}
                         {% endif %}
                         {% if "phc" in provider and "ticketing_phc" in username.co_agent_frontend_security %}
                         <div class="tab-pane fade {%if provider_types_sequence.0.name == 'phc' %}show active {% endif %}" id="medical2" role="tabpanel" aria-labelledby="medical2-tab">
@@ -1466,16 +1466,16 @@
                         {% endif %}
                         {% if name == "Rodextrip" %}
                         <!--<div class="tab-pane fade" id="deal" role="tabpanel" aria-labelledby="deal-tab">-->
-                            <!--<form method="POST" class="form-wrap">-->
-                                <!--<div class="row">-->
-                                    <!--<div class="col-lg-12 col-sm-12 col-md-12">-->
-                                        <!--<button class="button-search primary-btn ld-ext-right" onclick="window.open('https://rodexshop.id');" type="button" value="Submit">-->
-                                            <!--Go to Rodexshop-->
-                                            <!--<div class="ld ld-ring ld-cycle"></div>-->
-                                        <!--</button>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                            <!--</form>-->
+                        <!--<form method="POST" class="form-wrap">-->
+                        <!--<div class="row">-->
+                        <!--<div class="col-lg-12 col-sm-12 col-md-12">-->
+                        <!--<button class="button-search primary-btn ld-ext-right" onclick="window.open('https://rodexshop.id');" type="button" value="Submit">-->
+                        <!--Go to Rodexshop-->
+                        <!--<div class="ld ld-ring ld-cycle"></div>-->
+                        <!--</button>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</form>-->
                         <!--</div>-->
                         {% endif %}
                         <!--<div class="tab-pane fade" id="groupbooking" role="tabpanel" aria-labelledby="groupbooking-tab">-->
@@ -2230,35 +2230,35 @@
                 <div class="style-scrollbar" style="overflow:auto; white-space:nowrap;" id="div_scroll_menu">
                     <ul class="tabs" style="padding:unset;">
                         {% for rec in provider_types_sequence %}
-                            {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security and rec.name == 'airline' %}
+                        {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security and rec.name == 'airline' %}
                         <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-airline" onclick="scroll_menu_horizontal('tab-link', 'airline');" id="nav_scroll_menu_airline"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-airline.png" alt="Airline Icon"/></i><label class="btn-txt-color">{% trans 'AIRLINE' %}</label></li>
-                            {% elif "hotel" in provider and "ticketing_hotel" in username.co_agent_frontend_security and rec.name == 'hotel' %}
+                        {% elif "hotel" in provider and "ticketing_hotel" in username.co_agent_frontend_security and rec.name == 'hotel' %}
                         <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-hotel" onclick="scroll_menu_horizontal('tab-link', 'hotel');" id="nav_scroll_menu_hotel"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-hotel.png" alt="Hotel Icon"/></i><label class="btn-txt-color">HOTEL</label></li>
-                            {% elif "train" in provider and "ticketing_train" in username.co_agent_frontend_security and rec.name == 'train' %}
+                        {% elif "train" in provider and "ticketing_train" in username.co_agent_frontend_security and rec.name == 'train' %}
                         <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-train" onclick="scroll_menu_horizontal('tab-link', 'train');" id="nav_scroll_menu_train"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-train.png" alt="Train Icon"/></i><label class="btn-txt-color">{% trans 'TRAIN' %}</label></li>
-                            {% elif "ppob" in provider and "ticketing_ppob" in username.co_agent_frontend_security and rec.name == 'ppob' %}
+                        {% elif "ppob" in provider and "ticketing_ppob" in username.co_agent_frontend_security and rec.name == 'ppob' %}
                         <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-bills" onclick="scroll_menu_horizontal('tab-link', 'ppob');" id="nav_scroll_menu_ppob"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/bill.png" alt="PPOB Icon"/></i><label class="btn-txt-color">{% trans 'BILLS & TOP UP' %}</label></li>
-                            {% elif "tour" in provider and "ticketing_tour" in username.co_agent_frontend_security and rec.name == 'tour' %}
+                        {% elif "tour" in provider and "ticketing_tour" in username.co_agent_frontend_security and rec.name == 'tour' %}
                         <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-tour" onclick="scroll_menu_horizontal('tab-link', 'tour');" id="nav_scroll_menu_tour"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-tour.png" alt="Tour Icon"/></i></i><label class="btn-txt-color">{% trans 'TOUR' %}</label></li>
-                            {% elif "event" in provider and "ticketing_event" in username.co_agent_frontend_security and rec.name == 'event' %}
+                        {% elif "event" in provider and "ticketing_event" in username.co_agent_frontend_security and rec.name == 'event' %}
                         <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-event" onclick="scroll_menu_horizontal('tab-link', 'event');" id="nav_scroll_menu_event"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-event.png" alt="Event Icon"/></i><label class="btn-txt-color">{% trans 'EVENT' %}</label></li>
-                            {% elif "activity" in provider and "ticketing_activity" in username.co_agent_frontend_security and rec.name == 'activity' %}
+                        {% elif "activity" in provider and "ticketing_activity" in username.co_agent_frontend_security and rec.name == 'activity' %}
                         <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-activity" onclick="scroll_menu_horizontal('tab-link', 'activty');" id="nav_scroll_menu_activity"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-activity.png" alt="Activity Icon"/></i><label class="btn-txt-color">{% trans 'ACTIVITY' %}</label></li>
-                            {% elif "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_visa" in username.co_agent_frontend_security and rec.name == 'visa' %}
+                        {% elif "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_visa" in username.co_agent_frontend_security and rec.name == 'visa' %}
                         <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-visa" onclick="scroll_menu_horizontal('tab-link', 'visa');" id="nav_scroll_menu_visa"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-visa.png" alt="Visa Icon"/></i><label class="btn-txt-color">VISA</label></li>
-                            {% elif "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_passport" in username.co_agent_frontend_security and rec.name == 'passport' %}
+                        {% elif "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_passport" in username.co_agent_frontend_security and rec.name == 'passport' %}
                         <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-passport" onclick="scroll_menu_horizontal('tab-link', 'passport');" id="nav_scroll_menu_passport"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/passport.png" alt="Passport Icon"/></i><label class="btn-txt-color">{% trans 'PASSPORT' %}</label></li>
-                            {% elif "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security and rec.name == "periksain" %}
-                            {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                        {% elif "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security and rec.name == "periksain" %}
+                        {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                         <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-periksain" onclick="scroll_menu_horizontal('tab-link', 'periksain');" id="nav_scroll_menu_periksain"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Periksain Icon"/></i><label class="btn-txt-color">PRERIKSAIN</label></li>
-                            {% endif %}
-                            {% elif "phc" in provider and "ticketing_phc" in username.co_agent_frontend_security and rec.name == "phc" %}
+                        {% endif %}
+                        {% elif "phc" in provider and "ticketing_phc" in username.co_agent_frontend_security and rec.name == "phc" %}
                         <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-phc" onclick="scroll_menu_horizontal('tab-link', 'phc');" id="nav_scroll_menu_phc"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="PHC Icon"/></i><label class="btn-txt-color">PHC</label></li>
-                            {% elif "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security and rec.name == "medical" %}
+                        {% elif "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security and rec.name == "medical" %}
                         <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-medical" onclick="scroll_menu_horizontal('tab-link', 'medical2');" id="nav_scroll_menu_medical2"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Medical Icon"/></i><label class="btn-txt-color">Medical</label></li>
-                            {% elif "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security and rec.name == "bus" %}
+                        {% elif "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security and rec.name == "bus" %}
                         <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-bus" onclick="scroll_menu_horizontal('tab-link', 'bus');" id="nav_scroll_menu_bus"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-train.png" alt="Bus Icon"/></i><label class="btn-txt-color">Bus</label></li>
-                            {% endif %}
+                        {% endif %}
                         {% endfor %}
 
                         {% if name == "Rodextrip" %}
@@ -3204,7 +3204,7 @@
                                     <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
                                     <div class="input-container-search-ticket btn-group">
                                         <button id="show_total_pax_bus" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
-                                        <ul class="dropdown-menu" role="menu">
+                                        <ul class="dropdown-menu" role="menu" style="overflow-y:unset;">
                                             <div class="row" style="padding:10px;">
                                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
                                                     <div style="float:left;">
@@ -3215,11 +3215,11 @@
                                                 </div>
                                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
                                                     <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                        <button type="button" class="left-minus-adult-train btn-custom-circle" id="left-minus-adult-bus" data-type="minus" data-field="" disabled>
+                                                        <button type="button" class="left-minus-adult-bus btn-custom-circle" id="left-minus-adult-bus" data-type="minus" data-field="" disabled>
                                                             <i class="fas fa-minus"></i>
                                                         </button>
                                                         <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="bus_adult" name="bus_adult" value="1" min="1" readonly>
-                                                        <button type="button" class="right-plus-adult-train btn-custom-circle" id="right-plus-adult-bus" data-type="plus" data-field="">
+                                                        <button type="button" class="right-plus-adult-bus btn-custom-circle" id="right-plus-adult-bus" data-type="plus" data-field="">
                                                             <i class="fas fa-plus"></i>
                                                         </button>
                                                     </div>
@@ -3251,18 +3251,18 @@
 
                     {% if name == "Rodextrip" %}
                     <!--<div id="tab-deal" class="tab-content">-->
-                        <!--<form method="POST" class="form-wrap">-->
-                            <!--<div class="row">-->
-                                <!--<div class="col-lg-12 col-sm-12 col-md-12">-->
-                                    <!--<center>-->
-                                        <!--<button class="button-search primary-btn ld-ext-right" onclick="window.open('https://rodexshop.id');" type="button" value="Submit">-->
-                                            <!--Go to Rodexshop-->
-                                            <!--<div class="ld ld-ring ld-cycle"></div>-->
-                                        <!--</button>-->
-                                    <!--</center>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</form>-->
+                    <!--<form method="POST" class="form-wrap">-->
+                    <!--<div class="row">-->
+                    <!--<div class="col-lg-12 col-sm-12 col-md-12">-->
+                    <!--<center>-->
+                    <!--<button class="button-search primary-btn ld-ext-right" onclick="window.open('https://rodexshop.id');" type="button" value="Submit">-->
+                    <!--Go to Rodexshop-->
+                    <!--<div class="ld ld-ring ld-cycle"></div>-->
+                    <!--</button>-->
+                    <!--</center>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</form>-->
                     <!--</div>-->
                     {% endif %}
                 </div>
@@ -3591,35 +3591,35 @@
                             <input type="hidden" id="end"/>
                             <ul class="tabs">
                                 {% for rec in provider_types_sequence %}
-                                    {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security and rec.name == 'airline' %}
+                                {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security and rec.name == 'airline' %}
                                 <li class="tab-link {%if forloop.counter == 1%}current{% endif%}" data-tab="tab-airline" onclick="scroll_menu_horizontal('tab-link', 'airline');" id="nav_scroll_menu_airline"><i class="image-rounded-icon" style="background:unset;"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-airline.png" alt="Airline Icon"/></i><label class="btn-txt-color">{% trans 'AIRLINE' %}</label></li>
-                                    {% elif "hotel" in provider and "ticketing_hotel" in username.co_agent_frontend_security and rec.name == 'hotel' %}
+                                {% elif "hotel" in provider and "ticketing_hotel" in username.co_agent_frontend_security and rec.name == 'hotel' %}
                                 <li class="tab-link {%if forloop.counter == 1%}current{% endif%}" data-tab="tab-hotel" onclick="scroll_menu_horizontal('tab-link', 'hotel');" id="nav_scroll_menu_hotel"><i class="image-rounded-icon" style="background:unset;"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-hotel.png" alt="Hotel Icon"/></i><label class="btn-txt-color">HOTEL</label></li>
-                                    {% elif "train" in provider and "ticketing_train" in username.co_agent_frontend_security and rec.name == 'train' %}
+                                {% elif "train" in provider and "ticketing_train" in username.co_agent_frontend_security and rec.name == 'train' %}
                                 <li class="tab-link {%if forloop.counter == 1%}current{% endif%}" data-tab="tab-train" onclick="scroll_menu_horizontal('tab-link', 'train');" id="nav_scroll_menu_train"><i class="image-rounded-icon" style="background:unset;"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-train.png" alt="Train Icon"/></i><label class="btn-txt-color">{% trans 'TRAIN' %}</label></li>
-                                    {% elif "ppob" in provider and "ticketing_ppob" in username.co_agent_frontend_security and rec.name == 'ppob' %}
+                                {% elif "ppob" in provider and "ticketing_ppob" in username.co_agent_frontend_security and rec.name == 'ppob' %}
                                 <li class="tab-link {%if forloop.counter == 1%}current{% endif%}" data-tab="tab-bills" onclick="scroll_menu_horizontal('tab-link', 'ppob');" id="nav_scroll_menu_ppob"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/bill.png" alt="PPOB Icon"/></i><label class="btn-txt-color">{% trans 'BILLS & TOP UP' %}</label></li>
-                                    {% elif "tour" in provider and "ticketing_tour" in username.co_agent_frontend_security and rec.name == 'tour' %}
+                                {% elif "tour" in provider and "ticketing_tour" in username.co_agent_frontend_security and rec.name == 'tour' %}
                                 <li class="tab-link {%if forloop.counter == 1%}current{% endif%}" data-tab="tab-tour" onclick="scroll_menu_horizontal('tab-link', 'tour');" id="nav_scroll_menu_tour"><i class="image-rounded-icon" style="background:unset;"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-tour.png" alt="Tour Icon"/></i><label class="btn-txt-color">{% trans 'TOUR' %}</label></li>
-                                    {% elif "event" in provider and "ticketing_event" in username.co_agent_frontend_security and rec.name == 'event' %}
+                                {% elif "event" in provider and "ticketing_event" in username.co_agent_frontend_security and rec.name == 'event' %}
                                 <li class="tab-link {%if forloop.counter == 1%}current{% endif%}" data-tab="tab-event" onclick="scroll_menu_horizontal('tab-link', 'event');" id="nav_scroll_menu_event"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/home-event.png" alt="Event Icon"/></i><label class="btn-txt-color">{% trans 'EVENT' %}</label></li>
-                                    {% elif "activity" in provider and "ticketing_activity" in username.co_agent_frontend_security and rec.name == 'activity' %}
+                                {% elif "activity" in provider and "ticketing_activity" in username.co_agent_frontend_security and rec.name == 'activity' %}
                                 <li class="tab-link {%if forloop.counter == 1%}current{% endif%}" data-tab="tab-activity" onclick="scroll_menu_horizontal('tab-link', 'activity');" id="nav_scroll_menu_activity"><i class="image-rounded-icon" style="background:unset;"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-activity.png" alt="Activity Icon"/></i><label class="btn-txt-color">{% trans 'ACTIVITY' %}</label></li>
-                                    {% elif "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_visa" in username.co_agent_frontend_security and rec.name == 'visa' %}
+                                {% elif "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_visa" in username.co_agent_frontend_security and rec.name == 'visa' %}
                                 <li class="tab-link {%if forloop.counter == 1%}current{% endif%}" data-tab="tab-visa" onclick="scroll_menu_horizontal('tab-link', 'visa');" id="nav_scroll_menu_visa"><i class="image-rounded-icon" style="background:unset;"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-visa.png" alt="Visa Icon"/></i><label class="btn-txt-color">VISA</label></li>
-                                    {% elif "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_passport" in username.co_agent_frontend_security and rec.name == 'passport' %}
+                                {% elif "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_passport" in username.co_agent_frontend_security and rec.name == 'passport' %}
                                 <li class="tab-link {%if forloop.counter == 1%}current{% endif%}" data-tab="tab-passport" onclick="scroll_menu_horizontal('tab-link', 'passport');" id="nav_scroll_menu_passport"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/passport.png" alt="Passport Icon"/></i><label class="btn-txt-color">{% trans 'PASSPORT' %}</label></li>
-                                    {% elif "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security and rec.name == "periksain" %}
-                                    {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                                {% elif "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security and rec.name == "periksain" %}
+                                {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                 <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-periksain" onclick="scroll_menu_horizontal('tab-link', 'periksain');" id="nav_scroll_menu_periksain"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/swab.png" alt="Periksain Icon"/></i><label class="btn-txt-color">PRERIKSAIN</label></li>
-                                    {% endif %}
-                                    {% elif "phc" in provider and "ticketing_phc" in username.co_agent_frontend_security and rec.name == "phc" %}
+                                {% endif %}
+                                {% elif "phc" in provider and "ticketing_phc" in username.co_agent_frontend_security and rec.name == "phc" %}
                                 <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-phc" onclick="scroll_menu_horizontal('tab-link', 'phc');" id="nav_scroll_menu_phc"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/swab.png" alt="PHC Icon"/></i><label class="btn-txt-color">PHC</label></li>
-                                    {% elif "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security and rec.name == "medical" %}
+                                {% elif "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security and rec.name == "medical" %}
                                 <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-medical" onclick="scroll_menu_horizontal('tab-link', 'medical2');" id="nav_scroll_menu_medical2"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/swab.png" alt="Medical Icon"/></i><label class="btn-txt-color">MEDICAL</label></li>
-                                    {% elif "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security and rec.name == "bus" %}
+                                {% elif "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security and rec.name == "bus" %}
                                 <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-bus" onclick="scroll_menu_horizontal('tab-link', 'bus');" id="nav_scroll_menu_bus"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/home-train.png" alt="Bus Icon"/></i><label class="btn-txt-color">BUS</label></li>
-                                    {% endif %}
+                                {% endif %}
                                 {% endfor %}
                                 {% if name == 'Rodextrip' %}
                                 <!--<li class="tab-link" data-tab="tab-deal" onclick="scroll_menu_horizontal('tab-link', 'deal');" id="nav_scroll_menu_deal"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/coupon.png" alt="Rodexshop Icon"/></i><label class="btn-txt-color">Rodexshop</label></li>-->
@@ -4583,7 +4583,7 @@
                                         <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
                                         <div class="input-container-search-ticket btn-group">
                                             <button id="show_total_pax_bus" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
-                                            <ul class="dropdown-menu" role="menu">
+                                            <ul class="dropdown-menu" role="menu" style="overflow-y:unset;">
                                                 <div class="row" style="padding:10px;">
                                                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
                                                         <div style="float:left;">
@@ -4594,11 +4594,11 @@
                                                     </div>
                                                     <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
                                                         <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                            <button type="button" class="left-minus-adult-train btn-custom-circle" id="left-minus-adult-bus" data-type="minus" data-field="" disabled>
+                                                            <button type="button" class="left-minus-adult-bus btn-custom-circle" id="left-minus-adult-bus" data-type="minus" data-field="" disabled>
                                                                 <i class="fas fa-minus"></i>
                                                             </button>
                                                             <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="bus_adult" name="bus_adult" value="1" min="1" readonly>
-                                                            <button type="button" class="right-plus-adult-train btn-custom-circle" id="right-plus-adult-bus" data-type="plus" data-field="">
+                                                            <button type="button" class="right-plus-adult-bus btn-custom-circle" id="right-plus-adult-bus" data-type="plus" data-field="">
                                                                 <i class="fas fa-plus"></i>
                                                             </button>
                                                         </div>
@@ -4999,35 +4999,35 @@
                                     <input type="hidden" id="end"/>
                                     <ul class="tabs">
                                         {% for rec in provider_types_sequence %}
-                                            {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security and rec.name == 'airline' %}
+                                        {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security and rec.name == 'airline' %}
                                         <li class="tab-link {%if forloop.counter == 1%}current{% endif%}" data-tab="tab-airline" onclick="scroll_menu_horizontal('tab-link', 'airline');" id="nav_scroll_menu_airline"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-airline.png" alt="Airline Icon"/></i><label class="btn-txt-color">{% trans 'AIRLINE' %}</label></li>
-                                            {% elif "hotel" in provider and "ticketing_hotel" in username.co_agent_frontend_security and rec.name == 'hotel' %}
+                                        {% elif "hotel" in provider and "ticketing_hotel" in username.co_agent_frontend_security and rec.name == 'hotel' %}
                                         <li class="tab-link {%if forloop.counter == 1%}current{% endif%}" data-tab="tab-hotel" onclick="scroll_menu_horizontal('tab-link', 'hotel');" id="nav_scroll_menu_hotel"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-hotel.png" alt="Hotel Icon"/></i> <label class="btn-txt-color">HOTEL</label></li>
-                                            {% elif "train" in provider and "ticketing_train" in username.co_agent_frontend_security and rec.name == 'train' %}
+                                        {% elif "train" in provider and "ticketing_train" in username.co_agent_frontend_security and rec.name == 'train' %}
                                         <li class="tab-link {%if forloop.counter == 1%}current{% endif%}" data-tab="tab-train" onclick="scroll_menu_horizontal('tab-link', 'train');" id="nav_scroll_menu_train"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-train.png" alt="Train Icon"/></i> <label class="btn-txt-color">{% trans 'TRAIN' %}</label></li>
-                                            {% elif "ppob" in provider and "ticketing_ppob" in username.co_agent_frontend_security and rec.name == 'ppob' %}
+                                        {% elif "ppob" in provider and "ticketing_ppob" in username.co_agent_frontend_security and rec.name == 'ppob' %}
                                         <li class="tab-link {%if forloop.counter == 1%}current{% endif%}" data-tab="tab-bills" onclick="scroll_menu_horizontal('tab-link', 'ppob');" id="nav_scroll_menu_ppob"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/bill.png" alt="PPOB Icon"/></i> <label class="btn-txt-color">{% trans 'BILLS & TOP UP' %}</label></li>
-                                            {% elif "tour" in provider and "ticketing_tour" in username.co_agent_frontend_security and rec.name == 'tour' %}
+                                        {% elif "tour" in provider and "ticketing_tour" in username.co_agent_frontend_security and rec.name == 'tour' %}
                                         <li class="tab-link {%if forloop.counter == 1%}current{% endif%}" data-tab="tab-tour" onclick="scroll_menu_horizontal('tab-link', 'tour');" id="nav_scroll_menu_tour"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-tour.png" alt="Tour Icon"/></i> <label class="btn-txt-color">{% trans 'TOUR' %}</label></li>
-                                            {% elif "event" in provider and "ticketing_event" in username.co_agent_frontend_security and rec.name == 'event' %}
+                                        {% elif "event" in provider and "ticketing_event" in username.co_agent_frontend_security and rec.name == 'event' %}
                                         <li class="tab-link {%if forloop.counter == 1%}current{% endif%}" data-tab="tab-event" onclick="scroll_menu_horizontal('tab-link', 'event');" id="nav_scroll_menu_event"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-event.png" alt="Event Icon"/></i><label class="btn-txt-color">{% trans 'EVENT' %}</label></li>
-                                            {% elif "activity" in provider and "ticketing_activity" in username.co_agent_frontend_security and rec.name == 'activity' %}
+                                        {% elif "activity" in provider and "ticketing_activity" in username.co_agent_frontend_security and rec.name == 'activity' %}
                                         <li class="tab-link {%if forloop.counter == 1%}current{% endif%}" data-tab="tab-activity" onclick="scroll_menu_horizontal('tab-link', 'activity');" id="nav_scroll_menu_activity"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-activity.png" alt="Activity Icon"/></i> <label class="btn-txt-color">{% trans 'ACTIVITY' %}</label></li>
-                                            {% elif "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_visa" in username.co_agent_frontend_security and rec.name == 'visa' %}
+                                        {% elif "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_visa" in username.co_agent_frontend_security and rec.name == 'visa' %}
                                         <li class="tab-link {%if forloop.counter == 1%}current{% endif%}" data-tab="tab-visa" onclick="scroll_menu_horizontal('tab-link', 'visa');" id="nav_scroll_menu_visa"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-visa.png" alt="Visa Icon"/></i> <label class="btn-txt-color">VISA</label></li>
-                                            {% elif "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_passport" in username.co_agent_frontend_security and rec.name == 'passport' %}
+                                        {% elif "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_passport" in username.co_agent_frontend_security and rec.name == 'passport' %}
                                         <li class="tab-link {%if forloop.counter == 1%}current{% endif%}" data-tab="tab-passport" onclick="scroll_menu_horizontal('tab-link', 'passport');" id="nav_scroll_menu_passport"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/passport.png" alt="Passport Icon"/></i> <label class="btn-txt-color">{% trans 'PASSPORT' %}</label></li>
-                                            {% elif "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security and rec.name == "periksain" %}
-                                            {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                                        {% elif "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security and rec.name == "periksain" %}
+                                        {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                         <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-periksain" onclick="scroll_menu_horizontal('tab-link', 'periksain');" id="nav_scroll_menu_periksain"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Periksain Icon"/></i><label class="btn-txt-color">PRERIKSAIN</label></li>
-                                            {% endif %}
-                                            {% elif "phc" in provider and "ticketing_phc" in username.co_agent_frontend_security and rec.name == "phc" %}
+                                        {% endif %}
+                                        {% elif "phc" in provider and "ticketing_phc" in username.co_agent_frontend_security and rec.name == "phc" %}
                                         <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-phc" onclick="scroll_menu_horizontal('tab-link', 'phc');" id="nav_scroll_menu_phc"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="PHC Icon"/></i><label class="btn-txt-color">PHC</label></li>
-                                            {% elif "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security and rec.name == "medical" %}
+                                        {% elif "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security and rec.name == "medical" %}
                                         <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-medical" onclick="scroll_menu_horizontal('tab-link', 'medical2');" id="nav_scroll_menu_medical2"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="PHC Icon"/></i><label class="btn-txt-color">MEDICAL</label></li>
-                                            {% elif "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security and rec.name == "bus" %}
+                                        {% elif "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security and rec.name == "bus" %}
                                         <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-bus" onclick="scroll_menu_horizontal('tab-link', 'bus');" id="nav_scroll_menu_bus"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/home-train.png" alt="Bus Icon"/></i><label class="btn-txt-color">BUS</label></li>
-                                            {% endif %}
+                                        {% endif %}
                                         {% endfor %}
                                         {% if name == 'Rodextrip' %}
                                         <!--<li class="tab-link" data-tab="tab-deal" onclick="scroll_menu_horizontal('tab-link', 'deal');" id="nav_scroll_menu_deal"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/coupon.png" alt="Rodexshop Icon"/></i><label class="btn-txt-color">Rodexshop</label></li>-->
@@ -6013,7 +6013,7 @@
                                                 <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
                                                 <div class="input-container-search-ticket btn-group">
                                                     <button id="show_total_pax_bus" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
-                                                    <ul class="dropdown-menu" role="menu">
+                                                    <ul class="dropdown-menu" role="menu" style="overflow-y:unset;">
                                                         <div class="row" style="padding:10px;">
                                                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
                                                                 <div style="float:left;">
@@ -6024,11 +6024,11 @@
                                                             </div>
                                                             <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
                                                                 <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                                    <button type="button" class="left-minus-adult-train btn-custom-circle" id="left-minus-adult-bus" data-type="minus" data-field="" disabled>
+                                                                    <button type="button" class="left-minus-adult-bus btn-custom-circle" id="left-minus-adult-bus" data-type="minus" data-field="" disabled>
                                                                         <i class="fas fa-minus"></i>
                                                                     </button>
                                                                     <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="bus_adult" name="bus_adult" value="1" min="1" readonly>
-                                                                    <button type="button" class="right-plus-adult-train btn-custom-circle" id="right-plus-adult-bus" data-type="plus" data-field="">
+                                                                    <button type="button" class="right-plus-adult-bus btn-custom-circle" id="right-plus-adult-bus" data-type="plus" data-field="">
                                                                         <i class="fas fa-plus"></i>
                                                                     </button>
                                                                 </div>
@@ -6424,35 +6424,35 @@
                                     <input type="hidden" id="end"/>
                                     <ul class="tabs">
                                         {% for rec in provider_types_sequence %}
-                                            {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security and rec.name == "airline" %}
+                                        {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security and rec.name == "airline" %}
                                         <li class="tab-link {%if forloop.counter == 1%}current{%endif%}" data-tab="tab-airline" onclick="scroll_menu_horizontal('tab-link', 'airline');" id="nav_scroll_menu_airline"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-airline.png" alt="Airline Icon"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">{% trans 'AIRLINE' %}</label></li>
-                                            {% elif "hotel" in provider and "ticketing_hotel" in username.co_agent_frontend_security and rec.name == "hotel" %}
+                                        {% elif "hotel" in provider and "ticketing_hotel" in username.co_agent_frontend_security and rec.name == "hotel" %}
                                         <li class="tab-link {%if forloop.counter == 1%}current{%endif%}" data-tab="tab-hotel" onclick="scroll_menu_horizontal('tab-link', 'hotel');" id="nav_scroll_menu_hotel"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-hotel.png" alt="Hotel Icon"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">HOTEL</label></li>
-                                            {% elif "train" in provider and "ticketing_train" in username.co_agent_frontend_security and rec.name == "train" %}
+                                        {% elif "train" in provider and "ticketing_train" in username.co_agent_frontend_security and rec.name == "train" %}
                                         <li class="tab-link {%if forloop.counter == 1%}current{%endif%}" data-tab="tab-train" onclick="scroll_menu_horizontal('tab-link', 'train');" id="nav_scroll_menu_train"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-train.png" alt="Train Icon"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">{% trans 'TRAIN' %}</label></li>
-                                            {% elif "ppob" in provider and "ticketing_ppob" in username.co_agent_frontend_security and rec.name == "ppob" %}
+                                        {% elif "ppob" in provider and "ticketing_ppob" in username.co_agent_frontend_security and rec.name == "ppob" %}
                                         <li class="tab-link {%if forloop.counter == 1%}current{%endif%}" data-tab="tab-bills" onclick="scroll_menu_horizontal('tab-link', 'ppob');" id="nav_scroll_menu_ppob"><img style="width:20px; height:20px" src="{{static_path}}images/icon/bill.png" alt="PPOB Icon"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">{% trans 'BILLS & TOP UP' %}</label></li>
-                                            {% elif "tour" in provider and "ticketing_tour" in username.co_agent_frontend_security and rec.name == "tour" %}
+                                        {% elif "tour" in provider and "ticketing_tour" in username.co_agent_frontend_security and rec.name == "tour" %}
                                         <li class="tab-link {%if forloop.counter == 1%}current{%endif%}" data-tab="tab-tour" onclick="scroll_menu_horizontal('tab-link', 'tour');" id="nav_scroll_menu_tour"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-tour.png" alt="Tour Icon"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">{% trans 'TOUR' %}</label></li>
-                                            {% elif "event" in provider and "ticketing_event" in username.co_agent_frontend_security and rec.name == "event" %}
+                                        {% elif "event" in provider and "ticketing_event" in username.co_agent_frontend_security and rec.name == "event" %}
                                         <li class="tab-link {%if forloop.counter == 1%}current{%endif%}" data-tab="tab-event" onclick="scroll_menu_horizontal('tab-link', 'event');" id="nav_scroll_menu_event"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-event.png" alt="Event Icon"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">{% trans 'EVENT' %}</label></li>
-                                            {% elif "activity" in provider and "ticketing_activity" in username.co_agent_frontend_security and rec.name == "activity" %}
+                                        {% elif "activity" in provider and "ticketing_activity" in username.co_agent_frontend_security and rec.name == "activity" %}
                                         <li class="tab-link {%if forloop.counter == 1%}current{%endif%}" data-tab="tab-activity" onclick="scroll_menu_horizontal('tab-link', 'activity');" id="nav_scroll_menu_activity"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-activity.png" alt="Activity Icon"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">{% trans 'ACTIVITY' %}</label></li>
-                                            {% elif "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_visa" in username.co_agent_frontend_security and rec.name == "visa" %}
+                                        {% elif "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_visa" in username.co_agent_frontend_security and rec.name == "visa" %}
                                         <li class="tab-link {%if forloop.counter == 1%}current{%endif%}" data-tab="tab-visa" onclick="scroll_menu_horizontal('tab-link', 'visa');" id="nav_scroll_menu_visa"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-visa.png" alt="Visa Icon"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">VISA</label></li>
-                                            {% elif "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_passport" in username.co_agent_frontend_security and rec.name == "passport" %}
+                                        {% elif "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_passport" in username.co_agent_frontend_security and rec.name == "passport" %}
                                         <li class="tab-link {%if forloop.counter == 1%}current{%endif%}" data-tab="tab-passport" onclick="scroll_menu_horizontal('tab-link', 'passport');" id="nav_scroll_menu_passport"><img style="width:20px; height:20px" src="{{static_path}}images/icon/passport.png" alt="Passport Icon"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">{% trans 'PASSPORT' %}</label></li>
-                                            {% elif "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security and rec.name == "periksain" %}
-                                            {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                                        {% elif "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security and rec.name == "periksain" %}
+                                        {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                         <li class="tab-link {%if forloop.counter == 1%}current{%endif%}" data-tab="tab-periksain" onclick="scroll_menu_horizontal('tab-link', 'periksain');" id="nav_scroll_menu_periksain"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Periksain Icon"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">{% trans 'PRERIKSAIN' %}</label></li>
-                                            {% endif %}
-                                            {% elif "phc" in provider and "ticketing_phc" in username.co_agent_frontend_security and rec.name == "phc" %}
+                                        {% endif %}
+                                        {% elif "phc" in provider and "ticketing_phc" in username.co_agent_frontend_security and rec.name == "phc" %}
                                         <li class="tab-link {%if forloop.counter == 1%}current{%endif%}" data-tab="tab-phc" onclick="scroll_menu_horizontal('tab-link', 'phc');" id="nav_scroll_menu_phc"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="PHC Icon"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">PHC</label></li>
-                                            {% elif "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security and rec.name == "medical" %}
+                                        {% elif "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security and rec.name == "medical" %}
                                         <li class="tab-link {%if forloop.counter == 1%}current{%endif%}" data-tab="tab-medical" onclick="scroll_menu_horizontal('tab-link', 'medical2');" id="nav_scroll_menu_medical2"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Medical Icon"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">MEDICAL</label></li>
-                                            {% elif "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security and rec.name == "bus" %}
+                                        {% elif "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security and rec.name == "bus" %}
                                         <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-bus" onclick="scroll_menu_horizontal('tab-link', 'bus');" id="nav_scroll_menu_bus"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-train.png" alt="Bus Icon"/></i><label class="btn-txt-color">Bus</label></li>
-                                            {% endif%}
+                                        {% endif%}
                                         {% endfor %}
                                         {% if name == 'Rodextrip' %}
                                         <!--<li class="tab-link" data-tab="tab-deal" onclick="scroll_menu_horizontal('tab-link', 'deal');" id="nav_scroll_menu_deal"><img style="width:20px; height:20px" src="{{static_path}}images/icon/coupon.png" alt="Rodexshop Icon"/></i><label class="btn-txt-color">Rodexshop</label></li>-->
@@ -7427,7 +7427,7 @@
                                                 <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
                                                 <div class="input-container-search-ticket btn-group">
                                                     <button id="show_total_pax_bus" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
-                                                    <ul class="dropdown-menu" role="menu">
+                                                    <ul class="dropdown-menu" role="menu" style="overflow-y:unset;">
                                                         <div class="row" style="padding:10px;">
                                                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
                                                                 <div style="float:left;">
@@ -7438,11 +7438,11 @@
                                                             </div>
                                                             <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
                                                                 <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                                    <button type="button" class="left-minus-adult-train btn-custom-circle" id="left-minus-adult-bus" data-type="minus" data-field="" disabled>
+                                                                    <button type="button" class="left-minus-adult-bus btn-custom-circle" id="left-minus-adult-bus" data-type="minus" data-field="" disabled>
                                                                         <i class="fas fa-minus"></i>
                                                                     </button>
                                                                     <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="bus_adult" name="bus_adult" value="1" min="1" readonly>
-                                                                    <button type="button" class="right-plus-adult-train btn-custom-circle" id="right-plus-adult-bus" data-type="plus" data-field="">
+                                                                    <button type="button" class="right-plus-adult-bus btn-custom-circle" id="right-plus-adult-bus" data-type="plus" data-field="">
                                                                         <i class="fas fa-plus"></i>
                                                                     </button>
                                                                 </div>
@@ -9103,7 +9103,7 @@
                             <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
                             <div class="input-container-search-ticket btn-group">
                                 <button id="show_total_pax_bus" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
-                                <ul class="dropdown-menu" role="menu">
+                                <ul class="dropdown-menu" role="menu" style="overflow-y:unset;">
                                     <div class="row" style="padding:10px;">
                                         <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
                                             <div style="float:left;">
@@ -9114,11 +9114,11 @@
                                         </div>
                                         <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
                                             <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                <button type="button" class="left-minus-adult-train btn-custom-circle" id="left-minus-adult-bus" data-type="minus" data-field="" disabled>
+                                                <button type="button" class="left-minus-adult-bus btn-custom-circle" id="left-minus-adult-bus" data-type="minus" data-field="" disabled>
                                                     <i class="fas fa-minus"></i>
                                                 </button>
                                                 <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="bus_adult" name="bus_adult" value="1" min="1" readonly>
-                                                <button type="button" class="right-plus-adult-train btn-custom-circle" id="right-plus-adult-bus" data-type="plus" data-field="">
+                                                <button type="button" class="right-plus-adult-bus btn-custom-circle" id="right-plus-adult-bus" data-type="plus" data-field="">
                                                     <i class="fas fa-plus"></i>
                                                 </button>
                                             </div>
