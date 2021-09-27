@@ -408,6 +408,18 @@ def page(request, data):
     })
     return render(request, MODEL_NAME + '/page.html', values)
 
+def page_mobile(request, data):
+    javascript_version = get_javascript_version()
+    values = get_data_template(request, 'login')
+    values.update({
+        'static_path': path_util.get_static_path(MODEL_NAME),
+        'javascript_version': javascript_version,
+        'static_path_url_server': get_url_static_path(),
+        'username': request.session.get('user_account') or {'co_user_login': ''},
+        'data': data
+    })
+    return render(request, MODEL_NAME + '/page_mobile.html', values)
+
 def payment_method(request, provider, order_number):
     javascript_version = get_javascript_version()
     values = get_data_template(request, 'login')

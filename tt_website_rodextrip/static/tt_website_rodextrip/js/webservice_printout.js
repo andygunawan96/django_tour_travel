@@ -174,15 +174,35 @@ function get_list_report_footer(){
                             show_header_medical(printout[i].html);
                             check_header = false;
                             break;
-                        }else if(vendor == 'national_hospital' && test_type == 'NHDTKPCR24' && printout[i].code == "nathos_pcr_24_hours_information"){
-                            show_header_medical(printout[i].html);
-                            check_header = false;
-                            break;
-                        }else if(vendor == 'national_hospital' && test_type == 'NHDTKATG24' && printout[i].code == "nathos_antigen_24_hours_information"){
-                            show_header_medical(printout[i].html);
-                            check_header = false;
-                            break;
                         }else if(vendor == 'national_hospital' && test_type == 'NHDTKPCR' && printout[i].code == "nathos_pcr_information"){
+                            show_header_medical(printout[i].html);
+                            check_header = false;
+                            break;
+                        }else if(vendor == 'national_hospital' && test_type == 'NHDTMPCR' && printout[i].code == "nathos_pcr_mutasi_information"){
+                            show_header_medical(printout[i].html);
+                            check_header = false;
+                            break;
+                        }else if(vendor == 'national_hospital' && test_type == 'NHDTSPCR' && printout[i].code == "nathos_pcr_saliva_information"){
+                            show_header_medical(printout[i].html);
+                            check_header = false;
+                            break;
+                        }else if(vendor == 'national_hospital' && test_type == 'NHDTKKARBD' && printout[i].code == "nathos_pcr_tes_antibodi_rbd_information"){
+                            show_header_medical(printout[i].html);
+                            check_header = false;
+                            break;
+                        }else if(vendor == 'national_hospital' && test_type == 'NHDTNATG' && printout[i].code == "nathos_antigen_nassal_information"){
+                            show_header_medical(printout[i].html);
+                            check_header = false;
+                            break;
+                        }else if(vendor == 'national_hospital' && test_type == 'NHDTKPSC' && printout[i].code == "nathos_paket_screening_cvd19_information"){
+                            show_header_medical(printout[i].html);
+                            check_header = false;
+                            break;
+                        }else if(vendor == 'national_hospital' && test_type == 'NHDTKPSCWPCR' && printout[i].code == "nathos_paket_screening_cvd19_with_pcr_information"){
+                            show_header_medical(printout[i].html);
+                            check_header = false;
+                            break;
+                        }else if(vendor == 'national_hospital' && test_type == 'NHDTKPSCUL' && printout[i].code == "nathos_paket_screening_cvd19_urban_lifestyle_information"){
                             show_header_medical(printout[i].html);
                             check_header = false;
                             break;

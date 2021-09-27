@@ -914,7 +914,7 @@ function bus_get_detail(){
             <hr/>
             <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
 
-            $text += 'Grand Total: '+ getrupiah(parseInt(total_price+total_tax));
+            $text += '‣ Grand Total: '+ getrupiah(parseInt(total_price+total_tax));
             share_data();
             var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
             if (isMobile) {
@@ -1241,7 +1241,7 @@ function bus_detail(){
 
     }
 
-    $text += 'Grand Total: '+ getrupiah(parseInt(parseInt(total_price)+parseInt(total_tax)));
+    $text += '‣ Grand Total: '+ getrupiah(parseInt(parseInt(total_price)+parseInt(total_tax)));
     text+=`
     <div class="row">
         <div class="col-lg-12" style="padding-bottom:10px;">
@@ -1746,5 +1746,252 @@ function getrupiah(price){
         }
     }catch(err){
         return price;
+    }
+}
+
+function checkboxCopy(){
+    var count_copy = $(".copy_result:checked").length;
+    if(count_copy == 0){
+        $('#button_copy_bus').hide();
+    }
+    else{
+        $('#button_copy_bus').show();
+    }
+    document.getElementById("badge-copy-notif").innerHTML = count_copy;
+    document.getElementById("badge-copy-notif2").innerHTML = count_copy;
+}
+
+function checkboxCopyBox(id){
+    if(document.getElementById('copy_result'+id).checked) {
+        var copycount = $(".copy_result:checked").length;
+        if(copycount == ticket_count){
+            document.getElementById("check_all_copy").checked = true;
+        }
+
+    } else {
+        document.getElementById("check_all_copy").checked = false;
+    }
+    checkboxCopy();
+}
+
+function check_all_result(){
+   var selectAllCheckbox = document.getElementById("check_all_copy");
+   if(selectAllCheckbox.checked==true){
+        var checkboxes = document.getElementsByClassName("copy_result");
+        for(var i=0, n=checkboxes.length;i<n;i++) {
+        checkboxes[i].checked = true;
+        $('#choose-bus-copy').hide();
+    }
+   }else {
+    var checkboxes = document.getElementsByClassName("copy_result");
+    for(var i=0, n=checkboxes.length;i<n;i++) {
+        checkboxes[i].checked = false;
+        $('#choose-bus-copy').show();
+    }
+   }
+   checkboxCopy();
+}
+
+function get_checked_copy_result(){
+    document.getElementById("show-list-copy-bus").innerHTML = '';
+
+    var search_params = document.getElementById("show-list-copy-bus").innerHTML = '';
+
+    var value_idx = [];
+    $("#bus_search_params .copy_span").each(function(obj) {
+        value_idx.push( $(this).text() );
+    })
+
+    var value_bus_type = "";
+    if($radio_value_string == "oneway"){
+        value_bus_type = "Departure";
+    }else if($radio_value_string == "roundtrip"){
+        value_bus_type = "Return";
+    }
+    text='';
+    //$text='Search: '+value_idx[0]+'\n'+value_idx[1].trim()+'\nDate: '+value_idx[2]+'\n'+value_idx[3]+'\n\n';
+    $text = '‣'+value_idx[0]+' - '+value_idx[1]+' → '+value_idx[2]+', '+value_idx[3]+'\n\n';
+    var bus_number = 0;
+    node = document.createElement("div");
+    //text+=`<div class="col-lg-12"><h5>`+value_flight_type+`</h5><hr/></div>`;
+    text+=`<div class="col-lg-12" style="min-height=200px; max-height:500px; overflow-y: scroll;">`;
+    $(".copy_result:checked").each(function(obj) {
+        var parent_bus = $(this).parent().parent().parent().parent();
+        var name_bus = parent_bus.find('.copy_bus_name').html();
+        var time_depart = parent_bus.find('.copy_time_depart').html();
+        var date_depart = parent_bus.find('.copy_date_depart').html();
+        var departure_bus = parent_bus.find('.copy_departure').html();
+        var time_arr = parent_bus.find('.copy_time_arr').html();
+        var date_arr = parent_bus.find('.copy_date_arr').html();
+        var arrival_bus = parent_bus.find('.copy_arrival').html();
+        var price_bus = parent_bus.find('.copy_price').html();
+        var seat_bus = parent_bus.find('.copy_seat').html();
+
+        var id_bus = parent_bus.find('.id_copy_result').html();
+        bus_number = bus_number + 1;
+        $text += 'Option-'+bus_number+'\n';
+        $text += ''+name_bus+ '\n';
+        $text += '\n‣ Departure:\n';
+        $text += departure_bus+', '+date_depart+' '+time_depart;
+        $text += '\n\n‣ Arrival:\n';
+        $text += arrival_bus+', '+date_arr+' '+time_arr+'\n';
+        if(seat_bus){
+            $text += seat_bus+'\n';
+        }
+        $text += price_bus+'\n';
+        $text+='====================\n\n';
+
+        text+=`
+        <div class="row" id="div_list`+id_bus+`">
+            <div class="col-lg-9">
+                <h6>Option-`+bus_number+`</h6>
+                <hr/>
+                <h6>`+name_bus+`</h6>
+            </div>
+            <div class="col-lg-3" style="text-align:right;">
+                <span style="font-weight:500; cursor:pointer;" onclick="delete_checked_copy_result(`+id_bus+`);">Delete <i class="fas fa-times-circle" style="color:red; font-size:18px;"></i></span>
+            </div>
+            <div class="col-lg-6" style="text-align:left;">
+                <h6>Departure</h6>
+                <span>`+departure_bus+`, `+date_depart+` `+time_depart+` </span>
+            </div>
+            <div class="col-lg-6" style="text-align:right;">
+                <h6>Arrival</h6>
+                <span>`+arrival_bus+`, `+date_arr+` `+time_arr+` </span><br/>
+            </div>
+
+            <div class="col-lg-12">`;
+            if(seat_bus){
+                text+=`<span>`+seat_bus+`</span><br/>`;
+            }
+            text+=`
+                <h5 style="color:`+color+`;">Price: `+price_bus+`</h5>
+                <hr/>
+            </div>
+        </div>`;
+    });
+    text+=`
+    </div>
+    <div class="col-lg-12" style="margin-bottom:15px;" id="share_result">
+        <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
+        share_data();
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        if (isMobile) {
+            text+=`
+                <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"/></a>`;
+            if(bus_number < 11){
+                text+=`
+                    <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"/></a>
+                    <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"/></a>`;
+            }
+            else{
+                text+=`
+                <a href="#" target="_blank" title="Share by Line" style="padding-right:5px; cursor:not-allowed;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line-gray.png" alt="Line Disable"/></a>
+                <a href="#" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram-gray.png" alt="Telegram Disable"/></a>`;
+            }
+            text+=`
+                <a href="mailto:?subject=This is the bus price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/></a>`;
+        } else {
+            text+=`
+                <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"/></a>`;
+            if(bus_number < 11){
+                text+=`
+                    <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"/></a>
+                    <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"/></a>`;
+            }
+            else{
+                text+=`
+                <a href="#" title="Share by Line" style="padding-right:5px; cursor:not-allowed;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line-gray.png" alt="Line Disable"/></a>
+                <a href="#" title="Share by Telegram" style="padding-right:5px; cursor:not-allowed;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram-gray.png" alt="Telegram Disable"/></a>`;
+            }
+            text+=`
+                <a href="mailto:?subject=This is the bus price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/></a>`;
+        }
+        if(bus_number > 10){
+            text+=`<br/><span style="color:red;">Nb: Share on Line and Telegram Max 10 bus</span>`;
+        }
+    text+=`
+    </div>
+    <div class="col-lg-12" id="copy_result">
+        <input class="primary-btn-white" style="width:100%;" type="button" onclick="copy_data();" value="Copy">
+    </div>`;
+
+    node.innerHTML = text;
+    node.className = "row";
+    document.getElementById("show-list-copy-bus").appendChild(node);
+
+//    if(hotel_number > 10){
+//        document.getElementById("mobile_line").style.display = "none";
+//        document.getElementById("mobile_telegram").style.cursor = "not-allowed";
+//        document.getElementById("pc_line").style.display = "not-allowe";
+//        document.getElementById("pc_telegram").style.cursor = "not-allowed";
+//    }
+//
+    var count_copy = $(".copy_result:checked").length;
+    if (count_copy == 0){
+        $('#choose-bus-copy').show();
+        $("#share_result").remove();
+        $("#copy_result").remove();
+        $text = '';
+        $text_share = '';
+    }else{
+        $('#choose-bus-copy').hide();
+    }
+}
+
+function delete_checked_copy_result(id){
+    $("#div_list"+id).remove();
+    $("#copy_result"+id).prop("checked", false);
+    checkboxCopyBox(id)
+    var count_copy = $(".copy_result:checked").length;
+    if (count_copy == 0){
+        $('#choose-bus-copy').show();
+        $("#share_result").remove();
+        $("#copy_result").remove();
+        $text = '';
+        $text_share = '';
+    }
+    else{
+        $('#choose-bus-copy').hide();
+        get_checked_copy_result();
+        share_data();
+    }
+    checkboxCopy();
+}
+
+
+function copy_data(){
+    const el = document.createElement('textarea');
+    el.value = $text;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000
+    })
+
+    Toast.fire({
+      type: 'success',
+      title: 'Copied Successfully'
+    })
+
+}
+
+
+function show_commission(){
+    var sc = document.getElementById("show_commission");
+    var scs = document.getElementById("show_commission_button");
+    if (sc.style.display === "none"){
+        sc.style.display = "block";
+        scs.value = "Hide Commission";
+    }
+    else{
+        sc.style.display = "none";
+        scs.value = "Show Commission";
     }
 }

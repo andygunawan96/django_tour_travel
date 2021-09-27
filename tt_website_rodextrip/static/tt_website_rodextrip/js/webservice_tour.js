@@ -1657,21 +1657,19 @@ function tour_get_booking(order_number)
                                                 <span>by <b>`+msg.result.response.booked_by+`</b><span>
                                             </div>
 
-                                            <div class="col-lg-6">
-                                                <h6>Issued</h6>`;
+                                            <div class="col-lg-6 mb-3">`;
                                                 if(msg.result.response.state == 'issued'){
-                                                    text+=`<span>Date: <b>`;
-                                                    if(msg.result.response.issued_date != ""){
-                                                        text+=``+msg.result.response.issued_date+``;
-                                                    }else{
-                                                        text+=`-`
-                                                    }
+                                                    text+=`<h6>Issued</h6>
+                                                        <span>Date: <b>`;
+                                                        if(msg.result.response.issued_date != ""){
+                                                            text+=``+msg.result.response.issued_date+``;
+                                                        }else{
+                                                            text+=`-`
+                                                        }
                                                     text+=`</b>
                                                     </span>
                                                     <br/>
                                                     <span>by <b>`+msg.result.response.issued_by+`</b><span>`;
-                                                }else{
-                                                    text+=`<b>-</b>`;
                                                 }
                                                 text+=`
                                             </div>
@@ -1898,7 +1896,7 @@ function tour_get_booking(order_number)
                     document.getElementById('product_type_title').innerHTML = book_obj.departure_date_str+' - '+book_obj.arrival_date_str;
                     price_text = '';
                     $test = tour_package.name+'\n'+book_obj.departure_date_str+' - '+book_obj.arrival_date_str+'\n';
-                    $test += 'Status: ' + conv_status+'\n';
+                    $test += '‣ Status: ' + conv_status+'\n';
 
                     //detail
                     text = '';
@@ -1913,13 +1911,13 @@ function tour_get_booking(order_number)
                     type_amount_repricing = ['Repricing'];
                     //repricing
 
-                    $test += '\nContact Person:\n';
+                    $test += '\n‣ Contact Person:\n';
                     $test += msg.result.response.contact.title + ' ' + msg.result.response.contact.name + '\n';
                     $test += msg.result.response.contact.email + '\n';
                     $test += msg.result.response.contact.phone+ '\n';
 
                     counter_service_charge = 0;
-                    $test += '\nPrice:\n';
+                    $test += '\n‣ Price:\n';
                     for(i in msg.result.response.passengers[0].sale_service_charges){
                         csc = 0;
                         if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
@@ -2147,7 +2145,7 @@ function tour_get_booking(order_number)
                                 <input type="button" class="primary-btn-white" id="show_commission_button" value="Show Commission" style="width:100%;" onclick="show_commission();"/>
                            </div>
                          </div>`;
-                    $test+= '\nGrand Total : IDR '+ getrupiah(Math.ceil(total_price))+'\nPrices and availability may change at any time';
+                    $test+= '\n‣ Grand Total: IDR '+ getrupiah(Math.ceil(total_price))+'\nPrices and availability may change at any time';
                     document.getElementById('tour_detail_table').innerHTML = price_text;
                     add_repricing();
 
@@ -2489,8 +2487,9 @@ function table_price_update(msg,type){
         grand_total += upsell_price;
     }catch(err){}
     price_txt = price_txt_adt + price_txt_chd + price_txt_inf + price_txt2;
+    $test += '‣ Price\n';
     $test += temp_copy_adt + temp_copy_chd + temp_copy_inf + temp_copy2;
-    $test += '\nGrand Total : IDR '+ getrupiah(grand_total)+
+    $test += '\n‣ Grand Total : IDR '+ getrupiah(grand_total)+
     '\nPrices and availability may change at any time';
     price_txt += `<hr style="padding:0px;">`;
     if(document.URL.split('/')[document.URL.split('/').length-1] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
