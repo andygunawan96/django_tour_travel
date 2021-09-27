@@ -1563,7 +1563,7 @@ function print_seat_map(val){
         if(seat_map_pick == '' || pax_click == ''){
             text += `<center><h4>Please select passenger or journey</h4></center>`;
             document.getElementById('bus_seat_map').innerHTML = text;
-            loadingBus();
+            loadingTrain();
             break;
         }else if(parseInt(parseInt(i)+1) == seat_map_pick){
             for(j in seat_map_response[i]){
@@ -1633,7 +1633,7 @@ function print_seat_map(val){
                 $('#seat_map_wagon_pick').niceSelect('update');
                 showSlides(slideIndex[0], 0);
             }
-            loadingBus();
+            loadingTrain();
             break;
         }
     }

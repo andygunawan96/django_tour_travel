@@ -290,7 +290,7 @@ function bus_search(provider, signature){
                     datasearch2(msg.result.response)
                 }else{
                     if(counter_bus_search == provider_length && bus_data.length == 0){
-                        loadingbus();
+                        loadingTrain();
                         var response = '';
                         response +=`
                             <div style="padding:5px; margin:10px;">
@@ -323,7 +323,7 @@ function bus_search(provider, signature){
             counter_bus_search++;
             if(counter_bus_search == provider_length){
                 if(bus_data.length == 0){
-                    loadingBus();
+                    loadingTrain();
                     var response = '';
                     response +=`
                         <div style="padding:5px; margin:10px;">

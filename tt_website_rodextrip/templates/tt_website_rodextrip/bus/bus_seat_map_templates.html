@@ -124,16 +124,16 @@ img {vertical-align: middle;}
                                             {% endfor %}
                                         </div>
                                         <div class="col-lg-12">
-                                            <button class="primary-btn-cancel change-seat-bus-buttons" style="width:100%;padding:5px;text-align:center; margin-bottom:10px; margin-top:10px; border-radius:7px;" type="button" onclick="document.getElementById('bus_booking').submit();" value="Submit Seat">
+                                            <button class="primary-btn-cancel change-seat-train-buttons" style="width:100%;padding:5px;text-align:center; margin-bottom:10px; margin-top:10px; border-radius:7px;" type="button" onclick="document.getElementById('bus_booking').submit();" value="Submit Seat">
                                                 {% trans 'Cancel All Change Seat' %}
                                             </button>
-                                            <button class="primary-btn-ticket submit-seat-bus change-seat-bus-buttons ld-ext-right" style="width:100%;padding:5px;text-align:center; margin-bottom:30px; margin-top:10px; border-radius:7px;" type="button" onclick="bus_create_booking(0);" value="Submit Seat">
+                                            <button class="primary-btn-ticket submit-seat-train change-seat-train-buttons ld-ext-right" style="width:100%;padding:5px;text-align:center; margin-bottom:30px; margin-top:10px; border-radius:7px;" type="button" onclick="bus_create_booking(0);" value="Submit Seat">
                                                 {% trans 'Submit Seat' %}
                                                 <div class="ld ld-ring ld-cycle"></div>
                                             </button>
                                         </div>
 
-                                        <!--                            <input class="primary-btn-ticket" type="button" style="width:100%;padding:5px;text-align:center; margin-bottom:30px; margin-top:10px; border-radius:7px;" onclick="bus_manual_seat();" value="Submit Seat">-->
+                                        <!--                            <input class="primary-btn-ticket" type="button" style="width:100%;padding:5px;text-align:center; margin-bottom:30px; margin-top:10px; border-radius:7px;" onclick="train_manual_seat();" value="Submit Seat">-->
 
                                         <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
                                             <div style="text-align:center">
@@ -161,7 +161,7 @@ img {vertical-align: middle;}
                             </div>
                         </div>
                         <div class="col-lg-8">
-                            <div class="row" id="loading-search-bus">
+                            <div class="row" id="loading-search-train">
                                 <div class="col-lg-12">
                                     <div class="sk-circle">
                                         <div class="sk-circle1 sk-child"></div>
@@ -204,7 +204,6 @@ img {vertical-align: middle;}
 
 {% include 'tt_website_rodextrip/footer.html' %}
 <script>
-
     document.getElementById('bus_booking').action = '/bus/booking/' + btoa(order_number);
     select_passenger(1);
     select_journey(1);
