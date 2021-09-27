@@ -71,13 +71,13 @@ def bus(request):
             # get_data_awal
             cache = {}
             try:
-                cache['train'] = {
-                    'origin': request.session['train_request']['origin'][0],
-                    'destination': request.session['train_request']['destination'][0],
-                    'departure': request.session['train_request']['departure'][0],
+                cache['bus'] = {
+                    'origin': request.session['bus_request']['origin'][0],
+                    'destination': request.session['bus_request']['destination'][0],
+                    'departure': request.session['bus_request']['departure'][0],
                 }
-                if cache['train']['departure'] == 'Invalid date':
-                    cache['train']['departure'] = convert_string_to_date_to_string_front_end(str(datetime.now())[:10])
+                if cache['bus']['departure'] == 'Invalid date':
+                    cache['bus']['departure'] = convert_string_to_date_to_string_front_end(str(datetime.now())[:10])
             except:
                 pass
             values.update({
@@ -133,8 +133,8 @@ def search(request):
                         departure.append(request.POST['bus_departure'].split(' - ')[1])
                     origin.append(request.POST['bus_origin'])
                     origin.append(request.POST['bus_destination'])
-                    destination.append(request.POST['train_destination'])
-                    destination.append(request.POST['train_origin'])
+                    destination.append(request.POST['bus_destination'])
+                    destination.append(request.POST['bus_origin'])
                 elif request.POST['radio_bus_type'] == 'oneway':
                     direction = 'OW'
                     departure.append(request.POST['bus_departure'])
@@ -419,14 +419,14 @@ def booking(request, order_number):
         if 'user_account' not in request.session:
             signin_btc(request)
         try:
-            set_session(request, 'train_order_number', base64.b64decode(order_number).decode('ascii'))
+            set_session(request, 'bus_order_number', base64.b64decode(order_number).decode('ascii'))
         except:
-            set_session(request, 'train_order_number', order_number)
+            set_session(request, 'bus_order_number', order_number)
         values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'id_types': id_type,
             'cabin_class_types': cabin_class_type,
-            'order_number': request.session['train_order_number'],
+            'order_number': request.session['bus_order_number'],
             'username': request.session.get('user_account') or {'co_user_login': ''},
             'signature': request.session['signature'],
             # 'cookies': json.dumps(res['result']['cookies']),

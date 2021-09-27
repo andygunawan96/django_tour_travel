@@ -5,10 +5,10 @@
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_content.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/webservice_train.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_bus.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/train_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/bus_javascript.js?version={{javascript_version}}"></script>
 <!--<script src="{{ static_path }}js/webservice_bank.js?version={{javascript_version}}"></script>-->
 <script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/daterangepicker.js?version={{javascript_version}}"></script>
@@ -44,7 +44,7 @@
         }
     }
 </style>
-<title>{{name}} - {% trans 'Train' %}</title>
+<title>{{name}} - {% trans 'Bus' %}</title>
 
 {% if username.co_user_login != '' %}
 {% include 'tt_website_rodextrip/plugin_passenger.html' %}
@@ -52,7 +52,7 @@
 {% endif %}
 {% include 'tt_website_rodextrip/header.html' %}
 {%if template == 1%}
-<section class="testimonial-area section-gap overlay-bg" data-aos="fade-up" style="padding-top:60px; padding-bottom:60px; z-index:1; position:relative; background-image:url('{{static_path}}images/bg_train.jpg') !important">
+<section class="testimonial-area section-gap overlay-bg" data-aos="fade-up" style="padding-top:60px; padding-bottom:60px; z-index:1; position:relative; background-image:url('{{static_path}}images/bg_bus.jpg') !important">
     <div class="overlay overlay-bg"></div>
     <div id="notification_div" class="col-sm-12" style="position:fixed;align-items:right;z-index:100;margin-top:-50px;"></div>
         <div class="container">
@@ -97,67 +97,67 @@
                 <input type="hidden" id="end"/>
 
                 <div class="col-lg-12" id="div-search-overlay">
-                    {% if "ticketing_train" in username.co_agent_frontend_security %}
+                    {% if "ticketing_bus" in username.co_agent_frontend_security %}
                     <div class="banner-right">
                         <!--<img src="{{static_path}}images/christmas-icon2.png" style="width:auto; height:90px; position:absolute; right:-35px; top:35px; float:right; z-index:200;" alt="">-->
                         <div class="tab-content" id="myTabContent" style="border-radius:7px;">
-                            {% if "train" in provider %}
-                            <div class="tab-pane fade  show active" id="train" role="tabpanel" aria-labelledby="train-tab">
+                            {% if "bus" in provider %}
+                            <div class="tab-pane fade  show active" id="bus" role="tabpanel" aria-labelledby="bus-tab">
                                 <!--<center>-->
                                 <!--<div style="padding:15px;">-->
                                 <!--<img style="width:auto; height:100px" src="{{static_path}}images/icon/sorry.png"/>-->
-                                <!--<h1 style="color:{{text_color}} !important;">Train under construction</h1>-->
+                                <!--<h1 style="color:{{text_color}} !important;">Bus under construction</h1>-->
                                 <!--</div>-->
                                 <!--</center>-->
-                                <form action="{% url 'tt_website_rodextrip:train_search'%}" method="POST" class="form-wrap" id="train_searchForm" onsubmit="return search_train_validation()">
+                                <form action="{% url 'tt_website_rodextrip:bus_search'%}" method="POST" class="form-wrap" id="bus_searchForm" onsubmit="return search_bus_validation()">
                                     {% csrf_token %}
-                                    <input type="hidden" name="g-recaptcha-response" id='recaptcha_train'>
+                                    <input type="hidden" name="g-recaptcha-response" id='recaptcha_bus'>
                                     <div class="row">
-                                        <div class="col-lg-12" id="radio_train_search" style="padding:0px; text-align:left;margin-bottom:10px;">
+                                        <div class="col-lg-12" id="radio_bus_search" style="padding:0px; text-align:left;margin-bottom:10px;">
                                             <label class="radio-button-custom crlabel" style="margin-bottom:0px;">
                                                 <span style="font-size:13px; color:{{text_color}};">{% trans 'One Way' %}</span>
-                                                <input type="radio" checked="checked" name="radio_train_type" value="oneway">
+                                                <input type="radio" checked="checked" name="radio_bus_type" value="oneway">
                                                 <span class="checkmark-radio crspan"></span>
                                             </label>
                                             <label class="radio-button-custom crlabel" style="margin-bottom:0px;">
                                                 <span style="font-size:13px; color:{{text_color}};">{% trans 'Round Trip' %}</span>
-                                                <input type="radio" name="radio_train_type" value="roundtrip">
+                                                <input type="radio" name="radio_bus_type" value="roundtrip">
                                                 <span class="checkmark-radio crspan"></span>
                                             </label>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="row">
-                                                <div class="col-lg-6 col-md-6 col-sm-6 train-from" style="padding-left:0px;">
-                                                    <span class="span-search-ticket"><i class="fas fa-train"></i> {% trans 'From' %}</span>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 bus-from" style="padding-left:0px;">
+                                                    <span class="span-search-ticket"><i class="fas fa-bus"></i> {% trans 'From' %}</span>
                                                     <div class="input-container-search-ticket">
-                                                        <input id="train_origin" name="train_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('train_origin').select();" onclick="set_train_search_value_to_false();" value="BD - Bandung">
+                                                        <input id="bus_origin" name="bus_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_origin').select();" onclick="set_bus_search_value_to_false();" value="BD - Bandung">
                                                     </div>
                                                 </div>
                                                 <div class="image-change-route-vertical2">
-                                                    <h4><a href="javascript:train_switch();" style="z-index:5; color:black;" id="train_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                                    <h4><a href="javascript:bus_switch();" style="z-index:5; color:black;" id="bus_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
                                                 </div>
                                                 <div class="image-change-route-horizontal2">
-                                                    <h4><a class="horizontal-arrow" href="javascript:train_switch();" style="z-index:5; color:{{text_color}} !important;" id="train_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                                    <h4><a class="horizontal-arrow" href="javascript:bus_switch();" style="z-index:5; color:{{text_color}} !important;" id="bus_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></h4>
                                                 </div>
 
-                                                <div class="col-lg-6 col-md-6 col-sm-6 train-to" style="z-index:5; padding-right:0px;">
+                                                <div class="col-lg-6 col-md-6 col-sm-6 bus-to" style="z-index:5; padding-right:0px;">
                                                     <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> {% trans 'To' %}</span>
                                                     <div class="input-container-search-ticket">
-                                                        <input id="train_destination" name="train_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('train_destination').select();" onclick="set_train_search_value_to_false();" value="GMR - Gambir">
+                                                        <input id="bus_destination" name="bus_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_destination').select();" onclick="set_bus_search_value_to_false();" value="GMR - Gambir">
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-3 col-md-6 col-sm-6" style="padding:0px;" id="train_date_search">
+                                        <div class="col-lg-3 col-md-6 col-sm-6" style="padding:0px;" id="bus_date_search">
                                             <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure' %}</span>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" id="train_departure" name="train_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly/>
+                                                <input type="text" class="form-control" id="bus_departure" name="bus_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly/>
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-md-6 col-sm-6" style="padding:0px;">
                                             <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
                                             <div class="input-container-search-ticket btn-group">
-                                                <button id="show_total_pax_train" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
+                                                <button id="show_total_pax_bus" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
                                                 <ul class="dropdown-menu" role="menu">
                                                     <div class="row" style="padding:10px;">
                                                         <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
@@ -170,11 +170,11 @@
                                                         </div>
                                                         <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
                                                             <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                                <button type="button" class="left-minus-adult-train btn-custom-circle" id="left-minus-adult-train" data-type="minus" data-field="" disabled>
+                                                                <button type="button" class="left-minus-adult-bus btn-custom-circle" id="left-minus-adult-bus" data-type="minus" data-field="" disabled>
                                                                     <i class="fas fa-minus"></i>
                                                                 </button>
-                                                                <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="train_adult" name="train_adult" value="1" min="1" readonly>
-                                                                <button type="button" class="right-plus-adult-train btn-custom-circle" id="right-plus-adult-train" data-type="plus" data-field="">
+                                                                <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="bus_adult" name="bus_adult" value="1" min="1" readonly>
+                                                                <button type="button" class="right-plus-adult-bus btn-custom-circle" id="right-plus-adult-bus" data-type="plus" data-field="">
                                                                     <i class="fas fa-plus"></i>
                                                                 </button>
                                                             </div>
@@ -190,18 +190,18 @@
                                                         </div>
                                                         <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
                                                             <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                                <button type="button" class="left-minus-infant-train btn-custom-circle" id="left-minus-infant-train" data-type="minus" data-field="" disabled>
+                                                                <button type="button" class="left-minus-infant-bus btn-custom-circle" id="left-minus-infant-bus" data-type="minus" data-field="" disabled>
                                                                     <i class="fas fa-minus"></i>
                                                                 </button>
-                                                                <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="train_infant" name="train_infant" value="0" readonly>
-                                                                <button type="button" class="right-plus-infant-train btn-custom-circle" id="right-plus-infant-train" data-type="plus" data-field="">
+                                                                <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="bus_infant" name="bus_infant" value="0" readonly>
+                                                                <button type="button" class="right-plus-infant-bus btn-custom-circle" id="right-plus-infant-bus" data-type="plus" data-field="">
                                                                     <i class="fas fa-plus"></i>
                                                                 </button>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-12" style="text-align:right;">
                                                         <hr/>
-                                                        <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('train','passenger');">Done</button>
+                                                        <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('bus','passenger');">Done</button>
                                                     </div>
                                                     </div>
                                                 </ul>
@@ -210,9 +210,9 @@
                                     </div>
                                     <br/>
 
-                                    <input type="hidden" id="train_response" name="response"/>
+                                    <input type="hidden" id="bus_response" name="response"/>
                                     <center>
-                                        <button class="primary-btn ld-ext-right" id="btn-search-train" type="button" onclick="get_captcha('recaptcha_train','train');" value="Submit">
+                                        <button class="primary-btn ld-ext-right" id="btn-search-bus" type="button" onclick="get_captcha('recaptcha_bus','bus');" value="Submit">
                                             <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                             {% trans 'Search' %}
                                             <div class="ld ld-ring ld-cycle"></div>
@@ -899,7 +899,7 @@
 <!--    </section>-->
 
     {% elif template == 2 %}
-    <div class="banner-area-rodex bg-img bg-overlay jarallax" style="background-image: url('{{static_path}}images/bg_train.jpg') !important;">
+    <div class="banner-area-rodex bg-img bg-overlay jarallax" style="background-image: url('{{static_path}}images/bg_bus.jpg') !important;">
         <div class="container h-100">
             <div class="row h-100 align-items-center">
             </div>
@@ -926,59 +926,59 @@
                     <input type="hidden" id="country_id"/>
                     <input type="hidden" id="start"/>
                     <input type="hidden" id="end"/>
-                    {% if "ticketing_train" in username.co_agent_frontend_security %}
+                    {% if "ticketing_bus" in username.co_agent_frontend_security %}
                     <div class="tab_body" style="border:2px solid #cdcdcd;">
-                        {% if "train" in provider %}
-                        <div id="tab-train" class="tab-content current">
-                            <form action="{% url 'tt_website_rodextrip:train_search'%}" method="POST" id="train_searchForm" onsubmit="return search_train_validation()">
+                        {% if "bus" in provider %}
+                        <div id="tab-bus" class="tab-content current">
+                            <form action="{% url 'tt_website_rodextrip:bus_search'%}" method="POST" id="bus_searchForm" onsubmit="return search_bus_validation()">
                                 {% csrf_token %}
-                                <input type="hidden" name="g-recaptcha-response" id='recaptcha_train'>
+                                <input type="hidden" name="g-recaptcha-response" id='recaptcha_bus'>
                                 <div class="row">
-                                    <div class="col-lg-12" id="radio_train_search" style="margin-bottom:10px;">
+                                    <div class="col-lg-12" id="radio_bus_search" style="margin-bottom:10px;">
                                         <label class="radio-button-custom crlabel" style="margin-bottom:0px;">
                                             <span style="font-size:13px; font-weight:700; color:{{text_color}}">{% trans 'One Way' %}</span>
-                                            <input type="radio" checked="checked" name="radio_train_type" value="oneway">
+                                            <input type="radio" checked="checked" name="radio_bus_type" value="oneway">
                                             <span class="checkmark-radio crspan"></span>
                                         </label>
                                         <label class="radio-button-custom crlabel" style="margin-bottom:0px;">
                                             <span style="font-size:13px; font-weight:700; color:{{text_color}}">{% trans 'Round Trip' %}</span>
-                                            <input type="radio" name="radio_train_type" value="roundtrip">
+                                            <input type="radio" name="radio_bus_type" value="roundtrip">
                                             <span class="checkmark-radio crspan"></span>
                                         </label>
                                     </div>
 
                                     <div class="col-lg-6">
                                         <div class="row">
-                                            <div class="col-lg-6 col-md-6 col-sm-6 train-from">
-                                                <span class="span-search-ticket"><i class="fas fa-train"></i> {% trans 'From' %}</span>
+                                            <div class="col-lg-6 col-md-6 col-sm-6 bus-from">
+                                                <span class="span-search-ticket"><i class="fas fa-bus"></i> {% trans 'From' %}</span>
                                                 <div class="input-container-search-ticket">
-                                                    <input id="train_origin" name="train_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('train_origin').select();" onclick="set_train_search_value_to_false();" value="BD - Bandung">
+                                                    <input id="bus_origin" name="bus_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_origin').select();" onclick="set_bus_search_value_to_false();" value="BD - Bandung">
                                                 </div>
                                             </div>
                                             <div class="image-change-route-vertical2">
-                                                <h4><a href="javascript:train_switch();" style="z-index:5;" id="train_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                                <h4><a href="javascript:bus_switch();" style="z-index:5;" id="bus_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
                                             </div>
                                             <div class="image-change-route-horizontal2">
-                                                <h4><a class="horizontal-arrow" href="javascript:train_switch();" style="z-index:5; color:{{text_color}};" id="train_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                                <h4><a class="horizontal-arrow" href="javascript:bus_switch();" style="z-index:5; color:{{text_color}};" id="bus_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></h4>
                                             </div>
 
-                                            <div class="col-lg-6 col-md-6 col-sm-6 train-to" style="z-index:5;">
+                                            <div class="col-lg-6 col-md-6 col-sm-6 bus-to" style="z-index:5;">
                                                 <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> {% trans 'To' %}</span>
                                                 <div class="input-container-search-ticket">
-                                                    <input id="train_destination" name="train_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('train_destination').select();" onclick="set_train_search_value_to_false();" value="GMR - Gambir">
+                                                    <input id="bus_destination" name="bus_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_destination').select();" onclick="set_bus_search_value_to_false();" value="GMR - Gambir">
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-3 col-md-6 col-sm-6" id="train_date_search">
+                                    <div class="col-lg-3 col-md-6 col-sm-6" id="bus_date_search">
                                         <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure' %}</span>
                                         <div class="input-container-search-ticket">
-                                            <input type="text" class="form-control" id="train_departure" name="train_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = '{% trans 'Departure Date' %} '" autocomplete="off" readonly style="background:white !important;"/>
+                                            <input type="text" class="form-control" id="bus_departure" name="bus_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = '{% trans 'Departure Date' %} '" autocomplete="off" readonly style="background:white !important;"/>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-md-6 col-sm-6">
                                         <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
-                                        <button id="show_total_pax_train" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
+                                        <button id="show_total_pax_bus" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
                                         <ul class="dropdown-menu" style="overflow-y:unset;" role="menu">
                                             <div class="row" style="padding:10px;">
                                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
@@ -991,11 +991,11 @@
                                                 </div>
                                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
                                                     <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                        <button type="button" class="left-minus-adult-train btn-custom-circle" id="left-minus-adult-train" data-type="minus" data-field="" disabled>
+                                                        <button type="button" class="left-minus-adult-bus btn-custom-circle" id="left-minus-adult-bus" data-type="minus" data-field="" disabled>
                                                             <i class="fas fa-minus"></i>
                                                         </button>
-                                                        <input type="text" class="form-control" style="padding: 5px !important;border: none;background: none;text-align: center;width: 25px;height: 30px;" id="train_adult" name="train_adult" value="1" min="1" readonly>
-                                                        <button type="button" class="right-plus-adult-train btn-custom-circle" id="right-plus-adult-train" data-type="plus" data-field="">
+                                                        <input type="text" class="form-control" style="padding: 5px !important;border: none;background: none;text-align: center;width: 25px;height: 30px;" id="bus_adult" name="bus_adult" value="1" min="1" readonly>
+                                                        <button type="button" class="right-plus-adult-bus btn-custom-circle" id="right-plus-adult-bus" data-type="plus" data-field="">
                                                             <i class="fas fa-plus"></i>
                                                         </button>
                                                     </div>
@@ -1011,27 +1011,27 @@
                                                 </div>
                                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
                                                     <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                        <button type="button" class="left-minus-infant-train btn-custom-circle" id="left-minus-infant-train" data-type="minus" data-field="" disabled>
+                                                        <button type="button" class="left-minus-infant-bus btn-custom-circle" id="left-minus-infant-bus" data-type="minus" data-field="" disabled>
                                                             <i class="fas fa-minus"></i>
                                                         </button>
-                                                        <input type="text" class="form-control" style="padding: 5px !important;border: none;background: none;text-align: center;width: 25px;height: 30px;" id="train_infant" name="train_infant" value="0" readonly>
-                                                        <button type="button" class="right-plus-infant-train btn-custom-circle" id="right-plus-infant-train" data-type="plus" data-field="">
+                                                        <input type="text" class="form-control" style="padding: 5px !important;border: none;background: none;text-align: center;width: 25px;height: 30px;" id="bus_infant" name="bus_infant" value="0" readonly>
+                                                        <button type="button" class="right-plus-infant-bus btn-custom-circle" id="right-plus-infant-bus" data-type="plus" data-field="">
                                                             <i class="fas fa-plus"></i>
                                                         </button>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-12" style="text-align:right;">
                                                         <hr/>
-                                                        <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('train','passenger');">Done</button>
+                                                        <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('bus','passenger');">Done</button>
                                                     </div>
                                             </div>
                                         </ul>
                                     </div>
                                 </div>
-                                <input type="hidden" id="train_response" name="response"/>
+                                <input type="hidden" id="bus_response" name="response"/>
 
                                 <center>
-                                    <button class="primary-btn" id="btn-search-train" type="button" onclick="get_captcha('recaptcha_train','train');" value="Submit">
+                                    <button class="primary-btn" id="btn-search-bus" type="button" onclick="get_captcha('recaptcha_bus','bus');" value="Submit">
                                         <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                         {% trans 'Search' %}
                                     </button>
@@ -1323,7 +1323,7 @@
     <!--</div>-->
 
     {% elif template == 3 %}
-    <section class="banner-area relative" style="background: url('{{static_path}}images/bg_train.jpg') center !important; background-repeat: no-repeat !important;background-position: center center !important; background-size: cover !important;">
+    <section class="banner-area relative" style="background: url('{{static_path}}images/bg_bus.jpg') center !important; background-repeat: no-repeat !important;background-position: center center !important; background-size: cover !important;">
         <div class="overlay overlay-bg"></div>
         <div class="container">
             <div class="row">
@@ -1334,7 +1334,7 @@
                     </div>
                     <div class="row fullscreen d-flex" id="div-search-overlay" style="margin-top:40px; margin-bottom:40px; position:relative; padding:15px;">
                         {% if username.co_user_name != '' %}
-                        {% if "ticketing_train" in username.co_agent_frontend_security %}
+                        {% if "ticketing_bus" in username.co_agent_frontend_security %}
                         <div class="banner-content col-xl-4 col-lg-4 col-md-4" style="padding:25px 15px 15px 20px; background-color: {{tab_color}}; border:1px solid #cdcdcd;">
                             <h4 class="text-white">
                                 {% if username.co_user_login != 'agent_b2c' %}
@@ -1352,49 +1352,49 @@
                             </div>
                         </div>
                         <div class="col-xl-8 col-lg-8 col-md-8 header-right" style="padding-left:0px;">
-                            {% if "train" in provider %}
-                            <div id="tab-train" class="tab-content current">
-                                <h4 class="pb-30" style="color:{{text_color}};">{% trans 'Book Your Train' %}</h4>
-                                <form action="{% url 'tt_website_rodextrip:train_search'%}" method="POST" class="form-wrap" id="train_searchForm" onsubmit="return search_train_validation()">
+                            {% if "bus" in provider %}
+                            <div id="tab-bus" class="tab-content current">
+                                <h4 class="pb-30" style="color:{{text_color}};">{% trans 'Book Your Bus' %}</h4>
+                                <form action="{% url 'tt_website_rodextrip:bus_search'%}" method="POST" class="form-wrap" id="bus_searchForm" onsubmit="return search_bus_validation()">
                                     {% csrf_token %}
-                                    <input type="hidden" name="g-recaptcha-response" id='recaptcha_train'>
+                                    <input type="hidden" name="g-recaptcha-response" id='recaptcha_bus'>
                                     <div class="row">
-                                        <div class="col-lg-12" id="radio_train_search" style="text-align:left;margin-bottom:10px;">
+                                        <div class="col-lg-12" id="radio_bus_search" style="text-align:left;margin-bottom:10px;">
                                             <label class="radio-button-custom crlabel" style="margin-bottom:0px;">
                                                 <span style="font-size:13px; color:{{text_color}};">{% trans 'One Way' %}</span>
-                                                <input type="radio" checked="checked" name="radio_train_type" value="oneway">
+                                                <input type="radio" checked="checked" name="radio_bus_type" value="oneway">
                                                 <span class="checkmark-radio crspan"></span>
                                             </label>
                                             <label class="radio-button-custom crlabel" style="margin-bottom:0px;">
                                                 <span style="font-size:13px; color:{{text_color}};">{% trans 'Round Trip' %}</span>
-                                                <input type="radio" name="radio_train_type" value="roundtrip">
+                                                <input type="radio" name="radio_bus_type" value="roundtrip">
                                                 <span class="checkmark-radio crspan"></span>
                                             </label>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
-                                            <span class="span-search-ticket"><i class="fas fa-train"></i> {% trans 'From' %}</span>
+                                            <span class="span-search-ticket"><i class="fas fa-bus"></i> {% trans 'From' %}</span>
                                             <div class="form-group">
-                                                <input id="train_origin" name="train_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('train_origin').select();" onclick="set_train_search_value_to_false();" value="BD - Bandung">
+                                                <input id="bus_origin" name="bus_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_origin').select();" onclick="set_bus_search_value_to_false();" value="BD - Bandung">
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6" style="z-index:4;">
-                                            <h4 class="image-change-route-vertical"><a href="javascript:train_switch();" style="z-index:5;" id="train_switch"><i class="fas fa-exchange-alt"></i></a></h4>
-                                            <h4 class="image-change-route-horizontal"><a href="javascript:train_switch();" style="z-index:5;" id="train_switch"><i class="fas fa-exchange-alt"></i></a></h4>
+                                            <h4 class="image-change-route-vertical"><a href="javascript:bus_switch();" style="z-index:5;" id="bus_switch"><i class="fas fa-exchange-alt"></i></a></h4>
+                                            <h4 class="image-change-route-horizontal"><a href="javascript:bus_switch();" style="z-index:5;" id="bus_switch"><i class="fas fa-exchange-alt"></i></a></h4>
                                             <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> {% trans 'To' %}</span>
                                             <div class="form-group">
-                                                <input id="train_destination" name="train_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('train_destination').select();" onclick="set_train_search_value_to_false();" value="GMR - Gambir">
+                                                <input id="bus_destination" name="bus_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_destination').select();" onclick="set_bus_search_value_to_false();" value="GMR - Gambir">
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6" id="train_date_search">
+                                        <div class="col-lg-6 col-md-6 col-sm-6" id="bus_date_search">
                                             <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure' %}</span>
                                             <div class="form-group">
-                                                <input type="text" style="background:white;" class="form-control" id="train_departure" name="train_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly/>
+                                                <input type="text" style="background:white;" class="form-control" id="bus_departure" name="bus_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly/>
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                             <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
                                             <div class="form-group btn-group" style="width:100%;">
-                                                <button id="show_total_pax_train" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
+                                                <button id="show_total_pax_bus" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
                                                 <ul class="dropdown-menu" style="overflow-y:unset;" role="menu">
                                                     <div class="row" style="padding:10px;">
                                                         <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
@@ -1407,11 +1407,11 @@
                                                         </div>
                                                         <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
                                                             <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                                <button type="button" class="left-minus-adult-train btn-custom-circle" id="left-minus-adult-train" data-type="minus" data-field="" disabled>
+                                                                <button type="button" class="left-minus-adult-bus btn-custom-circle" id="left-minus-adult-bus" data-type="minus" data-field="" disabled>
                                                                     <i class="fas fa-minus"></i>
                                                                 </button>
-                                                                <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="train_adult" name="train_adult" value="1" min="1" readonly>
-                                                                <button type="button" class="right-plus-adult-train btn-custom-circle" id="right-plus-adult-train" data-type="plus" data-field="">
+                                                                <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="bus_adult" name="bus_adult" value="1" min="1" readonly>
+                                                                <button type="button" class="right-plus-adult-bus btn-custom-circle" id="right-plus-adult-bus" data-type="plus" data-field="">
                                                                     <i class="fas fa-plus"></i>
                                                                 </button>
                                                             </div>
@@ -1427,28 +1427,28 @@
                                                         </div>
                                                         <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
                                                             <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                                <button type="button" class="left-minus-infant-train btn-custom-circle" id="left-minus-infant-train" data-type="minus" data-field="" disabled>
+                                                                <button type="button" class="left-minus-infant-bus btn-custom-circle" id="left-minus-infant-bus" data-type="minus" data-field="" disabled>
                                                                     <i class="fas fa-minus"></i>
                                                                 </button>
-                                                                <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="train_infant" name="train_infant" value="0" readonly>
-                                                                <button type="button" class="right-plus-infant-train btn-custom-circle" id="right-plus-infant-train" data-type="plus" data-field="">
+                                                                <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="bus_infant" name="bus_infant" value="0" readonly>
+                                                                <button type="button" class="right-plus-infant-bus btn-custom-circle" id="right-plus-infant-bus" data-type="plus" data-field="">
                                                                     <i class="fas fa-plus"></i>
                                                                 </button>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-12" style="text-align:right;">
                                                         <hr/>
-                                                        <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('train','passenger');">Done</button>
+                                                        <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('bus','passenger');">Done</button>
                                                     </div>
                                                     </div>
                                                 </ul>
                                             </div>
                                         </div>
-                                        <input type="hidden" id="train_response" name="response"/>
+                                        <input type="hidden" id="bus_response" name="response"/>
 
                                         <div class="col-lg-12" style="margin-top:15px;">
                                             <center>
-                                                <button class="primary-btn ld-ext-right" id="btn-search-train" type="button" onclick="get_captcha('recaptcha_train','train');" value="Submit">
+                                                <button class="primary-btn ld-ext-right" id="btn-search-bus" type="button" onclick="get_captcha('recaptcha_bus','bus');" value="Submit">
                                                     <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                                     {% trans 'Search' %}
                                                     <div class="ld ld-ring ld-cycle"></div>
@@ -1718,7 +1718,7 @@
 <!--    </section>-->
 
     {% elif template == 4 %}
-    <div class="site-blocks-cover overlay" style="background-image: url('{{static_path}}images/bg_train.jpg');" data-aos="fade">
+    <div class="site-blocks-cover overlay" style="background-image: url('{{static_path}}images/bg_bus.jpg');" data-aos="fade">
         <div class="container">
             <div class="row align-items-center justify-content-center" style="padding-top:100px;">
                 {% if username.co_user_name != '' %}
@@ -1760,8 +1760,8 @@
                                     <input type="hidden" id="start"/>
                                     <input type="hidden" id="end"/>
                                     <ul class="tabs">
-                                        {% if "train" in provider %}
-                                        <li class="tab-link current" data-tab="tab-train"><i class="image-rounded-icon"><img style="width:20px; height:20px" alt="Train Logo" src="{{static_path}}images/icon/home-train.png"/></i> <label class="btn-txt-color">{% trans 'TRAIN' %}</label></li>
+                                        {% if "bus" in provider %}
+                                        <li class="tab-link current" data-tab="tab-bus"><i class="image-rounded-icon"><img style="width:20px; height:20px" alt="Bus Logo" src="{{static_path}}images/icon/home-bus.png"/></i> <label class="btn-txt-color">{% trans 'BUS' %}</label></li>
                                         {% endif %}
                                     </ul>
                                 </div>
@@ -1780,56 +1780,56 @@
                         <div class="row">
                             {% if username.co_user_name != '' %}
                             <div class="col-xl-12" style="text-align:left;">
-                                {% if "train" in provider %}
-                                <div class="form-search-wrap tab-content current" id="tab-train" data-aos="fade-up" data-aos-delay="200">
-                                    <form action="{% url 'tt_website_rodextrip:train_search'%}" method="POST" id="train_searchForm" onsubmit="return search_train_validation()">
+                                {% if "bus" in provider %}
+                                <div class="form-search-wrap tab-content current" id="tab-bus" data-aos="fade-up" data-aos-delay="200">
+                                    <form action="{% url 'tt_website_rodextrip:bus_search'%}" method="POST" id="bus_searchForm" onsubmit="return search_bus_validation()">
                                         {% csrf_token %}
-                                        <input type="hidden" name="g-recaptcha-response" id='recaptcha_train'>
+                                        <input type="hidden" name="g-recaptcha-response" id='recaptcha_bus'>
                                         <div class="row">
-                                            <div class="col-lg-12" id="radio_train_search" style="text-align:left;margin-bottom:10px;">
+                                            <div class="col-lg-12" id="radio_bus_search" style="text-align:left;margin-bottom:10px;">
                                                 <label class="radio-button-custom crlabel" style="margin-bottom:0px;">
                                                     <span style="font-size:13px; color:{{text_color}};">{% trans 'One Way' %}</span>
-                                                    <input type="radio" checked="checked" name="radio_train_type" value="oneway">
+                                                    <input type="radio" checked="checked" name="radio_bus_type" value="oneway">
                                                     <span class="checkmark-radio crspan"></span>
                                                 </label>
                                                 <label class="radio-button-custom crlabel" style="margin-bottom:0px;">
                                                     <span style="font-size:13px; color:{{text_color}};">{% trans 'Round Trip' %}</span>
-                                                    <input type="radio" name="radio_train_type" value="roundtrip">
+                                                    <input type="radio" name="radio_bus_type" value="roundtrip">
                                                     <span class="checkmark-radio crspan"></span>
                                                 </label>
                                             </div>
                                             <div class="col-lg-12">
                                                 <div class="row">
-                                                    <div class="col-lg-6 col-md-6 col-sm-6 train-from">
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 bus-from">
                                                         <span class="span-search-ticket">{% trans 'From' %}</span>
                                                         <div class="input-container-search-ticket">
-                                                            <i class="fas fa-train" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
-                                                            <input id="train_origin" name="train_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('train_origin').select();" onclick="set_train_search_value_to_false();" value="BD - Bandung">
+                                                            <i class="fas fa-bus" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
+                                                            <input id="bus_origin" name="bus_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_origin').select();" onclick="set_bus_search_value_to_false();" value="BD - Bandung">
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-6 col-md-6 col-sm-6 train-to" style="z-index:5;">
-                                                        <h4 class="image-change-route-vertical2"><a href="javascript:train_switch();" style="z-index:5; color:{{text_color}};" id="train_switch"><i class="fas fa-exchange-alt"></i></a></h4>
-                                                        <h4 class="image-change-route-horizontal2"><a href="javascript:train_switch();" style="z-index:5; color:{{text_color}};" id="train_switch"><i class="fas fa-exchange-alt"></i></a></h4>
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 bus-to" style="z-index:5;">
+                                                        <h4 class="image-change-route-vertical2"><a href="javascript:bus_switch();" style="z-index:5; color:{{text_color}};" id="bus_switch"><i class="fas fa-exchange-alt"></i></a></h4>
+                                                        <h4 class="image-change-route-horizontal2"><a href="javascript:bus_switch();" style="z-index:5; color:{{text_color}};" id="bus_switch"><i class="fas fa-exchange-alt"></i></a></h4>
                                                         <span class="span-search-ticket">{% trans 'To' %}</span>
                                                         <div class="input-container-search-ticket">
                                                             <i class="fas fa-map-marked-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
-                                                            <input id="train_destination" name="train_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('train_destination').select();" onclick="set_train_search_value_to_false();" value="GMR - Gambir">
+                                                            <input id="bus_destination" name="bus_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_destination').select();" onclick="set_bus_search_value_to_false();" value="GMR - Gambir">
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 col-md-6 col-sm-6" id="train_date_search">
+                                            <div class="col-lg-6 col-md-6 col-sm-6" id="bus_date_search">
                                                 <span class="span-search-ticket">{% trans 'Departure' %}</span>
                                                 <div class="input-container-search-ticket">
                                                     <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
-                                                    <input type="text" style="background:white;" class="form-control" id="train_departure" name="train_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly/>
+                                                    <input type="text" style="background:white;" class="form-control" id="bus_departure" name="bus_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly/>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6">
                                                 <span class="span-search-ticket">{% trans 'Passenger' %}</span>
                                                 <div class="input-container-search-ticket btn-group">
                                                     <i class="fas fa-users" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
-                                                    <button id="show_total_pax_train" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
+                                                    <button id="show_total_pax_bus" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
                                                     <ul class="dropdown-menu" style="overflow-y:unset;" role="menu">
                                                         <div class="row" style="padding:10px;">
                                                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
@@ -1842,11 +1842,11 @@
                                                             </div>
                                                             <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
                                                                 <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                                    <button type="button" class="left-minus-adult-train btn-custom-circle" id="left-minus-adult-train" data-type="minus" data-field="" disabled>
+                                                                    <button type="button" class="left-minus-adult-bus btn-custom-circle" id="left-minus-adult-bus" data-type="minus" data-field="" disabled>
                                                                         <i class="fas fa-minus"></i>
                                                                     </button>
-                                                                    <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="train_adult" name="train_adult" value="1" min="1" readonly>
-                                                                    <button type="button" class="right-plus-adult-train btn-custom-circle" id="right-plus-adult-train" data-type="plus" data-field="">
+                                                                    <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="bus_adult" name="bus_adult" value="1" min="1" readonly>
+                                                                    <button type="button" class="right-plus-adult-bus btn-custom-circle" id="right-plus-adult-bus" data-type="plus" data-field="">
                                                                         <i class="fas fa-plus"></i>
                                                                     </button>
                                                                 </div>
@@ -1862,18 +1862,18 @@
                                                             </div>
                                                             <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
                                                                 <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                                    <button type="button" class="left-minus-infant-train btn-custom-circle" id="left-minus-infant-train" data-type="minus" data-field="" disabled>
+                                                                    <button type="button" class="left-minus-infant-bus btn-custom-circle" id="left-minus-infant-bus" data-type="minus" data-field="" disabled>
                                                                         <i class="fas fa-minus"></i>
                                                                     </button>
-                                                                    <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="train_infant" name="train_infant" value="0" readonly>
-                                                                    <button type="button" class="right-plus-infant-train btn-custom-circle" id="right-plus-infant-train" data-type="plus" data-field="">
+                                                                    <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="bus_infant" name="bus_infant" value="0" readonly>
+                                                                    <button type="button" class="right-plus-infant-bus btn-custom-circle" id="right-plus-infant-bus" data-type="plus" data-field="">
                                                                         <i class="fas fa-plus"></i>
                                                                     </button>
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-12" style="text-align:right;">
                                                         <hr/>
-                                                        <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('train','passenger');">Done</button>
+                                                        <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('bus','passenger');">Done</button>
                                                     </div>
                                                         </div>
                                                     </ul>
@@ -1882,9 +1882,9 @@
                                         </div>
                                         <br/>
 
-                                        <input type="hidden" id="train_response" name="response"/>
+                                        <input type="hidden" id="bus_response" name="response"/>
                                         <center>
-                                            <button class="primary-btn ld-ext-right" id="btn-search-train" type="button" onclick="get_captcha('recaptcha_train','train');" value="Submit">
+                                            <button class="primary-btn ld-ext-right" id="btn-search-bus" type="button" onclick="get_captcha('recaptcha_bus','bus');" value="Submit">
                                                 <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                                 {% trans 'Search' %}
                                                 <div class="ld ld-ring ld-cycle"></div>
@@ -2161,7 +2161,7 @@
 <!--    </div>-->
 
     {% elif template == 5 %}
-    <section class="home-banner-area relative" id="home" style="border-bottom-left-radius: 5%; border-bottom-right-radius: 5%; background-image: linear-gradient(0deg,rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)),url('{{static_path}}images/bg_train.jpg') !important;">
+    <section class="home-banner-area relative" id="home" style="border-bottom-left-radius: 5%; border-bottom-right-radius: 5%; background-image: linear-gradient(0deg,rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)),url('{{static_path}}images/bg_bus.jpg') !important;">
         <!--<div class="overlay overlay-bg" style="border-bottom-left-radius: 5%; border-bottom-right-radius: 5%;"></div>-->
         <div class="container">
             <div class="row fullscreen justify-content-center">
@@ -2199,57 +2199,57 @@
                             <div class="row">
                                 {% if username.co_user_login != '' %}
                                 <div class="col-xl-12" style="text-align:left;">
-                                    {% if "train" in provider %}
-                                    <div id="tab-train" class="tab-content current">
-                                        <form action="{% url 'tt_website_rodextrip:train_search'%}" method="POST" class="form-wrap" id="train_searchForm" onsubmit="return search_train_validation()">
+                                    {% if "bus" in provider %}
+                                    <div id="tab-bus" class="tab-content current">
+                                        <form action="{% url 'tt_website_rodextrip:bus_search'%}" method="POST" class="form-wrap" id="bus_searchForm" onsubmit="return search_bus_validation()">
                                             {% csrf_token %}
-                                            <input type="hidden" name="g-recaptcha-response" id='recaptcha_train'>
+                                            <input type="hidden" name="g-recaptcha-response" id='recaptcha_bus'>
                                             <div class="row">
-                                                <div class="col-lg-12" id="radio_train_search" style="text-align:left;margin-bottom:10px;">
+                                                <div class="col-lg-12" id="radio_bus_search" style="text-align:left;margin-bottom:10px;">
                                                     <label class="radio-button-custom crlabel" style="margin-bottom:0px;">
                                                         <span style="font-size:13px; color:{{text_color}};">{% trans 'One Way' %}</span>
-                                                        <input type="radio" checked="checked" name="radio_train_type" value="oneway">
+                                                        <input type="radio" checked="checked" name="radio_bus_type" value="oneway">
                                                         <span class="checkmark-radio crspan"></span>
                                                     </label>
                                                     <label class="radio-button-custom crlabel" style="margin-bottom:0px;">
                                                         <span style="font-size:13px; color:{{text_color}};">{% trans 'Round Trip' %}</span>
-                                                        <input type="radio" name="radio_train_type" value="roundtrip">
+                                                        <input type="radio" name="radio_bus_type" value="roundtrip">
                                                         <span class="checkmark-radio crspan"></span>
                                                     </label>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="row">
-                                                        <div class="col-lg-6 col-md-6 col-sm-6 train-from">
-                                                            <span class="span-search-ticket"><i class="fas fa-train"></i> {% trans 'From' %}</span>
+                                                        <div class="col-lg-6 col-md-6 col-sm-6 bus-from">
+                                                            <span class="span-search-ticket"><i class="fas fa-bus"></i> {% trans 'From' %}</span>
                                                             <div class="input-container-search-ticket">
-                                                                <input id="train_origin" name="train_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('train_origin').select();" onclick="set_train_search_value_to_false();" value="BD - Bandung">
+                                                                <input id="bus_origin" name="bus_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_origin').select();" onclick="set_bus_search_value_to_false();" value="BD - Bandung">
                                                             </div>
                                                         </div>
                                                         <div class="image-change-route-vertical2">
-                                                            <h4><a href="javascript:train_switch();" style="z-index:5;" id="train_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                                            <h4><a href="javascript:bus_switch();" style="z-index:5;" id="bus_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
                                                         </div>
                                                         <div class="image-change-route-horizontal2">
-                                                            <h4><a class="horizontal-arrow" href="javascript:train_switch();" style="z-index:5; color:{{text_color}} !important;" id="train_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                                            <h4><a class="horizontal-arrow" href="javascript:bus_switch();" style="z-index:5; color:{{text_color}} !important;" id="bus_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></h4>
                                                         </div>
 
-                                                        <div class="col-lg-6 col-md-6 col-sm-6 train-to" style="z-index:5;">
+                                                        <div class="col-lg-6 col-md-6 col-sm-6 bus-to" style="z-index:5;">
                                                             <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> {% trans 'To' %}</span>
                                                             <div class="input-container-search-ticket">
-                                                                <input id="train_destination" name="train_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('train_destination').select();" onclick="set_train_search_value_to_false();" value="GMR - Gambir">
+                                                                <input id="bus_destination" name="bus_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_destination').select();" onclick="set_bus_search_value_to_false();" value="GMR - Gambir">
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-3 col-md-6 col-sm-6" id="train_date_search">
+                                                <div class="col-lg-3 col-md-6 col-sm-6" id="bus_date_search">
                                                     <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure' %}</span>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" style="background:white;" id="train_departure" name="train_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly/>
+                                                        <input type="text" class="form-control" style="background:white;" id="bus_departure" name="bus_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly/>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-3 col-md-6 col-sm-6">
                                                     <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
                                                     <div class="input-container-search-ticket btn-group">
-                                                        <button id="show_total_pax_train" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
+                                                        <button id="show_total_pax_bus" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
                                                         <ul class="dropdown-menu" style="overflow:unset;" role="menu">
                                                             <div class="row" style="padding:10px;">
                                                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
@@ -2262,11 +2262,11 @@
                                                                 </div>
                                                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
                                                                     <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                                        <button type="button" class="left-minus-adult-train btn-custom-circle" id="left-minus-adult-train" data-type="minus" data-field="" disabled>
+                                                                        <button type="button" class="left-minus-adult-bus btn-custom-circle" id="left-minus-adult-bus" data-type="minus" data-field="" disabled>
                                                                             <i class="fas fa-minus"></i>
                                                                         </button>
-                                                                        <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="train_adult" name="train_adult" value="1" min="1" readonly>
-                                                                        <button type="button" class="right-plus-adult-train btn-custom-circle" id="right-plus-adult-train" data-type="plus" data-field="">
+                                                                        <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="bus_adult" name="bus_adult" value="1" min="1" readonly>
+                                                                        <button type="button" class="right-plus-adult-bus btn-custom-circle" id="right-plus-adult-bus" data-type="plus" data-field="">
                                                                             <i class="fas fa-plus"></i>
                                                                         </button>
                                                                     </div>
@@ -2282,18 +2282,18 @@
                                                                 </div>
                                                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
                                                                     <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                                        <button type="button" class="left-minus-infant-train btn-custom-circle" id="left-minus-infant-train" data-type="minus" data-field="" disabled>
+                                                                        <button type="button" class="left-minus-infant-bus btn-custom-circle" id="left-minus-infant-bus" data-type="minus" data-field="" disabled>
                                                                             <i class="fas fa-minus"></i>
                                                                         </button>
-                                                                        <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="train_infant" name="train_infant" value="0" readonly>
-                                                                        <button type="button" class="right-plus-infant-train btn-custom-circle" id="right-plus-infant-train" data-type="plus" data-field="">
+                                                                        <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="bus_infant" name="bus_infant" value="0" readonly>
+                                                                        <button type="button" class="right-plus-infant-bus btn-custom-circle" id="right-plus-infant-bus" data-type="plus" data-field="">
                                                                             <i class="fas fa-plus"></i>
                                                                         </button>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-lg-12" style="text-align:right;">
                                                         <hr/>
-                                                        <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('train','passenger');">Done</button>
+                                                        <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('bus','passenger');">Done</button>
                                                     </div>
                                                             </div>
                                                         </ul>
@@ -2302,9 +2302,9 @@
                                             </div>
                                             <br/>
 
-                                            <input type="hidden" id="train_response" name="response"/>
+                                            <input type="hidden" id="bus_response" name="response"/>
                                             <center>
-                                                <button class="primary-btn ld-ext-right" id="btn-search-train" type="button" onclick="get_captcha('recaptcha_train','train');" value="Submit">
+                                                <button class="primary-btn ld-ext-right" id="btn-search-bus" type="button" onclick="get_captcha('recaptcha_bus','bus');" value="Submit">
                                                     <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                                     {% trans 'Search' %}
                                                     <div class="ld ld-ring ld-cycle"></div>
@@ -2444,11 +2444,11 @@
     <script>
     {% if username.co_user_login != '' %}
         try{
-            {% if "train" in provider %}
-            get_train_config('home');
+            {% if "bus" in provider %}
+            get_bus_config('home');
 
-            var train_origin = new autoComplete({
-                selector: '#train_origin',
+            var bus_origin = new autoComplete({
+                selector: '#bus_origin',
                 minChars: 1,
                 cache: false,
                 delay:0,
@@ -2456,17 +2456,17 @@
                     if(term.split(' - ').length == 2)
                             term = ''
                     if(term.length > 1)
-                        suggest(train_search_autocomplete(term));
+                        suggest(bus_search_autocomplete(term));
                 },
                 onSelect: function(e, term, item){
                     setTimeout(function(){
-                        $("#train_destination").focus();
+                        $("#bus_destination").focus();
                     }, 200);
-                    set_train_search_value_to_true();
+                    set_bus_search_value_to_true();
                 }
             });
-            var train_destination = new autoComplete({
-                selector: '#train_destination',
+            var bus_destination = new autoComplete({
+                selector: '#bus_destination',
                 minChars: 0,
                 cache: false,
                 delay:0,
@@ -2474,14 +2474,14 @@
                     if(term.split(' - ').length == 4)
                         term = ''
                     if(term.length > 1)
-                        suggest(train_search_autocomplete(term));
+                        suggest(bus_search_autocomplete(term));
                 },
                 onSelect: function(e, term, item){
                     setTimeout(function(){
-                        $("#train_departure").focus();
-                        $("#train_departure_return").focus();
+                        $("#bus_departure").focus();
+                        $("#bus_departure_return").focus();
                     }, 200);
-                    set_train_search_value_to_true();
+                    set_bus_search_value_to_true();
                 }
             });
             {% endif %}
@@ -2494,26 +2494,26 @@
     $( document ).ready(function() {
         $('.js-example-basic-single').select2();
         var now = moment().format('DD MMM YYYY');
-        {% if "train" in provider %}
+        {% if "bus" in provider %}
             try{
-                document.getElementById('train_origin').value = cache.train.origin;
+                document.getElementById('bus_origin').value = cache.bus.origin;
             }catch(err){
-                document.getElementById('train_origin').value = '{{train_origin}}';
+                document.getElementById('bus_origin').value = '{{bus_origin}}';
             }
             try{
-                document.getElementById('train_destination').value = cache.train.destination;
+                document.getElementById('bus_destination').value = cache.bus.destination;
             }catch(err){
-                document.getElementById('train_destination').value = '{{train_destination}}';
+                document.getElementById('bus_destination').value = '{{bus_destination}}';
             }
             try{
-                train_date = cache.train.departure;
+                bus_date = cache.bus.departure;
             }catch(err){
-                train_date = now;
+                bus_date = now;
             }
-            $('input[name="train_departure"]').daterangepicker({
+            $('input[name="bus_departure"]').daterangepicker({
                 singleDatePicker: true,
                 autoUpdateInput: true,
-                startDate: train_date,
+                startDate: bus_date,
                 minDate: moment(),
                 maxDate: moment().subtract(-90, 'days'),
                 showDropdowns: true,
@@ -2523,9 +2523,9 @@
                 }
             });
 
-            $('input[name="train_departure"]').on('apply.daterangepicker', function(ev, picker) {
+            $('input[name="bus_departure"]').on('apply.daterangepicker', function(ev, picker) {
                 setTimeout(function(){
-                    $("#show_total_pax_train").click();
+                    $("#show_total_pax_bus").click();
                 }, 200);
             });
 
@@ -2536,7 +2536,7 @@
     //bank_get_balance();
     //get_transaction();
     //get_banner('big_banner','home');
-    get_banner('small_banner','train');
+    get_banner('small_banner','bus');
     {% if website_mode == 'btc' or website_mode == 'btc_btb' %}
     ///get_dynamic_page('home');
     {% endif %}
