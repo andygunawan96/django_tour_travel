@@ -170,11 +170,15 @@ function get_list_report_footer(){
                             show_header_medical(printout[i].html);
                             check_header = false;
                             break;
-                        }else if(vendor == 'national_hospital' && test_type == 'NHDTKATG' && printout[i].code == "nathos_antigen_information"){
+                        }else if(vendor == 'national_hospital' && test_type == 'NHDTKPCRR' && printout[i].code == "nathos_pcr_rs_nathos_information"){
                             show_header_medical(printout[i].html);
                             check_header = false;
                             break;
-                        }else if(vendor == 'national_hospital' && test_type == 'NHDTKPCR' && printout[i].code == "nathos_pcr_information"){
+                        }else if(vendor == 'national_hospital' && test_type == 'NHDTKPCRP' && printout[i].code == "nathos_pcr_poc_information"){
+                            show_header_medical(printout[i].html);
+                            check_header = false;
+                            break;
+                        }else if(vendor == 'national_hospital' && test_type == 'NHDTKPCRB' && printout[i].code == "nathos_pcr_bali_information"){
                             show_header_medical(printout[i].html);
                             check_header = false;
                             break;
@@ -182,15 +186,59 @@ function get_list_report_footer(){
                             show_header_medical(printout[i].html);
                             check_header = false;
                             break;
-                        }else if(vendor == 'national_hospital' && test_type == 'NHDTSPCR' && printout[i].code == "nathos_pcr_saliva_information"){
+                        }else if(vendor == 'national_hospital' && test_type == 'NHDTSPCRR' && printout[i].code == "nathos_pcr_saliva_rs_nathos_information"){
                             show_header_medical(printout[i].html);
                             check_header = false;
                             break;
-                        }else if(vendor == 'national_hospital' && test_type == 'NHDTKKARBD' && printout[i].code == "nathos_pcr_tes_antibodi_rbd_information"){
+                        }else if(vendor == 'national_hospital' && test_type == 'NHDTSPCRP' && printout[i].code == "nathos_pcr_saliva_poc_information"){
+                            show_header_medical(printout[i].html);
+                            check_header = false;
+                            break;
+                        }else if(vendor == 'national_hospital' && test_type == 'NHDTSPCRB' && printout[i].code == "nathos_pcr_saliva_bali_information"){
+                            show_header_medical(printout[i].html);
+                            check_header = false;
+                            break;
+                        }else if(vendor == 'national_hospital' && test_type == 'NHDTKATGR' && printout[i].code == "nathos_antigen_rs_nathos_information"){
+                            show_header_medical(printout[i].html);
+                            check_header = false;
+                            break;
+                        }else if(vendor == 'national_hospital' && test_type == 'NHDTKATGP' && printout[i].code == "nathos_antigen_poc_information"){
+                            show_header_medical(printout[i].html);
+                            check_header = false;
+                            break;
+                        }else if(vendor == 'national_hospital' && test_type == 'NHDTKKARBD' && printout[i].code == "nathos_tes_antibodi_rbd_information"){
                             show_header_medical(printout[i].html);
                             check_header = false;
                             break;
                         }else if(vendor == 'national_hospital' && test_type == 'NHDTNATG' && printout[i].code == "nathos_antigen_nassal_information"){
+                            show_header_medical(printout[i].html);
+                            check_header = false;
+                            break;
+                        }else if(vendor == 'national_hospital' && test_type == 'NHDTKMCU1' && printout[i].code == "nathos_checkup1_information"){
+                            show_header_medical(printout[i].html);
+                            check_header = false;
+                            break;
+                        }else if(vendor == 'national_hospital' && test_type == 'NHDTKMCU2' && printout[i].code == "nathos_checkup2_information"){
+                            show_header_medical(printout[i].html);
+                            check_header = false;
+                            break;
+                        }else if(vendor == 'national_hospital' && test_type == 'NHDTKMCU3' && printout[i].code == "nathos_checkup3_information"){
+                            show_header_medical(printout[i].html);
+                            check_header = false;
+                            break;
+                        }else if(vendor == 'national_hospital' && test_type == 'NHDTKMCU4M' && printout[i].code == "nathos_checkup4M_information"){
+                            show_header_medical(printout[i].html);
+                            check_header = false;
+                            break;
+                        }else if(vendor == 'national_hospital' && test_type == 'NHDTKMCU4F' && printout[i].code == "nathos_checkup4F_information"){
+                            show_header_medical(printout[i].html);
+                            check_header = false;
+                            break;
+                        }else if(vendor == 'national_hospital' && test_type == 'NHDTKMCU5M' && printout[i].code == "nathos_checkup5M_information"){
+                            show_header_medical(printout[i].html);
+                            check_header = false;
+                            break;
+                        }else if(vendor == 'national_hospital' && test_type == 'NHDTKMCU5F' && printout[i].code == "nathos_checkup5F_information"){
                             show_header_medical(printout[i].html);
                             check_header = false;
                             break;
