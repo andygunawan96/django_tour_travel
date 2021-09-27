@@ -1407,6 +1407,7 @@ function bus_get_booking(data){
                 hide_modal_waiting_transaction();
             }
         }catch(err){
+            console.log(err);
             Swal.fire({
                   type: 'error',
                   title: 'Oops!',

@@ -219,7 +219,7 @@
     }catch(err){}
     bus_signin('{{order_number}}');
     $( document ).ready(function() {
-        breadcrumb_create("bus", 5, 1);
+        breadcrumb_create("bus", 6, 1);
     });
     function goto_seat_map(){
         document.getElementById('seat_map_request').innerHTML += `{% csrf_token %}`;

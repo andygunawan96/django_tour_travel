@@ -2455,7 +2455,7 @@ function breadcrumb_create(breadcrumbs_type, current_step, back_step){
         var breadcrumbs_url = ["location.href='/dashboard';", "", "", ""];
     }else if(breadcrumbs_type == "bus"){
         var breadcrumbs = ["Home", "Search", "Passenger", "Review", "Booking", "Issued"];
-        var breadcrumbs_url = ["location.href='/dashboard';", "", "", ""];
+        var breadcrumbs_url = ["location.href='/dashboard';", "location.href='/bus';", "location.href='/bus/passenger';", "", "", ""];
     }
 
     document.getElementById("breadcrumbs_create").innerHTML = '';
