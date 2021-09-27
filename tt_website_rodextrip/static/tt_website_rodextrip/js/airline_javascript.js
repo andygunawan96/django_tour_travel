@@ -4641,16 +4641,17 @@ function check_passenger(adult, child, infant){
                        document.getElementById('adult_country_of_issued'+i).style['border-color'] = 'red';
                     }else{
                        document.getElementById('adult_country_of_issued'+i).style['border-color'] = '#EFEFEF';
-                    }if(is_lionair == true){
-                       duration = moment.duration(moment(document.getElementById('adult_passport_expired_date'+i).value).diff(last_departure_date));
-                       //CHECK EXPIRED
-                       if(duration._milliseconds < 0 ){
-                            error_log+= 'Please update ktp expired date for passenger adult '+i+'!</br>\n';
-                            document.getElementById('adult_passport_expired_date'+i).style['border-color'] = 'red';
-                       }else
-                            document.getElementById('adult_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
-
                     }
+//                    if(is_lionair == true){
+//                       duration = moment.duration(moment(document.getElementById('adult_passport_expired_date'+i).value).diff(last_departure_date));
+//                       //CHECK EXPIRED
+//                       if(duration._milliseconds < 0 ){
+//                            error_log+= 'Please update ktp expired date for passenger adult '+i+'!</br>\n';
+//                            document.getElementById('adult_passport_expired_date'+i).style['border-color'] = 'red';
+//                       }else
+//                            document.getElementById('adult_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+//
+//                    }
 
                }
 
@@ -4784,16 +4785,17 @@ function check_passenger(adult, child, infant){
                        document.getElementById('child_country_of_issued'+i).style['border-color'] = 'red';
                     }else{
                        document.getElementById('child_country_of_issued'+i).style['border-color'] = '#EFEFEF';
-                    }if(is_lionair == true){
-                       duration = moment.duration(moment(document.getElementById('child_passport_expired_date'+i).value).diff(last_departure_date));
-                       //CHECK EXPIRED
-                       if(duration._milliseconds < 0 ){
-                            error_log+= 'Please update ktp expired date for passenger child '+i+'!</br>\n';
-                            document.getElementById('child_passport_expired_date'+i).style['border-color'] = 'red';
-                       }else
-                            document.getElementById('child_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
-
                     }
+//                    if(is_lionair == true){
+//                       duration = moment.duration(moment(document.getElementById('child_passport_expired_date'+i).value).diff(last_departure_date));
+//                       //CHECK EXPIRED
+//                       if(duration._milliseconds < 0 ){
+//                            error_log+= 'Please update ktp expired date for passenger child '+i+'!</br>\n';
+//                            document.getElementById('child_passport_expired_date'+i).style['border-color'] = 'red';
+//                       }else
+//                            document.getElementById('child_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+//
+//                    }
 
                }
 
