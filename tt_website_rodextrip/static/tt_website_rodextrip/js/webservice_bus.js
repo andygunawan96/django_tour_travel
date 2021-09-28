@@ -328,7 +328,7 @@ function bus_search(provider, signature){
                     response +=`
                         <div style="padding:5px; margin:10px;">
                             <div style="text-align:center">
-                                <img src="/static/tt_website_rodextrip/img/icon/no-bus.png" style="width:80px; height:80px;" alt="Not Found Bus" title="" />
+                                <img src="/static/tt_website_rodextrip/img/icon/no-train.png" style="width:80px; height:80px;" alt="Not Found Train" title="" />
                                 <br/><br/>
                                 <h6>NO BUS AVAILABLE</h6>
                             </div>
@@ -785,7 +785,7 @@ function bus_get_booking(data){
                                                     <tr>
                                                         <td><h5>`+msg.result.response.provider_bookings[i].journeys[j].departure_date.split(' - ')[1]+`</h5></td>
                                                         <td style="padding-left:15px;">
-                                                            <img src="/static/tt_website_rodextrip/img/icon/bus-01.png" style="width:20px; height:20px;" alt="Bus"/>
+                                                            <img src="/static/tt_website_rodextrip/img/icon/bus-01.png" style="width:30px; height:30px;" alt="Bus"/>
                                                         </td>
                                                         <td style="height:30px;padding:0 15px;width:100%">
                                                             <div style="display:inline-block;position:relative;width:100%">

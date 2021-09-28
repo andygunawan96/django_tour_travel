@@ -415,6 +415,57 @@ $(document).ready(function(){
 
     });
 
+
+    var quantity_adult_bus = parseInt($('#bus_adult').val());
+    $('#show_total_pax_bus').text(quantity_adult_bus + " Adult");
+
+    $('.right-plus-adult-bus').click(function(e){
+        // Stop acting like a button
+        e.preventDefault();
+        // Get the field name
+        var quantity = parseInt($('#bus_adult').val());
+
+        // If is not undefined
+        if(quantity < 4){
+            $('#bus_adult').val(quantity + 1);
+            quantity_adult_bus = quantity + 1;
+
+            $('#show_total_pax_bus').text(quantity_adult_bus + " Adult");
+        }
+
+        if (quantity_adult_bus == 4){
+            document.getElementById("left-minus-adult-bus").disabled = false;
+            document.getElementById("right-plus-adult-bus").disabled = true;
+        }
+        else{
+            document.getElementById("left-minus-adult-bus").disabled = false;
+        }
+    });
+    $('.left-minus-adult-bus').click(function(e){
+        // Stop acting like a button
+        e.preventDefault();
+        // Get the field name
+        var quantity = parseInt($('#bus_adult').val());
+
+        // If is not undefined
+        // Increment
+        if(quantity > 1){
+            $('#bus_adult').val(quantity - 1);
+            quantity_adult_bus = quantity - 1;
+
+            $('#show_total_pax_bus').text(quantity_adult_bus + " Adult");
+        }
+
+        if (quantity_adult_bus == 1){
+            document.getElementById("left-minus-adult-bus").disabled = true;
+            document.getElementById("right-plus-adult-bus").disabled = false;
+        }
+        else{
+            document.getElementById("right-plus-adult-bus").disabled = false;
+        }
+    });
+
+
     var quantity_adult_flight = parseInt($('#adult_flight').val());
     var quantity_child_flight = parseInt($('#child_flight').val());
     var quantity_infant_flight = parseInt($('#infant_flight').val());
@@ -1402,6 +1453,163 @@ $(document).ready(function(){
             $('#show_total_pax_flight').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
             $('#show_total_pax_flight1').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
 
+        }
+    });
+
+    $('#radio_bus_search').click(function(){
+        selected_value = $("input[name='radio_bus_type']:checked").val();
+        if (selected_value == "oneway"){
+            if(template == 1 || template == 2 || template == 3 || template == 6){
+                document.getElementById("bus_date_search").innerHTML = '';
+                text='';
+                var node = document.createElement("div");
+                text+=`
+                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>`;
+                if(template == 1 || template == 2){
+                    text+=`<div class="input-container-search-ticket">`;
+                }else if(template == 3){
+                    text+=`<div class="form-group">`;
+                }
+                text+=`
+                    <input type="text" class="form-control" name="bus_departure" id="bus_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;">
+                </div>
+                <input type="hidden" class="form-control date-picker airline_return" name="bus_return" id="airline_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
+
+                node.innerHTML = text;
+                document.getElementById("bus_date_search").appendChild(node);
+                node = document.createElement("div");
+            }
+            else if(template == 4){
+                document.getElementById("bus_date_search").innerHTML = '';
+                text='';
+                var node = document.createElement("div");
+                text+=`
+                <span class="span-search-ticket">Departure</span>
+                <div class="input-container-search-ticket">
+                    <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:`+color+`; color:`+text_color+`;"></i>
+                    <input type="text" class="form-control" name="bus_departure" id="bus_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;">
+                    <input type="hidden" class="form-control date-picker airline_return" name="bus_return" id="bus_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">
+                </div>`;
+
+                node.innerHTML = text;
+                document.getElementById("bus_date_search").appendChild(node);
+                node = document.createElement("div");
+            }
+            else if(template == 5){
+                document.getElementById("bus_date_search").innerHTML = '';
+                text='';
+                var node = document.createElement("div");
+                text+=`
+                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
+                <div class="input-container-search-ticket">
+                    <input type="text" class="form-control" name="bus_departure" id="bus_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;">
+                </div>
+                <input type="hidden" class="form-control date-picker airline_return" name="bus_return" id="bus_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
+
+                node.innerHTML = text;
+                document.getElementById("bus_date_search").appendChild(node);
+                node = document.createElement("div");
+            }
+            $("#bus_departure").val(moment().format('DD MMM YYYY'));
+            $("#bus_return").val($("#bus_departure").val());
+
+            $('input[name="bus_departure"]').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              opens: 'center',
+              startDate: moment(),
+              minDate: moment(),
+              maxDate: moment().subtract(-90, 'days'),
+              showDropdowns: true,
+              locale: {
+                  format: 'DD MMM YYYY',
+              }
+            });
+        }
+        else if(selected_value == "roundtrip"){
+            if(template == 1 || template == 2 || template == 3 || template == 6){
+                document.getElementById("bus_date_search").innerHTML = '';
+                text='';
+                var node = document.createElement("div");
+                text+=`
+                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure - Return</span>`;
+                if(template == 1 || template == 2){
+                    text+=`<div class="input-container-search-ticket">`;
+                }else if(template == 3){
+                    text+=`<div class="form-group">`;
+                }
+                text+=`
+                    <input type="text" class="form-control" name="bus_departure_return" id="bus_departure_return" placeholder="Departure Date - Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date - Return Date '" autocomplete="off" readonly style="background:white;">
+                </div>
+
+                <input type="hidden" class="form-control" name="bus_departure" id="bus_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+                <input type="hidden" class="form-control" name="bus_return" id="bus_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
+
+                node.innerHTML = text;
+                document.getElementById("bus_date_search").appendChild(node);
+                node = document.createElement("div");
+            }
+            else if(template == 4){
+                document.getElementById("bus_date_search").innerHTML = '';
+                text='';
+                var node = document.createElement("div");
+                text+=`
+                <span class="span-search-ticket">Departure - Return</span>
+                <div class="input-container-search-ticket">
+                    <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:`+color+`; color:`+text_color+`;"></i>
+                    <input type="text" class="form-control" name="bus_departure_return" id="bus_departure_return" placeholder="Departure Date - Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date - Return Date '" autocomplete="off" readonly style="background:white;">
+                </div>
+
+                <input type="hidden" class="form-control" name="bus_departure" id="bus_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+                <input type="hidden" class="form-control" name="bus_return" id="bus_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
+
+                node.innerHTML = text;
+                document.getElementById("bus_date_search").appendChild(node);
+                node = document.createElement("div");
+            }
+            else if(template == 5){
+                document.getElementById("bus_date_search").innerHTML = '';
+                text='';
+                var node = document.createElement("div");
+                text+=`
+                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure - Return</span>
+                <div class="input-container-search-ticket">
+                    <input type="text" class="form-control" name="bus_departure_return" id="bus_departure_return" placeholder="Departure Date - Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date - Return Date '" autocomplete="off" readonly style="background:white;">
+                </div>
+                <input type="hidden" class="form-control" name="bus_departure" id="bus_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+                <input type="hidden" class="form-control" name="bus_return" id="bus_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
+
+                node.innerHTML = text;
+                document.getElementById("bus_date_search").appendChild(node);
+                node = document.createElement("div");
+            }
+
+            $("#bus_departure").val(moment().format('DD MMM YYYY'));
+            $("#bus_return").val(moment().subtract(-1, 'days').format('DD MMM YYYY'));
+
+            $('input[name="bus_departure_return"]').daterangepicker({
+              singleDatePicker: false,
+              autoUpdateInput: true,
+              opens: 'center',
+              autoApply: true,
+              startDate: moment(),
+              endDate: moment().subtract(-1, 'days'),
+              minDate: moment(),
+              maxDate: moment().subtract(-90, 'days'),
+              showDropdowns: true,
+              locale: {
+                  format: 'DD MMM YYYY',
+              }
+            });
+
+            $('input[name="bus_departure_return"]').on('apply.daterangepicker', function(ev, picker) {
+              $(this).val(picker.startDate.format('DD MMM YYYY') + ' - ' + picker.endDate.format('DD MMM YYYY'));
+                $("#bus_departure").val(picker.startDate.format('DD MMM YYYY'));
+                $("#bus_return").val(picker.endDate.format('DD MMM YYYY'));
+                setTimeout(function(){
+                    $("#show_total_pax_bus").click();
+                }, 200);
+        });
         }
     });
 
@@ -2795,6 +3003,12 @@ function next_focus_element(product, from){
         if(from == 'passenger'){
             setTimeout(function(){
                 $("#show_total_pax_train").click();
+            }, 200);
+        }
+    }else if(product == 'bus'){
+        if(from == 'passenger'){
+            setTimeout(function(){
+                $("#show_total_pax_bus").click();
             }, 200);
         }
     }
