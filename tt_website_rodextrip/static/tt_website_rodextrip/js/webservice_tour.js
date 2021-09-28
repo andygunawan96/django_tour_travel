@@ -1637,7 +1637,23 @@ function tour_get_booking(order_number)
                                                 text+=`<td>`+book_obj.hold_date+`</td>`;
 
                                             text+=`
-                                                <td>`+conv_status+`</td>
+                                                <td>`;
+                                            if(conv_status == 'Expired'){
+                                                text+=`<span style="background:#DC143C; color:white; padding:0px 15px; border-radius:14px;">`;
+                                            }
+                                            else if(conv_status == 'Booked'){
+                                                text+=`<span style="background:#3fa1e8; color:white; padding:0px 15px; border-radius:14px;">`;
+                                            }
+                                            else if(conv_status == 'Issued'){
+                                                text+=`<span style="background:#30b330; color:white; padding:0px 15px; border-radius:14px;">`;
+                                            }
+                                            else{
+                                                text+=`<span>`;
+                                            }
+                                            text+=`
+                                                    `+conv_status+`
+                                                </span>
+                                                </td>
                                             </tr>
                                          </table>
 

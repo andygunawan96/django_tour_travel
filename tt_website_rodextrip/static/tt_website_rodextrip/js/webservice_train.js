@@ -648,8 +648,26 @@ function train_get_booking(data){
                             else
                                 text+=`<td> - </td>`;
 
-                            text +=`
-                                <td id='pnr'>`+msg.result.response.provider_bookings[i].state_description+`</td>
+                            text+=`
+                                <td id='pnr'>`;
+                            if(msg.result.response.provider_bookings[i].state_description == 'Expired' ||
+                                msg.result.response.provider_bookings[i].state_description == 'Booking Failed' ||
+                                msg.result.response.provider_bookings[i].state_description == 'Cancelled'){
+                                text+=`<span style="background:#DC143C; color:white; padding:0px 15px; border-radius:14px;">`;
+                            }
+                            else if(msg.result.response.provider_bookings[i].state_description == 'Booked'){
+                                text+=`<span style="background:#3fa1e8; color:white; padding:0px 15px; border-radius:14px;">`;
+                            }
+                            else if(msg.result.response.provider_bookings[i].state_description == 'Issued'){
+                                text+=`<span style="background:#30b330; color:white; padding:0px 15px; border-radius:14px;">`;
+                            }
+                            else{
+                                text+=`<span>`;
+                            }
+                            text+=`
+                                    `+msg.result.response.provider_bookings[i].state_description+`
+                                </span>
+                                </td>
                             </tr>`;
                         }
                         $text +='\n';

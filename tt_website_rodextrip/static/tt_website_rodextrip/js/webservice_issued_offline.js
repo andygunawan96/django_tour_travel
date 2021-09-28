@@ -1125,9 +1125,35 @@ function get_booking_offline(data){
                                 text+=`
                                     <td>`+msg.result.response.hold_date+`</td>`;
                                 else
-                                text+=`<td>-</td>`
+                                    text+=`<td>-</td>`;
+
                                 text+=`
-                                    <td id='pnr'>`+msg.result.response.state_offline+`</td>
+                                    <td id='pnr'>`;
+                                if(msg.result.response.state_offline == 'Expired' ||
+                                    msg.result.response.state_offline == 'Cancelled' ||
+                                    msg.result.response.state_offline == 'Booking Failed'){
+                                    text+=`<span style="background:#DC143C; color:white; padding:0px 15px; border-radius:14px;">`;
+                                }
+                                else if(msg.result.response.state_offline == 'Booked' ||
+                                    msg.result.response.state_offline == 'Pending'){
+                                    text+=`<span style="background:#3fa1e8; color:white; padding:0px 15px; border-radius:14px;">`;
+                                }
+                                else if(msg.result.response.state_offline == 'Issued' ||
+                                    msg.result.response.state_offline == 'validate' ||
+                                    msg.result.response.state_offline == 'done'){
+                                    text+=`<span style="background:#30b330; color:white; padding:0px 15px; border-radius:14px;">`;
+                                }
+                                else if(msg.result.response.state_offline == 'Refund' ||
+                                    msg.result.response.state_offline == 'sent'){
+                                    text+=`<span style="background:#8c8d8f; color:white; padding:0px 15px; border-radius:14px;">`;
+                                }
+                                else{
+                                    text+=`<span>`;
+                                }
+                                text+=`
+                                        `+msg.result.response.state_offline+`
+                                    </span>
+                                    </td>
                                 </tr>`;
                             }
                             $(".issued_booking_btn").remove();

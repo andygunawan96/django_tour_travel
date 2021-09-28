@@ -4547,7 +4547,31 @@ function airline_get_booking(data, sync=false){
                                 text+=`<td>`+msg.result.response.hold_date+`</td>`;
 
                             text+=`
-                                <td id='pnr'>`+msg.result.response.provider_bookings[i].state_description+`</td>
+                                <td>`;
+                            if(msg.result.response.provider_bookings[i].state_description == 'Expired' ||
+                                msg.result.response.provider_bookings[i].state_description == 'Cancelled' ||
+                                msg.result.response.provider_bookings[i].state_description == 'Booking Failed'){
+                                text+=`<span style="background:#DC143C; color:white; padding:0px 15px; border-radius:14px;">`;
+                            }
+                            else if(msg.result.response.provider_bookings[i].state_description == 'Booked' ||
+                                msg.result.response.provider_bookings[i].state_description == 'Pending'){
+                                text+=`<span style="background:#3fa1e8; color:white; padding:0px 15px; border-radius:14px;">`;
+                            }
+                            else if(msg.result.response.provider_bookings[i].state_description == 'Issued' ||
+                                msg.result.response.provider_bookings[i].state_description == 'Done'){
+                                text+=`<span style="background:#30b330; color:white; padding:0px 15px; border-radius:14px;">`;
+                            }
+                            else if(msg.result.response.provider_bookings[i].state_description == 'Refund' ||
+                                msg.result.response.provider_bookings[i].state_description == 'Draft'){
+                                text+=`<span style="background:#8c8d8f; color:white; padding:0px 15px; border-radius:14px;">`;
+                            }
+                            else{
+                                text+=`<span>`;
+                            }
+                            text+=`
+                                    `+msg.result.response.provider_bookings[i].state_description+`
+                                </span>
+                                </td>
                             </tr>`;
                         }
                         if(check_provider_booking == 0 && msg.result.response.state != 'issued'){

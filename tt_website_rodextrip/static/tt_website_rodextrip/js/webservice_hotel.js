@@ -2092,10 +2092,27 @@ function hotel_get_booking(data){
                                             <td>`+msg.result.response.hotel_rooms[i].prov_issued_code+`</td>`;
                                     else
                                         text+= `<td> - </td>`;
-                                    text+=`
-                                            <td>`+msg.result.response.state.charAt(0).toUpperCase()+msg.result.response.state.slice(1).toLowerCase()+`</td>
-                                        </tr>
-                                    `;
+                                    text+=`<td>`;
+
+                                    if(msg.result.response.state.charAt(0).toUpperCase()+msg.result.response.state.slice(1).toLowerCase() == 'Expired' ||
+                                        msg.result.response.state.charAt(0).toUpperCase()+msg.result.response.state.slice(1).toLowerCase() == 'Cancel2' ||
+                                        msg.result.response.state.charAt(0).toUpperCase()+msg.result.response.state.slice(1).toLowerCase() == 'Fail_issued'){
+                                        text+=`<span style="background:#DC143C; color:white; padding:0px 15px; border-radius:14px;">`;
+                                    }
+                                    else if(msg.result.response.state.charAt(0).toUpperCase()+msg.result.response.state.slice(1).toLowerCase() == 'Booked'){
+                                        text+=`<span style="background:#3fa1e8; color:white; padding:0px 15px; border-radius:14px;">`;
+                                    }
+                                    else if(msg.result.response.state.charAt(0).toUpperCase()+msg.result.response.state.slice(1).toLowerCase() == 'Issued'){
+                                        text+=`<span style="background:#30b330; color:white; padding:0px 15px; border-radius:14px;">`;
+                                    }
+                                    else{
+                                        text+=`<span>`;
+                                    }
+
+                                    text+=``+msg.result.response.state.charAt(0).toUpperCase()+msg.result.response.state.slice(1).toLowerCase()+`
+                                            </span>
+                                        </td>
+                                    </tr>`;
                                     list_pnr.push(msg.result.response.hotel_rooms[i].prov_issued_code);
                                 }
                             }

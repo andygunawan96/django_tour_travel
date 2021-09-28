@@ -1130,8 +1130,30 @@ function medical_global_get_booking(order_number, sync=false){
                                         </div>`;
                                     text+=`
                                     <div class="col-lg-12">
-                                        <span>Status: </span>
-                                        <span style="font-weight:600;">`+msg.result.response.provider_bookings[i].state_description+`</span><br/>`;
+                                        <span>Status: </span>`;
+                                        if(msg.result.response.provider_bookings[i].state_description == 'Expired' ||
+                                            msg.result.response.provider_bookings[i].state_description == 'Cancelled' ||
+                                            msg.result.response.provider_bookings[i].state_description == 'Booking Failed'){
+                                            text+=`<span style="background:#DC143C; color:white; padding:0px 15px; border-radius:14px;">`;
+                                        }
+                                        else if(msg.result.response.provider_bookings[i].state_description == 'Booked' ||
+                                            msg.result.response.provider_bookings[i].state_description == 'Pending'){
+                                            text+=`<span style="background:#3fa1e8; color:white; padding:0px 15px; border-radius:14px;">`;
+                                        }
+                                        else if(msg.result.response.provider_bookings[i].state_description == 'Issued' ||
+                                            msg.result.response.provider_bookings[i].state_description == 'validate' ||
+                                            msg.result.response.provider_bookings[i].state_description == 'done'){
+                                            text+=`<span style="background:#30b330; color:white; padding:0px 15px; border-radius:14px;">`;
+                                        }
+                                        else if(msg.result.response.provider_bookings[i].state_description == 'Refund' ||
+                                            msg.result.response.provider_bookings[i].state_description == 'sent'){
+                                            text+=`<span style="background:#8c8d8f; color:white; padding:0px 15px; border-radius:14px;">`;
+                                        }
+                                        else{
+                                            text+=`<span>`;
+                                        }
+
+                                        text+=``+msg.result.response.provider_bookings[i].state_description+`</span><br/>`;
                                         if(msg.result.response.state == 'booked'){
                                             text+=`
                                             <span>Hold Date: </span>
