@@ -5500,7 +5500,7 @@ function check_passport_expired_six_month(id){
             last_departure_date = airline_pick[i].journeys[j].departure_date.split(' - ')[0];
         }
     }
-    if(document.getElementById(id).value != '' && document.getElementById(id).value != moment().subtract(-1, 'years').format('DD MMM YYYY')){
+    if(document.getElementById(id).value != '' && document.getElementById(id).value != moment().subtract(-1, 'years').format('DD MMM YYYY') && id.includes('infant') == false){
         var duration = moment.duration(moment(document.getElementById(id).value).diff(last_departure_date));
         console.log(duration);
         if(duration._data.months < 6 && duration._data.years == 0)
