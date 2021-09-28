@@ -1602,13 +1602,22 @@ function medical_global_get_booking(order_number, sync=false){
                         <div>
                             <input class="primary-btn-white" id="show_commission_button" style="width:100%;margin-bottom:10px;" type="button" onclick="show_commission('commission');" value="Show Commission"/>
                         </div>`;
-                        if(window.location.pathname.includes('confirm_order') == false)
+                        if(window.location.pathname.includes('confirm_order') == false){
                         text_detail+=`
                         <div>
                             <center>
                                 <input type="button" class="primary-btn-white" style="width:100%;" onclick="copy_data();" value="Copy"/>
                             </center>
                         </div>`;
+                            if(msg.result.response.state != 'cancel' || msg.result.response.state != 'cancel2'){
+                                document.getElementById('cancel_reservation').innerHTML = `
+                                <button class="primary-btn-white hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="medical_global_cancel_booking('` + msg.result.response.order_number + `');" style="width:100%;">
+                                    Cancel Booking
+                                    <i class="fas fa-times" style="padding-left:5px; color:red; font-size:16px;"></i>
+                                    <div class="ld ld-ring ld-cycle"></div>
+                                </button>`;
+                            }
+                        }
                         if(window.location.pathname.includes('confirm_order') && user_login.co_agent_frontend_security.includes('confirm_order_medical') && msg.result.response.state_vendor == 'new_order' && moment().format('YYYY-MM-DD') == msg.result.response.picked_timeslot.datetimeslot.substr(0,10)){
                             text_detail+=`
                             <div style="margin-top:10px;">
@@ -1870,7 +1879,7 @@ function medical_global_cancel_booking(data){
                         //document.getElementById('voucher_div').style.display = 'none';
                         document.getElementById('payment_acq').hidden = true;
                         document.getElementById('div_sync_status').hidden = true;
-                        document.getElementById('button-print-print').hidden = true;
+//                        document.getElementById('button-print-print').hidden = true;
 
                         document.getElementById("overlay-div-box").style.display = "none";
                         $(".issued_booking_btn").hide(); //kalau error masih keluar button awal remove ivan

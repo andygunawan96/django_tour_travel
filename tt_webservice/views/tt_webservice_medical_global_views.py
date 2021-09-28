@@ -80,8 +80,6 @@ def api_models(request):
             res = get_data_booking_cache_medical(request)
         elif req_data['action'] == 'save_backend':
             res = save_backend(request)
-        elif req_data['action'] == 'verify_data':
-            res = verify_data(request)
         elif req_data['action'] == 'cancel':
             res = cancel(request)
         elif req_data['action'] == 'confirm_order':
