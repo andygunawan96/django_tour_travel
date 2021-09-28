@@ -661,8 +661,33 @@ function bus_get_booking(data){
                             if(msg.result.response.state == 'booked')
                                 text +=`
                                 <td>`+msg.result.response.provider_bookings[i].hold_date+`</td>`;
-                            text +=`
-                                <td id='pnr'>`+msg.result.response.provider_bookings[i].state_description+`</td>
+                            text +=`<td id='pnr'>`;
+
+                            if(msg.result.response.provider_bookings[i].state_description == 'Expired' ||
+                                msg.result.response.provider_bookings[i].state_description == 'Cancelled' ||
+                                msg.result.response.provider_bookings[i].state_description == 'Booking Failed'){
+                                text+=`<span style="background:#DC143C; color:white; padding:0px 15px; border-radius:14px;">`;
+                            }
+                            else if(msg.result.response.provider_bookings[i].state_description == 'Booked' ||
+                                msg.result.response.provider_bookings[i].state_description == 'Pending'){
+                                text+=`<span style="background:#3fa1e8; color:white; padding:0px 15px; border-radius:14px;">`;
+                            }
+                            else if(msg.result.response.provider_bookings[i].state_description == 'Issued' ||
+                                msg.result.response.provider_bookings[i].state_description == 'validate' ||
+                                msg.result.response.provider_bookings[i].state_description == 'done'){
+                                text+=`<span style="background:#30b330; color:white; padding:0px 15px; border-radius:14px;">`;
+                            }
+                            else if(msg.result.response.provider_bookings[i].state_description == 'Refund' ||
+                                msg.result.response.provider_bookings[i].state_description == 'sent'){
+                                text+=`<span style="background:#8c8d8f; color:white; padding:0px 15px; border-radius:14px;">`;
+                            }
+                            else{
+                                text+=`<span>`;
+                            }
+                            text+=`
+                                `+msg.result.response.provider_bookings[i].state_description+`
+                                    </span>
+                                </td>
                             </tr>`;
                         }
                         $text +='\n';

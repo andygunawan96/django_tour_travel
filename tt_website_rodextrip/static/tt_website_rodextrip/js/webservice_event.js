@@ -205,8 +205,26 @@ function event_get_booking(data){
                                         if(msg.result.response.state == 'booked')
                                             text +=`
                                                 <td>`+msg.result.response.hold_date+`</td>`;
+
+
                                         text+=`
-                                        <td>`+msg.result.response.state_description+`</td>
+                                            <td>`;
+                                        if(msg.result.response.state_description == 'Expired'){
+                                            text+=`<span style="background:#DC143C; color:white; padding:0px 15px; border-radius:14px;">`;
+                                        }
+                                        else if(msg.result.response.state_description == 'Booked'){
+                                            text+=`<span style="background:#3fa1e8; color:white; padding:0px 15px; border-radius:14px;">`;
+                                        }
+                                        else if(msg.result.response.state_description == 'Issued'){
+                                            text+=`<span style="background:#30b330; color:white; padding:0px 15px; border-radius:14px;">`;
+                                        }
+                                        else{
+                                            text+=`<span>`;
+                                        }
+                                        text+=`
+                                                `+msg.result.response.state_description+`
+                                            </span>
+                                        </td>
                                     </tr>`;
                             }
                     text+=`
