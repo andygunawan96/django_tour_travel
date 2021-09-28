@@ -154,7 +154,7 @@
                                             <tr>
                                                 <td style="font-weight:500;">{{data.departure_date.1}}</td>
                                                 <td style="padding-left:15px;">
-                                                    <img src="/static/tt_website_rodextrip/img/icon/train-01.png" alt="Train" style="width:20px; height:20px;"/>
+                                                    <img src="/static/tt_website_rodextrip/img/icon/bus-01.png" alt="Bus" style="width:20px; height:20px;"/>
                                                 </td>
                                                 <td style="height:30px;padding:0 15px;width:100%">
                                                     <div style="display:inline-block;position:relative;width:100%">
@@ -300,14 +300,14 @@
                 <div class="col-lg-9">
                     <div class="row">
                         <div class="col-lg-4" id="seat_map_div" style="padding-bottom:10px;" hidden>
-                            <button type="button" class="primary-btn hold-seat-booking-train ld-ext-right" id="btn-seat-train" onclick="get_seat_map();" style="width:100%;">
+                            <button type="button" class="primary-btn hold-seat-booking-bus ld-ext-right" id="btn-seat-bus" onclick="get_seat_map();" style="width:100%;">
                                 {% trans 'Seat' %}
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>
                         </div>
                         <div class="col-lg-4" style="padding-bottom:10px;">
                             {% if 'book_reservation' in username.co_agent_frontend_security %}
-                            <button type="button" class="primary-btn hold-seat-booking-train ld-ext-right" id="btn-search-train" onclick="bus_pre_create_booking(0);" style="width:100%;">
+                            <button type="button" class="primary-btn hold-seat-booking-bus ld-ext-right" id="btn-search-bus" onclick="bus_pre_create_booking(0);" style="width:100%;">
                                 {% trans 'Hold Booking' %}
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>
@@ -349,7 +349,7 @@
     }
     //get_payment_acq('Issued','{{passenger.booker.booker_seq_id}}', '', 'billing',signature,'bus_review');
     $( document ).ready(function() {
-        breadcrumb_create("train", 4, 0);
+        breadcrumb_create("bus", 4, 0);
     });
     function bus_seat_map(){
         document.getElementById('seat_map_request').innerHTML += `{% csrf_token %}`;

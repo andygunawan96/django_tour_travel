@@ -105,11 +105,11 @@ def login(request):
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
-            set_session(request, 'train_signature', res['result']['response']['signature'])
+            set_session(request, 'bus_signature', res['result']['response']['signature'])
             set_session(request, 'signature', res['result']['response']['signature'])
-            _logger.info(json.dumps(request.session['train_signature']))
+            _logger.info(json.dumps(request.session['bus_signature']))
 
-            _logger.info("SIGNIN TRAIN SUCCESS SIGNATURE " + res['result']['response']['signature'])
+            _logger.info("SIGNIN BUS SUCCESS SIGNATURE " + res['result']['response']['signature'])
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
@@ -248,12 +248,12 @@ def get_data(request):
         # res = search2(request)
         logging.getLogger("error_info").error("SUCCESS get_data BUS SIGNATURE " + request.POST['signature'])
     except Exception as e:
-        _logger.error('ERROR get train_cache_data file\n' + str(e) + '\n' + traceback.format_exc())
+        _logger.error('ERROR get bus_cache_data file\n' + str(e) + '\n' + traceback.format_exc())
 
     return response
 
 def search(request):
-    #train
+    #bus
     try:
         bus_destinations = []
         file = read_cache_with_folder_path("get_bus_config", 90911)
@@ -279,7 +279,7 @@ def search(request):
             "direction": request.session['bus_request']['direction'],
             "adult": int(request.session['bus_request']['adult']),
             "provider": request.POST['provider'],
-            # "provider": "rodextrip_train"
+            # "provider": "rodextrip_bus"
         }
         if 'bus_search' not in request.session._session:
             set_session(request, 'bus_search', data)
@@ -324,9 +324,9 @@ def search(request):
                             check = check + 1
                         if check == 2:
                             break
-            _logger.info("SUCCESS search_train SIGNATURE " + request.POST['signature'])
+            _logger.info("SUCCESS search_bus SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("ERROR search_train SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR search_bus SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
@@ -338,9 +338,9 @@ def sell_journeys(request):
 
         data = {
             "promotion_codes": [],
-            "adult": int(request.session['train_request']['adult']),
-            "infant": int(request.session['train_request']['infant']),
-            "schedules": request.session['train_booking'],
+            "adult": int(request.session['bus_request']['adult']),
+            "infant": int(request.session['bus_request']['infant']),
+            "schedules": request.session['bus_booking'],
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -351,13 +351,13 @@ def sell_journeys(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/train'
+    url_request = url + 'booking/bus'
     res = send_request_api(request, url_request, headers, data, 'POST', 480)
     try:
         if res['result']['error_code'] == 0:
-            _logger.info("SUCCESS sell_journeys TRAIN SIGNATURE " + request.POST['signature'])
+            _logger.info("SUCCESS sell_journeys BUS SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("ERROR sell_journeys_train TRAIN SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR sell_journeys_bus BUS SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -474,11 +474,11 @@ def commit_booking(request):
     res = send_request_api(request, url_request, headers, data, 'POST', 480)
     try:
         if res['result']['error_code'] == 0:
-            set_session(request, 'train_order_number', res['result']['response']['order_number'])
-            _logger.info(json.dumps(request.session['train_order_number']))
-            _logger.info("SUCCESS commit_booking TRAIN SIGNATURE " + request.POST['signature'])
+            set_session(request, 'bus_order_number', res['result']['response']['order_number'])
+            _logger.info(json.dumps(request.session['bus_order_number']))
+            _logger.info("SUCCESS commit_booking BUS SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("ERROR commit_booking_train TRAIN SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR commit_booking_bus BUS SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
@@ -486,12 +486,12 @@ def commit_booking(request):
 
 def get_booking(request):
     try:
-        train_destinations = []
+        bus_destinations = []
         file = read_cache_with_folder_path("get_bus_config", 90911)
         if file:
             response = file
             for country in response['station']:
-                train_destinations.append({
+                bus_destinations.append({
                     'code': country['code'],
                     'name': country['name'],
                 })
@@ -517,7 +517,7 @@ def get_booking(request):
                         'arrival_date': parse_date_time_front_end(string_to_datetime(journey['arrival_date'] + ':00'))
                     })
                     check = 0
-                    for destination in train_destinations:
+                    for destination in bus_destinations:
                         if destination['code'] == journey['origin']:
                             journey.update({
                                 'origin_name': destination['name'],
@@ -537,9 +537,9 @@ def get_booking(request):
                         month[pax['birth_date'].split(' ')[0].split('-')[1]],
                         pax['birth_date'].split(' ')[0].split('-')[0])
                 })
-            _logger.info("SUCCESS get_booking TRAIN SIGNATURE " + request.session['train_signature'])
+            _logger.info("SUCCESS get_booking BUS SIGNATURE " + request.session['bus_signature'])
         else:
-            _logger.error("ERROR get_booking_train TRAIN SIGNATURE " + request.session['train_signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR get_booking_bus BUS SIGNATURE " + request.session['bus_signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
@@ -568,11 +568,11 @@ def update_service_charge(request):
             for upsell in data['passengers']:
                 for pricing in upsell['pricing']:
                     total_upsell += pricing['amount']
-            set_session(request, 'train_upsell_'+request.POST['signature'], total_upsell)
-            _logger.info(json.dumps(request.session['train_upsell' + request.POST['signature']]))
-            _logger.info("SUCCESS update_service_charge TRAIN SIGNATURE " + request.POST['signature'])
+            set_session(request, 'bus_upsell_'+request.POST['signature'], total_upsell)
+            _logger.info(json.dumps(request.session['bus_upsell' + request.POST['signature']]))
+            _logger.info("SUCCESS update_service_charge BUS SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("ERROR update_service_charge_train TRAIN SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR update_service_charge_bus BUS SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -629,7 +629,7 @@ def issued(request):
 
         if request.POST['voucher_code'] != '':
             data.update({
-                'voucher': data_voucher(request.POST['voucher_code'], 'train', []),
+                'voucher': data_voucher(request.POST['voucher_code'], 'bus', []),
             })
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -671,7 +671,7 @@ def cancel(request):
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS cancel BUS SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("ERROR cancel_train BUS SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR cancel_bus BUS SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
 
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
@@ -683,7 +683,7 @@ def assign_seats(request):
         provider_bookings = []
         provider = ''
         try:
-            provider = request.session['train_booking'][0]['provider']
+            provider = request.session['bus_booking'][0]['provider']
         except:
             pass
         for idx, pax in enumerate(passengers):
@@ -727,13 +727,13 @@ def assign_seats(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     if len(provider_bookings) > 0:
-        url_request = url + 'booking/train'
+        url_request = url + 'booking/bus'
         res = send_request_api(request, url_request, headers, data, 'POST', 480)
         try:
             if res['result']['error_code'] == 0:
-                _logger.info("SUCCESS assign_seats TRAIN SIGNATURE " + request.POST['signature'])
+                _logger.info("SUCCESS assign_seats BUS SIGNATURE " + request.POST['signature'])
             else:
-                _logger.error("ERROR assign_seats_train TRAIN SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+                _logger.error("ERROR assign_seats_bus BUS SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
 
         except Exception as e:
             _logger.error(msg=str(e) + '\n' + traceback.format_exc())
