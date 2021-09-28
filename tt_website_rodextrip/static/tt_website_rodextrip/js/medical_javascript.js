@@ -1142,7 +1142,7 @@ function add_table_of_passenger(type){
                                 <label style="color:red !important">*</label>
                                 <label>Mother name</label>
                                 <div class="input-container-search-ticket" style="margin-bottom:5px;">
-                                    <input type="text" class="form-control" name="adult_mother_name`+parseInt(counter_passenger+1)+`" id="adult_mother_name`+parseInt(counter_passenger+1)+`" placeholder="Mother Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Mother Name '" value="NA">
+                                    <input type="text" class="form-control" name="adult_mother_name`+parseInt(counter_passenger+1)+`" id="adult_mother_name`+parseInt(counter_passenger+1)+`" placeholder="Mother Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Mother Name '" value="NA"> <!--KALAU UBAH DEFAULT VALUE CLEAR HARUS DI UBAH JUGA-->
                                 </div>
                             </div>`;
                         }
@@ -2229,7 +2229,7 @@ function add_table_of_passenger(type){
                                     <label style="color:red !important">*</label>
                                     <label>Pemeriksaan Swab Keberapa</label>
                                     <div class="input-container-search-ticket" style="margin-bottom:5px;">
-                                        <input type="number" class="form-control" name="adult_pemeriksaan_swab_ke`+parseInt(counter_passenger+1)+`" id="adult_pemeriksaan_swab_ke`+parseInt(counter_passenger+1)+`" placeholder="Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Number '" value="1">
+                                        <input type="number" class="form-control" name="adult_pemeriksaan_swab_ke`+parseInt(counter_passenger+1)+`" id="adult_pemeriksaan_swab_ke`+parseInt(counter_passenger+1)+`" placeholder="Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Number '" value="1"> <!--KALAU UBAH DEFAULT VALUE CLEAR HARUS DI UBAH JUGA-->
                                     </div>
                                 </div>
                                 <div class="col-lg-12 col-md-12 col-sm-12" id="detail_kriteria`+parseInt(counter_passenger+1)+`" hidden>
@@ -4000,7 +4000,7 @@ function add_table_of_passenger(type){
                                         }else{
                                             text_div_paxs+=`<div class="form-select-2">`;
                                         }
-
+                                        //KALAU UBAH DEFAULT VALUE CLEAR HARUS DI UBAH JUGA
                                         if(template == 4){
                                             text_div_paxs+=`<select class="nice-select-default rounded" id="adult_termasuk_cluster_ispa`+parseInt(counter_passenger+1)+`" name="adult_termasuk_cluster_ispa`+parseInt(counter_passenger+1)+`">`;
                                         }else{

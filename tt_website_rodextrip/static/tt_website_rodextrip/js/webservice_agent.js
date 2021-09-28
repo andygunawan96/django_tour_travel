@@ -2827,7 +2827,7 @@ function clear_passenger(type, sequence){
                         document.getElementById('adult_profession'+sequence).value = 'SWASTA';
                         $('#adult_profession'+sequence).niceSelect('update');
                         try{
-                            document.getElementById('adult_mother_name'+sequence).value = '';
+                            document.getElementById('adult_mother_name'+sequence).value = 'NA'; //VALUE IKUTI DEFAULT
                         }catch(err){}
                         try{
                             document.getElementById('adult_tempat_lahir'+sequence).value = '';
@@ -2870,7 +2870,7 @@ function clear_passenger(type, sequence){
                             document.getElementById('adult_kriteria_pasien'+sequence).value = 'LAIN-LAIN';
                             $('#adult_kriteria_pasien'+sequence).niceSelect('update');
                             document.getElementById('detail_kriteria'+sequence).hidden = true;
-                            document.getElementById('adult_pemeriksaan_swab_ke'+sequence).value = '';
+                            document.getElementById('adult_pemeriksaan_swab_ke'+sequence).value = '1'; //VALUE IKUTI DEFAULT
 
                             //sedang dirawat rs
                             document.getElementById('adult_sedang_dirawat_di_rs'+sequence).value = 'TIDAK TAHU';
@@ -3019,7 +3019,7 @@ function clear_passenger(type, sequence){
                                 document.getElementById('berkunjung_ke_pasien_konfirmasi_div'+sequence).hidden = true;
                             }catch(err){}
 
-                            document.getElementById('adult_termasuk_cluster_ispa'+sequence).value = '';
+                            document.getElementById('adult_termasuk_cluster_ispa'+sequence).value = 'TIDAK TAHU'; // VALUE IKUTI DEFAULT
                             $('#adult_termasuk_cluster_ispa'+sequence).niceSelect('update');
 
                             document.getElementById('adult_merupakan_petugas_kesehatan'+sequence).value = 'TIDAK';
