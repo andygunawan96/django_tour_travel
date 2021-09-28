@@ -399,7 +399,7 @@
                         {% elif "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security and rec.name == "bus" %}
                         <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'bus');" id="nav_scroll_menu_bus">
                             <a class="nav-link {%if forloop.counter == 1 %}active{%endif%}" id="bus-tab" data-toggle="tab" href="#bus" role="tab" aria-controls="bus" aria-selected="false">
-                                <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-train.png" alt="Bus Icon"/></i>
+                                <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-bus.png" alt="Bus Icon"/></i>
                                 <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'Bus' %} </span>
                             </a>
                         </li>
@@ -841,7 +841,7 @@
 
                                 <input type="hidden" id="bus_response" name="response"/>
                                 <center>
-                                    <button class="primary-btn ld-ext-right" id="btn-search-train" type="button" onclick="get_captcha('recaptcha_bus','bus');" value="Submit">
+                                    <button class="primary-btn ld-ext-right" id="btn-search-bus" type="button" onclick="get_captcha('recaptcha_bus','bus');" value="Submit">
                                         <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                         {% trans 'Search' %}
                                         <div class="ld ld-ring ld-cycle"></div>
