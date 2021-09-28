@@ -15,6 +15,7 @@
     bus_data = `{{response}}`;
     bus_data = bus_data.replace(/&#39;/g, '"');
     bus_data = bus_data.replace(/True/g, 'true');
+    bus_data = bus_data.replace(/None/g, '""');
     bus_data = JSON.parse(bus_data);
     console.log(bus_data);
     adult = `{{adults}}`;
@@ -177,7 +178,7 @@
                                             </tr>
                                         </table>
                                         <span>{{data.arrival_date.0}}</span><br/>
-                                        <span>{{data.destination}} ({{data.destination_name}})</span><br>
+                                        <span>{{data.destination_name}} ({{data.destination}})</span><br>
                                     </div>
                                 </div>
                                     </div>

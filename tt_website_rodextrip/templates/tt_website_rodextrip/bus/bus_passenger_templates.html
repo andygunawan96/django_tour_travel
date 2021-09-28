@@ -16,19 +16,22 @@
     bus_data = `{{response}}`;
     bus_data = bus_data.replace(/&#39;/g, '"');
     bus_data = bus_data.replace(/True/g, 'true');
+    bus_data = bus_data.replace(/None/g, '""');
     bus_data = JSON.parse(bus_data);
     console.log(bus_data);
     bus_carriers = `{{bus_carriers}}`;
     bus_carriers = bus_carriers.replace(/&#39;/g, '"');
     bus_carriers = bus_carriers.replace(/&quot;/g, '"');
     bus_carriers = bus_carriers.replace(/False/g, 'false');
-    //bus_carriers = bus_carriers.replace(/True/g, 'true');
+    bus_carriers = bus_carriers.replace(/None/g, '""');
+    bus_carriers = bus_carriers.replace(/True/g, 'true');
 
     bus_response = `{{response}}`;
     bus_response = bus_response.replace(/&#39;/g, '"');
     bus_response = bus_response.replace(/&quot;/g, '"');
     bus_response = bus_response.replace(/False/g, 'false');
     bus_response = bus_response.replace(/True/g, 'true');
+    bus_response = bus_response.replace(/None/g, '""');
 
     bus_response = JSON.parse(bus_response);
     birth_date_required = false;
