@@ -23,12 +23,14 @@
                     </label>
                 </div>
                 <div class="input-container-search-ticket">
+                    <input type="hidden" name="g-recaptcha-response" id='recaptcha_airline' value="">
                     <button onclick="get_captcha('g-recaptcha-response','signin_btc');" class="loading-button primary-btn-custom ld-ext-right" style="margin:10px 0px;">
                         Sign in <i class="fas fa-sign-in-alt"></i>
                         <div class="ld ld-ring ld-cycle"></div>
                     </button><br/>
                 </div>
                 <form id="reload_page" class="form-wrap" action="" method="POST" style="padding:0; text-align:unset;">
+
                     {% csrf_token %}
                 </form>
             </div>

@@ -647,7 +647,8 @@ function train_get_booking(data){
                                 <td>`+msg.result.response.provider_bookings[i].pnr+`</td>`;
                             else
                                 text+=`<td> - </td>`;
-
+                            if(msg.result.response.state == 'booked')
+                                text+=`<td>`+msg.result.response.hold_date+`</td>`;
                             text+=`
                                 <td id='pnr'>`;
                             if(msg.result.response.provider_bookings[i].state_description == 'Expired' ||
