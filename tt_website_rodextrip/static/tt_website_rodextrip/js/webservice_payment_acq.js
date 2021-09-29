@@ -32,6 +32,11 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
                     }
                 }
             }
+            if('cash' in payment_acq2 == false){
+                try{
+                    document.getElementById('id_login_booking').style.display = 'block';
+                }catch(err){}
+            }
             render_payment();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
