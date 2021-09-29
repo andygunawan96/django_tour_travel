@@ -34,7 +34,8 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
             }
             if('cash' in payment_acq2 == false){
                 try{
-                    document.getElementById('id_login_booking').style.display = 'block';
+                    if(window.location.href.includes('confirm_order') == false)
+                        document.getElementById('id_login_booking').style.display = 'block';
                 }catch(err){}
             }
             render_payment();

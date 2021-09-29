@@ -512,8 +512,10 @@ function sort(value){
     document.getElementById("bus_result").appendChild(node_co);
 
     var response = '';
+    var ticket_print = false;
     for(i in data_filter){
         if(bus_request.departure[bus_request_pick] == data_filter[i].departure_date[0] && journeys.length != bus_request.departure.length){
+            ticket_print = true;
             if(data_filter[i].available_count >= parseInt(passengers.adult) && data_filter[i].can_book == true)
                 response+=`<div class="sorting-box-b">`;
 //            else if(data_filter[i].available_count > parseInt(passengers.adult) && data_filter[i].can_book == false)
@@ -621,6 +623,17 @@ function sort(value){
                 </div>
             </div>`;
         }
+    }
+    if(ticket_print == false){
+        response +=`
+                    <div style="padding:5px; margin:10px;">
+                        <div style="text-align:center">
+                            <img src="/static/tt_website_rodextrip/img/icon/no-bus.png" style="width:80px; height:80px;" alt="Not Found Bus" title="" />
+                            <br/><br/>
+                            <h6>NO BUS AVAILABLE</h6>
+                        </div>
+                    </div>
+                `;
     }
     bus_data_filter = data_filter;
     document.getElementById('bus_ticket').innerHTML = response;
