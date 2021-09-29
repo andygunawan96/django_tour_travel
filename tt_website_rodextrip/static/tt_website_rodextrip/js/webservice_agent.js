@@ -410,7 +410,9 @@ function signin_btc(){
                         triggered_balance(false);
                         //get_vendor_balance(false); //firefox error
                     }catch(err){}
-                    if(window.location.href.split('/')[3] == ''){
+                    if(window.location.href.includes('booking')){
+                        location.reload();
+                    }else if(window.location.href.split('/')[3] == ''){
                         window.location.href = '/';
                     }else if(window.location.href.split('/').length == 4){
                         window.location.reload();
