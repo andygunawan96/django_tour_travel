@@ -798,7 +798,23 @@ function visa_get_data(data){
                                         </tr>
                                         <tr>
                                             <td>`+visa.journey.state_visa+`</td>
-                                            <td>`+conv_status+`</td>
+                                            <td>`;
+                                             if(conv_status == 'Expired' || conv_status == 'Cancelled'){
+                                                 text+=`<span style="background:#DC143C; color:white; padding:0px 15px; border-radius:14px;">`;
+                                             }
+                                             else if(conv_status == 'Booked'){
+                                                 text+=`<span style="background:#3fa1e8; color:white; padding:0px 15px; border-radius:14px;">`;
+                                             }
+                                             else if(conv_status == 'Issued'){
+                                                 text+=`<span style="background:#30b330; color:white; padding:0px 15px; border-radius:14px;">`;
+                                             }
+                                             else{
+                                                text+=`<span>`;
+                                             }
+                                             text+=`
+                                                    `+conv_status+`
+                                                </span>
+                                             </td>
                                         </tr>
                                      </table>
 

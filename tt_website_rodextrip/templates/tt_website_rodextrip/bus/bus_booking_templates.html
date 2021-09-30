@@ -86,12 +86,12 @@
             </div>
             <div class="col-lg-9"></div>
         </div>
-        <div class="mt-3" id="show_title_train" hidden>
+        <div class="mt-3" id="show_title_bus" hidden>
             <h3>{% trans 'Please Review Your Booking' %}</h3>
             <h4>{% trans 'Prices may changes at any time' %}</h4>
             <br/>
         </div>
-        <div class="col-lg-12" id="show_loading_booking_train">
+        <div class="col-lg-12" id="show_loading_booking_bus">
             <div class="center-div">
                 <div>
                     <img src="{{static_path}}img/loading-screen-white.gif" style="height:25px; width:25px;"/>
@@ -117,12 +117,12 @@
                     </div>
                 </div>
 
-                <div id="train_booking">
+                <div id="bus_booking">
 
                 </div>
             </div>
             <div class="col-lg-4">
-                <div id="train_detail">
+                <div id="bus_detail">
 
                 </div>
 
@@ -135,7 +135,7 @@
                 </div>
 
                 {% if 'issued_reservation' in username.co_agent_frontend_security %}
-                <button id="issued_btn_train" class="primary-btn-ticket issued_booking_btn" type="button" style="width:100%; display:none;" onclick="focus_box('payment_acq');">
+                <button id="issued_btn_bus" class="primary-btn-ticket issued_booking_btn" type="button" style="width:100%; display:none;" onclick="focus_box('payment_acq');">
                     {% trans 'Issued Booking' %}
                 </button>
                 {% endif %}
@@ -182,7 +182,7 @@
                                                 <div class="col-lg-12" style="margin-bottom:15px; margin-top:15px;">
                                                     <hr/>
                                                     <center>
-                                                        <input class="primary-btn-ticket" type="button" onclick="calculate('train');" value="Calculate">
+                                                        <input class="primary-btn-ticket" type="button" onclick="calculate('bus');" value="Calculate">
                                                     </center>
                                                 </div>
                                             </div>
@@ -219,7 +219,7 @@
     }catch(err){}
     bus_signin('{{order_number}}');
     $( document ).ready(function() {
-        breadcrumb_create("train", 5, 1);
+        breadcrumb_create("bus", 6, 1);
     });
     function goto_seat_map(){
         document.getElementById('seat_map_request').innerHTML += `{% csrf_token %}`;
@@ -230,11 +230,11 @@
 
 
 <!--<div class="col-lg-4" style="padding-bottom:10px;">-->
-<!--    <a href="/train/seat_map" id="seat-map-link"><input type="button" id="button-choose-print" class="primary-btn" style="width:100%;" value="Choose Seat" onclick="train_create_booking();" /></a>-->
+<!--    <a href="/bus/seat_map" id="seat-map-link"><input type="button" id="button-choose-print" class="primary-btn" style="width:100%;" value="Choose Seat" onclick="bus_create_booking();" /></a>-->
 <!--</div>-->
 <!--<div class="col-lg-4" style="padding-bottom:10px;">-->
 <!--    <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Print Form" onclick="" />-->
 <!--</div>-->
 <!--<div class="col-lg-4" style="padding-bottom:10px;">-->
-<!--    <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" value="Issued" onclick="train_issued_booking();" />-->
+<!--    <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" value="Issued" onclick="bus_issued_booking();" />-->
 <!--</div>-->

@@ -32,6 +32,12 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
                     }
                 }
             }
+            if('cash' in payment_acq2 == false){
+                try{
+                    if(window.location.href.includes('confirm_order') == false)
+                        document.getElementById('id_login_booking').style.display = 'block';
+                }catch(err){}
+            }
             render_payment();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -965,7 +971,7 @@ function button_payment(type, page){
             temp_text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="train_issued('`+order_number_id+`');" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
     }else if(type == 'bus'){
         if(page == 'reservation')
-            temp_text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="bus_issued('`+train_get_detail.result.response.order_number+`');" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
+            temp_text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="bus_issued('`+bus_get_detail.result.response.order_number+`');" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
         else if(page == 'payment')
             temp_text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="bus_issued('`+order_number_id+`');" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
     }else if(type == 'airline_review'){

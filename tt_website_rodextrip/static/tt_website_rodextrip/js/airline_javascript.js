@@ -4699,13 +4699,12 @@ function check_passenger(adult, child, infant){
                 document.getElementById('adult_phone'+i).style['border-color'] = '#EFEFEF';
        }if(ff_request.length != 0 && check_ff == 1){
            for(j=1;j<=ff_request.length;j++){
-                if(document.getElementById('adult_ff_request'+i+'_'+j).value != '' && document.getElementById('adult_ff_request'+i+'_'+j).value == 'Frequent Flyer Program' && document.getElementById('adult_ff_number'+i+'_'+j).value == '' ||
-                   document.getElementById('adult_ff_request'+i+'_'+j).value != false && document.getElementById('adult_ff_number'+i+'_'+j).value == '' ||
-                   document.getElementById('adult_ff_request'+i+'_'+j).value == '' && document.getElementById('adult_ff_number'+i+'_'+j).value != ''){
+                if(document.getElementById('adult_ff_request'+i+'_'+j).value != '' && document.getElementById('adult_ff_number'+i+'_'+j).value != '' ||
+                   document.getElementById('adult_ff_request'+i+'_'+j).value != 'Frequent Flyer Program' && document.getElementById('adult_ff_number'+i+'_'+j).value == ''){
 
                     error_log+= 'Please fill Frequent Flyer Number '+j+' for passenger adult '+i+'!</br>\n';
                     document.getElementById('adult_ff_number'+i+'_'+j).style['border-color'] = 'red';
-                }else if(document.getElementById('adult_ff_request'+i+'_'+j).value == 'Frequent Flyer Program' && document.getElementById('adult_ff_number'+i+'_'+j).value != ''){
+                }else if(document.getElementById('adult_ff_request'+i+'_'+j).value != 'Frequent Flyer Program' && document.getElementById('adult_ff_number'+i+'_'+j).value != ''){
                     error_log+= 'Please fill Frequent Flyer Number '+j+' for passenger adult '+i+'!</br>\n';
                     document.getElementById('adult_ff_number'+i+'_'+j).style['border-color'] = 'red';
                 }else{
@@ -5500,7 +5499,7 @@ function check_passport_expired_six_month(id){
             last_departure_date = airline_pick[i].journeys[j].departure_date.split(' - ')[0];
         }
     }
-    if(document.getElementById(id).value != '' && document.getElementById(id).value != moment().subtract(-1, 'years').format('DD MMM YYYY')){
+    if(document.getElementById(id).value != '' && document.getElementById(id).value != moment().subtract(-1, 'years').format('DD MMM YYYY') && id.includes('infant') == false){
         var duration = moment.duration(moment(document.getElementById(id).value).diff(last_departure_date));
         console.log(duration);
         if(duration._data.months < 6 && duration._data.years == 0)

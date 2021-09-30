@@ -42,19 +42,19 @@ function can_book(departure, arrival){
     return duration;
 }
 
-//function test_search_train(){
+//function test_search_bus(){
 //    counter = parseInt(document.getElementById('counter').value);
 //    for(i=0;i<counter;i++){
-//        train_signin('');
+//        bus_signin('');
 //    }
 //}
 
-function train_redirect_signup(type){
+function bus_redirect_signup(type){
     if(type != 'signin'){
         getToken();
         $.ajax({
            type: "POST",
-           url: "/webservice/train",
+           url: "/webservice/bus",
            headers:{
                 'action': 'signin',
            },
@@ -64,12 +64,12 @@ function train_redirect_signup(type){
            try{
                console.log(msg);
                if(msg.result.error_code == 0){
-                    train_signature = msg.result.response.signature;
+                    bus_signature = msg.result.response.signature;
                     new_login_signature = msg.result.response.signature;
                     if(type != 'search'){
                         $.ajax({
                            type: "POST",
-                           url: "/webservice/train",
+                           url: "/webservice/bus",
                            headers:{
                                 'action': 'search',
                            },
@@ -87,7 +87,7 @@ function train_redirect_signup(type){
                                         <input type='hidden' name="signature" value='`+new_login_signature+`'/>
                                     `;
                                     try{
-                                        document.getElementById('response').value = train_response;
+                                        document.getElementById('response').value = bus_response;
                                     }catch(err){}
                                     document.getElementById('reload_page').submit();
                                     $('#myModalSignin').modal('hide');
@@ -144,7 +144,7 @@ function bus_signin(data){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error train singin');
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error bus singin');
             hide_modal_waiting_transaction();
        },timeout: 60000
     });
@@ -254,7 +254,7 @@ function send_request_search(){
         text = bus_request.departure[0] + ' - ' + bus_request.departure[1];
 
     pax = bus_request.adult + ' Adult';
-    //pax += ', ' + train_request.infant + ' Infant';
+    //pax += ', ' + bus_request.infant + ' Infant';
 
     document.getElementById('date_bus').innerHTML = `
     <span class="copy_span" style="text-transform: capitalize; font-size:13px;">`+text+` </span>
@@ -295,17 +295,17 @@ function bus_search(provider, signature){
                         response +=`
                             <div style="padding:5px; margin:10px;">
                                 <div style="text-align:center">
-                                    <img src="/static/tt_website_rodextrip/img/icon/no-train.png" style="width:80px; height:80px;" alt="Not Found Train" title="" />
+                                    <img src="/static/tt_website_rodextrip/img/icon/no-bus.png" style="width:80px; height:80px;" alt="Not Found Bus" title="" />
                                     <br/><br/>
                                     <h6>NO BUS AVAILABLE</h6>
                                 </div>
                             </div>
                         `;
-                        document.getElementById('train_ticket').innerHTML = response;
+                        document.getElementById('bus_ticket').innerHTML = response;
                         Swal.fire({
                           type: 'error',
                           title: 'Oops!',
-                          html: '<span style="color: red;">Error train search </span>' + errorThrown,
+                          html: '<span style="color: red;">Error bus search </span>' + errorThrown,
                         })
                     }
                }
@@ -314,13 +314,13 @@ function bus_search(provider, signature){
                 Swal.fire({
                   type: 'error',
                   title: 'Oops!',
-                  html: '<span style="color: #ff9900;">Error train search </span>' + msg.result.error_msg,
+                  html: '<span style="color: #ff9900;">Error bus search </span>' + msg.result.error_msg,
                 })
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error train search');
-            counter_train_search++;
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error bus search');
+            counter_bus_search++;
             if(counter_bus_search == provider_length){
                 if(bus_data.length == 0){
                     loadingTrain();
@@ -334,11 +334,11 @@ function bus_search(provider, signature){
                             </div>
                         </div>
                     `;
-                    document.getElementById('train_ticket').innerHTML = response;
+                    document.getElementById('bus_ticket').innerHTML = response;
                     Swal.fire({
                       type: 'error',
                       title: 'Oops!',
-                      html: '<span style="color: red;">Error train search </span>' + errorThrown,
+                      html: '<span style="color: red;">Error bus search </span>' + errorThrown,
                     })
                 }
             }
@@ -407,14 +407,14 @@ function bus_pre_create_booking(val){
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        $('.hold-seat-booking-train').addClass("running");
-        $('.hold-seat-booking-train').attr("disabled", true);
+        $('.hold-seat-booking-bus').addClass("running");
+        $('.hold-seat-booking-bus').attr("disabled", true);
         please_wait_transaction();
         if(val == 0){
             document.getElementById("passengers").value = JSON.stringify(passenger_with_booker);
             document.getElementById("signature").value = signature;
-            document.getElementById("provider").value = 'train';
-            document.getElementById("type").value = 'train';
+            document.getElementById("provider").value = 'bus';
+            document.getElementById("type").value = 'bus';
             document.getElementById("voucher_code").value = voucher_code;
             document.getElementById("discount").value = JSON.stringify(discount_voucher);
             document.getElementById("session_time_input").value = time_limit;
@@ -422,18 +422,18 @@ function bus_pre_create_booking(val){
         }else{
             document.getElementById("passengers").value = JSON.stringify(passengers);
             document.getElementById("signature").value = signature;
-            document.getElementById("provider").value = 'train';
-            document.getElementById("type").value = 'train_review';
+            document.getElementById("provider").value = 'bus';
+            document.getElementById("type").value = 'bus_review';
             document.getElementById("voucher_code").value = voucher_code;
             document.getElementById("discount").value = JSON.stringify(discount_voucher);
             document.getElementById("session_time_input").value = time_limit;
-            document.getElementById('train_issued').submit();
+            document.getElementById('bus_issued').submit();
         }
       }
     })
 }
 
-function force_issued_train(val){
+function force_issued_bus(val){
     //tambah swal
     if(value == 0)
     {
@@ -500,15 +500,15 @@ function bus_create_booking(val){
             //send order number
             if(msg.result.response.state == 'booked'){
                 if(val == 0){
-                    $('.hold-seat-booking-train').removeClass("running");
-                    $('.hold-seat-booking-train').attr("disabled", false);
+                    $('.hold-seat-booking-bus').removeClass("running");
+                    $('.hold-seat-booking-bus').attr("disabled", false);
                     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true){
                         document.getElementById("order_number").value = msg.result.response.order_number;
-                        train_get_detail = msg;
+                        bus_get_detail = msg;
                         set_seat_map();
-//                        send_url_booking('train', btoa(msg.result.response.order_number), msg.result.response.order_number);
+//                        send_url_booking('bus', btoa(msg.result.response.order_number), msg.result.response.order_number);
 //                        document.getElementById('order_number').value = msg.result.response.order_number;
-//                        document.getElementById('train_issued').submit();
+//                        document.getElementById('bus_issued').submit();
                     }else{
                         document.getElementById('bus_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
                         document.getElementById('bus_booking').action = '/bus/booking/' + btoa(msg.result.response.order_number);
@@ -516,7 +516,7 @@ function bus_create_booking(val){
                     }
                 }else{
                     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true)
-                        send_url_booking('train', btoa(msg.result.response.order_number), msg.result.response.order_number);
+                        send_url_booking('bus', btoa(msg.result.response.order_number), msg.result.response.order_number);
                     document.getElementById('order_number').value = msg.result.response.order_number;
                     document.getElementById('issued').action = '/bus/booking/' + btoa(msg.result.response.order_number);
                     document.getElementById('issued').submit();
@@ -531,23 +531,23 @@ function bus_create_booking(val){
             Swal.fire({
               type: 'error',
               title: 'Oops!',
-              html: '<span style="color: #ff9900;">Error train create booking </span>' + msg.result.error_msg,
+              html: '<span style="color: #ff9900;">Error bus create booking </span>' + msg.result.error_msg,
             }).then((result) => {
               if (result.value) {
                 hide_modal_waiting_transaction();
               }
             })
-            $('.hold-seat-booking-train').removeClass("running");
-            $('.hold-seat-booking-train').attr("disabled", false);
+            $('.hold-seat-booking-bus').removeClass("running");
+            $('.hold-seat-booking-bus').attr("disabled", false);
             hide_modal_waiting_transaction();
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             console.log('asdasdasd eror');
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error train create booking');
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error bus create booking');
             hide_modal_waiting_transaction();
-            $('.hold-seat-booking-train').removeClass("running");
-            $('.hold-seat-booking-train').attr("disabled", false);
+            $('.hold-seat-booking-bus').removeClass("running");
+            $('.hold-seat-booking-bus').attr("disabled", false);
        },timeout: 480000
     });
 }
@@ -573,7 +573,7 @@ function bus_get_booking(data){
             document.getElementById('button-home').hidden = false;
             document.getElementById('button-new-reservation').hidden = false;
             if(msg.result.error_code == 0){
-                train_get_detail = msg;
+                bus_get_detail = msg;
                 if(msg.result.response.hold_date != false && msg.result.response.hold_date != ''){
                     tes = moment.utc(msg.result.response.hold_date).format('YYYY-MM-DD HH:mm:ss')
                     var localTime  = moment.utc(tes).toDate();
@@ -601,7 +601,7 @@ function bus_get_booking(data){
                     try{
                         if(now.diff(hold_date_time, 'minutes')<0){
                             check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'bus', signature, msg.result.response.payment_acquirer_number);
-        //                    get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'train');
+        //                    get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'bus');
                             document.getElementById('voucher_discount').style.display = '';
                         }
                     }catch(err){}
@@ -661,8 +661,33 @@ function bus_get_booking(data){
                             if(msg.result.response.state == 'booked')
                                 text +=`
                                 <td>`+msg.result.response.provider_bookings[i].hold_date+`</td>`;
-                            text +=`
-                                <td id='pnr'>`+msg.result.response.provider_bookings[i].state_description+`</td>
+                            text +=`<td id='pnr'>`;
+
+                            if(msg.result.response.provider_bookings[i].state_description == 'Expired' ||
+                                msg.result.response.provider_bookings[i].state_description == 'Cancelled' ||
+                                msg.result.response.provider_bookings[i].state_description == 'Booking Failed'){
+                                text+=`<span style="background:#DC143C; color:white; padding:0px 15px; border-radius:14px;">`;
+                            }
+                            else if(msg.result.response.provider_bookings[i].state_description == 'Booked' ||
+                                msg.result.response.provider_bookings[i].state_description == 'Pending'){
+                                text+=`<span style="background:#3fa1e8; color:white; padding:0px 15px; border-radius:14px;">`;
+                            }
+                            else if(msg.result.response.provider_bookings[i].state_description == 'Issued' ||
+                                msg.result.response.provider_bookings[i].state_description == 'validate' ||
+                                msg.result.response.provider_bookings[i].state_description == 'done'){
+                                text+=`<span style="background:#30b330; color:white; padding:0px 15px; border-radius:14px;">`;
+                            }
+                            else if(msg.result.response.provider_bookings[i].state_description == 'Refund' ||
+                                msg.result.response.provider_bookings[i].state_description == 'sent'){
+                                text+=`<span style="background:#8c8d8f; color:white; padding:0px 15px; border-radius:14px;">`;
+                            }
+                            else{
+                                text+=`<span>`;
+                            }
+                            text+=`
+                                `+msg.result.response.provider_bookings[i].state_description+`
+                                    </span>
+                                </td>
                             </tr>`;
                         }
                         $text +='\n';
@@ -708,7 +733,7 @@ function bus_get_booking(data){
                     <div class="row">
                         <div class="col-lg-12">
                             <div style="padding:10px; background-color:white;">
-                            <h5> Train Detail </h5>
+                            <h5> Bus Detail </h5>
                             <hr/>`;
                         check = 0;
                         flight_counter = 1;
@@ -760,7 +785,7 @@ function bus_get_booking(data){
                                                     <tr>
                                                         <td><h5>`+msg.result.response.provider_bookings[i].journeys[j].departure_date.split(' - ')[1]+`</h5></td>
                                                         <td style="padding-left:15px;">
-                                                            <img src="/static/tt_website_rodextrip/img/icon/train-01.png" style="width:20px; height:20px;" alt="Train"/>
+                                                            <img src="/static/tt_website_rodextrip/img/icon/bus-01.png" style="width:30px; height:30px;" alt="Bus"/>
                                                         </td>
                                                         <td style="height:30px;padding:0 15px;width:100%">
                                                             <div style="display:inline-block;position:relative;width:100%">
@@ -900,16 +925,16 @@ function bus_get_booking(data){
                         if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
                             if (msg.result.response.state == 'booked'){
                                 text+=`
-                                <form method="post" id="seat_map_request" action='/train/seat_map'>
+                                <form method="post" id="seat_map_request" action='/bus/seat_map'>
 
-                                    <input type="button" id="button-choose-print" class="primary-btn hold-seat-booking-train ld-ext-right" style="width:100%;color:`+text_color+`;" value="Seat Map" onclick="set_seat_map();"/>
+                                    <input type="button" id="button-choose-print" class="primary-btn hold-seat-booking-bus ld-ext-right" style="width:100%;color:`+text_color+`;" value="Seat Map" onclick="set_seat_map();"/>
                                     <input id='passenger_input' name="passenger_input" type="hidden"/>
                                     <input id='seat_map_request_input' name="seat_map_request_input" type="hidden"/>
                                     <input id='order_number' name="order_number" value="`+msg.result.response.order_number+`" type="hidden"/>
                                 </form>`;
                             }else if(msg.result.response.state == 'issued'){
                                 text+=`
-                                <button type="button" id="button-choose-print" class="primary-btn ld-ext-right" style="width:100%;" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket','train');">
+                                <button type="button" id="button-choose-print" class="primary-btn ld-ext-right" style="width:100%;" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket','bus');">
                                     Print Ticket
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>`;
@@ -921,14 +946,14 @@ function bus_get_booking(data){
                         if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
                             if (msg.result.response.state  == 'booked'){
                                 text+=`
-                                <button type="button" id="button-print-print" class="primary-btn ld-ext-right" style="width:100%;" onclick="get_printout('`+msg.result.response.order_number+`', 'itinerary','train');">
+                                <button type="button" id="button-print-print" class="primary-btn ld-ext-right" style="width:100%;" onclick="get_printout('`+msg.result.response.order_number+`', 'itinerary','bus');">
                                     Print Form
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>`;
                             }
                             else if(msg.result.response.state == 'issued'){
                                 text+=`
-                                <button type="button" class="primary-btn ld-ext-right" id="button-print-print" style="width:100%;" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket_price','train');">
+                                <button type="button" class="primary-btn ld-ext-right" id="button-print-print" style="width:100%;" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket_price','bus');">
                                     Print Ticket (Price)
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>`;
@@ -946,12 +971,12 @@ function bus_get_booking(data){
                             }
                             else if(msg.result.response.state == 'issued'){
     //                            text+=`
-    //                            <a class="issued-booking-train ld-ext-right" style="color:`+text_color+`;">
-    //                                <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" value="Print Invoice" onclick="window.open('https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.train/`+msg.result.response.order_number+`/4','_blank');"/>
+    //                            <a class="issued-booking-bus ld-ext-right" style="color:`+text_color+`;">
+    //                                <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" value="Print Invoice" onclick="window.open('https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.bus/`+msg.result.response.order_number+`/4','_blank');"/>
     //                                <div class="ld ld-ring ld-cycle"></div>
     //                            </a>`;
                                 text+=`
-                                <a class="issued-booking-train ld-ext-right" style="color:`+text_color+`;">
+                                <a class="issued-booking-bus ld-ext-right" style="color:`+text_color+`;">
                                     <input type="button" class="primary-btn" style="width:100%;" data-toggle="modal" data-target="#printInvoice" value="Print Invoice"/>
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </a>`;
@@ -992,7 +1017,7 @@ function bus_get_booking(data){
                                                     <div style="text-align:right;">
                                                         <span>Don't want to edit? just submit</span>
                                                         <br/>
-                                                        <button type="button" id="button-issued-print" class="primary-btn ld-ext-right" onclick="get_printout('`+msg.result.response.order_number+`', 'invoice','train');">
+                                                        <button type="button" id="button-issued-print" class="primary-btn ld-ext-right" onclick="get_printout('`+msg.result.response.order_number+`', 'invoice','bus');">
                                                             Submit
                                                             <div class="ld ld-ring ld-cycle"></div>
                                                         </button>
@@ -1012,7 +1037,7 @@ function bus_get_booking(data){
                         </a>
                     </div>
                 </div>`;
-                document.getElementById('train_booking').innerHTML = text;
+                document.getElementById('bus_booking').innerHTML = text;
                 hide_modal_waiting_transaction();
                 //$(".issued_booking_btn").show();
 
@@ -1215,13 +1240,13 @@ function bus_get_booking(data){
                                 <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"/></a>
                                 <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"/></a>
                                 <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"/></a>
-                                <a href="mailto:?subject=This is the train price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/></a>`;
+                                <a href="mailto:?subject=This is the bus price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/></a>`;
                         } else {
                             text_detail+=`
                                 <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"/></a>
                                 <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"/></a>
                                 <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"/></a>
-                                <a href="mailto:?subject=This is the train price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/></a>`;
+                                <a href="mailto:?subject=This is the bus price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/></a>`;
                         }
 
                     text_detail+=`
@@ -1293,9 +1318,9 @@ function bus_get_booking(data){
 
                 }
                 add_repricing();
-                document.getElementById('show_title_train').hidden = false;
-                document.getElementById('show_loading_booking_train').hidden = true;
-                document.getElementById('train_detail').innerHTML = text;
+                document.getElementById('show_title_bus').hidden = false;
+                document.getElementById('show_loading_booking_bus').hidden = true;
+                document.getElementById('bus_detail').innerHTML = text;
 
                 if(msg.result.response.state == 'cancel'){
                    document.getElementById('issued-breadcrumb').classList.remove("br-active");
@@ -1389,39 +1414,40 @@ function bus_get_booking(data){
                 }
 
             }else if(msg.result.error_code == 1035){
-                document.getElementById('show_title_train').hidden = false;
-                document.getElementById('show_loading_booking_train').hidden = true;
-                document.getElementById('show_title_train').hidden = true;
-                render_login('train');
+                document.getElementById('show_title_bus').hidden = false;
+                document.getElementById('show_loading_booking_bus').hidden = true;
+                document.getElementById('show_title_bus').hidden = true;
+                render_login('bus');
             }else{
                 Swal.fire({
                   type: 'error',
                   title: 'Oops!',
-                  html: '<span style="color: #ff9900;">Error train booking </span>' + msg.result.error_msg,
+                  html: '<span style="color: #ff9900;">Error bus booking </span>' + msg.result.error_msg,
                 }).then((result) => {
                   if (result.value) {
                     hide_modal_waiting_transaction();
                   }
                 })
-                document.getElementById('show_loading_booking_train').hidden = true;
+                document.getElementById('show_loading_booking_bus').hidden = true;
                 hide_modal_waiting_transaction();
             }
         }catch(err){
+            console.log(err);
             Swal.fire({
                   type: 'error',
                   title: 'Oops!',
-                  html: '<span style="color: #ff9900;">Error train booking </span> Please try again in 1 - 5 minutes later or contact customer service' ,
+                  html: '<span style="color: #ff9900;">Error bus booking </span> Please try again in 1 - 5 minutes later or contact customer service' ,
             }).then((result) => {
               window.location.href = '/reservation';
             })
-            document.getElementById('show_loading_booking_train').hidden = true;
+            document.getElementById('show_loading_booking_bus').hidden = true;
             hide_modal_waiting_transaction();
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error train booking');
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error bus booking');
             hide_modal_waiting_transaction();
-            document.getElementById('show_loading_booking_train').hidden = true;
+            document.getElementById('show_loading_booking_bus').hidden = true;
        },timeout: 480000
     });
 }
@@ -1429,22 +1455,22 @@ function bus_get_booking(data){
 function set_seat_map(){
     passengers = [];
     seat_map_request = [];
-    for(i in train_get_detail.result.response.provider_bookings){
-        for(j in train_get_detail.result.response.provider_bookings[i].journeys){
+    for(i in bus_get_detail.result.response.provider_bookings){
+        for(j in bus_get_detail.result.response.provider_bookings[i].journeys){
             seat_map_request.push({
-                'fare_code': train_get_detail.result.response.provider_bookings[i].journeys[j].fare_code,
-                'provider': train_get_detail.result.response.provider_bookings[i].provider
+                'fare_code': bus_get_detail.result.response.provider_bookings[i].journeys[j].fare_code,
+                'provider': bus_get_detail.result.response.provider_bookings[i].provider
             })
-            for(k in train_get_detail.result.response.provider_bookings[i].journeys[j].seats){
+            for(k in bus_get_detail.result.response.provider_bookings[i].journeys[j].seats){
                 check = 0;
                 for(l in passengers){
-                    if(passengers[l].name == train_get_detail.result.response.provider_bookings[i].journeys[j].seats[k].passenger){
+                    if(passengers[l].name == bus_get_detail.result.response.provider_bookings[i].journeys[j].seats[k].passenger){
                         passengers[l].seat_list.push({
-                            'seat':train_get_detail.result.response.provider_bookings[i].journeys[j].seats[k].seat,
-                            'fare_code': train_get_detail.result.response.provider_bookings[i].journeys[j].fare_code,
-                            'origin': train_get_detail.result.response.provider_bookings[i].journeys[j].origin,
-                            'seat_code': train_get_detail.result.response.provider_bookings[i].journeys[j].seats[l].seat_code,
-                            'destination': train_get_detail.result.response.provider_bookings[i].journeys[j].destination
+                            'seat':bus_get_detail.result.response.provider_bookings[i].journeys[j].seats[k].seat,
+                            'fare_code': bus_get_detail.result.response.provider_bookings[i].journeys[j].fare_code,
+                            'origin': bus_get_detail.result.response.provider_bookings[i].journeys[j].origin,
+                            'seat_code': bus_get_detail.result.response.provider_bookings[i].journeys[j].seats[l].seat_code,
+                            'destination': bus_get_detail.result.response.provider_bookings[i].journeys[j].destination
                         });
                         check = 1;
                         break;
@@ -1452,14 +1478,14 @@ function set_seat_map(){
                 }
                 if(check == 0){
                     passengers.push({
-                        'sequence': train_get_detail.result.response.provider_bookings[i].journeys[j].seats[k].passenger_sequence,
-                        'name': train_get_detail.result.response.provider_bookings[i].journeys[j].seats[k].passenger,
+                        'sequence': bus_get_detail.result.response.provider_bookings[i].journeys[j].seats[k].passenger_sequence,
+                        'name': bus_get_detail.result.response.provider_bookings[i].journeys[j].seats[k].passenger,
                         'seat_list': [{
-                            'seat': train_get_detail.result.response.provider_bookings[i].journeys[j].seats[k].seat,
-                            'fare_code': train_get_detail.result.response.provider_bookings[i].journeys[j].fare_code,
-                            'origin': train_get_detail.result.response.provider_bookings[i].journeys[j].origin,
-                            'seat_code': train_get_detail.result.response.provider_bookings[i].journeys[j].seats[k].seat_code,
-                            'destination': train_get_detail.result.response.provider_bookings[i].journeys[j].destination
+                            'seat': bus_get_detail.result.response.provider_bookings[i].journeys[j].seats[k].seat,
+                            'fare_code': bus_get_detail.result.response.provider_bookings[i].journeys[j].fare_code,
+                            'origin': bus_get_detail.result.response.provider_bookings[i].journeys[j].origin,
+                            'seat_code': bus_get_detail.result.response.provider_bookings[i].journeys[j].seats[k].seat_code,
+                            'destination': bus_get_detail.result.response.provider_bookings[i].journeys[j].destination
                         }]
                     })
                 }
@@ -1477,8 +1503,8 @@ function set_seat_map(){
 
 function bus_issued(data){
     var temp_data = {}
-    if(typeof(train_get_detail) !== 'undefined')
-        temp_data = JSON.stringify(train_get_detail)
+    if(typeof(bus_get_detail) !== 'undefined')
+        temp_data = JSON.stringify(bus_get_detail)
     Swal.fire({
       title: 'Are you sure want to Issued this booking?',
       type: 'warning',
@@ -1507,21 +1533,21 @@ function bus_issued(data){
            success: function(msg) {
                console.log(msg);
                if(google_analytics != '')
-                   gtag('event', 'train_issued', {});
+                   gtag('event', 'bus_issued', {});
                if(msg.result.error_code == 0){
                    print_success_issued();
                    if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
-                        window.location.href = '/train/booking/' + btoa(data);
+                        window.location.href = '/bus/booking/' + btoa(data);
                    }else{
                        //update ticket
                        price_arr_repricing = {};
                        pax_type_repricing = [];
-                       document.getElementById('show_loading_booking_train').hidden = true;
-                       document.getElementById('train_booking').innerHTML = '';
-                       document.getElementById('train_detail').innerHTML = '';
+                       document.getElementById('show_loading_booking_bus').hidden = true;
+                       document.getElementById('bus_booking').innerHTML = '';
+                       document.getElementById('bus_detail').innerHTML = '';
                        document.getElementById('payment_acq').innerHTML = '';
-                       document.getElementById('show_loading_booking_train').style.display = 'block';
-                       document.getElementById('show_loading_booking_train').hidden = false;
+                       document.getElementById('show_loading_booking_bus').style.display = 'block';
+                       document.getElementById('show_loading_booking_bus').hidden = false;
                        document.getElementById('payment_acq').hidden = true;
                        document.getElementById("overlay-div-box").style.display = "none";
                        try{
@@ -1533,12 +1559,12 @@ function bus_issued(data){
                }else if(msg.result.error_code == 1009){
                    price_arr_repricing = {};
                    pax_type_repricing = [];
-                   document.getElementById('show_loading_booking_train').hidden = true;
-                   document.getElementById('train_booking').innerHTML = '';
-                   document.getElementById('train_detail').innerHTML = '';
+                   document.getElementById('show_loading_booking_bus').hidden = true;
+                   document.getElementById('bus_booking').innerHTML = '';
+                   document.getElementById('bus_detail').innerHTML = '';
                    document.getElementById('payment_acq').innerHTML = '';
-                   document.getElementById('show_loading_booking_train').style.display = 'block';
-                   document.getElementById('show_loading_booking_train').hidden = false;
+                   document.getElementById('show_loading_booking_bus').style.display = 'block';
+                   document.getElementById('show_loading_booking_bus').hidden = false;
                    document.getElementById('payment_acq').hidden = true;
                    document.getElementById("overlay-div-box").style.display = "none";
                    try{
@@ -1549,7 +1575,7 @@ function bus_issued(data){
                    Swal.fire({
                       type: 'error',
                       title: 'Oops!',
-                      html: '<span style="color: #ff9900;">Error train issued </span>' + msg.result.error_msg,
+                      html: '<span style="color: #ff9900;">Error bus issued </span>' + msg.result.error_msg,
                     }).then((result) => {
                       if (result.value) {
                         hide_modal_waiting_transaction();
@@ -1561,43 +1587,43 @@ function bus_issued(data){
                     Swal.fire({
                       type: 'error',
                       title: 'Oops!',
-                      html: '<span style="color: #ff9900;">Error train issued </span>' + msg.result.error_msg,
+                      html: '<span style="color: #ff9900;">Error bus issued </span>' + msg.result.error_msg,
                     })
                     price_arr_repricing = {};
                     pax_type_repricing = [];
-                    document.getElementById('show_loading_booking_train').hidden = true;
-                    document.getElementById('train_booking').innerHTML = '';
-                    document.getElementById('train_detail').innerHTML = '';
+                    document.getElementById('show_loading_booking_bus').hidden = true;
+                    document.getElementById('bus_booking').innerHTML = '';
+                    document.getElementById('bus_detail').innerHTML = '';
                     document.getElementById('payment_acq').innerHTML = '';
-                    document.getElementById('show_loading_booking_train').style.display = 'block';
-                    document.getElementById('show_loading_booking_train').hidden = false;
+                    document.getElementById('show_loading_booking_bus').style.display = 'block';
+                    document.getElementById('show_loading_booking_bus').hidden = false;
                     document.getElementById('payment_acq').hidden = true;
                     document.getElementById("overlay-div-box").style.display = "none";
                     try{
                         document.getElementById('voucher_discount').style.display = 'none';
                     }catch(err){}
-                    $('.hold-seat-booking-train').prop('disabled', false);
-                    $('.hold-seat-booking-train').removeClass("running");
+                    $('.hold-seat-booking-bus').prop('disabled', false);
+                    $('.hold-seat-booking-bus').removeClass("running");
                     hide_modal_waiting_transaction();
                     bus_get_booking(data);
                }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error train issued');
+                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error bus issued');
                 price_arr_repricing = {};
                 pax_type_repricing = [];
-                document.getElementById('show_loading_booking_train').hidden = true;
-                document.getElementById('train_booking').innerHTML = '';
-                document.getElementById('train_detail').innerHTML = '';
+                document.getElementById('show_loading_booking_bus').hidden = true;
+                document.getElementById('bus_booking').innerHTML = '';
+                document.getElementById('bus_detail').innerHTML = '';
                 document.getElementById('payment_acq').innerHTML = '';
-                document.getElementById('show_loading_booking_train').style.display = 'block';
-                document.getElementById('show_loading_booking_train').hidden = false;
+                document.getElementById('show_loading_booking_bus').style.display = 'block';
+                document.getElementById('show_loading_booking_bus').hidden = false;
                 document.getElementById('payment_acq').hidden = true;
                 try{
                     document.getElementById('voucher_discount').style.display = 'none';
                 }catch(err){}
-                $('.hold-seat-booking-train').prop('disabled', false);
-                $('.hold-seat-booking-train').removeClass("running");
+                $('.hold-seat-booking-bus').prop('disabled', false);
+                $('.hold-seat-booking-bus').removeClass("running");
                 hide_modal_waiting_transaction();
                 document.getElementById("overlay-div-box").style.display = "none";
                 bus_get_booking(data);
@@ -1607,11 +1633,11 @@ function bus_issued(data){
     })
 }
 
-function train_get_seat_map(){
+function bus_get_seat_map(){
     getToken();
     $.ajax({
        type: "POST",
-       url: "/webservice/train",
+       url: "/webservice/bus",
        headers:{
             'action': 'get_seat_map',
        },
@@ -1627,13 +1653,13 @@ function train_get_seat_map(){
             Swal.fire({
               type: 'error',
               title: 'Oops!',
-              html: '<span style="color: #ff9900;">Error train seat map </span>' + msg.result.error_msg,
+              html: '<span style="color: #ff9900;">Error bus seat map </span>' + msg.result.error_msg,
             })
         }
 
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error train seat map');
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error bus seat map');
        },timeout: 480000
     });
 }
@@ -1666,19 +1692,19 @@ function bus_cancel_booking(){
                price_arr_repricing = {};
                pax_type_repricing = [];
                bus_get_booking(order_number);
-               document.getElementById('show_loading_booking_train').hidden = true;
-               document.getElementById('train_booking').innerHTML = '';
-               document.getElementById('train_detail').innerHTML = '';
+               document.getElementById('show_loading_booking_bus').hidden = true;
+               document.getElementById('bus_booking').innerHTML = '';
+               document.getElementById('bus_detail').innerHTML = '';
                document.getElementById('payment_acq').innerHTML = '';
-               document.getElementById('show_loading_booking_train').style.display = 'block';
-               document.getElementById('show_loading_booking_train').hidden = false;
+               document.getElementById('show_loading_booking_bus').style.display = 'block';
+               document.getElementById('show_loading_booking_bus').hidden = false;
                document.getElementById('payment_acq').hidden = true;
                document.getElementById("overlay-div-box").style.display = "none";
                try{
                     document.getElementById('voucher_discount').style.display = 'none';
                }catch(err){}
                try{
-                    document.getElementById("issued_btn_train").style.display = "none";
+                    document.getElementById("issued_btn_bus").style.display = "none";
                }catch(err){}
             }else{
                 Swal.fire({
@@ -1692,12 +1718,12 @@ function bus_cancel_booking(){
                 })
                 price_arr_repricing = {};
                 pax_type_repricing = [];
-                document.getElementById('show_loading_booking_train').hidden = true;
-                document.getElementById('train_booking').innerHTML = '';
-                document.getElementById('train_detail').innerHTML = '';
+                document.getElementById('show_loading_booking_bus').hidden = true;
+                document.getElementById('bus_booking').innerHTML = '';
+                document.getElementById('bus_detail').innerHTML = '';
                 document.getElementById('payment_acq').innerHTML = '';
-                document.getElementById('show_loading_booking_train').style.display = 'block';
-                document.getElementById('show_loading_booking_train').hidden = false;
+                document.getElementById('show_loading_booking_bus').style.display = 'block';
+                document.getElementById('show_loading_booking_bus').hidden = false;
                 document.getElementById('payment_acq').hidden = true;
                 document.getElementById("overlay-div-box").style.display = "none";
                 try{
@@ -1708,22 +1734,22 @@ function bus_cancel_booking(){
             }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error train manual seat');
+                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error bus manual seat');
                 hide_modal_waiting_transaction();
            },timeout: 480000
         });
-        $('.submit-seat-train').addClass("running");
+        $('.submit-seat-bus').addClass("running");
       }
     })
 }
 
-function train_manual_seat(){
-    $('.submit-seat-train').addClass("running");
-    $('.change-seat-train-buttons').prop('disabled', true);
+function bus_manual_seat(){
+    $('.submit-seat-bus').addClass("running");
+    $('.change-seat-bus-buttons').prop('disabled', true);
     getToken();
     $.ajax({
        type: "POST",
-       url: "/webservice/train",
+       url: "/webservice/bus",
        headers:{
             'action': 'assign_seats',
        },
@@ -1742,7 +1768,7 @@ function train_manual_seat(){
                     Swal.fire({
                       type: 'error',
                       title: 'Oops!',
-                      html: '<span style="color: #ff9900;">Error train manual seat </span>' + msg.result.response[i].error_msg,
+                      html: '<span style="color: #ff9900;">Error bus manual seat </span>' + msg.result.response[i].error_msg,
                     });
                     check = 1;
                 }
@@ -1750,7 +1776,7 @@ function train_manual_seat(){
             if(check == 0){
                 //check var
                 if(is_b2c_field.value == true){
-                    send_url_booking('train', btoa(is_b2c_field.order_number), is_b2c_field.order_number);
+                    send_url_booking('bus', btoa(is_b2c_field.order_number), is_b2c_field.order_number);
                     document.getElementById("passengers").value = JSON.stringify(is_b2c_field.passengers);
                     document.getElementById("signature").value = is_b2c_field.signature;
                     document.getElementById("provider").value = is_b2c_field.provider;
@@ -1759,52 +1785,52 @@ function train_manual_seat(){
                     document.getElementById("discount").value = JSON.stringify(is_b2c_field.discount);
                     document.getElementById("session_time_input").value = is_b2c_field.session_time_input;
                     document.getElementById("order_number2").value = is_b2c_field.order_number;
-                    document.getElementById('train_issued').submit();
+                    document.getElementById('bus_issued').submit();
                 }else{
-                    document.getElementById('train_booking').submit();
+                    document.getElementById('bus_booking').submit();
                 }
             }else{
-                $('.submit-seat-train').removeClass("running");
-                $('.change-seat-train-buttons').prop('disabled', false);
+                $('.submit-seat-bus').removeClass("running");
+                $('.change-seat-bus-buttons').prop('disabled', false);
             }
         }else
             Swal.fire({
               type: 'error',
               title: 'Oops!',
-              html: '<span style="color: #ff9900;">Error train manual seat </span>' + msg.result.error_msg,
+              html: '<span style="color: #ff9900;">Error bus manual seat </span>' + msg.result.error_msg,
             }).then((result) => {
               if (result.value) {
                 hide_modal_waiting_transaction();
               }
             })
-            $('.submit-seat-train').removeClass("running");
+            $('.submit-seat-bus').removeClass("running");
             hide_modal_waiting_transaction();
-            $('.change-seat-train-buttons').prop('disabled', false);
+            $('.change-seat-bus-buttons').prop('disabled', false);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error train manual seat');
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error bus manual seat');
             hide_modal_waiting_transaction();
-            $('.submit-seat-train').removeClass("running");
-            $('.change-seat-train-buttons').prop('disabled', false);
+            $('.submit-seat-bus').removeClass("running");
+            $('.change-seat-bus-buttons').prop('disabled', false);
        },timeout: 480000
     });
 }
 
 function gotoForm(){
-    document.getElementById('train_searchForm').submit();
+    document.getElementById('bus_searchForm').submit();
 }
 
 function update_service_charge(type){
     repricing_order_number = '';
     if(type == 'booking'){
         upsell = []
-        for(i in train_get_detail.result.response.passengers){
-            for(j in train_get_detail.result.response.passengers[i].sale_service_charges){
-                currency = train_get_detail.result.response.passengers[i].sale_service_charges[j].FARE.currency;
+        for(i in bus_get_detail.result.response.passengers){
+            for(j in bus_get_detail.result.response.passengers[i].sale_service_charges){
+                currency = bus_get_detail.result.response.passengers[i].sale_service_charges[j].FARE.currency;
             }
             list_price = []
             for(j in list){
-                if(train_get_detail.result.response.passengers[i].name == document.getElementById('selection_pax'+j).value){
+                if(bus_get_detail.result.response.passengers[i].name == document.getElementById('selection_pax'+j).value){
                     list_price.push({
                         'amount': list[j],
                         'currency_code': currency
@@ -1813,7 +1839,7 @@ function update_service_charge(type){
 
             }
             upsell.push({
-                'sequence': train_get_detail.result.response.passengers[i].sequence,
+                'sequence': bus_get_detail.result.response.passengers[i].sequence,
                 'pricing': JSON.parse(JSON.stringify(list_price))
             });
         }
@@ -1848,7 +1874,7 @@ function update_service_charge(type){
     }
     $.ajax({
        type: "POST",
-       url: "/webservice/train",
+       url: "/webservice/bus",
        headers:{
             'action': 'update_service_charge',
        },
@@ -1868,7 +1894,7 @@ function update_service_charge(type){
                 }else{
                     price_arr_repricing = {};
                     pax_type_repricing = [];
-                    train_detail();
+                    bus_detail();
                 }
 
                 $('#myModalRepricing').modal('hide');
@@ -1878,12 +1904,12 @@ function update_service_charge(type){
                 Swal.fire({
                   type: 'error',
                   title: 'Oops!',
-                  html: '<span style="color: #ff9900;">Error train service charge </span>' + msg.result.error_msg,
+                  html: '<span style="color: #ff9900;">Error bus service charge </span>' + msg.result.error_msg,
                 })
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error train service charge');
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error bus service charge');
        },timeout: 480000
     });
 
@@ -1927,7 +1953,7 @@ function get_seat_map(){
 
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error train seat map');
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error bus seat map');
        },timeout: 480000
     });
 }

@@ -15,6 +15,7 @@
     bus_data = `{{response}}`;
     bus_data = bus_data.replace(/&#39;/g, '"');
     bus_data = bus_data.replace(/True/g, 'true');
+    bus_data = bus_data.replace(/None/g, '""');
     bus_data = JSON.parse(bus_data);
     console.log(bus_data);
     adult = `{{adults}}`;
@@ -105,7 +106,7 @@
     {% endif %}
 </header>
 {% endif %}
-
+{% include 'tt_website_rodextrip/header_signin.html' %}
 <div class="modal fade" id="waitingTransaction" role="dialog" style="background:rgba(20,20,20,0.8);">
     <div class="modal-dialog" style="margin: 0; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
         <!-- Modal content-->
@@ -154,7 +155,7 @@
                                             <tr>
                                                 <td style="font-weight:500;">{{data.departure_date.1}}</td>
                                                 <td style="padding-left:15px;">
-                                                    <img src="/static/tt_website_rodextrip/img/icon/train-01.png" alt="Train" style="width:20px; height:20px;"/>
+                                                    <img src="/static/tt_website_rodextrip/img/icon/bus-01.png" alt="Bus" style="width:20px; height:20px;"/>
                                                 </td>
                                                 <td style="height:30px;padding:0 15px;width:100%">
                                                     <div style="display:inline-block;position:relative;width:100%">
@@ -177,7 +178,7 @@
                                             </tr>
                                         </table>
                                         <span>{{data.arrival_date.0}}</span><br/>
-                                        <span>{{data.destination}} ({{data.destination_name}})</span><br>
+                                        <span>{{data.destination_name}} ({{data.destination}})</span><br>
                                     </div>
                                 </div>
                                     </div>
@@ -300,14 +301,14 @@
                 <div class="col-lg-9">
                     <div class="row">
                         <div class="col-lg-4" id="seat_map_div" style="padding-bottom:10px;" hidden>
-                            <button type="button" class="primary-btn hold-seat-booking-train ld-ext-right" id="btn-seat-train" onclick="get_seat_map();" style="width:100%;">
+                            <button type="button" class="primary-btn hold-seat-booking-bus ld-ext-right" id="btn-seat-bus" onclick="get_seat_map();" style="width:100%;">
                                 {% trans 'Seat' %}
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>
                         </div>
                         <div class="col-lg-4" style="padding-bottom:10px;">
                             {% if 'book_reservation' in username.co_agent_frontend_security %}
-                            <button type="button" class="primary-btn hold-seat-booking-train ld-ext-right" id="btn-search-train" onclick="bus_pre_create_booking(0);" style="width:100%;">
+                            <button type="button" class="primary-btn hold-seat-booking-bus ld-ext-right" id="btn-search-bus" onclick="bus_pre_create_booking(0);" style="width:100%;">
                                 {% trans 'Hold Booking' %}
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>
@@ -349,7 +350,7 @@
     }
     //get_payment_acq('Issued','{{passenger.booker.booker_seq_id}}', '', 'billing',signature,'bus_review');
     $( document ).ready(function() {
-        breadcrumb_create("train", 4, 0);
+        breadcrumb_create("bus", 4, 0);
     });
     function bus_seat_map(){
         document.getElementById('seat_map_request').innerHTML += `{% csrf_token %}`;

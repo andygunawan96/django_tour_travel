@@ -512,8 +512,10 @@ function sort(value){
     document.getElementById("bus_result").appendChild(node_co);
 
     var response = '';
+    var ticket_print = false;
     for(i in data_filter){
         if(bus_request.departure[bus_request_pick] == data_filter[i].departure_date[0] && journeys.length != bus_request.departure.length){
+            ticket_print = true;
             if(data_filter[i].available_count >= parseInt(passengers.adult) && data_filter[i].can_book == true)
                 response+=`<div class="sorting-box-b">`;
 //            else if(data_filter[i].available_count > parseInt(passengers.adult) && data_filter[i].can_book == false)
@@ -549,7 +551,7 @@ function sort(value){
                             <tr>
                                 <td><h5 class="copy_time_depart">`+data_filter[i].departure_date[1]+`</h5></td>
                                 <td style="padding-left:15px;">
-                                    <img src="/static/tt_website_rodextrip/img/icon/train-01.png" alt="Train" style="width:20px; height:20px;"/>
+                                    <img src="/static/tt_website_rodextrip/img/icon/bus-01.png" alt="Train" style="width:30px; height:30px;"/>
                                 </td>
                                 <td style="height:30px;padding:0 15px;width:100%">
                                     <div style="display:inline-block;position:relative;width:100%">
@@ -621,6 +623,17 @@ function sort(value){
                 </div>
             </div>`;
         }
+    }
+    if(ticket_print == false){
+        response +=`
+                    <div style="padding:5px; margin:10px;">
+                        <div style="text-align:center">
+                            <img src="/static/tt_website_rodextrip/img/icon/no-bus.png" style="width:80px; height:80px;" alt="Not Found Bus" title="" />
+                            <br/><br/>
+                            <h6>NO BUS AVAILABLE</h6>
+                        </div>
+                    </div>
+                `;
     }
     bus_data_filter = data_filter;
     document.getElementById('bus_ticket').innerHTML = response;
@@ -714,7 +727,7 @@ function bus_ticket_pick(){
                         <tr>
                             <td><h5>`+journeys[i].departure_date[1]+`</h5></td>
                             <td style="padding-left:15px;">
-                                <img src="/static/tt_website_rodextrip/img/icon/train-01.png" alt="Train" style="width:20px; height:20px;"/>
+                                <img src="/static/tt_website_rodextrip/img/icon/bus-01.png" alt="Train" style="width:30px; height:30px;"/>
                             </td>
                             <td style="height:30px;padding:0 15px;width:100%">
                                 <div style="display:inline-block;position:relative;width:100%">
@@ -819,7 +832,7 @@ function bus_get_detail(){
                     <tr>
                         <td><h6>`+journeys[i].departure_date[1]+`</h6></td>
                         <td style="padding-left:15px;">
-                            <img src="/static/tt_website_rodextrip/img/icon/train-01.png" alt="Train" style="width:20px; height:20px;">
+                            <img src="/static/tt_website_rodextrip/img/icon/bus-01.png" alt="Train" style="width:30px; height:30px;">
                         </td>
                         <td style="height:30px;padding:0 15px;width:100%">
                             <div style="display:inline-block;position:relative;width:100%">
@@ -1097,7 +1110,7 @@ function bus_detail(){
                     <tr>
                         <td><h6>`+bus_data[i].departure_date[1]+`</h6></td>
                         <td style="padding-left:15px;">
-                            <img src="/static/tt_website_rodextrip/img/icon/train-01.png" style="width:20px; height:20px;">
+                            <img src="/static/tt_website_rodextrip/img/icon/bus-01.png" style="width:30px; height:30px;">
                         </td>
                         <td style="height:30px;padding:0 15px;width:100%">
                             <div style="display:inline-block;position:relative;width:100%">

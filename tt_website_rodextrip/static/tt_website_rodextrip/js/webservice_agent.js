@@ -410,7 +410,9 @@ function signin_btc(){
                         triggered_balance(false);
                         //get_vendor_balance(false); //firefox error
                     }catch(err){}
-                    if(window.location.href.split('/')[3] == ''){
+                    if(window.location.href.includes('booking')){
+                        location.reload();
+                    }else if(window.location.href.split('/')[3] == ''){
                         window.location.href = '/';
                     }else if(window.location.href.split('/').length == 4){
                         window.location.reload();
@@ -2675,7 +2677,7 @@ function clear_passenger(type, sequence){
             document.getElementById('adult_passport_expired_date'+sequence).readOnly = false;
             document.getElementById('adult_country_of_issued'+sequence).value = '';
             document.getElementById('select2-adult_country_of_issued'+sequence+'_id-container').innerHTML = 'Country Of Issued';
-
+            document.getElementById('adult_country_of_issued'+sequence+'_id').value = 'Country Of Issued';
         }catch(err){}
 
     }
@@ -2708,6 +2710,7 @@ function clear_passenger(type, sequence){
             document.getElementById('infant_passport_expired_date'+sequence).readOnly = false;
             document.getElementById('infant_country_of_issued'+sequence).value = '';
             document.getElementById('select2-infant_country_of_issued'+sequence+'_id-container').innerHTML = 'Country Of Issued';
+            document.getElementById('infant_country_of_issued'+sequence+'_id').value = 'Country Of Issued';
         }catch(err){}
     }
     else if(type == 'Senior'){
@@ -2738,6 +2741,7 @@ function clear_passenger(type, sequence){
         document.getElementById('senior_passport_expired_date'+sequence).readOnly = false;
         document.getElementById('senior_country_of_issued'+sequence).value = '';
         document.getElementById('select2-senior_country_of_issued'+sequence+'_id-container').innerHTML = 'Country Of Issued';
+        document.getElementById('senior_country_of_issued'+sequence+'_id').value = 'Country Of Issued';
     }
     else if(type == 'Child'){
         for(i in passenger_data_pick){
@@ -2766,6 +2770,7 @@ function clear_passenger(type, sequence){
         document.getElementById('child_passport_expired_date'+sequence).readOnly = false;
         document.getElementById('child_country_of_issued'+sequence).value = '';
         document.getElementById('select2-child_country_of_issued'+sequence+'_id-container').innerHTML = 'Country Of Issued';
+        document.getElementById('child_country_of_issued'+sequence+'_id').value = 'Country Of Issued';
     }
 
     else if(type == 'Medical'){
@@ -2827,7 +2832,7 @@ function clear_passenger(type, sequence){
                         document.getElementById('adult_profession'+sequence).value = 'SWASTA';
                         $('#adult_profession'+sequence).niceSelect('update');
                         try{
-                            document.getElementById('adult_mother_name'+sequence).value = '';
+                            document.getElementById('adult_mother_name'+sequence).value = 'NA'; //VALUE IKUTI DEFAULT
                         }catch(err){}
                         try{
                             document.getElementById('adult_tempat_lahir'+sequence).value = '';
@@ -2870,7 +2875,7 @@ function clear_passenger(type, sequence){
                             document.getElementById('adult_kriteria_pasien'+sequence).value = 'LAIN-LAIN';
                             $('#adult_kriteria_pasien'+sequence).niceSelect('update');
                             document.getElementById('detail_kriteria'+sequence).hidden = true;
-                            document.getElementById('adult_pemeriksaan_swab_ke'+sequence).value = '';
+                            document.getElementById('adult_pemeriksaan_swab_ke'+sequence).value = '1'; //VALUE IKUTI DEFAULT
 
                             //sedang dirawat rs
                             document.getElementById('adult_sedang_dirawat_di_rs'+sequence).value = 'TIDAK TAHU';
@@ -3019,7 +3024,7 @@ function clear_passenger(type, sequence){
                                 document.getElementById('berkunjung_ke_pasien_konfirmasi_div'+sequence).hidden = true;
                             }catch(err){}
 
-                            document.getElementById('adult_termasuk_cluster_ispa'+sequence).value = '';
+                            document.getElementById('adult_termasuk_cluster_ispa'+sequence).value = 'TIDAK TAHU'; // VALUE IKUTI DEFAULT
                             $('#adult_termasuk_cluster_ispa'+sequence).niceSelect('update');
 
                             document.getElementById('adult_merupakan_petugas_kesehatan'+sequence).value = 'TIDAK';

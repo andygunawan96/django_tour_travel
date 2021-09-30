@@ -1,0 +1,50 @@
+{% load i18n %}
+<div class="login-signup" id="id_login_booking" style="z-index:1000; padding:15px 0px; background:white; border-bottom:1px solid #cdcdcd; {% if template != 3 or template != 4%}border-top:1px solid #cdcdcd;{% endif %} display:none;">
+    <div class="container" style="text-align:center;">
+        <h6>
+            <i class="fas fa-user-lock"></i>
+            <a href="#" data-toggle="modal" data-target="#myModalSignin" style="color:{{color}};">{% if '{{user_login.co_user_login}}' == 'agent_b2c' %} {% trans 'Sign In' %} {% else %} {% trans 'Change Login' %} {% endif %} </a>
+            to use the {{name}} feature
+            <input type="hidden" name="g-recaptcha-response" id='g-recaptcha-response'>
+        </h6>
+    </div>
+</div>
+
+<div class="modal fade" id="myModalSignin" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Login' %} <i class="fas fa-address-card"></i></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="input-container-search-ticket">
+                    <input type="text" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:10px 0px;" id="username" placeholder="Username" tabindex="1" />
+                </div>
+                <div class="input-container-search-ticket">
+                    <input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:10px 0px;" id="password" placeholder="Password" tabindex="2" />
+                </div>
+                <div class="input-container-search-ticket">
+                    <label class="check_box_custom" style="margin:10px 0px;">
+                        <span style="font-size:13px;">{% trans 'Keep Me Signin' %}</span>
+                        <input type="checkbox" value="" id="keep_me_signin" name="keep_me_signin" checked="checked">
+                        <span class="check_box_span_custom"></span>
+                    </label>
+                </div>
+                <div class="input-container-search-ticket">
+                    <button onclick="get_captcha('g-recaptcha-response','signin_btc');" class="loading-button primary-btn-custom ld-ext-right" style="margin:10px 0px;">
+                        Sign in <i class="fas fa-sign-in-alt"></i>
+                        <div class="ld ld-ring ld-cycle"></div>
+                    </button><br/>
+                </div>
+                <form id="reload_page" class="form-wrap" action="" method="POST" style="padding:0; text-align:unset;">
+                    {% csrf_token %}
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
+            </div>
+        </div>
+    </div>
+</div>
