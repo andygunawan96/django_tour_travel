@@ -4699,12 +4699,13 @@ function check_passenger(adult, child, infant){
                 document.getElementById('adult_phone'+i).style['border-color'] = '#EFEFEF';
        }if(ff_request.length != 0 && check_ff == 1){
            for(j=1;j<=ff_request.length;j++){
-                if(document.getElementById('adult_ff_request'+i+'_'+j).value != '' && document.getElementById('adult_ff_number'+i+'_'+j).value != '' ||
-                   document.getElementById('adult_ff_request'+i+'_'+j).value != 'Frequent Flyer Program' && document.getElementById('adult_ff_number'+i+'_'+j).value != ''){
+                if(document.getElementById('adult_ff_request'+i+'_'+j).value == '' && document.getElementById('adult_ff_number'+i+'_'+j).value != '' ||
+                   document.getElementById('adult_ff_request'+i+'_'+j).value == 'Frequent Flyer Program' && document.getElementById('adult_ff_number'+i+'_'+j).value != ''){
 
-                    error_log+= 'Please fill Frequent Flyer Number '+j+' for passenger adult '+i+'!</br>\n';
+                    error_log+= 'Please Choose Frequent Flyer '+j+' for passenger adult '+i+'!</br>\n';
                     document.getElementById('adult_ff_number'+i+'_'+j).style['border-color'] = 'red';
-                }else if(document.getElementById('adult_ff_request'+i+'_'+j).value != 'Frequent Flyer Program' && document.getElementById('adult_ff_number'+i+'_'+j).value != ''){
+                }else if(document.getElementById('adult_ff_request'+i+'_'+j).value != 'Frequent Flyer Program' && document.getElementById('adult_ff_number'+i+'_'+j).value == '' ||
+                         document.getElementById('adult_ff_request'+i+'_'+j).value != '' && document.getElementById('adult_ff_number'+i+'_'+j).value == ''){
                     error_log+= 'Please fill Frequent Flyer Number '+j+' for passenger adult '+i+'!</br>\n';
                     document.getElementById('adult_ff_number'+i+'_'+j).style['border-color'] = 'red';
                 }else{
@@ -4856,12 +4857,13 @@ function check_passenger(adult, child, infant){
 
        if(ff_request.length != 0 && check_ff == 1){
            for(j=1;j<=ff_request.length;j++){
-                if(document.getElementById('child_ff_request'+i+'_'+j).value != '' && document.getElementById('child_ff_number'+i+'_'+j).value != '' ||
-                   document.getElementById('child_ff_request'+i+'_'+j).value != 'Frequent Flyer Program' && document.getElementById('child_ff_number'+i+'_'+j).value != ''){
+                if(document.getElementById('child_ff_request'+i+'_'+j).value == '' && document.getElementById('child_ff_number'+i+'_'+j).value != '' ||
+                   document.getElementById('child_ff_request'+i+'_'+j).value == 'Frequent Flyer Program' && document.getElementById('child_ff_number'+i+'_'+j).value != ''){
 
-                    error_log+= 'Please fill Frequent Flyer Number '+j+' for passenger child '+i+'!</br>\n';
+                    error_log+= 'Please Choose Frequent Flyer '+j+' for passenger child '+i+'!</br>\n';
                     document.getElementById('child_ff_number'+i+'_'+j).style['border-color'] = 'red';
-                }else if(document.getElementById('child_ff_request'+i+'_'+j).value != 'Frequent Flyer Program' && document.getElementById('child_ff_number'+i+'_'+j).value != ''){
+                }else if(document.getElementById('child_ff_request'+i+'_'+j).value != 'Frequent Flyer Program' && document.getElementById('child_ff_number'+i+'_'+j).value == '' ||
+                         document.getElementById('child_ff_request'+i+'_'+j).value != '' && document.getElementById('child_ff_number'+i+'_'+j).value == ''){
                     error_log+= 'Please fill Frequent Flyer Number '+j+' for passenger child '+i+'!</br>\n';
                     document.getElementById('child_ff_number'+i+'_'+j).style['border-color'] = 'red';
                 }else{
