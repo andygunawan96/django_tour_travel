@@ -44,6 +44,7 @@
     child = JSON.parse(child);
     hotel = `{{hotel_pick}}`;
     hotel = hotel.replace(/&#39;/g, '"').replace(/&quot;/g, '"').replace(/False/g, 'false').replace(/True/g, 'true').replace(/None/g, '""');
+    hotel = JSON.parse(hotel);
     upsell_price = {{upsell}};
     hotel_price = `{{hotel_room_detail_pick}}`;
     hotel_price = hotel_price.replace(/&#39;/g, '"');

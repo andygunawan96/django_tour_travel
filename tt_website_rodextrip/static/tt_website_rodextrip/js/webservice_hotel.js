@@ -1206,9 +1206,19 @@ function hotel_provision(price_code, provider){
                 auto_logout();
             }else{
                 Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: #ff9900;">Error hotel provision </span>' + msg.result.error_msg,
+                  title: 'Oops, This Room Not Available',
+                  type: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'Check Other Room',
+                  cancelButtonText: 'Check Other Hotel'
+                }).then((result) => {
+                  if (result.value) {
+                    window.location.href = '/hotel/detail/'+hotel.id;
+                  }else{
+                    window.location.href = '/hotel/search';
+                  }
                 })
                 $('.loader-rodextrip').fadeOut();
             }
