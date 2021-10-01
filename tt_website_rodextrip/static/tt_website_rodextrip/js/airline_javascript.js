@@ -2434,7 +2434,7 @@ function sort(){
                                    <div class="col-lg-9 col-md-8 col-sm-8" style="text-align:right;">`;
                                        if(provider_list_data.hasOwnProperty(airline[i].provider) == true && provider_list_data[airline[i].provider].description != '')
                                             text += `<span>`+provider_list_data[airline[i].provider].description+`</span><br/>`;
-                                        text+=`
+                                       text+=`
                                        <span id="fare`+i+`" class="basic_fare_field copy_price price_template" style="margin-right:5px;"></span>`;
                                        if(airline[i].can_book == true){
                                            text+=`<input type='button' style="margin:5px 0px 0px 0px;" id="departjourney`+i+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Choose" onclick="get_price_itinerary(`+i+`)" sequence_id="0"/>`;
@@ -2739,7 +2739,7 @@ function sort(){
                                    var selected_banner_date = moment(airline[i].departure_date.split(' - ')[0]).format('YYYY-MM-DD');
 
                                    if(selected_banner_date >= max_banner_date){
-                                       if(airline[i].search_banner[banner_counter].active == true){
+                                       if(airline[i].search_banner[banner_counter].active == true && airline[i].search_banner[banner_counter].description != ''){
                                            new jBox('Tooltip', {
                                                 attach: '#pop_search_banner'+i+banner_counter,
                                                 theme: 'TooltipBorder',
@@ -3516,7 +3516,7 @@ function airline_pick_mc(type){
                var selected_banner_date = moment(airline_pick_list[i].departure_date.split(' - ')[0]).format('YYYY-MM-DD');
 
                if(selected_banner_date >= max_banner_date){
-                   if(airline_pick_list[i].search_banner[banner_counter].active == true){
+                   if(airline_pick_list[i].search_banner[banner_counter].active == true && airline_pick_list[i].search_banner[banner_counter].description != ''){
                        new jBox('Tooltip', {
                             attach: '#pop_search_banner_pick'+i+banner_counter,
                             theme: 'TooltipBorder',
@@ -3790,16 +3790,14 @@ function airline_detail(type){
                 }
                 text += `<h6>Flight `+flight_count+`</h6>`;
                 $text +='Flight '+flight_count+'\n';
-                temp_text='';
                 if(price_itinerary_temp[i].journeys[j].hasOwnProperty('search_banner')){
                    for(banner_counter in price_itinerary_temp[i].journeys[j].search_banner){
                        var max_banner_date = moment().subtract(parseInt(-1*price_itinerary_temp[i].journeys[j].search_banner[banner_counter].minimum_days), 'days').format('YYYY-MM-DD');
                        var selected_banner_date = moment(price_itinerary_temp[i].journeys[j].departure_date.split(' - ')[0]).format('YYYY-MM-DD');
 
                        if(selected_banner_date >= max_banner_date){
-                           if(price_itinerary_temp[i].journeys[j].search_banner[banner_counter].active == true){
+                           if(price_itinerary_temp[i].journeys[j].search_banner[banner_counter].active == true || price_itinerary_temp[i].journeys[j].search_banner[banner_counter].active == 'true'){
                                text+=`<label id="pop_search_banner_detail`+i+``+j+``+banner_counter+`" style="background:`+price_itinerary_temp[i].journeys[j].search_banner[banner_counter].banner_color+`; color:`+text_color+`;padding:5px 10px;">`+price_itinerary_temp[i].journeys[j].search_banner[banner_counter].name+`</label><br/>`;
-                               temp_text+='• '+price_itinerary_temp[i].journeys[j].search_banner[banner_counter].name+'\n';
                            }
                        }
                    }
@@ -3885,7 +3883,6 @@ function airline_detail(type){
                         </div>
                     </div>`;
 
-                    $text+=temp_text +'\n';
                     if(price_itinerary_temp[i].journeys[j].segments[k].fares.length > 0){
                         text += `<span><b>`;
                         if(price_itinerary_temp[i].journeys[j].segments[k].fares[0].cabin_class != '')
@@ -4380,7 +4377,7 @@ function airline_detail(type){
                            var max_banner_date = moment().subtract(parseInt(-1*price_itinerary_temp[i].journeys[j].search_banner[banner_counter].minimum_days), 'days').format('YYYY-MM-DD');
                            var selected_banner_date = moment(price_itinerary_temp[i].journeys[j].departure_date.split(' - ')[0]).format('YYYY-MM-DD');
                            if(selected_banner_date >= max_banner_date){
-                               if(price_itinerary_temp[i].journeys[j].search_banner[banner_counter].active == true){
+                               if(price_itinerary_temp[i].journeys[j].search_banner[banner_counter].active == true && price_itinerary_temp[i].journeys[j].search_banner[banner_counter].description != ''){
                                    new jBox('Tooltip', {
                                         attach: '#pop_search_banner_detail'+i+j+banner_counter,
                                         theme: 'TooltipBorder',
