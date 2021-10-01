@@ -2041,7 +2041,6 @@ function get_price_itinerary_request(){
                         }
                         text+=`<div class="row">
                         <div class="col-lg-12">`;
-                        temp_text='';
                         if(resJson.result.response.price_itinerary_provider[i].journeys[j].hasOwnProperty('search_banner')){
                            for(banner_counter in resJson.result.response.price_itinerary_provider[i].journeys[j].search_banner){
                                var max_banner_date = moment().subtract(parseInt(-1*resJson.result.response.price_itinerary_provider[i].journeys[j].search_banner[banner_counter].minimum_days), 'days').format('YYYY-MM-DD');
@@ -2050,7 +2049,6 @@ function get_price_itinerary_request(){
                                if(selected_banner_date >= max_banner_date){
                                    if(resJson.result.response.price_itinerary_provider[i].journeys[j].search_banner[banner_counter].active == true){
                                        text+=`<label id="pop_search_banner_cart`+i+``+banner_counter+`" style="background:`+resJson.result.response.price_itinerary_provider[i].journeys[j].search_banner[banner_counter].banner_color+`; color:`+text_color+`;padding:5px 10px;">`+resJson.result.response.price_itinerary_provider[i].journeys[j].search_banner[banner_counter].name+`</label><br/>`;
-                                       temp_text+='• '+resJson.result.response.price_itinerary_provider[i].journeys[j].search_banner[banner_counter].name+'\n';
                                    }
                                }
                            }
@@ -2318,7 +2316,6 @@ function get_price_itinerary_request(){
                             }
                         }
 
-                        $text+=temp_text +'\n';
                         if(fare_print == true){
                             fare_print = false;
                             text+=`
