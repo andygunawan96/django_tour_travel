@@ -2047,7 +2047,7 @@ function get_price_itinerary_request(){
                                var max_banner_date = moment().subtract(parseInt(-1*resJson.result.response.price_itinerary_provider[i].journeys[j].search_banner[banner_counter].minimum_days), 'days').format('YYYY-MM-DD');
                                var selected_banner_date = moment(resJson.result.response.price_itinerary_provider[i].journeys[j].departure_date.split(' - ')[0]).format('YYYY-MM-DD');
 
-                               if(selected_banner_date <= max_banner_date){
+                               if(selected_banner_date >= max_banner_date){
                                    if(resJson.result.response.price_itinerary_provider[i].journeys[j].search_banner[banner_counter].active == true){
                                        text+=`<label id="pop_search_banner_cart`+i+``+banner_counter+`" style="background:`+resJson.result.response.price_itinerary_provider[i].journeys[j].search_banner[banner_counter].banner_color+`; color:`+text_color+`;padding:5px 10px;">`+resJson.result.response.price_itinerary_provider[i].journeys[j].search_banner[banner_counter].name+`</label><br/>`;
                                        temp_text+='• '+resJson.result.response.price_itinerary_provider[i].journeys[j].search_banner[banner_counter].name+'\n';
@@ -2691,7 +2691,7 @@ function get_price_itinerary_request(){
                                var max_banner_date = moment().subtract(parseInt(-1*resJson.result.response.price_itinerary_provider[i].journeys[j].search_banner[banner_counter].minimum_days), 'days').format('YYYY-MM-DD');
                                var selected_banner_date = moment(resJson.result.response.price_itinerary_provider[i].journeys[j].departure_date.split(' - ')[0]).format('YYYY-MM-DD');
 
-                               if(selected_banner_date <= max_banner_date){
+                               if(selected_banner_date >= max_banner_date){
                                    if(resJson.result.response.price_itinerary_provider[i].journeys[j].search_banner[banner_counter].active == true){
                                        new jBox('Tooltip', {
                                             attach: '#pop_search_banner_cart'+i+banner_counter,
@@ -4640,7 +4640,7 @@ function airline_get_booking(data, sync=false){
                                        var max_banner_date = moment().subtract(parseInt(-1*msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].minimum_days), 'days').format('YYYY-MM-DD');
                                        var selected_banner_date = moment(msg.result.response.provider_bookings[i].journeys[j].departure_date.split('  ')[0]).format('YYYY-MM-DD');
 
-                                       if(selected_banner_date <= max_banner_date){
+                                       if(selected_banner_date >= max_banner_date){
                                            if(msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].active == true){
                                                text+=`<label id="pop_search_banner`+i+``+j+``+banner_counter+`" style="background:`+msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].banner_color+`; color:`+text_color+`;padding:5px 10px;">`+msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].name+`</label>`;
                                            }
@@ -5128,7 +5128,7 @@ function airline_get_booking(data, sync=false){
                                var max_banner_date = moment().subtract(parseInt(-1*msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].minimum_days), 'days').format('YYYY-MM-DD');
                                var selected_banner_date = moment(msg.result.response.provider_bookings[i].journeys[j].departure_date.split('  ')[0]).format('YYYY-MM-DD');
 
-                               if(selected_banner_date <= max_banner_date){
+                               if(selected_banner_date >= max_banner_date){
                                    if(msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].active == true){
                                        new jBox('Tooltip', {
                                             attach: '#pop_search_banner'+i+j+banner_counter,

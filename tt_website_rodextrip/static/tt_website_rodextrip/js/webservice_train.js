@@ -737,6 +737,18 @@ function train_get_booking(data){
                                 if(msg.result.response.provider_bookings[i].journeys[j].hasOwnProperty('search_banner')){
                                    for(banner_counter in msg.result.response.provider_bookings[i].journeys[j].search_banner){
                                        var max_banner_date = moment().subtract(parseInt(-1*msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].minimum_days), 'days').format('YYYY-MM-DD');
+                                       var selected_banner_date = moment(msg.result.response.provider_bookings[i].journeys[j].departure_date.split(' -')[0]).format('YYYY-MM-DD');
+                                       if(selected_banner_date >= max_banner_date){
+                                           if(msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].active == true){
+                                               text+=`<label id="pop_search_banner`+i+``+j+``+banner_counter+`" style="background:`+msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].banner_color+`; color:`+text_color+`;padding:5px 10px;">`+msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].name+`</label>`;
+                                           }
+                                       }
+                                   }
+                                }
+
+                                if(msg.result.response.provider_bookings[i].journeys[j].hasOwnProperty('search_banner')){
+                                   for(banner_counter in msg.result.response.provider_bookings[i].journeys[j].search_banner){
+                                       var max_banner_date = moment().subtract(parseInt(-1*msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].minimum_days), 'days').format('YYYY-MM-DD');
                                        var selected_banner_date = moment(msg.result.response.provider_bookings[i].journeys[j].departure_date.split('  ')[0]).format('YYYY-MM-DD');
 
                                        if(selected_banner_date <= max_banner_date){
@@ -1336,6 +1348,29 @@ function train_get_booking(data){
                 document.getElementById('show_title_train').hidden = false;
                 document.getElementById('show_loading_booking_train').hidden = true;
                 document.getElementById('train_detail').innerHTML = text;
+
+                for(i in msg.result.response.provider_bookings){
+                    for(j in msg.result.response.provider_bookings[i].journeys){
+                        if(msg.result.response.provider_bookings[i].journeys[j].hasOwnProperty('search_banner')){
+                           for(banner_counter in msg.result.response.provider_bookings[i].journeys[j].search_banner){
+                               var max_banner_date = moment().subtract(parseInt(-1*msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].minimum_days), 'days').format('YYYY-MM-DD');
+                               var selected_banner_date = moment(msg.result.response.provider_bookings[i].journeys[j].departure_date.split(' -')[0]).format('YYYY-MM-DD');
+                               if(selected_banner_date >= max_banner_date){
+                                   if(msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].active == true){
+                                       new jBox('Tooltip', {
+                                            attach: '#pop_search_banner'+i+j+banner_counter,
+                                            theme: 'TooltipBorder',
+                                            width: 280,
+                                            closeOnMouseleave: true,
+                                            animation: 'zoomIn',
+                                            content: msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].description
+                                       });
+                                   }
+                               }
+                           }
+                        }
+                    }
+                }
 
                 if(msg.result.response.state == 'cancel'){
                    document.getElementById('issued-breadcrumb').classList.remove("br-active");

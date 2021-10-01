@@ -640,6 +640,23 @@ function train_get_detail(){
         }
         train_detail_text += `
         <div class="row">
+        <div class="col-lg-12">`;
+
+        if(journeys[i].hasOwnProperty('search_banner')){
+           for(banner_counter in journeys[i].search_banner){
+               var max_banner_date = moment().subtract(parseInt(-1*journeys[i].search_banner[banner_counter].minimum_days), 'days').format('YYYY-MM-DD');
+               var selected_banner_date = moment(journeys[i].departure_date[0]).format('YYYY-MM-DD');
+
+               if(selected_banner_date >= max_banner_date){
+                   if(journeys[i].search_banner[banner_counter].active == true){
+                       train_detail_text+=`<label id="pop_search_banner_detail`+i+``+banner_counter+`" style="background:`+journeys[i].search_banner[banner_counter].banner_color+`; color:`+text_color+`;padding:5px 10px;">`+journeys[i].search_banner[banner_counter].name+`</label>`;
+                   }
+               }
+           }
+        }
+
+        train_detail_text += `
+        </div>
             <div class="col-lg-12">`;
 //                if(i != 0){
 //                    train_detail_text += `<hr/>`;
@@ -809,6 +826,28 @@ function train_get_detail(){
         </div>`;
     console.log($text);
     document.getElementById('train_detail').innerHTML = train_detail_text;
+
+    for(i in journeys){
+        if(journeys[i].hasOwnProperty('search_banner')){
+           for(banner_counter in journeys[i].search_banner){
+               var max_banner_date = moment().subtract(parseInt(-1*journeys[i].search_banner[banner_counter].minimum_days), 'days').format('YYYY-MM-DD');
+               var selected_banner_date = moment(journeys[i].departure_date[0]).format('YYYY-MM-DD');
+
+               if(selected_banner_date >= max_banner_date){
+                   if(journeys[i].search_banner[banner_counter].active == true){
+                       new jBox('Tooltip', {
+                            attach: '#pop_search_banner_detail'+i+banner_counter,
+                            theme: 'TooltipBorder',
+                            width: 280,
+                            closeOnMouseleave: true,
+                            animation: 'zoomIn',
+                            content: journeys[i].search_banner[banner_counter].description
+                       });
+                   }
+               }
+           }
+        }
+    }
 }
 
 function goto_passenger(){
@@ -923,6 +962,24 @@ function train_detail(){
                 text += `<br/><h6>Return</h6>`;
             }
             text+=`
+            </div>
+            <div class="col-lg-12">`;
+            if(train_data[i].hasOwnProperty('search_banner')){
+               for(banner_counter in train_data[i].search_banner){
+                   var max_banner_date = moment().subtract(parseInt(-1*train_data[i].search_banner[banner_counter].minimum_days), 'days').format('YYYY-MM-DD');
+                   var selected_banner_date = moment(train_data[i].departure_date[0]).format('YYYY-MM-DD');
+
+                   if(selected_banner_date >= max_banner_date){
+                       if(train_data[i].search_banner[banner_counter].active == true){
+                           text+=`<label id="pop_search_banner`+i+``+banner_counter+`" style="background:`+train_data[i].search_banner[banner_counter].banner_color+`; color:`+text_color+`;padding:5px 10px;">`+train_data[i].search_banner[banner_counter].name+`</label>`;
+                       }
+                   }
+               }
+            }
+            text+=`
+            </div>
+            <div class="col-lg-12">
+                <h6>`+train_data[i].carrier_name+`-`+train_data[i].carrier_number+`</h6>
             </div>
             <div class="col-lg-6 col-xs-6">
                 <table style="width:100%">
@@ -1119,6 +1176,28 @@ function train_detail(){
     </div>`;
 
     document.getElementById('train_detail').innerHTML = text;
+
+    for(i in train_data){
+        if(train_data[i].hasOwnProperty('search_banner')){
+           for(banner_counter in train_data[i].search_banner){
+               var max_banner_date = moment().subtract(parseInt(-1*train_data[i].search_banner[banner_counter].minimum_days), 'days').format('YYYY-MM-DD');
+               var selected_banner_date = moment(train_data[i].departure_date[0]).format('YYYY-MM-DD');
+
+               if(selected_banner_date >= max_banner_date){
+                   if(train_data[i].search_banner[banner_counter].active == true){
+                       new jBox('Tooltip', {
+                            attach: '#pop_search_banner'+i+banner_counter,
+                            theme: 'TooltipBorder',
+                            width: 280,
+                            closeOnMouseleave: true,
+                            animation: 'zoomIn',
+                            content: train_data[i].search_banner[banner_counter].description
+                       });
+                   }
+               }
+           }
+        }
+    }
 }
 
 function copy_data(){
@@ -1689,8 +1768,20 @@ function sort(value){
                 <span class="copy_train" hidden>`+i+`</span>`;
             response+=`
                 <div class="row">
-                    <div class="col-lg-9">
-                        <h4 class="copy_train_name">`+data_filter[i].carrier_name+` - (`+data_filter[i].carrier_number+`)  - `+data_filter[i].cabin_class[1]+` (`+data_filter[i].class_of_service+`)</h4>
+                    <div class="col-lg-9">`;
+                    if(data_filter[i].hasOwnProperty('search_banner')){
+                       for(banner_counter in data_filter[i].search_banner){
+                           var max_banner_date = moment().subtract(parseInt(-1*data_filter[i].search_banner[banner_counter].minimum_days), 'days').format('YYYY-MM-DD');
+                           var selected_banner_date = moment(data_filter[i].departure_date[0]).format('YYYY-MM-DD');
+
+                           if(selected_banner_date >= max_banner_date){
+                               if(data_filter[i].search_banner[banner_counter].active == true){
+                                   response+=`<label id="pop_search_banner`+i+``+banner_counter+`" style="background:`+data_filter[i].search_banner[banner_counter].banner_color+`; color:`+text_color+`;padding:5px 10px;">`+data_filter[i].search_banner[banner_counter].name+`</label>`;
+                               }
+                           }
+                       }
+                    }
+                    response+=`
                     </div>
                     <div class="col-lg-3">`;
                        if(data_filter[i].available_count > 0 && data_filter[i].can_book == true){
@@ -1706,6 +1797,9 @@ function sort(value){
                             }
                        }
                     response+=`
+                    </div>
+                    <div class="col-lg-12">
+                        <h4 class="copy_train_name">`+data_filter[i].carrier_name+` - (`+data_filter[i].carrier_number+`)  - `+data_filter[i].cabin_class[1]+` (`+data_filter[i].class_of_service+`)</h4>
                     </div>
                     <div class="col-lg-4 col-xs-6">
                         <table style="width:100%">
@@ -1788,12 +1882,34 @@ function sort(value){
     train_data_filter = data_filter;
     document.getElementById('train_ticket').innerHTML = response;
     document.getElementById('loading-search-train').hidden = true;
+
+    for(i in data_filter){
+        if(data_filter[i].hasOwnProperty('search_banner')){
+           for(banner_counter in data_filter[i].search_banner){
+               var max_banner_date = moment().subtract(parseInt(-1*data_filter[i].search_banner[banner_counter].minimum_days), 'days').format('YYYY-MM-DD');
+               var selected_banner_date = moment(data_filter[i].departure_date[0]).format('YYYY-MM-DD');
+
+               if(selected_banner_date >= max_banner_date){
+                   if(data_filter[i].search_banner[banner_counter].active == true){
+                       new jBox('Tooltip', {
+                            attach: '#pop_search_banner'+i+banner_counter,
+                            theme: 'TooltipBorder',
+                            width: 280,
+                            closeOnMouseleave: true,
+                            animation: 'zoomIn',
+                            content: data_filter[i].search_banner[banner_counter].description
+                       });
+                   }
+               }
+           }
+        }
+    }
+
 }
 
 function train_ticket_pick(){
     response = '';
     for(i in journeys){
-
         response+=`
         <div style="background-color:`+color+`; padding:10px;">
             <h6 style="color:`+text_color+`;">`;
@@ -1801,11 +1917,26 @@ function train_ticket_pick(){
             response += 'Departure';
         else
             response += 'Return';
-            response +=`</h6>
+        response +=`</h6>
         </div>
         <div class="sorting-box-b">`;
         response += `
             <div class="row">
+                <div class="col-lg-12">`;
+                if(journeys[i].hasOwnProperty('search_banner')){
+                   for(banner_counter in journeys[i].search_banner){
+                       var max_banner_date = moment().subtract(parseInt(-1*journeys[i].search_banner[banner_counter].minimum_days), 'days').format('YYYY-MM-DD');
+                       var selected_banner_date = moment(journeys[i].departure_date[0]).format('YYYY-MM-DD');
+
+                       if(selected_banner_date >= max_banner_date){
+                           if(journeys[i].search_banner[banner_counter].active == true){
+                               response+=`<label id="pop_search_banner_pick`+i+``+journeys[i].train_sequence+``+banner_counter+`" style="background:`+journeys[i].search_banner[banner_counter].banner_color+`; color:`+text_color+`;padding:5px 10px;">`+journeys[i].search_banner[banner_counter].name+`</label>`;
+                           }
+                       }
+                   }
+                }
+                response+=`
+                </div>
                 <div class="col-lg-12">
                     <h4>`+journeys[i].carrier_name+` - (`+journeys[i].carrier_number+`)  - `+journeys[i].cabin_class[1]+`</h4>
                 </div>
@@ -1857,6 +1988,29 @@ function train_ticket_pick(){
 
     }
     document.getElementById('train_pick_ticket').innerHTML = response;
+
+    for(i in journeys){
+        if(journeys[i].hasOwnProperty('search_banner')){
+           for(banner_counter in journeys[i].search_banner){
+               var max_banner_date = moment().subtract(parseInt(-1*journeys[i].search_banner[banner_counter].minimum_days), 'days').format('YYYY-MM-DD');
+               var selected_banner_date = moment(journeys[i].departure_date[0]).format('YYYY-MM-DD');
+
+               if(selected_banner_date >= max_banner_date){
+                   if(journeys[i].search_banner[banner_counter].active == true){
+                       new jBox('Tooltip', {
+                            attach: '#pop_search_banner_pick'+i+journeys[i].train_sequence+banner_counter,
+                            theme: 'TooltipBorder',
+                            width: 280,
+                            closeOnMouseleave: true,
+                            animation: 'zoomIn',
+                            content: journeys[i].search_banner[banner_counter].description
+                       });
+                   }
+               }
+           }
+        }
+    }
+
 }
 
 function update_contact_cp(val){
