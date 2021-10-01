@@ -548,6 +548,8 @@ def review(request):
                 contact = request.session['hotel_review_pax']['contact']
                 adult = request.session['hotel_review_pax']['adult']
                 child = request.session['hotel_review_pax']['child']
+            hotel_pick = request.session['hotel_detail']
+            hotel_pick.pop('description')
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'booker': booker,
@@ -559,7 +561,7 @@ def review(request):
                 'phone_code': phone_code,
                 'upsell': request.session.get('hotel_upsell_'+request.session['hotel_signature']) and request.session.get('hotel_upsell_'+request.session['hotel_signature']) or 0,
                 'hotel_search': request.session['hotel_request'],
-                'hotel_pick': request.session['hotel_detail'],
+                'hotel_pick': hotel_pick,
                 'hotel_room_detail_pick': request.session['hotel_room_pick'],
                 'adult_count': int(request.session['hotel_request']['adult']),
                 'infant_count': int(request.session['hotel_request']['child']),
