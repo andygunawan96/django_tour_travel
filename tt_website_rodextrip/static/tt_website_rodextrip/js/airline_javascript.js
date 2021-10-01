@@ -5560,7 +5560,7 @@ function get_checked_copy_result(){
         var parent_airline = $(this).parent().parent().parent().parent();
         var combo_price = parent_airline.find('.copy_combo_price').html();
         var price_airline = parent_airline.find('.copy_price').html();
-        var search_banner = parent_airline.find('.copy_search_banner').html();
+        //var search_banner = parent_airline.find('.copy_search_banner').html();
         var value_copy = [];
         parent_airline.find('.copy_airline').each(function(obj) {
             value_copy.push($(this).html());
@@ -5739,10 +5739,10 @@ function get_checked_copy_result(){
                     }
                 }
 
-                if(search_banner != undefined){
-                    text+=`<span class="search_banner_airline">• `+search_banner+`</span><br/>`;
-                    $text += '• '+search_banner+'\n';
-                }
+//                if(search_banner != undefined){
+//                    text+=`<span class="search_banner_airline">• `+search_banner+`</span><br/>`;
+//                    $text += '• '+search_banner+'\n';
+//                }
                 $text+='--------------------\n';
                 text+=`<hr/>`;
                 if(combo_price != undefined){
