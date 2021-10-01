@@ -2178,7 +2178,7 @@ function sort(){
                                            var max_banner_date = moment().subtract(parseInt(-1*airline[i].search_banner[banner_counter].minimum_days), 'days').format('YYYY-MM-DD');
                                            var selected_banner_date = moment(airline[i].departure_date.split(' - ')[0]).format('YYYY-MM-DD');
 
-                                           if(selected_banner_date <= max_banner_date){
+                                           if(selected_banner_date >= max_banner_date){
                                                if(airline[i].search_banner[banner_counter].active == true){
                                                    text+=`<label id="pop_search_banner`+i+``+banner_counter+`" class="copy_search_banner" style="background:`+airline[i].search_banner[banner_counter].banner_color+`; color:`+text_color+`;padding:5px 10px;">`+airline[i].search_banner[banner_counter].name+`</label>`;
                                                }
@@ -2738,7 +2738,7 @@ function sort(){
                                    var max_banner_date = moment().subtract(parseInt(-1*airline[i].search_banner[banner_counter].minimum_days), 'days').format('YYYY-MM-DD');
                                    var selected_banner_date = moment(airline[i].departure_date.split(' - ')[0]).format('YYYY-MM-DD');
 
-                                   if(selected_banner_date <= max_banner_date){
+                                   if(selected_banner_date >= max_banner_date){
                                        if(airline[i].search_banner[banner_counter].active == true){
                                            new jBox('Tooltip', {
                                                 attach: '#pop_search_banner'+i+banner_counter,
@@ -2962,7 +2962,7 @@ function airline_pick_mc(type){
                        var max_banner_date = moment().subtract(parseInt(-1*airline_pick_list[i].search_banner[banner_counter].minimum_days), 'days').format('YYYY-MM-DD');
                        var selected_banner_date = moment(airline_pick_list[i].departure_date.split(' - ')[0]).format('YYYY-MM-DD');
 
-                       if(selected_banner_date <= max_banner_date){
+                       if(selected_banner_date >= max_banner_date){
                            if(airline_pick_list[i].search_banner[banner_counter].active == true){
                                text+=`<label id="pop_search_banner_pick`+i+``+banner_counter+`" style="background:`+airline_pick_list[i].search_banner[banner_counter].banner_color+`; color:`+text_color+`;padding:5px 10px;">`+airline_pick_list[i].search_banner[banner_counter].name+`</label>`;
                            }
@@ -3515,7 +3515,7 @@ function airline_pick_mc(type){
                var max_banner_date = moment().subtract(parseInt(-1*airline_pick_list[i].search_banner[banner_counter].minimum_days), 'days').format('YYYY-MM-DD');
                var selected_banner_date = moment(airline_pick_list[i].departure_date.split(' - ')[0]).format('YYYY-MM-DD');
 
-               if(selected_banner_date <= max_banner_date){
+               if(selected_banner_date >= max_banner_date){
                    if(airline_pick_list[i].search_banner[banner_counter].active == true){
                        new jBox('Tooltip', {
                             attach: '#pop_search_banner_pick'+i+banner_counter,
@@ -3796,7 +3796,7 @@ function airline_detail(type){
                        var max_banner_date = moment().subtract(parseInt(-1*price_itinerary_temp[i].journeys[j].search_banner[banner_counter].minimum_days), 'days').format('YYYY-MM-DD');
                        var selected_banner_date = moment(price_itinerary_temp[i].journeys[j].departure_date.split(' - ')[0]).format('YYYY-MM-DD');
 
-                       if(selected_banner_date <= max_banner_date){
+                       if(selected_banner_date >= max_banner_date){
                            if(price_itinerary_temp[i].journeys[j].search_banner[banner_counter].active == true){
                                text+=`<label id="pop_search_banner_detail`+i+``+j+``+banner_counter+`" style="background:`+price_itinerary_temp[i].journeys[j].search_banner[banner_counter].banner_color+`; color:`+text_color+`;padding:5px 10px;">`+price_itinerary_temp[i].journeys[j].search_banner[banner_counter].name+`</label><br/>`;
                                temp_text+='• '+price_itinerary_temp[i].journeys[j].search_banner[banner_counter].name+'\n';
@@ -4379,7 +4379,7 @@ function airline_detail(type){
                        for(banner_counter in price_itinerary_temp[i].journeys[j].search_banner){
                            var max_banner_date = moment().subtract(parseInt(-1*price_itinerary_temp[i].journeys[j].search_banner[banner_counter].minimum_days), 'days').format('YYYY-MM-DD');
                            var selected_banner_date = moment(price_itinerary_temp[i].journeys[j].departure_date.split(' - ')[0]).format('YYYY-MM-DD');
-                           if(selected_banner_date <= max_banner_date){
+                           if(selected_banner_date >= max_banner_date){
                                if(price_itinerary_temp[i].journeys[j].search_banner[banner_counter].active == true){
                                    new jBox('Tooltip', {
                                         attach: '#pop_search_banner_detail'+i+j+banner_counter,
@@ -4699,13 +4699,12 @@ function check_passenger(adult, child, infant){
                 document.getElementById('adult_phone'+i).style['border-color'] = '#EFEFEF';
        }if(ff_request.length != 0 && check_ff == 1){
            for(j=1;j<=ff_request.length;j++){
-                if(document.getElementById('adult_ff_request'+i+'_'+j).value == '' && document.getElementById('adult_ff_number'+i+'_'+j).value != '' ||
-                   document.getElementById('adult_ff_request'+i+'_'+j).value == 'Frequent Flyer Program' && document.getElementById('adult_ff_number'+i+'_'+j).value != ''){
+                if(document.getElementById('adult_ff_request'+i+'_'+j).value != '' && document.getElementById('adult_ff_number'+i+'_'+j).value != '' ||
+                   document.getElementById('adult_ff_request'+i+'_'+j).value != 'Frequent Flyer Program' && document.getElementById('adult_ff_number'+i+'_'+j).value != ''){
 
-                    error_log+= 'Please Choose Frequent Flyer '+j+' for passenger adult '+i+'!</br>\n';
+                    error_log+= 'Please fill Frequent Flyer Number '+j+' for passenger adult '+i+'!</br>\n';
                     document.getElementById('adult_ff_number'+i+'_'+j).style['border-color'] = 'red';
-                }else if(document.getElementById('adult_ff_request'+i+'_'+j).value != 'Frequent Flyer Program' && document.getElementById('adult_ff_number'+i+'_'+j).value == '' &&
-                         document.getElementById('adult_ff_request'+i+'_'+j).value != ''){
+                }else if(document.getElementById('adult_ff_request'+i+'_'+j).value != 'Frequent Flyer Program' && document.getElementById('adult_ff_number'+i+'_'+j).value != ''){
                     error_log+= 'Please fill Frequent Flyer Number '+j+' for passenger adult '+i+'!</br>\n';
                     document.getElementById('adult_ff_number'+i+'_'+j).style['border-color'] = 'red';
                 }else{
@@ -4857,13 +4856,12 @@ function check_passenger(adult, child, infant){
 
        if(ff_request.length != 0 && check_ff == 1){
            for(j=1;j<=ff_request.length;j++){
-                if(document.getElementById('child_ff_request'+i+'_'+j).value == '' && document.getElementById('child_ff_number'+i+'_'+j).value != '' ||
-                   document.getElementById('child_ff_request'+i+'_'+j).value == 'Frequent Flyer Program' && document.getElementById('child_ff_number'+i+'_'+j).value != ''){
+                if(document.getElementById('child_ff_request'+i+'_'+j).value != '' && document.getElementById('child_ff_number'+i+'_'+j).value != '' ||
+                   document.getElementById('child_ff_request'+i+'_'+j).value != 'Frequent Flyer Program' && document.getElementById('child_ff_number'+i+'_'+j).value != ''){
 
-                    error_log+= 'Please Choose Frequent Flyer '+j+' for passenger child '+i+'!</br>\n';
+                    error_log+= 'Please fill Frequent Flyer Number '+j+' for passenger child '+i+'!</br>\n';
                     document.getElementById('child_ff_number'+i+'_'+j).style['border-color'] = 'red';
-                }else if(document.getElementById('child_ff_request'+i+'_'+j).value != 'Frequent Flyer Program' && document.getElementById('child_ff_number'+i+'_'+j).value == '' &&
-                         document.getElementById('child_ff_request'+i+'_'+j).value != ''){
+                }else if(document.getElementById('child_ff_request'+i+'_'+j).value != 'Frequent Flyer Program' && document.getElementById('child_ff_number'+i+'_'+j).value != ''){
                     error_log+= 'Please fill Frequent Flyer Number '+j+' for passenger child '+i+'!</br>\n';
                     document.getElementById('child_ff_number'+i+'_'+j).style['border-color'] = 'red';
                 }else{

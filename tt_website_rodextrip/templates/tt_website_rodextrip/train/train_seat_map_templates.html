@@ -117,87 +117,96 @@ img {vertical-align: middle;}
                             <div class="row" style="position:sticky; top:15px; z-index:10;">
                                 <div class="col-lg-12">
                                     <div class="row">
-                                        <div class="col-lg-6">
-                                            <div style="width:100%;text-align:center;">
-                                                <h5>{% trans 'Select Passenger' %}</h5><br/>
+                                        <div class="col-lg-12 mb-3">
+                                            <div style="width:100%; border:1px solid #cdcdcd; background:white; padding:15px; text-align:left;">
+                                                <h5><span style="padding:3px 11px; color:{{text_color}}; background:{{color}}; border-radius:32px;">1</span> {% trans 'Select Passenger' %}</h5><br/>
+                                                {% for pax in paxs%}
+                                                <button class="button-seat-pass" type="button" id="passenger{{forloop.counter}}" style="width:100%;background-color:white;padding:10px;text-align:center;margin-bottom:10px;color:black;" onclick="select_passenger({{forloop.counter}});">
+                                                    {{forloop.counter}} {{pax.name}}
+                                                </button>
+                                                {% endfor %}
                                             </div>
-                                            {% for pax in paxs%}
-                                            <input class="button-seat-pass" type="button" id="passenger{{forloop.counter}}" style="width:100%;background-color:white;padding:10px;text-align:center;margin-bottom:10px;color:black;" onclick="select_passenger({{forloop.counter}});" value="{{forloop.counter}} {{pax.name}}">
-                                            {% endfor %}
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div style="width:100%;text-align:center;">
-                                                <h5>{% trans 'Select Journey' %}</h5><br/>
-                                            </div>
-                                            {% for pax in paxs%}
-                                            {% if forloop.counter == 1 %}
-                                            {% for seat in pax.seat_list%}
-                                            <button class="button-seat-pass" type="button" id="journey{{forloop.counter}}" style="width:100%;background-color:white;padding:10px;text-align:center;margin-bottom:10px;color:black;" onclick="select_journey({{forloop.counter}});">
-                                                {{seat.origin}} - {{seat.destination}} <span id="seat_journey{{forloop.counter}}"></span>
-                                            </button>
-                                            {% endfor %}
-                                            {% endif%}
-                                            {% endfor %}
                                         </div>
                                         <div class="col-lg-12">
-                                            <button class="primary-btn-cancel change-seat-train-buttons" style="width:100%;padding:5px;text-align:center; margin-bottom:10px; margin-top:10px; border-radius:7px;" type="button" onclick="document.getElementById('train_booking').submit();" value="Submit Seat">
-                                                {% trans 'Cancel All Change Seat' %}
-                                            </button>
-                                            <button class="primary-btn-ticket submit-seat-train change-seat-train-buttons ld-ext-right" style="width:100%;padding:5px;text-align:center; margin-bottom:30px; margin-top:10px; border-radius:7px;" type="button" onclick="train_manual_seat();" value="Submit Seat">
-                                                {% trans 'Submit Seat' %}
-                                                <div class="ld ld-ring ld-cycle"></div>
-                                            </button>
+                                            <div style="width:100%; border:1px solid #cdcdcd; background:white; padding:15px; text-align:left;">
+                                                <h5><span style="padding:3px 10px; color:{{text_color}}; background:{{color}}; border-radius:32px;">2</span> {% trans 'Select Journey' %}</h5><br/>
+                                                {% for pax in paxs%}
+                                                {% if forloop.counter == 1 %}
+                                                {% for seat in pax.seat_list%}
+                                                <button class="button-seat-pass" type="button" id="journey{{forloop.counter}}" style="width:100%;background-color:white;padding:10px;text-align:center;margin-bottom:10px;color:black;" onclick="select_journey({{forloop.counter}});">
+                                                    {{seat.origin}} - {{seat.destination}} <span id="seat_journey{{forloop.counter}}"></span>
+                                                </button>
+                                                {% endfor %}
+                                                {% endif%}
+                                                {% endfor %}
+                                            </div>
                                         </div>
-
                                         <!--                            <input class="primary-btn-ticket" type="button" style="width:100%;padding:5px;text-align:center; margin-bottom:30px; margin-top:10px; border-radius:7px;" onclick="train_manual_seat();" value="Submit Seat">-->
-
-                                        <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
-                                            <div style="text-align:center">
-                                                <span class="button-seat-map2" style="background-color:{{color}}"></span>
-                                                <br/>
-                                                <h6>{% trans 'Selected' %}</h6>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
-                                            <div style="text-align:center">
-                                                <span class="button-seat-map2" style="background-color:#656565"></span>
-                                                <br/>
-                                                <h6>{% trans 'Not Available' %}</h6>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
-                                            <div style="text-align:center">
-                                                <span class="button-seat-map2" style="background-color:#CACACA"></span>
-                                                <br/>
-                                                <h6>{% trans 'Available' %}</h6>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-8">
-                            <div class="row" id="loading-search-train">
-                                <div class="col-lg-12">
-                                    <div class="sk-circle">
-                                        <div class="sk-circle1 sk-child"></div>
-                                        <div class="sk-circle2 sk-child"></div>
-                                        <div class="sk-circle3 sk-child"></div>
-                                        <div class="sk-circle4 sk-child"></div>
-                                        <div class="sk-circle5 sk-child"></div>
-                                        <div class="sk-circle6 sk-child"></div>
-                                        <div class="sk-circle7 sk-child"></div>
-                                        <div class="sk-circle8 sk-child"></div>
-                                        <div class="sk-circle9 sk-child"></div>
-                                        <div class="sk-circle10 sk-child"></div>
-                                        <div class="sk-circle11 sk-child"></div>
-                                        <div class="sk-circle12 sk-child"></div>
+                            <div style="width:100%; border:1px solid #cdcdcd; background:white; padding:15px; text-align:left;">
+                                <div class="row mb-3">
+                                    <div class="col-lg-12">
+                                        <h5><span style="padding:3px 10px; color:{{text_color}}; background:{{color}}; border-radius:32px;">3</span> {% trans 'Select Seat' %}</h5><br/>
                                     </div>
-                                    <div style="text-align:center"><h6>{% trans 'PLEASE WAIT' %}</h6></div>
+                                    <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
+                                        <div style="text-align:center">
+                                            <span class="button-seat-map2" style="background-color:{{color}}"></span>
+                                            <br/>
+                                            <h6>{% trans 'Selected' %}</h6>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
+                                        <div style="text-align:center">
+                                            <span class="button-seat-map2" style="background-color:#656565"></span>
+                                            <br/>
+                                            <h6>{% trans 'Not Available' %}</h6>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
+                                        <div style="text-align:center">
+                                            <span class="button-seat-map2" style="background-color:#CACACA"></span>
+                                            <br/>
+                                            <h6>{% trans 'Available' %}</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" id="loading-search-train">
+                                    <div class="col-lg-12">
+                                        <div class="sk-circle">
+                                            <div class="sk-circle1 sk-child"></div>
+                                            <div class="sk-circle2 sk-child"></div>
+                                            <div class="sk-circle3 sk-child"></div>
+                                            <div class="sk-circle4 sk-child"></div>
+                                            <div class="sk-circle5 sk-child"></div>
+                                            <div class="sk-circle6 sk-child"></div>
+                                            <div class="sk-circle7 sk-child"></div>
+                                            <div class="sk-circle8 sk-child"></div>
+                                            <div class="sk-circle9 sk-child"></div>
+                                            <div class="sk-circle10 sk-child"></div>
+                                            <div class="sk-circle11 sk-child"></div>
+                                            <div class="sk-circle12 sk-child"></div>
+                                        </div>
+                                        <div style="text-align:center"><h6>{% trans 'PLEASE WAIT' %}</h6></div>
+                                    </div>
+                                </div>
+                                <div id="train_seat_map">
+
                                 </div>
                             </div>
-                            <div id="train_seat_map">
-
+                            <div class="row mt-3">
+                                <div class="col-lg-12">
+                                    <button class="primary-btn-cancel change-seat-train-buttons" style="width:100%;padding:5px;text-align:center; margin-bottom:10px; margin-top:10px; border-radius:7px;" type="button" onclick="document.getElementById('train_booking').submit();" value="Submit Seat">
+                                        {% trans 'Cancel All Change Seat' %}
+                                    </button>
+                                    <button class="primary-btn-ticket submit-seat-train change-seat-train-buttons ld-ext-right" style="width:100%;padding:5px;text-align:center; margin-bottom:30px; margin-top:10px; border-radius:7px;" type="button" onclick="train_manual_seat();" value="Submit Seat">
+                                        {% trans 'Submit All Seat' %}
+                                        <div class="ld ld-ring ld-cycle"></div>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
