@@ -1915,6 +1915,9 @@ function update_service_charge(type){
 }
 
 function get_seat_map(){
+    $('.hold-seat-booking-bus').addClass("running");
+    $('.hold-seat-booking-bus').attr("disabled", true);
+
     var data_journey_code = [];
     for(i in bus_data){
         data_journey_code.push({
@@ -1941,8 +1944,10 @@ function get_seat_map(){
             document.getElementById('signature').value = signature;
             document.getElementById('session_time_input').value = time;
             document.getElementById('bus_seat_map').submit();
-
         }else{
+            $('.hold-seat-booking-bus').removeClass("running");
+            $('.hold-seat-booking-bus').attr("disabled", false);
+
             Swal.fire({
               type: 'error',
               title: 'Oops!',
