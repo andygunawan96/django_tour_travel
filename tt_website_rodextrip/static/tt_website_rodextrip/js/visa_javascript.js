@@ -1199,6 +1199,16 @@ function check_on_off_radio(pax_type,number,value){
         pax_required.style.display = "block";
         pax_required_up.style.display = "block";
         pax_required_down.style.display = "none";
+        if(pax_type == 'adult'){
+            document.getElementById('entry_type_adult_div'+number).style.display = 'block';
+            document.getElementById('process_type_adult_div'+number).style.display = 'none';
+        }else if(pax_type == 'child'){
+            document.getElementById('entry_type_child_div'+number).style.display = 'block';
+            document.getElementById('process_type_child_div'+number).style.display = 'none';
+        }else if(pax_type == 'infant'){
+            document.getElementById('entry_type_infant_div'+number).style.display = 'block';
+            document.getElementById('process_type_infant_div'+number).style.display = 'none';
+        }
         //check max pax
     }else if(value == 'entry'){
         if(pax_check.value != 'false'){
@@ -1238,6 +1248,16 @@ function check_on_off_radio(pax_type,number,value){
         pax_required.style.display = "block";
         pax_required_up.style.display = "block";
         pax_required_down.style.display = "none";
+        if(pax_type == 'adult'){
+            document.getElementById('entry_type_adult_div'+number).style.display = 'block';
+            document.getElementById('process_type_adult_div'+number).style.display = 'block';
+        }else if(pax_type == 'child'){
+            document.getElementById('entry_type_child_div'+number).style.display = 'block';
+            document.getElementById('process_type_child_div'+number).style.display = 'block';
+        }else if(pax_type == 'infant'){
+            document.getElementById('entry_type_infant_div'+number).style.display = 'block';
+            document.getElementById('process_type_infant_div'+number).style.display = 'block';
+        }
     }else if(value == 'process'){
         if(pax_check.value != 'false'){
             visa.list_of_visa[parseInt(pax_check.value)].total_pax++;
