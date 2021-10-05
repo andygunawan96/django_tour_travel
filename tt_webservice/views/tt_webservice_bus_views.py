@@ -495,8 +495,15 @@ def get_booking(request):
                     'code': country['code'],
                     'name': country['name'],
                 })
+        sync = False
+        try:
+            if request.POST['sync'] == 'true':
+                sync = True
+        except Exception as e:
+            _logger.error('get booking force sync params not found')
         data = {
-            'order_number': request.POST['order_number']
+            'order_number': request.POST['order_number'],
+            'force_sync': sync
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -513,8 +520,8 @@ def get_booking(request):
             for provider_booking in res['result']['response']['provider_bookings']:
                 for journey in provider_booking['journeys']:
                     journey.update({
-                        'departure_date': parse_date_time_front_end(string_to_datetime(journey['departure_date'] + ':00')),
-                        'arrival_date': parse_date_time_front_end(string_to_datetime(journey['arrival_date'] + ':00'))
+                        'departure_date': parse_date_time_front_end(string_to_datetime(journey['departure_date'])),
+                        'arrival_date': parse_date_time_front_end(string_to_datetime(journey['arrival_date']))
                     })
                     check = 0
                     for destination in bus_destinations:

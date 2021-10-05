@@ -1423,7 +1423,7 @@ def get_booking(request):
             if request.POST['sync'] == 'true':
                 sync = True
         except Exception as e:
-            _logger.error('get refund booking')
+            _logger.error('get booking force sync params not found')
         data = {
             'order_number': request.POST['order_number'],
             'force_sync': sync

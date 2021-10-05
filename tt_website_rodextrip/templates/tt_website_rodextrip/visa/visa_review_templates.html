@@ -200,7 +200,7 @@
                                             </div>
                                             <div class="col-lg-7">
                                                 <div class="row">
-                                                    <div class="col-lg-4">
+                                                    <div class="col-lg-4" id="visa_type_adult_div{{counter}}">
                                                         <h6 style="margin-bottom:5px;">{% trans 'Visa Type' %}</h6>
                                                         {% for visa_type in type.visa_type.adult %}
                                                         <label class="radio-button-custom">
@@ -210,7 +210,7 @@
                                                         </label><br/>
                                                         {% endfor %}
                                                     </div>
-                                                    <div class="col-lg-4">
+                                                    <div class="col-lg-4" id="entry_type_adult_div{{counter}}" style="display:none;">
                                                         <h6 style="margin-bottom:5px;">{% trans 'Entry Type' %}</h6>
                                                         {% for entry_type in type.entry_type.adult %}
                                                         <label class="radio-button-custom">
@@ -220,7 +220,7 @@
                                                         </label><br/>
                                                         {% endfor %}
                                                     </div>
-                                                    <div class="col-lg-4">
+                                                    <div class="col-lg-4" id="process_type_adult_div{{counter}}" style="display:none;">
                                                         <h6 style="margin-bottom:5px;">{% trans 'Process Type' %}</h6>
                                                         {% for process_type in type.process_type.adult %}
                                                         <label class="radio-button-custom">
@@ -264,7 +264,7 @@
                                             </div>
                                             <div class="col-lg-7">
                                                 <div class="row">
-                                                    <div class="col-lg-4">
+                                                    <div class="col-lg-4" id="visa_type_child_div{{counter}}">
                                                         <h6>{% trans 'Visa Type' %}</h6>
                                                         {% for visa_type in type.visa_type.child %}
                                                         <label class="radio-button-custom">
@@ -274,7 +274,7 @@
                                                         </label><br/>
                                                         {% endfor %}
                                                     </div>
-                                                    <div class="col-lg-4">
+                                                    <div class="col-lg-4" id="entry_type_child_div{{counter}}">
                                                         <h6>{% trans 'Entry Type' %}</h6>
                                                         {% for entry_type in type.entry_type.child %}
                                                         <label class="radio-button-custom">
@@ -284,7 +284,7 @@
                                                         </label><br/>
                                                         {% endfor %}
                                                     </div>
-                                                    <div class="col-lg-4">
+                                                    <div class="col-lg-4" id="process_type_child_div{{counter}}">
                                                         <h6>{% trans 'Process Type' %}</h6>
                                                         {% for process_type in type.process_type.child %}
                                                         <label class="radio-button-custom">
@@ -321,7 +321,7 @@
                                             </div>
                                             <div class="col-lg-7">
                                                 <div class="row">
-                                                    <div class="col-lg-4">
+                                                    <div class="col-lg-4" id="visa_type_infant_div{{counter}}">
                                                         <h6>{% trans 'Visa Type' %}</h6>
                                                         {% for visa_type in type.visa_type.infant %}
                                                         <label class="radio-button-custom">
@@ -331,7 +331,7 @@
                                                         </label><br/>
                                                         {% endfor %}
                                                     </div>
-                                                    <div class="col-lg-4">
+                                                    <div class="col-lg-4" id="entry_type_infant_div{{counter}}">
                                                         <h6>{% trans 'Entry Type' %}</h6>
                                                         {% for entry_type in type.entry_type.infant %}
                                                         <label class="radio-button-custom">
@@ -341,7 +341,7 @@
                                                         </label><br/>
                                                         {% endfor %}
                                                     </div>
-                                                    <div class="col-lg-4">
+                                                    <div class="col-lg-4" id="process_type_infant_div{{counter}}">
                                                         <h6>{% trans 'Process Type' %}</h6>
                                                         {% for process_type in type.process_type.infant %}
                                                         <label class="radio-button-custom">

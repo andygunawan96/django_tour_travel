@@ -16,6 +16,7 @@
     bus_data = `{{response}}`;
     bus_data = bus_data.replace(/&#39;/g, '"');
     bus_data = bus_data.replace(/True/g, 'true');
+    bus_data = bus_data.replace(/False/g, 'false');
     bus_data = bus_data.replace(/None/g, '""');
     bus_data = JSON.parse(bus_data);
     console.log(bus_data);
