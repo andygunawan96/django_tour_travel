@@ -20,7 +20,7 @@
                         <li><a href="/guide">Guide</a></li>
                         <li><a href="/faq">FAQ</a></li>
                         {% if website_mode == 'btb_with_signup_b2c' or 'btb' in website_mode %}
-                        <li><a style="color:black;cursor:pointer;" onclick="window.location='{% url 'tt_website_rodextrip:registration' %}'"> {% trans 'Register' %}</a></li>
+                        <li><a style="color:black;cursor:pointer;" onclick="window.location='{% url 'tt_website_rodextrip:registration' %}'"> {% trans 'Register As Agent' %}</a></li>
                         {% endif %}
                     </ul>
                 </div>
