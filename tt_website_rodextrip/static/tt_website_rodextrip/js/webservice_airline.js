@@ -4340,26 +4340,28 @@ function airline_get_booking(data, sync=false){
                        check_ff = 0;
                        check_split = 0;
                        col = 4;
-                       if(last_date != '' && time_now < last_date){
-                           for(i in msg.result.response.provider_bookings){
-                                if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_reschedule){
-                                    check_reschedule = 1;
-                                }
-                                if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_ssr){
-                                    check_ssr = 1;
-                                }
-                                if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_seat){
-                                    check_seat = 1;
-                                }
-                                if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_frequent_flyer){
-                                    check_ff = 1;
-                                }
-                                if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_cancel){
-                                    check_cancel = 1;
-                                }
-                                if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_split){
-                                    check_split = 1;
-                                }
+                       if(msg.result.response.is_agent){
+                           if(last_date != '' && time_now < last_date){
+                               for(i in msg.result.response.provider_bookings){
+                                    if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_reschedule){
+                                        check_reschedule = 1;
+                                    }
+                                    if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_ssr){
+                                        check_ssr = 1;
+                                    }
+                                    if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_seat){
+                                        check_seat = 1;
+                                    }
+                                    if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_frequent_flyer){
+                                        check_ff = 1;
+                                    }
+                                    if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_cancel){
+                                        check_cancel = 1;
+                                    }
+                                    if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_split){
+                                        check_split = 1;
+                                    }
+                               }
                            }
                        }
                        for(i in msg.result.response.provider_bookings){
@@ -4426,30 +4428,32 @@ function airline_get_booking(data, sync=false){
                        check_ff = 0;
                        check_split = 0;
                        col = 4;
-                       if(last_date != '' && time_now < last_date){
-                           for(i in msg.result.response.provider_bookings){
-                                if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_booked_reschedule){
-                                    check_reschedule = 1;
-                                }
-                                if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_booked_ssr){
-                                    check_ssr = 1;
-                                }
-                                if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_booked_seat){
-                                    check_seat = 1;
-                                }
-                                if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_booked_frequent_flyer){
-                                    check_ff = 1;
-                                }
-                                if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_booked_split){
-                                    check_split = 1;
-                                }
-                                if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_booked_cancel){
-                                    check_cancel = 1;
-                                }
-                                if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_ori_ticket){
-                                    col = 3;
-                                }
+                       if(msg.result.response.is_agent){
+                           if(last_date != '' && time_now < last_date){
+                               for(i in msg.result.response.provider_bookings){
+                                    if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_booked_reschedule){
+                                        check_reschedule = 1;
+                                    }
+                                    if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_booked_ssr){
+                                        check_ssr = 1;
+                                    }
+                                    if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_booked_seat){
+                                        check_seat = 1;
+                                    }
+                                    if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_booked_frequent_flyer){
+                                        check_ff = 1;
+                                    }
+                                    if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_booked_split){
+                                        check_split = 1;
+                                    }
+                                    if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_booked_cancel){
+                                        check_cancel = 1;
+                                    }
+                                    if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_ori_ticket){
+                                        col = 3;
+                                    }
 
+                               }
                            }
                        }
                        if(check_reschedule){
