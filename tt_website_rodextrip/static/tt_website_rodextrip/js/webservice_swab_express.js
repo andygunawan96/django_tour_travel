@@ -247,6 +247,15 @@ function swab_express_check_price(){
 
         }
     }
+    var radios = document.getElementsByName('peduli_lindungi');
+    for (var j = 0, length = radios.length; j < length; j++) {
+        if (radios[j].checked) {
+            // do whatever you want with the checked radio
+            peduli_lindungi = radios[j].value;
+            // only one radio can be logically checked, don't check the rest
+            break;
+        }
+    }
     if(timeslot_list.length != 0 && error_log == '' || test_type.includes('DT')){
         $.ajax({
            type: "POST",
@@ -259,6 +268,7 @@ function swab_express_check_price(){
                 'provider': vendor,
                 'pax_count': document.getElementById('passenger').value,
                 'timeslot_list': JSON.stringify(timeslot_list),
+                'peduli_lindungi': peduli_lindungi,
                 'carrier_code': test_type
            },
            success: function(msg) {
@@ -311,14 +321,16 @@ function swab_express_check_price(){
                             <label style="color:red !important;">* </label>
                             <label>Extra Cost</label>
                             <br/>`;
-                        if(vendor == 'periksain'){
+                        if(peduli_lindungi == 'true')
+                            text+=`
+                                <label style="margin-left:5px;">- Peduli Lindungi</label>
+                                <br/>`;
                             text+=`
                                 <label style="margin-left:5px;">- 5 hours before test</label>
                                 <br/>`;
                             text+=`
                                 <label style="margin-left:5px;">- After 19:00 WIB</label>
                                 <br/>`;
-                        }
                         text+=`
                             <label style="margin-left:5px;">- Only 1 customer</label>`;
                     }

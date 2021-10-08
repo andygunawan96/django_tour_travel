@@ -18,12 +18,8 @@ function add_other_time(type='add'){
                         <input type="text" class="form-control" style="cursor:pointer; background:white;" name="booker_test_date`+test_time+`" id="booker_test_date`+test_time+`" placeholder="Test Date" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Test Date '" autocomplete="off" readonly>
                     </div>
                 </div>`;
-        if(vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCHCKATG' || vendor == 'phc' && test_type == 'PHCHCKPCR')
             text+=`
                 <div class="col-lg-6">`;
-        else
-            text+=`
-                <div class="col-lg-6" hidden>`;
         text+=`
                     <label style="color:red !important;">*</label>
                     <label>Timeslot</label>
