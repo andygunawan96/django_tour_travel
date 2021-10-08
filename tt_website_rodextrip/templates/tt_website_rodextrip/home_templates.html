@@ -17,6 +17,7 @@
 <script src="{{ static_path }}js/webservice_event.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_medical.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_medical_global.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_swab_express.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_bus.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/ppob_javascript.js?version={{javascript_version}}"></script>
@@ -30,6 +31,7 @@
 <script src="{{ static_path }}js/tour_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/event_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/medical_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/swab_express_javascript.js?version={{javascript_version}}"></script>
 <!--<script src="{{ static_path }}js/webservice_bank.js?version={{javascript_version}}"></script>-->
 <script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/daterangepicker.js?version={{javascript_version}}"></script>
@@ -408,6 +410,13 @@
                             <a class="nav-link {%if forloop.counter == 1 %}active{%endif%}" id="medical_global-tab" data-toggle="tab" href="#medical_global" role="tab" aria-controls="medical2" aria-selected="false">
                                 <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Medical Icon"/></i>
                                 <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'Medical' %} </span>
+                            </a>
+                        </li>
+                        {% elif "swab.express" in provider and "ticketing_swab_express" in username.co_agent_frontend_security and rec.name == "swab.express" %}
+                        <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'swab_express');" id="nav_scroll_menu_swab_express">
+                            <a class="nav-link {%if forloop.counter == 1 %}active{%endif%}" id="swab_express-tab" data-toggle="tab" href="#swab_express" role="tab" aria-controls="swab_express" aria-selected="false">
+                                <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Swab Express Icon"/></i>
+                                <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'Swab Express' %} </span>
                             </a>
                         </li>
                         {% endif %}
@@ -870,6 +879,34 @@
                                 <br/>
                                 <center>
                                     <button class="button-search primary-btn ld-ext-right" type="button" onclick="get_captcha('recaptcha_medical_global','medical_global');" value="Submit">
+                                        <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                        {% trans 'Search' %}
+                                        <div class="ld ld-ring ld-cycle"></div>
+                                    </button>
+                                </center>
+                            </form>
+                        </div>
+                        {% endif %}
+                        {% if "swab.express" in provider and "ticketing_swab_express" in username.co_agent_frontend_security %}
+                        <div class="tab-pane fade {%if provider_types_sequence.0.name == 'swab_express' %}show active {% endif %} " id="swab_express" role="tabpanel" aria-labelledby="swab_express-tab">
+                            <form action="{% url 'tt_website_rodextrip:swab_express_passenger'%}" class="form-wrap" id="swab_express_searchForm" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="g-recaptcha-response" id='recaptcha_swab_express'>
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12" style="padding:0px;">
+                                        <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Swab Type' %}</span>
+                                        <div class="input-container-search-ticket">
+                                            <div class="form-select">
+                                                <select id="swab_express_type" name="swab_express_type" class="nice-select-default">
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br/>
+                                <center>
+                                    <button class="button-search primary-btn ld-ext-right" type="button" onclick="get_captcha('recaptcha_swab_express','swab_express');" value="Submit">
                                         <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                         {% trans 'Search' %}
                                         <div class="ld ld-ring ld-cycle"></div>
@@ -9203,6 +9240,9 @@
             {% endif %}
             {% if "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security %}
             get_config_medical_global('home');
+            {% endif %}
+            {% if "swab.express" in provider and "ticketing_swab_express" in username.co_agent_frontend_security %}
+            get_config_swab_express('home');
             {% endif %}
             {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security %}
             get_airline_config('home');

@@ -254,6 +254,18 @@ function get_list_report_footer(){
                             show_header_medical(printout[i].html);
                             check_header = false;
                             break;
+                        }else if(vendor == 'swab.express' && test_type == 'SEKATG' && printout[i].code == "swab_express_antigen_information"){
+                            show_header_medical(printout[i].html);
+                            check_header = false;
+                            break;
+                        }else if(vendor == 'swab.express' && test_type == 'SEKPCR' && printout[i].code == "swab_express_pcr_information"){
+                            show_header_medical(printout[i].html);
+                            check_header = false;
+                            break;
+                        }else if(vendor == 'swab.express' && test_type == 'SEPPCR' && printout[i].code == "swab_express_pcr_priority_information"){
+                            show_header_medical(printout[i].html);
+                            check_header = false;
+                            break;
                         }else if(vendor == 'periksain' && test_type.includes('PCR') && printout[i].code == "periksain_pcr_information"){
                             show_header_medical(printout[i].html);
                             check_header = false;

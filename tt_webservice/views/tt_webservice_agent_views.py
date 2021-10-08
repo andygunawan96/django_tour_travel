@@ -776,6 +776,28 @@ def get_new_cache(signature, type='all'):
             except Exception as e:
                 _logger.info("ERROR UPDATE CACHE medical " + provider + ' ' + json.dumps(res) + '\n' + str(e) + '\n' + traceback.format_exc())
 
+            provider = 'swab.express'
+            additional_url = 'content'
+            data = {
+                'provider_type': provider
+            }
+            action = "get_carriers"
+
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
+                "action": action,
+                "signature": signature
+            }
+            url_request = url + additional_url
+            res = send_request_api({}, url_request, headers, data, 'POST', 120)
+
+            try:
+                if res['result']['error_code'] == 0:
+                    write_cache_with_folder(res, "swab_express_cache_data")
+            except Exception as e:
+                _logger.info("ERROR UPDATE CACHE swab express " + provider + ' ' + json.dumps(res) + '\n' + str(
+                    e) + '\n' + traceback.format_exc())
 
             #bus
             data = {}

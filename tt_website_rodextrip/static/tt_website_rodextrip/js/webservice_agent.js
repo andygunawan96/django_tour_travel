@@ -5149,6 +5149,8 @@ function render_login(product_type){
         html_id = 'airline_booking';
     else if(product_type == 'medical')
         html_id = 'medical_booking';
+    else if(product_type == 'swab_express')
+        html_id = 'swab_express_booking';
 
     document.getElementById(html_id).innerHTML = `
         <div class="col-lg-12" style="background:white; padding:30px; 20px; border:1px solid #cdcdcd;">
