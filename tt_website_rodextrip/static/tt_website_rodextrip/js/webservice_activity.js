@@ -2823,10 +2823,20 @@ function activity_get_booking(data){
                         document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
                         document.getElementById('issued-breadcrumb-span').innerHTML = `Booked`;
                         document.getElementById('display_state').innerHTML = `Your Order Has Been Booked`;
-                        document.getElementById('alert-state').innerHTML = `
-                        <div class="alert alert-success" role="alert">
-                            <h5>Your booking has been successfully Booked. Please proceed to payment or review your booking again.</h5>
-                        </div>`;
+
+                       var check_error_msg_provider = 0;
+                       for(co_error in msg.result.response.provider_booking){
+                           if(msg.result.response.provider_booking[co_error].error_msg != ''){
+                                check_error_msg_provider = 1;
+                           }
+                           break;
+                       }
+                       if(check_error_msg_provider != 1){
+                            document.getElementById('alert-state').innerHTML = `
+                            <div class="alert alert-success" role="alert">
+                                <h5>Your booking has been successfully Booked. Please proceed to payment or review your booking again.</h5>
+                            </div>`;
+                        }
                     }
                     else if(msg.result.response.state == 'rejected'){
                         conv_status = 'Rejected';

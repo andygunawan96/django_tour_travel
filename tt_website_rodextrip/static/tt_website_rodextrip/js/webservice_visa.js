@@ -1117,7 +1117,7 @@ function visa_get_data(data){
                                 <div class="col-lg-4">`;
                                 if(visa.journey.state == 'booked' || visa.journey.state == 'issued')
                                 text+=`
-                                    <button type="button" id="button-print-handling" class="primary-btn ld-ext-right" style="width:100%;" onclick="get_printout('`+msg.result.response.journey.name+`', 'visa_cust','visa');">
+                                    <button type="button" id="button-print-handling" class="mb-2 primary-btn ld-ext-right" style="width:100%;" onclick="get_printout('`+msg.result.response.journey.name+`', 'visa_cust','visa');">
                                         Visa Handling
                                         <div class="ld ld-ring ld-cycle"></div>
                                     </button>`;
@@ -1193,7 +1193,7 @@ function visa_get_data(data){
 
                     document.getElementById('visa_booking').innerHTML = text;
 
-                    text_status = `<ul class="eventstep step_itinerary_tour" style="margin: 0px 15px 15px 15px;">`;
+                    text_status = `<ul class="eventstep" style="margin: 0px 15px 15px 15px;">`;
                     for(st in visa.state_visa_arr){
                         text_status += `
                         <li>

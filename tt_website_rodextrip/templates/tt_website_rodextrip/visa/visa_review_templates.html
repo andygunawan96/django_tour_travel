@@ -191,14 +191,7 @@
                                                 <h6 style="cursor:pointer;color:{{color}};" onclick="set_value_radio_first('adult',{{counter}})">Reset <i class="fas fa-sync-alt"></i></h6>
                                                 <input type="hidden" id="adult_check{{counter}}" value="false"/>
                                             </div>
-                                            <div class="col-lg-12" style="margin-bottom:15px;">
-                                                <h6 id="adult_required_up{{counter}}" class="filter_general" style="margin-bottom:5px; display:block;" onclick="show_hide_required('adult',{{counter}});">{% trans 'Required' %} <i class="fas fa-chevron-up"></i></h6>
-                                                <h6 id="adult_required_down{{counter}}" class="filter_general" style="margin-bottom:5px; display:none;" onclick="show_hide_required('adult',{{counter}});">{% trans 'Required' %} <i class="fas fa-chevron-down"></i></h6>
-                                                <div id="adult_required{{counter}}" style="max-height:200px; overflow-y:auto; border:1px solid #cdcdcd; padding:10px; display:block;">
-                                                    {% trans 'Please select visa, entry and process!' %}
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-7">
+                                            <div class="col-lg-12">
                                                 <div class="row">
                                                     <div class="col-lg-4" id="visa_type_adult_div{{counter}}">
                                                         <h6 style="margin-bottom:5px;">{% trans 'Visa Type' %}</h6>
@@ -232,9 +225,16 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-5">
+                                            <div class="col-lg-12">
                                                 <h6 style="margin-bottom:5px;">{% trans 'Notes' %}</h6>
-                                                <textarea rows="2" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="notes_adult{{counter}}" name="notes_adult{{counter}}"></textarea>
+                                                <textarea rows="2" cols="50" class="form-control" style="height:75px; font-size:13px; border-radius:unset; resize: none;" type="text" id="notes_adult{{counter}}" name="notes_adult{{counter}}"></textarea>
+                                            </div>
+                                            <div class="col-lg-12" style="margin-bottom:15px;">
+                                                <h6 id="adult_required_up{{counter}}" class="filter_general" style="margin-bottom:5px; display:block;" onclick="show_hide_required('adult',{{counter}});">{% trans 'Required' %} <i class="fas fa-chevron-up"></i></h6>
+                                                <h6 id="adult_required_down{{counter}}" class="filter_general" style="margin-bottom:5px; display:none;" onclick="show_hide_required('adult',{{counter}});">{% trans 'Required' %} <i class="fas fa-chevron-down"></i></h6>
+                                                <div id="adult_required{{counter}}" style="max-height:200px; overflow-y:auto; border:1px solid #cdcdcd; padding:10px; display:block;">
+                                                    {% trans 'Please select visa, entry and process!' %}
+                                                </div>
                                             </div>
                                         </div>
                                         <hr/>
@@ -255,14 +255,7 @@
                                                 <h6 style="cursor:pointer;color:{{color}};" onclick="set_value_radio_first('child',{{counter}})">{% trans 'Reset' %} <i class="fas fa-sync-alt"></i></h6>
                                                 <input type="hidden" id="child_check{{counter}}" value="false"/>
                                             </div>
-                                            <div class="col-lg-12" style="margin-bottom:15px;">
-                                                <h6 id="child_required_up{{counter}}" class="filter_general" style="margin-bottom:5px; display:block;" onclick="show_hide_required('child',{{counter}});">{% trans 'Required' %} <i class="fas fa-chevron-up"></i></h6>
-                                                <h6 id="child_required_down{{counter}}" class="filter_general" style="margin-bottom:5px; display:none;" onclick="show_hide_required('child',{{counter}});">{% trans 'Required' %} <i class="fas fa-chevron-down"></i></h6>
-                                                <div id="child_required{{counter}}" style="max-height:200px; overflow-y:auto; border:1px solid #cdcdcd; padding:10px; display:block;">
-                                                    {% trans 'Please select visa, entry and process!' %}
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-7">
+                                            <div class="col-lg-12">
                                                 <div class="row">
                                                     <div class="col-lg-4" id="visa_type_child_div{{counter}}">
                                                         <h6>{% trans 'Visa Type' %}</h6>
@@ -296,9 +289,16 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-5">
+                                            <div class="col-lg-12">
                                                 <h6 style="margin-bottom:5px;">{% trans 'Notes' %}</h6>
-                                                <textarea rows="2" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="notes_child{{counter}}" name="notes_child{{counter}}"></textarea>
+                                                <textarea rows="2" cols="50" class="form-control" style="height:75px; font-size:13px; border-radius:unset; resize: none;" type="text" id="notes_child{{counter}}" name="notes_child{{counter}}"></textarea>
+                                            </div>
+                                            <div class="col-lg-12" style="margin-bottom:15px;">
+                                                <h6 id="child_required_up{{counter}}" class="filter_general" style="margin-bottom:5px; display:block;" onclick="show_hide_required('child',{{counter}});">{% trans 'Required' %} <i class="fas fa-chevron-up"></i></h6>
+                                                <h6 id="child_required_down{{counter}}" class="filter_general" style="margin-bottom:5px; display:none;" onclick="show_hide_required('child',{{counter}});">{% trans 'Required' %} <i class="fas fa-chevron-down"></i></h6>
+                                                <div id="child_required{{counter}}" style="max-height:200px; overflow-y:auto; border:1px solid #cdcdcd; padding:10px; display:block;">
+                                                    {% trans 'Please select visa, entry and process!' %}
+                                                </div>
                                             </div>
                                         </div>
                                         <hr/>

@@ -157,7 +157,7 @@ function set_container_bill(){
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-9 col-md-9 col-sm-12" style="padding:0px;">
+                <div class="col-lg-9 col-md-9 col-sm-12" style="text-align:left; padding:0px;">
                     <span class="span-search-ticket"><i class="fas fa-briefcase"></i> Nomor Virtual Account Keluarga / Perusahaan</span>
                     <div class="input-container-search-ticket">
                         <input type="text" class="form-control virtual_number" name="bpjs_number" id="bpjs_number" onkeyup="check_bpjs_number();" onpaste="setTimeout(check_bpjs_number.bind(null,this),100);" placeholder="Nomor Virtual Account Keluarga / Perusahaan" autocomplete="off"/>
@@ -170,24 +170,22 @@ function set_container_bill(){
         }
         else if(bill_type == 'pln'){
             text = `
-            <div class="col-lg-12" style="padding:0px; text-align:left;">
-                <div class="input-container-search-ticket">`;
-                    for(i in ppob_data.product_data[bill_type]){
-                        text+=`
-                        <label class="radio-button-custom" style="margin-bottom:0px;">
-                            <span style="font-size:13px; color:`+text_color+`;">`+ppob_data.product_data[bill_type][i].name+`</span>`;
-                        if(i == 0){
-                            text+=`<input type="radio" checked="checked" name="pln_type" onchange="get_pln_name('`+ppob_data.product_data[bill_type][i].name+`'); set_pln_div();" value="`+ppob_data.product_data[bill_type][i].code+`">`;
-                            $pln_type_name = ppob_data.product_data[bill_type][i].name;
-                        }else{
-                            text+=`<input type="radio" name="pln_type" onchange="get_pln_name('`+ppob_data.product_data[bill_type][i].name+`'); set_pln_div();" value="`+ppob_data.product_data[bill_type][i].code+`">`;
-                        }
-                        text+=`
-                            <span class="checkmark-radio"></span>
-                        </label>`;
+            <div class="col-lg-12" style="padding:0px; text-align:left;">`;
+                for(i in ppob_data.product_data[bill_type]){
+                    text+=`
+                    <label class="radio-button-custom" style="margin-bottom:10px;">
+                        <span style="font-size:13px; color:`+text_color+`;">`+ppob_data.product_data[bill_type][i].name+`</span>`;
+                    if(i == 0){
+                        text+=`<input type="radio" checked="checked" name="pln_type" onchange="get_pln_name('`+ppob_data.product_data[bill_type][i].name+`'); set_pln_div();" value="`+ppob_data.product_data[bill_type][i].code+`">`;
+                        $pln_type_name = ppob_data.product_data[bill_type][i].name;
+                    }else{
+                        text+=`<input type="radio" name="pln_type" onchange="get_pln_name('`+ppob_data.product_data[bill_type][i].name+`'); set_pln_div();" value="`+ppob_data.product_data[bill_type][i].code+`">`;
                     }
                     text+=`
-                </div>
+                        <span class="checkmark-radio"></span>
+                    </label>`;
+                }
+                text+=`
             </div>
             <div class="col-lg-12 mt-3" style="padding:0px; text-align:left;">
                 <div id="pln_div" class="row" style="margin-left:0px;margin-right:0px;">
@@ -245,7 +243,7 @@ function set_container_bill(){
                         text+=`
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-12" id="train_date_search">
+                <div class="col-lg-3 col-md-3 col-sm-12" id="train_date_search" style="margin-bottom:15px;">
                     <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Pay Until</span>
                         <div class="form-select" id="default-select">
                             <select id="bpjs_month" name="bpjs_month" class="nice-select-default">`;
@@ -263,7 +261,7 @@ function set_container_bill(){
                         </select>
                     </div>
                 </div>
-                <div class="col-lg-9 col-md-9 col-sm-12">
+                <div class="col-lg-9 col-md-9 col-sm-12" style="text-align:left;">
                     <span class="span-search-ticket"><i class="fas fa-briefcase"></i> Nomor Virtual Account Keluarga / Perusahaan</span>
                     <div class="input-container-search-ticket">
                         <input type="text" class="form-control virtual_number" name="bpjs_number" id="bpjs_number" onkeyup="check_bpjs_number();" onpaste="setTimeout(check_bpjs_number.bind(null,this),100);" placeholder="Nomor Virtual Account Keluarga / Perusahaan" autocomplete="off"/>
@@ -276,24 +274,22 @@ function set_container_bill(){
         }
         else if(bill_type == 'pln'){
             text = `
-                <div class="col-lg-12 mb-3" style="text-align:left;">
-                    <div class="input-container-search-ticket">`;
-                        for(i in ppob_data.product_data[bill_type]){
-                            text+=`
-                            <label class="radio-button-custom" style="margin-bottom:0px;">
-                                <span style="font-size:13px; color:`+text_color+`;">`+ppob_data.product_data[bill_type][i].name+`</span>`;
-                            if(i == 0){
-                                text+=`<input type="radio" checked="checked" name="pln_type" onchange="get_pln_name('`+ppob_data.product_data[bill_type][i].name+`'); set_pln_div();" value="`+ppob_data.product_data[bill_type][i].code+`">`;
-                                $pln_type_name = ppob_data.product_data[bill_type][i].name;
-                            }else{
-                                text+=`<input type="radio" name="pln_type" onchange="get_pln_name('`+ppob_data.product_data[bill_type][i].name+`'); set_pln_div();" value="`+ppob_data.product_data[bill_type][i].code+`">`;
-                            }
-                            text+=`
-                                <span class="checkmark-radio"></span>
-                            </label>`;
+                <div class="col-lg-12 mb-3" style="text-align:left;">`;
+                    for(i in ppob_data.product_data[bill_type]){
+                        text+=`
+                        <label class="radio-button-custom" style="margin-bottom:10px;">
+                            <span style="font-size:13px; color:`+text_color+`;">`+ppob_data.product_data[bill_type][i].name+`</span>`;
+                        if(i == 0){
+                            text+=`<input type="radio" checked="checked" name="pln_type" onchange="get_pln_name('`+ppob_data.product_data[bill_type][i].name+`'); set_pln_div();" value="`+ppob_data.product_data[bill_type][i].code+`">`;
+                            $pln_type_name = ppob_data.product_data[bill_type][i].name;
+                        }else{
+                            text+=`<input type="radio" name="pln_type" onchange="get_pln_name('`+ppob_data.product_data[bill_type][i].name+`'); set_pln_div();" value="`+ppob_data.product_data[bill_type][i].code+`">`;
                         }
                         text+=`
-                    </div>
+                            <span class="checkmark-radio"></span>
+                        </label>`;
+                    }
+                    text+=`
                 </div>
                 <div class="col-lg-12" style="padding:0px; text-align:left;">
                     <div id="pln_div" class="row" style="margin-left:0px;margin-right:0px;">
@@ -372,7 +368,7 @@ function set_container_bill(){
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-12" style="margin-top:15px;">
+                <div class="col-lg-12" style="margin-top:15px; text-align:left;">
                     <span class="span-search-ticket"><i class="fas fa-briefcase"></i> Nomor Virtual Account Keluarga / Perusahaan</span>
                     <div class="input-container-search-ticket">
                         <input type="text" class="form-control virtual_number" name="bpjs_number" id="bpjs_number" onkeyup="check_bpjs_number();" onpaste="setTimeout(check_bpjs_number.bind(null,this),100);" placeholder="Nomor Virtual Account Keluarga / Perusahaan" autocomplete="off"/>
@@ -385,24 +381,22 @@ function set_container_bill(){
         }
         else if(bill_type == 'pln'){
             text = `
-                <div class="col-lg-12 mb-3" style="text-align:left;">
-                    <div class="input-container-search-ticket">`;
-                        for(i in ppob_data.product_data[bill_type]){
-                            text+=`
-                            <label class="radio-button-custom" style="margin-bottom:0px;">
-                                <span style="font-size:13px; color:`+text_color+`;">`+ppob_data.product_data[bill_type][i].name+`</span>`;
-                            if(i == 0){
-                                text+=`<input type="radio" checked="checked" name="pln_type" onchange="get_pln_name('`+ppob_data.product_data[bill_type][i].name+`'); set_pln_div();" value="`+ppob_data.product_data[bill_type][i].code+`">`;
-                                $pln_type_name = ppob_data.product_data[bill_type][i].name;
-                            }else{
-                                text+=`<input type="radio" name="pln_type" onchange="get_pln_name('`+ppob_data.product_data[bill_type][i].name+`'); set_pln_div();" value="`+ppob_data.product_data[bill_type][i].code+`">`;
-                            }
-                            text+=`
-                                <span class="checkmark-radio"></span>
-                            </label>`;
+                <div class="col-lg-12 mb-3" style="text-align:left;">`;
+                    for(i in ppob_data.product_data[bill_type]){
+                        text+=`
+                        <label class="radio-button-custom" style="margin-bottom:10px;">
+                            <span style="font-size:13px; color:`+text_color+`;">`+ppob_data.product_data[bill_type][i].name+`</span>`;
+                        if(i == 0){
+                            text+=`<input type="radio" checked="checked" name="pln_type" onchange="get_pln_name('`+ppob_data.product_data[bill_type][i].name+`'); set_pln_div();" value="`+ppob_data.product_data[bill_type][i].code+`">`;
+                            $pln_type_name = ppob_data.product_data[bill_type][i].name;
+                        }else{
+                            text+=`<input type="radio" name="pln_type" onchange="get_pln_name('`+ppob_data.product_data[bill_type][i].name+`'); set_pln_div();" value="`+ppob_data.product_data[bill_type][i].code+`">`;
                         }
                         text+=`
-                    </div>
+                            <span class="checkmark-radio"></span>
+                        </label>`;
+                    }
+                    text+=`
                 </div>
                 <div class="col-lg-12" style="padding:0px; text-align:left;">
                     <div id="pln_div" class="row" style="margin-left:0px;margin-right:0px;">
@@ -482,7 +476,7 @@ function set_container_bill(){
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-9 col-md-9 col-sm-12">
+                <div class="col-lg-9 col-md-9 col-sm-12" style="text-align:left;">
                     <span class="span-search-ticket">Nomor Virtual Account Keluarga / Perusahaan</span>
                     <div class="input-container-search-ticket">
                         <i class="fas fa-briefcase" style="padding:14px; height: 43px; width: 45px; background:`+color+`; color:`+text_color+`;"></i>
@@ -496,24 +490,22 @@ function set_container_bill(){
         }
         else if(bill_type == 'pln'){
             text = `
-                <div class="col-lg-12 mb-3" style="text-align:left;">
-                    <div class="input-container-search-ticket">`;
-                        for(i in ppob_data.product_data[bill_type]){
-                            text+=`
-                            <label class="radio-button-custom" style="margin-bottom:0px;">
-                                <span style="font-size:13px; color:`+text_color+`;">`+ppob_data.product_data[bill_type][i].name+`</span>`;
-                            if(i == 0){
-                                text+=`<input type="radio" checked="checked" name="pln_type" onchange="get_pln_name('`+ppob_data.product_data[bill_type][i].name+`'); set_pln_div();" value="`+ppob_data.product_data[bill_type][i].code+`">`;
-                                $pln_type_name = ppob_data.product_data[bill_type][i].name;
-                            }else{
-                                text+=`<input type="radio" name="pln_type" onchange="get_pln_name('`+ppob_data.product_data[bill_type][i].name+`'); set_pln_div();" value="`+ppob_data.product_data[bill_type][i].code+`">`;
-                            }
-                            text+=`
-                                <span class="checkmark-radio"></span>
-                            </label>`;
+                <div class="col-lg-12 mb-3" style="text-align:left;">`;
+                    for(i in ppob_data.product_data[bill_type]){
+                        text+=`
+                        <label class="radio-button-custom" style="margin-bottom:10px;">
+                            <span style="font-size:13px; color:`+text_color+`;">`+ppob_data.product_data[bill_type][i].name+`</span>`;
+                        if(i == 0){
+                            text+=`<input type="radio" checked="checked" name="pln_type" onchange="get_pln_name('`+ppob_data.product_data[bill_type][i].name+`'); set_pln_div();" value="`+ppob_data.product_data[bill_type][i].code+`">`;
+                            $pln_type_name = ppob_data.product_data[bill_type][i].name;
+                        }else{
+                            text+=`<input type="radio" name="pln_type" onchange="get_pln_name('`+ppob_data.product_data[bill_type][i].name+`'); set_pln_div();" value="`+ppob_data.product_data[bill_type][i].code+`">`;
                         }
                         text+=`
-                    </div>
+                            <span class="checkmark-radio"></span>
+                        </label>`;
+                    }
+                    text+=`
                 </div>
                 <div class="col-lg-12" style="padding:0px; text-align:left;">
                     <div id="pln_div" class="row" style="margin-left:0px;margin-right:0px;">
@@ -592,7 +584,7 @@ function set_container_bill(){
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-9 col-md-9 col-sm-12">
+                <div class="col-lg-9 col-md-9 col-sm-12" style="text-align:left;">
                     <span class="span-search-ticket"><i class="fas fa-briefcase"></i> Nomor Virtual Account Keluarga / Perusahaan</span>
                     <div class="input-container-search-ticket">
                         <input type="text" class="form-control virtual_number" name="bpjs_number" id="bpjs_number" onkeyup="check_bpjs_number();" onpaste="setTimeout(check_bpjs_number.bind(null,this),100);" placeholder="Nomor Virtual Account Keluarga / Perusahaan" autocomplete="off"/>
@@ -605,24 +597,22 @@ function set_container_bill(){
         }
         else if(bill_type == 'pln'){
             text = `
-                <div class="col-lg-12 mb-3" style="text-align:left;">
-                    <div class="input-container-search-ticket">`;
-                        for(i in ppob_data.product_data[bill_type]){
-                            text+=`
-                            <label class="radio-button-custom" style="margin-bottom:0px;">
-                                <span style="font-size:13px; color:`+text_color+`;">`+ppob_data.product_data[bill_type][i].name+`</span>`;
-                            if(i == 0){
-                                text+=`<input type="radio" checked="checked" name="pln_type" onchange="get_pln_name('`+ppob_data.product_data[bill_type][i].name+`'); set_pln_div();" value="`+ppob_data.product_data[bill_type][i].code+`">`;
-                                $pln_type_name = ppob_data.product_data[bill_type][i].name;
-                            }else{
-                                text+=`<input type="radio" name="pln_type" onchange="get_pln_name('`+ppob_data.product_data[bill_type][i].name+`'); set_pln_div();" value="`+ppob_data.product_data[bill_type][i].code+`">`;
-                            }
-                            text+=`
-                                <span class="checkmark-radio"></span>
-                            </label>`;
+                <div class="col-lg-12 mb-3" style="text-align:left;">`;
+                    for(i in ppob_data.product_data[bill_type]){
+                        text+=`
+                        <label class="radio-button-custom" style="margin-bottom:10px;">
+                            <span style="font-size:13px; color:`+text_color+`;">`+ppob_data.product_data[bill_type][i].name+`</span>`;
+                        if(i == 0){
+                            text+=`<input type="radio" checked="checked" name="pln_type" onchange="get_pln_name('`+ppob_data.product_data[bill_type][i].name+`'); set_pln_div();" value="`+ppob_data.product_data[bill_type][i].code+`">`;
+                            $pln_type_name = ppob_data.product_data[bill_type][i].name;
+                        }else{
+                            text+=`<input type="radio" name="pln_type" onchange="get_pln_name('`+ppob_data.product_data[bill_type][i].name+`'); set_pln_div();" value="`+ppob_data.product_data[bill_type][i].code+`">`;
                         }
                         text+=`
-                    </div>
+                            <span class="checkmark-radio"></span>
+                        </label>`;
+                    }
+                    text+=`
                 </div>
                 <div class="col-lg-12" style="padding:0px; text-align:left;">
                     <div id="pln_div" class="row" style="margin-left:0px;margin-right:0px;">
@@ -711,7 +701,7 @@ function set_container_bill(){
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-9 col-md-9 col-sm-12">
+                <div class="col-lg-9 col-md-9 col-sm-12" style="text-align:left;">
                     <span class="span-search-ticket"><i class="fas fa-briefcase"></i> Nomor Virtual Account Keluarga / Perusahaan</span>
                     <div class="input-container-search-ticket">
                         <input type="text" class="form-control virtual_number" name="bpjs_number" id="bpjs_number" onkeyup="check_bpjs_number();" onpaste="setTimeout(check_bpjs_number.bind(null,this),100);" placeholder="Nomor Virtual Account Keluarga / Perusahaan" autocomplete="off"/>
@@ -724,24 +714,22 @@ function set_container_bill(){
         }
         else if(bill_type == 'pln'){
             text = `
-            <div class="col-lg-12" style="text-align:left;">
-                <div class="input-container-search-ticket">`;
-                    for(i in ppob_data.product_data[bill_type]){
-                        text+=`
-                        <label class="radio-button-custom" style="margin-bottom:0px;">
-                            <span style="font-size:13px; color:`+text_color+`;">`+ppob_data.product_data[bill_type][i].name+`</span>`;
-                        if(i == 0){
-                            text+=`<input type="radio" checked="checked" name="pln_type" onchange="get_pln_name('`+ppob_data.product_data[bill_type][i].name+`'); set_pln_div();" value="`+ppob_data.product_data[bill_type][i].code+`">`;
-                            $pln_type_name = ppob_data.product_data[bill_type][i].name;
-                        }else{
-                            text+=`<input type="radio" name="pln_type" onchange="get_pln_name('`+ppob_data.product_data[bill_type][i].name+`'); set_pln_div();" value="`+ppob_data.product_data[bill_type][i].code+`">`;
-                        }
-                        text+=`
-                            <span class="checkmark-radio"></span>
-                        </label>`;
+            <div class="col-lg-12" style="text-align:left;">`;
+                for(i in ppob_data.product_data[bill_type]){
+                    text+=`
+                    <label class="radio-button-custom" style="margin-bottom:10px;">
+                        <span style="font-size:13px; color:`+text_color+`;">`+ppob_data.product_data[bill_type][i].name+`</span>`;
+                    if(i == 0){
+                        text+=`<input type="radio" checked="checked" name="pln_type" onchange="get_pln_name('`+ppob_data.product_data[bill_type][i].name+`'); set_pln_div();" value="`+ppob_data.product_data[bill_type][i].code+`">`;
+                        $pln_type_name = ppob_data.product_data[bill_type][i].name;
+                    }else{
+                        text+=`<input type="radio" name="pln_type" onchange="get_pln_name('`+ppob_data.product_data[bill_type][i].name+`'); set_pln_div();" value="`+ppob_data.product_data[bill_type][i].code+`">`;
                     }
                     text+=`
-                </div>
+                        <span class="checkmark-radio"></span>
+                    </label>`;
+                }
+                text+=`
             </div>
             <div class="col-lg-12 mt-3" style="text-align:left;">
                 <div id="pln_div" class="row">

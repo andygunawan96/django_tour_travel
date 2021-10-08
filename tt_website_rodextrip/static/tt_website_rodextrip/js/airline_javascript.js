@@ -5918,11 +5918,11 @@ function change_date_next_prev(counter){
     var today_date = moment().format('DD MMM YYYY'); //hari ini
     flight_date = moment(airline_request.departure[counter]);
     var date_format = 'DD MMM YYYY';
-    document.getElementById('now_date').innerHTML = `<div style="background:white; border:2px solid `+color+`; padding:15px; text-align: center;" id="div_onclick_now_date">`+flight_date.format(date_format)+`</div>`;
-    document.getElementById('prev_date_1').innerHTML = `<div class="button_date_np date_item_p1" id="div_onclick_p1" onclick="change_date_shortcut(1);">`+flight_date.subtract(+1, 'days').format(date_format)+`</div>`;
-    document.getElementById('prev_date_2').innerHTML = `<div class="button_date_np date_item_p2" id="div_onclick_p2" onclick="change_date_shortcut(2);">`+flight_date.subtract(+1, 'days').format(date_format)+`</div>`;
-    document.getElementById('next_date_1').innerHTML = `<div class="button_date_np date_item_n1" id="div_onclick_n1" onclick="change_date_shortcut(-1);">`+flight_date.subtract(-3, 'days').format(date_format)+`</div>`;
-    document.getElementById('next_date_2').innerHTML = `<div class="button_date_np date_item_n2" id="div_onclick_n2" onclick="change_date_shortcut(-2);">`+flight_date.subtract(-1, 'days').format(date_format)+`</div>`;
+    document.getElementById('now_date').innerHTML = `<div style="background:white; border:2px solid `+color+`; padding:15px 5px; text-align: center;" id="div_onclick_now_date">`+flight_date.format(date_format)+`</div>`;
+    document.getElementById('prev_date_1').innerHTML = `<div class="button_date_np date_item_p1" style="padding:15px 5px;" id="div_onclick_p1" onclick="change_date_shortcut(1);">`+flight_date.subtract(+1, 'days').format(date_format)+`</div>`;
+    document.getElementById('prev_date_2').innerHTML = `<div class="button_date_np date_item_p2" style="padding:15px 5px;" id="div_onclick_p2" onclick="change_date_shortcut(2);">`+flight_date.subtract(+1, 'days').format(date_format)+`</div>`;
+    document.getElementById('next_date_1').innerHTML = `<div class="button_date_np date_item_n1" style="padding:15px 5px;" id="div_onclick_n1" onclick="change_date_shortcut(-1);">`+flight_date.subtract(-3, 'days').format(date_format)+`</div>`;
+    document.getElementById('next_date_2').innerHTML = `<div class="button_date_np date_item_n2" style="padding:15px 5px;" id="div_onclick_n2" onclick="change_date_shortcut(-2);">`+flight_date.subtract(-1, 'days').format(date_format)+`</div>`;
     flight_date.subtract(+2, 'days') //balikin ke hari ini
 
     if(airline_request.direction == 'OW'){
