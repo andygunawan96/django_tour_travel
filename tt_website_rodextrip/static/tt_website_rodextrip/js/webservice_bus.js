@@ -1384,10 +1384,19 @@ function bus_get_booking(data, sync=false){
                    document.getElementById('cancel').innerHTML = `<button class="primary-btn-white" style="width:100%;" id="bus_cancel_booking_btn" type="button" onclick="bus_cancel_booking();">Cancel Booking <i class="fas fa-times" style="padding-left:5px; color:red; font-size:16px;"></i></button>`;
                    document.getElementById('issued-breadcrumb').classList.add("br-active");
                    document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
-                   document.getElementById('alert-state').innerHTML = `
-                   <div class="alert alert-success" role="alert">
-                       <h5>Your booking has been successfully Booked. Please proceed to payment or review your booking again.</h5>
-                   </div>`;
+                   var check_error_msg_provider = 0;
+                   for(co_error in msg.result.response.provider_bookings){
+                       if(msg.result.response.provider_bookings[co_error].error_msg != ''){
+                            check_error_msg_provider = 1;
+                       }
+                       break;
+                   }
+                   if(check_error_msg_provider != 1){
+                       document.getElementById('alert-state').innerHTML = `
+                       <div class="alert alert-success" role="alert">
+                           <h5>Your booking has been successfully Booked. Please proceed to payment or review your booking again.</h5>
+                       </div>`;
+                   }
                 }else if(msg.result.response.state == 'draft'){
                    document.getElementById('issued-breadcrumb').classList.remove("br-active");
                    document.getElementById('issued-breadcrumb').classList.add("br-fail");

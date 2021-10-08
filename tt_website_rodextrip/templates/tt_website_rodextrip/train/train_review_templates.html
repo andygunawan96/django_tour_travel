@@ -255,6 +255,16 @@
                                 </table>
                             </div>
                         </div>
+
+                        <div class="col-lg-4">
+                            {% if 'book_reservation' in username.co_agent_frontend_security %}
+                            <button type="button" class="for-show-website primary-btn hold-seat-booking-train ld-ext-right" id="btn-search-train" onclick="train_pre_create_booking(0);" style="width:100%;">
+                                {% trans 'Hold Booking' %}
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>
+                            {% endif %}
+                        </div>
+
                     </div>
                 </div>
                 <div class="col-lg-4" style="padding-bottom:20px;">
@@ -327,7 +337,7 @@
                     <div class="row">
                         <div class="col-lg-4" style="padding-bottom:10px;">
                             {% if 'book_reservation' in username.co_agent_frontend_security %}
-                            <button type="button" class="primary-btn hold-seat-booking-train ld-ext-right" id="btn-search-train" onclick="train_pre_create_booking(0);" style="width:100%;">
+                            <button type="button" class="for-show-mobile primary-btn hold-seat-booking-train ld-ext-right" id="btn-search-train" onclick="train_pre_create_booking(0);" style="width:100%;">
                                 {% trans 'Hold Booking' %}
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>

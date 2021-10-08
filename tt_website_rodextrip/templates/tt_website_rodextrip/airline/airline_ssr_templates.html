@@ -109,7 +109,7 @@
     <header>
     <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:15px 0px 15px 0px;">
     {%elif template == 6%}
-    <header>
+    <header style="position:sticky; top:0px; z-index:100;background:white;">
     <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:15px 0px 15px 0px;">
     {%endif%}
         <div class="container">
@@ -165,6 +165,8 @@
 <section style="padding:40px 0px 15px 0px; background:#f7f7f7; border-bottom:2px solid #cdcdcd;">
 {% elif template == 5 %}
 <section style="padding:15px 0px 15px 0px; background:#f7f7f7; border-bottom:2px solid #cdcdcd;">
+{% elif template == 6 %}
+<section class="destinations-area" style="background: #f7f7f7; padding-top:30px; padding-bottom:40px;">
 {%endif%}
     <div class="container">
         <form method="POST" id="airline_booking" action="{% if after_sales == 0 %}{% url 'tt_website_rodextrip:airline_review'%}{% else %}{% url 'tt_website_rodextrip:airline_review_after_sales'%}{%endif%}">
@@ -281,6 +283,27 @@
                                         </div>
                                     </div>
                                 {% elif template == 5 %}
+                                    <div class="col-lg-6">
+                                        <div class="input-container-search-ticket" style="display:inline-block !important;">
+                                            <div id="default-select">
+                                                <select class="app-select form-control" id="{{key}}_{{counter_provider}}_{{counter_pax}}_{{counter_ssr}}" name="{{key}}_{{counter_provider}}_{{counter_pax}}_{{counter_ssr}}" onchange="on_change_ssr()">
+                                                    <option value=""></option>
+                                                    {% for ssr in values.ssrs %}
+                                                    <option value="{{ssr.ssr_code}}_{{ssr.total_price}}" id="ssr_option_{{key}}_{{counter_provider}}_{{counter_pax}}_{{counter_ssr}}_{{forloop.counter}}" {% for ssr_list_pax in pax.ssr_list %}
+                                                            {% if key == ssr_list_pax.availability_type and ssr_list_pax.journey_code == ssr.journey_code and ssr.name == ssr_list_pax.name %}
+                                                                selected {% endif %} {% endfor %}
+                                                    >
+                                                        {{ssr.name}} - {{ssr.currency}}
+                                                    </option>
+                                                    <script>
+                                                        print_nominal_ssr("{{key}}_{{counter_provider}}_{{counter_pax}}_{{counter_ssr}}_{{ forloop.counter }}", {{ssr.total_price}});
+                                                    </script>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% elif template == 6 %}
                                     <div class="col-lg-6">
                                         <div class="input-container-search-ticket" style="display:inline-block !important;">
                                             <div id="default-select">

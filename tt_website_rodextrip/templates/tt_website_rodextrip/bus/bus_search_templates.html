@@ -774,29 +774,27 @@
                             <div class="col-lg-6">
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 bus-from">
-                                        <span class="span-search-ticket"><i class="fas fa-bus"></i> {% trans 'From' %}</span>
+                                        <span class="span-search-ticket">{% trans 'From' %}</span>
                                         <div class="input-container-search-ticket">
+                                            <i class="fas fa-bus" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
                                             <input id="bus_origin" name="bus_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_origin').select();" onclick="set_bus_search_value_to_false();" value="{{bus_request.origin}}">
                                         </div>
                                     </div>
-                                    <div class="image-change-route-vertical2">
-                                        <h4><a href="javascript:bus_switch();" style="z-index:5;" id="bus_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
-                                    </div>
-                                    <div class="image-change-route-horizontal2">
-                                        <h4><a class="horizontal-arrow" href="javascript:bus_switch();" style="z-index:5; color:{{text_color}} !important;" id="bus_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></h4>
-                                    </div>
-
                                     <div class="col-lg-6 col-md-6 col-sm-6 bus-to" style="z-index:5;">
-                                        <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> {% trans 'To' %}</span>
+                                        <h4 class="image-change-route-vertical2"><a href="javascript:bus_switch();" style="z-index:5; color:black;" id="bus_switch"><i class="fas fa-exchange-alt"></i></a></h4>
+                                        <h4 class="image-change-route-horizontal2"><a href="javascript:bus_switch();" style="z-index:5; color:black;" id="bus_switch2"><i class="fas fa-exchange-alt"></i></a></h4>
+                                        <span class="span-search-ticket">{% trans 'To' %}</span>
                                         <div class="input-container-search-ticket">
+                                            <i class="fas fa-map-marked-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
                                             <input id="bus_destination" name="bus_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_destination').select();" onclick="set_bus_search_value_to_false();" value="{{bus_request.destination}}">
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-6 col-sm-6" id="bus_date_search">
-                                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure' %}</span>
+                                <span class="span-search-ticket">{% trans 'Departure' %}</span>
                                 <div class="input-container-search-ticket">
+                                    <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
                                     <input type="text" style="background:white;" class="form-control" id="bus_departure" name="bus_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly value=""/>
                                 </div>
                             </div>

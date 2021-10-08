@@ -1010,10 +1010,19 @@ function medical_global_get_booking(order_number, sync=false){
                            document.getElementById('div_sync_status').hidden = false;
                            /*document.getElementById('div_sync_status').innerHTML =`
                            <input type="button" class="primary-btn" id="button-sync-status" style="width:100%;" value="Sync Status" onclick="please_wait_transaction();medical_global_get_booking('`+order_number+`',true)">`*/
-                           document.getElementById('alert-state').innerHTML = `
-                           <div class="alert alert-success" role="alert">
-                               <h5>Your booking has been successfully Booked. Please proceed to payment or review your booking again.</h5>
-                           </div>`;
+                           var check_error_msg_provider = 0;
+                           for(co_error in msg.result.response.provider_bookings){
+                               if(msg.result.response.provider_bookings[co_error].error_msg != ''){
+                                    check_error_msg_provider = 1;
+                               }
+                               break;
+                           }
+                           if(check_error_msg_provider != 1){
+                               document.getElementById('alert-state').innerHTML = `
+                               <div class="alert alert-success" role="alert">
+                                   <h5>Your booking has been successfully Booked. Please proceed to payment or review your booking again.</h5>
+                               </div>`;
+                           }
                         }
                         else if(msg.result.response.state == 'issued'){
                             document.getElementById('issued-breadcrumb').classList.add("br-active");
