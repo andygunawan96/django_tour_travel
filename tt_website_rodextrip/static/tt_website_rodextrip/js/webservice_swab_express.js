@@ -1,8 +1,8 @@
-function medical_global_signin(data){
+function swab_express_signin(data){
     getToken();
     $.ajax({
        type: "POST",
-       url: "/webservice/medical_global",
+       url: "/webservice/swab_express",
        headers:{
             'action': 'signin',
        },
@@ -12,15 +12,15 @@ function medical_global_signin(data){
        try{
            console.log(msg);
            if(msg.result.error_code == 0){
-               medical_signature = msg.result.response.signature;
+               swab_express_signature = msg.result.response.signature;
                signature = msg.result.response.signature;
                if(data == 'passenger'){
-                    get_config_medical_global(data, vendor);
-                    medical_global_get_availability();
+                    get_config_swab_express(data, vendor);
+                    swab_express_get_availability();
                }else{
                     //get booking
-                    get_config_medical_global('get_booking');
-                    medical_global_get_booking(data);
+                    get_config_swab_express('get_booking');
+                    swab_express_get_booking(data);
                }
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 auto_logout();
@@ -31,7 +31,7 @@ function medical_global_signin(data){
                   html: msg.result.error_msg,
                })
                try{
-                $("#show_loading_booking_medical").hide();
+                $("#show_loading_booking_swab_express").hide();
                }catch(err){}
            }
        }catch(err){
@@ -45,22 +45,22 @@ function medical_global_signin(data){
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-          error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error medical signin');
+          error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error Swab Express signin');
           $("#barFlightSearch").hide();
           $("#waitFlightSearch").hide();
           $('.loader-rodextrip').fadeOut();
           try{
-            $("#show_loading_booking_medical").hide();
+            $("#show_loading_booking_swab_express").hide();
           }catch(err){}
        },timeout: 60000
     });
 
 }
 
-function get_config_medical_global(type){
+function get_config_swab_express(type){
     $.ajax({
        type: "POST",
-       url: "/webservice/medical_global",
+       url: "/webservice/swab_express",
        headers:{
             'action': 'get_config',
        },
@@ -76,13 +76,13 @@ function get_config_medical_global(type){
                     for(i in msg.result.response){
                         text += '<option value="'+msg.result.response[i].code+'">' + msg.result.response[i].name + '</option>';
                     }
-                    document.getElementById('medical_global_type').innerHTML += text;
-                    $('#medical_global_type').niceSelect('update');
+                    document.getElementById('swab_express_type').innerHTML += text;
+                    $('#swab_express_type').niceSelect('update');
                 }else if(type == 'passenger'){
                     print_check_price++;
                     if(print_check_price == 2){
-                        document.getElementById('check_price_medical').hidden = false;
-                        document.getElementById('div_schedule_medical').style.display = 'block';
+                        document.getElementById('check_price_swab_express').hidden = false;
+                        document.getElementById('div_schedule_swab_express').style.display = 'block';
                     }
                     var product = '';
 
@@ -92,14 +92,14 @@ function get_config_medical_global(type){
                             break;
                         }
                     }
-                    document.getElementById('medical_product').innerHTML = product;
+                    document.getElementById('swab_express_product').innerHTML = product;
                     document.getElementById('copy_booker_to_pax_div').hidden = false;
 //                    try{
 //                    document.getElementById('medical_pax_div').hidden = false;
 //                    }catch(err){}
                     add_table(true);
                     try{
-                        $("#show_loading_booking_medical").hide();
+                        $("#show_loading_booking_swab_express").hide();
                     }catch(err){}
                 }else if(type == 'review'){
                     for(i in medical_config.result.response){
@@ -119,144 +119,22 @@ function get_config_medical_global(type){
                   html: msg.result.error_msg,
                })
                try{
-                $("#show_loading_booking_medical").hide();
+                $("#show_loading_booking_swab_express").hide();
                }catch(err){}
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get config medical');
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get config swab_express');
        },timeout: 300000
     });
 }
 
-function get_zip_code(){
-    $.ajax({
-       type: "POST",
-       url: "/webservice/medical",
-       headers:{
-            'action': 'get_zip_code',
-       },
-       data: {
-            'signature': signature,
-       },
-       success: function(msg) {
-            console.log(msg);
-            if(msg.result.error_code == 0){
-                zip_code_list = msg;
-            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
-                auto_logout();
-            }else{
-               Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: msg.result.error_msg,
-               })
-               try{
-                $("#show_loading_booking_medical").hide();
-               }catch(err){}
-            }
-       },
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get config medical');
-       },timeout: 300000
-    });
-}
-
-function get_kabupaten(id_provinsi, id_kabupaten){
-    var text = '';
-    if(document.getElementById(id_provinsi).value != '' && document.getElementById(id_provinsi).value != 'Select Provinsi' && document.getElementById(id_provinsi).value != 'Select Provinsi KTP' && document.getElementById(id_provinsi).value != 'Choose'){
-        text += '<option value="">Choose</option>';
-        for(i in data_kota[document.getElementById(id_provinsi).value]['kabupaten']){
-            text += '<option value="'+i+'">'+data_kota[document.getElementById(id_provinsi).value]['kabupaten'][i].name+"</option>";
-        }
-
-    }else{
-        if(id_provinsi.includes('ktp'))
-            text += '<option value="">Choose Kabupaten KTP</option>';
-        else
-            text += '<option value="">Choose Kabupaten</option>';
-    }
-    document.getElementById(id_kabupaten).innerHTML = text;
-    $('#'+id_kabupaten).select2();
-
-    text = `<option value="">Select Kecamatan</option>`;
-    document.getElementById(id_kabupaten.replace('kabupaten','kecamatan')).innerHTML = text;
-
-    $('#'+id_provinsi.replace('provinsi','kecamatan')).select2();
-
-    text = `<option value="">Select Kelurahan</option>`;
-    document.getElementById(id_kabupaten.replace('kabupaten','kelurahan')).innerHTML = text;
-
-    $('#'+id_provinsi.replace('provinsi','kelurahan')).select2();
-    if(vendor == 'periksain')
-        $('#'+id_provinsi).select2();
-}
-
-function get_kecamatan(id_kabupaten,id_kecamatan){
-    var text = '';
-    if(document.getElementById(id_kabupaten).value != '' && document.getElementById(id_kabupaten).value != 'Select Kabupaten' && document.getElementById(id_kabupaten).value != 'Select Kabupaten KTP' && document.getElementById(id_kabupaten).value != 'Choose'){
-        text += '<option value="">Choose</option>';
-        if(vendor == 'phc'){
-            for(i in data_kota[document.getElementById(id_kabupaten).value]){
-                text += '<option value="'+i+'">'+i+"</option>";
-            }
-        }else if(vendor == 'periksain'){
-            for(i in data_kota[document.getElementById(id_kabupaten.replace('kabupaten','provinsi')).value]['kabupaten'][document.getElementById(id_kabupaten).value]['kecamatan']){
-                text += '<option value="'+i+'">'+data_kota[document.getElementById(id_kabupaten.replace('kabupaten','provinsi')).value]['kabupaten'][document.getElementById(id_kabupaten).value]['kecamatan'][i].name+"</option>";
-            }
-        }
-    }else{
-        if(id_kecamatan.includes('ktp'))
-            text += '<option value="">Choose Kecamatan KTP</option>';
-        else
-            text += '<option value="">Choose Kecamatan</option>';
-    }
-    document.getElementById(id_kecamatan).innerHTML = text;
-    $('#'+id_kecamatan).select2();
-    text = '';
-    if(id_kecamatan.includes('ktp'))
-        text = `<option value="">Select Kelurahan KTP</option>`;
-    else{
-        text = `<option value="">Select Kelurahan</option>`;
-    }
-    document.getElementById(id_kecamatan.replace('kecamatan','kelurahan')).innerHTML = text;
-    $('#'+id_kecamatan.replace('kecamatan','kelurahan')).select2();
-
-    if(vendor == 'periksain')
-        $('#'+id_kabupaten).select2();
-}
-
-function get_kelurahan(id_kecamatan,id_kelurahan){
-    var text = '';
-    if(document.getElementById(id_kecamatan).value != '' && document.getElementById(id_kecamatan).value != 'Select Kecamatan' && document.getElementById(id_kecamatan).value != 'Select Kecamatan KTP' && document.getElementById(id_kecamatan).value != 'Choose'){
-        text += '<option value="">Choose</option>';
-        if(vendor == 'phc'){
-            for(i in data_kota[document.getElementById(id_kecamatan.replace('kecamatan','kabupaten')).value][document.getElementById(id_kecamatan).value]){
-                text += '<option value="'+data_kota[document.getElementById(id_kecamatan.replace('kecamatan','kabupaten')).value][document.getElementById(id_kecamatan).value][i]+'">'+data_kota[document.getElementById(id_kecamatan.replace('kecamatan','kabupaten')).value][document.getElementById(id_kecamatan).value][i]+"</option>";
-            }
-        }else if(vendor == 'periksain'){
-            for(i in data_kota[document.getElementById(id_kecamatan.replace('kecamatan','provinsi')).value]['kabupaten'][document.getElementById(id_kecamatan.replace('kecamatan','kabupaten')).value]['kecamatan'][document.getElementById(id_kecamatan).value]['kelurahan']){
-                text += '<option value="'+i+'">'+data_kota[document.getElementById(id_kecamatan.replace('kecamatan','provinsi')).value]['kabupaten'][document.getElementById(id_kecamatan.replace('kecamatan','kabupaten')).value]['kecamatan'][document.getElementById(id_kecamatan).value]['kelurahan'][i].name+"</option>";
-            }
-        }
-    }else{
-        if(id_kecamatan.includes('ktp'))
-            text += '<option value="">Choose Kelurahan KTP</option>';
-        else
-            text += '<option value="">Choose Kelurahan</option>';
-    }
-    document.getElementById(id_kelurahan).innerHTML = text;
-    $('#'+id_kelurahan).select2();
-    if(vendor == 'periksain')
-        $('#'+id_kecamatan).select2();
-}
-
-function medical_global_get_availability(){
+function swab_express_get_availability(){
     test_date_data = [];
     test_kuota = [];
     $.ajax({
        type: "POST",
-       url: "/webservice/medical_global",
+       url: "/webservice/swab_express",
        headers:{
             'action': 'get_availability',
        },
@@ -270,8 +148,8 @@ function medical_global_get_availability(){
             if(msg.result.error_code == 0){
                 print_check_price++;
                 if(print_check_price == 2){
-                    document.getElementById('check_price_medical').hidden = false;
-                    document.getElementById('div_schedule_medical').style.display = 'block';
+                    document.getElementById('check_price_swab_express').hidden = false;
+                    document.getElementById('div_schedule_swab_express').style.display = 'block';
                 }
                 msg = msg.result.response;
                 if(Object.keys(msg).length > 0){
@@ -321,19 +199,19 @@ function medical_global_get_availability(){
                   html: msg.result.error_msg,
                })
                try{
-                $("#show_loading_booking_medical").hide();
+                $("#show_loading_booking_swab_express").hide();
                }catch(err){}
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get availability medical');
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get availability swab_express');
        },timeout: 300000
     });
 }
 
-function medical_global_check_price(){
+function swab_express_check_price(){
     var timeslot_list = [];
-    document.getElementById('check_price_medical').disabled = true;
+    document.getElementById('check_price_swab_express').disabled = true;
 
     var now = moment();
     var test_list_counter = 1;
@@ -372,7 +250,7 @@ function medical_global_check_price(){
     if(timeslot_list.length != 0 && error_log == '' || test_type.includes('DT')){
         $.ajax({
            type: "POST",
-           url: "/webservice/medical_global",
+           url: "/webservice/swab_express",
            headers:{
                 'action': 'get_price',
            },
@@ -445,15 +323,15 @@ function medical_global_check_price(){
                             <label style="margin-left:5px;">- Only 1 customer</label>`;
                     }
 
-                    document.getElementById('medical_detail').innerHTML = text;
-                    document.getElementById('medical_detail').style.display = 'block';
-                    document.getElementById('next_medical').style.display = 'block';
+                    document.getElementById('swab_express_detail').innerHTML = text;
+                    document.getElementById('swab_express_detail').style.display = 'block';
+                    document.getElementById('next_swab_express').style.display = 'block';
 
                     try{
-                    document.getElementById('medical_pax_div').hidden = false;
+                    document.getElementById('swab_express_pax_div').hidden = false;
                     }catch(err){}
                     $('html, body').animate({
-                        scrollTop: $("#medical_detail").offset().top - 120
+                        scrollTop: $("#swab_express_detail").offset().top - 120
                     }, 500);
 
 
@@ -467,15 +345,15 @@ function medical_global_check_price(){
                       html: msg.result.error_msg,
                    })
                    try{
-                    $("#show_loading_booking_medical").hide();
+                    $("#show_loading_booking_swab_express").hide();
                    }catch(err){}
                 }
                 }catch(err){console.log(err);}
-                document.getElementById('check_price_medical').disabled = false;
+                document.getElementById('check_price_swab_express').disabled = false;
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get price medical');
-                document.getElementById('check_price_medical').disabled = false; //disable false jika timeout atau apapun yg masuk catch
+                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get price swab_express');
+                document.getElementById('check_price_swab_express').disabled = false; //disable false jika timeout atau apapun yg masuk catch
            },timeout: 300000
         });
     }else if(error_log != ''){
@@ -484,21 +362,21 @@ function medical_global_check_price(){
             title: 'Oops!',
             html: error_log,
         })
-        document.getElementById('check_price_medical').disabled = false;
+        document.getElementById('check_price_swab_express').disabled = false;
     }else{
         Swal.fire({
             type: 'error',
             title: 'Oops!',
             html: 'Please choose timeslot!',
         })
-        document.getElementById('check_price_medical').disabled = false;
+        document.getElementById('check_price_swab_express').disabled = false;
     }
 }
 
-function medical_global_get_cache_price(){
+function swab_express_get_cache_price(){
     $.ajax({
        type: "POST",
-       url: "/webservice/medical_global",
+       url: "/webservice/swab_express",
        headers:{
             'action': 'get_price_cache',
        },
@@ -555,8 +433,8 @@ function medical_global_get_cache_price(){
                             <input type="button" class="primary-btn-white" style="width:100%;" onclick="copy_data();" value="Copy"/>
                         </center>
                     </div>`;
-                document.getElementById('medical_detail').innerHTML = text;
-                document.getElementById('medical_detail').style.display = 'block';
+                document.getElementById('swab_express_detail').innerHTML = text;
+                document.getElementById('swab_express_detail').style.display = 'block';
                 $text += 'Price:\n';
                 $text += msg.result.response.service_charges[0].pax_count+`x Fare @IDR `+getrupiah(msg.result.response.service_charges[0].amount) + `\n`;
                 $text += 'Grand Total: IDR' + getrupiah(msg.result.response.total_price)
@@ -622,20 +500,20 @@ function medical_global_get_cache_price(){
                   html: msg.result.error_msg,
                })
                try{
-                $("#show_loading_booking_medical").hide();
+                $("#show_loading_booking_swab_express").hide();
                }catch(err){}
             }
             }catch(err){console.log(err);}
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get price medical');
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get price swab_express');
        },timeout: 300000
     });
 }
 
-function pre_medical_global_commit_booking(val){
+function pre_swab_express_commit_booking(val){
     if(val == 0){
-        medical_global_commit_booking(val);
+        swab_express_commit_booking(val);
         $('.hold-seat-booking-train').addClass("running");
         $('.hold-seat-booking-train').attr("disabled", true);
         please_wait_transaction();
@@ -656,12 +534,12 @@ function pre_medical_global_commit_booking(val){
 
                     document.getElementById("passengers").value = JSON.stringify(passengers);
                     document.getElementById("signature").value = signature;
-                    document.getElementById("provider").value = 'medical';
-                    document.getElementById("type").value = 'medical_review';
+                    document.getElementById("provider").value = 'swab.express';
+                    document.getElementById("type").value = 'swab_express_review';
                     document.getElementById("voucher_code").value = voucher_code;
                     document.getElementById("discount").value = JSON.stringify(discount_voucher);
                     //document.getElementById("session_time_input").value = 300;
-                    document.getElementById('medical_issued').submit();
+                    document.getElementById('swab_express_issued').submit();
                 }catch(err){
                     console.log(err)
                 }
@@ -675,7 +553,7 @@ function confirm_order(){
     $('#loading-search-reservation').show();
     $.ajax({
        type: "POST",
-       url: "/webservice/medical_global",
+       url: "/webservice/swab_express",
        headers:{
             'action': 'confirm_order',
        },
@@ -687,10 +565,10 @@ function confirm_order(){
            console.log(msg);
            if(msg.result.error_code == 0){
                 //update ticket
-                document.getElementById('show_loading_booking_medical').hidden = false;
+                document.getElementById('show_loading_booking_swab_express').hidden = false;
                 hide_modal_waiting_transaction();
-                document.getElementById('medical_booking').innerHTML = '';
-                document.getElementById('medical_detail').innerHTML = '';
+                document.getElementById('swab_express_booking').innerHTML = '';
+                document.getElementById('swab_express_detail').innerHTML = '';
                 document.getElementById('payment_acq').innerHTML = '';
                 //document.getElementById('voucher_div').style.display = 'none';
                 document.getElementById('payment_acq').hidden = true;
@@ -699,15 +577,15 @@ function confirm_order(){
 
                 document.getElementById("overlay-div-box").style.display = "none";
                 $(".issued_booking_btn").hide(); //kalau error masih keluar button awal remove ivan
-                medical_get_booking(data);
+                swab_express_get_booking(data);
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 auto_logout();
            }else{
                 //update ticket
-                document.getElementById('show_loading_booking_medical').hidden = false;
+                document.getElementById('show_loading_booking_swab_express').hidden = false;
                 hide_modal_waiting_transaction();
-                document.getElementById('medical_booking').innerHTML = '';
-                document.getElementById('medical_detail').innerHTML = '';
+                document.getElementById('swab_express_booking').innerHTML = '';
+                document.getElementById('swab_express_detail').innerHTML = '';
                 document.getElementById('payment_acq').innerHTML = '';
                 //document.getElementById('voucher_div').style.display = 'none';
                 document.getElementById('payment_acq').hidden = true;
@@ -716,23 +594,23 @@ function confirm_order(){
 
                 document.getElementById("overlay-div-box").style.display = "none";
                 $(".issued_booking_btn").hide(); //kalau error masih keluar button awal remove ivan
-                medical_get_booking(data);
+                swab_express_get_booking(data);
                 Swal.fire({
                   type: 'error',
                   title: 'Oops!',
-                  html: '<span style="color: #ff9900;">Error medical confirm order </span>' + msg.result.error_msg,
+                  html: '<span style="color: #ff9900;">Error swab_express confirm order </span>' + msg.result.error_msg,
                 })
            }
            $('#loading-search-reservation').hide();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             hide_modal_waiting_transaction();
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get price medical');
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get price swab_express');
        },timeout: 300000
     });
 }
 
-function medical_global_commit_booking(val){
+function swab_express_commit_booking(val){
     $('.hold-seat-booking-train').addClass("running");
     $('.hold-seat-booking-train').attr("disabled", true);
     please_wait_transaction();
@@ -757,7 +635,7 @@ function medical_global_commit_booking(val){
     }catch(err){}
     $.ajax({
        type: "POST",
-       url: "/webservice/medical_global",
+       url: "/webservice/swab_express",
        headers:{
             'action': 'commit_booking',
        },
@@ -779,21 +657,21 @@ function medical_global_commit_booking(val){
                         $('.hold-seat-booking-train').addClass("running");
                         $('.hold-seat-booking-train').attr("disabled", true);
                         please_wait_transaction();
-                        send_url_booking('medical', btoa(msg.result.response.order_number), msg.result.response.order_number);
+                        send_url_booking('swab_express', btoa(msg.result.response.order_number), msg.result.response.order_number);
                         document.getElementById('order_number').value = msg.result.response.order_number;
                         document.getElementById("passengers").value = JSON.stringify(passengers);
                         document.getElementById("signature").value = signature;
-                        document.getElementById("provider").value = 'medical';
-                        document.getElementById("type").value = 'medical_review';
+                        document.getElementById("provider").value = 'swab.express';
+                        document.getElementById("type").value = 'swab_express_review';
                         document.getElementById("voucher_code").value = voucher_code;
                         document.getElementById("discount").value = JSON.stringify(discount_voucher);
                         document.getElementById("session_time_input").value = time_limit;
-                        document.getElementById('medical_issued').submit();
+                        document.getElementById('swab_express_issued').submit();
 
                       }else{
-                        document.getElementById('medical_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
-                        document.getElementById('medical_booking').action = '/medical_global/booking/' + btoa(msg.result.response.order_number);
-                        document.getElementById('medical_booking').submit();
+                        document.getElementById('swab_express_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
+                        document.getElementById('swab_express_booking').action = '/swab_express/booking/' + btoa(msg.result.response.order_number);
+                        document.getElementById('swab_express_booking').submit();
                       }
                     })
 //                    send_url_booking('medical', btoa(msg.result.response.order_number), msg.result.response.order_number);
@@ -824,32 +702,23 @@ function medical_global_commit_booking(val){
                         $('.hold-seat-booking-train').addClass("running");
                         $('.hold-seat-booking-train').attr("disabled", true);
                         please_wait_transaction();
-                        send_url_booking('medical', btoa(msg.result.response.order_number), msg.result.response.order_number);
+                        send_url_booking('swab_express', btoa(msg.result.response.order_number), msg.result.response.order_number);
                         document.getElementById('order_number').value = msg.result.response.order_number;
                         document.getElementById("passengers").value = JSON.stringify(passengers);
                         document.getElementById("signature").value = signature;
-                        document.getElementById("provider").value = 'medical';
-                        document.getElementById("type").value = 'medical_review';
+                        document.getElementById("provider").value = 'swab.express';
+                        document.getElementById("type").value = 'swab_express_review';
                         document.getElementById("voucher_code").value = voucher_code;
                         document.getElementById("discount").value = JSON.stringify(discount_voucher);
                         document.getElementById("session_time_input").value = 200;
-                        document.getElementById('medical_issued').submit();
+                        document.getElementById('swab_express_issued').submit();
 
                       }else{
-                        document.getElementById('medical_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
-                        document.getElementById('medical_booking').action = '/medical_global/booking/' + btoa(msg.result.response.order_number);
-                        document.getElementById('medical_booking').submit();
+                        document.getElementById('swab_express_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
+                        document.getElementById('swab_express_booking').action = '/swab_express/booking/' + btoa(msg.result.response.order_number);
+                        document.getElementById('swab_express_booking').submit();
                       }
                     })
-//                   if(val == 0){
-//                       document.getElementById('medical_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
-//                       document.getElementById('medical_booking').action = '/medical/booking/' + btoa(msg.result.response.order_number);
-//                       document.getElementById('medical_booking').submit();
-//                   }else if(val == 1){
-//                       document.getElementById('order_number').value = msg.result.response.order_number;
-//                       document.getElementById('issued').action = '/medical/booking/' + btoa(msg.result.response.order_number);
-//                       document.getElementById('issued').submit();
-//                   }
                }
             }else if(msg.result.error_code == 1011 || msg.result.error_code == 4014){
 
@@ -869,21 +738,21 @@ function medical_global_commit_booking(val){
                         $('.hold-seat-booking-train').addClass("running");
                         $('.hold-seat-booking-train').attr("disabled", true);
                         please_wait_transaction();
-                        send_url_booking('medical', btoa(msg.result.response.order_number), msg.result.response.order_number);
+                        send_url_booking('swab_express', btoa(msg.result.response.order_number), msg.result.response.order_number);
                         document.getElementById('order_number').value = msg.result.response.order_number;
                         document.getElementById("passengers").value = JSON.stringify(passengers);
                         document.getElementById("signature").value = signature;
-                        document.getElementById("provider").value = 'medical';
-                        document.getElementById("type").value = 'medical_review';
+                        document.getElementById("provider").value = 'swab.express';
+                        document.getElementById("type").value = 'swab_express_review';
                         document.getElementById("voucher_code").value = voucher_code;
                         document.getElementById("discount").value = JSON.stringify(discount_voucher);
                         document.getElementById("session_time_input").value = 200;
-                        document.getElementById('medical_issued').submit();
+                        document.getElementById('swab_express_issued').submit();
 
                       }else{
-                        document.getElementById('medical_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
-                        document.getElementById('medical_booking').action = '/medical/booking/' + btoa(msg.result.response.order_number);
-                        document.getElementById('medical_booking').submit();
+                        document.getElementById('swab_express_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
+                        document.getElementById('swab_express_booking').action = '/swab_express/booking/' + btoa(msg.result.response.order_number);
+                        document.getElementById('swab_express_booking').submit();
                       }
                    })
 //                   Swal.fire({
@@ -893,12 +762,12 @@ function medical_global_commit_booking(val){
 //                   }).then((result) => {
 //                        if (result.value) {
 //                            if(val == 0){
-//                                document.getElementById('medical_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
-//                                document.getElementById('medical_booking').action = '/medical/booking/' + btoa(msg.result.response.order_number);
-//                                document.getElementById('medical_booking').submit();
+//                                document.getElementById('swab_express_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
+//                                document.getElementById('swab_express_booking').action = '/swab_express/booking/' + btoa(msg.result.response.order_number);
+//                                document.getElementById('swab_express_booking').submit();
 //                            }else if(val == 1){
 //                                document.getElementById('order_number').value = msg.result.response.order_number;
-//                                document.getElementById('issued').action = '/medical/booking/' + btoa(msg.result.response.order_number);
+//                                document.getElementById('issued').action = '/swab_express/booking/' + btoa(msg.result.response.order_number);
 //                                document.getElementById('issued').submit();
 //                            }
 //                        }
@@ -919,7 +788,7 @@ function medical_global_commit_booking(val){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get price medical');
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get price swab_express');
        },timeout: 300000
     });
 }
@@ -927,12 +796,12 @@ function medical_global_commit_booking(val){
 function goto_edit_passenger(){
     if(medical_get_detail.result.response.state == 'booked'){
         document.getElementById('data').value = JSON.stringify(medical_get_detail);
-        document.getElementById('medical_edit_passenger').action += medical_get_detail.result.response.order_number;
-        document.getElementById('medical_edit_passenger').submit();
+        document.getElementById('swab_express_edit_passenger').action += medical_get_detail.result.response.order_number;
+        document.getElementById('swab_express_edit_passenger').submit();
     }
 }
 
-function medical_global_get_booking(order_number, sync=false){
+function swab_express_get_booking(order_number, sync=false){
     document.getElementById('payment_acq').hidden = true;
     price_arr_repricing = {};
     get_vendor_balance('false');
@@ -944,7 +813,7 @@ function medical_global_get_booking(order_number, sync=false){
     }catch(err){}
     $.ajax({
        type: "POST",
-       url: "/webservice/medical_global",
+       url: "/webservice/swab_express",
        headers:{
             'action': 'get_booking',
        },
@@ -959,8 +828,8 @@ function medical_global_get_booking(order_number, sync=false){
 
                 //======================= Resv =========================
                 if(msg.result.error_code == 0){
-                    if(window.location.pathname.includes('confirm_order') && user_login.co_agent_frontend_security.includes('confirm_order_medical') == false){
-                        window.location.href = '/medical_global/confirm_order/';
+                    if(window.location.pathname.includes('confirm_order') && user_login.co_agent_frontend_security.includes('confirm_order_swab_express') == false){
+                        window.location.href = '/swab_express/confirm_order/';
                         Swal.fire({
                           type: 'error',
                           title: 'Oops!',
@@ -968,7 +837,7 @@ function medical_global_get_booking(order_number, sync=false){
                        })
                     }else{
                         medical_get_detail = msg;
-                        document.getElementById('show_loading_booking_medical').hidden = true;
+                        document.getElementById('show_loading_booking_swab_express').hidden = true;
     //                    document.getElementById('button-home').hidden = false;
                         document.getElementById('button-new-reservation').hidden = false;
                         document.getElementById('button-re-order').hidden = false;
@@ -1004,31 +873,22 @@ function medical_global_get_booking(order_number, sync=false){
 
                         //======================= Button Issued ==================
                         if(msg.result.response.state == 'booked'){
-                           check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'medical_global', signature, msg.result.response.payment_acquirer_number);
+                           check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'swab.express', signature, msg.result.response.payment_acquirer_number);
                            $(".issued_booking_btn").show();
                            $text += 'Status: Booked\n';
                            document.getElementById('div_sync_status').hidden = false;
                            /*document.getElementById('div_sync_status').innerHTML =`
                            <input type="button" class="primary-btn" id="button-sync-status" style="width:100%;" value="Sync Status" onclick="please_wait_transaction();medical_global_get_booking('`+order_number+`',true)">`*/
-                           var check_error_msg_provider = 0;
-                           for(co_error in msg.result.response.provider_bookings){
-                               if(msg.result.response.provider_bookings[co_error].error_msg != ''){
-                                    check_error_msg_provider = 1;
-                               }
-                               break;
-                           }
-                           if(check_error_msg_provider != 1){
-                               document.getElementById('alert-state').innerHTML = `
-                               <div class="alert alert-success" role="alert">
-                                   <h5>Your booking has been successfully Booked. Please proceed to payment or review your booking again.</h5>
-                               </div>`;
-                           }
+                           document.getElementById('alert-state').innerHTML = `
+                           <div class="alert alert-success" role="alert">
+                               <h5>Your booking has been successfully Booked. Please proceed to payment or review your booking again.</h5>
+                           </div>`;
                         }
                         else if(msg.result.response.state == 'issued'){
                             document.getElementById('issued-breadcrumb').classList.add("br-active");
                             document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
                             document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
-                            document.getElementById('show_title_medical').hidden = true;
+                            document.getElementById('show_title_swab_express').hidden = true;
                             document.getElementById('display_state').innerHTML = `Your Order Has Been Issued`;
                             document.getElementById('alert-state').innerHTML = `
                             <div class="alert alert-success" role="alert">
@@ -1358,7 +1218,7 @@ function medical_global_get_booking(order_number, sync=false){
                                         </div>`;
                             }
                         }
-                        document.getElementById('medical_booking').innerHTML = text;
+                        document.getElementById('swab_express_booking').innerHTML = text;
 
                         //detail
                         text = '';
@@ -1642,14 +1502,14 @@ function medical_global_get_booking(order_number, sync=false){
                         </div>`;
                             if(msg.result.response.state != 'cancel' || msg.result.response.state != 'cancel2'){
                                 document.getElementById('cancel_reservation').innerHTML = `
-                                <button class="primary-btn-white hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="medical_global_cancel_booking('` + msg.result.response.order_number + `');" style="width:100%;">
+                                <button class="primary-btn-white hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="swab_express_cancel_booking('` + msg.result.response.order_number + `');" style="width:100%;">
                                     Cancel Booking
                                     <i class="fas fa-times" style="padding-left:5px; color:red; font-size:16px;"></i>
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>`;
                             }
                         }
-                        if(window.location.pathname.includes('confirm_order') && user_login.co_agent_frontend_security.includes('confirm_order_medical') && msg.result.response.state_vendor == 'new_order' && moment().format('YYYY-MM-DD') == msg.result.response.picked_timeslot.datetimeslot.substr(0,10)){
+                        if(window.location.pathname.includes('confirm_order') && user_login.co_agent_frontend_security.includes('confirm_order_swab_express') && msg.result.response.state_vendor == 'new_order' && moment().format('YYYY-MM-DD') == msg.result.response.picked_timeslot.datetimeslot.substr(0,10)){
                             text_detail+=`
                             <div style="margin-top:10px;">
                                 <center>
@@ -1684,7 +1544,7 @@ function medical_global_get_booking(order_number, sync=false){
     //                        change_area();
                     }
 
-                    document.getElementById('medical_detail').innerHTML = text_detail;
+                    document.getElementById('swab_express_detail').innerHTML = text_detail;
                     document.getElementById('update_data_passenger').innerHTML = text_update_data_pax;
 
 
@@ -1700,7 +1560,7 @@ function medical_global_get_booking(order_number, sync=false){
                             // === Button 1 ===
                             if (msg.result.response.state  == 'issued') {
                                 print_text+=`
-                                <button class="primary-btn-white hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="get_printout('` + msg.result.response.order_number + `','ticket','medical');" style="width:100%;">
+                                <button class="primary-btn-white hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="get_printout('` + msg.result.response.order_number + `','ticket','swab_express');" style="width:100%;">
                                     Print Ticket
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>`;
@@ -1709,7 +1569,7 @@ function medical_global_get_booking(order_number, sync=false){
                             // === Button 2 ===
                             if (msg.result.response.state  == 'issued'){
                                 print_text+=`
-                                <button class="primary-btn-white hold-seat-booking-train ld-ext-right" type="button" id="button-print-print" onclick="get_printout('` + msg.result.response.order_number + `','ticket_price','medical');" style="width:100%;">
+                                <button class="primary-btn-white hold-seat-booking-train ld-ext-right" type="button" id="button-print-print" onclick="get_printout('` + msg.result.response.order_number + `','ticket_price','swab_express');" style="width:100%;">
                                     Print Ticket (With Price)
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>`;
@@ -1761,7 +1621,7 @@ function medical_global_get_booking(order_number, sync=false){
                                                         <div style="text-align:right;">
                                                             <span>Don't want to edit? just submit</span>
                                                             <br/>
-                                                            <button type="button" id="button-issued-print" class="primary-btn ld-ext-right" onclick="get_printout('`+msg.result.response.order_number+`', 'invoice','medical');">
+                                                            <button type="button" id="button-issued-print" class="primary-btn ld-ext-right" onclick="get_printout('`+msg.result.response.order_number+`', 'invoice','swab_express');">
                                                                 Submit
                                                                 <div class="ld ld-ring ld-cycle"></div>
                                                             </button>
@@ -1813,7 +1673,7 @@ function medical_global_get_booking(order_number, sync=false){
                                                         <div style="text-align:right;">
                                                             <span>Don't want to edit? just submit</span>
                                                             <br/>
-                                                            <button type="button" id="button-issued-print" class="primary-btn ld-ext-right" onclick="get_printout('`+msg.result.response.order_number+`', 'kwitansi','medical');">
+                                                            <button type="button" id="button-issued-print" class="primary-btn ld-ext-right" onclick="get_printout('`+msg.result.response.order_number+`', 'kwitansi','swab_express');">
                                                                 Submit
                                                                 <div class="ld ld-ring ld-cycle"></div>
                                                             </button>
@@ -1829,7 +1689,7 @@ function medical_global_get_booking(order_number, sync=false){
                             }
                         }*/
                         if(print_text)
-                            document.getElementById('medical_btn_printout').innerHTML = print_text;
+                            document.getElementById('swab_express_btn_printout').innerHTML = print_text;
 
                         //======================= Other =========================
                         add_repricing();
@@ -1837,10 +1697,10 @@ function medical_global_get_booking(order_number, sync=false){
                 }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                     auto_logout();
                 }else if(msg.result.error_code == 1035){
-                    document.getElementById('show_title_medical').hidden = false;
-                    document.getElementById('show_loading_booking_medical').hidden = true;
-                    document.getElementById('show_title_medical').hidden = true;
-                    render_login('medical');
+                    document.getElementById('show_title_swab_express').hidden = false;
+                    document.getElementById('show_loading_booking_swab_express').hidden = true;
+                    document.getElementById('show_title_swab_express').hidden = true;
+                    render_login('swab_express');
                 }else{
                    Swal.fire({
                       type: 'error',
@@ -1848,7 +1708,7 @@ function medical_global_get_booking(order_number, sync=false){
                       html: msg.result.error_msg,
                    })
                    try{
-                    $("#show_loading_booking_medical").hide();
+                    $("#show_loading_booking_swab_express").hide();
                    }catch(err){console.log(err);}
                 }
             }catch(err){
@@ -1856,19 +1716,19 @@ function medical_global_get_booking(order_number, sync=false){
                 Swal.fire({
                   type: 'error',
                   title: 'Oops!',
-                  html: '<span style="color: #ff9900;">Error medical booking </span> Please try again in 1 - 5 minutes later or contact customer service' ,
+                  html: '<span style="color: #ff9900;">Error swab_express booking </span> Please try again in 1 - 5 minutes later or contact customer service' ,
                 }).then((result) => {
                   window.location.href = '/reservation';
                 })
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get price medical');
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get price swab_express');
        },timeout: 300000
     });
 }
 
-function medical_global_cancel_booking(data){
+function swab_express_cancel_booking(data){
     var temp_data = {}
     if(typeof(medical_get_detail) !== 'undefined')
         temp_data = JSON.stringify(medical_get_detail)
@@ -1886,7 +1746,7 @@ function medical_global_cancel_booking(data){
         getToken();
         $.ajax({
            type: "POST",
-           url: "/webservice/medical_global",
+           url: "/webservice/swab_express",
            headers:{
                 'action': 'cancel',
            },
@@ -1899,13 +1759,13 @@ function medical_global_cancel_booking(data){
                document.getElementById('cancel_reservation').innerHTML = '';
                if(msg.result.error_code == 0){
                    if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
-                        window.location.href = '/medical_global/booking/' + btoa(data);
+                        window.location.href = '/swab_express/booking/' + btoa(data);
                    }else{
 //                       //update ticket
-                        document.getElementById('show_loading_booking_medical').hidden = false;
+                        document.getElementById('show_loading_booking_swab_express').hidden = false;
                         hide_modal_waiting_transaction();
-                        document.getElementById('medical_booking').innerHTML = '';
-                        document.getElementById('medical_detail').innerHTML = '';
+                        document.getElementById('swab_express_booking').innerHTML = '';
+                        document.getElementById('swab_express_detail').innerHTML = '';
                         document.getElementById('payment_acq').innerHTML = '';
                         //document.getElementById('voucher_div').style.display = 'none';
                         document.getElementById('payment_acq').hidden = true;
@@ -1914,7 +1774,7 @@ function medical_global_cancel_booking(data){
 
                         document.getElementById("overlay-div-box").style.display = "none";
                         $(".issued_booking_btn").hide(); //kalau error masih keluar button awal remove ivan
-                       medical_global_get_booking(data);
+                        swab_express_get_booking(data);
                    }
                }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                     auto_logout();
@@ -1923,51 +1783,51 @@ function medical_global_cancel_booking(data){
                     Swal.fire({
                       type: 'error',
                       title: 'Oops!',
-                      html: '<span style="color: #ff9900;">Error medical cancel </span>' + msg.result.error_msg,
+                      html: '<span style="color: #ff9900;">Error swab_express cancel </span>' + msg.result.error_msg,
                     })
                     price_arr_repricing = {};
                     pax_type_repricing = [];
-                    document.getElementById('show_loading_booking_medical').hidden = false;
-                    document.getElementById('medical_booking').innerHTML = '';
-                    document.getElementById('medical_detail').innerHTML = '';
+                    document.getElementById('show_loading_booking_swab_express').hidden = false;
+                    document.getElementById('swab_express_booking').innerHTML = '';
+                    document.getElementById('swab_express_detail').innerHTML = '';
                     document.getElementById('payment_acq').innerHTML = '';
-                    document.getElementById('show_loading_booking_medical').style.display = 'block';
-                    document.getElementById('show_loading_booking_medical').hidden = false;
+                    document.getElementById('show_loading_booking_swab_express').style.display = 'block';
+                    document.getElementById('show_loading_booking_swab_express').hidden = false;
                     document.getElementById('payment_acq').hidden = true;
                     hide_modal_waiting_transaction();
                     document.getElementById("overlay-div-box").style.display = "none";
 
                     $('.hold-seat-booking-train').prop('disabled', false);
                     $('.hold-seat-booking-train').removeClass("running");
-                    medical_global_get_booking(data);
+                    swab_express_get_booking(data);
                     $(".issued_booking_btn").hide();
                }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error medical issued');
+                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error swab_express issued');
                 price_arr_repricing = {};
                 pax_type_repricing = [];
-                document.getElementById('show_loading_booking_medical').hidden = false;
-                document.getElementById('medical_booking').innerHTML = '';
-                document.getElementById('medical_detail').innerHTML = '';
+                document.getElementById('show_loading_booking_swab_express').hidden = false;
+                document.getElementById('swab_express_booking').innerHTML = '';
+                document.getElementById('swab_express_detail').innerHTML = '';
                 document.getElementById('payment_acq').innerHTML = '';
                 //document.getElementById('voucher_div').style.display = 'none';
-                document.getElementById('show_loading_booking_medical').style.display = 'block';
-                document.getElementById('show_loading_booking_medical').hidden = false;
+                document.getElementById('show_loading_booking_swab_express').style.display = 'block';
+                document.getElementById('show_loading_booking_swab_express').hidden = false;
                 document.getElementById('payment_acq').hidden = true;
                 hide_modal_waiting_transaction();
                 document.getElementById("overlay-div-box").style.display = "none";
                 $('.hold-seat-booking-train').prop('disabled', false);
                 $('.hold-seat-booking-train').removeClass("running");
                 $(".issued_booking_btn").hide();
-                medical_global_get_booking(data);
+                swab_express_get_booking(data);
            },timeout: 300000
         });
       }
     })
 }
 
-function medical_global_issued_booking(data){
+function swab_express_issued_booking(data){
     var temp_data = {}
     if(typeof(medical_get_detail) !== 'undefined')
         temp_data = JSON.stringify(medical_get_detail)
@@ -1985,7 +1845,7 @@ function medical_global_issued_booking(data){
         getToken();
         $.ajax({
            type: "POST",
-           url: "/webservice/medical_global",
+           url: "/webservice/swab_express",
            headers:{
                 'action': 'issued',
            },
@@ -2000,17 +1860,17 @@ function medical_global_issued_booking(data){
            success: function(msg) {
                console.log(msg);
                if(google_analytics != '')
-                   gtag('event', 'medical_issued', {});
+                   gtag('event', 'swab_express_issued', {});
                if(msg.result.error_code == 0){
                    print_success_issued();
                    if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
-                        window.location.href = '/medical_global/booking/' + btoa(data);
+                        window.location.href = '/swab_express/booking/' + btoa(data);
                    }else{
 //                       //update ticket
-                        document.getElementById('show_loading_booking_medical').hidden = false;
+                        document.getElementById('show_loading_booking_swab_express').hidden = false;
                         hide_modal_waiting_transaction();
-                        document.getElementById('medical_booking').innerHTML = '';
-                        document.getElementById('medical_detail').innerHTML = '';
+                        document.getElementById('swab_express_booking').innerHTML = '';
+                        document.getElementById('swab_express_detail').innerHTML = '';
                         document.getElementById('payment_acq').innerHTML = '';
                         //document.getElementById('voucher_div').style.display = 'none';
                         document.getElementById('payment_acq').hidden = true;
@@ -2019,20 +1879,20 @@ function medical_global_issued_booking(data){
 
                         document.getElementById("overlay-div-box").style.display = "none";
                         $(".issued_booking_btn").hide(); //kalau error masih keluar button awal remove ivan
-                       medical_global_get_booking(data);
+                        swab_express_get_booking(data);
                    }
                }else if(msg.result.error_code == 1009){
                    price_arr_repricing = {};
                    pax_type_repricing = [];
                    hide_modal_waiting_transaction();
-                   document.getElementById('show_loading_booking_medical').hidden = false;
-                   document.getElementById('medical_booking').innerHTML = '';
-                   document.getElementById('medical_detail').innerHTML = '';
+                   document.getElementById('show_loading_booking_swab_express').hidden = false;
+                   document.getElementById('swab_express_booking').innerHTML = '';
+                   document.getElementById('swab_express_detail').innerHTML = '';
                    document.getElementById('payment_acq').innerHTML = '';
                    //document.getElementById('voucher_div').style.display = 'none';
                    document.getElementById('ssr_request_after_sales').hidden = true;
-                   document.getElementById('show_loading_booking_medical').style.display = 'block';
-                   document.getElementById('show_loading_booking_medical').hidden = false;
+                   document.getElementById('show_loading_booking_swab_express').style.display = 'block';
+                   document.getElementById('show_loading_booking_swab_express').hidden = false;
                    document.getElementById('reissued').hidden = true;
                    document.getElementById('cancel').hidden = true;
                    document.getElementById('payment_acq').hidden = true;
@@ -2041,7 +1901,7 @@ function medical_global_issued_booking(data){
                    Swal.fire({
                       type: 'error',
                       title: 'Oops!',
-                      html: '<span style="color: #ff9900;">Error medical issued </span>' + msg.result.error_msg,
+                      html: '<span style="color: #ff9900;">Error swab_express issued </span>' + msg.result.error_msg,
                     }).then((result) => {
                       if (result.value) {
                         hide_modal_waiting_transaction();
@@ -2052,12 +1912,12 @@ function medical_global_issued_booking(data){
 
                     $('.hold-seat-booking-train').prop('disabled', false);
                     $('.hold-seat-booking-train').removeClass("running");
-                    medical_global_get_booking(data);
+                    swab_express_get_booking(data);
                }else if(msg.result.error_code == 4006){
                     Swal.fire({
                       type: 'error',
                       title: 'Oops!',
-                      html: '<span style="color: #ff9900;">Error medical issued </span>' + msg.result.error_msg,
+                      html: '<span style="color: #ff9900;">Error swab_express issued </span>' + msg.result.error_msg,
                     }).then((result) => {
                       if (result.value) {
                         hide_modal_waiting_transaction();
@@ -2280,51 +2140,51 @@ function medical_global_issued_booking(data){
                     Swal.fire({
                       type: 'error',
                       title: 'Oops!',
-                      html: '<span style="color: #ff9900;">Error medical issued </span>' + msg.result.error_msg,
+                      html: '<span style="color: #ff9900;">Error swab_express issued </span>' + msg.result.error_msg,
                     })
                     price_arr_repricing = {};
                     pax_type_repricing = [];
-                    document.getElementById('show_loading_booking_medical').hidden = false;
-                    document.getElementById('medical_booking').innerHTML = '';
-                    document.getElementById('medical_detail').innerHTML = '';
+                    document.getElementById('show_loading_booking_swab_express').hidden = false;
+                    document.getElementById('swab_express_booking').innerHTML = '';
+                    document.getElementById('swab_express_detail').innerHTML = '';
                     document.getElementById('payment_acq').innerHTML = '';
-                    document.getElementById('show_loading_booking_medical').style.display = 'block';
-                    document.getElementById('show_loading_booking_medical').hidden = false;
+                    document.getElementById('show_loading_booking_swab_express').style.display = 'block';
+                    document.getElementById('show_loading_booking_swab_express').hidden = false;
                     document.getElementById('payment_acq').hidden = true;
                     hide_modal_waiting_transaction();
                     document.getElementById("overlay-div-box").style.display = "none";
 
                     $('.hold-seat-booking-train').prop('disabled', false);
                     $('.hold-seat-booking-train').removeClass("running");
-                    medical_global_get_booking(data);
+                    swab_express_get_booking(data);
                     $(".issued_booking_btn").hide();
                }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error medical issued');
+                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error swab_express issued');
                 price_arr_repricing = {};
                 pax_type_repricing = [];
-                document.getElementById('show_loading_booking_medical').hidden = false;
-                document.getElementById('medical_booking').innerHTML = '';
-                document.getElementById('medical_detail').innerHTML = '';
+                document.getElementById('show_loading_booking_swab_express').hidden = false;
+                document.getElementById('swab_express_booking').innerHTML = '';
+                document.getElementById('swab_express_detail').innerHTML = '';
                 document.getElementById('payment_acq').innerHTML = '';
                 //document.getElementById('voucher_div').style.display = 'none';
-                document.getElementById('show_loading_booking_medical').style.display = 'block';
-                document.getElementById('show_loading_booking_medical').hidden = false;
+                document.getElementById('show_loading_booking_swab_express').style.display = 'block';
+                document.getElementById('show_loading_booking_swab_express').hidden = false;
                 document.getElementById('payment_acq').hidden = true;
                 hide_modal_waiting_transaction();
                 document.getElementById("overlay-div-box").style.display = "none";
                 $('.hold-seat-booking-train').prop('disabled', false);
                 $('.hold-seat-booking-train').removeClass("running");
                 $(".issued_booking_btn").hide();
-                medical_global_get_booking(data);
+                swab_express_get_booking(data);
            },timeout: 300000
         });
       }
     })
 }
 
-function medical_get_result(data){
+function swab_express_get_result(data){
     var temp_data = {}
     if(typeof(medical_get_detail) !== 'undefined')
         temp_data = JSON.stringify(medical_get_detail)
@@ -2333,7 +2193,7 @@ function medical_get_result(data){
     getToken();
     $.ajax({
        type: "POST",
-       url: "/webservice/medical_global",
+       url: "/webservice/swab_express",
        headers:{
             'action': 'get_result',
        },
@@ -2368,7 +2228,7 @@ function medical_get_result(data){
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             hide_modal_waiting_transaction();
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get price medical');
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get price swab_express');
        },timeout: 300000
     });
 }
@@ -2377,7 +2237,7 @@ function get_transaction_by_analyst(){
     $('#loading-search-reservation').show();
     $.ajax({
        type: "POST",
-       url: "/webservice/medical",
+       url: "/webservice/swab_express",
        headers:{
             'action': 'get_transaction_by_analyst',
        },
@@ -2458,7 +2318,7 @@ function get_transaction_by_analyst(){
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             hide_modal_waiting_transaction();
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get price medical');
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get price swab_express');
        },timeout: 300000
     });
 }
@@ -2472,205 +2332,6 @@ function get_transaction_by_analyst(){
 //    }, 300000);
 //
 //}
-
-
-// re fungsi untuk panggil ulang // create new session
-function re_medical_signin(type=''){
-    if(type == 'next'){
-//        clearInterval(autoSigninInterval);
-        try{
-        $('.loader-rodextrip').fadeIn();
-        please_wait_transaction();
-        }catch(err){}
-    }
-
-    $.ajax({
-       type: "POST",
-       url: "/webservice/medical",
-       headers:{
-            'action': 'signin',
-       },
-//       url: "{% url 'tt_backend_rodextrip:social_media_tree_update' %}",
-       data: {},
-       success: function(msg) {
-       try{
-           console.log(msg);
-           if(msg.result.error_code == 0){
-               medical_signature = msg.result.response.signature;
-               signature = msg.result.response.signature;
-               if(type == 'next')
-                    re_medical_get_availability();
-           }else{
-               Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: msg.result.error_msg,
-               })
-               try{
-               hide_modal_waiting_transaction();
-               }catch(err){}
-               $('.loader-rodextrip').fadeOut();
-               try{
-                $("#show_loading_booking_medical").hide();
-               }catch(err){}
-           }
-       }catch(err){
-            console.log(err);
-           Swal.fire({
-               type: 'error',
-               title: 'Oops...',
-               text: 'Something went wrong, please try again or check your internet connection',
-           })
-           try{
-           hide_modal_waiting_transaction();
-           }catch(err){}
-           $('.loader-rodextrip').fadeOut();
-        }
-       },
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
-          error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error medical signin');
-          $("#barFlightSearch").hide();
-          $("#waitFlightSearch").hide();
-          $('.loader-rodextrip').fadeOut();
-          try{
-            $("#show_loading_booking_medical").hide();
-          }catch(err){}
-          $('.next-passenger-train').removeClass("running");
-          $('.next-passenger-train').attr("disabled", false);
-          hide_modal_waiting_transaction();
-       },timeout: 60000
-    });
-}
-
-function re_medical_get_availability(){
-    $.ajax({
-       type: "POST",
-       url: "/webservice/medical",
-       headers:{
-            'action': 'get_availability',
-       },
-       data: {
-            'signature': signature,
-            'provider': vendor,
-            'carrier_code': test_type
-       },
-       success: function(msg) {
-            console.log(msg);
-            if(msg.result.error_code == 0){
-                re_medical_check_price();
-            }else{
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: msg.result.error_msg,
-                })
-                try{
-                hide_modal_waiting_transaction();
-                }catch(err){}
-                $('.next-passenger-train').removeClass("running");
-                $('.next-passenger-train').attr("disabled", false);
-                $('.loader-rodextrip').fadeOut();
-            }
-       },
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get availability medical');
-       },timeout: 300000
-    });
-}
-
-function re_medical_check_price(){
-    var timeslot_list = [];
-    document.getElementById('check_price_medical').disabled = true;
-    var now = moment();
-    var test_list_counter = 1;
-    var add_list = true;
-    var error_log = '';
-    for(i=1;i <= test_time; i++){
-        try{
-            if(document.getElementById('booker_timeslot_id'+i).value != '')
-                timeslot_list.push(document.getElementById('booker_timeslot_id'+i).value.split('~')[0])
-        }catch(err){}
-    }
-    for(i=1; i <= test_time; i++){
-        try{
-            add_list = true;
-            if(vendor == 'periksain'){
-                if(now.format('DD MMM YYYY') == document.getElementById('booker_test_date'+i).value){
-                    if(new Date() > new Date(document.getElementById('booker_test_date'+i).value+' '+document.getElementById('booker_timeslot_id'+i).value.split('~')[1])){
-                        add_list = false;
-                        error_log += 'Test time reservation already pass please change test time ' + test_list_counter + '!</br>\n';
-                    }
-                }
-            }else{
-                if(now.format('DD MMM YYYY') == document.getElementById('booker_test_date'+i).value){
-                    if(new Date() > new Date(document.getElementById('booker_test_date'+i).value+' '+document.getElementById('booker_timeslot_id'+i).value.split('~')[1])){
-                        add_list = false;
-                        error_log += 'Test time reservation already pass please change test time ' + test_list_counter + '!</br>\n';
-                    }
-                }
-            }
-            test_list_counter++;
-        }catch(err){
-
-        }
-    }
-    if(timeslot_list.length != 0 && error_log == '' || vendor == 'phc' && test_type == 'PHCDTKATG' || vendor == 'phc' && test_type == 'PHCDTKPCR'){
-        $.ajax({
-           type: "POST",
-           url: "/webservice/medical",
-           headers:{
-                'action': 'get_price',
-           },
-           data: {
-                'signature': signature,
-                'provider': vendor,
-                'pax_count': document.getElementById('passenger').value,
-                'timeslot_list': JSON.stringify(timeslot_list),
-                'carrier_code': test_type
-           },
-           success: function(msg) {
-                console.log(msg);
-                if(msg.result.error_code == 0){
-                    document.getElementById('time_limit_input').value = 200;
-                    document.getElementById('data').value = JSON.stringify(request);
-                    document.getElementById('signature').value = signature;
-                    document.getElementById('vendor').value = vendor;
-                    document.getElementById('test_type').value = test_type;
-                    document.getElementById('medical_review').submit();
-                }else{
-                    Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      html: msg.result.error_msg,
-                    })
-                    try{
-                    hide_modal_waiting_transaction();
-                    }catch(err){}
-                    $('.next-passenger-train').removeClass("running");
-                    $('.next-passenger-train').attr("disabled", false);
-                    $('.loader-rodextrip').fadeOut();
-                }
-           },
-           error: function(XMLHttpRequest, textStatus, errorThrown) {
-                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get price medical');
-           },timeout: 300000
-        });
-    }else if(error_log != ''){
-        Swal.fire({
-            type: 'error',
-            title: 'Oops!',
-            html: error_log,
-        })
-        document.getElementById('check_price_medical').disabled = false;
-    }else{
-        Swal.fire({
-            type: 'error',
-            title: 'Oops!',
-            html: 'Please choose timeslot!',
-        })
-        document.getElementById('check_price_medical').disabled = false;
-    }
-}
 
 function create_new_reservation(){
     //pilihan carrier
@@ -2738,7 +2399,7 @@ function create_new_reservation(){
 
 
     //button
-    text += `<button type="button" class="primary-btn mb-3" id="button-home" style="width:100%;margin-top:15px;" onclick="medical_reorder();">
+    text += `<button type="button" class="primary-btn mb-3" id="button-home" style="width:100%;margin-top:15px;" onclick="swab_express_reorder();">
                 Re Order
             </button>`
 
@@ -2747,7 +2408,7 @@ function create_new_reservation(){
     $('#test_type').niceSelect();
 }
 
-function medical_reorder(){
+function swab_express_reorder(){
     //check all pax
     var checked = false;
     var passenger_list_copy = [];
@@ -2758,7 +2419,7 @@ function medical_reorder(){
         }
     }
     if(checked){
-        var path = '/medical_global/passenger/';
+        var path = '/swab_express/passenger/';
         document.getElementById('data').value = JSON.stringify(passenger_list_copy);
         var data_temp = {
             "address": medical_get_detail.result.response.test_address,
@@ -2766,10 +2427,10 @@ function medical_reorder(){
             "place_url_by_google": medical_get_detail.result.response.test_address_map_link,
             "test_list": []
         }
-        document.getElementById('medical_global_type').value = document.getElementById('test_type').value;
+        document.getElementById('swab_express_type').value = document.getElementById('test_type').value;
         document.getElementById('booking_data').value = JSON.stringify(data_temp);
-        document.getElementById('medical_edit_passenger').action = path;
-        document.getElementById('medical_edit_passenger').submit();
+        document.getElementById('swab_express_edit_passenger').action = path;
+        document.getElementById('swab_express_edit_passenger').submit();
     }else{
         Swal.fire({
             type: 'error',
@@ -2780,12 +2441,12 @@ function medical_reorder(){
 }
 
 
-function get_data_cache_passenger_medical(type){
+function get_data_cache_passenger_swab_express(type){
     $.ajax({
        type: "POST",
-       url: "/webservice/medical",
+       url: "/webservice/swab_express",
        headers:{
-            'action': 'get_data_cache_passenger_medical',
+            'action': 'get_data_cache_passenger_swab_express',
        },
        data: {
             'signature': signature,
@@ -2796,18 +2457,18 @@ function get_data_cache_passenger_medical(type){
             auto_fill_data();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get price medical');
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get cache data passenger medical');
        },timeout: 300000
     });
 
 }
 
-function get_data_cache_schedule_medical(){
+function get_data_cache_schedule_swab_express(){
     $.ajax({
        type: "POST",
-       url: "/webservice/medical",
+       url: "/webservice/swab_express",
        headers:{
-            'action': 'get_data_booking_cache_medical',
+            'action': 'get_data_booking_cache_swab_express',
        },
        data: {
             'signature': signature,
@@ -2821,7 +2482,7 @@ function get_data_cache_schedule_medical(){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get price medical');
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get cache data schedule swab express');
        },timeout: 300000
     });
 

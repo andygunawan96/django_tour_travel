@@ -40,8 +40,8 @@ def elapse_time(dep, arr):
 def can_book(now, dep):
     return dep > now
 
-def medical(request):
-    if 'user_account' in request.session._session and 'ticketing_medical' in request.session['user_account']['co_agent_frontend_security']:
+def swab_express(request):
+    if 'user_account' in request.session._session and 'ticketing_swab_express' in request.session['user_account']['co_agent_frontend_security']:
         try:
             values = get_data_template(request)
             javascript_version = get_javascript_version()
@@ -71,12 +71,12 @@ def medical(request):
             # get_data_awal
             cache = {}
             try:
-                cache['medical'] = {
-                    'name': request.session['medical_request']['name'],
-                    'date': request.session['medical_request']['date'],
+                cache['swab_express'] = {
+                    'name': request.session['swab_express_request']['name'],
+                    'date': request.session['swab_express_request']['date'],
                 }
-                if cache['medical']['date'] == 'Invalid date':
-                    cache['medical']['date'] = convert_string_to_date_to_string_front_end(str(datetime.now())[:10])
+                if cache['swab_express']['date'] == 'Invalid date':
+                    cache['swab_express']['date'] = convert_string_to_date_to_string_front_end(str(datetime.now())[:10])
             except:
                 pass
             values.update({
@@ -98,7 +98,7 @@ def medical(request):
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
-        return render(request, MODEL_NAME + '/medical_global/medical_global_templates.html', values)
+        return render(request, MODEL_NAME + '/swab_express/swab_express_templates.html', values)
     else:
         return no_session_logout(request)
 
@@ -133,16 +133,16 @@ def passenger(request):
 
         try:
             passengers = json.loads(request.POST['data'])
-            set_session(request, 'medical_passenger_cache', passengers)
+            set_session(request, 'swab_express_passenger_cache', passengers)
         except:
             try:
-                passengers = request.session['medical_passenger_cache']
+                passengers = request.session['swab_express_passenger_cache']
             except:
                 passengers = []
 
         try:
             booking_data = json.loads(request.POST['booking_data'])
-            set_session(request, 'medical_data_cache', booking_data)
+            set_session(request, 'swab_express_data_cache', booking_data)
         except:
             pass
 
@@ -161,14 +161,14 @@ def passenger(request):
             # 'cookies': json.dumps(res['result']['cookies']),
             'javascript_version': javascript_version,
             'static_path_url_server': get_url_static_path(),
-            'vendor': 'national_hospital',
-            'test_type': request.POST['medical_global_type'],
+            'vendor': 'swab.express',
+            'test_type': request.POST['swab_express_type'],
             'total_passengers_rebooking': len(passengers)
         })
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
         raise Exception('Make response code 500!')
-    return render(request, MODEL_NAME+'/medical_global/medical_global_passenger_templates.html', values)
+    return render(request, MODEL_NAME+'/swab_express/swab_express_passenger_templates.html', values)
 
 def review(request):
     if 'user_account' in request.session._session:
@@ -183,7 +183,7 @@ def review(request):
                 data = json.loads(request.POST['data'])
             except:
                 try:
-                    data = request.session.get('medical_data_%s' % request.POST['signature'])
+                    data = request.session.get('swab_express_data_%s' % request.POST['signature'])
                 except:
                     pass
             adult = data['passenger']
@@ -193,24 +193,24 @@ def review(request):
             passenger_booker['booker'] = {
                 "booker_seq_id": booker['booker_seq_id']
             }
-            medical_passenger = copy.deepcopy(adult)
-            for rec in medical_passenger:
+            swab_express_passenger = copy.deepcopy(adult)
+            for rec in swab_express_passenger:
                 rec['identity_country_of_issued_name'] = rec['identity']['identity_country_of_issued_name']
                 rec['identity_number'] = rec['identity']['identity_number']
                 rec['identity_expdate'] = rec['identity']['identity_expdate']
                 rec['identity_type'] = rec['identity']['identity_type']
 
-            set_session(request, 'medical_data_%s' % request.POST['signature'], {
+            set_session(request, 'swab_express_data_%s' % request.POST['signature'], {
                 'booker': booker,
                 'passengers': adult,
                 'contacts': contact,
                 'data': data
             })
-            set_session(request, 'medical_passenger_cache', medical_passenger)
-            set_session(request, 'medical_data_cache', data)
+            set_session(request, 'swab_express_passenger_cache', swab_express_passenger)
+            set_session(request, 'swab_express_data_cache', data)
             try:
                 set_session(request, 'time_limit', request.POST['time_limit_input'])
-                set_session(request, 'medical_signature', request.POST['signature'])
+                set_session(request, 'swab_express_signature', request.POST['signature'])
                 set_session(request, 'vendor_%s' % request.POST['signature'], request.POST['vendor'])
                 set_session(request, 'test_type_%s' % request.POST['signature'], request.POST['test_type'])
             except:
@@ -224,7 +224,7 @@ def review(request):
             # coba pakai cache
             try:
                 set_session(request, 'time_limit', request.session['time_limit'])
-                set_session(request, 'medical_signature', request.session['medical_signature'])
+                set_session(request, 'swab_express_signature', request.session['swab_express_signature'])
                 set_session(request, 'vendor_%s' % request.POST['signature'], request.session['vendor'])
                 set_session(request, 'test_type_%s' % request.POST['signature'], request.session['test_type'])
             except:
@@ -240,11 +240,11 @@ def review(request):
                 'time_limit': time_limit,
                 'id_types': id_type,
                 'passenger_booker': passenger_booker,
-                'upsell': request.session.get('medical_upsell_' + request.session['medical_signature']) and request.session.get('medical_upsell_' + request.session['medical_signature']) or 0,
+                'upsell': request.session.get('swab_express_upsell_' + request.session['swab_express_signature']) and request.session.get('swab_express_upsell_' + request.session['swab_express_signature']) or 0,
                 'username': request.session['user_account'],
-                'data': request.session['medical_data_%s' % request.POST['signature']],
+                'data': request.session['swab_express_data_%s' % request.POST['signature']],
                 'javascript_version': javascript_version,
-                'signature': request.session['medical_signature'],
+                'signature': request.session['swab_express_signature'],
                 'static_path_url_server': get_url_static_path(),
                 'vendor': vendor,
                 'test_type': test_type,
@@ -255,7 +255,7 @@ def review(request):
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
-        return render(request, MODEL_NAME+'/medical_global/medical_global_review_templates.html', values)
+        return render(request, MODEL_NAME+'/swab_express/swab_express_review_templates.html', values)
     else:
         return no_session_logout(request)
 
@@ -266,24 +266,24 @@ def booking(request, order_number):
         if 'user_account' not in request.session:
             signin_btc(request)
         try:
-            set_session(request, 'medical_order_number', base64.b64decode(order_number).decode('ascii'))
+            set_session(request, 'swab_express_order_number', base64.b64decode(order_number).decode('ascii'))
         except:
-            set_session(request, 'medical_order_number', order_number)
+            set_session(request, 'swab_express_order_number', order_number)
         try:
-            if request.session.get('medical_passenger_cache'):
-                del request.session['medical_passenger_cache']
+            if request.session.get('swab_express_passenger_cache'):
+                del request.session['swab_express_passenger_cache']
         except:
             pass
         try:
-            if request.session.get('medical_data_cache'):
-                del request.session['medical_data_cache']
+            if request.session.get('swab_express_data_cache'):
+                del request.session['swab_express_data_cache']
         except:
             pass
         values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'id_types': id_type,
             'cabin_class_types': cabin_class_type,
-            'order_number': request.session['medical_order_number'],
+            'order_number': request.session['swab_express_order_number'],
             'username': request.session.get('user_account') or {'co_user_login': ''},
             'signature': request.session['signature'],
             # 'cookies': json.dumps(res['result']['cookies']),
@@ -293,7 +293,7 @@ def booking(request, order_number):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
         raise Exception('Make response code 500!')
-    return render(request, MODEL_NAME+'/medical_global/medical_global_booking_templates.html', values)
+    return render(request, MODEL_NAME+'/swab_express/swab_express_booking_templates.html', values)
 
 
 def confirm_order(request):
@@ -315,7 +315,7 @@ def confirm_order(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
         raise Exception('Make response code 500!')
-    return render(request, MODEL_NAME+'/medical_global/medical_global_confirm_order_templates.html', values)
+    return render(request, MODEL_NAME+'/swab_express/swab_express_confirm_order_templates.html', values)
 
 
 def confirm_order_booking(request, order_number):
@@ -325,24 +325,24 @@ def confirm_order_booking(request, order_number):
         if 'user_account' not in request.session:
             signin_btc(request)
         try:
-            set_session(request, 'medical_order_number', base64.b64decode(order_number).decode('ascii'))
+            set_session(request, 'swab_express_order_number', base64.b64decode(order_number).decode('ascii'))
         except:
-            set_session(request, 'medical_order_number', order_number)
+            set_session(request, 'swab_express_order_number', order_number)
         try:
-            if request.session.get('medical_passenger_cache'):
-                del request.session['medical_passenger_cache']
+            if request.session.get('swab_express_passenger_cache'):
+                del request.session['swab_express_passenger_cache']
         except:
             pass
         try:
-            if request.session.get('medical_data_cache'):
-                del request.session['medical_data_cache']
+            if request.session.get('swab_express_data_cache'):
+                del request.session['swab_express_data_cache']
         except:
             pass
         values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'id_types': id_type,
             'cabin_class_types': cabin_class_type,
-            'order_number': request.session['medical_order_number'],
+            'order_number': request.session['swab_express_order_number'],
             'username': request.session.get('user_account') or {'co_user_login': ''},
             'signature': request.session['signature'],
             # 'cookies': json.dumps(res['result']['cookies']),
@@ -352,78 +352,4 @@ def confirm_order_booking(request, order_number):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
         raise Exception('Make response code 500!')
-    return render(request, MODEL_NAME+'/medical_global/medical_global_booking_templates.html', values)
-
-def passenger_edit(request, vendor,test_type, order_number):
-    if 'user_account' in request.session._session:
-        try:
-            if 'b2c_limitation' in request.session['user_account']['co_agent_frontend_security'] and vendor == 'periksain':
-                return no_session_logout(request)
-            javascript_version = get_javascript_version()
-            cache_version = get_cache_version()
-            response = get_cache_data(cache_version)
-
-            values = get_data_template(request)
-
-            # agent
-            adult_title = ['MR', 'MRS', 'MS']
-
-            infant_title = ['MSTR', 'MISS']
-
-            # agent
-
-            airline_country = response['result']['response']['airline']['country']
-            phone_code = []
-            for i in airline_country:
-                if i['phone_code'] not in phone_code:
-                    phone_code.append(i['phone_code'])
-            phone_code = sorted(phone_code)
-
-
-            set_session(request, 'time_limit', 1200)
-
-
-            if translation.LANGUAGE_SESSION_KEY in request.session:
-                del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
-
-            try:
-                data = json.loads(request.POST['data'])
-                passengers = data['passengers']
-                booking = data['booking']
-                state = data['booking']['state']
-                set_session(request, 'medical_passenger_cache', passengers)
-                set_session(request, 'medical_cache_data_booking', booking)
-            except:
-                try:
-                    passengers = request.session['medical_passenger_cache']
-                    state = request.session['medical_cache_data_booking']['state']
-                except:
-                    passengers = []
-                    state = 'booked'
-            values.update({
-                'static_path': path_util.get_static_path(MODEL_NAME),
-                'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
-                'countries': airline_country,
-                'phone_code': phone_code,
-                'adult_title': adult_title,
-                'infant_title': infant_title,
-                'id_types': id_type,
-                'time_limit': request.session['time_limit'],
-                'username': request.session['user_account'],
-                'signature': request.session['signature'],
-                'update_data': 'true',
-                # 'cookies': json.dumps(res['result']['cookies']),
-                'javascript_version': javascript_version,
-                'static_path_url_server': get_url_static_path(),
-                'vendor': vendor,
-                'order_number': order_number,
-                'test_type': test_type,
-                'total_passengers_rebooking': len(passengers),
-                'state': state
-            })
-        except Exception as e:
-            _logger.error(str(e) + '\n' + traceback.format_exc())
-            raise Exception('Make response code 500!')
-        return render(request, MODEL_NAME+'/medical_global/medical_global_passenger_edit_templates.html', values)
-    else:
-        return no_session_logout(request)
+    return render(request, MODEL_NAME+'/swab_express/swab_express_booking_templates.html', values)
