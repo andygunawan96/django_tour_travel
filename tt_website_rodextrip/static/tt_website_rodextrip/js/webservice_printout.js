@@ -266,6 +266,14 @@ function get_list_report_footer(){
                             show_header_medical(printout[i].html);
                             check_header = false;
                             break;
+                        }else if(vendor == 'lab.pintar' && test_type == 'LPKATG' && printout[i].code == "lab_pintar_antigen_information"){
+                            show_header_medical(printout[i].html);
+                            check_header = false;
+                            break;
+                        }else if(vendor == 'lab.pintar' && test_type == 'LPKPCR' && printout[i].code == "lab_pintar_pcr_information"){
+                            show_header_medical(printout[i].html);
+                            check_header = false;
+                            break;
                         }else if(vendor == 'periksain' && test_type.includes('PCR') && printout[i].code == "periksain_pcr_information"){
                             show_header_medical(printout[i].html);
                             check_header = false;
