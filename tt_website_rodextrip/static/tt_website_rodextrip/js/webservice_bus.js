@@ -543,7 +543,6 @@ function bus_create_booking(val){
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            console.log('asdasdasd eror');
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error bus create booking');
             hide_modal_waiting_transaction();
             $('.hold-seat-booking-bus').removeClass("running");
@@ -552,7 +551,7 @@ function bus_create_booking(val){
     });
 }
 
-function bus_get_booking(data){
+function bus_get_booking(data, sync=false){
     price_arr_repricing = {};
     get_vendor_balance('false');
     document.getElementById('cancel').hidden = true;
@@ -565,7 +564,8 @@ function bus_get_booking(data){
        },
        data: {
             'order_number': data,
-            'signature': signature
+            'signature': signature,
+            'sync': sync
        },
        success: function(msg) {
         console.log(msg);
@@ -923,6 +923,9 @@ function bus_get_booking(data){
                     <div class="col-lg-4" style="padding-bottom:10px;">`;
                         if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
                             if (msg.result.response.state == 'booked'){
+                                try{
+                                    document.getElementById('div_sync_status').hidden = false;
+                                }catch(err){}
                                 text+=`
                                 <form method="post" id="seat_map_request" action='/bus/seat_map'>
 
@@ -932,6 +935,9 @@ function bus_get_booking(data){
                                     <input id='order_number' name="order_number" value="`+msg.result.response.order_number+`" type="hidden"/>
                                 </form>`;
                             }else if(msg.result.response.state == 'issued'){
+                                try{
+                                    document.getElementById('div_sync_status').hidden = true;
+                                }catch(err){}
                                 text+=`
                                 <button type="button" id="button-choose-print" class="primary-btn ld-ext-right" style="width:100%;" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket','bus');">
                                     Print Ticket
@@ -1378,10 +1384,19 @@ function bus_get_booking(data){
                    document.getElementById('cancel').innerHTML = `<button class="primary-btn-white" style="width:100%;" id="bus_cancel_booking_btn" type="button" onclick="bus_cancel_booking();">Cancel Booking <i class="fas fa-times" style="padding-left:5px; color:red; font-size:16px;"></i></button>`;
                    document.getElementById('issued-breadcrumb').classList.add("br-active");
                    document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
-                   document.getElementById('alert-state').innerHTML = `
-                   <div class="alert alert-success" role="alert">
-                       <h5>Your booking has been successfully Booked. Please proceed to payment or review your booking again.</h5>
-                   </div>`;
+                   var check_error_msg_provider = 0;
+                   for(co_error in msg.result.response.provider_bookings){
+                       if(msg.result.response.provider_bookings[co_error].error_msg != ''){
+                            check_error_msg_provider = 1;
+                       }
+                       break;
+                   }
+                   if(check_error_msg_provider != 1){
+                       document.getElementById('alert-state').innerHTML = `
+                       <div class="alert alert-success" role="alert">
+                           <h5>Your booking has been successfully Booked. Please proceed to payment or review your booking again.</h5>
+                       </div>`;
+                   }
                 }else if(msg.result.response.state == 'draft'){
                    document.getElementById('issued-breadcrumb').classList.remove("br-active");
                    document.getElementById('issued-breadcrumb').classList.add("br-fail");

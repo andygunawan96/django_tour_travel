@@ -76,6 +76,10 @@ Licence URI: http://www.os-templates.com/template-terms
                 document.getElementById('medical_searchForm2').submit();
             }else if(type == 'medical_global'){
                 document.getElementById('medical_global_searchForm').submit();
+            }else if(type == 'swab_express'){
+                document.getElementById('swab_express_searchForm').submit();
+            }else if(type == 'lab_pintar'){
+                document.getElementById('lab_pintar_searchForm').submit();
             }
         }
     </script>
@@ -1616,10 +1620,14 @@ Licence URI: http://www.os-templates.com/template-terms
         {% elif template == 4 %}
         .owl-theme .owl-nav [class*=owl-]{
             background: {{color}};
+            color: {{text_color}} !important;
         }
         .owl-theme .owl-nav [class*=owl-]:hover{
-            background: {{color}};
+            background: {{color}} !important;
             opacity: 1;
+        }
+        .owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots .owl-dot:hover span{
+            background: {{color}} !important;
         }
         .modal-header{
             background-color: {{color}};

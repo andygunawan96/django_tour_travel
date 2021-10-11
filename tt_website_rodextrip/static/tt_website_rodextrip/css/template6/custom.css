@@ -161,6 +161,7 @@
   cursor: pointer;
   position: relative;
   border: 2px solid red;
+  height:auto;
 }
 
 .primary-btn-cancel:hover {
@@ -396,6 +397,7 @@
   transition: all 0.3s ease 0s;
   cursor: pointer;
   position: relative;
+  height:auto;
 }
 
 
@@ -855,7 +857,7 @@ div.scrollmenu li {
     transform-origin: left top;
 
     position: absolute;
-    top: 64px;
+    top: 68px;
     left: 52%;
     z-index: 10;
     height: 40px;
@@ -3202,6 +3204,7 @@ display: block;
   margin: 4px 2px;
   cursor: pointer;
   border-radius: 8px;
+  height:auto;
 }
 
 .button-seat-map2 {
@@ -3227,6 +3230,7 @@ display: block;
   font-size: 14px;
   cursor: pointer;
   border-radius:14px;
+  height:auto;
 }
 
 .button-seat-pass:focus{
@@ -3721,3 +3725,22 @@ small,
     background: #f15a22;
     color:white;
 }
+
+:focus{
+    outline: unset !important;
+}
+
+.image-rounded-icon{
+    font-size:24px;
+}
+
+.image-rounded-icon2{
+    font-size:24px;
+    color:white;
+}
+
+.image-rounded-icon2:hover {
+    border: unset !important;
+    color: {{color}};
+}
+

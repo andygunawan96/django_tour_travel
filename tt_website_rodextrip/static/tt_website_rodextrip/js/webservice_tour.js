@@ -1508,10 +1508,19 @@ function tour_get_booking(order_number)
                         conv_status = 'Booked';
                         document.getElementById('voucher_discount').style.display = '';
                         document.getElementById('order_state').innerHTML = 'Your Order Has Been ' + conv_status;
-                        document.getElementById('alert-state').innerHTML = `
-                        <div class="alert alert-success" role="alert">
-                            <h5>Your booking has been successfully Booked. Please proceed to payment or review your booking again.</h5>
-                        </div>`;
+                        var check_error_msg_provider = 0;
+                        for(co_error in msg.result.response.provider_booking){
+                            if(msg.result.response.provider_booking[co_error].error_msg != ''){
+                                 check_error_msg_provider = 1;
+                            }
+                            break;
+                        }
+                        if(check_error_msg_provider != 1){
+                            document.getElementById('alert-state').innerHTML = `
+                            <div class="alert alert-success" role="alert">
+                                <h5>Your booking has been successfully Booked. Please proceed to payment or review your booking again.</h5>
+                            </div>`;
+                        }
                     }
                     else if(cur_state == 'issued'){
                         conv_status = 'Issued';

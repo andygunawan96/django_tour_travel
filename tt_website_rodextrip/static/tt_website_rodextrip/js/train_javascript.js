@@ -2063,7 +2063,7 @@ function print_seat_map(val){
     }else if(template == 5){
         var text = '<div class="input-container-search-ticket"><div class="form-select" id="default-select"><select class="form-control" id="seat_map_wagon_pick" onchange="change_seat_map_from_selection(0);">';
     }else if(template == 6){
-        var text = '<div class="input-container-search-ticket"><div class="form-select" id="default-select"><select class="form-control" id="seat_map_wagon_pick" onchange="change_seat_map_from_selection(0);">';
+        var text = '<div class="input-container-search-ticket"><div class="form-select"><select class="nice-select-default" id="seat_map_wagon_pick" onchange="change_seat_map_from_selection(0);">';
     }
     if(seat_map_response.length != 0){
         for(i in seat_map_response){
@@ -2089,7 +2089,7 @@ function print_seat_map(val){
     }else if(template == 5){
         text+=`</div>`;
     }else if(template == 6){
-        text+=`</div>`;
+        text+=`</div></div>`;
     }
 
 

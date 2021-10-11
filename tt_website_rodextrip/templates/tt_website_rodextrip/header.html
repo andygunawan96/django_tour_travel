@@ -179,9 +179,9 @@
                                 Sign in <i class="fas fa-sign-in-alt"></i>
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button><br/>
-                            <!--<span class="signup_pc_mb">-->
-                                <!--<a style="margin-top:5px; font-size:13px; font-weight:500; cursor:pointer; text-transform: unset; padding:0px 2px; color:{{text_color_login}}" data-toggle="modal" data-target="#myModalb2c"><i class="fas fa-user-plus"></i> {% trans 'Sign Up' %}</a>-->
-                            <!--</span>-->
+                            <span class="signup_pc_mb">
+                                <a style="margin-top:5px; font-size:13px; font-weight:500; cursor:pointer; text-transform: unset; padding:0px 2px; color:{{text_color_login}}" data-toggle="modal" data-target="#myModalb2c"><i class="fas fa-user-plus"></i> {% trans 'Sign Up' %}</a>
+                            </span>
                         </li>
                     </ul>
                 </nav>
@@ -455,7 +455,7 @@
                                     Sign in <i class="fas fa-sign-in-alt"></i>
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
-                                <!--<a class="signup_pc_mb" style="font-size:13px; color:{{text_color}}; background-color:unset; font-weight:500; cursor:pointer; text-transform: unset; padding:0px 2px;" data-toggle="modal" data-target="#myModalb2c"><i class="fas fa-user-plus"></i> {% trans 'Sign Up' %}</a>-->
+                                <a class="signup_pc_mb" style="font-size:13px; color:{{text_color}}; background-color:unset; font-weight:500; cursor:pointer; text-transform: unset; padding:0px 2px;" data-toggle="modal" data-target="#myModalb2c"><i class="fas fa-user-plus"></i> {% trans 'Sign Up' %}</a>
                             </li>
                         </ul>
                     </div>
@@ -837,9 +837,9 @@
                                     Sign in <i class="fas fa-sign-in-alt"></i>
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button><br/>
-                                <!--<span class="signup_pc_mb">-->
-                                    <!--<a style="margin-top:10px; font-size:13px; font-weight:600; cursor:pointer; text-transform: unset; padding:0px 2px;" data-toggle="modal" data-target="#myModalb2c"><i class="fas fa-user-plus"></i> {% trans 'Sign Up' %}</a>-->
-                                <!--</span>-->
+                                <span class="signup_pc_mb">
+                                    <a style="margin-top:10px; font-size:13px; font-weight:600; cursor:pointer; text-transform: unset; padding:0px 2px;" data-toggle="modal" data-target="#myModalb2c"><i class="fas fa-user-plus"></i> {% trans 'Sign Up' %}</a>
+                                </span>
                             </li>
                         </ul>
                     </nav>
@@ -1049,7 +1049,7 @@
                                 Sign in <i class="fas fa-sign-in-alt"></i>
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button><br/>
-                            <!--<span class="sign_up_login signup_pc_mb" style="margin-top:10px; font-size:13px; font-weight:500; cursor:pointer; text-transform: unset; padding:0px 2px;" data-toggle="modal" data-target="#myModalb2c"><i class="fas fa-user-plus"></i> {% trans 'Sign Up' %}</span>-->
+                            <span class="sign_up_login signup_pc_mb" style="margin-top:10px; font-size:13px; font-weight:500; cursor:pointer; text-transform: unset; padding:0px 2px;" data-toggle="modal" data-target="#myModalb2c"><i class="fas fa-user-plus"></i> {% trans 'Sign Up' %}</span>
                         </li>
                     </ul>
                 </nav>
@@ -1074,7 +1074,7 @@
                 {% if username.co_user_login != ''%}
                 <li><a href="{% url 'tt_website_rodextrip:reservation'%}">{% trans 'My Reservation' %}</a></li>
                 {% if "top_up" in username.co_agent_frontend_security %}
-                <li><a href="#">{% trans 'Top Up' %}</a>
+                <li><a href="#">{% trans 'Top Up' %} <i class="fas fa-chevron-down"></i></a>
                     <ul>
                         <li><a href="{% url 'tt_website_rodextrip:top_up'%}">{% trans 'Request' %}</a></li>
                         <li><a href="{% url 'tt_website_rodextrip:top_up_history'%}">{% trans 'History' %}</a></li>
@@ -1083,13 +1083,13 @@
                 {% endif%}
                 <li><a href="{% url 'tt_website_rodextrip:issued_offline'%}">{% trans 'Issued Offline' %}</a></li>
                 {% endif %}
-                <li><a href="#">{% trans 'Highlight' %}</a>
+                <li><a href="#">{% trans 'Highlight' %} <i class="fas fa-chevron-down"></i></a>
                     <ul id="highlight_header_div">
                     </ul>
                 </li>
                 {% if username.co_user_login != '' %}
                 {% if "corp_limitation" in username.co_agent_frontend_security %}
-                <li><a href="#">{% trans 'Balance & Credit' %}</a>
+                <li><a href="#">{% trans 'Balance & Credit' %} <i class="fas fa-chevron-down"></i></a>
                     <ul>
                         <li class="credit_mobile pt5"><a id="credit_limit"></a></li>
                         <li class="balance_mobile pt5"><a id="balance"></a></li>
@@ -1099,9 +1099,12 @@
                 <li><a id="balance"></a></li>
                 {% endif %}
 
-                <li><a href="#">{% trans 'Setting' %}</a>
+                <li><a href="#">{% trans 'Setting' %} <i class="fas fa-chevron-down"></i></a>
                     <ul>
-                        <li class="menu-has-children pt5"><a href="#">{% trans 'Language' %}</a>
+                        {% if "agent_setting_printout" in username.co_agent_frontend_security %}
+                        <li><a href="{% url 'tt_website_rodextrip:setting_footer_printout'%}">{% trans 'Setting Footer Printout' %}</a></li>
+                        {% endif %}
+                        <li class="menu-has-children pt5"><a href="#">{% trans 'Language' %} <i class="fas fa-chevron-down"></i></a>
                             <ul>
                                 <form action="{% url 'set_language' %}" method="post" id="form_language">
                                     {% csrf_token %}
@@ -1116,9 +1119,6 @@
                                 </form>
                             </ul>
                         </li>
-                        {% if "agent_setting_printout" in username.co_agent_frontend_security %}
-                        <li><a href="{% url 'tt_website_rodextrip:setting_footer_printout'%}">{% trans 'Setting Footer Printout' %}</a></li>
-                        {% endif %}
                         <!--                                <li class="menu-has-children pt5"><a href="#">Currency</a>-->
                         <!--                                    <ul>-->
                         <!--                                        <li><a href="#">IDR</a></li>-->
@@ -1128,7 +1128,7 @@
                     </ul>
                 </li>
 
-                <li style="cursor:pointer;"><a style="font-weight:700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px;" title="{{username.co_user_login}}" id="user_login2">{{username.co_user_login}}</a>
+                <li style="cursor:pointer;"><a style="font-weight:700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px;" title="{{username.co_user_login}}" id="user_login2">{{username.co_user_login}} <i class="fas fa-chevron-down"></i></a>
                     <ul>
                         <li><a data-toggle="modal" data-target="#myModalb2c">{% trans 'Sign Up' %}</a></li>
                         {% if "admin" in username.co_agent_frontend_security %}
@@ -1210,9 +1210,9 @@
                         Sign in <i class="fas fa-sign-in-alt"></i>
                         <div class="ld ld-ring ld-cycle"></div>
                     </button><br/>
-                    <!--<span class="signup_pc_mb">-->
-                        <!--<a style="margin-top:5px; font-size:13px; font-weight:500; cursor:pointer; text-transform: unset; padding:0px 2px; color:{{text_color_login}}" data-toggle="modal" data-target="#myModalb2c"><i class="fas fa-user-plus"></i> {% trans 'Sign Up' %}</a>-->
-                    <!--</span>-->
+                    <span class="signup_pc_mb">
+                        <a style="margin-top:5px; font-size:13px; font-weight:500; cursor:pointer; text-transform: unset; padding:0px 2px; color:{{text_color_login}}" data-toggle="modal" data-target="#myModalb2c"><i class="fas fa-user-plus"></i> {% trans 'Sign Up' %}</a>
+                    </span>
                 </li>
             </ul>
 		</nav>

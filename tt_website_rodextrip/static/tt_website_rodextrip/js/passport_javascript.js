@@ -1244,7 +1244,7 @@ function check_on_off_radio(pax_type,number,value){
                             text_requirements += `<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">`;
                         }else if(template == 2 || template == 3){
                             text_requirements += `<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-bottom:15px;">`;
-                        }else if(template == 4 || template == 5){
+                        }else if(template == 4 || template == 5 || template == 6){
                             text_requirements += `<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-bottom:20px;">`;
                         }
                         text_requirements += `
@@ -1349,7 +1349,7 @@ function set_value(pax_type,number){
                             text_requirements += `<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">`;
                         }else if(template == 2 || template == 3){
                             text_requirements += `<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-bottom:15px;">`;
-                        }else if(template == 4 || template == 5){
+                        }else if(template == 4 || template == 5 || template == 6){
                             text_requirements += `<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-bottom:20px;">`;
                         }
                         text_requirements += `

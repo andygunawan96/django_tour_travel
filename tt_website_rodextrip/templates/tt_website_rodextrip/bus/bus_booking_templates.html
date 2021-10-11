@@ -47,7 +47,7 @@
         </div>
     </div>
 </header>
-{% elif template == 2 or template == 3 or template == 4 or template == 5%}
+{% else %}
 <header class="header_breadcrumb" style="position:sticky; top:0px; z-index:100; border-bottom:1px solid #cdcdcd;">
     <div class="main-menu">
         <div class="container">
@@ -84,7 +84,13 @@
             <div class="col-lg-3">
                 <button type="button" class="primary-btn-white" style="width:100%;" onclick="window.location.href='/reservation'"> <i class="fas fa-arrow-left"></i> Back </button>
             </div>
-            <div class="col-lg-9"></div>
+            <div class="col-lg-2 offset-lg-3" id="div_sync_status" hidden>
+                <input type="button" class="primary-btn" id="button-sync-status" style="width:100%;" value="Sync Status" onclick="please_wait_transaction();bus_get_booking('{{order_number}}',true)">
+            </div>
+            <div class="col-lg-4">
+
+            </div>
+
         </div>
         <div class="mt-3" id="show_title_bus" hidden>
             <h3>{% trans 'Please Review Your Booking' %}</h3>

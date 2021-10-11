@@ -957,7 +957,7 @@ function passport_get_data(data){
                                                             text+=`<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">`;
                                                         }else if(template == 2 || template == 3){
                                                             text+=`<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-bottom:20px;">`;
-                                                        }else if(template == 4 || template == 5){
+                                                        }else if(template == 4 || template == 5 || template == 6){
                                                             text+=`<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-bottom:15px;">`;
                                                         }
                                                         text+=`

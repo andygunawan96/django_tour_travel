@@ -541,6 +541,8 @@
             htmls += `<tr>
                         <th>Provider</th>
                         <th># of Issued</th>
+                        <th>Total Price</th>
+                        <th>Total Commission</th>
                       </tr>
                      `;
             for(i in data_report.raw_data.result.response.first_overview){
@@ -548,6 +550,8 @@
                       <tr>
                         <td>`+data_report.raw_data.result.response.first_overview[i].provider+`</td>
                         <td>`+data_report.raw_data.result.response.first_overview[i].issued+`</td>
+                        <td>`+data_report.raw_data.result.response.first_overview[i].total_price+`</td>
+                        <td>`+data_report.raw_data.result.response.first_overview[i].total_commission+`</td>
                       </tr>`
             }
             name += 'Issued report';

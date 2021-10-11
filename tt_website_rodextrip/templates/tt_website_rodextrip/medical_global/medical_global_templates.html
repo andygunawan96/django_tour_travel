@@ -5495,11 +5495,8 @@
 <script>
     {% if username.co_user_login != '' %}
         try{
-            {% if "phc" in provider and "ticketing_phc" in username.co_agent_frontend_security %}
-            get_config_medical('home','phc');
-            {% endif %}
-            {% if "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security %}
-            get_config_medical('home','periksain');
+            {% if "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security %}
+            get_config_medical_global('home');
             {% endif %}
 
         }catch(err){

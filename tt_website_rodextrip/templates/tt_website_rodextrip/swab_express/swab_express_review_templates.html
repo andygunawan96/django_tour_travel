@@ -1,0 +1,359 @@
+{% extends 'tt_website_rodextrip/template_website_booking.html' %}
+{% load i18n %}
+{% load static from staticfiles %}
+{% block content %}
+<!--<script src="{{ static_path }}js/webservice_token.js"></script>-->
+<!--<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>-->
+<script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/swab_express_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_payment_acq.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_swab_express.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/pricing_javascript.js?version={{javascript_version}}"></script>
+<script>
+    static_path_url_server = '{{static_path_url_server}}'
+
+
+    signature = `{{signature}}`;
+    vendor = `{{vendor}}`;
+    test_type = `{{test_type}}`;
+
+    passengers = `{{passenger_booker}}`;
+    passengers = passengers.replace(/&#39;/g, '"');
+    passengers = passengers.replace(/True/g, true);
+    passengers = passengers.replace(/False/g, false);
+    passengers = JSON.parse(passengers);
+</script>
+{% include 'tt_website_rodextrip/logout.html' %}
+{% include 'tt_website_rodextrip/loading_screen.html' %}
+{% include 'tt_website_rodextrip/check_connection.html' %}
+{% include 'tt_website_rodextrip/modal_balance_vendor.html' %}
+<title id="title_search">{{name}} {% trans 'Swab Express' %} - {% trans 'Review' %}</title>
+{%if template == 1%}
+<header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
+    <div class="main-menu">
+        <div class="container">
+            <div class="row align-items-center justify-content-between d-flex">
+                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                    <a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="Logo {{name}}" title="{{name}}" /></a>
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
+
+                </div>
+            </div>
+        </div>
+    </div>
+<!--    {% if username.co_user_login == 'agent_b2c' %}-->
+<!--    {% include 'tt_website_rodextrip/header_signin_signup.html' %}-->
+<!--    {% endif %}-->
+</header>
+{% else %}
+<header class="header_breadcrumb" style="padding:unset; background:white;">
+    <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:15px 0px 15px 0px;">
+        <div class="container">
+            <div class="row align-items-center justify-content-between d-flex">
+                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                    <a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="Logo {{name}}" title="{{name}}" /></a>
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
+
+                </div>
+            </div>
+        </div>
+    </div>
+<!--    {% if username.co_user_login == 'agent_b2c' %}-->
+<!--    {% include 'tt_website_rodextrip/header_signin_signup.html' %}-->
+<!--    {% endif %}-->
+</header>
+{% endif %}
+
+<div class="modal fade" id="waitingTransaction" role="dialog" style="background:rgba(20,20,20,0.8);">
+    <div class="modal-dialog" style="margin: 0; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+        <!-- Modal content-->
+        <div class="modal-content" style="background-color:transparent; border:unset;">
+            <div class="modal-body">
+                <div class="col-lg-12" id="viewWaitingTransaction">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="destinations-area" style="padding-top:30px; padding-bottom:40px; background:#f7f7f7;">
+    <div class="container">
+        <form method="POST" id="swab_express_booking">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3>{% trans 'Please Review Your Booking' %}</h3>
+                    <br/>
+                </div>
+                <div class="col-lg-8">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div style="padding:10px; background-color:white; border:1px solid #cdcdcd;">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <h4>{% trans 'Swab Express Detail' %}</h4>
+                                    </div>
+                                    <div class="col-lg-6" id="test_type_text" style="text-align:right">
+
+                                    </div>
+                                </div>
+                                <hr/>
+                                <table style="width:100%;">
+                                    <tr>
+                                        <th style="width:30%">Area</th>
+                                        <th style="width:50%">Address</th>
+                                        <th style="width:20%">Test Date</th>
+                                    </tr>
+                                    {% if data.data.test_list|length != 0 %}
+                                    {% for rec in data.data.test_list %}
+                                    <tr>
+                                        {% if forloop.counter == 1 %}
+                                        <td>{{data.data.area}}</td>
+                                        <td>{{data.data.address}}</td>
+                                        {% else %}
+                                        <td></td>
+                                        <td></td>
+                                        {% endif %}
+                                        <td>{{rec.date}}
+                                            {% if rec.time == '09:09' %}
+                                                <br/>08:00 - 15:00
+                                            {% else %}
+                                                {{rec.time}}
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% else %}
+                                    <tr>
+                                        <td>{{data.data.area}}</td>
+                                        <td>{{data.data.address}}</td>
+                                        <td>-</td>
+                                    </tr>
+                                    {% endif %}
+                                </table>
+
+                            </div>
+                            <br/>
+                        </div>
+
+                        <div class="col-lg-12" style="margin-top:15px;">
+                            <div class="row">
+                                <div class="col-lg-12" style="padding-bottom:20px;">
+                                    <div style="border:1px solid #cdcdcd; padding:10px; background-color:white;">
+                                        <h4> Contact Person <i class="fas fa-users"></i></h4>
+                                        <hr>
+                                        <h5>Booker / Contact Person</h5>
+                                        <div style="overflow:auto;">
+                                            <table style="width:100%; margin-top:10px; " id="list-of-passenger">
+                                                <tbody><tr>
+                                                    <th style="width:40%;">Name</th>
+                                                    <th style="width:30%;">Email</th>
+                                                    <th style="width:30%;">Phone Number</th>
+                                                </tr>
+                                                <tr>
+                                                    <td>{{data.booker.title}} {{data.booker.first_name}} {{data.booker.last_name}}</td>
+                                                    <td>{{data.booker.email}}</td>
+                                                    <td>{{data.booker.calling_code}} - {{data.booker.mobile}}</td>
+                                                </tr>
+                                                </tbody></table>
+                                        </div>
+                                        <br>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12" style="padding-bottom:20px;">
+                            <button type="button" class="primary-btn-white hold-seat-booking-train ld-ext-right" id="btn-search-train" onclick="goto_edit_passenger();" style="width:100%;">
+                                {% trans 'Edit Passenger' %} <i class="fas fa-user-edit"></i> {% trans 'Or Get New Price' %} <i class="fas fa-tag"></i>
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>
+                        </div>
+
+                        <div class="col-lg-12" style="padding-bottom:20px;">
+                            <div style="border:1px solid #cdcdcd; padding:10px; background-color:white;">
+                                <h4>{% trans 'List of Passenger' %}</h4>
+                                <hr/>
+                                <div style="overflow:auto;">
+                                    <table>
+                                        <tr>
+                                            <th style="width:35%">{% trans 'Name' %}</th>
+                                            <th style="width:15%">{% trans 'Birth Date' %}</th>
+                                            <th style="width:15%">{% trans 'ID Type' %}</th>
+                                            <th style="width:20%">{% trans 'ID Number' %}</th>
+                                            {% if vendor == 'periksain' %}
+                                            <th style="width:15%">{% trans 'Sample Method' %}</th>
+                                            {% endif %}
+                                        </tr>
+                                        {% for adult in data.passengers%}
+                                        <tr>
+                                            <td>{{adult.title}} {{adult.first_name}} {{adult.last_name}}</td>
+                                            <td>{{adult.birth_date}}</td>
+                                            <td>{{adult.identity.identity_type}}</td>
+                                            <td>{{adult.identity.identity_number}}</td>
+                                            {% if vendor == 'periksain' %}
+                                            <td>{{adult.sample_method}}</td>
+                                            {% endif %}
+                                        </tr>
+                                        {% endfor %}
+
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4" style="padding-bottom:20px;">
+                    <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="swab_express_detail">
+
+                    </div>
+                    {% if 'issued_reservation' in username.co_agent_frontend_security %}
+                    {% include 'tt_website_rodextrip/voucher_code.html'  %}
+                    {% endif %}
+                    <div style="background-color:white; padding:10px; border:1px solid {{color}};margin-top:15px; position:relative;" id="payment_acq" hidden>
+
+                    </div>
+                </div>
+                <div class="modal fade" id="myModalRepricing" role="dialog">
+                    <div class="modal-dialog" style="width:100% !important; height:100% !important; max-width:1200px;padding: 0;">
+
+                        <!-- Modal content-->
+                        <div class="modal-content" style="border-radius: 0;">
+                            <div class="modal-header">
+                                <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Reprice Change' %} <i class="fas fa-money"></i></h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-lg-8">
+                                        <div class="row" id="pricing" style="padding:15px;">
+                                            <div class="col-lg-12" style="max-height:500px; overflow-y:auto; border:1px solid #cdcdcd; background-color:white; margin-top:15px;">
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <h4 style="padding-top:10px;">{% trans 'Pricing' %}</h4>
+                                                        <hr/>
+                                                    </div>
+                                                    <div class="col-lg-12" style="text-align:right;">
+                                                        <button class="primary-btn-ticket" type="button" onclick="add_table_of_equation(false);"><i class="fas fa-plus-circle"></i></button>
+                                                        <button class="primary-btn-ticket" type="button" onclick="delete_table_of_equation();"><i class="fas fa-trash-alt"></i></button>
+                                                        <br/>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <div style="padding:10px;" id="table_of_equation">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12" style="margin-bottom:15px; margin-top:15px;">
+                                                        <hr/>
+                                                        <center>
+                                                            <input class="primary-btn-ticket" type="button" onclick="calculate('airline_review');" value="Calculate">
+                                                        </center>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="row" style="padding:15px;">
+                                            <div class="col-lg-12" style="padding:10px; background-color:white; border:1px solid #cdcdcd; margin-top:15px;">
+                                                <h4>{% trans 'Result Pricing' %}</h4>
+                                                <hr/>
+                                                <div class="row" id="repricing_div">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="row">
+                        <div class="col-lg-4">
+
+                        </div>
+                        <div class="col-lg-4"></div>
+                        <div class="col-lg-4" style="padding-bottom:10px;">
+                            {% if 'book_reservation' in username.co_agent_frontend_security %}
+                            <button type="button" class="primary-btn hold-seat-booking-train ld-ext-right" id="btn-search-train" onclick="pre_swab_express_commit_booking(0);" style="width:100%;">
+                                {% trans 'Book Now' %}
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>
+                            {% endif %}
+                        </div>
+                        <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
+                        <div class="col-lg-6" style="padding-bottom:10px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <form method="POST" id="swab_express_issued" action="{% url 'tt_website_rodextrip:payment'%}">
+            {% csrf_token %}
+            <input type="hidden" id="passengers" name="passengers"/>
+            <input type="hidden" id="signature" name="signature"/>
+            <input type="hidden" id="order_number" name="order_number"/>
+            <input type="hidden" id="provider" name="provider"/>
+            <input type="hidden" id="discount" name="discount"/>
+            <input type="hidden" id="voucher_code" name="voucher_code"/>
+            <input type="hidden" id="type" name="type"/>
+            <input type="hidden" id="session_time_input" name="session_time_input"/>
+        </form>
+        <form id="swab_express_edit_passenger" class="form-wrap" action=`{{go_back_url}}` method="POST">
+            {% csrf_token %}
+            <input type="hidden" id="signature_data" name="signature" value="{{signature}}" />
+            <input type="hidden" id="swab_express_type" name="swab_express_type" value="{{test_type}}" />
+        </form>
+    </div>
+</section>
+{% include 'tt_website_rodextrip/footer.html' %}
+{% if username.co_user_login == 'agent_b2c' %}
+{% include 'tt_website_rodextrip/modal_signin_signup.html' %}
+{% endif %}
+<script>
+    $text = '';
+    $text += 'Test Area\n';
+    {% for rec in data.data.test_list %}
+        {% if forloop.counter == 1 %}
+            $text += 'Area: {{data.data.area}}\n';
+            $text += 'Address: {{data.data.address}}\n';
+        {% endif %}
+        $text += 'Date: {{rec.date}}\n';
+        {% if rec.time == '09:09' %}
+            $text += 'Time: 08:00 - 15:00\n'
+        {% else %}
+            $text += 'Time: {{rec.time}}\n'
+        {% endif %}
+    {% endfor %}
+    $text += '\nCustomer\n'
+    {% for adult in data.passengers%}
+        $text += 'Name: {{adult.title}} {{adult.first_name}} {{adult.last_name}}\n';
+        $text += 'Birth Date: {{adult.birth_date}}\n';
+        $text += '{{adult.identity.identity_type}}: {{adult.identity.identity_number}}\n';
+        {% if vendor == 'periksain' %}
+        $text += 'Sample Method: {{adult.sample_method}}\n';
+        {% endif %}
+    {% endfor %}
+    $text += `\n`;
+    get_config_swab_express('review','{{vendor}}');
+    $( document ).ready(function() {
+        breadcrumb_create("medical", 3, 0);
+        swab_express_get_cache_price();
+        $('.loader-rodextrip').fadeOut();
+    });
+    function goto_edit_passenger(){
+        document.getElementById('swab_express_edit_passenger').submit();
+    }
+</script>
+
+{% endblock %}

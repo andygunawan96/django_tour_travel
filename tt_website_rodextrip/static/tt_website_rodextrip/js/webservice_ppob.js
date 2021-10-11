@@ -660,10 +660,19 @@ function ppob_get_booking(data){
                        //document.getElementById('issued-breadcrumb').classList.add("current");
                        document.getElementById('issued-breadcrumb').classList.add("br-active");
                        document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
-                       document.getElementById('alert-state').innerHTML = `
-                       <div class="alert alert-success" role="alert">
-                           <h5>Your booking has been successfully Booked. Please proceed to payment or review your booking again.</h5>
-                       </div>`;
+                       var check_error_msg_provider = 0;
+                       for(co_error in msg.result.response.provider_booking){
+                           if(msg.result.response.provider_booking[co_error].error_msg != ''){
+                                check_error_msg_provider = 1;
+                           }
+                           break;
+                       }
+                       if(check_error_msg_provider != 1){
+                           document.getElementById('alert-state').innerHTML = `
+                           <div class="alert alert-success" role="alert">
+                               <h5>Your booking has been successfully Booked. Please proceed to payment or review your booking again.</h5>
+                           </div>`;
+                       }
                    }catch(err){}
                 }else if(msg.result.response.state == 'draft'){
                    document.getElementById('issued-breadcrumb').classList.remove("br-active");

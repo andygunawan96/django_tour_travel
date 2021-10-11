@@ -1796,15 +1796,20 @@ function overview_overall(data){
     // declare return variable
     var content = ``;
     var total = 0;
+    var total_price = 0;
+    var total_commission = 0
 
     // first section of overview
+    console.log(data);
     content += `
     <div class="mb-3" style="overflow:auto;">
         <table class="table list-of-reservation" id="overall_table">
             <thead>
                 <tr>
-                    <th style="width:50%;">Provider</th>
-                    <th style="width:50%;"># of Issued</th>
+                    <th style="width:25%;">Provider</th>
+                    <th style="width:25%;"># of Issued</th>
+                    <th style="width:25%;">Total Price</th>
+                    <th style="width:25%;">Total Commission</th>
                 </tr>
             </thead>
             <tbody>
@@ -1812,11 +1817,15 @@ function overview_overall(data){
 
     // iterate every data
     for (i in data){
-        total += data[i]['counter']
+        total += data[i]['counter'];
+        total_price += data[i]['total_price'];
+        total_commission += data[i]['total_commission'];
         content += `
             <tr>
                 <td>`+ data[i]['provider'] +`</td>
                 <td>`+ data[i]['counter'] +`</td>
+                <td>`+ data[i]['total_price'] +`</td>
+                <td>`+ data[i]['total_commission'] +`</td>
             </tr>
         `;
     }
@@ -1828,6 +1837,8 @@ function overview_overall(data){
                 <tr>
                     <th>Totals</th>
                     <th>`+ total +`</th>
+                    <th>`+ total_price +`</th>
+                    <th>`+ total_commission +`</th>
                 </tr>
             </tfoot>
         </table>

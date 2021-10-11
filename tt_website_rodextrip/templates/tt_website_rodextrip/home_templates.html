@@ -17,6 +17,8 @@
 <script src="{{ static_path }}js/webservice_event.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_medical.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_medical_global.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_swab_express.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_lab_pintar.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_bus.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/ppob_javascript.js?version={{javascript_version}}"></script>
@@ -30,6 +32,8 @@
 <script src="{{ static_path }}js/tour_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/event_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/medical_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/swab_express_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/lab_pintar_javascript.js?version={{javascript_version}}"></script>
 <!--<script src="{{ static_path }}js/webservice_bank.js?version={{javascript_version}}"></script>-->
 <script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/daterangepicker.js?version={{javascript_version}}"></script>
@@ -240,7 +244,7 @@
                             <input type="hidden" value="ID - Indonesia" id="hotel_id_nationality_wizard" class="form-control" name="hotel_id_nationality_wizard" />
                         </div>
 
-                        <div class="col-lg-12" style="margin-top:5px;float:left; display:flex;">
+                        <div class="col-lg-12" style="margin-top:15px;float:left; display:flex;">
                             <label class="check_box_custom cblabel">
                                 <span style="font-size:13px;" id="business_trip_help_show_wizard">{% trans 'Business Trip' %}</span>
                                 <input type="checkbox" value="true" onclick="business_trip_check();">
@@ -408,6 +412,20 @@
                             <a class="nav-link {%if forloop.counter == 1 %}active{%endif%}" id="medical_global-tab" data-toggle="tab" href="#medical_global" role="tab" aria-controls="medical2" aria-selected="false">
                                 <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Medical Icon"/></i>
                                 <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'Medical' %} </span>
+                            </a>
+                        </li>
+                        {% elif "swab.express" in provider and "ticketing_swab_express" in username.co_agent_frontend_security and rec.name == "swab.express" %}
+                        <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'swab_express');" id="nav_scroll_menu_swab_express">
+                            <a class="nav-link {%if forloop.counter == 1 %}active{%endif%}" id="swab_express-tab" data-toggle="tab" href="#swab_express" role="tab" aria-controls="swab_express" aria-selected="false">
+                                <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Swab Express Icon"/></i>
+                                <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'Swab Express' %} </span>
+                            </a>
+                        </li>
+                        {% elif "lab.pintar" in provider and "ticketing_lab_pintar" in username.co_agent_frontend_security and rec.name == "lab.pintar" %}
+                        <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'lab_pintar');" id="nav_scroll_menu_lab_pintar">
+                            <a class="nav-link {%if forloop.counter == 1 %}active{%endif%}" id="lab_pintar-tab" data-toggle="tab" href="#lab_pintar" role="tab" aria-controls="lab_pintar" aria-selected="false">
+                                <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Lab Pintar Icon"/></i>
+                                <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'Lab Pintar' %} </span>
                             </a>
                         </li>
                         {% endif %}
@@ -777,7 +795,7 @@
                                     <div class="col-lg-6">
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 col-sm-6 train-from" style="padding-left:0px;">
-                                                <span class="span-search-ticket"><i class="fas fa-train"></i> {% trans 'From' %}</span>
+                                                <span class="span-search-ticket"><i class="fas fa-bus"></i> {% trans 'From' %}</span>
                                                 <div class="input-container-search-ticket">
                                                     <input id="bus_origin" name="bus_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_origin').select();" onclick="set_train_search_value_to_false();" value="">
                                                 </div>
@@ -786,7 +804,7 @@
                                                 <span><a href="javascript:bus_switch();" style="z-index:5; color:black;" id="bus_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></span>
                                             </div>
                                             <div class="image-change-route-horizontal2">
-                                                <span><a class="horizontal-arrow" href="javascript:bus_switch();" style="z-index:5; color:{{text_color}} !important;" id="train_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></span>
+                                                <span><a class="horizontal-arrow" href="javascript:bus_switch();" style="z-index:5; color:{{text_color}} !important;" id="bus_switch2"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></span>
                                             </div>
 
                                             <div class="col-lg-6 col-md-6 col-sm-6 train-to" style="z-index:5; padding-right:0px;">
@@ -870,6 +888,62 @@
                                 <br/>
                                 <center>
                                     <button class="button-search primary-btn ld-ext-right" type="button" onclick="get_captcha('recaptcha_medical_global','medical_global');" value="Submit">
+                                        <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                        {% trans 'Search' %}
+                                        <div class="ld ld-ring ld-cycle"></div>
+                                    </button>
+                                </center>
+                            </form>
+                        </div>
+                        {% endif %}
+                        {% if "swab.express" in provider and "ticketing_swab_express" in username.co_agent_frontend_security %}
+                        <div class="tab-pane fade {%if provider_types_sequence.0.name == 'swab_express' %}show active {% endif %} " id="swab_express" role="tabpanel" aria-labelledby="swab_express-tab">
+                            <form action="{% url 'tt_website_rodextrip:swab_express_passenger'%}" class="form-wrap" id="swab_express_searchForm" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="g-recaptcha-response" id='recaptcha_swab_express'>
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12" style="padding:0px;">
+                                        <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Swab Type' %}</span>
+                                        <div class="input-container-search-ticket">
+                                            <div class="form-select">
+                                                <select id="swab_express_type" name="swab_express_type" class="nice-select-default">
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br/>
+                                <center>
+                                    <button class="button-search primary-btn ld-ext-right" type="button" onclick="get_captcha('recaptcha_swab_express','swab_express');" value="Submit">
+                                        <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                        {% trans 'Search' %}
+                                        <div class="ld ld-ring ld-cycle"></div>
+                                    </button>
+                                </center>
+                            </form>
+                        </div>
+                        {% endif %}
+                        {% if "lab.pintar" in provider and "ticketing_lab_pintar" in username.co_agent_frontend_security %}
+                        <div class="tab-pane fade {%if provider_types_sequence.0.name == 'lab_pintar' %}show active {% endif %} " id="lab_pintar" role="tabpanel" aria-labelledby="lab_pintar-tab">
+                            <form action="{% url 'tt_website_rodextrip:lab_pintar_passenger'%}" class="form-wrap" id="lab_pintar_searchForm" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="g-recaptcha-response" id='recaptcha_lab_pintar'>
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12" style="padding:0px;">
+                                        <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Swab Type' %}</span>
+                                        <div class="input-container-search-ticket">
+                                            <div class="form-select">
+                                                <select id="lab_pintar_type" name="lab_pintar_type" class="nice-select-default">
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br/>
+                                <center>
+                                    <button class="button-search primary-btn ld-ext-right" type="button" onclick="get_captcha('recaptcha_swab_express','lab_pintar');" value="Submit">
                                         <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                         {% trans 'Search' %}
                                         <div class="ld ld-ring ld-cycle"></div>
@@ -978,7 +1052,7 @@
                                             </ul>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-6" style="padding:0px;">
+                                    <div class="col-lg-6 col-md-6" style="padding:0px; margin-bottom:15px;">
                                         <span class="span-search-ticket"><i class="fas fa-globe-asia"></i> {% trans 'Guest Nationality' %}</span>
                                         <select class="js-example-basic-single" name="hotel_id_nationality_id" style="width:100%;" id="hotel_id_nationality_id" placeholder="{% trans 'Guest Nationality' %}" onchange="auto_complete('hotel_id_nationality')" class="nice-select-default">
                                             {% for country in countries %}
@@ -992,7 +1066,7 @@
                                         <input type="hidden" value="ID - Indonesia" id="hotel_id_nationality" class="form-control" name="hotel_id_nationality" />
                                     </div>
 
-                                    <div class="col-lg-12" style="padding:0px;margin-top:5px;float:left; display:contents;">
+                                    <div class="col-lg-12" style="padding:0px;margin-top:15px;float:left; display:contents;">
                                         <label class="check_box_custom cblabel">
                                             <span class="span-search-ticket" id="business_trip_help_show" style="font-size:13px;">{% trans 'Business Trip' %}</span>
                                             <input type="checkbox" value="true" onclick="business_trip_check();">
@@ -1038,14 +1112,14 @@
                                             <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Location' %} </span>
                                         </div>
                                         <div class="row">
-                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                            <div class="col-lg-6 col-md-6" style="padding:0px;">
                                                 <div class="form-select">
                                                     <select class="js-example-basic-single" style="width:100%;" id="activity_countries" size="5" data-live-search="true" name="activity_countries">
                                                         <option value="" selected="">{% trans 'All Countries' %}</option>
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                            <div class="col-lg-6 col-md-6" style="padding:0px;">
                                                 <div class="form-select">
                                                     <div id="temp_activity_cities">
                                                         <select class="js-example-basic-single" style="width:100%;" id="activity_cities" name="activity_cities" size="5">
@@ -1064,21 +1138,21 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 search_type">
+                                            <div class="col-lg-4 col-md-4 search_type">
                                                 <div class="form-select">
                                                     <select class="js-example-basic-single" style="width:100%;" id="activity_type" name="activity_type" data-live-search="true" size="5">
                                                         <option value="0" selected="">{% trans 'All Types' %}</option>
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding:0px;">
+                                            <div class="col-lg-4 col-md-4" style="padding:0px;">
                                                 <div class="form-select">
                                                     <select class="js-example-basic-single" style="width:100%;" id="activity_category" name="activity_category" size="5">
                                                         <option value="0" selected="">{% trans 'All Categories' %}</option>
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding:0px;">
+                                            <div class="col-lg-4 col-md-4" style="padding:0px;">
                                                 <div class="form-select">
                                                     <div id="temp_activity_sub_category">
                                                         <select class="js-example-basic-single" style="width:100%;" id="activity_sub_category" name="activity_sub_category" size="5">
@@ -1127,14 +1201,14 @@
                                             <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Destination' %} </span>
                                         </div>
                                         <div class="row">
-                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                            <div class="col-lg-6 col-md-6" style="padding:0px;">
                                                 <div class="form-select">
                                                     <select class="js-example-basic-single" style="width:100%;" id="tour_countries" size="5" data-live-search="true" name="tour_countries">
                                                         <option value="0" selected="">{% trans 'All Countries' %}</option>
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                            <div class="col-lg-6 col-md-6" style="padding:0px;">
                                                 <div class="form-select">
                                                     <div id="temp_tour_cities">
                                                         <select class="js-example-basic-single" style="width:100%;" id="tour_cities" name="tour_cities" size="5">
@@ -1153,7 +1227,7 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 search_type">
+                                            <div class="col-lg-6 col-md-6 search_type">
                                                 <div class="input-container-search-ticket">
                                                     <div class="form-select">
                                                         <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_month" id="tour_dest_month" size="5">
@@ -1174,7 +1248,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                            <div class="col-lg-6 col-md-6" style="padding:0px;">
                                                 <input id="tour_hidden_year" type="hidden" value=""/>
                                                 <div class="form-select">
                                                     <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_year" id="tour_dest_year" size="5">
@@ -2212,14 +2286,14 @@
     <div class="hotel-search-form-area" style="position:relative;">
         <div class="container-fluid">
             {% if username.co_user_name != '' %}
-            <h2 style="color:{{text_color}}; padding-bottom:20px;">
+            <h3 style="color:{{text_color}}; padding-bottom:20px;">
                 {% if username.co_user_login != 'agent_b2c' %}
                 {% trans 'Hello' %}, {{username.co_user_name}}!
                 {% trans 'Grow your business with' %} <span class="lamp">{{name}}</span>
                 {% else %}
                 {% trans 'Hello, dear customer, book your trip with us' %}
                 {% endif %}
-            </h2>
+            </h3>
             {% endif %}
             <div id="overlay-search-box" onclick="off_overlay()"></div>
             <div class="hotel-search-form" id="div-search-overlay" style="padding:25px;">
@@ -2651,7 +2725,7 @@
                                         </div>
                                     </ul>
                                 </div>
-                                <div class="col-lg-3 col-md-6 col-sm-6">
+                                <div class="col-lg-3 col-md-6 col-sm-6" style="margin-bottom:15px;">
                                     <span class="span-search-ticket"><i class="fas fa-globe-asia"></i> {% trans 'Guest Nationality' %}</span>
                                     <select class="js-example-basic-single" name="hotel_id_nationality_id" style="width:100%;" id="hotel_id_nationality_id" placeholder="{% trans 'Guest Nationality' %}" onchange="auto_complete('hotel_id_nationality')" class="nice-select-default">
                                         {% for country in countries %}
@@ -2664,7 +2738,7 @@
                                     </select>
                                     <input type="hidden" value="ID - Indonesia" id="hotel_id_nationality" class="form-control" name="hotel_id_nationality" />
                                 </div>
-                                <div class="col-lg-12" style="margin-top:5px;">
+                                <div class="col-lg-12" style="margin-bottom:15px;">
                                     <label class="check_box_custom cblabel">
                                         <span class="span-search-ticket" id="business_trip_help_show" style="font-size:13px;">{% trans 'Business Trip' %}</span>
                                         <input type="checkbox" value="true" onclick="business_trip_check();">
@@ -2689,13 +2763,13 @@
                             {% csrf_token %}
                             <input type="hidden" name="g-recaptcha-response" id='recaptcha_activity'>
                             <div class="row">
-                                <div class="col-lg-10 col-md-9 col-sm-8 col-xs-8">
+                                <div class="col-lg-10 col-md-9">
                                     <span class="span-search-ticket"><i class="fas fa-umbrella-beach"></i> {% trans 'Activity' %}</span>
                                     <div class="input-container-search-ticket">
                                         <input type="text" class="form-control" name="activity_query" id="activity_query" placeholder="{% trans 'Search for Activities, Theme Parks, etc' %}" autocomplete="off"/>
                                     </div>
                                 </div>
-                                <div class="col-lg-2 col-md-3 col-sm-4 col-xs-4">
+                                <div class="col-lg-2 col-md-3">
                                     <span class="span-search-ticket">&nbsp;</span>
                                     <div class="input-container-search-ticket">
                                         <button type="button" class="form-control activity_btn_advance" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="display:block;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
@@ -2711,14 +2785,14 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                        <div class="col-lg-6 col-md-6">
                                             <div class="form-select">
                                                 <select class="js-example-basic-single" style="width:100%;" id="activity_countries" size="5" data-live-search="true" name="activity_countries">
                                                     <option value="" selected="">{% trans 'All Countries' %}</option>
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                        <div class="col-lg-6 col-md-6">
                                             <div class="form-select">
                                                 <div id="temp_activity_cities">
                                                     <select class="js-example-basic-single" style="width:100%;" id="activity_cities" name="activity_cities" size="5">
@@ -2730,28 +2804,28 @@
                                     </div>
                                 </div>
 
-                                <div class="col-lg-6">
+                                <div class="col-lg-6 mt-2">
                                     <div class="row">
-                                        <div class="col-lg-12 search_type">
+                                        <div class="col-lg-12">
                                             <span class="span-search-ticket"><i class="fa fa-folder-open"></i> {% trans 'Category / Type' %} </span>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                        <div class="col-lg-4 col-md-4">
                                             <div class="form-select">
                                                 <select class="js-example-basic-single" style="width:100%;" id="activity_type" name="activity_type" data-live-search="true" size="5">
                                                     <option value="0" selected="">{% trans 'All Types' %}</option>
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                        <div class="col-lg-4 col-md-4">
                                             <div class="form-select">
                                                 <select class="js-example-basic-single" style="width:100%;" id="activity_category" name="activity_category" size="5">
                                                     <option value="0" selected="">{% trans 'All Categories' %}</option>
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                        <div class="col-lg-4 col-md-4">
                                             <div class="form-select">
                                                 <div id="temp_activity_sub_category">
                                                     <select class="js-example-basic-single" style="width:100%;" id="activity_sub_category" name="activity_sub_category" size="5">
@@ -2780,13 +2854,13 @@
                             {% csrf_token %}
                             <input type="hidden" name="g-recaptcha-response" id='recaptcha_tour'>
                             <div class="row">
-                                <div class="col-lg-10 col-md-9 col-sm-8 col-xs-8">
+                                <div class="col-lg-10 col-md-9">
                                     <span class="span-search-ticket"><i class="fas fa-briefcase"></i> {% trans 'Tour' %}</span>
                                     <div class="input-container-search-ticket">
                                         <input type="text" class="form-control" name="tour_query" id="tour_query" placeholder="{% trans 'Search for Tour' %}" autocomplete="off"/>
                                     </div>
                                 </div>
-                                <div class="col-lg-2 col-md-3 col-sm-4 col-xs-4">
+                                <div class="col-lg-2 col-md-3">
                                     <span class="span-search-ticket">&nbsp;</span>
                                     <div class="input-container-search-ticket">
                                         <button type="button" class="form-control" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
@@ -2802,14 +2876,14 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                        <div class="col-lg-6 col-md-6">
                                             <div class="form-select">
                                                 <select class="js-example-basic-single" style="width:100%;" id="tour_countries" size="5" data-live-search="true" name="tour_countries">
                                                     <option value="0" selected="">{% trans 'All Countries' %}</option>
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                        <div class="col-lg-6 col-md-6">
                                             <div class="form-select">
                                                 <div id="temp_tour_cities">
                                                     <select class="js-example-basic-single" style="width:100%;" id="tour_cities" name="tour_cities" size="5">
@@ -2821,14 +2895,14 @@
                                     </div>
                                 </div>
 
-                                <div class="col-lg-6">
+                                <div class="col-lg-6 mt-2">
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure Time' %} </span>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                        <div class="col-lg-6 col-md-6">
                                             <div class="form-select">
                                                 <select class="js-example-basic-single" onchange="" name="tour_dest_month" id="tour_dest_month" size="5" style="width:100% !important;">
                                                     <option value="00" selected="True">{% trans 'All Months' %}</option>
@@ -2847,7 +2921,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                        <div class="col-lg-6 col-md-6">
                                             <input id="tour_hidden_year" type="hidden" value=""/>
                                             <div class="form-select">
                                                 <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_year" id="tour_dest_year" size="5">
@@ -2916,7 +2990,7 @@
                             {% csrf_token %}
                             <input type="hidden" name="g-recaptcha-response" id='recaptcha_passport'>
                             <div class="row">
-                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                <div class="col-lg-4 col-md-4 mb-3">
                                     <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Passport Type' %}</span>
                                     <div class="form-select">
                                         <select class="form-control js-example-basic-single" style="width:100%;" id="passport_type_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('passport_type')">
@@ -2925,7 +2999,7 @@
                                     </div>
                                     <input type="hidden" name="passport_type" id="passport_type" />
                                 </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                <div class="col-lg-4 col-md-4 mb-3">
                                     <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Apply Type' %}</span>
                                     <div class="form-select">
                                         <select class="form-control js-example-basic-single" style="width:100%;" id="passport_apply_type_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('passport_apply_type')">
@@ -2934,7 +3008,7 @@
                                     </div>
                                     <input type="hidden" name="passport_apply_type" id="passport_apply_type" />
                                 </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                <div class="col-lg-4 col-md-4 mb-3">
                                     <span class="span-search-ticket"><i class="fas fa-city"></i> {% trans 'Consulate' %}</span>
                                     <div class="form-select">
                                         <select class="form-control js-example-basic-single" style="width:100%;" id="consulate_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('consulate')">
@@ -3180,12 +3254,11 @@
                                             </div>
                                         </div>
                                         <div class="image-change-route-vertical2">
-                                            <span><a href="javascript:bus_switch();" style="z-index:5; color:black;" id="bus_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></span>
+                                            <h4><a href="javascript:bus_switch();" style="z-index:5;" id="bus_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
                                         </div>
                                         <div class="image-change-route-horizontal2">
-                                            <span><a class="horizontal-arrow" href="javascript:bus_switch();" style="z-index:5; color:{{text_color}} !important;" id="train_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></span>
+                                            <h4><a class="horizontal-arrow" href="javascript:bus_switch();" style="z-index:5; color:{{text_color}};" id="bus_switch2"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></h4>
                                         </div>
-
                                         <div class="col-lg-6 col-md-6 col-sm-6 train-to" style="z-index:5;">
                                             <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> {% trans 'To' %}</span>
                                             <div class="input-container-search-ticket">
@@ -3836,8 +3909,8 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6" style="z-index:4;">
-                                        <h4 class="image-change-route-vertical"><a href="javascript:train_switch();" style="z-index:5;" id="train_switch"><i class="fas fa-exchange-alt"></i></a></h4>
-                                        <h4 class="image-change-route-horizontal"><a href="javascript:train_switch();" style="z-index:5;" id="train_switch"><i class="fas fa-exchange-alt"></i></a></h4>
+                                        <h3 class="image-change-route-vertical"><a class="switch_a" href="javascript:train_switch();" tabindex="-1" style="z-index:5;" id="train_switch"><i class="fas fa-exchange-alt icon-change"></i></a></h3>
+                                        <h3 class="image-change-route-horizontal"><a class="switch_a" href="javascript:train_switch();" tabindex="-1" style="z-index:5;" id="train_switch2"><i class="fas fa-exchange-alt icon-change"></i></a></h3>
                                         <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> {% trans 'To' %}</span>
                                         <div class="form-group">
                                             <input id="train_destination" name="train_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('train_destination').select();" onclick="set_train_search_value_to_false();" value="GMR - Gambir">
@@ -4079,14 +4152,14 @@
                                     <div class="col-lg-12">
                                         <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Location' %} </span>
                                         <div class="row">
-                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                            <div class="col-lg-6 col-md-6">
                                                 <div class="form-group">
                                                     <select class="js-example-basic-single" style="width:100%;" id="activity_countries" size="5" data-live-search="true" name="activity_countries">
                                                         <option value="" selected="">{% trans 'All Countries' %}</option>
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                            <div class="col-lg-6 col-md-6">
                                                 <div class="form-group">
                                                     <div id="temp_activity_cities">
                                                         <select class="js-example-basic-single" style="width:100%;" id="activity_cities" name="activity_cities" size="5">
@@ -4101,21 +4174,21 @@
                                     <div class="col-lg-12">
                                         <span class="span-search-ticket"><i class="fa fa-folder-open"></i> {% trans 'Category / Type' %} </span>
                                         <div class="row">
-                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                            <div class="col-lg-4 col-md-4">
                                                 <div class="form-group">
                                                     <select class="js-example-basic-single" style="width:100%;" id="activity_type" name="activity_type" data-live-search="true" size="5">
                                                         <option value="0" selected="">{% trans 'All Types' %}</option>
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                            <div class="col-lg-4 col-md-4">
                                                 <div class="form-group">
                                                     <select class="js-example-basic-single" style="width:100%;" id="activity_category" name="activity_category" size="5">
                                                         <option value="0" selected="">{% trans 'All Categories' %}</option>
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                            <div class="col-lg-4 col-md-4">
                                                 <div class="form-group">
                                                     <div id="temp_activity_sub_category">
                                                         <select class="js-example-basic-single" style="width:100%;" id="activity_sub_category" name="activity_sub_category" size="5">
@@ -4163,14 +4236,14 @@
                                     <div class="col-lg-12">
                                         <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Destination' %} </span>
                                         <div class="row">
-                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                            <div class="col-lg-6 col-md-6">
                                                 <div class="form-group">
                                                     <select class="js-example-basic-single" style="width:100%;" id="tour_countries" size="5" data-live-search="true" name="tour_countries">
                                                         <option value="0" selected="">{% trans 'All Countries' %}</option>
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                            <div class="col-lg-6 col-md-6">
                                                 <div class="form-group">
                                                     <div id="temp_tour_cities">
                                                         <select class="js-example-basic-single" style="width:100%;" id="tour_cities" name="tour_cities" size="5">
@@ -4189,7 +4262,7 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                            <div class="col-lg-6 col-md-6">
                                                 <div class="form-group">
                                                     <div class="form-select">
                                                         <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_month" id="tour_dest_month" size="5">
@@ -4210,7 +4283,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                            <div class="col-lg-6 col-md-6">
                                                 <input id="tour_hidden_year" type="hidden" value=""/>
                                                 <div class="form-select">
                                                     <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_year" id="tour_dest_year" size="5">
@@ -4239,7 +4312,7 @@
                                 {% csrf_token %}
                                 <input type="hidden" name="g-recaptcha-response" id='recaptcha_visa'>
                                 <div class="row">
-                                    <div class="col-lg-4 col-md-4 col-sm-4">
+                                    <div class="col-lg-12">
                                         <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Destination' %}</span>
                                         <div class="form-group">
                                             <div class="default-select">
@@ -4250,13 +4323,13 @@
                                         </div>
                                         <input type="hidden" name="visa_destination_id" id="visa_destination_id_hidden" />
                                     </div>
-                                    <div class="col-lg-4 col-md-4 col-sm-4">
+                                    <div class="col-lg-12">
                                         <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure Date' %}</span>
                                         <div class="form-group">
                                             <input type="text" class="form-control" style="cursor:pointer; background:white;" name="visa_departure" id="visa_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 col-md-4 col-sm-4" style="margin-bottom:15px;">
+                                    <div class="col-lg-12" style="margin-bottom:15px;">
                                         <span class="span-search-ticket"><i class="fas fa-city"></i> {% trans 'Consulate' %}</span>
                                         <div class="form-group">
                                             <select class="form-control js-example-basic-single" style="width:100%;" id="visa_consulate_id" placeholder="{% trans 'Consulate' %}" onchange="visa_autocomplete('consulate','home')">
@@ -4285,7 +4358,7 @@
                                 {% csrf_token %}
                                 <input type="hidden" name="g-recaptcha-response" id='recaptcha_passport'>
                                 <div class="row">
-                                    <div class="col-lg-4 col-md-4 col-sm-4">
+                                    <div class="col-lg-12 mb-3">
                                         <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Passport Type' %}</span>
                                         <div class="form-select">
                                             <select class="form-control js-example-basic-single" style="width:100%;" id="passport_type_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('passport_type')">
@@ -4294,7 +4367,7 @@
                                         </div>
                                         <input type="hidden" name="passport_type" id="passport_type" />
                                     </div>
-                                    <div class="col-lg-4 col-md-4 col-sm-4">
+                                    <div class="col-lg-12 mb-3">
                                         <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Apply Type' %}</span>
                                         <div class="form-select">
                                             <select class="form-control js-example-basic-single" style="width:100%;" id="passport_apply_type_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('passport_apply_type')">
@@ -4303,7 +4376,7 @@
                                         </div>
                                         <input type="hidden" name="passport_apply_type" id="passport_apply_type" />
                                     </div>
-                                    <div class="col-lg-4 col-md-4 col-sm-4">
+                                    <div class="col-lg-12 mb-3">
                                         <span class="span-search-ticket"><i class="fas fa-city"></i> {% trans 'Consulate' %}</span>
                                         <div class="form-select">
                                             <select class="form-control js-example-basic-single" style="width:100%;" id="consulate_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('consulate')">
@@ -4525,7 +4598,6 @@
                         </div>
                         {% endif %}
 
-
                         {% if "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security%}
                         <div id="tab-bus" class="tab-content {%if provider_types_sequence.0.name == 'bus' %}current{% endif %}">
                             <!--<center>-->
@@ -4550,36 +4622,27 @@
                                             <span class="checkmark-radio crspan"></span>
                                         </label>
                                     </div>
-                                    <div class="col-lg-12">
-                                        <div class="row">
-                                            <div class="col-lg-6 col-md-6 train-from">
-                                                <span class="span-search-ticket"><i class="fas fa-train"></i> {% trans 'From' %}</span>
-                                                <div class="input-container-search-ticket">
-                                                    <input id="bus_origin" name="bus_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_origin').select();" onclick="set_train_search_value_to_false();" value="">
-                                                </div>
-                                            </div>
-                                            <div class="image-change-route-vertical2">
-                                                <span><a href="javascript:bus_switch();" style="z-index:5; color:black;" id="bus_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></span>
-                                            </div>
-                                            <div class="image-change-route-horizontal2">
-                                                <span><a class="horizontal-arrow" href="javascript:bus_switch();" style="z-index:5; color:{{text_color}} !important;" id="train_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></span>
-                                            </div>
-
-                                            <div class="col-lg-6 col-md-6 train-to" style="z-index:5;">
-                                                <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> {% trans 'To' %}</span>
-                                                <div class="input-container-search-ticket">
-                                                    <input id="bus_destination" name="bus_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_destination').select();" onclick="set_train_search_value_to_false();" value="">
-                                                </div>
-                                            </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <span class="span-search-ticket"><i class="fas fa-train"></i> {% trans 'From' %}</span>
+                                        <div class="form-group">
+                                            <input id="bus_origin" name="bus_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_origin').select();" onclick="set_train_search_value_to_false();" value="">
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-6" id="bus_date_search">
+                                    <div class="col-lg-6 col-md-6 col-sm-6" style="z-index:4;">
+                                        <h3 class="image-change-route-vertical"><a class="switch_a" href="javascript:bus_switch();" tabindex="-1" style="z-index:5;" id="bus_switch"><i class="fas fa-exchange-alt icon-change"></i></a></h3>
+                                        <h3 class="image-change-route-horizontal"><a class="switch_a" href="javascript:bus_switch();" tabindex="-1" style="z-index:5;" id="bus_switch2"><i class="fas fa-exchange-alt icon-change"></i></a></h3>
+                                        <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> {% trans 'To' %}</span>
+                                        <div class="form-group">
+                                            <input id="bus_destination" name="bus_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_destination').select();" onclick="set_train_search_value_to_false();" value="">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6" id="bus_date_search">
                                         <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure' %}</span>
                                         <div class="input-container-search-ticket">
                                             <input type="text" class="form-control" style="background:white;" id="bus_departure" name="bus_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly/>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-6">
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
                                         <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
                                         <div class="input-container-search-ticket btn-group">
                                             <button id="show_total_pax_bus" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
@@ -5026,7 +5089,7 @@
                                         {% elif "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security and rec.name == "medical" %}
                                         <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-medical" onclick="scroll_menu_horizontal('tab-link', 'medical2');" id="nav_scroll_menu_medical2"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="PHC Icon"/></i><label class="btn-txt-color">MEDICAL</label></li>
                                         {% elif "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security and rec.name == "bus" %}
-                                        <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-bus" onclick="scroll_menu_horizontal('tab-link', 'bus');" id="nav_scroll_menu_bus"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/home-train.png" alt="Bus Icon"/></i><label class="btn-txt-color">BUS</label></li>
+                                        <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-bus" onclick="scroll_menu_horizontal('tab-link', 'bus');" id="nav_scroll_menu_bus"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-bus.png" alt="Bus Icon"/></i><label class="btn-txt-color">BUS</label></li>
                                         {% endif %}
                                         {% endfor %}
                                         {% if name == 'Rodextrip' %}
@@ -5501,14 +5564,14 @@
                                                     <div class="col-lg-12">
                                                         <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Location' %} </span>
                                                         <div class="row">
-                                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                            <div class="col-lg-6 col-md-6 mb-2">
                                                                 <div class="form-select">
                                                                     <select class="js-example-basic-single" style="width:100%;" id="activity_countries" size="5" data-live-search="true" name="activity_countries">
                                                                         <option value="" selected="">{% trans 'All Countries' %}</option>
                                                                     </select>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                            <div class="col-lg-6 col-md-6 mb-2">
                                                                 <div class="form-select">
                                                                     <div id="temp_activity_cities">
                                                                         <select class="js-example-basic-single" style="width:100%;" id="activity_cities" name="activity_cities" size="5">
@@ -5522,26 +5585,26 @@
 
                                                     <div class="col-lg-12">
                                                         <div class="row">
-                                                            <div class="col-lg-12 search_type">
+                                                            <div class="col-lg-12 mt-2">
                                                                 <span class="span-search-ticket"><i class="fa fa-folder-open"></i> {% trans 'Category Type' %} </span>
                                                             </div>
                                                         </div>
                                                         <div class="row">
-                                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                            <div class="col-lg-4 col-md-4 mb-2">
                                                                 <div class="form-select">
                                                                     <select class="js-example-basic-single" style="width:100%;" id="activity_type" name="activity_type" data-live-search="true" size="5">
                                                                         <option value="0" selected="">{% trans 'All Types' %}</option>
                                                                     </select>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                            <div class="col-lg-4 col-md-4 mb-2">
                                                                 <div class="form-select">
                                                                     <select class="js-example-basic-single" style="width:100%;" id="activity_category" name="activity_category" size="5">
                                                                         <option value="0" selected="">{% trans 'All Categories' %}</option>
                                                                     </select>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                            <div class="col-lg-4 col-md-4 mb-2">
                                                                 <div class="form-select">
                                                                     <div id="temp_activity_sub_category">
                                                                         <select class="js-example-basic-single" style="width:100%;" id="activity_sub_category" name="activity_sub_category" size="5">
@@ -5572,14 +5635,14 @@
                                         {% csrf_token %}
                                         <input type="hidden" name="g-recaptcha-response" id='recaptcha_tour'>
                                         <div class="row">
-                                            <div class="col-lg-9 col-md-9 col-sm-8 col-xs-8">
+                                            <div class="col-lg-9 col-md-9 col-sm-8">
                                                 <span class="span-search-ticket">{% trans 'Tour' %}</span>
                                                 <div class="input-container-search-ticket">
                                                     <i class="fas fa-briefcase" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
                                                     <input type="text" class="form-control" name="tour_query" id="tour_query" placeholder="{% trans 'Search for Tour' %}" autocomplete="off"/>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4">
+                                            <div class="col-lg-3 col-md-3 col-sm-4">
                                                 <span class="span-search-ticket">&nbsp;</span>
                                                 <div class="input-container-search-ticket">
                                                     <button type="button" class="form-control" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
@@ -5591,14 +5654,14 @@
                                             <div class="col-lg-12">
                                                 <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Destination' %} </span>
                                                 <div class="row">
-                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <div class="col-lg-6 col-md-6 mb-2">
                                                         <div class="form-select">
                                                             <select class="js-example-basic-single" style="width:100%;" id="tour_countries" size="5" data-live-search="true" name="tour_countries">
                                                                 <option value="0" selected="">{% trans 'All Countries' %}</option>
                                                             </select>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <div class="col-lg-6 col-md-6 mb-2">
                                                         <div class="form-select">
                                                             <div id="temp_tour_cities">
                                                                 <select class="js-example-basic-single" style="width:100%;" id="tour_cities" name="tour_cities" size="5">
@@ -5612,12 +5675,12 @@
 
                                             <div class="col-lg-12">
                                                 <div class="row">
-                                                    <div class="col-lg-12 search_type">
+                                                    <div class="col-lg-12 mt-2">
                                                         <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure Time' %} </span>
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <div class="col-lg-6 col-md-6 mb-2">
                                                         <div class="form-select">
                                                             <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_month" id="tour_dest_month" size="5">
                                                                 <option value="00" selected="True">{% trans 'All Months' %}</option>
@@ -5636,7 +5699,7 @@
                                                             </select>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <div class="col-lg-6 col-md-6 mb-2">
                                                         <input id="tour_hidden_year" type="hidden" value=""/>
                                                         <div class="form-select">
                                                             <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_year" id="tour_dest_year" size="5">
@@ -5664,7 +5727,7 @@
                                         {% csrf_token %}
                                         <input type="hidden" name="g-recaptcha-response" id='recaptcha_visa'>
                                         <div class="row">
-                                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                            <div class="col-lg-4 col-md-4 col-sm-4 mb-2">
                                                 <span class="span-search-ticket">{% trans 'Destination' %}</span>
                                                 <div class="input-container-search-ticket">
                                                     <i class="fas fa-map-marker-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
@@ -5678,13 +5741,13 @@
                                             </div>
                                             <div class="col-lg-4 col-md-4 col-sm-4">
                                                 <span class="span-search-ticket">{% trans 'Departure' %}</span>
-                                                <div class="input-container-search-ticket">
+                                                <div class="input-container-search-ticket" style="margin-bottom:unset;">
                                                     <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
                                                     <input type="text" class="form-control" style="cursor:pointer; background:white;" name="visa_departure" id="visa_departure" placeholder="{% trans 'Departure' %} Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-4 col-md-4 col-sm-4">
-                                                <span class="span-search-ticket"><i class="fas fa-city"></i> {% trans 'Consulate' %}</span>
+                                            <div class="col-lg-4 col-md-4 col-sm-4 mb-2">
+                                                <span class="span-search-ticket">{% trans 'Consulate' %}</span>
                                                 <div class="input-container-search-ticket">
                                                     <i class="fas fa-city" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
                                                     <div class="form-select">
@@ -5865,8 +5928,9 @@
                                     <form action="periksain/passenger/antigen" class="form-wrap" id="medical_searchForm1" method="post">
                                         <div class="row">
                                             <div class="col-lg-12">
-                                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Medical Type' %}</span>
-                                                <div class="input-container-search-ticket">
+                                                <span class="span-search-ticket">{% trans 'Medical Type' %}</span>
+                                                <div class="input-container-search-ticket" style="margin-bottom:unset;">
+                                                    <i class="fas fa-plus-square" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
                                                     <select id="medical_type_periksain" name="medical_type_periksain" class="nice-select-default" style="width:100%;">
 
                                                     </select>
@@ -5893,8 +5957,9 @@
                                         <input type="hidden" name="g-recaptcha-response" id='recaptcha_medical2'>
                                         <div class="row">
                                             <div class="col-lg-12">
-                                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Medical Type' %}</span>
-                                                <div class="input-container-search-ticket">
+                                                <span class="span-search-ticket">{% trans 'Medical Type' %}</span>
+                                                <div class="input-container-search-ticket" style="margin-bottom:unset;">
+                                                    <i class="fas fa-plus-square" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
                                                     <select id="medical_type_phc" name="medical_type_phc" class="nice-select-default" style="width:100%;">
 
                                                     </select>
@@ -5935,9 +6000,10 @@
                                         {% csrf_token %}
                                         <input type="hidden" name="g-recaptcha-response" id='recaptcha_medical_global'>
                                         <div class="row">
-                                            <div class="col-lg-12 col-md-12 col-sm-12">
-                                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Medical Type' %}</span>
-                                                <div class="input-container-search-ticket">
+                                            <div class="col-lg-12">
+                                                <span class="span-search-ticket">{% trans 'Medical Type' %}</span>
+                                                <div class="input-container-search-ticket" style="margin-bottom:unset;">
+                                                    <i class="fas fa-plus-square" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
                                                     <select id="medical_global_type" name="medical_global_type" style="width:100%;" class="nice-select-default">
 
                                                     </select>
@@ -5956,14 +6022,9 @@
                                 </div>
                                 {% endif %}
 
+
                                 {% if "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security%}
-                                <div id="tab-bus" class="tab-content {%if provider_types_sequence.0.name == 'bus' %}current{% endif %}">
-                                    <!--<center>-->
-                                    <!--<div style="padding:15px;">-->
-                                    <!--<img style="width:auto; height:100px" src="{{static_path}}images/icon/sorry.png"/>-->
-                                    <!--<h1 style="color:{{text_color}} !important;">Train under construction</h1>-->
-                                    <!--</div>-->
-                                    <!--</center>-->
+                                <div class="form-search-wrap tab-content {%if provider_types_sequence.0.name == 'bus' %}current{% endif %}" id="tab-bus" data-aos="fade-up" data-aos-delay="200">
                                     <form action="{% url 'tt_website_rodextrip:bus_search'%}" method="POST" class="form-wrap" id="bus_searchForm" onsubmit="return search_train_validation()">
                                         {% csrf_token %}
                                         <input type="hidden" name="g-recaptcha-response" id='recaptcha_bus'>
@@ -5980,36 +6041,30 @@
                                                     <span class="checkmark-radio crspan"></span>
                                                 </label>
                                             </div>
-                                            <div class="col-lg-12">
-                                                <div class="row">
-                                                    <div class="col-lg-6 col-md-6 train-from">
-                                                        <span class="span-search-ticket"><i class="fas fa-train"></i> {% trans 'From' %}</span>
-                                                        <div class="input-container-search-ticket">
-                                                            <input id="bus_origin" name="bus_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_origin').select();" onclick="set_train_search_value_to_false();" value="">
-                                                        </div>
-                                                    </div>
-                                                    <div class="image-change-route-vertical2">
-                                                        <span><a href="javascript:bus_switch();" style="z-index:5; color:black;" id="bus_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></span>
-                                                    </div>
-                                                    <div class="image-change-route-horizontal2">
-                                                        <span><a class="horizontal-arrow" href="javascript:bus_switch();" style="z-index:5; color:{{text_color}} !important;" id="train_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></span>
-                                                    </div>
-
-                                                    <div class="col-lg-6 col-md-6 train-to" style="z-index:5;">
-                                                        <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> {% trans 'To' %}</span>
-                                                        <div class="input-container-search-ticket">
-                                                            <input id="bus_destination" name="bus_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_destination').select();" onclick="set_train_search_value_to_false();" value="">
-                                                        </div>
-                                                    </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                <span class="span-search-ticket">{% trans 'From' %}</span>
+                                                <div class="input-container-search-ticket">
+                                                    <i class="fas fa-bus" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
+                                                    <input id="bus_origin" name="bus_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_origin').select();" onclick="set_train_search_value_to_false();" value="">
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 col-md-6" id="bus_date_search">
-                                                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure' %}</span>
+                                            <div class="col-lg-6 col-md-6 col-sm-6" style="z-index:4;">
+                                                <h4 class="image-change-route-vertical2"><a href="javascript:bus_switch();" style="z-index:5; color:{{text_color}};" id="bus_switch"><i class="fas fa-exchange-alt"></i></a></h4>
+                                                <h4 class="image-change-route-horizontal2"><a href="javascript:bus_switch();" style="z-index:5; color:{{text_color}};" id="bus_switch2"><i class="fas fa-exchange-alt"></i></a></h4>
+                                                <span class="span-search-ticket">{% trans 'To' %}</span>
                                                 <div class="input-container-search-ticket">
+                                                    <i class="fas fa-map-marked-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
+                                                    <input id="bus_destination" name="bus_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_destination').select();" onclick="set_train_search_value_to_false();" value="">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6" id="bus_date_search">
+                                                <span class="span-search-ticket">{% trans 'Departure' %}</span>
+                                                <div class="input-container-search-ticket">
+                                                    <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
                                                     <input type="text" class="form-control" style="background:white;" id="bus_departure" name="bus_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly/>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 col-md-6">
+                                            <div class="col-lg-6 col-md-6 col-sm-6">
                                                 <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
                                                 <div class="input-container-search-ticket btn-group">
                                                     <button id="show_total_pax_bus" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
@@ -6682,7 +6737,7 @@
                                                         <h4><a href="javascript:train_switch();" style="z-index:5;" id="train_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
                                                     </div>
                                                     <div class="image-change-route-horizontal2">
-                                                        <h4><a class="horizontal-arrow" href="javascript:train_switch();" style="z-index:5; color:{{text_color}} !important;" id="train_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                                        <h4><a class="horizontal-arrow" href="javascript:train_switch();" style="z-index:5;" id="train_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
                                                     </div>
 
                                                     <div class="col-lg-6 col-md-6 col-sm-6 train-to" style="z-index:5;">
@@ -6867,7 +6922,7 @@
                                                     </ul>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 col-md-6">
+                                            <div class="col-lg-6 col-md-6 mb-3">
                                                 <span class="span-search-ticket"><i class="fas fa-globe-asia"></i> {% trans 'Guest Nationality' %}</span>
                                                 <select class="js-example-basic-single" name="hotel_id_nationality_id" style="width:100%;" id="hotel_id_nationality_id" placeholder="{% trans 'Guest Nationality' %}" onchange="auto_complete('hotel_id_nationality')" class="nice-select-default">
                                                     {% for country in countries %}
@@ -6907,13 +6962,13 @@
                                         {% csrf_token %}
                                         <input type="hidden" name="g-recaptcha-response" id='recaptcha_activity'>
                                         <div class="row">
-                                            <div class="col-lg-10 col-md-9 col-sm-8 col-xs-8">
+                                            <div class="col-lg-10 col-md-9">
                                                 <span class="span-search-ticket"><i class="fas fa-umbrella-beach"></i> {% trans 'Activity' %}</span>
                                                 <div class="input-container-search-ticket">
                                                     <input type="text" class="form-control" name="activity_query" id="activity_query" placeholder="{% trans 'Search for Activities, Theme Parks, etc' %}" autocomplete="off"/>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-2 col-md-3 col-sm-4 col-xs-4">
+                                            <div class="col-lg-2 col-md-3">
                                                 <span class="span-search-ticket">&nbsp;</span>
                                                 <div class="input-container-search-ticket">
                                                     <button type="button" class="form-control activity_btn_advance" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="display:block;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
@@ -6925,14 +6980,14 @@
                                             <div class="col-lg-12">
                                                 <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Location' %} </span>
                                                 <div class="row">
-                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <div class="col-lg-6 col-md-6">
                                                         <div class="form-select">
                                                             <select class="js-example-basic-single" style="width:100%;" id="activity_countries" size="5" data-live-search="true" name="activity_countries">
                                                                 <option value="" selected="">{% trans 'All Countries' %}</option>
                                                             </select>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <div class="col-lg-6 col-md-6">
                                                         <div class="form-select">
                                                             <div id="temp_activity_cities">
                                                                 <select class="js-example-basic-single" style="width:100%;" id="activity_cities" name="activity_cities" size="5">
@@ -6946,26 +7001,26 @@
 
                                             <div class="col-lg-12">
                                                 <div class="row">
-                                                    <div class="col-lg-12">
+                                                    <div class="col-lg-12 mt-3">
                                                         <span class="span-search-ticket"><i class="fa fa-folder-open"></i> {% trans 'Category / Type' %} </span>
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                    <div class="col-lg-4 col-md-4">
                                                         <div class="form-select">
                                                             <select class="js-example-basic-single" style="width:100%;" id="activity_type" name="activity_type" data-live-search="true" size="5">
                                                                 <option value="0" selected="">{% trans 'All Types' %}</option>
                                                             </select>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                    <div class="col-lg-4 col-md-4">
                                                         <div class="form-select">
                                                             <select class="js-example-basic-single" style="width:100%;" id="activity_category" name="activity_category" size="5">
                                                                 <option value="0" selected="">{% trans 'All Categories' %}</option>
                                                             </select>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                    <div class="col-lg-4 col-md-4">
                                                         <div class="form-select">
                                                             <div id="temp_activity_sub_category">
                                                                 <select class="js-example-basic-single" style="width:100%;" id="activity_sub_category" name="activity_sub_category" size="5">
@@ -6994,13 +7049,13 @@
                                         {% csrf_token %}
                                         <input type="hidden" name="g-recaptcha-response" id='recaptcha_tour'>
                                         <div class="row">
-                                            <div class="col-lg-10 col-md-9 col-sm-8 col-xs-8">
+                                            <div class="col-lg-10 col-md-9">
                                                 <span class="span-search-ticket"><i class="fas fa-briefcase"></i> {% trans 'Tour' %}</span>
                                                 <div class="input-container-search-ticket">
                                                     <input type="text" class="form-control" name="tour_query" id="tour_query" placeholder="{% trans 'Search for Tour' %}" autocomplete="off"/>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-2 col-md-3 col-sm-4 col-xs-4">
+                                            <div class="col-lg-2 col-md-3">
                                                 <span class="span-search-ticket">&nbsp;</span>
                                                 <div class="input-container-search-ticket">
                                                     <button type="button" class="form-control" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
@@ -7012,14 +7067,14 @@
                                             <div class="col-lg-6">
                                                 <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Destination' %} </span>
                                                 <div class="row">
-                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <div class="col-lg-6 col-md-6">
                                                         <div class="form-select">
                                                             <select class="js-example-basic-single" style="width:100%;" id="tour_countries" size="5" data-live-search="true" name="tour_countries">
                                                                 <option value="0" selected="">{% trans 'All Countries' %}</option>
                                                             </select>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <div class="col-lg-6 col-md-6">
                                                         <div class="form-select">
                                                             <div id="temp_tour_cities">
                                                                 <select class="js-example-basic-single" style="width:100%;" id="tour_cities" name="tour_cities" size="5">
@@ -7033,12 +7088,12 @@
 
                                             <div class="col-lg-6">
                                                 <div class="row">
-                                                    <div class="col-lg-12">
+                                                    <div class="col-lg-12 mt-3">
                                                         <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure Time' %} </span>
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <div class="col-lg-6 col-md-6">
                                                         <div class="input-container-search-ticket">
                                                             <div class="form-select">
                                                                 <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_month" id="tour_dest_month" size="5">
@@ -7059,7 +7114,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <div class="col-lg-6 col-md-6">
                                                         <input id="tour_hidden_year" type="hidden" value=""/>
                                                         <div class="form-select">
                                                             <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_year" id="tour_dest_year" size="5">
@@ -7133,7 +7188,7 @@
                                         {% csrf_token %}
                                         <input type="hidden" name="g-recaptcha-response" id='recaptcha_passport'>
                                         <div class="row">
-                                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                            <div class="col-lg-4 col-md-4 col-sm-4 mb-2">
                                                 <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Passport Type' %}</span>
                                                 <div class="form-select">
                                                     <select class="form-control js-example-basic-single" style="width:100%;" id="passport_type_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('passport_type')">
@@ -7142,7 +7197,7 @@
                                                 </div>
                                                 <input type="hidden" name="passport_type" id="passport_type" />
                                             </div>
-                                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                            <div class="col-lg-4 col-md-4 col-sm-4 mb-2">
                                                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Apply Type' %}</span>
                                                 <div class="form-select">
                                                     <select class="form-control js-example-basic-single" style="width:100%;" id="passport_apply_type_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('passport_apply_type')">
@@ -7151,7 +7206,7 @@
                                                 </div>
                                                 <input type="hidden" name="passport_apply_type" id="passport_apply_type" />
                                             </div>
-                                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                            <div class="col-lg-4 col-md-4 col-sm-4 mb-2">
                                                 <span class="span-search-ticket"><i class="fas fa-city"></i> {% trans 'Consulate' %}</span>
                                                 <div class="form-select">
                                                     <select class="form-control js-example-basic-single" style="width:100%;" id="consulate_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('consulate')">
@@ -7280,7 +7335,7 @@
                                         <div class="row">
                                             <div class="col-lg-12">
                                                 <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Medical Type' %}</span>
-                                                <div class="input-container-search-ticket">
+                                                <div class="input-container-search-ticket mb-3">
                                                     <select id="medical_type_periksain" name="medical_type_periksain" class="nice-select-default" style="width:100%;">
 
                                                     </select>
@@ -7397,7 +7452,7 @@
                                             <div class="col-lg-6">
                                                 <div class="row">
                                                     <div class="col-lg-6 col-md-6 col-sm-6 train-from">
-                                                        <span class="span-search-ticket"><i class="fas fa-train"></i> {% trans 'From' %}</span>
+                                                        <span class="span-search-ticket"><i class="fas fa-bus"></i> {% trans 'From' %}</span>
                                                         <div class="input-container-search-ticket">
                                                             <input id="bus_origin" name="bus_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_origin').select();" onclick="set_train_search_value_to_false();" value="">
                                                         </div>
@@ -8444,14 +8499,14 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-lg-6">
+                                <div class="col-lg-6 col-md-6">
                                     <div class="form-select">
                                         <select class="js-example-basic-single" style="width:100%;" id="activity_countries" size="5" data-live-search="true" name="activity_countries">
                                             <option value="" selected="">{% trans 'All Countries' %}</option>
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
+                                <div class="col-lg-6 col-md-6">
                                     <div class="form-select">
                                         <div id="temp_activity_cities">
                                             <select class="js-example-basic-single" style="width:100%;" id="activity_cities" name="activity_cities" size="5">
@@ -8470,21 +8525,21 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-lg-4">
+                                <div class="col-lg-4 col-md-4">
                                     <div class="form-select">
                                         <select class="js-example-basic-single" style="width:100%;" id="activity_type" name="activity_type" data-live-search="true" size="5">
                                             <option value="0" selected="">{% trans 'All Types' %}</option>
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
+                                <div class="col-lg-4 col-md-4">
                                     <div class="form-select">
                                         <select class="js-example-basic-single" style="width:100%;" id="activity_category" name="activity_category" size="5">
                                             <option value="0" selected="">{% trans 'All Categories' %}</option>
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
+                                <div class="col-lg-4 col-md-4">
                                     <div class="form-select">
                                         <div id="temp_activity_sub_category">
                                             <select class="js-example-basic-single" style="width:100%;" id="activity_sub_category" name="activity_sub_category" size="5">
@@ -8557,14 +8612,14 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-lg-6">
+                                <div class="col-lg-6 col-md-6">
                                     <div class="form-select">
                                         <select class="js-example-basic-single" style="width:100%;" id="tour_countries" size="5" data-live-search="true" name="tour_countries">
                                             <option value="0" selected="">{% trans 'All Countries' %}</option>
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
+                                <div class="col-lg-6 col-md-6">
                                     <div class="form-select">
                                         <div id="temp_tour_cities">
                                             <select class="js-example-basic-single" style="width:100%;" id="tour_cities" name="tour_cities" size="5">
@@ -8583,7 +8638,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-lg-6 search_type">
+                                <div class="col-lg-6 col-md-6 search_type">
                                     <div class="input-container-search-ticket">
                                         <div class="form-select">
                                             <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_month" id="tour_dest_month" size="5">
@@ -8604,7 +8659,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
+                                <div class="col-lg-6 col-md-6">
                                     <input id="tour_hidden_year" type="hidden" value=""/>
                                     <div class="form-select">
                                         <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_year" id="tour_dest_year" size="5">
@@ -8723,7 +8778,7 @@
                     {% csrf_token %}
                     <input type="hidden" name="g-recaptcha-response" id='recaptcha_tour'>
                     <div class="row">
-                        <div class="col-lg-4">
+                        <div class="col-lg-4 mb-2">
                             <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Passport Type' %}</span>
                             <div class="input-container-search-ticket">
                                 <div class="form-select">
@@ -9073,7 +9128,7 @@
                         <div class="col-lg-12">
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                    <span class="span-search-ticket"><i class="fas fa-train"></i> {% trans 'From' %}</span>
+                                    <span class="span-search-ticket"><i class="fas fa-bus"></i> {% trans 'From' %}</span>
                                     <div class="input-container-search-ticket">
                                         <input id="bus_origin" name="bus_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_origin').select();" onclick="set_train_search_value_to_false();" value="">
                                     </div>
@@ -9222,6 +9277,12 @@
             {% endif %}
             {% if "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security %}
             get_config_medical_global('home');
+            {% endif %}
+            {% if "swab.express" in provider and "ticketing_swab_express" in username.co_agent_frontend_security %}
+            get_config_swab_express('home');
+            {% endif %}
+            {% if "lab.pintar" in provider and "ticketing_lab_pintar" in username.co_agent_frontend_security %}
+            get_config_lab_pintar('home');
             {% endif %}
             {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security %}
             get_airline_config('home');

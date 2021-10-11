@@ -359,16 +359,26 @@ def review(request):
             })
             schedules = []
             journeys = []
+            provider = ''
+            #COMBO PRICE
             for journey in request.session['bus_pick']:
                 journeys.append({
                     'journey_code': journey['journey_code'],
-                    'fare_code': journey['fares'][0]['fare_code']
+                    'fare_code': journey['fares'][0]['fare_code'],
+                    'provider': journey['provider']
                 })
+                if provider != journey['provider'] and provider != '':
+                    schedules.append({
+                        'journeys': journeys,
+                        'provider': provider
+                    })
+                    journeys = []
+                provider = journey['provider']
+            if journeys:
                 schedules.append({
                     'journeys': journeys,
-                    'provider': journey['provider'],
+                    'provider': provider
                 })
-                journeys = []
             set_session(request, 'bus_booking', schedules)
             try:
                 set_session(request, 'time_limit', request.POST['time_limit_input'])
