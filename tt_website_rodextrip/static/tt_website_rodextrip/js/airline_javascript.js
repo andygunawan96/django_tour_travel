@@ -4633,7 +4633,7 @@ function check_passenger(adult, child, infant){
                        document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
                     }else{
                        document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
-                    }if(document.getElementById('adult_country_of_issued'+i).value == ''){
+                    }if(document.getElementById('adult_country_of_issued'+i).value == '' || document.getElementById('adult_country_of_issued'+i).value == 'Country of Issued'){
                        error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
                        document.getElementById('adult_country_of_issued'+i).style['border-color'] = 'red';
                     }else{
@@ -4776,7 +4776,7 @@ function check_passenger(adult, child, infant){
                        document.getElementById('child_passport_number'+i).style['border-color'] = 'red';
                     }else{
                        document.getElementById('child_passport_number'+i).style['border-color'] = '#EFEFEF';
-                    }if(document.getElementById('child_country_of_issued'+i).value == ''){
+                    }if(document.getElementById('child_country_of_issued'+i).value == '' || document.getElementById('child_country_of_issued'+i).value == 'Country of Issued'){
                        error_log+= 'Please fill country of issued for passenger child '+i+'!</br>\n';
                        document.getElementById('child_country_of_issued'+i).style['border-color'] = 'red';
                     }else{
