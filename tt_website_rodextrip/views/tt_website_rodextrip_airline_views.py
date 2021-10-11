@@ -424,7 +424,7 @@ def passenger(request):
                                 if carrier_code[segment['carrier_code']]['required_identity_required_domestic']:
                                     is_identity_required = True
                             break
-            if airline['provider'] == 'lionair':
+            if airline['provider'] == 'lionair' or airline['provider'] == 'lionairapi':
                 is_lionair = True
             try:
                 ff_request = request.session['airline_get_ff_availability']['result']['response']['ff_availability_provider']
