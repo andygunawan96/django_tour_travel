@@ -180,7 +180,7 @@ function swab_express_get_availability(){
                     document.getElementById('booker_area').innerHTML = text_innerHTML;
                     $('#booker_area').niceSelect('update');
                     add_other_time();
-                    change_area();
+                    change_area('change_area_display');
                 }else{
                     Swal.fire({
                       type: 'error',

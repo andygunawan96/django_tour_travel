@@ -2902,7 +2902,7 @@ function airline_sell_journeys(){
         data_request = ''
     }
     for(i in airline_pick_list)
-        document.getElementById('changejourney_pick'+parseInt(i+1)).disabled = true;
+        document.getElementById('changejourney_pick'+parseInt(parseInt(i)+1)).disabled = true;
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -2932,7 +2932,7 @@ function airline_sell_journeys(){
                 })
            }else{
                 for(i in airline_pick_list)
-                    document.getElementById('changejourney_pick'+parseInt(i+1)).disabled = false;
+                    document.getElementById('changejourney_pick'+parseInt(parseInt(i)+1)).disabled = false;
                 Swal.fire({
                   type: 'error',
                   title: 'Oops!',
