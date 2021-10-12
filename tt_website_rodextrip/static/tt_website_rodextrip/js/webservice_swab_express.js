@@ -247,13 +247,16 @@ function swab_express_check_price(){
 
         }
     }
-    var radios = document.getElementsByName('peduli_lindungi');
-    for (var j = 0, length = radios.length; j < length; j++) {
-        if (radios[j].checked) {
-            // do whatever you want with the checked radio
-            peduli_lindungi = radios[j].value;
-            // only one radio can be logically checked, don't check the rest
-            break;
+    peduli_lindungi = 'false';
+    if(test_type == 'SEKATG'){
+        var radios = document.getElementsByName('peduli_lindungi');
+        for (var j = 0, length = radios.length; j < length; j++) {
+            if (radios[j].checked) {
+                // do whatever you want with the checked radio
+                peduli_lindungi = radios[j].value;
+                // only one radio can be logically checked, don't check the rest
+                break;
+            }
         }
     }
     if(timeslot_list.length != 0 && error_log == '' || test_type.includes('DT')){
