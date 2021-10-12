@@ -45,8 +45,8 @@ function add_other_time(type='add'){
                         }
                         else if(template == 3){
                             text+=`
-                            <div class="input-container-search-ticket">
-                                <div class="form-select-2" style="width:100%;">
+                            <div class="form-group">
+                                <div class="default-select">
                                     <select style="width:100%;" id="booker_timeslot_id`+test_time+`" placeholder="Timeslot" onchange="change_timeslot(`+test_time+`)">
 
                                     </select>
