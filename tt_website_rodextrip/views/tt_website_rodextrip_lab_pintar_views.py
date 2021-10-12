@@ -41,7 +41,7 @@ def can_book(now, dep):
     return dep > now
 
 def lab_pintar(request):
-    if 'user_account' in request.session._session and 'ticketing_lab_pintar' in request.session['user_account']['co_agent_frontend_security']:
+    if 'user_account' in request.session._session and 'ticketing_labpintar' in request.session['user_account']['co_agent_frontend_security']:
         try:
             values = get_data_template(request)
             javascript_version = get_javascript_version()
@@ -161,7 +161,7 @@ def passenger(request):
             # 'cookies': json.dumps(res['result']['cookies']),
             'javascript_version': javascript_version,
             'static_path_url_server': get_url_static_path(),
-            'vendor': 'lab.pintar',
+            'vendor': 'labpintar',
             'test_type': request.POST['lab_pintar_type'],
             'total_passengers_rebooking': len(passengers)
         })

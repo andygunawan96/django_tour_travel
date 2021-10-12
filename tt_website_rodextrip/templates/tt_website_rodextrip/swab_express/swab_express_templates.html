@@ -115,7 +115,7 @@
                 <div class="banner-right scrollmenu style-scrollbar" id="div_scroll_menu">
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         {% for rec in provider_types_sequence %}
-                            {% if "swab.express" in provider and "ticketing_swab_express" in username.co_agent_frontend_security and rec.name == "swab_express" %}
+                            {% if "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security and rec.name == "swab_express" %}
                         <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'swap_express');" id="nav_scroll_menu_swab_express">
                             <a class="nav-link active" id="swab_express-tab" data-toggle="tab" href="#swab_express" role="tab" aria-controls="swab_express" aria-selected="false">
                                 <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Medical Icon"/></i>
@@ -130,7 +130,7 @@
                 <div class="banner-right">
                     <!--<img src="{{static_path}}images/christmas-icon2.png" style="width:auto; height:90px; position:absolute; right:-35px; top:35px; float:right; z-index:200;" alt="">-->
                     <div class="tab-content" id="myTabContent">
-                        {% if "swab.express" in provider and "ticketing_swab_express" in username.co_agent_frontend_security %}
+                        {% if "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security %}
                         <div class="tab-pane fade show active " id="swab_express" role="tabpanel" aria-labelledby="swab_express-tab">
                             <form action="{% url 'tt_website_rodextrip:swab_express_passenger'%}" class="form-wrap" id="swab_express_searchForm" method="post">
                                 {% csrf_token %}
@@ -5495,7 +5495,7 @@
 <script>
     {% if username.co_user_login != '' %}
         try{
-            {% if "swab_express" in provider and "ticketing_swab_express" in username.co_agent_frontend_security %}
+            {% if "swab_express" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security %}
             get_config_swab_express('home');
             {% endif %}
 
