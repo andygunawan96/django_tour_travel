@@ -3730,6 +3730,14 @@ function share_data(){
     $text_share = window.encodeURIComponent($text);
 }
 
+function change_identity_type(id){
+    if(document.getElementById(id).value == 'ktp')
+        document.getElementById(id.replace('id_type','identity_expired_date_required')).style.color = 'white';
+    else
+        document.getElementById(id.replace('id_type','identity_expired_date_required')).style.color = 'red';
+
+}
+
 function airline_detail(type){
     text = '';
     if(type == ''){

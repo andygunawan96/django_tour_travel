@@ -414,14 +414,14 @@
                                 <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'Medical' %} </span>
                             </a>
                         </li>
-                        {% elif "swab.express" in provider and "ticketing_swab_express" in username.co_agent_frontend_security and rec.name == "swab.express" %}
+                        {% elif "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security and rec.name == "swabexpress" %}
                         <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'swab_express');" id="nav_scroll_menu_swab_express">
                             <a class="nav-link {%if forloop.counter == 1 %}active{%endif%}" id="swab_express-tab" data-toggle="tab" href="#swab_express" role="tab" aria-controls="swab_express" aria-selected="false">
                                 <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Swab Express Icon"/></i>
                                 <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'Swab Express' %} </span>
                             </a>
                         </li>
-                        {% elif "lab.pintar" in provider and "ticketing_lab_pintar" in username.co_agent_frontend_security and rec.name == "lab.pintar" %}
+                        {% elif "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security and rec.name == "labpintar" %}
                         <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'lab_pintar');" id="nav_scroll_menu_lab_pintar">
                             <a class="nav-link {%if forloop.counter == 1 %}active{%endif%}" id="lab_pintar-tab" data-toggle="tab" href="#lab_pintar" role="tab" aria-controls="lab_pintar" aria-selected="false">
                                 <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Lab Pintar Icon"/></i>
@@ -896,7 +896,7 @@
                             </form>
                         </div>
                         {% endif %}
-                        {% if "swab.express" in provider and "ticketing_swab_express" in username.co_agent_frontend_security %}
+                        {% if "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security %}
                         <div class="tab-pane fade {%if provider_types_sequence.0.name == 'swab_express' %}show active {% endif %} " id="swab_express" role="tabpanel" aria-labelledby="swab_express-tab">
                             <form action="{% url 'tt_website_rodextrip:swab_express_passenger'%}" class="form-wrap" id="swab_express_searchForm" method="post">
                                 {% csrf_token %}
@@ -924,7 +924,7 @@
                             </form>
                         </div>
                         {% endif %}
-                        {% if "lab.pintar" in provider and "ticketing_lab_pintar" in username.co_agent_frontend_security %}
+                        {% if "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security %}
                         <div class="tab-pane fade {%if provider_types_sequence.0.name == 'lab_pintar' %}show active {% endif %} " id="lab_pintar" role="tabpanel" aria-labelledby="lab_pintar-tab">
                             <form action="{% url 'tt_website_rodextrip:lab_pintar_passenger'%}" class="form-wrap" id="lab_pintar_searchForm" method="post">
                                 {% csrf_token %}
@@ -2332,9 +2332,9 @@
                         <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-medical" onclick="scroll_menu_horizontal('tab-link', 'medical2');" id="nav_scroll_menu_medical2"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Medical Icon"/></i><label class="btn-txt-color">Medical</label></li>
                         {% elif "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security and rec.name == "bus" %}
                         <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-bus" onclick="scroll_menu_horizontal('tab-link', 'bus');" id="nav_scroll_menu_bus"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-train.png" alt="Bus Icon"/></i><label class="btn-txt-color">Bus</label></li>
-                        {% elif "swab.express" in provider and "ticketing_swab_express" in username.co_agent_frontend_security and rec.name == "swab.express" %}
+                        {% elif "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security and rec.name == "swabexpress" %}
                         <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-swabexpress" onclick="scroll_menu_horizontal('tab-link', 'swab_express');" id="nav_scroll_menu_swab_express"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Swab Express Icon"/></i><label class="btn-txt-color">Swab Express</label></li>
-                        {% elif "lab.pintar" in provider and "ticketing_lab_pintar" in username.co_agent_frontend_security and rec.name == "lab.pintar" %}
+                        {% elif "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security and rec.name == "labpintar" %}
                         <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-lab_pintar" onclick="scroll_menu_horizontal('tab-link', 'lab_pintar');" id="nav_scroll_menu_lab_pintar"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Lab Pintar Icon"/></i><label class="btn-txt-color">Lab Pintar</label></li>
                         {% endif %}
                         {% endfor %}
@@ -3325,7 +3325,7 @@
                     </div>
                     {% endif %}
 
-                    {% if "swab.express" in provider and "ticketing_swab_express" in username.co_agent_frontend_security %}
+                    {% if "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security %}
                     <div id="tab-swabexpress" class="tab-content {%if provider_types_sequence.0.name == 'swab_express' %}current{% endif %}">
                         <form action="{% url 'tt_website_rodextrip:swab_express_passenger'%}" class="form-wrap" id="swab_express_searchForm" method="post">
                             {% csrf_token %}
@@ -3352,7 +3352,7 @@
                     </div>
                     {% endif %}
 
-                    {% if "lab.pintar" in provider and "ticketing_lab_pintar" in username.co_agent_frontend_security %}
+                    {% if "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security %}
                     <div id="tab-lab_pintar" class="tab-content {%if provider_types_sequence.0.name == 'lab_pintar' %}current{% endif %}">
                         <form action="{% url 'tt_website_rodextrip:lab_pintar_passenger'%}" class="form-wrap" id="lab_pintar_searchForm" method="post">
                             {% csrf_token %}
@@ -3749,9 +3749,9 @@
                                 <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-medical" onclick="scroll_menu_horizontal('tab-link', 'medical2');" id="nav_scroll_menu_medical2"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/swab.png" alt="Medical Icon"/></i><label class="btn-txt-color">MEDICAL</label></li>
                                 {% elif "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security and rec.name == "bus" %}
                                 <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-bus" onclick="scroll_menu_horizontal('tab-link', 'bus');" id="nav_scroll_menu_bus"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/home-train.png" alt="Bus Icon"/></i><label class="btn-txt-color">BUS</label></li>
-                                {% elif "swab.express" in provider and "ticketing_swab_express" in username.co_agent_frontend_security and rec.name == "swab.express" %}
+                                {% elif "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security and rec.name == "swabexpress" %}
                                 <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-swabexpress" onclick="scroll_menu_horizontal('tab-link', 'swab_express');" id="nav_scroll_menu_swab_express"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/swab.png" alt="Swab Express Icon"/></i><label class="btn-txt-color">SWAB EXPRESS</label></li>
-                                {% elif "lab.pintar" in provider and "ticketing_lab_pintar" in username.co_agent_frontend_security and rec.name == "lab.pintar" %}
+                                {% elif "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security and rec.name == "labpintar" %}
                                 <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-lab_pintar" onclick="scroll_menu_horizontal('tab-link', 'lab_pintar');" id="nav_scroll_menu_lab_pintar"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/swab.png" alt="Lab Pintar Icon"/></i><label class="btn-txt-color">LAB PINTAR</label></li>
                                 {% endif %}
 
@@ -4754,7 +4754,7 @@
                         </div>
                         {% endif %}
 
-                        {% if "swab.express" in provider and "ticketing_swab_express" in username.co_agent_frontend_security %}
+                        {% if "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security %}
                         <div id="tab-swabexpress" class="tab-content {%if provider_types_sequence.0.name == 'swab_express' %}current{% endif %}">
                             <form action="{% url 'tt_website_rodextrip:swab_express_passenger'%}" class="form-wrap" id="swab_express_searchForm" method="post">
                                 {% csrf_token %}
@@ -4783,7 +4783,7 @@
                         </div>
                         {% endif %}
 
-                        {% if "lab.pintar" in provider and "ticketing_lab_pintar" in username.co_agent_frontend_security %}
+                        {% if "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security %}
                         <div id="tab-lab_pintar" class="tab-content {%if provider_types_sequence.0.name == 'lab_pintar' %}current{% endif %}">
                             <form action="{% url 'tt_website_rodextrip:lab_pintar_passenger'%}" class="form-wrap" id="lab_pintar_searchForm" method="post">
                                 {% csrf_token %}
@@ -5211,9 +5211,9 @@
                                         <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-medical" onclick="scroll_menu_horizontal('tab-link', 'medical2');" id="nav_scroll_menu_medical2"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="PHC Icon"/></i><label class="btn-txt-color">MEDICAL</label></li>
                                         {% elif "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security and rec.name == "bus" %}
                                         <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-bus" onclick="scroll_menu_horizontal('tab-link', 'bus');" id="nav_scroll_menu_bus"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-bus.png" alt="Bus Icon"/></i><label class="btn-txt-color">BUS</label></li>
-                                        {% elif "swab.express" in provider and "ticketing_swab_express" in username.co_agent_frontend_security and rec.name == "swab.express" %}
+                                        {% elif "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security and rec.name == "swabexpress" %}
                                         <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-swabexpress" onclick="scroll_menu_horizontal('tab-link', 'swab_express');" id="nav_scroll_menu_swab_express"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Swab Express Icon"/></i><label class="btn-txt-color">SWAB EXPRESS</label></li>
-                                        {% elif "lab.pintar" in provider and "ticketing_lab_pintar" in username.co_agent_frontend_security and rec.name == "lab.pintar" %}
+                                        {% elif "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security and rec.name == "labpintar" %}
                                         <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-lab_pintar" onclick="scroll_menu_horizontal('tab-link', 'lab_pintar');" id="nav_scroll_menu_lab_pintar"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Lab Pintar Icon"/></i><label class="btn-txt-color">LAB PINTAR</label></li>
                                         {% endif %}
                                         {% endfor %}
@@ -6237,7 +6237,7 @@
                                 </div>
                                 {% endif %}
 
-                                {% if "swab.express" in provider and "ticketing_swab_express" in username.co_agent_frontend_security %}
+                                {% if "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security %}
                                 <div class="form-search-wrap tab-content {%if provider_types_sequence.0.name == 'swab_express' %}current{% endif %}" id="tab-swabexpress" data-aos="fade-up" data-aos-delay="200">
                                     <form action="{% url 'tt_website_rodextrip:swab_express_passenger'%}" class="form-wrap" id="swab_express_searchForm" method="post">
                                         {% csrf_token %}
@@ -6265,7 +6265,7 @@
                                 </div>
                                 {% endif %}
 
-                                {% if "lab.pintar" in provider and "ticketing_lab_pintar" in username.co_agent_frontend_security %}
+                                {% if "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security %}
                                 <div class="form-search-wrap tab-content {%if provider_types_sequence.0.name == 'lab_pintar' %}current{% endif %}" id="tab-lab_pintar" data-aos="fade-up" data-aos-delay="200">
                                     <form action="{% url 'tt_website_rodextrip:lab_pintar_passenger'%}" class="form-wrap" id="lab_pintar_searchForm" method="post">
                                         {% csrf_token %}
@@ -6687,9 +6687,9 @@
                                         <li class="tab-link {%if forloop.counter == 1%}current{%endif%}" data-tab="tab-medical" onclick="scroll_menu_horizontal('tab-link', 'medical2');" id="nav_scroll_menu_medical2"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Medical Icon"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">MEDICAL</label></li>
                                         {% elif "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security and rec.name == "bus" %}
                                         <li class="tab-link {%if forloop.counter == 1%}current{%endif%}" data-tab="tab-bus" onclick="scroll_menu_horizontal('tab-link', 'bus');" id="nav_scroll_menu_bus"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-bus.png" alt="Bus Icon"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">{% trans 'BUS' %}</label></li>
-                                        {% elif "swab.express" in provider and "ticketing_swab_express" in username.co_agent_frontend_security and rec.name == "swab.express" %}
+                                        {% elif "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security and rec.name == "swabexpress" %}
                                         <li class="tab-link {%if forloop.counter == 1%}current{%endif%}" data-tab="tab-swabexpress" onclick="scroll_menu_horizontal('tab-link', 'swab_express');" id="nav_scroll_menu_swab_express"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Swab Express Icon"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">{% trans 'SWAB EXPRESS' %}</label></li>
-                                        {% elif "lab.pintar" in provider and "ticketing_lab_pintar" in username.co_agent_frontend_security and rec.name == "lab.pintar" %}
+                                        {% elif "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security and rec.name == "labpintar" %}
                                         <li class="tab-link {%if forloop.counter == 1%}current{%endif%}" data-tab="tab-lab_pintar" onclick="scroll_menu_horizontal('tab-link', 'lab_pintar');" id="nav_scroll_menu_lab_pintar"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Lab Pintar Icon"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">{% trans 'LAB PINTAR' %}</label></li>
                                         {% endif%}
                                         {% endfor %}
@@ -7710,7 +7710,7 @@
                                 </div>
                                 {% endif %}
 
-                                {% if "swab.express" in provider and "ticketing_swab_express" in username.co_agent_frontend_security %}
+                                {% if "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security %}
                                 <div id="tab-swabexpress" class="tab-content {%if provider_types_sequence.0.name == 'swab_express' %}current{% endif %}">
                                     <form action="{% url 'tt_website_rodextrip:swab_express_passenger'%}" class="form-wrap" id="swab_express_searchForm" method="post">
                                         {% csrf_token %}
@@ -7737,7 +7737,7 @@
                                 </div>
                                 {% endif %}
 
-                                {% if "lab.pintar" in provider and "ticketing_lab_pintar" in username.co_agent_frontend_security %}
+                                {% if "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security %}
                                 <div id="tab-lab_pintar" class="tab-content {%if provider_types_sequence.0.name == 'lab_pintar' %}current{% endif %}">
                                     <form action="{% url 'tt_website_rodextrip:lab_pintar_passenger'%}" class="form-wrap" id="lab_pintar_searchForm" method="post">
                                         {% csrf_token %}
@@ -8087,14 +8087,14 @@
                             <h6 class="hover_cst">{% trans 'Bus' %}</h6>
                         </div>
                     </div>
-                    {% elif "swab.express" in provider and "ticketing_swab_express" in username.co_agent_frontend_security and rec.name == "swab.express" %}
+                    {% elif "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security and rec.name == "swabexpress" %}
                     <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3 mb-3">
                         <div class="div_cst" onclick="product_change_box('swabexpress')">
                             <img style="width:auto; height:40px" src="{{static_path}}images/icon/swab_black.png" alt="Swab Express Icon"/>
                             <h6 class="hover_cst">{% trans 'Swab Express' %}</h6>
                         </div>
                     </div>
-                    {% elif "lab.pintar" in provider and "ticketing_lab_pintar" in username.co_agent_frontend_security and rec.name == "lab.pintar" %}
+                    {% elif "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security and rec.name == "labpintar" %}
                     <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3 mb-3">
                         <div class="div_cst" onclick="product_change_box('labpintar')">
                             <img style="width:auto; height:40px" src="{{static_path}}images/icon/swab_black.png" alt="Lab Pintar Icon"/>
@@ -9408,7 +9408,7 @@
 </section>
 {% endif %}
 
-{% if "swab.express" in provider and "ticketing_swab_express" in username.co_agent_frontend_security %}
+{% if "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security %}
 <section class="about" style="margin-top:50px; margin-bottom:50px; padding:15px; display:none;" id="box_swabexpress">
     <div class="container">
         <div class="row" style="padding:15px;">
@@ -9454,7 +9454,7 @@
 </section>
 {% endif %}
 
-{% if "lab.pintar" in provider and "ticketing_lab_pintar" in username.co_agent_frontend_security %}
+{% if "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security %}
 <section class="about" style="margin-top:50px; margin-bottom:50px; padding:15px; display:none;" id="box_labpintar">
     <div class="container">
         <div class="row" style="padding:15px;">
@@ -9573,10 +9573,10 @@
             {% if "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security %}
             get_config_medical_global('home');
             {% endif %}
-            {% if "swab.express" in provider and "ticketing_swab_express" in username.co_agent_frontend_security %}
+            {% if "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security %}
             get_config_swab_express('home');
             {% endif %}
-            {% if "lab.pintar" in provider and "ticketing_lab_pintar" in username.co_agent_frontend_security %}
+            {% if "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security %}
             get_config_lab_pintar('home');
             {% endif %}
             {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security %}

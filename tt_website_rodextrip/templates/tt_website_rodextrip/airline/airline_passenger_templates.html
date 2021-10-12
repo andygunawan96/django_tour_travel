@@ -567,7 +567,7 @@
                                                     <label>{% trans 'ID Type' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select" id="default-select">
-                                                            <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}'>
+                                                            <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onclick="change_identity_type(`adult_id_type{{forloop.counter}}`)">
                                                                 <option value="">Choose Identity Type</option>
                                                                 {% if is_garuda == True and is_international == False %}
                                                                 <option value="ktp">NIK</option>
@@ -592,7 +592,7 @@
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                                     {% if is_identity_required == True %}
-                                                    <label style="color:red">*</label>
+                                                    <label id="adult_identity_expired_date_required{{forloop.counter}}" style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'Identity Expired Date' %}</label>
                                                     <div class="input-container-search-ticket">
@@ -853,7 +853,7 @@
                                                     <label>{% trans 'ID Type' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select" id="default-select">
-                                                            <select id='child_id_type{{forloop.counter}}' name='child_id_type{{forloop.counter}}'>
+                                                            <select id='child_id_type{{forloop.counter}}' name='child_id_type{{forloop.counter}}' onclick="change_identity_type(`child_id_type{{forloop.counter}}`)">
                                                                 <option value="">Choose Identity Type</option>
                                                                 {% if is_garuda == True and is_international == False %}
                                                                 <option value="ktp">NIK</option>
@@ -878,7 +878,7 @@
                                                 </div>
                                                 <div class="col-lg-6">
                                                     {% if is_identity_required == True %}
-                                                    <label style="color:red">*</label>
+                                                    <label id="child_identity_expired_date_required{{forloop.counter}}" style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'Passport Expired Date' %}</label>
                                                     <div class="input-container-search-ticket">
@@ -1565,7 +1565,7 @@
                                                             <label>{% trans 'ID Type' %}</label>
                                                             <div class="input-container-search-ticket">
                                                                 <div class="form-select" id="default-select">
-                                                                    <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}'>
+                                                                    <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onclick="change_identity_type(`adult_id_type{{forloop.counter}}`)">
                                                                         <option value="">Choose Identity Type</option>
                                                                         {% if is_garuda == True and is_international == False %}
                                                                         <option value="ktp">NIK</option>
@@ -1590,7 +1590,7 @@
                                                         </div>
                                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                                             {% if is_identity_required == True %}
-                                                            <label style="color:red">*</label>
+                                                            <label id="adult_identity_expired_date_required{{forloop.counter}}" style="color:red">*</label>
                                                             {% endif %}
                                                             <label>{% trans 'Identity Expired Date' %}</label>
                                                             <div class="input-container-search-ticket">
@@ -1805,7 +1805,7 @@
                                                             <label>{% trans 'ID Type' %}</label>
                                                             <div class="input-container-search-ticket">
                                                                 <div class="form-select" id="default-select">
-                                                                    <select id='child_id_type{{forloop.counter}}' name='child_id_type{{forloop.counter}}'>
+                                                                    <select id='child_id_type{{forloop.counter}}' name='child_id_type{{forloop.counter}}' onclick="change_identity_type(`child_id_type{{forloop.counter}}`)">
                                                                         <option value="">Choose Identity Type</option>
                                                                         {% if is_garuda == True and is_international == False %}
                                                                         <option value="ktp">NIK</option>
@@ -1830,7 +1830,7 @@
                                                         </div>
                                                         <div class="col-lg-6">
                                                             {% if is_identity_required == True %}
-                                                            <label style="color:red">*</label>
+                                                            <label id="child_identity_expired_date_required{{forloop.counter}}" style="color:red">*</label>
                                                             {% endif %}
                                                             <label>{% trans 'Identity Expired Date' %}</label>
                                                             <div class="input-container-search-ticket">
@@ -2506,7 +2506,7 @@
                                                     <label>{% trans 'ID Type' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select" id="default-select">
-                                                            <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}'>
+                                                            <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onclick="change_identity_type(`adult_id_type{{forloop.counter}}`)">
                                                                 <option value="">Choose Identity Type</option>
                                                                 {% if is_garuda == True and is_international == False %}
                                                                 <option value="ktp">NIK</option>
@@ -2531,7 +2531,7 @@
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                                     {% if is_identity_required == True %}
-                                                    <label style="color:red">*</label>
+                                                    <label id="adult_identity_expired_date_required{{forloop.counter}}" style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'Identity Expired Date' %}</label>
                                                     <div class="input-container-search-ticket">
@@ -2794,7 +2794,7 @@
                                                     <label>{% trans 'ID Type' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select" id="default-select">
-                                                            <select id='child_id_type{{forloop.counter}}' name='child_id_type{{forloop.counter}}'>
+                                                            <select id='child_id_type{{forloop.counter}}' name='child_id_type{{forloop.counter}}' onclick="change_identity_type(`child_id_type{{forloop.counter}}`)">
                                                                 <option value="">Choose Identity Type</option>
                                                                 {% if is_garuda == True and is_international == False %}
                                                                 <option value="ktp">NIK</option>
@@ -2819,7 +2819,7 @@
                                                 </div>
                                                 <div class="col-lg-6">
                                                     {% if is_identity_required == True %}
-                                                    <label style="color:red">*</label>
+                                                    <label id="child_identity_expired_date_required{{forloop.counter}}" style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'Identity Expired Date' %}</label>
                                                     <div class="input-container-search-ticket">
@@ -3551,7 +3551,7 @@
                                                 <label>{% trans 'ID Type' %}</label>
                                                 <div class="input-container-search-ticket">
                                                     <div class="form-select" id="default-select">
-                                                        <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}'>
+                                                        <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onclick="change_identity_type(`adult_id_type{{forloop.counter}}`)">
                                                             <option value="">Choose Identity Type</option>
                                                             {% if is_garuda == True and is_international == False %}
                                                             <option value="ktp">NIK</option>
@@ -3576,7 +3576,7 @@
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6">
                                                 {% if is_identity_required == True %}
-                                                <label style="color:red">*</label>
+                                                <label id="adult_identity_expired_date_required{{forloop.counter}}" style="color:red">*</label>
                                                 {% endif %}
                                                 <label>{% trans 'Identity Expired Date' %}</label>
                                                 <div class="input-container-search-ticket">
@@ -3836,7 +3836,7 @@
                                                 <label>{% trans 'ID Type' %}</label>
                                                 <div class="input-container-search-ticket">
                                                     <div class="form-select" id="default-select">
-                                                        <select id='child_id_type{{forloop.counter}}' name='child_id_type{{forloop.counter}}'>
+                                                        <select id='child_id_type{{forloop.counter}}' name='child_id_type{{forloop.counter}}' onclick="change_identity_type(`child_id_type{{forloop.counter}}`)">
                                                             <option value="">Choose Identity Type</option>
                                                             {% if is_garuda == True and is_international == False %}
                                                             <option value="ktp">NIK</option>
@@ -3861,7 +3861,7 @@
                                             </div>
                                             <div class="col-lg-6">
                                                 {% if is_identity_required == True %}
-                                                <label style="color:red">*</label>
+                                                <label id="child_identity_expired_date_required{{forloop.counter}}" style="color:red">*</label>
                                                 {% endif %}
                                                 <label>{% trans 'Identity Expired Date' %}</label>
                                                 <div class="input-container-search-ticket">
@@ -4579,7 +4579,7 @@
                                                     <label>{% trans 'ID Type' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select" id="default-select">
-                                                            <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}'>
+                                                            <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onclick="change_identity_type(`adult_id_type{{forloop.counter}}`)">
                                                                 <option value="">Choose Identity Type</option>
                                                                 {% if is_garuda == True and is_international == False %}
                                                                 <option value="ktp">NIK</option>
@@ -4604,7 +4604,7 @@
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                                     {% if is_identity_required == True %}
-                                                    <label style="color:red">*</label>
+                                                    <label id="adult_identity_expired_date_required{{forloop.counter}}" style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'Identity Expired Date' %}</label>
                                                     <div class="input-container-search-ticket">
@@ -4864,7 +4864,7 @@
                                                     <label>{% trans 'ID Type' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select" id="default-select">
-                                                            <select id='child_id_type{{forloop.counter}}' name='child_id_type{{forloop.counter}}'>
+                                                            <select id='child_id_type{{forloop.counter}}' name='child_id_type{{forloop.counter}}' onclick="change_identity_type(`child_id_type{{forloop.counter}}`)">
                                                                 <option value="">Choose Identity Type</option>
                                                                 {% if is_garuda == True and is_international == False %}
                                                                 <option value="ktp">NIK</option>
@@ -4889,7 +4889,7 @@
                                                 </div>
                                                 <div class="col-lg-6">
                                                     {% if is_identity_required == True %}
-                                                    <label style="color:red">*</label>
+                                                    <label id="child_identity_expired_date_required{{forloop.counter}}" style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'Identity Expired Date' %}</label>
                                                     <div class="input-container-search-ticket">
@@ -5607,7 +5607,7 @@
                                                     <label>{% trans 'ID Type' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select" id="default-select">
-                                                            <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}'>
+                                                            <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onclick="change_identity_type(`adult_id_type{{forloop.counter}}`)">
                                                                 <option value="">Choose Identity Type</option>
                                                                 {% if is_garuda == True and is_international == False %}
                                                                 <option value="ktp">NIK</option>
@@ -5632,7 +5632,7 @@
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                                     {% if is_identity_required == True %}
-                                                    <label style="color:red">*</label>
+                                                    <label id="adult_identity_expired_date_required{{forloop.counter}}" style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'Identity Expired Date' %}</label>
                                                     <div class="input-container-search-ticket">
@@ -5892,7 +5892,7 @@
                                                     <label>{% trans 'ID Type' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select" id="default-select">
-                                                            <select id='child_id_type{{forloop.counter}}' name='child_id_type{{forloop.counter}}'>
+                                                            <select id='child_id_type{{forloop.counter}}' name='child_id_type{{forloop.counter}}' onclick="change_identity_type(`child_id_type{{forloop.counter}}`)">
                                                                 <option value="">Choose Identity Type</option>
                                                                 {% if is_garuda == True and is_international == False %}
                                                                 <option value="ktp">NIK</option>
@@ -5917,7 +5917,7 @@
                                                 </div>
                                                 <div class="col-lg-6">
                                                     {% if is_identity_required == True %}
-                                                    <label style="color:red">*</label>
+                                                    <label id="child_identity_expired_date_required{{forloop.counter}}" style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'Identity Expired Date' %}</label>
                                                     <div class="input-container-search-ticket">
