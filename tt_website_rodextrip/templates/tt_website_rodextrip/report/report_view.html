@@ -550,8 +550,8 @@
                       <tr>
                         <td>`+data_report.raw_data.result.response.first_overview[i].provider+`</td>
                         <td>`+data_report.raw_data.result.response.first_overview[i].issued+`</td>
-                        <td>`+data_report.raw_data.result.response.first_overview[i].total_price+`</td>
-                        <td>`+data_report.raw_data.result.response.first_overview[i].total_commission+`</td>
+                        <td>`+number_format(data_report.raw_data.result.response.first_overview[i].total_price)+`</td>
+                        <td>`+number_format(data_report.raw_data.result.response.first_overview[i].total_commission)+`</td>
                       </tr>`
             }
             name += 'Issued report';
