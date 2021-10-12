@@ -480,6 +480,10 @@
             document.getElementById('gotobooking'+key).action = '/medical_global/booking/' + btoa(data_search[key].order_number);
         }else if(data_search[key].provider_type == 'bus'){
             document.getElementById('gotobooking'+key).action = '/bus/booking/' + btoa(data_search[key].order_number);
+        }else if(data_search[key].provider_type == 'swab.express'){
+            document.getElementById('gotobooking'+key).action = '/swab_express/booking/' + btoa(data_search[key].order_number);
+        }else if(data_search[key].provider_type == 'lab.pintar'){
+            document.getElementById('gotobooking'+key).action = '/lab_pintar/booking/' + btoa(data_search[key].order_number);
         }
         document.getElementById('gotobooking'+key).submit();
     }
