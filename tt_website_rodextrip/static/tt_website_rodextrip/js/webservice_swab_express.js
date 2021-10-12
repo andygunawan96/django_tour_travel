@@ -247,13 +247,16 @@ function swab_express_check_price(){
 
         }
     }
-    var radios = document.getElementsByName('peduli_lindungi');
-    for (var j = 0, length = radios.length; j < length; j++) {
-        if (radios[j].checked) {
-            // do whatever you want with the checked radio
-            peduli_lindungi = radios[j].value;
-            // only one radio can be logically checked, don't check the rest
-            break;
+    peduli_lindungi = 'false';
+    if(test_type == 'SEKATG'){
+        var radios = document.getElementsByName('peduli_lindungi');
+        for (var j = 0, length = radios.length; j < length; j++) {
+            if (radios[j].checked) {
+                // do whatever you want with the checked radio
+                peduli_lindungi = radios[j].value;
+                // only one radio can be logically checked, don't check the rest
+                break;
+            }
         }
     }
     if(timeslot_list.length != 0 && error_log == '' || test_type.includes('DT')){
@@ -546,7 +549,7 @@ function pre_swab_express_commit_booking(val){
 
                     document.getElementById("passengers").value = JSON.stringify(passengers);
                     document.getElementById("signature").value = signature;
-                    document.getElementById("provider").value = 'swab.express';
+                    document.getElementById("provider").value = 'swabexpress';
                     document.getElementById("type").value = 'swab_express_review';
                     document.getElementById("voucher_code").value = voucher_code;
                     document.getElementById("discount").value = JSON.stringify(discount_voucher);
@@ -673,7 +676,7 @@ function swab_express_commit_booking(val){
                         document.getElementById('order_number').value = msg.result.response.order_number;
                         document.getElementById("passengers").value = JSON.stringify(passengers);
                         document.getElementById("signature").value = signature;
-                        document.getElementById("provider").value = 'swab.express';
+                        document.getElementById("provider").value = 'swabexpress';
                         document.getElementById("type").value = 'swab_express_review';
                         document.getElementById("voucher_code").value = voucher_code;
                         document.getElementById("discount").value = JSON.stringify(discount_voucher);
@@ -718,7 +721,7 @@ function swab_express_commit_booking(val){
                         document.getElementById('order_number').value = msg.result.response.order_number;
                         document.getElementById("passengers").value = JSON.stringify(passengers);
                         document.getElementById("signature").value = signature;
-                        document.getElementById("provider").value = 'swab.express';
+                        document.getElementById("provider").value = 'swabexpress';
                         document.getElementById("type").value = 'swab_express_review';
                         document.getElementById("voucher_code").value = voucher_code;
                         document.getElementById("discount").value = JSON.stringify(discount_voucher);
@@ -754,7 +757,7 @@ function swab_express_commit_booking(val){
                         document.getElementById('order_number').value = msg.result.response.order_number;
                         document.getElementById("passengers").value = JSON.stringify(passengers);
                         document.getElementById("signature").value = signature;
-                        document.getElementById("provider").value = 'swab.express';
+                        document.getElementById("provider").value = 'swabexpress';
                         document.getElementById("type").value = 'swab_express_review';
                         document.getElementById("voucher_code").value = voucher_code;
                         document.getElementById("discount").value = JSON.stringify(discount_voucher);
@@ -885,7 +888,7 @@ function swab_express_get_booking(order_number, sync=false){
 
                         //======================= Button Issued ==================
                         if(msg.result.response.state == 'booked'){
-                           check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'swab.express', signature, msg.result.response.payment_acquirer_number);
+                           check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'swabexpress', signature, msg.result.response.payment_acquirer_number);
                            $(".issued_booking_btn").show();
                            $text += 'Status: Booked\n';
                            document.getElementById('div_sync_status').hidden = false;

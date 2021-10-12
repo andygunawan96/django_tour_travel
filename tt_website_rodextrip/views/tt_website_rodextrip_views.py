@@ -335,14 +335,22 @@ def testing(request):
 
 def testing_chat(request):
     try:
-        values = get_data_template(request)
-        values.update({
-            'static_path_url_server': get_url_static_path(),
-            'static_path': path_util.get_static_path(MODEL_NAME),
-            'signature': request.session['signature'],
-            'username': request.session['user_account'],
-        })
-        return render(request, MODEL_NAME+'/testing_chat.html', values)
+
+        if 'user_account' in request.session._session and 'admin' in request.session['user_account']['co_agent_frontend_security']:
+            values = get_data_template(request)
+            values.update({
+                'static_path_url_server': get_url_static_path(),
+                'static_path': path_util.get_static_path(MODEL_NAME),
+                'signature': request.session['signature'],
+                'username': request.session['user_account'],
+            })
+            return render(request, MODEL_NAME+'/testing_chat.html', values)
+        else:
+            try:
+                language = request.session['_language']
+            except:
+                language = ''
+            return redirect(language + '/')
     except:
         return no_session_logout(request)
 

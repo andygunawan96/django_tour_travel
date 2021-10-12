@@ -532,7 +532,7 @@ function pre_lab_pintar_commit_booking(val){
 
                     document.getElementById("passengers").value = JSON.stringify(passengers);
                     document.getElementById("signature").value = signature;
-                    document.getElementById("provider").value = 'lab.pintar';
+                    document.getElementById("provider").value = 'labpintar';
                     document.getElementById("type").value = 'lab_pintar_review';
                     document.getElementById("voucher_code").value = voucher_code;
                     document.getElementById("discount").value = JSON.stringify(discount_voucher);
@@ -659,7 +659,7 @@ function lab_pintar_commit_booking(val){
                         document.getElementById('order_number').value = msg.result.response.order_number;
                         document.getElementById("passengers").value = JSON.stringify(passengers);
                         document.getElementById("signature").value = signature;
-                        document.getElementById("provider").value = 'lab.pintar';
+                        document.getElementById("provider").value = 'labpintar';
                         document.getElementById("type").value = 'lab_pintar_review';
                         document.getElementById("voucher_code").value = voucher_code;
                         document.getElementById("discount").value = JSON.stringify(discount_voucher);
@@ -704,7 +704,7 @@ function lab_pintar_commit_booking(val){
                         document.getElementById('order_number').value = msg.result.response.order_number;
                         document.getElementById("passengers").value = JSON.stringify(passengers);
                         document.getElementById("signature").value = signature;
-                        document.getElementById("provider").value = 'lab.pintar';
+                        document.getElementById("provider").value = 'labpintar';
                         document.getElementById("type").value = 'lab_pintar_review';
                         document.getElementById("voucher_code").value = voucher_code;
                         document.getElementById("discount").value = JSON.stringify(discount_voucher);
@@ -740,7 +740,7 @@ function lab_pintar_commit_booking(val){
                         document.getElementById('order_number').value = msg.result.response.order_number;
                         document.getElementById("passengers").value = JSON.stringify(passengers);
                         document.getElementById("signature").value = signature;
-                        document.getElementById("provider").value = 'lab.pintar';
+                        document.getElementById("provider").value = 'labpintar';
                         document.getElementById("type").value = 'lab_pintar_review';
                         document.getElementById("voucher_code").value = voucher_code;
                         document.getElementById("discount").value = JSON.stringify(discount_voucher);
@@ -871,7 +871,7 @@ function lab_pintar_get_booking(order_number, sync=false){
 
                         //======================= Button Issued ==================
                         if(msg.result.response.state == 'booked'){
-                           check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'lab.pintar', signature, msg.result.response.payment_acquirer_number);
+                           check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'labpintar', signature, msg.result.response.payment_acquirer_number);
                            $(".issued_booking_btn").show();
                            $text += 'Status: Booked\n';
                            document.getElementById('div_sync_status').hidden = false;

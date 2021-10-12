@@ -2573,7 +2573,7 @@ function sort(){
                                                             text+=`<span style="font-weight:500;" class="copy_others_details">`+airline[i].segments[j].fares[k].fare_details[l].amount+` `+airline[i].segments[j].fares[k].fare_details[l].unit+`</span><br/>`;
                                                        }
                                                        text+=`</div>`;
-                                                    }
+                                                   }
                                                    break;
                                                }
                                            }
@@ -3728,6 +3728,14 @@ function share_data(){
     document.execCommand('copy');
     document.body.removeChild(el);
     $text_share = window.encodeURIComponent($text);
+}
+
+function change_identity_type(id){
+    if(document.getElementById(id).value == 'ktp')
+        document.getElementById(id.replace('id_type','identity_expired_date_required')).style.color = 'white';
+    else
+        document.getElementById(id.replace('id_type','identity_expired_date_required')).style.color = 'red';
+
 }
 
 function airline_detail(type){
@@ -5622,7 +5630,7 @@ function get_checked_copy_result(){
                     parent_segments.find('.copy_carrier_provider_details').each(function(obj) {
                         if($(this).html() != undefined){
                             text+=`<span>Airlines: `+$(this).html()+` </span>`;
-                            $text += '• '+$(this).html()+' ';
+                            $text += '› '+$(this).html()+' ';
                             parent_segments.find('.carrier_code_template').each(function(obj_carrier_code){
                                 if($(this).html() != undefined){
                                     text+=`<span>`+$(this).html()+` </span>`;
@@ -5663,11 +5671,11 @@ function get_checked_copy_result(){
                        var parent_legs = $("#copy_legs_details"+temp_legs);
                        var parent_duration = $("#copy_legs_duration_details"+temp_legs);
 
-
                        text+=`
                        <div class="row">
                            <div class="col-lg-6" style="text-align:left;">`;
 
+                       $text += '\n';
                        $text += 'Departure: ';
                        parent_legs.find('.copy_legs_depart').each(function(obj) {
                            if($(this).html() != undefined){
@@ -5698,9 +5706,41 @@ function get_checked_copy_result(){
                                $text += ' '+$(this).html()+' ';
                            }
                        });
-                       text+=`</div></div>`;
+                       text+=`</div>
+                        <div class="col-lg-12">
+                            <br/>
+                        </div>
+                       </div>`;
 
-                       $text+='\n\n';
+                       $text+='\n';
+                    }
+
+                    $text+='\n';
+                    var value_fares = [];
+                    parent_segments.find('.copy_fares').each(function(obj) {
+                        value_fares.push($(this).html());
+                    });
+                    for (var l = 0; l < value_fares.length; l++){
+                       var temp_fares = ''+value_fares[l];
+                       var parent_fares = $("#copy_fares_details"+temp_fares);
+                       parent_fares.find('.copy_suitcase_details').each(function(obj) {
+                           if($(this).html() != undefined || $(this).html() != ''){
+                               text+=`<span>• Baggage: `+$(this).html()+` </span><br/>`;
+                               $text += '• Baggage   : '+$(this).html()+' \n';
+                           }
+                       });
+                       parent_fares.find('.copy_utensils_details').each(function(obj) {
+                           if($(this).html() != undefined || $(this).html() != ''){
+                               text+=`<span>• Meal: `+$(this).html()+` </span><br/>`;
+                               $text += '• Meal  : '+$(this).html()+' \n';
+                           }
+                       });
+                       parent_fares.find('.copy_others_details').each(function(obj) {
+                           if($(this).html() != undefined || $(this).html() != ''){
+                               text+=`<span>• Others: `+$(this).html()+` </span><br/>`;
+                               $text += '• Others    : '+$(this).html()+' \n';
+                           }
+                       });
 
                        parent_duration.find('.copy_duration_details').each(function(obj) {
                            if($(this).html() != undefined || $(this).html() != ''){
@@ -5708,34 +5748,6 @@ function get_checked_copy_result(){
                                $text += '• Duration :'+$(this).html()+' \n';
                            }
                        });
-
-                       var value_fares = [];
-                       parent_segments.find('.copy_fares').each(function(obj) {
-                           value_fares.push($(this).html());
-                       });
-
-                       for (var l = 0; l < value_fares.length; l++){
-                          var temp_fares = ''+value_fares[l];
-                          var parent_fares = $("#copy_fares_details"+temp_fares);
-                          parent_fares.find('.copy_suitcase_details').each(function(obj) {
-                              if($(this).html() != undefined || $(this).html() != ''){
-                                  text+=`<span>• Baggage: `+$(this).html()+` </span><br/>`;
-                                  $text += '• Baggage   : '+$(this).html()+' \n';
-                              }
-                          });
-                          parent_fares.find('.copy_utensils_details').each(function(obj) {
-                              if($(this).html() != undefined || $(this).html() != ''){
-                                  text+=`<span>• Meal: `+$(this).html()+` </span><br/>`;
-                                  $text += '• Meal  : '+$(this).html()+' \n';
-                              }
-                          });
-                          parent_fares.find('.copy_others_details').each(function(obj) {
-                              if($(this).html() != undefined || $(this).html() != ''){
-                                  text+=`<span>• Others: `+$(this).html()+` </span><br/>`;
-                                  $text += '• Others    : '+$(this).html()+' \n';
-                              }
-                          });
-                       }
                     }
                 }
 

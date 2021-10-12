@@ -1824,8 +1824,8 @@ function overview_overall(data){
             <tr>
                 <td>`+ data[i]['provider'] +`</td>
                 <td>`+ data[i]['counter'] +`</td>
-                <td>`+ data[i]['total_price'] +`</td>
-                <td>`+ data[i]['total_commission'] +`</td>
+                <td>`+ number_format(data[i]['total_price']) +`</td>
+                <td>`+ number_format(data[i]['total_commission']) +`</td>
             </tr>
         `;
     }
@@ -1837,8 +1837,8 @@ function overview_overall(data){
                 <tr>
                     <th>Totals</th>
                     <th>`+ total +`</th>
-                    <th>`+ total_price +`</th>
-                    <th>`+ total_commission +`</th>
+                    <th>`+ number_format(total_price) +`</th>
+                    <th>`+ number_format(total_commission) +`</th>
                 </tr>
             </tfoot>
         </table>

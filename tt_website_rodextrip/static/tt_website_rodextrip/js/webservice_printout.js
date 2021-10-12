@@ -254,23 +254,35 @@ function get_list_report_footer(){
                             show_header_medical(printout[i].html);
                             check_header = false;
                             break;
-                        }else if(vendor == 'swab.express' && test_type == 'SEKATG' && printout[i].code == "swab_express_antigen_information"){
+                        }else if(vendor == 'swabexpress' && test_type == 'SEKATG' && printout[i].code == "swabexpress_antigen_information"){
                             show_header_medical(printout[i].html);
                             check_header = false;
                             break;
-                        }else if(vendor == 'swab.express' && test_type == 'SEKPCR' && printout[i].code == "swab_express_pcr_information"){
+                        }else if(vendor == 'swabexpress' && test_type == 'SEKPCR' && printout[i].code == "swabexpress_pcr_information"){
                             show_header_medical(printout[i].html);
                             check_header = false;
                             break;
-                        }else if(vendor == 'swab.express' && test_type == 'SEPPCR' && printout[i].code == "swab_express_pcr_priority_information"){
+                        }else if(vendor == 'swabexpress' && test_type == 'SEPPCR' && printout[i].code == "swabexpress_pcr_priority_information"){
                             show_header_medical(printout[i].html);
                             check_header = false;
                             break;
-                        }else if(vendor == 'lab.pintar' && test_type == 'LPKATG' && printout[i].code == "lab_pintar_antigen_information"){
+                        }else if(vendor == 'labpintar' && test_type == 'LPKATG' && printout[i].code == "labpintar_antigen_information"){
                             show_header_medical(printout[i].html);
                             check_header = false;
                             break;
-                        }else if(vendor == 'lab.pintar' && test_type == 'LPKPCR' && printout[i].code == "lab_pintar_pcr_information"){
+                        }else if(vendor == 'labpintar' && test_type == 'LPKPCR' && printout[i].code == "labpintar_pcr_information"){
+                            show_header_medical(printout[i].html);
+                            check_header = false;
+                            break;
+                        }else if(vendor == 'labpintar' && test_type == 'LPEPCR' && printout[i].code == "labpintar_pcr_express_information"){
+                            show_header_medical(printout[i].html);
+                            check_header = false;
+                            break;
+                        }else if(vendor == 'labpintar' && test_type == 'LPPPCR' && printout[i].code == "labpintar_pcr_priority_information"){
+                            show_header_medical(printout[i].html);
+                            check_header = false;
+                            break;
+                        }else if(vendor == 'labpintar' && test_type == 'LPKSRBD' && printout[i].code == "labpintar_srbd_information"){
                             show_header_medical(printout[i].html);
                             check_header = false;
                             break;

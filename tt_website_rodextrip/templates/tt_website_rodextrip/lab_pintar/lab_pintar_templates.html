@@ -115,7 +115,7 @@
                 <div class="banner-right scrollmenu style-scrollbar" id="div_scroll_menu">
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         {% for rec in provider_types_sequence %}
-                            {% if "swab.express" in provider and "ticketing_lab_pintar" in username.co_agent_frontend_security and rec.name == "lab_pintar" %}
+                            {% if "swabexpress" in provider and "ticketing_labpintar" in username.co_agent_frontend_security and rec.name == "lab_pintar" %}
                         <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'swap_express');" id="nav_scroll_menu_lab_pintar">
                             <a class="nav-link active" id="lab_pintar-tab" data-toggle="tab" href="#lab_pintar" role="tab" aria-controls="lab_pintar" aria-selected="false">
                                 <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Medical Icon"/></i>
@@ -130,7 +130,7 @@
                 <div class="banner-right">
                     <!--<img src="{{static_path}}images/christmas-icon2.png" style="width:auto; height:90px; position:absolute; right:-35px; top:35px; float:right; z-index:200;" alt="">-->
                     <div class="tab-content" id="myTabContent">
-                        {% if "swab.express" in provider and "ticketing_lab_pintar" in username.co_agent_frontend_security %}
+                        {% if "swabexpress" in provider and "ticketing_labpintar" in username.co_agent_frontend_security %}
                         <div class="tab-pane fade show active " id="lab_pintar" role="tabpanel" aria-labelledby="lab_pintar-tab">
                             <form action="{% url 'tt_website_rodextrip:lab_pintar_passenger'%}" class="form-wrap" id="lab_pintar_searchForm" method="post">
                                 {% csrf_token %}
@@ -5495,7 +5495,7 @@
 <script>
     {% if username.co_user_login != '' %}
         try{
-            {% if "lab_pintar" in provider and "ticketing_lab_pintar" in username.co_agent_frontend_security %}
+            {% if "lab_pintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security %}
             get_config_lab_pintar('home');
             {% endif %}
 

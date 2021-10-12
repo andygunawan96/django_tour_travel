@@ -776,7 +776,7 @@ def get_new_cache(signature, type='all'):
             except Exception as e:
                 _logger.info("ERROR UPDATE CACHE medical " + provider + ' ' + json.dumps(res) + '\n' + str(e) + '\n' + traceback.format_exc())
 
-            provider = 'swab.express'
+            provider = 'swabexpress'
             additional_url = 'content'
             data = {
                 'provider_type': provider
@@ -799,7 +799,7 @@ def get_new_cache(signature, type='all'):
                 _logger.info("ERROR UPDATE CACHE swab express " + provider + ' ' + json.dumps(res) + '\n' + str(
                     e) + '\n' + traceback.format_exc())
 
-            provider = 'lab.pintar'
+            provider = 'labpintar'
             additional_url = 'content'
             data = {
                 'provider_type': provider

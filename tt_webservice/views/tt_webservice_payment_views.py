@@ -116,9 +116,9 @@ def get_payment_acquirer(request):
             url_post = 'booking/phc'
     elif request.POST['type'] == 'medical_global' or request.POST['type'] == 'medical_global_review':
         url_post = 'booking/medical'
-    elif request.POST['type'] == 'swab.express' or request.POST['type'] == 'swab_express_review':
+    elif request.POST['type'] == 'swabexpress' or request.POST['type'] == 'swab_express_review':
         url_post = 'booking/swab_express'
-    elif request.POST['type'] == 'lab.pintar' or request.POST['type'] == 'lab_pintar_review':
+    elif request.POST['type'] == 'labpintar' or request.POST['type'] == 'lab_pintar_review':
         url_post = 'booking/lab_pintar'
     url_request = url + url_post
     res = send_request_api(request, url_request, headers, data, 'POST')
