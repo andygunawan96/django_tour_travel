@@ -1023,6 +1023,16 @@ function medical_global_get_booking(order_number, sync=false){
                                    <h5>Your booking has been successfully Booked. Please proceed to payment or review your booking again.</h5>
                                </div>`;
                            }
+                        }else if(msg.result.response.state == 'refund'){
+                           //document.getElementById('issued-breadcrumb').classList.remove("current");
+                           //document.getElementById('issued-breadcrumb').classList.add("active");
+                           document.getElementById('issued-breadcrumb').classList.add("br-active");
+                           document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
+                           document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
+                           document.getElementById('alert-state').innerHTML = `
+                           <div class="alert alert-dark" role="alert">
+                               <h5>Your booking has been Refunded!</h5>
+                           </div>`;
                         }
                         else if(msg.result.response.state == 'issued'){
                             document.getElementById('issued-breadcrumb').classList.add("br-active");
