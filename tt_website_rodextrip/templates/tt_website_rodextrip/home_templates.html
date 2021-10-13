@@ -1274,21 +1274,21 @@
                                 {% if "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security %}
                                 <label class="radio-button-custom crlabel">
                                     <span style="font-size:13px; color:{{text_color}};">National Hospital</span>
-                                    <input type="radio"  name="health_care_type" value="nathos">
+                                    <input type="radio" {% if 'b2c_limitation' in username.co_agent_frontend_security %} checked="checked" {% endif %} name="health_care_type" value="nathos">
                                     <span class="checkmark-radio crspan"></span>
                                 </label>
                                 {% endif %}
                                 {% if "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security %}
                                 <label class="radio-button-custom crlabel">
                                     <span style="font-size:13px; color:{{text_color}};">Swab Express</span>
-                                    <input type="radio"  name="health_care_type" value="swab_express">
+                                    <input type="radio" {% if 'b2c_limitation' in username.co_agent_frontend_security and "medical" not in provider %} checked="checked" {% endif %} name="health_care_type" value="swab_express">
                                     <span class="checkmark-radio crspan"></span>
                                 </label>
                                 {% endif %}
                                 {% if "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security %}
                                 <label class="radio-button-custom crlabel">
                                     <span style="font-size:13px; color:{{text_color}};">Lab Pintar</span>
-                                    <input type="radio"  name="health_care_type" value="lab_pintar">
+                                    <input type="radio" {% if 'b2c_limitation' in username.co_agent_frontend_security and "medical" not in provider and "swabexpress" in provider %} checked="checked" {% endif %} name="health_care_type" value="lab_pintar">
                                     <span class="checkmark-radio crspan"></span>
                                 </label>
                                 {% endif %}
@@ -10323,10 +10323,18 @@
     {%endif%}
 
     function onchange_health_care(){
-        document.getElementById('lab_pintar_searchForm').style.display = 'none';
-        document.getElementById('swab_express_searchForm').style.display = 'none';
-        document.getElementById('medical_global_searchForm').style.display = 'none';
-        document.getElementById('medical_searchForm1').style.display = 'none';
+        try{
+            document.getElementById('lab_pintar_searchForm').style.display = 'none';
+        }catch(err){}
+        try{
+            document.getElementById('swab_express_searchForm').style.display = 'none';
+        }catch(err){}
+        try{
+            document.getElementById('medical_global_searchForm').style.display = 'none';
+        }catch(err){}
+        try{
+            document.getElementById('medical_searchForm1').style.display = 'none';
+        }catch(err){}
         var value = ''
         var radios = document.getElementsByName('health_care_type');
         for (var j = 0, length = radios.length; j < length; j++) {
