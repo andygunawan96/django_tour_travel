@@ -3311,7 +3311,16 @@
     last_counter = 0;
     vendor = `{{vendor}}`;
     get_list_report_footer();
-    alamat_ss = 'Jl. Boulevard Famili Sel. No.Kav. 1, Babatan, Kec. Wiyung, Kota SBY, Jawa Timur 60227';
+    alamat_ss = '';
+    if(test_type.includes('DT') && test_type.slice(-1) == 'B'){ //BALI
+        alamat_ss = 'Jl. Boulevard Famili Sel. No.Kav. 1, Babatan, Kec. Wiyung, Kota SBY, Jawa Timur 60227';
+    }else if(test_type.includes('DT') && test_type.slice(-1) == 'P'){ //POC
+        alamat_ss = '*POC Merr Kalijudan - National Hospital\nJl. Kalijudan VIII, Kalijudan, Kec. Mulyorejo, Kota SBY, Jawa Timur 60114\n';
+        alamat_ss = '*POC National Hospital - Sulawesi Biliton\nJl. Sulawesi No.69, Gubeng, Kec. Gubeng, Kota SBY, Jawa Timur 60281';
+    }else{ // NATHOS PUSAT
+        alamat_ss = 'Jl. Boulevard Famili Sel. No.Kav. 1, Babatan, Kec. Wiyung, Kota SBY, Jawa Timur 60227';
+    }
+
     test_type = `{{test_type}}`;
 
     document.getElementById('medical_timeslot').style.display = 'block';
@@ -3350,20 +3359,20 @@
     web_url = '';
 
     var list_map = [
-        { //bali belum
+        { //bali
             "name": "static",
-            "lat": -7.2756141,
-            "long": 112.6426418,
+            "lat": -8.4688107,
+            "long": 115.177948,
             "zoom" : 12
         }, { //kalijudan
             "name": "static",
-            "lat": -7.2565714,
-            "long": 112.7798976,
+            "lat": -7.2564631,
+            "long": 112.7796565,
             "zoom" : 12
         }, { //biliton
             "name": "static",
-            "lat": -7.2767125,
-            "long": 112.7467861,
+            "lat": -7.2767645,
+            "long": 112.7467751,
             "zoom" : 12
         }, { //nat hos
             "name": "static",

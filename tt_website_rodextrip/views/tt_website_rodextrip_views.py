@@ -1366,6 +1366,11 @@ def get_data_template(request, type='home', provider_type = []):
                     rec['sequence'] = provider_types_sequence_file.get(rec['name'], '')
                 except:
                     pass
+        if not any(temporary['name'] == 'health_care' for temporary in provider_types_sequence):
+            provider_types_sequence.append({
+                'name': 'health_care',
+                'sequence': ''
+            })
         #check sequence
         last_sequence = 0
         empty_sequence = False
