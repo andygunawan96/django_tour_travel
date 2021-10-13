@@ -3312,6 +3312,7 @@
     vendor = `{{vendor}}`;
     get_list_report_footer();
     alamat_ss = '';
+    test_type = `{{test_type}}`;
     if(test_type.includes('DT') && test_type.slice(-1) == 'B'){ //BALI
         alamat_ss = 'Jl. Boulevard Famili Sel. No.Kav. 1, Babatan, Kec. Wiyung, Kota SBY, Jawa Timur 60227';
     }else if(test_type.includes('DT') && test_type.slice(-1) == 'P'){ //POC
@@ -3321,7 +3322,7 @@
         alamat_ss = 'Jl. Boulevard Famili Sel. No.Kav. 1, Babatan, Kec. Wiyung, Kota SBY, Jawa Timur 60227';
     }
 
-    test_type = `{{test_type}}`;
+
 
     document.getElementById('medical_timeslot').style.display = 'block';
     if(test_type.includes('DT')){
