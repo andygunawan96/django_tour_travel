@@ -1457,6 +1457,16 @@ function train_get_booking(data){
                    <div class="alert alert-info" role="alert">
                        <h5>Your booking has not been processed!</h5>
                    </div>`;
+                }else if(msg.result.response.state == 'refund'){
+                   //document.getElementById('issued-breadcrumb').classList.remove("current");
+                   //document.getElementById('issued-breadcrumb').classList.add("active");
+                   document.getElementById('issued-breadcrumb').classList.add("br-active");
+                   document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
+                   document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
+                   document.getElementById('alert-state').innerHTML = `
+                   <div class="alert alert-dark" role="alert">
+                       <h5>Your booking has been Refunded!</h5>
+                   </div>`;
                 }else{
                    //document.getElementById('issued-breadcrumb').classList.remove("current");
                    //document.getElementById('issued-breadcrumb').classList.add("active");

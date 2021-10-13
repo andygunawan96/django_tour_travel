@@ -688,6 +688,17 @@ function visa_get_data(data){
                             <h5>Your booking has been successfully Issued!</h5>
                         </div>`;
                     }
+                    else if(cur_state == 'refund'){
+                       //document.getElementById('issued-breadcrumb').classList.remove("current");
+                       //document.getElementById('issued-breadcrumb').classList.add("active");
+                       document.getElementById('issued-breadcrumb').classList.add("br-active");
+                       document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
+                       document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
+                       document.getElementById('alert-state').innerHTML = `
+                       <div class="alert alert-dark" role="alert">
+                           <h5>Your booking has been Refunded!</h5>
+                       </div>`;
+                    }
                     else if(cur_state == 'cancel'){
                         conv_status = 'Cancelled';
                         document.getElementById('issued-breadcrumb').classList.remove("br-active");
