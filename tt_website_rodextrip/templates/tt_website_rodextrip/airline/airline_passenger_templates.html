@@ -567,7 +567,7 @@
                                                     <label>{% trans 'ID Type' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select" id="default-select">
-                                                            <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onclick="change_identity_type(`adult_id_type{{forloop.counter}}`)">
+                                                            <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onchange="change_identity_type(`adult_id_type{{forloop.counter}}`)">
                                                                 <option value="">Choose Identity Type</option>
                                                                 {% if is_garuda == True and is_international == False %}
                                                                 <option value="ktp">NIK</option>
@@ -582,18 +582,14 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    {% if is_identity_required == True %}
-                                                    <label style="color:red">*</label>
-                                                    {% endif %}
+                                                    <label id="adult_identity_number_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                     <label>{% trans 'Identity Number' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <input type="text" class="form-control" name="adult_passport_number{{forloop.counter}}" id="adult_passport_number{{forloop.counter}}" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    {% if is_identity_required == True %}
-                                                    <label id="adult_identity_expired_date_required{{forloop.counter}}" style="color:red">*</label>
-                                                    {% endif %}
+                                                    <label id="adult_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                     <label>{% trans 'Identity Expired Date' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <input type="text" class="form-control date-picker-passport" style="background:white;" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Identity Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Expired Date '" autocomplete="off" readonly onchange="check_passport_expired_six_month(`adult_passport_expired_date{{forloop.counter}}`);">
@@ -601,9 +597,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    {% if is_identity_required == True %}
-                                                    <label style="color:red">*</label>
-                                                    {% endif %}
+                                                    <label id="adult_country_of_issued_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                     <label>{% trans 'Country of Issued' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select">
@@ -853,11 +847,11 @@
                                                     <label>{% trans 'ID Type' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select" id="default-select">
-                                                            <select id='child_id_type{{forloop.counter}}' name='child_id_type{{forloop.counter}}' onclick="change_identity_type(`child_id_type{{forloop.counter}}`)">
+                                                            <select id='child_id_type{{forloop.counter}}' name='child_id_type{{forloop.counter}}' onchange="change_identity_type(`child_id_type{{forloop.counter}}`)">
                                                                 <option value="">Choose Identity Type</option>
                                                                 {% if is_garuda == True and is_international == False %}
                                                                 <option value="ktp">NIK</option>
-                                                                {% elif is_lionair == True %}
+                                                                {% elif  is_lionair == True %}
                                                                 <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
                                                                 {% else %}
@@ -868,18 +862,14 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    {% if is_identity_required == True %}
-                                                    <label style="color:red">*</label>
-                                                    {% endif %}
+                                                    <label id="child_identity_number_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                     <label>{% trans 'Identity Number' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <input type="text" class="form-control" name="child_passport_number{{forloop.counter}}" id="child_passport_number{{forloop.counter}}" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    {% if is_identity_required == True %}
-                                                    <label id="child_identity_expired_date_required{{forloop.counter}}" style="color:red">*</label>
-                                                    {% endif %}
+                                                    <label id="child_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                     <label>{% trans 'Passport Expired Date' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <input type="text" class="form-control date-picker-passport" style="background:white;" name="child_passport_expired_date{{forloop.counter}}" id="child_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Identity Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Expired Date '" readonly onchange="check_passport_expired_six_month(`child_passport_expired_date{{forloop.counter}}`)">
@@ -887,9 +877,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    {% if is_identity_required == True %}
-                                                    <label style="color:red">*</label>
-                                                    {% endif %}
+                                                    <label id="child_country_of_issued_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                     <label>{% trans 'Country of Issued' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select">
@@ -1094,6 +1082,60 @@
                                                 <input type="text" class="form-control date-picker-birth" name="infant_birth_date{{forloop.counter}}" id="infant_birth_date{{forloop.counter}}" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                             </div>
                                         </div>
+                                        <div class="col-lg-12" id="infant_identity_type{{forloop.counter}}" style="{% if is_international == True %}display:block{% else %}display:none;{% endif %}">
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    {% if is_identity_required == True %}
+                                                    <label style="color:red">*</label>
+                                                    {% endif %}
+                                                    <label>{% trans 'ID Type' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select" id="default-select">
+                                                            <select id='infant_id_type{{forloop.counter}}' name='infant_id_type{{forloop.counter}}' onchange="change_identity_type(`infant_id_type{{forloop.counter}}`)">
+                                                                <option value="">Choose Identity Type</option>
+                                                                <option value="passport">Passport</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label id="infant_identity_number_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
+                                                    <label>{% trans 'Identity Number' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control" name="infant_passport_number{{forloop.counter}}" id="infant_passport_number{{forloop.counter}}" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label id="infant_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
+                                                    <label>{% trans 'Identity Expired Date' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Identity Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Expired Date '" readonly onchange="check_passport_expired_six_month(`infant_passport_expired_date{{forloop.counter}}`)">
+                                                        <button type="button" class="primary-delete-date" onclick="delete_expired_date('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label id="infant_country_of_issued_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
+                                                    <label>{% trans 'Country of Issued' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select">
+                                                            <select class="form-control js-example-basic-single" name="infant_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="infant_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('infant_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                                <option value="">{% trans 'Country of Issued' %}</option>
+                                                                {% for country in countries %}
+                                                                <option value="{{country.name}}">{{country.name}}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                        <input type="hidden" name="infant_country_of_issued{{forloop.counter}}" id="infant_country_of_issued{{forloop.counter}}" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% if is_lionair == True and is_international == True %}
+                                        <span><span style="color:red">* </span>{% trans 'Passport is required for lion air, wings air, or batik air' %}</span>
+                                        {% elif is_identity_required == True%}
+                                        <span><span style="color:red">* </span>{% trans 'Identity Type required for Indonesian People' %}</span>
+                                        {%endif%}
                                     </div>
                                 </div>
                             </div>
@@ -1565,11 +1607,11 @@
                                                             <label>{% trans 'ID Type' %}</label>
                                                             <div class="input-container-search-ticket">
                                                                 <div class="form-select" id="default-select">
-                                                                    <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onclick="change_identity_type(`adult_id_type{{forloop.counter}}`)">
+                                                                    <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onchange="change_identity_type(`adult_id_type{{forloop.counter}}`)">
                                                                         <option value="">Choose Identity Type</option>
                                                                         {% if is_garuda == True and is_international == False %}
                                                                         <option value="ktp">NIK</option>
-                                                                        {% elif is_lionair == True %}
+                                                                        {% elif  is_lionair == True %}
                                                                         <option value="ktp">NIK</option>
                                                                         <option value="passport">Passport</option>
                                                                         {% else %}
@@ -1580,18 +1622,14 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6 col-md-6 col-sm-6">
-                                                            {% if is_identity_required == True %}
-                                                            <label style="color:red">*</label>
-                                                            {% endif %}
+                                                            <label id="adult_identity_number_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                             <label>{% trans 'Identity Number' %}</label>
                                                             <div class="input-container-search-ticket">
                                                                 <input type="text" class="form-control" name="adult_passport_number{{forloop.counter}}" id="adult_passport_number{{forloop.counter}}" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6 col-md-6 col-sm-6">
-                                                            {% if is_identity_required == True %}
-                                                            <label id="adult_identity_expired_date_required{{forloop.counter}}" style="color:red">*</label>
-                                                            {% endif %}
+                                                            <label id="adult_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                             <label>{% trans 'Identity Expired Date' %}</label>
                                                             <div class="input-container-search-ticket">
                                                                 <input type="text" style="background:white;" class="form-control date-picker-passport" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Identity Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Expired Date '" autocomplete="off" readonly onchange="check_passport_expired_six_month(`adult_passport_expired_date{{forloop.counter}}`);">
@@ -1599,9 +1637,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6 col-md-6 col-sm-6">
-                                                            {% if is_identity_required == True %}
-                                                            <label style="color:red">*</label>
-                                                            {% endif %}
+                                                            <label id="adult_country_of_issued_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                             <label>{% trans 'Country of Issued' %}</label>
                                                             <div class="input-container-search-ticket">
                                                                 <select class="form-control js-example-basic-single" name="adult_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('adult_country_of_issued{{forloop.counter}}')" class="nice-select-default">
@@ -1805,11 +1841,11 @@
                                                             <label>{% trans 'ID Type' %}</label>
                                                             <div class="input-container-search-ticket">
                                                                 <div class="form-select" id="default-select">
-                                                                    <select id='child_id_type{{forloop.counter}}' name='child_id_type{{forloop.counter}}' onclick="change_identity_type(`child_id_type{{forloop.counter}}`)">
+                                                                    <select id='child_id_type{{forloop.counter}}' name='child_id_type{{forloop.counter}}' onchange="change_identity_type(`child_id_type{{forloop.counter}}`)">
                                                                         <option value="">Choose Identity Type</option>
                                                                         {% if is_garuda == True and is_international == False %}
                                                                         <option value="ktp">NIK</option>
-                                                                        {% elif is_lionair == True %}
+                                                                        {% elif  is_lionair == True %}
                                                                         <option value="ktp">NIK</option>
                                                                         <option value="passport">Passport</option>
                                                                         {% else %}
@@ -1820,18 +1856,14 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
-                                                            {% if is_identity_required == True %}
-                                                            <label style="color:red">*</label>
-                                                            {% endif %}
+                                                            <label id="child_identity_number_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                             <label>{% trans 'Identity Number' %}</label>
                                                             <div class="input-container-search-ticket">
                                                                 <input type="text" class="form-control" name="child_passport_number{{forloop.counter}}" id="child_passport_number{{forloop.counter}}" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
-                                                            {% if is_identity_required == True %}
-                                                            <label id="child_identity_expired_date_required{{forloop.counter}}" style="color:red">*</label>
-                                                            {% endif %}
+                                                            <label id="child_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                             <label>{% trans 'Identity Expired Date' %}</label>
                                                             <div class="input-container-search-ticket">
                                                                 <input type="text" style="background:white;" class="form-control date-picker-passport" name="child_passport_expired_date{{forloop.counter}}" id="child_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Identity Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Expired Date '" readonly onchange="check_passport_expired_six_month(`child_passport_expired_date{{forloop.counter}}`);">
@@ -1839,9 +1871,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
-                                                            {% if is_identity_required == True %}
-                                                            <label style="color:red">*</label>
-                                                            {% endif %}
+                                                            <label id="child_country_of_issued_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                             <label>{% trans 'Country of Issued' %}</label>
                                                             <div class="input-container-search-ticket">
                                                                 <select class="form-control js-example-basic-single" name="child_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="child_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('child_country_of_issued{{forloop.counter}}')" class="nice-select-default">
@@ -2005,7 +2035,54 @@
                                                     </div>
                                                 </div>
 
-
+                                                <div class="col-lg-12" id="infant_identity_type{{forloop.counter}}" style="{% if is_international == True %}display:block{% else %}display:none;{% endif %}">
+                                                    <div class="row">
+                                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                                            {% if is_identity_required == True %}
+                                                            <label style="color:red">*</label>
+                                                            {% endif %}
+                                                            <label>{% trans 'ID Type' %}</label>
+                                                            <div class="input-container-search-ticket">
+                                                                <div class="form-select" id="default-select">
+                                                                    <select id='infant_id_type{{forloop.counter}}' name='infant_id_type{{forloop.counter}}' onchange="change_identity_type(`infant_id_type{{forloop.counter}}`)">
+                                                                        <option value="">Choose Identity Type</option>
+                                                                        <option value="passport">Passport</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <label id="infant_identity_number_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
+                                                            <label>{% trans 'Identity Number' %}</label>
+                                                            <div class="input-container-search-ticket">
+                                                                <input type="text" class="form-control" name="infant_passport_number{{forloop.counter}}" id="infant_passport_number{{forloop.counter}}" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <label id="infant_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
+                                                            <label>{% trans 'Identity Expired Date' %}</label>
+                                                            <div class="input-container-search-ticket">
+                                                                <input type="text" style="background:white;" class="form-control date-picker-passport" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Identity Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Expired Date '" readonly onchange="check_passport_expired_six_month(`infant_passport_expired_date{{forloop.counter}}`);">
+                                                                <button type="button" class="primary-delete-date" onclick="delete_expired_date('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <label id="infant_country_of_issued_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
+                                                            <label>{% trans 'Country of Issued' %}</label>
+                                                            <div class="input-container-search-ticket">
+                                                                <select class="form-control js-example-basic-single" name="infant_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="infant_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('infant_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                                    <option value="">{% trans 'Country of Issued' %}</option>
+                                                                    {% for country in countries %}
+                                                                    <option value="{{country.code}}">{{country.name}}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                                <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                                <input type="hidden" name="infant_country_of_issued{{forloop.counter}}" id="infant_country_of_issued{{forloop.counter}}" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6"></div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -2506,11 +2583,11 @@
                                                     <label>{% trans 'ID Type' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select" id="default-select">
-                                                            <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onclick="change_identity_type(`adult_id_type{{forloop.counter}}`)">
+                                                            <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onchange="change_identity_type(`adult_id_type{{forloop.counter}}`)">
                                                                 <option value="">Choose Identity Type</option>
                                                                 {% if is_garuda == True and is_international == False %}
                                                                 <option value="ktp">NIK</option>
-                                                                {% elif is_lionair == True %}
+                                                                {% elif  is_lionair == True %}
                                                                 <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
                                                                 {% else %}
@@ -2521,18 +2598,14 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    {% if is_identity_required == True %}
-                                                    <label style="color:red">*</label>
-                                                    {% endif %}
+                                                    <label id="adult_identity_number_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                     <label>{% trans 'Identity Number' %}</label>
                                                     <div class="form-group">
                                                         <input type="text" class="form-control" name="adult_passport_number{{forloop.counter}}" id="adult_passport_number{{forloop.counter}}" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    {% if is_identity_required == True %}
-                                                    <label id="adult_identity_expired_date_required{{forloop.counter}}" style="color:red">*</label>
-                                                    {% endif %}
+                                                    <label id="adult_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                     <label>{% trans 'Identity Expired Date' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <input type="text" class="form-control date-picker-passport" style="background:white;" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Identity Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Expired Date '" autocomplete="off" readonly onchange="check_passport_expired_six_month(`adult_passport_expired_date{{forloop.counter}}`);">
@@ -2540,9 +2613,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    {% if is_identity_required == True %}
-                                                    <label style="color:red">*</label>
-                                                    {% endif %}
+                                                    <label id="adult_country_of_issued_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                     <label>{% trans 'Country of Issued' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select">
@@ -2794,11 +2865,11 @@
                                                     <label>{% trans 'ID Type' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select" id="default-select">
-                                                            <select id='child_id_type{{forloop.counter}}' name='child_id_type{{forloop.counter}}' onclick="change_identity_type(`child_id_type{{forloop.counter}}`)">
+                                                            <select id='child_id_type{{forloop.counter}}' name='child_id_type{{forloop.counter}}' onchange="change_identity_type(`child_id_type{{forloop.counter}}`)">
                                                                 <option value="">Choose Identity Type</option>
                                                                 {% if is_garuda == True and is_international == False %}
                                                                 <option value="ktp">NIK</option>
-                                                                {% elif is_lionair == True %}
+                                                                {% elif  is_lionair == True %}
                                                                 <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
                                                                 {% else %}
@@ -2809,18 +2880,14 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    {% if is_identity_required == True %}
-                                                    <label style="color:red">*</label>
-                                                    {% endif %}
+                                                    <label id="child_identity_number_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                     <label>{% trans 'Identity Number' %}</label>
                                                     <div class="form-group">
                                                         <input type="text" class="form-control" name="child_passport_number{{forloop.counter}}" id="child_passport_number{{forloop.counter}}" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    {% if is_identity_required == True %}
-                                                    <label id="child_identity_expired_date_required{{forloop.counter}}" style="color:red">*</label>
-                                                    {% endif %}
+                                                    <label id="child_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                     <label>{% trans 'Identity Expired Date' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <input type="text" class="form-control date-picker-passport" style="background:white;" name="child_passport_expired_date{{forloop.counter}}" id="child_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Identity Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Expired Date '" readonly onchange="check_passport_expired_six_month(`child_passport_expired_date{{forloop.counter}}`);">
@@ -2828,9 +2895,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    {% if is_identity_required == True %}
-                                                    <label style="color:red">*</label>
-                                                    {% endif %}
+                                                    <label id="child_country_of_issued_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                     <label>{% trans 'Country of Issued' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select">
@@ -3039,7 +3104,60 @@
                                             </div>
                                         </div>
 
-
+                                        <div class="col-lg-12" id="infant_identity_type{{forloop.counter}}" style="{% if is_international == True %}display:block{% else %}display:none;{% endif %}">
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    {% if is_identity_required == True %}
+                                                    <label style="color:red">*</label>
+                                                    {% endif %}
+                                                    <label>{% trans 'ID Type' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select" id="default-select">
+                                                            <select id='infant_id_type{{forloop.counter}}' name='infant_id_type{{forloop.counter}}' onchange="change_identity_type(`infant_id_type{{forloop.counter}}`)">
+                                                                <option value="">Choose Identity Type</option>
+                                                                <option value="passport">Passport</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label id="infant_identity_number_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
+                                                    <label>{% trans 'Identity Number' %}</label>
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control" name="infant_passport_number{{forloop.counter}}" id="infant_passport_number{{forloop.counter}}" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label id="infant_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
+                                                    <label>{% trans 'Identity Expired Date' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Identity Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Expired Date '" readonly onchange="check_passport_expired_six_month(`infant_passport_expired_date{{forloop.counter}}`);">
+                                                        <button type="button" class="primary-delete-date" onclick="delete_expired_date('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label id="infant_country_of_issued_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
+                                                    <label>{% trans 'Country of Issued' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select">
+                                                            <select class="form-control js-example-basic-single" name="infant_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="infant_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('infant_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                                <option value="">{% trans 'Country of Issued' %}</option>
+                                                                {% for country in countries %}
+                                                                <option value="{{country.name}}">{{country.name}}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                        <input type="hidden" name="infant_country_of_issued{{forloop.counter}}" id="infant_country_of_issued{{forloop.counter}}" />
+                                                    </div>
+                                                </div>
+                                                {% if is_lionair == True and is_international == True %}
+                                                <span><span style="color:red">* </span>{% trans 'Passport is required for lion air, wings air, or batik air' %}</span>
+                                                {% elif is_identity_required == True %}
+                                                <span><span style="color:red">* </span>{% trans 'Identity Type required for Indonesian People' %}</span>
+                                                {%endif%}
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -3551,11 +3669,11 @@
                                                 <label>{% trans 'ID Type' %}</label>
                                                 <div class="input-container-search-ticket">
                                                     <div class="form-select" id="default-select">
-                                                        <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onclick="change_identity_type(`adult_id_type{{forloop.counter}}`)">
+                                                        <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onchange="change_identity_type(`adult_id_type{{forloop.counter}}`)">
                                                             <option value="">Choose Identity Type</option>
                                                             {% if is_garuda == True and is_international == False %}
                                                             <option value="ktp">NIK</option>
-                                                            {% elif is_lionair == True %}
+                                                            {% elif  is_lionair == True %}
                                                             <option value="ktp">NIK</option>
                                                             <option value="passport">Passport</option>
                                                             {% else %}
@@ -3566,18 +3684,14 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6">
-                                                {% if is_identity_required == True %}
-                                                <label style="color:red">*</label>
-                                                {% endif %}
+                                                <label id="adult_identity_number_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                 <label>{% trans 'Identity Number' %}</label>
                                                 <div class="input-container-search-ticket">
                                                     <input type="text" class="form-control" name="adult_passport_number{{forloop.counter}}" id="adult_passport_number{{forloop.counter}}" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6">
-                                                {% if is_identity_required == True %}
-                                                <label id="adult_identity_expired_date_required{{forloop.counter}}" style="color:red">*</label>
-                                                {% endif %}
+                                                <label id="adult_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                 <label>{% trans 'Identity Expired Date' %}</label>
                                                 <div class="input-container-search-ticket">
                                                     <input type="text" class="form-control date-picker-passport" style="background:white;" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Identity Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Expired Date '" autocomplete="off" readonly onchange="check_passport_expired_six_month(`adult_passport_expired_date{{forloop.counter}}`);">
@@ -3585,9 +3699,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6">
-                                                {% if is_identity_required == True %}
-                                                <label style="color:red">*</label>
-                                                {% endif %}
+                                                <label id="adult_country_of_issued_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                 <label>{% trans 'Country of Issued' %}</label>
                                                 <div class="input-container-search-ticket">
                                                     <div class="form-select">
@@ -3836,11 +3948,11 @@
                                                 <label>{% trans 'ID Type' %}</label>
                                                 <div class="input-container-search-ticket">
                                                     <div class="form-select" id="default-select">
-                                                        <select id='child_id_type{{forloop.counter}}' name='child_id_type{{forloop.counter}}' onclick="change_identity_type(`child_id_type{{forloop.counter}}`)">
+                                                        <select id='child_id_type{{forloop.counter}}' name='child_id_type{{forloop.counter}}' onchange="change_identity_type(`child_id_type{{forloop.counter}}`)">
                                                             <option value="">Choose Identity Type</option>
                                                             {% if is_garuda == True and is_international == False %}
                                                             <option value="ktp">NIK</option>
-                                                            {% elif is_lionair == True %}
+                                                            {% elif  is_lionair == True %}
                                                             <option value="ktp">NIK</option>
                                                             <option value="passport">Passport</option>
                                                             {% else %}
@@ -3851,18 +3963,14 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
-                                                {% if is_identity_required == True %}
-                                                <label style="color:red">*</label>
-                                                {% endif %}
+                                                <label id="child_identity_number_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                 <label>{% trans 'Identity Number' %}</label>
                                                 <div class="input-container-search-ticket">
                                                     <input type="text" class="form-control" name="child_passport_number{{forloop.counter}}" id="child_passport_number{{forloop.counter}}" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
-                                                {% if is_identity_required == True %}
-                                                <label id="child_identity_expired_date_required{{forloop.counter}}" style="color:red">*</label>
-                                                {% endif %}
+                                                <label id="child_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                 <label>{% trans 'Identity Expired Date' %}</label>
                                                 <div class="input-container-search-ticket">
                                                     <input type="text" class="form-control date-picker-passport" style="background:white;" name="child_passport_expired_date{{forloop.counter}}" id="child_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Identity Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Expired Date '" readonly onchange="check_passport_expired_six_month(`child_passport_expired_date{{forloop.counter}}`);">
@@ -3870,9 +3978,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
-                                                {% if is_identity_required == True %}
-                                                <label style="color:red">*</label>
-                                                {% endif %}
+                                                <label id="child_country_of_issued_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                 <label>{% trans 'Country of Issued' %}</label>
                                                 <div class="input-container-search-ticket">
                                                     <div class="form-select">
@@ -4079,7 +4185,60 @@
                                         </div>
                                     </div>
 
-
+                                    <div class="col-lg-12" id="infant_identity_type{{forloop.counter}}" style="{% if is_international == True %}display:block{% else %}display:none;{% endif %}">
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                {% if is_identity_required == True %}
+                                                <label style="color:red">*</label>
+                                                {% endif %}
+                                                <label>{% trans 'ID Type' %}</label>
+                                                <div class="input-container-search-ticket">
+                                                    <div class="form-select" id="default-select">
+                                                        <select id='infant_id_type{{forloop.counter}}' name='infant_id_type{{forloop.counter}}' onchange="change_identity_type(`infant_id_type{{forloop.counter}}`)">
+                                                            <option value="">Choose Identity Type</option>
+                                                            <option value="passport">Passport</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <label id="infant_identity_number_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
+                                                <label>{% trans 'Identity Number' %}</label>
+                                                <div class="input-container-search-ticket">
+                                                    <input type="text" class="form-control" name="infant_passport_number{{forloop.counter}}" id="infant_passport_number{{forloop.counter}}" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <label id="infant_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
+                                                <label>{% trans 'Identity Expired Date' %}</label>
+                                                <div class="input-container-search-ticket">
+                                                    <input type="text" class="form-control date-picker-passport" style="background:white;" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Identity Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Expired Date '" readonly onchange="check_passport_expired_six_month(`infant_passport_expired_date{{forloop.counter}}`);">
+                                                    <button type="button" class="primary-delete-date" onclick="delete_expired_date('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <label id="infant_country_of_issued_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
+                                                <label>{% trans 'Country of Issued' %}</label>
+                                                <div class="input-container-search-ticket">
+                                                    <div class="form-select">
+                                                        <select class="form-control js-example-basic-single" name="infant_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="infant_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('infant_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                            <option value="">{% trans 'Country of Issued' %}</option>
+                                                            {% for country in countries %}
+                                                            <option value="{{country.name}}">{{country.name}}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                    <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                    <input type="hidden" name="infant_country_of_issued{{forloop.counter}}" id="infant_country_of_issued{{forloop.counter}}" />
+                                                </div>
+                                            </div>
+                                            {% if is_lionair == True and is_international == True %}
+                                            <span><span style="color:red">* </span>{% trans 'Passport is required for lion air, wings air, or batik air' %}</span>
+                                            {% elif is_identity_required == True%}
+                                            <span><span style="color:red">* </span>{% trans 'Identity Type required for Indonesian People' %}</span>
+                                            {%endif%}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -4579,11 +4738,11 @@
                                                     <label>{% trans 'ID Type' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select" id="default-select">
-                                                            <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onclick="change_identity_type(`adult_id_type{{forloop.counter}}`)">
+                                                            <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onchange="change_identity_type(`adult_id_type{{forloop.counter}}`)">
                                                                 <option value="">Choose Identity Type</option>
                                                                 {% if is_garuda == True and is_international == False %}
                                                                 <option value="ktp">NIK</option>
-                                                                {% elif is_lionair == True %}
+                                                                {% elif  is_lionair == True %}
                                                                 <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
                                                                 {% else %}
@@ -4594,18 +4753,14 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    {% if is_identity_required == True %}
-                                                    <label style="color:red">*</label>
-                                                    {% endif %}
+                                                    <label id="adult_identity_number_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                     <label>{% trans 'Identity Number' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <input type="text" class="form-control" name="adult_passport_number{{forloop.counter}}" id="adult_passport_number{{forloop.counter}}" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    {% if is_identity_required == True %}
-                                                    <label id="adult_identity_expired_date_required{{forloop.counter}}" style="color:red">*</label>
-                                                    {% endif %}
+                                                    <label id="adult_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                     <label>{% trans 'Identity Expired Date' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <input type="text" class="form-control date-picker-passport" style="background:white;" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Identity Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Expired Date '" autocomplete="off" readonly onchange="check_passport_expired_six_month(`adult_passport_expired_date{{forloop.counter}}`);">
@@ -4613,9 +4768,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    {% if is_identity_required == True %}
-                                                    <label style="color:red">*</label>
-                                                    {% endif %}
+                                                    <label id="adult_country_of_issued_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                     <label>{% trans 'Country of Issued' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select">
@@ -4864,11 +5017,11 @@
                                                     <label>{% trans 'ID Type' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select" id="default-select">
-                                                            <select id='child_id_type{{forloop.counter}}' name='child_id_type{{forloop.counter}}' onclick="change_identity_type(`child_id_type{{forloop.counter}}`)">
+                                                            <select id='child_id_type{{forloop.counter}}' name='child_id_type{{forloop.counter}}' onchange="change_identity_type(`child_id_type{{forloop.counter}}`)">
                                                                 <option value="">Choose Identity Type</option>
                                                                 {% if is_garuda == True and is_international == False %}
                                                                 <option value="ktp">NIK</option>
-                                                                {% elif is_lionair == True %}
+                                                                {% elif  is_lionair == True %}
                                                                 <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
                                                                 {% else %}
@@ -4879,18 +5032,14 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    {% if is_identity_required == True %}
-                                                    <label style="color:red">*</label>
-                                                    {% endif %}
+                                                    <label id="child_identity_number_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                     <label>{% trans 'Identity Number' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <input type="text" class="form-control" name="child_passport_number{{forloop.counter}}" id="child_passport_number{{forloop.counter}}" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    {% if is_identity_required == True %}
-                                                    <label id="child_identity_expired_date_required{{forloop.counter}}" style="color:red">*</label>
-                                                    {% endif %}
+                                                    <label id="child_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                     <label>{% trans 'Identity Expired Date' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <input type="text" class="form-control date-picker-passport" style="background:white;" name="child_passport_expired_date{{forloop.counter}}" id="child_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Identity Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Expired Date '" readonly onchange="check_passport_expired_six_month(`child_passport_expired_date{{forloop.counter}}`);">
@@ -4898,9 +5047,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    {% if is_identity_required == True %}
-                                                    <label style="color:red">*</label>
-                                                    {% endif %}
+                                                    <label id="child_country_of_issued_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                     <label>{% trans 'Country of Issued' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select">
@@ -5082,7 +5229,60 @@
                                             </div>
                                         </div>
 
-
+                                        <div class="col-lg-12" id="infant_identity_type{{forloop.counter}}" style="{% if is_international == True %}display:block{% else %}display:none;{% endif %}">
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    <label id="infant_identity_number_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
+                                                    <label>{% trans 'ID Type' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select" id="default-select">
+                                                            <select id='infant_id_type{{forloop.counter}}' name='infant_id_type{{forloop.counter}}' onchange="change_identity_type(`infant_id_type{{forloop.counter}}`)">
+                                                                <option value="">Choose Identity Type</option>
+                                                                <option value="passport">Passport</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label id="infant_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
+                                                    <label>{% trans 'Identity Number' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control" name="infant_passport_number{{forloop.counter}}" id="infant_passport_number{{forloop.counter}}" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    {% if is_identity_required == True %}
+                                                    <label style="color:red">*</label>
+                                                    {% endif %}
+                                                    <label>{% trans 'Identity Expired Date' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Identity Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Expired Date '" readonly onchange="check_passport_expired_six_month(`infant_passport_expired_date{{forloop.counter}}`);">
+                                                        <button type="button" class="primary-delete-date" onclick="delete_expired_date('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label id="infant_country_of_issued_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
+                                                    <label>{% trans 'Country of Issued' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select">
+                                                            <select class="form-control js-example-basic-single" name="infant_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="infant_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('infant_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                                <option value="">{% trans 'Country of Issued' %}</option>
+                                                                {% for country in countries %}
+                                                                <option value="{{country.name}}">{{country.name}}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                        <input type="hidden" name="infant_country_of_issued{{forloop.counter}}" id="infant_country_of_issued{{forloop.counter}}" />
+                                                    </div>
+                                                </div>
+                                                {% if is_lionair == True and is_international == True %}
+                                                <span><span style="color:red">* </span>{% trans 'Passport is required for lion air, wings air, or batik air' %}</span>
+                                                {% elif is_identity_required == True%}
+                                                <span><span style="color:red">* </span>{% trans 'Identity Type required for Indonesian People' %}</span>
+                                                {%endif%}
+                                            </div>
+                                        </div>
 
                                         {% for ff in ff_request %}
                                         <div class="col-lg-6 col-md-6 col-sm-6" id="child_ff_program_{{counter}}_{{forloop.counter}}">
@@ -5607,11 +5807,11 @@
                                                     <label>{% trans 'ID Type' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select" id="default-select">
-                                                            <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onclick="change_identity_type(`adult_id_type{{forloop.counter}}`)">
+                                                            <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onchange="change_identity_type(`adult_id_type{{forloop.counter}}`)">
                                                                 <option value="">Choose Identity Type</option>
                                                                 {% if is_garuda == True and is_international == False %}
                                                                 <option value="ktp">NIK</option>
-                                                                {% elif is_lionair == True %}
+                                                                {% elif  is_lionair == True %}
                                                                 <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
                                                                 {% else %}
@@ -5622,18 +5822,14 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    {% if is_identity_required == True %}
-                                                    <label style="color:red">*</label>
-                                                    {% endif %}
+                                                    <label id="adult_identity_number_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                     <label>{% trans 'Identity Number' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <input type="text" class="form-control" name="adult_passport_number{{forloop.counter}}" id="adult_passport_number{{forloop.counter}}" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    {% if is_identity_required == True %}
-                                                    <label id="adult_identity_expired_date_required{{forloop.counter}}" style="color:red">*</label>
-                                                    {% endif %}
+                                                    <label id="adult_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                     <label>{% trans 'Identity Expired Date' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <input type="text" class="form-control date-picker-passport" style="background:white;" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Identity Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Expired Date '" autocomplete="off" readonly onchange="check_passport_expired_six_month(`adult_passport_expired_date{{forloop.counter}}`);">
@@ -5641,9 +5837,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    {% if is_identity_required == True %}
-                                                    <label style="color:red">*</label>
-                                                    {% endif %}
+                                                    <label id="adult_country_of_issued_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                     <label>{% trans 'Country of Issued' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select">
@@ -5892,11 +6086,11 @@
                                                     <label>{% trans 'ID Type' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select" id="default-select">
-                                                            <select id='child_id_type{{forloop.counter}}' name='child_id_type{{forloop.counter}}' onclick="change_identity_type(`child_id_type{{forloop.counter}}`)">
+                                                            <select id='child_id_type{{forloop.counter}}' name='child_id_type{{forloop.counter}}' onchange="change_identity_type(`child_id_type{{forloop.counter}}`)">
                                                                 <option value="">Choose Identity Type</option>
                                                                 {% if is_garuda == True and is_international == False %}
                                                                 <option value="ktp">NIK</option>
-                                                                {% elif is_lionair == True %}
+                                                                {% elif  is_lionair == True %}
                                                                 <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
                                                                 {% else %}
@@ -5907,18 +6101,14 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    {% if is_identity_required == True %}
-                                                    <label style="color:red">*</label>
-                                                    {% endif %}
+                                                    <label id="child_identity_number_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                     <label>{% trans 'Identity Number' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <input type="text" class="form-control" name="child_passport_number{{forloop.counter}}" id="child_passport_number{{forloop.counter}}" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    {% if is_identity_required == True %}
-                                                    <label id="child_identity_expired_date_required{{forloop.counter}}" style="color:red">*</label>
-                                                    {% endif %}
+                                                    <label id="child_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                     <label>{% trans 'Identity Expired Date' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <input type="text" class="form-control date-picker-passport" style="background:white;" name="child_passport_expired_date{{forloop.counter}}" id="child_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Identity Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Expired Date '" readonly onchange="check_passport_expired_six_month(`child_passport_expired_date{{forloop.counter}}`);">
@@ -5926,9 +6116,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    {% if is_identity_required == True %}
-                                                    <label style="color:red">*</label>
-                                                    {% endif %}
+                                                    <label id="child_country_of_issued_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                     <label>{% trans 'Country of Issued' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select">
@@ -6110,7 +6298,60 @@
                                             </div>
                                         </div>
 
-
+                                        <div class="col-lg-12" id="infant_identity_type{{forloop.counter}}" style="{% if is_international == True %}display:block{% else %}display:none;{% endif %}">
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    {% if is_identity_required == True %}
+                                                    <label style="color:red">*</label>
+                                                    {% endif %}
+                                                    <label>{% trans 'ID Type' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select" id="default-select">
+                                                            <select id='infant_id_type{{forloop.counter}}' name='infant_id_type{{forloop.counter}}' onchange="change_identity_type(`infant_id_type{{forloop.counter}}`)">
+                                                                <option value="">Choose Identity Type</option>
+                                                                <option value="passport">Passport</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label id="infant_identity_number_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
+                                                    <label>{% trans 'Identity Number' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control" name="infant_passport_number{{forloop.counter}}" id="infant_passport_number{{forloop.counter}}" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label id="infant_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
+                                                    <label>{% trans 'Identity Expired Date' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Identity Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Expired Date '" readonly onchange="check_passport_expired_six_month(`infant_passport_expired_date{{forloop.counter}}`);">
+                                                        <button type="button" class="primary-delete-date" onclick="delete_expired_date('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label id="infant_country_of_issued_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
+                                                    <label>{% trans 'Country of Issued' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select">
+                                                            <select class="form-control js-example-basic-single" name="infant_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="infant_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('infant_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                                <option value="">{% trans 'Country of Issued' %}</option>
+                                                                {% for country in countries %}
+                                                                <option value="{{country.name}}">{{country.name}}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                        <input type="hidden" name="infant_country_of_issued{{forloop.counter}}" id="infant_country_of_issued{{forloop.counter}}" />
+                                                    </div>
+                                                </div>
+                                                {% if is_lionair == True and is_international == True %}
+                                                <span><span style="color:red">* </span>{% trans 'Passport is required for lion air, wings air, or batik air' %}</span>
+                                                {% elif is_identity_required == True%}
+                                                <span><span style="color:red">* </span>{% trans 'Identity Type required for Indonesian People' %}</span>
+                                                {%endif%}
+                                            </div>
+                                        </div>
 
                                         {% for ff in ff_request %}
                                         <div class="col-lg-6 col-md-6 col-sm-6" id="child_ff_program_{{counter}}_{{forloop.counter}}">

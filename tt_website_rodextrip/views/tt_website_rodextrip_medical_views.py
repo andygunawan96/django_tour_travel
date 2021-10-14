@@ -95,6 +95,7 @@ def medical(request, vendor=''):
                     'update_data': 'false',
                     'static_path_url_server': get_url_static_path(),
                     'signature': request.session['signature'],
+                    'vendor': vendor
 
                 })
             except Exception as e:
