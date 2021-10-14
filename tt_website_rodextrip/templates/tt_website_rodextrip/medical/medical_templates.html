@@ -111,38 +111,13 @@
             <input type="hidden" id="end"/>
 
             <div class="col-lg-12" id="div-search-overlay">
-
-                <div class="banner-right scrollmenu style-scrollbar" id="div_scroll_menu">
-                    <ul class="nav nav-tabs" id="myTab" role="tablist">
-                        {% for rec in provider_types_sequence %}
-                            {% if "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security and rec.name == "periksain" %}
-                                {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                        <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'medical1');" id="nav_scroll_menu_medical1">
-                            <a class="nav-link active" id="medical1-tab" data-toggle="tab" href="#medical1" role="tab" aria-controls="medical1" aria-selected="false">
-                                <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Medical Icon"/></i>
-                                <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'PERIKSAIN' %} </span>
-                            </a>
-                        </li>
-                                {% endif %}
-                            {% elif "phc" in provider and "ticketing_phc" in username.co_agent_frontend_security and rec.name == "phc" %}
-                        <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'medical2');" id="nav_scroll_menu_medical2">
-                            <a class="nav-link {%if 'b2c_limitation' in username.co_agent_frontend_security %}active{%endif%}" id="medical2-tab" data-toggle="tab" href="#medical2" role="tab" aria-controls="medical2" aria-selected="false">
-                                <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Medical Icon"/></i>
-                                <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'Test Covid PHC' %} </span>
-                            </a>
-                        </li>
-                            {% endif %}
-                        {% endfor %}
-
-                    </ul>
-                </div>
                 <div class="banner-right">
                     <!--<img src="{{static_path}}images/christmas-icon2.png" style="width:auto; height:90px; position:absolute; right:-35px; top:35px; float:right; z-index:200;" alt="">-->
                     <div class="tab-content" id="myTabContent">
-                        {% if "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security %}
-                            {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                        <div class="tab-pane fade {%if 'b2c_limitation' not in username.co_agent_frontend_security %}show active {% endif %}" id="medical1" role="tabpanel" aria-labelledby="medical1-tab">
+                        {% if vendor == "periksain" %}
+                        <div class="tab-pane fade show active" id="medical1" role="tabpanel" aria-labelledby="medical1-tab">
                             <form action="periksain/passenger/antigen" class="form-wrap" id="medical_searchForm1" method="post">
+                                <h4 style="color:white;">PERIKSAIN</h4>
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12 col-sm-12" style="padding:0px;">
                                         <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Medical Type' %}</span>
@@ -166,13 +141,12 @@
                                 </center>
                             </form>
                         </div>
-                            {% endif %}
-                        {% endif %}
-                        {% if "phc" in provider and "ticketing_phc" in username.co_agent_frontend_security %}
-                        <div class="tab-pane fade {%if 'b2c_limitation' in username.co_agent_frontend_security %}show active {% endif %}" id="medical2" role="tabpanel" aria-labelledby="medical2-tab">
+                        {% elif vendor == "phc" %}
+                        <div class="tab-pane fade show active" id="medical2" role="tabpanel" aria-labelledby="medical2-tab">
                             <form action="/medical/passenger/phc" class="form-wrap" id="medical_searchForm2" method="post">
                                 {% csrf_token %}
                                 <input type="hidden" name="g-recaptcha-response" id='recaptcha_medical2'>
+                                <h4 style="color:white;">PHC</h4>
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12 col-sm-12" style="padding:0px;">
                                         <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Medical Type' %}</span>

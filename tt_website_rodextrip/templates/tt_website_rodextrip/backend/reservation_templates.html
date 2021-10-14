@@ -435,7 +435,7 @@
                 <input type="radio" name="filter" value="`+provider_types_sequence[i].name+`" onclick="get_transactions('filter');" checked>
                 <span class="checkmark-radio"></span>
             </label>`;
-        }else{
+        }else if(provider_types_sequence[i].name != 'health_care'){//health_care provider buatan dari frontend tidak ada di backend
             text += `<label class="radio-button-custom">
                 <span>`+provider_types_sequence[i].name.charAt(0).toUpperCase()+provider_types_sequence[i].name.slice(1).toLowerCase()+`</span>
                 <input type="radio" name="filter" value="`+provider_types_sequence[i].name+`" onclick="get_transactions('filter');">
