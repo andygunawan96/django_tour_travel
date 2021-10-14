@@ -2399,7 +2399,6 @@ function overview_ppob(data){
                     <th>Product</th>
                     <th># of Transaction</th>
                     <th># of Passengers</th>
-                    <th>Revenue</th>
                 </tr>
             </thead>
             <tbody>
@@ -2411,7 +2410,6 @@ function overview_ppob(data){
                 <td>`+ data[i]['product'] +`</td>
                 <td>`+ data[i]['counter'] +`</td>
                 <td>`+ data[i]['passenger_count'] +`</td>
-                <td>`+ number_format(data[i]['amount']) +`</td>
             </tr>
         `;
     }
@@ -2442,7 +2440,6 @@ function overview_periksain(data){
                     <th>Product</th>
                     <th># of Transaction</th>
                     <th># of Passengers</th>
-                    <th>Revenue</th>
                 </tr>
             </thead>
             <tbody>
@@ -2454,7 +2451,6 @@ function overview_periksain(data){
                 <td>`+ data[i]['product'] +`</td>
                 <td>`+ data[i]['counter'] +`</td>
                 <td>`+ data[i]['passenger_count'] +`</td>
-                <td>`+ number_format(data[i]['amount']) +`</td>
             </tr>
         `;
     }
@@ -2485,7 +2481,6 @@ function overview_phc(data){
                     <th>Product</th>
                     <th># of Transaction</th>
                     <th># of Passengers</th>
-                    <th>Revenue</th>
                 </tr>
             </thead>
             <tbody>
@@ -2497,7 +2492,6 @@ function overview_phc(data){
                 <td>`+ data[i]['product'] +`</td>
                 <td>`+ data[i]['counter'] +`</td>
                 <td>`+ data[i]['passenger_count'] +`</td>
-                <td>`+ number_format(data[i]['amount']) +`</td>
             </tr>
         `;
     }
@@ -2528,7 +2522,6 @@ function overview_medical(data){
                     <th>Product</th>
                     <th># of Transaction</th>
                     <th># of Passengers</th>
-                    <th>Revenue</th>
                 </tr>
             </thead>
             <tbody>
@@ -2540,7 +2533,6 @@ function overview_medical(data){
                 <td>`+ data[i]['product'] +`</td>
                 <td>`+ data[i]['counter'] +`</td>
                 <td>`+ data[i]['passenger_count'] +`</td>
-                <td>`+ number_format(data[i]['amount']) +`</td>
             </tr>
         `;
     }
@@ -2686,7 +2678,6 @@ function overview_swabexpress(data){
                     <th>Product</th>
                     <th># of Transaction</th>
                     <th># of Passengers</th>
-                    <th>Revenue</th>
                 </tr>
             </thead>
             <tbody>
@@ -2698,7 +2689,6 @@ function overview_swabexpress(data){
                 <td>`+ data[i]['product'] +`</td>
                 <td>`+ data[i]['counter'] +`</td>
                 <td>`+ data[i]['passenger_count'] +`</td>
-                <td>`+ number_format(data[i]['amount']) +`</td>
             </tr>
         `;
     }
@@ -2729,7 +2719,6 @@ function overview_labpintar(data){
                     <th>Product</th>
                     <th># of Transaction</th>
                     <th># of Passengers</th>
-                    <th>Revenue</th>
                 </tr>
             </thead>
             <tbody>
@@ -2741,7 +2730,6 @@ function overview_labpintar(data){
                 <td>`+ data[i]['product'] +`</td>
                 <td>`+ data[i]['counter'] +`</td>
                 <td>`+ data[i]['passenger_count'] +`</td>
-                <td>`+ number_format(data[i]['amount']) +`</td>
             </tr>
         `;
     }
@@ -2878,6 +2866,38 @@ function overview_train(data){
 // will also  be use to name the section(s)
 function overview_tour(data){
     var content = ``;
+
+    // first table
+    content += `
+    <div class="mb-3" style="overflow:auto;">
+        <table class="table list-of-reservation">
+            <thead>
+                <tr>
+                    <th>Tour</th>
+                    <th>Tour Type</th>
+                    <th># of Transaction</th>
+                    <th># of Passengers</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+    // loop the data
+    for(i in data){
+        content += `
+            <tr>
+                <td>`+ data[i]['product'] +`</td>
+                <td>`+ data[i]['product_type'] +`</td>
+                <td>`+ data[i]['counter'] +`</td>
+                <td>`+ data[i]['passenger'] +`</td>
+            </tr>
+        `;
+    }
+    // close of table
+    content += `
+            </tbody>
+        </table>
+    </div>
+    `;
 
     return content;
 }
