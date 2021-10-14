@@ -1324,6 +1324,18 @@ $('#report_form').submit(function(evt){
                 contents = overview_visa(result.raw_data.result.response.first_overview);
             } else if (provider_type == 'overall_offline'){
                 contents = overview_offline(result.raw_data.result.response.first_overview);
+            } else if (provider_type == 'overall_periksain'){
+                contents = overview_periksain(result.raw_data.result.response.first_overview);
+            } else if (provider_type == 'overall_phc'){
+                contents = overview_phc(result.raw_data.result.response.first_overview);
+            } else if (provider_type == 'overall_medical'){
+                contents = overview_medical(result.raw_data.result.response.first_overview);
+            } else if (provider_type == 'overall_bus'){
+                contents = overview_bus(result.raw_data.result.response.first_overview);
+            } else if (provider_type == 'overall_swabexpress'){
+                contents = overview_swabexpress(result.raw_data.result.response.first_overview);
+            } else if (provider_type == 'overall_labpintar'){
+                contents = overview_labpintar(result.raw_data.result.response.first_overview);
             } else {
                 contents = ``;
             }
@@ -2378,7 +2390,368 @@ function overview_hotel(data){
 // will also  be use to name the section(s)
 function overview_ppob(data){
     var content = ``;
+    // table
+    content += `
+        <div class="mb-3" style="overflow:auto;">
+        <table class="table list-of-reservation">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th># of Transaction</th>
+                    <th># of Passengers</th>
+                    <th>Revenue</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+    // content
+    for(i in data){
+        content += `
+            <tr>
+                <td>`+ data[i]['product'] +`</td>
+                <td>`+ data[i]['counter'] +`</td>
+                <td>`+ data[i]['passenger_count'] +`</td>
+                <td>`+ number_format(data[i]['amount']) +`</td>
+            </tr>
+        `;
+    }
 
+    // close table
+    content += `
+            </tbody>
+        </table>
+        </div>
+    `;
+    return content;
+}
+
+// handler for overview data for periksain
+// input is object that has been trim to the exact object needed to print
+// in overall case means
+// return.raw_data.result.response.first_overview
+// why first, this will be the default page (hence first section)
+// will also  be use to name the section(s)
+function overview_periksain(data){
+    var content = ``;
+    // table
+    content += `
+        <div class="mb-3" style="overflow:auto;">
+        <table class="table list-of-reservation">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th># of Transaction</th>
+                    <th># of Passengers</th>
+                    <th>Revenue</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+    // content
+    for(i in data){
+        content += `
+            <tr>
+                <td>`+ data[i]['product'] +`</td>
+                <td>`+ data[i]['counter'] +`</td>
+                <td>`+ data[i]['passenger_count'] +`</td>
+                <td>`+ number_format(data[i]['amount']) +`</td>
+            </tr>
+        `;
+    }
+
+    // close table
+    content += `
+            </tbody>
+        </table>
+        </div>
+    `;
+    return content;
+}
+
+// handler for overview data for phc
+// input is object that has been trim to the exact object needed to print
+// in overall case means
+// return.raw_data.result.response.first_overview
+// why first, this will be the default page (hence first section)
+// will also  be use to name the section(s)
+function overview_phc(data){
+    var content = ``;
+    // table
+    content += `
+        <div class="mb-3" style="overflow:auto;">
+        <table class="table list-of-reservation">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th># of Transaction</th>
+                    <th># of Passengers</th>
+                    <th>Revenue</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+    // content
+    for(i in data){
+        content += `
+            <tr>
+                <td>`+ data[i]['product'] +`</td>
+                <td>`+ data[i]['counter'] +`</td>
+                <td>`+ data[i]['passenger_count'] +`</td>
+                <td>`+ number_format(data[i]['amount']) +`</td>
+            </tr>
+        `;
+    }
+
+    // close table
+    content += `
+            </tbody>
+        </table>
+        </div>
+    `;
+    return content;
+}
+
+// handler for overview data for medical
+// input is object that has been trim to the exact object needed to print
+// in overall case means
+// return.raw_data.result.response.first_overview
+// why first, this will be the default page (hence first section)
+// will also  be use to name the section(s)
+function overview_medical(data){
+    var content = ``;
+    // table
+    content += `
+        <div class="mb-3" style="overflow:auto;">
+        <table class="table list-of-reservation">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th># of Transaction</th>
+                    <th># of Passengers</th>
+                    <th>Revenue</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+    // content
+    for(i in data){
+        content += `
+            <tr>
+                <td>`+ data[i]['product'] +`</td>
+                <td>`+ data[i]['counter'] +`</td>
+                <td>`+ data[i]['passenger_count'] +`</td>
+                <td>`+ number_format(data[i]['amount']) +`</td>
+            </tr>
+        `;
+    }
+
+    // close table
+    content += `
+            </tbody>
+        </table>
+        </div>
+    `;
+    return content;
+}
+
+// handler for overview data for bus
+// input is object that has been trim to the exact object needed to print
+// in overall case means
+// return.raw_data.result.response.first_overview
+// why first, this will be the default page (hence first section)
+// will also  be use to name the section(s)
+function overview_bus(data){
+    var content = ``;
+
+    // counter sector and direction summary
+    // will split the table into col-6
+    content += `
+        <h3><i class="fas fa-chevron-circle-right" style="color:`+color+`;"></i> Sector Summary</h3>
+        <div class="mb-3" style="overflow:auto;">
+        <table class="table list-of-reservation">
+            <thead>
+                <tr>
+                    <th>Sector</th>
+                    <th># of Trans.</th>
+                    <th>One way</th>
+                    <th>Return</th>
+                    <th>Multi City</th>
+                    <th>Revenue</th>
+                    <th>Passengers</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+    // populate sector table
+    for(i in data['sector_summary']){
+        content += `
+            <tr>
+                <td>`+ data['sector_summary'][i]['sector'] +`</td>
+                <td>`+ data['sector_summary'][i]['counter'] +`</td>
+                <td>`+ data['sector_summary'][i]['one_way'] +`</td>
+                <td>`+ data['sector_summary'][i]['return'] +`</td>
+                <td>`+ data['sector_summary'][i]['multi_city'] +`</td>
+                <td>IDR `+ number_format(data['sector_summary'][i]['valuation']) +`</td>
+                <td>`+ data['sector_summary'][i]['passenger_count'] +`</td>
+            </tr>
+        `;
+    }
+
+    content += `
+            </tbody>
+        </table>
+        </div>
+    `;
+
+    // first table
+    content += `
+    <h3 class="mb-2"><i class="fas fa-chevron-circle-right" style="color:`+color+`;"></i> Top Domestic Route</h3>
+        <div class="mb-3" style="overflow:auto;">
+        <table class="table list-of-reservation">
+            <thead>
+                <tr>
+                    <th>Departure</th>
+                    <th>Destination</th>
+                    <th># of Transactions</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+
+    // first table data
+    for (i in data['domestic']){
+        content += `
+            <tr>
+                <td>`+ data['domestic'][i]['departure'] +`</td>
+                <td>`+ data['domestic'][i]['destination'] +`</td>
+                <td>`+ data['domestic'][i]['counter'] +`</td>
+            </tr>
+        `;
+    }
+    // close first table
+    content += `
+            </tbody>
+        </table>
+        </div>
+    `;
+
+    // issued depart report
+    content += `
+        <h3 class="mb-2"><i class="fas fa-chevron-circle-right" style="color:`+color+`;"></i> Issued Depart</h3>
+        <hr>
+        <table class="table list-of-reservation">
+            <thead>
+                <tr>
+                    <th># of days</th>
+                    <th># of reservation</th>
+                    <th>passenger</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+
+    for(i in data['issued_depart']){
+        content += `
+            <tr>
+                <td>`+ data['issued_depart'][i]['day'] +`</td>
+                <td>`+ data['issued_depart'][i]['counter'] +`</td>
+                <td>`+ data['issued_depart'][i]['passenger'] +`</td>
+            </tr>
+        `;
+    }
+
+    // end of table
+    content += `
+            </tbody>
+        </table>
+    `;
+
+    return content;
+}
+
+// handler for overview data for swab express
+// input is object that has been trim to the exact object needed to print
+// in overall case means
+// return.raw_data.result.response.first_overview
+// why first, this will be the default page (hence first section)
+// will also  be use to name the section(s)
+function overview_swabexpress(data){
+    var content = ``;
+    // table
+    content += `
+        <div class="mb-3" style="overflow:auto;">
+        <table class="table list-of-reservation">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th># of Transaction</th>
+                    <th># of Passengers</th>
+                    <th>Revenue</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+    // content
+    for(i in data){
+        content += `
+            <tr>
+                <td>`+ data[i]['product'] +`</td>
+                <td>`+ data[i]['counter'] +`</td>
+                <td>`+ data[i]['passenger_count'] +`</td>
+                <td>`+ number_format(data[i]['amount']) +`</td>
+            </tr>
+        `;
+    }
+
+    // close table
+    content += `
+            </tbody>
+        </table>
+        </div>
+    `;
+    return content;
+}
+
+// handler for overview data for lab pintar
+// input is object that has been trim to the exact object needed to print
+// in overall case means
+// return.raw_data.result.response.first_overview
+// why first, this will be the default page (hence first section)
+// will also  be use to name the section(s)
+function overview_labpintar(data){
+    var content = ``;
+    // table
+    content += `
+        <div class="mb-3" style="overflow:auto;">
+        <table class="table list-of-reservation">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th># of Transaction</th>
+                    <th># of Passengers</th>
+                    <th>Revenue</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+    // content
+    for(i in data){
+        content += `
+            <tr>
+                <td>`+ data[i]['product'] +`</td>
+                <td>`+ data[i]['counter'] +`</td>
+                <td>`+ data[i]['passenger_count'] +`</td>
+                <td>`+ number_format(data[i]['amount']) +`</td>
+            </tr>
+        `;
+    }
+
+    // close table
+    content += `
+            </tbody>
+        </table>
+        </div>
+    `;
     return content;
 }
 
