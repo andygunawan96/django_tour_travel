@@ -96,15 +96,20 @@
     airline_carriers = JSON.parse(airline_carriers);
 
     passengers = `{{passengers}}`;
+    passengers = passengers.replace(/Pak Nasser&#39;s/g, "Pak Nasser's");
     passengers = passengers.replace(/&#39;/g, '"');
     passengers = passengers.replace(/True/g, true);
     passengers = passengers.replace(/False/g, false);
+    passengers = passengers.replace(/&quot;/g, '"');
+
     passengers = JSON.parse(passengers);
 
     passengers_ssr = `{{passengers_ssr}}`;
+    passengers_ssr = passengers_ssr.replace(/Pak Nasser&#39;s/g, "Pak Nasser's");
     passengers_ssr = passengers_ssr.replace(/&#39;/g, '"');
     passengers_ssr = passengers_ssr.replace(/True/g, true);
     passengers_ssr = passengers_ssr.replace(/False/g, false);
+    passengers_ssr = passengers_ssr.replace(/&quot;/g, '"');
     passengers_ssr = JSON.parse(passengers_ssr);
     upsell_price = {{upsell}};
     airline_request = `{{airline_request}}`;

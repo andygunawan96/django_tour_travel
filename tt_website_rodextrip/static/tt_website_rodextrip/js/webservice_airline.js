@@ -4898,7 +4898,10 @@ function airline_get_booking(data, sync=false){
                                 <td>`+ff_request;
                                       try{
                                           for(i in msg.result.response.passengers[pax].fees){
-                                            text += `<label>` + msg.result.response.passengers[pax].fees[i].fee_name + ' ' + msg.result.response.passengers[pax].fees[i].fee_value + `</label><br/>`;
+                                            text += `<label>`;
+                                            if(msg.result.response.passengers[pax].fees[i].fee_category.toLowerCase() in msg.result.response.passengers[pax].fees[i].fee_name.toLowerCase() == false)
+                                                text += msg.result.response.passengers[pax].fees[i].fee_category + ' ';
+                                                text += msg.result.response.passengers[pax].fees[i].fee_name + `</label><br/>`;
                                           }
                                       }catch(err){}
                                       text+=`
