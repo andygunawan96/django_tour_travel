@@ -61,8 +61,10 @@
                 <div class="form-wrap" style="margin-bottom:15px;">
                     <h4>{% trans 'Reservation Type' %}</h4>
                     <div class="row banner-right" style="margin-top:15px;">
-                        <div class="col-lg-12" id="type">
+                        <div class="col-lg-12">
+                            <div id="type" style="border:1px solid #cdcdcd; border-radius:14px; padding:15px 15px 0px 15px;">
 
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -428,26 +430,100 @@
 <script>
     signin_rodextrip('reservation');
     var text = '';
+    text+=`<div class="row">`;
     for(i in provider_types_sequence){
         if(i == 0){
-            text += `<label class="radio-button-custom">
-                <span>`+provider_types_sequence[i].name.charAt(0).toUpperCase()+provider_types_sequence[i].name.slice(1).toLowerCase()+`</span>
-                <input type="radio" name="filter" value="`+provider_types_sequence[i].name+`" onclick="get_transactions('filter');" checked>
-                <span class="checkmark-radio"></span>
-            </label>`;
+            text+=`<div class="col-lg-2 col-md-2 col-sm-4 col-xs-6">`;
+                text += `<label class="radio-button-custom">`;
+                if(provider_types_sequence[i].name == 'airline'){
+                    text+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/airlines_black.png" alt="Airline Icon"/>`;
+                }else if(provider_types_sequence[i].name == 'hotel'){
+                    text+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/hotel_black.png" alt="Hotel Icon"/>`;
+                }else if(provider_types_sequence[i].name == 'train'){
+                    text+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/train_black.png" alt="Train Icon"/>`;
+                }else if(provider_types_sequence[i].name == 'ppob'){
+                    text+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/ppob_black.png" alt="PPOB Icon"/>`;
+                }else if(provider_types_sequence[i].name == 'activity'){
+                    text+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/activity_black.png" alt="Event Icon"/>`;
+                }else if(provider_types_sequence[i].name == 'tour'){
+                    text+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/tour_black.png" alt="Tour Icon"/>`;
+                }else if(provider_types_sequence[i].name == 'event'){
+                    text+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/event_black.png" alt="Event Icon"/>`;
+                }else if(provider_types_sequence[i].name == 'visa'){
+                    text+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/visa_black.png" alt="Visa Icon"/>`;
+                }else if(provider_types_sequence[i].name == 'periksain'){
+                    text+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/swab_black.png" alt="Periksain Icon"/>`;
+                }else if(provider_types_sequence[i].name == 'phc'){
+                    text+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/swab_black.png" alt="PHC Icon"/>`;
+                }else if(provider_types_sequence[i].name == 'passport'){
+                    text+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/passport_black.png" alt="Passport Icon"/>`;
+                }else if(provider_types_sequence[i].name == 'bus'){
+                    text+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/bus_black.png" alt="Bus Icon"/>`;
+                }else if(provider_types_sequence[i].name == 'medical'){
+                    text+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/swab_black.png" alt="Medical Icon"/>`;
+                }else if(provider_types_sequence[i].name == 'labpintar'){
+                    text+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/swab_black.png" alt="Lab Pintar Icon"/>`;
+                }else if(provider_types_sequence[i].name == 'swabexpress'){
+                    text+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/swab_black.png" alt="Swab Express Icon"/>`;
+                }
+                text +=`
+                    <span>`+provider_types_sequence[i].name.charAt(0).toUpperCase()+provider_types_sequence[i].name.slice(1).toLowerCase()+`</span>
+                    <input type="radio" name="filter" value="`+provider_types_sequence[i].name+`" onclick="get_transactions('filter');" checked>
+                    <span class="checkmark-radio"></span>
+                </label>
+            </div>`;
         }else if(provider_types_sequence[i].name != 'health_care'){//health_care provider buatan dari frontend tidak ada di backend
-            text += `<label class="radio-button-custom">
-                <span>`+provider_types_sequence[i].name.charAt(0).toUpperCase()+provider_types_sequence[i].name.slice(1).toLowerCase()+`</span>
-                <input type="radio" name="filter" value="`+provider_types_sequence[i].name+`" onclick="get_transactions('filter');">
-                <span class="checkmark-radio"></span>
-            </label>`;
+            text+=`<div class="col-lg-2 col-md-2 col-sm-4 col-xs-6">`;
+                text += `<label class="radio-button-custom">`;
+                if(provider_types_sequence[i].name == 'airline'){
+                    text+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/airlines_black.png" alt="Airline Icon"/>`;
+                }else if(provider_types_sequence[i].name == 'hotel'){
+                    text+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/hotel_black.png" alt="Hotel Icon"/>`;
+                }else if(provider_types_sequence[i].name == 'train'){
+                    text+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/train_black.png" alt="Train Icon"/>`;
+                }else if(provider_types_sequence[i].name == 'ppob'){
+                    text+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/ppob_black.png" alt="PPOB Icon"/>`;
+                }else if(provider_types_sequence[i].name == 'activity'){
+                    text+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/activity_black.png" alt="Event Icon"/>`;
+                }else if(provider_types_sequence[i].name == 'tour'){
+                    text+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/tour_black.png" alt="Tour Icon"/>`;
+                }else if(provider_types_sequence[i].name == 'event'){
+                    text+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/event_black.png" alt="Event Icon"/>`;
+                }else if(provider_types_sequence[i].name == 'visa'){
+                    text+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/visa_black.png" alt="Visa Icon"/>`;
+                }else if(provider_types_sequence[i].name == 'periksain'){
+                    text+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/swab_black.png" alt="Periksain Icon"/>`;
+                }else if(provider_types_sequence[i].name == 'phc'){
+                    text+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/swab_black.png" alt="PHC Icon"/>`;
+                }else if(provider_types_sequence[i].name == 'passport'){
+                    text+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/passport_black.png" alt="Passport Icon"/>`;
+                }else if(provider_types_sequence[i].name == 'bus'){
+                    text+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/bus_black.png" alt="Bus Icon"/>`;
+                }else if(provider_types_sequence[i].name == 'medical'){
+                    text+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/swab_black.png" alt="Medical Icon"/>`;
+                }else if(provider_types_sequence[i].name == 'labpintar'){
+                    text+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/swab_black.png" alt="Lab Pintar Icon"/>`;
+                }else if(provider_types_sequence[i].name == 'swabexpress'){
+                    text+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/swab_black.png" alt="Swab Express Icon"/>`;
+                }
+                text+=`
+                    <span>`+provider_types_sequence[i].name.charAt(0).toUpperCase()+provider_types_sequence[i].name.slice(1).toLowerCase()+`</span>
+                    <input type="radio" name="filter" value="`+provider_types_sequence[i].name+`" onclick="get_transactions('filter');">
+                    <span class="checkmark-radio"></span>
+                </label>`;
+            text+=`</div>`;
         }
+
     }
-    text += `<label class="radio-button-custom">
-                <span>Offline</span>
-                <input type="radio" name="filter" value="offline" onclick="get_transactions('filter');">
-                <span class="checkmark-radio"></span>
-            </label>`;
+    text += `
+    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6">
+        <label class="radio-button-custom">
+            <span>Offline</span>
+            <input type="radio" name="filter" value="offline" onclick="get_transactions('filter');">
+            <span class="checkmark-radio"></span>
+        </label>
+    </div>`;
+    text+=`</div>`;
     document.getElementById('type').innerHTML = text;
     //get_transactions('reset');
     function goto_detail_reservation(key){

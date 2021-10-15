@@ -3089,18 +3089,32 @@ function show_seat_map(val, checked){
 
 function set_passenger_seat_map_airline(val){
     text='';
-    text += `<hr/><h5 style="color:`+color+`;">`+passengers[val].title+` `+passengers[val].first_name+` `+passengers[val].last_name+`</h5>`;
+    text += `<hr/>
+    <h5 style="color:`+color+`;">
+        <i class="fas fa-user"></i> `+passengers[val].title+` `+passengers[val].first_name+` `+passengers[val].last_name+`
+    </h5>
+    <div class="row">`;
     for(i in passengers[val].seat_list){
-        text+=`<h6 style="padding-top:10px;">`+passengers[val].seat_list[i].segment_code+`: `+passengers[val].seat_list[i].seat_name+` `+passengers[val].seat_list[i].seat_pick+`</h6>`;
-        text+=`<span style="font-weight:400; font-size:14px;">Price: `+passengers[val].seat_list[i].currency+` `+getrupiah(passengers[val].seat_list[i].price)+`</span><br/><br/>`;
+        text+=`
+        <div class="col-lg-12">
+            <h6 style="padding-top:10px;"><i class="fas fa-plane"></i> `+passengers[val].seat_list[i].segment_code+`: `+passengers[val].seat_list[i].seat_name+` `+passengers[val].seat_list[i].seat_pick+`</h6>
+            <div style="border:1px solid #cdcdcd; padding:15px; background:white; margin-bottom:10px;">
+            <h6>Description: </h6>`;
         for(j in passengers[val].seat_list[i].description){
             //if(j == 0)
                 //text+=`<span style="font-weight:400; font-size:14px;">Description:</span><br/>`;
             text+=`<span>`+passengers[val].seat_list[i].description[j]+`</span><br/>`;
         }
+        text+=`</div>
+        </div>
+        <div class="col-lg-12">
+            <span style="font-weight:bold; font-size:15px;">Price: `+passengers[val].seat_list[i].currency+` `+getrupiah(passengers[val].seat_list[i].price)+`</span><br/>`;
         if(passengers[val].seat_list[i].seat_name != '')
-            text+= `<input class="button-seat-pass button-seat-pass-cancel" type="button" id="cancel_seat`+i+`" style="width: 30%; padding: 10px; margin-right: 10px; text-align: center; margin-bottom: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: white;" onclick="set_cancel_seat(`+i+`);" value="Cancel Seat">`;
+            text+= `<input class="button-seat-pass button-seat-pass-cancel" type="button" id="cancel_seat`+i+`" style="width:200px; padding: 10px; margin-right: 10px; text-align: center; margin-bottom: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: white;" onclick="set_cancel_seat(`+i+`);" value="Cancel Seat">`;
+
+        text+=`</div><div class="col-lg-12"><hr/></div>`;
     }
+    text+=`</div>`;
     document.getElementById('passenger'+(passenger_pick+1)).style.background = 'white';
     document.getElementById('passenger'+(passenger_pick+1)).style.color = 'black';
     document.getElementById('passenger'+(val+1)).style.background = color;
@@ -3118,18 +3132,31 @@ function set_passenger_seat_map_airline(val){
 
 function set_first_passenger_seat_map_airline(val){
     text='';
-    text += `<hr/><h5 style="color:`+color+`;">`+passengers[val].title+` `+passengers[val].first_name+` `+passengers[val].last_name+`</h5>`;
+    text += `<hr/>
+    <h5 style="color:`+color+`;">
+        <i class="fas fa-user"></i> `+passengers[val].title+` `+passengers[val].first_name+` `+passengers[val].last_name+`
+    </h5>
+    <div class="row">`;
     for(i in passengers[val].seat_list){
-        text+=`<h6 style="padding-top:10px;">`+passengers[val].seat_list[i].segment_code+`: `+passengers[val].seat_list[i].seat_name+` `+passengers[val].seat_list[i].seat_pick+`</h6>`;
-        text+=`<span style="font-weight:400; font-size:14px;">Price: `+passengers[val].seat_list[i].currency+` `+getrupiah(passengers[val].seat_list[i].price)+`</span><br/><br/>`;
+        text+=`
+        <div class="col-lg-12">
+            <h6 style="padding-top:10px;"><i class="fas fa-plane"></i> `+passengers[val].seat_list[i].segment_code+`: `+passengers[val].seat_list[i].seat_name+` `+passengers[val].seat_list[i].seat_pick+`</h6>
+            <div style="border:1px solid #cdcdcd; padding:15px; background:white; margin-bottom:10px;">
+            <h6>Description: </h6>`;
         for(j in passengers[val].seat_list[i].description){
             //if(j == 0)
                 //text+=`<span style="font-weight:400; font-size:14px;">Description:</span><br/>`;
             text+=`<span>`+passengers[val].seat_list[i].description[j]+`</span><br/>`;
         }
+        text+=`</div>
+        </div>
+        <div class="col-lg-12">`;
+        text+=`<span style="font-weight:bold; font-size:15px;">Price: `+passengers[val].seat_list[i].currency+` `+getrupiah(passengers[val].seat_list[i].price)+`</span>`;
         if(passengers[val].seat_list[i].seat_name != '')
-            text+= `<input class="button-seat-pass button-seat-pass-cancel" type="button" id="cancel_seat" style="width: 30%; background: #f15a22; padding: 10px; margin-right: 10px; text-align: center; margin-bottom: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: white;" onclick="set_cancel_seat(`+i+`);" value="Cancel Seat">`;
+            text+= `<input class="button-seat-pass button-seat-pass-cancel" type="button" id="cancel_seat" style="width: 200px; background: #f15a22; padding: 10px; margin-right: 10px; text-align: center; margin-bottom: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: white;" onclick="set_cancel_seat(`+i+`);" value="Cancel Seat">`;
+        text+=`</div><div class="col-lg-12"><hr/></div>`;
     }
+    text+=`</div>`;
     document.getElementById('passenger'+(val+1)).style.background = color;
     document.getElementById('passenger'+(val+1)).style.color = 'white';
     passenger_pick = val;
@@ -3150,6 +3177,11 @@ function set_cancel_seat(segment_number){
 }
 
 function update_seat_passenger(segment, departure_date, row, column,seat_code,seat_name, currency, amount,description){
+
+    $('html, body').animate({
+        scrollTop: $("#airline_passenger_detail_seat").offset().top - 110
+    }, 500);
+
     if(isNaN(passenger_pick) == false){
         try{
             for(i in passengers[passenger_pick].seat_list){

@@ -399,12 +399,12 @@
                             </a>
                         </li>
                         {% elif rec.name == "health_care" and "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security or rec.name == "health_care" and "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security or rec.name == "health_care" and "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security or rec.name == "health_care" and "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security %}
-                            <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'medical1');" id="nav_scroll_menu_medical1">
-                                <a class="nav-link {%if forloop.counter == 1 %}active{%endif%}" id="medical1-tab" data-toggle="tab" href="#medical1" role="tab" aria-controls="medical1" aria-selected="false">
-                                    <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Periksain Icon"/></i>
-                                    <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'Health Care' %} </span>
-                                </a>
-                            </li>
+                        <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'medical1');" id="nav_scroll_menu_medical1">
+                            <a class="nav-link {%if forloop.counter == 1 %}active{%endif%}" id="medical1-tab" data-toggle="tab" href="#medical1" role="tab" aria-controls="medical1" aria-selected="false">
+                                <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Periksain Icon"/></i>
+                                <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'Health Care' %} </span>
+                            </a>
+                        </li>
                         {% endif %}
                         {% endfor %}
 
@@ -1260,10 +1260,10 @@
                             </form>
                         </div>
                         {% endif %}
-                        {% if "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security or "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security or "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security or "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security %}
 
+                        {% if "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security or "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security or "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security or "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security %}
                         <div class="tab-pane fade {%if provider_types_sequence.0.name == 'health_core' %}show active {% endif %}" id="medical1" role="tabpanel" aria-labelledby="medical1-tab">
-                            <div class="col-lg-12" id="radio_medical_search" style="padding:5px; text-align:left;margin-bottom:10px;" onchange="onchange_health_care();">
+                            <div class="col-lg-12" id="radio_medical_search" style="margin-top:15px; padding:15px 15px 0px 15px; text-align:left;" onchange="onchange_health_care();">
                                 {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                 <label class="radio-button-custom crlabel">
                                     <span style="font-size:13px; color:{{text_color}};">PERIKSAIN</span>
@@ -1296,8 +1296,10 @@
                             <!--PERIKSAIN-->
                             {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                             <form action="periksain/passenger/antigen" class="form-wrap" id="medical_searchForm1" style="display:block;" method="post">
-                                <h4 style="color:white;">Periksain</h4>
                                 <div class="row">
+                                    <div class="col-lg-12 mb-3" style="padding:0px; text-align:left;">
+                                        <h4 style="color:{{text_color}};">Periksain</h4>
+                                    </div>
                                     <div class="col-lg-12 col-md-12 col-sm-12" style="padding:0px;">
                                         <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Medical Type' %}</span>
                                         <div class="input-container-search-ticket">
@@ -1325,8 +1327,11 @@
                             <form action="{% url 'tt_website_rodextrip:medical_global_passenger'%}" style="display:{%if 'b2c_limitation' in username.co_agent_frontend_security %}block{% else %}none{%endif%};" class="form-wrap" id="medical_global_searchForm" method="post">
                                 {% csrf_token %}
                                 <input type="hidden" name="g-recaptcha-response" id='recaptcha_medical_global'>
-                                <h4 style="color:white;">National Hospital</h4>
                                 <div class="row">
+                                    <div class="col-lg-12 mb-3" style="padding:0px; text-align:left;">
+                                        <h4 style="color:{{text_color}};">National Hospital</h4>
+                                    </div>
+
                                     <div class="col-lg-12 col-md-12 col-sm-12" style="padding:0px;">
                                         <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Medical Type' %}</span>
                                         <div class="input-container-search-ticket">
@@ -1353,8 +1358,11 @@
                             <form action="{% url 'tt_website_rodextrip:swab_express_passenger'%}" style="display:none;" class="form-wrap" id="swab_express_searchForm" method="post">
                                 {% csrf_token %}
                                 <input type="hidden" name="g-recaptcha-response" id='recaptcha_swab_express'>
-                                <h4 style="color:white;">Swab Express</h4>
                                 <div class="row">
+                                    <div class="col-lg-12 mb-3" style="padding:0px; text-align:left;">
+                                        <h4 style="color:{{text_color}};">Swab Express</h4>
+                                    </div>
+
                                     <div class="col-lg-12 col-md-12 col-sm-12" style="padding:0px;">
                                         <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Swab Type' %}</span>
                                         <div class="input-container-search-ticket">
@@ -1381,8 +1389,11 @@
                             <form action="{% url 'tt_website_rodextrip:lab_pintar_passenger'%}" style="display:none;" class="form-wrap" id="lab_pintar_searchForm" method="post">
                                 {% csrf_token %}
                                 <input type="hidden" name="g-recaptcha-response" id='recaptcha_lab_pintar'>
-                                <h4 style="color:white;">Lab Pintar</h4>
                                 <div class="row">
+                                    <div class="col-lg-12 mb-3" style="padding:0px; text-align:left;">
+                                        <h4 style="color:{{text_color}};">Lab Pintar</h4>
+                                    </div>
+
                                     <div class="col-lg-12 col-md-12 col-sm-12" style="padding:0px;">
                                         <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Swab Type' %}</span>
                                         <div class="input-container-search-ticket">
@@ -1405,8 +1416,8 @@
                             </form>
                             {% endif %}
                         </div>
-
                         {% endif %}
+
                         {% if "phc" in provider and "ticketing_phc" in username.co_agent_frontend_security %}
                         <div class="tab-pane fade {%if provider_types_sequence.0.name == 'phc' %}show active {% endif %}" id="medical2" role="tabpanel" aria-labelledby="medical2-tab">
                             <form action="/medical/passenger/phc" class="form-wrap" id="medical_searchForm2" method="post">
@@ -2333,20 +2344,12 @@
                         <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-visa" onclick="scroll_menu_horizontal('tab-link', 'visa');" id="nav_scroll_menu_visa"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-visa.png" alt="Visa Icon"/></i><label class="btn-txt-color">VISA</label></li>
                         {% elif "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_passport" in username.co_agent_frontend_security and rec.name == 'passport' %}
                         <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-passport" onclick="scroll_menu_horizontal('tab-link', 'passport');" id="nav_scroll_menu_passport"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/passport.png" alt="Passport Icon"/></i><label class="btn-txt-color">{% trans 'PASSPORT' %}</label></li>
-                        {% elif "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security and rec.name == "periksain" %}
-                        {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                        <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-periksain" onclick="scroll_menu_horizontal('tab-link', 'periksain');" id="nav_scroll_menu_periksain"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Periksain Icon"/></i><label class="btn-txt-color">PRERIKSAIN</label></li>
-                        {% endif %}
+                        {% elif rec.name == "health_care" and "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security or rec.name == "health_care" and "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security or rec.name == "health_care" and "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security or rec.name == "health_care" and "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security %}
+                        <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-medical1" onclick="scroll_menu_horizontal('tab-link', 'medical1');" id="nav_scroll_menu_medical1"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Health Care Icon"/></i><label class="btn-txt-color">{% trans 'Health Care' %}</label></li>
                         {% elif "phc" in provider and "ticketing_phc" in username.co_agent_frontend_security and rec.name == "phc" %}
                         <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-phc" onclick="scroll_menu_horizontal('tab-link', 'phc');" id="nav_scroll_menu_phc"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="PHC Icon"/></i><label class="btn-txt-color">PHC</label></li>
-                        {% elif "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security and rec.name == "medical" %}
-                        <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-medical" onclick="scroll_menu_horizontal('tab-link', 'medical2');" id="nav_scroll_menu_medical2"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Medical Icon"/></i><label class="btn-txt-color">Medical</label></li>
                         {% elif "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security and rec.name == "bus" %}
                         <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-bus" onclick="scroll_menu_horizontal('tab-link', 'bus');" id="nav_scroll_menu_bus"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-train.png" alt="Bus Icon"/></i><label class="btn-txt-color">Bus</label></li>
-                        {% elif "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security and rec.name == "swabexpress" %}
-                        <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-swabexpress" onclick="scroll_menu_horizontal('tab-link', 'swab_express');" id="nav_scroll_menu_swab_express"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Swab Express Icon"/></i><label class="btn-txt-color">Swab Express</label></li>
-                        {% elif "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security and rec.name == "labpintar" %}
-                        <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-lab_pintar" onclick="scroll_menu_horizontal('tab-link', 'lab_pintar');" id="nav_scroll_menu_lab_pintar"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Lab Pintar Icon"/></i><label class="btn-txt-color">Lab Pintar</label></li>
                         {% endif %}
                         {% endfor %}
 
@@ -3141,33 +3144,161 @@
                         </form>
                     </div>
                     {% endif %}
-                    {% if "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security %}
-                    {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                    <div id="tab-periksain" class="tab-content {%if provider_types_sequence.0.name == 'periksain' %}current{% endif %}">
-                        <form action="periksain/passenger/antigen" class="form-wrap" id="medical_searchForm1" method="post">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Medical Type' %}</span>
-                                    <div class="input-container-search-ticket">
-                                        <select id="medical_type_periksain" name="medical_type_periksain" class="nice-select-default" style="width:100%;">
 
-                                        </select>
-                                    </div>
-                                </div>
+                    {% if "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security or "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security or "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security or "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security %}
+                    <div id="tab-medical1" class="tab-content {%if provider_types_sequence.0.name == 'health_core' %}current{% endif %}">
+                        <div class="row">
+                            <div class="col-lg-12" id="radio_medical_search" style="text-align:left;" onchange="onchange_health_care();">
+                                {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                                <label class="radio-button-custom crlabel">
+                                    <span style="font-size:13px; color:{{text_color}};">PERIKSAIN</span>
+                                    <input type="radio" checked="checked" name="health_care_type" value="periksain">
+                                    <span class="checkmark-radio crspan"></span>
+                                </label>
+                                {% endif %}
+                                {% if "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security %}
+                                <label class="radio-button-custom crlabel">
+                                    <span style="font-size:13px; color:{{text_color}};">National Hospital</span>
+                                    <input type="radio" {% if 'b2c_limitation' in username.co_agent_frontend_security %} checked="checked" {% endif %} name="health_care_type" value="nathos">
+                                    <span class="checkmark-radio crspan"></span>
+                                </label>
+                                {% endif %}
+                                {% if "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security %}
+                                <label class="radio-button-custom crlabel">
+                                    <span style="font-size:13px; color:{{text_color}};">Swab Express</span>
+                                    <input type="radio" {% if 'b2c_limitation' in username.co_agent_frontend_security and "medical" not in provider %} checked="checked" {% endif %} name="health_care_type" value="swab_express">
+                                    <span class="checkmark-radio crspan"></span>
+                                </label>
+                                {% endif %}
+                                {% if "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security %}
+                                <label class="radio-button-custom crlabel">
+                                    <span style="font-size:13px; color:{{text_color}};">Lab Pintar</span>
+                                    <input type="radio" {% if 'b2c_limitation' in username.co_agent_frontend_security and "medical" not in provider and "swabexpress" in provider %} checked="checked" {% endif %} name="health_care_type" value="lab_pintar">
+                                    <span class="checkmark-radio crspan"></span>
+                                </label>
+                                {% endif %}
                             </div>
-                            {% csrf_token %}
-                            <input type="hidden" name="g-recaptcha-response" id='recaptcha_medical1'>
-                            <center>
-                                <button class="button-search primary-btn ld-ext-right mt-3" type="button" onclick="get_captcha('recaptcha_medical1','medical1');" value="Submit">
-                                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                    {% trans 'Search' %}
-                                    <div class="ld ld-ring ld-cycle"></div>
-                                </button>
-                            </center>
-                        </form>
+                            <div class="col-lg-12">
+                                <!--PERIKSAIN-->
+                                {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                                <form action="periksain/passenger/antigen" class="form-wrap" id="medical_searchForm1" style="display:block;" method="post">
+                                    <div class="row">
+                                        <div class="col-lg-12 mt-3 mb-2" style="text-align:left;">
+                                            <h4 style="color:{{text_color}};">Periksain</h4>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12">
+                                            <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Medical Type' %}</span>
+                                            <div class="input-container-search-ticket">
+                                                <select id="medical_type_periksain" name="medical_type_periksain" class="nice-select-default">
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% csrf_token %}
+                                    <input type="hidden" name="g-recaptcha-response" id='recaptcha_medical1'>
+                                    <br/>
+                                    <center>
+                                        <button class="button-search primary-btn ld-ext-right mt-3" type="button" onclick="get_captcha('recaptcha_medical1','medical1');" value="Submit">
+                                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                            {% trans 'Search' %}
+                                            <div class="ld ld-ring ld-cycle"></div>
+                                        </button>
+                                    </center>
+                                </form>
+                                {% endif %}
+                                <!--NATHOS-->
+                                {% if "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security %}
+                                <form action="{% url 'tt_website_rodextrip:medical_global_passenger'%}" style="display:{%if 'b2c_limitation' in username.co_agent_frontend_security %}block{% else %}none{%endif%};" class="form-wrap" id="medical_global_searchForm" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="g-recaptcha-response" id='recaptcha_medical_global'>
+                                    <div class="row">
+                                        <div class="col-lg-12 mt-3 mb-2" style="text-align:left;">
+                                            <h4 style="color:{{text_color}};">National Hospital</h4>
+                                        </div>
+
+                                        <div class="col-lg-12 col-md-12 col-sm-12">
+                                            <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Medical Type' %}</span>
+                                            <div class="input-container-search-ticket">
+                                                <select id="medical_global_type" name="medical_global_type" class="nice-select-default">
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <center>
+                                        <button class="button-search primary-btn ld-ext-right mt-3" type="button" onclick="get_captcha('recaptcha_medical_global','medical_global');" value="Submit">
+                                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                            {% trans 'Search' %}
+                                            <div class="ld ld-ring ld-cycle"></div>
+                                        </button>
+                                    </center>
+                                </form>
+                                {% endif %}
+                                <!--SWABEXPRESS-->
+                                {% if "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security %}
+                                <form action="{% url 'tt_website_rodextrip:swab_express_passenger'%}" style="display:none;" class="form-wrap" id="swab_express_searchForm" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="g-recaptcha-response" id='recaptcha_swab_express'>
+                                    <div class="row">
+                                        <div class="col-lg-12 mt-3 mb-2" style="text-align:left;">
+                                            <h4 style="color:{{text_color}};">Swab Express</h4>
+                                        </div>
+
+                                        <div class="col-lg-12 col-md-12 col-sm-12">
+                                            <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Swab Type' %}</span>
+                                            <div class="input-container-search-ticket">
+                                                <select id="swab_express_type" name="swab_express_type" class="nice-select-default">
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <center>
+                                        <button class="button-search primary-btn ld-ext-right mt-3" type="button" onclick="get_captcha('recaptcha_swab_express','swab_express');" value="Submit">
+                                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                            {% trans 'Search' %}
+                                            <div class="ld ld-ring ld-cycle"></div>
+                                        </button>
+                                    </center>
+                                </form>
+                                {% endif %}
+                                <!--LABPINTAR-->
+                                {% if "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security %}
+                                <form action="{% url 'tt_website_rodextrip:lab_pintar_passenger'%}" style="display:none;" class="form-wrap" id="lab_pintar_searchForm" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="g-recaptcha-response" id='recaptcha_lab_pintar'>
+                                    <div class="row">
+                                        <div class="col-lg-12 mt-3 mb-2" style="text-align:left;">
+                                            <h4 style="color:{{text_color}};">Lab Pintar</h4>
+                                        </div>
+
+                                        <div class="col-lg-12 col-md-12 col-sm-12">
+                                            <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Swab Type' %}</span>
+                                            <div class="input-container-search-ticket">
+                                                <select id="lab_pintar_type" name="lab_pintar_type" class="nice-select-default">
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <center>
+                                        <button class="button-search primary-btn ld-ext-right mt-3" type="button" onclick="get_captcha('recaptcha_swab_express','lab_pintar');" value="Submit">
+                                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                            {% trans 'Search' %}
+                                            <div class="ld ld-ring ld-cycle"></div>
+                                        </button>
+                                    </center>
+                                </form>
+                                {% endif %}
+                            </div>
+                        </div>
                     </div>
                     {% endif %}
-                    {% endif %}
+
                     {% if "phc" in provider and "ticketing_phc" in username.co_agent_frontend_security %}
                     <div id="tab-phc" class="tab-content {%if provider_types_sequence.0.name == 'phc' %}current{% endif %}">
                         <form action="/medical/passenger/phc" class="form-wrap" id="medical_searchForm2" method="post">
@@ -3210,32 +3341,7 @@
                         </form>
                     </div>
                     {% endif %}
-                    {% if "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security %}
-                    <div id="tab-medical" class="tab-content {%if provider_types_sequence.0.name == 'medical' %}current{% endif %}">
-                        <form action="{% url 'tt_website_rodextrip:medical_global_passenger'%}" class="form-wrap" id="medical_global_searchForm" method="post">
-                            {% csrf_token %}
-                            <input type="hidden" name="g-recaptcha-response" id='recaptcha_medical_global'>
-                            <div class="row">
-                                <div class="col-lg-12 col-md-12 col-sm-12">
-                                    <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Medical Type' %}</span>
-                                    <div class="input-container-search-ticket">
-                                        <select id="medical_global_type" name="medical_global_type" style="width:100%;" class="nice-select-default">
 
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <br/>
-                            <center>
-                                <button class="button-search primary-btn ld-ext-right" type="button" onclick="get_captcha('recaptcha_medical_global','medical_global');" value="Submit">
-                                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                    {% trans 'Search' %}
-                                    <div class="ld ld-ring ld-cycle"></div>
-                                </button>
-                            </center>
-                        </form>
-                    </div>
-                    {% endif %}
                     {% if "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security%}
                     <div id="tab-bus" class="tab-content {%if provider_types_sequence.0.name == 'bus' %}current{% endif %}">
                         <!--<center>-->
@@ -3327,60 +3433,6 @@
                             <input type="hidden" id="bus_response" name="response"/>
                             <center>
                                 <button class="primary-btn ld-ext-right" id="btn-search-train" type="button" onclick="get_captcha('recaptcha_bus','bus');" value="Submit">
-                                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                    {% trans 'Search' %}
-                                    <div class="ld ld-ring ld-cycle"></div>
-                                </button>
-                            </center>
-                        </form>
-                    </div>
-                    {% endif %}
-
-                    {% if "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security %}
-                    <div id="tab-swabexpress" class="tab-content {%if provider_types_sequence.0.name == 'swab_express' %}current{% endif %}">
-                        <form action="{% url 'tt_website_rodextrip:swab_express_passenger'%}" class="form-wrap" id="swab_express_searchForm" method="post">
-                            {% csrf_token %}
-                            <input type="hidden" name="g-recaptcha-response" id='recaptcha_swab_express'>
-                            <div class="row">
-                                <div class="col-lg-12 col-md-12 col-sm-12">
-                                    <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Swab Type' %}</span>
-                                    <div class="input-container-search-ticket">
-                                        <select id="swab_express_type" name="swab_express_type" class="nice-select-default">
-
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <br/>
-                            <center>
-                                <button class="button-search primary-btn ld-ext-right" type="button" onclick="get_captcha('recaptcha_swab_express','swab_express');" value="Submit">
-                                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                    {% trans 'Search' %}
-                                    <div class="ld ld-ring ld-cycle"></div>
-                                </button>
-                            </center>
-                        </form>
-                    </div>
-                    {% endif %}
-
-                    {% if "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security %}
-                    <div id="tab-lab_pintar" class="tab-content {%if provider_types_sequence.0.name == 'lab_pintar' %}current{% endif %}">
-                        <form action="{% url 'tt_website_rodextrip:lab_pintar_passenger'%}" class="form-wrap" id="lab_pintar_searchForm" method="post">
-                            {% csrf_token %}
-                            <input type="hidden" name="g-recaptcha-response" id='recaptcha_lab_pintar'>
-                            <div class="row">
-                                <div class="col-lg-12 col-md-12 col-sm-12">
-                                    <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Swab Type' %}</span>
-                                    <div class="input-container-search-ticket">
-                                        <select id="lab_pintar_type" name="lab_pintar_type" class="nice-select-default">
-
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <br/>
-                            <center>
-                                <button class="button-search primary-btn ld-ext-right" type="button" onclick="get_captcha('recaptcha_swab_express','lab_pintar');" value="Submit">
                                     <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                     {% trans 'Search' %}
                                     <div class="ld ld-ring ld-cycle"></div>
@@ -3750,20 +3802,12 @@
                                 <li class="tab-link {%if forloop.counter == 1%}current{% endif%}" data-tab="tab-visa" onclick="scroll_menu_horizontal('tab-link', 'visa');" id="nav_scroll_menu_visa"><i class="image-rounded-icon" style="background:unset;"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-visa.png" alt="Visa Icon"/></i><label class="btn-txt-color">VISA</label></li>
                                 {% elif "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_passport" in username.co_agent_frontend_security and rec.name == 'passport' %}
                                 <li class="tab-link {%if forloop.counter == 1%}current{% endif%}" data-tab="tab-passport" onclick="scroll_menu_horizontal('tab-link', 'passport');" id="nav_scroll_menu_passport"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/passport.png" alt="Passport Icon"/></i><label class="btn-txt-color">{% trans 'PASSPORT' %}</label></li>
-                                {% elif "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security and rec.name == "periksain" %}
-                                {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-periksain" onclick="scroll_menu_horizontal('tab-link', 'periksain');" id="nav_scroll_menu_periksain"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/swab.png" alt="Periksain Icon"/></i><label class="btn-txt-color">PRERIKSAIN</label></li>
-                                {% endif %}
+                                {% elif rec.name == "health_care" and "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security or rec.name == "health_care" and "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security or rec.name == "health_care" and "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security or rec.name == "health_care" and "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security %}
+                                <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-medical1" onclick="scroll_menu_horizontal('tab-link', 'medical1');" id="nav_scroll_menu_medical1"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/swab.png" alt="Health Care Icon"/></i><label class="btn-txt-color">HEALTH CARE</label></li>
                                 {% elif "phc" in provider and "ticketing_phc" in username.co_agent_frontend_security and rec.name == "phc" %}
                                 <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-phc" onclick="scroll_menu_horizontal('tab-link', 'phc');" id="nav_scroll_menu_phc"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/swab.png" alt="PHC Icon"/></i><label class="btn-txt-color">PHC</label></li>
-                                {% elif "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security and rec.name == "medical" %}
-                                <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-medical" onclick="scroll_menu_horizontal('tab-link', 'medical2');" id="nav_scroll_menu_medical2"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/swab.png" alt="Medical Icon"/></i><label class="btn-txt-color">MEDICAL</label></li>
                                 {% elif "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security and rec.name == "bus" %}
                                 <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-bus" onclick="scroll_menu_horizontal('tab-link', 'bus');" id="nav_scroll_menu_bus"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/home-train.png" alt="Bus Icon"/></i><label class="btn-txt-color">BUS</label></li>
-                                {% elif "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security and rec.name == "swabexpress" %}
-                                <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-swabexpress" onclick="scroll_menu_horizontal('tab-link', 'swab_express');" id="nav_scroll_menu_swab_express"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/swab.png" alt="Swab Express Icon"/></i><label class="btn-txt-color">SWAB EXPRESS</label></li>
-                                {% elif "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security and rec.name == "labpintar" %}
-                                <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-lab_pintar" onclick="scroll_menu_horizontal('tab-link', 'lab_pintar');" id="nav_scroll_menu_lab_pintar"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/swab.png" alt="Lab Pintar Icon"/></i><label class="btn-txt-color">LAB PINTAR</label></li>
                                 {% endif %}
 
                                 {% endfor %}
@@ -4573,32 +4617,158 @@
                         </div>
                         {% endif %}
 
-                        {% if "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security %}
-                        {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                        <div id="tab-periksain" class="tab-content {%if provider_types_sequence.0.name == 'periksain' %}current{% endif %}">
-                            <form action="periksain/passenger/antigen" class="form-wrap" id="medical_searchForm1" method="post">
-                                <div class="row">
-                                    <div class="col-lg-12 mb-4">
-                                        <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Medical Type' %}</span>
-                                        <div class="input-container-search-ticket">
-                                            <select id="medical_type_periksain" name="medical_type_periksain" class="nice-select-default" style="width:100%;">
-
-                                            </select>
-                                        </div>
-                                    </div>
+                        {% if "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security or "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security or "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security or "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security %}
+                        <div id="tab-medical1" class="tab-content {%if provider_types_sequence.0.name == 'health_core' %}current{% endif %}">
+                            <div class="row">
+                                <div class="col-lg-12" id="radio_medical_search" style="text-align:left;" onchange="onchange_health_care();">
+                                    {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                                    <label class="radio-button-custom crlabel">
+                                        <span style="font-size:13px; color:{{text_color}};">PERIKSAIN</span>
+                                        <input type="radio" checked="checked" name="health_care_type" value="periksain">
+                                        <span class="checkmark-radio crspan"></span>
+                                    </label>
+                                    {% endif %}
+                                    {% if "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security %}
+                                    <label class="radio-button-custom crlabel">
+                                        <span style="font-size:13px; color:{{text_color}};">National Hospital</span>
+                                        <input type="radio" {% if 'b2c_limitation' in username.co_agent_frontend_security %} checked="checked" {% endif %} name="health_care_type" value="nathos">
+                                        <span class="checkmark-radio crspan"></span>
+                                    </label>
+                                    {% endif %}
+                                    {% if "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security %}
+                                    <label class="radio-button-custom crlabel">
+                                        <span style="font-size:13px; color:{{text_color}};">Swab Express</span>
+                                        <input type="radio" {% if 'b2c_limitation' in username.co_agent_frontend_security and "medical" not in provider %} checked="checked" {% endif %} name="health_care_type" value="swab_express">
+                                        <span class="checkmark-radio crspan"></span>
+                                    </label>
+                                    {% endif %}
+                                    {% if "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security %}
+                                    <label class="radio-button-custom crlabel">
+                                        <span style="font-size:13px; color:{{text_color}};">Lab Pintar</span>
+                                        <input type="radio" {% if 'b2c_limitation' in username.co_agent_frontend_security and "medical" not in provider and "swabexpress" in provider %} checked="checked" {% endif %} name="health_care_type" value="lab_pintar">
+                                        <span class="checkmark-radio crspan"></span>
+                                    </label>
+                                    {% endif %}
                                 </div>
-                                {% csrf_token %}
-                                <input type="hidden" name="g-recaptcha-response" id='recaptcha_medical1'>
-                                <center>
-                                    <button class="button-search primary-btn ld-ext-right" type="button" onclick="get_captcha('recaptcha_medical1','medical1');" value="Submit">
-                                        <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                        {% trans 'Search' %}
-                                        <div class="ld ld-ring ld-cycle"></div>
-                                    </button>
-                                </center>
-                            </form>
+                                <div class="col-lg-12">
+                                    <!--PERIKSAIN-->
+                                    {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                                    <form action="periksain/passenger/antigen" class="form-wrap" id="medical_searchForm1" style="display:block;" method="post">
+                                        <div class="row">
+                                            <div class="col-lg-12 mt-3 mb-2" style="text-align:left;">
+                                                <h4 style="color:{{text_color}};">Periksain</h4>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Medical Type' %}</span>
+                                                <div class="input-container-search-ticket">
+                                                    <select id="medical_type_periksain" name="medical_type_periksain" class="nice-select-default">
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% csrf_token %}
+                                        <input type="hidden" name="g-recaptcha-response" id='recaptcha_medical1'>
+                                        <br/>
+                                        <center>
+                                            <button class="button-search primary-btn ld-ext-right mt-3" type="button" onclick="get_captcha('recaptcha_medical1','medical1');" value="Submit">
+                                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                                {% trans 'Search' %}
+                                                <div class="ld ld-ring ld-cycle"></div>
+                                            </button>
+                                        </center>
+                                    </form>
+                                    {% endif %}
+                                    <!--NATHOS-->
+                                    {% if "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security %}
+                                    <form action="{% url 'tt_website_rodextrip:medical_global_passenger'%}" style="display:{%if 'b2c_limitation' in username.co_agent_frontend_security %}block{% else %}none{%endif%};" class="form-wrap" id="medical_global_searchForm" method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="g-recaptcha-response" id='recaptcha_medical_global'>
+                                        <div class="row">
+                                            <div class="col-lg-12 mt-3 mb-2" style="text-align:left;">
+                                                <h4 style="color:{{text_color}};">National Hospital</h4>
+                                            </div>
+
+                                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Medical Type' %}</span>
+                                                <div class="input-container-search-ticket">
+                                                    <select id="medical_global_type" name="medical_global_type" class="nice-select-default">
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                        <center>
+                                            <button class="button-search primary-btn ld-ext-right mt-3" type="button" onclick="get_captcha('recaptcha_medical_global','medical_global');" value="Submit">
+                                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                                {% trans 'Search' %}
+                                                <div class="ld ld-ring ld-cycle"></div>
+                                            </button>
+                                        </center>
+                                    </form>
+                                    {% endif %}
+                                    <!--SWABEXPRESS-->
+                                    {% if "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security %}
+                                    <form action="{% url 'tt_website_rodextrip:swab_express_passenger'%}" style="display:none;" class="form-wrap" id="swab_express_searchForm" method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="g-recaptcha-response" id='recaptcha_swab_express'>
+                                        <div class="row">
+                                            <div class="col-lg-12 mt-3 mb-2" style="text-align:left;">
+                                                <h4 style="color:{{text_color}};">Swab Express</h4>
+                                            </div>
+
+                                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Swab Type' %}</span>
+                                                <div class="input-container-search-ticket">
+                                                    <select id="swab_express_type" name="swab_express_type" class="nice-select-default">
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                        <center>
+                                            <button class="button-search primary-btn ld-ext-right mt-3" type="button" onclick="get_captcha('recaptcha_swab_express','swab_express');" value="Submit">
+                                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                                {% trans 'Search' %}
+                                                <div class="ld ld-ring ld-cycle"></div>
+                                            </button>
+                                        </center>
+                                    </form>
+                                    {% endif %}
+                                    <!--LABPINTAR-->
+                                    {% if "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security %}
+                                    <form action="{% url 'tt_website_rodextrip:lab_pintar_passenger'%}" style="display:none;" class="form-wrap" id="lab_pintar_searchForm" method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="g-recaptcha-response" id='recaptcha_lab_pintar'>
+                                        <div class="row">
+                                            <div class="col-lg-12 mt-3 mb-2" style="text-align:left;">
+                                                <h4 style="color:{{text_color}};">Lab Pintar</h4>
+                                            </div>
+
+                                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Swab Type' %}</span>
+                                                <div class="input-container-search-ticket">
+                                                    <select id="lab_pintar_type" name="lab_pintar_type" class="nice-select-default">
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                        <center>
+                                            <button class="button-search primary-btn ld-ext-right mt-3" type="button" onclick="get_captcha('recaptcha_swab_express','lab_pintar');" value="Submit">
+                                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                                {% trans 'Search' %}
+                                                <div class="ld ld-ring ld-cycle"></div>
+                                            </button>
+                                        </center>
+                                    </form>
+                                    {% endif %}
+                                </div>
+                            </div>
                         </div>
-                        {% endif %}
                         {% endif %}
 
                         {% if "phc" in provider and "ticketing_phc" in username.co_agent_frontend_security %}
@@ -4640,35 +4810,6 @@
                                     </div>
                                 </div>
 
-                            </form>
-                        </div>
-                        {% endif %}
-
-                        {% if "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security %}
-                        <div id="tab-medical" class="tab-content {%if provider_types_sequence.0.name == 'medical' %}current{% endif %}">
-                            <form action="{% url 'tt_website_rodextrip:medical_global_passenger'%}" class="form-wrap" id="medical_global_searchForm" method="post">
-                                {% csrf_token %}
-                                <input type="hidden" name="g-recaptcha-response" id='recaptcha_medical_global'>
-                                <div class="row">
-                                    <div class="col-lg-12 col-md-12 col-sm-12">
-                                        <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Medical Type' %}</span>
-                                        <div class="form-group">
-                                            <div class="default-select">
-                                                <select id="medical_global_type" name="medical_global_type" style="width:100%;">
-
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <br/>
-                                <center>
-                                    <button class="button-search primary-btn ld-ext-right" type="button" onclick="get_captcha('recaptcha_medical_global','medical_global');" value="Submit">
-                                        <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                        {% trans 'Search' %}
-                                        <div class="ld ld-ring ld-cycle"></div>
-                                    </button>
-                                </center>
                             </form>
                         </div>
                         {% endif %}
@@ -4756,64 +4897,6 @@
                                 <input type="hidden" id="bus_response" name="response"/>
                                 <center>
                                     <button class="primary-btn ld-ext-right" id="btn-search-train" type="button" onclick="get_captcha('recaptcha_bus','bus');" value="Submit">
-                                        <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                        {% trans 'Search' %}
-                                        <div class="ld ld-ring ld-cycle"></div>
-                                    </button>
-                                </center>
-                            </form>
-                        </div>
-                        {% endif %}
-
-                        {% if "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security %}
-                        <div id="tab-swabexpress" class="tab-content {%if provider_types_sequence.0.name == 'swab_express' %}current{% endif %}">
-                            <form action="{% url 'tt_website_rodextrip:swab_express_passenger'%}" class="form-wrap" id="swab_express_searchForm" method="post">
-                                {% csrf_token %}
-                                <input type="hidden" name="g-recaptcha-response" id='recaptcha_swab_express'>
-                                <div class="row">
-                                    <div class="col-lg-12 col-md-12 col-sm-12">
-                                        <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Swab Type' %}</span>
-                                        <div class="form-group">
-                                            <div class="default-select">
-                                                <select id="swab_express_type" name="swab_express_type">
-
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <br/>
-                                <center>
-                                    <button class="button-search primary-btn ld-ext-right" type="button" onclick="get_captcha('recaptcha_swab_express','swab_express');" value="Submit">
-                                        <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                        {% trans 'Search' %}
-                                        <div class="ld ld-ring ld-cycle"></div>
-                                    </button>
-                                </center>
-                            </form>
-                        </div>
-                        {% endif %}
-
-                        {% if "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security %}
-                        <div id="tab-lab_pintar" class="tab-content {%if provider_types_sequence.0.name == 'lab_pintar' %}current{% endif %}">
-                            <form action="{% url 'tt_website_rodextrip:lab_pintar_passenger'%}" class="form-wrap" id="lab_pintar_searchForm" method="post">
-                                {% csrf_token %}
-                                <input type="hidden" name="g-recaptcha-response" id='recaptcha_lab_pintar'>
-                                <div class="row">
-                                    <div class="col-lg-12 col-md-12 col-sm-12">
-                                        <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Swab Type' %}</span>
-                                        <div class="form-group">
-                                            <div class="default-select">
-                                                <select id="lab_pintar_type" name="lab_pintar_type">
-
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <br/>
-                                <center>
-                                    <button class="button-search primary-btn ld-ext-right" type="button" onclick="get_captcha('recaptcha_swab_express','lab_pintar');" value="Submit">
                                         <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                         {% trans 'Search' %}
                                         <div class="ld ld-ring ld-cycle"></div>
@@ -5212,20 +5295,12 @@
                                         <li class="tab-link {%if forloop.counter == 1%}current{% endif%}" data-tab="tab-visa" onclick="scroll_menu_horizontal('tab-link', 'visa');" id="nav_scroll_menu_visa"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-visa.png" alt="Visa Icon"/></i> <label class="btn-txt-color">VISA</label></li>
                                         {% elif "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_passport" in username.co_agent_frontend_security and rec.name == 'passport' %}
                                         <li class="tab-link {%if forloop.counter == 1%}current{% endif%}" data-tab="tab-passport" onclick="scroll_menu_horizontal('tab-link', 'passport');" id="nav_scroll_menu_passport"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/passport.png" alt="Passport Icon"/></i> <label class="btn-txt-color">{% trans 'PASSPORT' %}</label></li>
-                                        {% elif "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security and rec.name == "periksain" %}
-                                        {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                        <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-periksain" onclick="scroll_menu_horizontal('tab-link', 'periksain');" id="nav_scroll_menu_periksain"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Periksain Icon"/></i><label class="btn-txt-color">PRERIKSAIN</label></li>
-                                        {% endif %}
+                                        {% elif rec.name == "health_care" and "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security or rec.name == "health_care" and "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security or rec.name == "health_care" and "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security or rec.name == "health_care" and "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security %}
+                                        <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-medical1" onclick="scroll_menu_horizontal('tab-link', 'medical1');" id="nav_scroll_menu_medical1"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Health Care Icon"/></i><label class="btn-txt-color">HEALTH CARE</label></li>
                                         {% elif "phc" in provider and "ticketing_phc" in username.co_agent_frontend_security and rec.name == "phc" %}
                                         <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-phc" onclick="scroll_menu_horizontal('tab-link', 'phc');" id="nav_scroll_menu_phc"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="PHC Icon"/></i><label class="btn-txt-color">PHC</label></li>
-                                        {% elif "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security and rec.name == "medical" %}
-                                        <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-medical" onclick="scroll_menu_horizontal('tab-link', 'medical2');" id="nav_scroll_menu_medical2"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="PHC Icon"/></i><label class="btn-txt-color">MEDICAL</label></li>
                                         {% elif "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security and rec.name == "bus" %}
                                         <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-bus" onclick="scroll_menu_horizontal('tab-link', 'bus');" id="nav_scroll_menu_bus"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-bus.png" alt="Bus Icon"/></i><label class="btn-txt-color">BUS</label></li>
-                                        {% elif "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security and rec.name == "swabexpress" %}
-                                        <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-swabexpress" onclick="scroll_menu_horizontal('tab-link', 'swab_express');" id="nav_scroll_menu_swab_express"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Swab Express Icon"/></i><label class="btn-txt-color">SWAB EXPRESS</label></li>
-                                        {% elif "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security and rec.name == "labpintar" %}
-                                        <li class="tab-link {%if forloop.counter == 1%}current {% endif %}" data-tab="tab-lab_pintar" onclick="scroll_menu_horizontal('tab-link', 'lab_pintar');" id="nav_scroll_menu_lab_pintar"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Lab Pintar Icon"/></i><label class="btn-txt-color">LAB PINTAR</label></li>
                                         {% endif %}
                                         {% endfor %}
                                         {% if name == 'Rodextrip' %}
@@ -6058,34 +6133,164 @@
                                 </div>
                                 {% endif %}
 
-                                {% if "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security %}
-                                {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                <div id="tab-periksain" class="tab-content {%if provider_types_sequence.0.name == 'periksain' %}current{% endif %}" style="padding: 30px 0px;">
-                                    <form action="periksain/passenger/antigen" class="form-wrap" id="medical_searchForm1" method="post">
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <span class="span-search-ticket">{% trans 'Medical Type' %}</span>
-                                                <div class="input-container-search-ticket" style="margin-bottom:unset;">
-                                                    <i class="fas fa-map-marker-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
-                                                    <select id="medical_type_periksain" name="medical_type_periksain" class="nice-select-default" style="width:100%;">
-
-                                                    </select>
-                                                </div>
-                                            </div>
+                                {% if "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security or "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security or "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security or "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security %}
+                                <div id="tab-medical1" class="tab-content {%if provider_types_sequence.0.name == 'health_core' %}current{% endif %}">
+                                    <div class="row">
+                                        <div class="col-lg-12 mt-3" id="radio_medical_search" style="text-align:left;" onchange="onchange_health_care();">
+                                            {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                                            <label class="radio-button-custom crlabel">
+                                                <span style="font-size:13px; color:{{text_color}};">PERIKSAIN</span>
+                                                <input type="radio" checked="checked" name="health_care_type" value="periksain">
+                                                <span class="checkmark-radio crspan"></span>
+                                            </label>
+                                            {% endif %}
+                                            {% if "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security %}
+                                            <label class="radio-button-custom crlabel">
+                                                <span style="font-size:13px; color:{{text_color}};">National Hospital</span>
+                                                <input type="radio" {% if 'b2c_limitation' in username.co_agent_frontend_security %} checked="checked" {% endif %} name="health_care_type" value="nathos">
+                                                <span class="checkmark-radio crspan"></span>
+                                            </label>
+                                            {% endif %}
+                                            {% if "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security %}
+                                            <label class="radio-button-custom crlabel">
+                                                <span style="font-size:13px; color:{{text_color}};">Swab Express</span>
+                                                <input type="radio" {% if 'b2c_limitation' in username.co_agent_frontend_security and "medical" not in provider %} checked="checked" {% endif %} name="health_care_type" value="swab_express">
+                                                <span class="checkmark-radio crspan"></span>
+                                            </label>
+                                            {% endif %}
+                                            {% if "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security %}
+                                            <label class="radio-button-custom crlabel">
+                                                <span style="font-size:13px; color:{{text_color}};">Lab Pintar</span>
+                                                <input type="radio" {% if 'b2c_limitation' in username.co_agent_frontend_security and "medical" not in provider and "swabexpress" in provider %} checked="checked" {% endif %} name="health_care_type" value="lab_pintar">
+                                                <span class="checkmark-radio crspan"></span>
+                                            </label>
+                                            {% endif %}
                                         </div>
-                                        {% csrf_token %}
-                                        <input type="hidden" name="g-recaptcha-response" id='recaptcha_medical1'>
-                                        <center>
-                                            <button class="button-search primary-btn ld-ext-right" type="button" onclick="get_captcha('recaptcha_medical1','medical1');" value="Submit">
-                                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                                {% trans 'Search' %}
-                                                <div class="ld ld-ring ld-cycle"></div>
-                                            </button>
-                                        </center>
-                                    </form>
+                                        <div class="col-lg-12">
+                                            <!--PERIKSAIN-->
+                                            {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                                            <form action="periksain/passenger/antigen" class="form-wrap" id="medical_searchForm1" style="display:block;" method="post">
+                                                <div class="row">
+                                                    <div class="col-lg-12 mt-3 mb-2" style="text-align:left;">
+                                                        <h4 style="color:{{text_color}};">Periksain</h4>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                                        <span class="span-search-ticket"> {% trans 'Medical Type' %}</span>
+                                                        <div class="input-container-search-ticket">
+                                                            <i class="fas fa-map-marker-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
+                                                            <select id="medical_type_periksain" name="medical_type_periksain" class="nice-select-default">
+
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {% csrf_token %}
+                                                <input type="hidden" name="g-recaptcha-response" id='recaptcha_medical1'>
+                                                <br/>
+                                                <center>
+                                                    <button class="button-search primary-btn ld-ext-right mt-3" type="button" onclick="get_captcha('recaptcha_medical1','medical1');" value="Submit">
+                                                        <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                                        {% trans 'Search' %}
+                                                        <div class="ld ld-ring ld-cycle"></div>
+                                                    </button>
+                                                </center>
+                                            </form>
+                                            {% endif %}
+                                            <!--NATHOS-->
+                                            {% if "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security %}
+                                            <form action="{% url 'tt_website_rodextrip:medical_global_passenger'%}" style="display:{%if 'b2c_limitation' in username.co_agent_frontend_security %}block{% else %}none{%endif%};" class="form-wrap" id="medical_global_searchForm" method="post">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="g-recaptcha-response" id='recaptcha_medical_global'>
+                                                <div class="row">
+                                                    <div class="col-lg-12 mt-3 mb-2" style="text-align:left;">
+                                                        <h4 style="color:{{text_color}};">National Hospital</h4>
+                                                    </div>
+
+                                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                                        <span class="span-search-ticket"> {% trans 'Medical Type' %}</span>
+                                                        <div class="input-container-search-ticket">
+                                                            <i class="fas fa-map-marker-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
+                                                            <select id="medical_global_type" name="medical_global_type" class="nice-select-default">
+
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br/>
+                                                <center>
+                                                    <button class="button-search primary-btn ld-ext-right mt-3" type="button" onclick="get_captcha('recaptcha_medical_global','medical_global');" value="Submit">
+                                                        <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                                        {% trans 'Search' %}
+                                                        <div class="ld ld-ring ld-cycle"></div>
+                                                    </button>
+                                                </center>
+                                            </form>
+                                            {% endif %}
+                                            <!--SWABEXPRESS-->
+                                            {% if "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security %}
+                                            <form action="{% url 'tt_website_rodextrip:swab_express_passenger'%}" style="display:none;" class="form-wrap" id="swab_express_searchForm" method="post">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="g-recaptcha-response" id='recaptcha_swab_express'>
+                                                <div class="row">
+                                                    <div class="col-lg-12 mt-3 mb-2" style="text-align:left;">
+                                                        <h4 style="color:{{text_color}};">Swab Express</h4>
+                                                    </div>
+
+                                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                                        <span class="span-search-ticket"> {% trans 'Medical Type' %}</span>
+                                                        <div class="input-container-search-ticket">
+                                                            <i class="fas fa-map-marker-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
+                                                            <select id="swab_express_type" name="swab_express_type" class="nice-select-default">
+
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br/>
+                                                <center>
+                                                    <button class="button-search primary-btn ld-ext-right mt-3" type="button" onclick="get_captcha('recaptcha_swab_express','swab_express');" value="Submit">
+                                                        <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                                        {% trans 'Search' %}
+                                                        <div class="ld ld-ring ld-cycle"></div>
+                                                    </button>
+                                                </center>
+                                            </form>
+                                            {% endif %}
+                                            <!--LABPINTAR-->
+                                            {% if "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security %}
+                                            <form action="{% url 'tt_website_rodextrip:lab_pintar_passenger'%}" style="display:none;" class="form-wrap" id="lab_pintar_searchForm" method="post">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="g-recaptcha-response" id='recaptcha_lab_pintar'>
+                                                <div class="row">
+                                                    <div class="col-lg-12 mt-3 mb-2" style="text-align:left;">
+                                                        <h4 style="color:{{text_color}};">Lab Pintar</h4>
+                                                    </div>
+
+                                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                                        <span class="span-search-ticket"> {% trans 'Medical Type' %}</span>
+                                                        <div class="input-container-search-ticket">
+                                                            <i class="fas fa-map-marker-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
+                                                            <select id="lab_pintar_type" name="lab_pintar_type" class="nice-select-default">
+
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br/>
+                                                <center>
+                                                    <button class="button-search primary-btn ld-ext-right mt-3" type="button" onclick="get_captcha('recaptcha_swab_express','lab_pintar');" value="Submit">
+                                                        <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                                        {% trans 'Search' %}
+                                                        <div class="ld ld-ring ld-cycle"></div>
+                                                    </button>
+                                                </center>
+                                            </form>
+                                            {% endif %}
+                                        </div>
+                                    </div>
                                 </div>
                                 {% endif %}
-                                {% endif %}
+
                                 {% if "phc" in provider and "ticketing_phc" in username.co_agent_frontend_security %}
                                 <div id="tab-phc" class="tab-content {%if provider_types_sequence.0.name == 'phc' %}current{% endif %}">
                                     <form action="/medical/passenger/phc" class="form-wrap" id="medical_searchForm2" method="post" style="padding: 30px 0px;">
@@ -6688,20 +6893,14 @@
                                         <li class="tab-link {%if forloop.counter == 1%}current{%endif%}" data-tab="tab-visa" onclick="scroll_menu_horizontal('tab-link', 'visa');" id="nav_scroll_menu_visa"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-visa.png" alt="Visa Icon"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">VISA</label></li>
                                         {% elif "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_passport" in username.co_agent_frontend_security and rec.name == "passport" %}
                                         <li class="tab-link {%if forloop.counter == 1%}current{%endif%}" data-tab="tab-passport" onclick="scroll_menu_horizontal('tab-link', 'passport');" id="nav_scroll_menu_passport"><img style="width:20px; height:20px" src="{{static_path}}images/icon/passport.png" alt="Passport Icon"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">{% trans 'PASSPORT' %}</label></li>
-                                        {% elif "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security and rec.name == "periksain" %}
-                                        {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                        <li class="tab-link {%if forloop.counter == 1%}current{%endif%}" data-tab="tab-periksain" onclick="scroll_menu_horizontal('tab-link', 'periksain');" id="nav_scroll_menu_periksain"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Periksain Icon"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">{% trans 'PRERIKSAIN' %}</label></li>
-                                        {% endif %}
+                                        {% elif rec.name == "health_care" and "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security or rec.name == "health_care" and "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security or rec.name == "health_care" and "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security or rec.name == "health_care" and "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security %}
+                                        <li class="tab-link {%if forloop.counter == 1%}current{%endif%}" data-tab="tab-medical1" onclick="scroll_menu_horizontal('tab-link', 'medical1');" id="nav_scroll_menu_medical1"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Health Care Icon"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">HEALTH CARE</label></li>
                                         {% elif "phc" in provider and "ticketing_phc" in username.co_agent_frontend_security and rec.name == "phc" %}
                                         <li class="tab-link {%if forloop.counter == 1%}current{%endif%}" data-tab="tab-phc" onclick="scroll_menu_horizontal('tab-link', 'phc');" id="nav_scroll_menu_phc"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="PHC Icon"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">PHC</label></li>
                                         {% elif "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security and rec.name == "medical" %}
                                         <li class="tab-link {%if forloop.counter == 1%}current{%endif%}" data-tab="tab-medical" onclick="scroll_menu_horizontal('tab-link', 'medical2');" id="nav_scroll_menu_medical2"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Medical Icon"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">MEDICAL</label></li>
                                         {% elif "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security and rec.name == "bus" %}
-                                        <li class="tab-link {%if forloop.counter == 1%}current{%endif%}" data-tab="tab-bus" onclick="scroll_menu_horizontal('tab-link', 'bus');" id="nav_scroll_menu_bus"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-bus.png" alt="Bus Icon"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">{% trans 'BUS' %}</label></li>
-                                        {% elif "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security and rec.name == "swabexpress" %}
-                                        <li class="tab-link {%if forloop.counter == 1%}current{%endif%}" data-tab="tab-swabexpress" onclick="scroll_menu_horizontal('tab-link', 'swab_express');" id="nav_scroll_menu_swab_express"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Swab Express Icon"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">{% trans 'SWAB EXPRESS' %}</label></li>
-                                        {% elif "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security and rec.name == "labpintar" %}
-                                        <li class="tab-link {%if forloop.counter == 1%}current{%endif%}" data-tab="tab-lab_pintar" onclick="scroll_menu_horizontal('tab-link', 'lab_pintar');" id="nav_scroll_menu_lab_pintar"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Lab Pintar Icon"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">{% trans 'LAB PINTAR' %}</label></li>
+                                        <li class="tab-link {%if forloop.counter == 1%}current{%endif%}" data-tab="tab-bus" onclick="scroll_menu_horizontal('tab-link', 'bus');" id="nav_scroll_menu_bus"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-bus.png" alt="Bus Icon"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">BUS</label></li>
                                         {% endif%}
                                         {% endfor %}
                                         {% if name == 'Rodextrip' %}
@@ -7523,33 +7722,160 @@
                                 </div>
                                 {% endif %}
 
-                                {% if "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security %}
-                                {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                <div id="tab-periksain" class="tab-content {%if provider_types_sequence.0.name == 'periksain' %}current{% endif %}">
-                                    <form action="periksain/passenger/antigen" class="form-wrap" id="medical_searchForm1" method="post">
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Medical Type' %}</span>
-                                                <div class="input-container-search-ticket mb-3">
-                                                    <select id="medical_type_periksain" name="medical_type_periksain" class="nice-select-default" style="width:100%;">
-
-                                                    </select>
-                                                </div>
-                                            </div>
+                                {% if "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security or "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security or "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security or "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security %}
+                                <div id="tab-medical1" class="tab-content {%if provider_types_sequence.0.name == 'health_core' %}current{% endif %}">
+                                    <div class="row">
+                                        <div class="col-lg-12 mt-3" id="radio_medical_search" style="text-align:left;" onchange="onchange_health_care();">
+                                            {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                                            <label class="radio-button-custom crlabel">
+                                                <span style="font-size:13px; color:{{text_color}};">PERIKSAIN</span>
+                                                <input type="radio" checked="checked" name="health_care_type" value="periksain">
+                                                <span class="checkmark-radio crspan"></span>
+                                            </label>
+                                            {% endif %}
+                                            {% if "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security %}
+                                            <label class="radio-button-custom crlabel">
+                                                <span style="font-size:13px; color:{{text_color}};">National Hospital</span>
+                                                <input type="radio" {% if 'b2c_limitation' in username.co_agent_frontend_security %} checked="checked" {% endif %} name="health_care_type" value="nathos">
+                                                <span class="checkmark-radio crspan"></span>
+                                            </label>
+                                            {% endif %}
+                                            {% if "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security %}
+                                            <label class="radio-button-custom crlabel">
+                                                <span style="font-size:13px; color:{{text_color}};">Swab Express</span>
+                                                <input type="radio" {% if 'b2c_limitation' in username.co_agent_frontend_security and "medical" not in provider %} checked="checked" {% endif %} name="health_care_type" value="swab_express">
+                                                <span class="checkmark-radio crspan"></span>
+                                            </label>
+                                            {% endif %}
+                                            {% if "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security %}
+                                            <label class="radio-button-custom crlabel">
+                                                <span style="font-size:13px; color:{{text_color}};">Lab Pintar</span>
+                                                <input type="radio" {% if 'b2c_limitation' in username.co_agent_frontend_security and "medical" not in provider and "swabexpress" in provider %} checked="checked" {% endif %} name="health_care_type" value="lab_pintar">
+                                                <span class="checkmark-radio crspan"></span>
+                                            </label>
+                                            {% endif %}
                                         </div>
-                                        {% csrf_token %}
-                                        <input type="hidden" name="g-recaptcha-response" id='recaptcha_medical1'>
-                                        <center>
-                                            <button class="button-search primary-btn ld-ext-right" type="button" onclick="get_captcha('recaptcha_medical1','medical1');" value="Submit">
-                                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                                {% trans 'Search' %}
-                                                <div class="ld ld-ring ld-cycle"></div>
-                                            </button>
-                                        </center>
-                                    </form>
+                                        <div class="col-lg-12">
+                                            <!--PERIKSAIN-->
+                                            {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                                            <form action="periksain/passenger/antigen" class="form-wrap" id="medical_searchForm1" style="display:block;" method="post">
+                                                <div class="row">
+                                                    <div class="col-lg-12 mt-3 mb-2" style="text-align:left;">
+                                                        <h4 style="color:{{text_color}};">Periksain</h4>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                                        <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Medical Type' %}</span>
+                                                        <div class="input-container-search-ticket">
+                                                            <select id="medical_type_periksain" name="medical_type_periksain" class="nice-select-default">
+
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {% csrf_token %}
+                                                <input type="hidden" name="g-recaptcha-response" id='recaptcha_medical1'>
+                                                <br/>
+                                                <center>
+                                                    <button class="button-search primary-btn ld-ext-right mt-3" type="button" onclick="get_captcha('recaptcha_medical1','medical1');" value="Submit">
+                                                        <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                                        {% trans 'Search' %}
+                                                        <div class="ld ld-ring ld-cycle"></div>
+                                                    </button>
+                                                </center>
+                                            </form>
+                                            {% endif %}
+                                            <!--NATHOS-->
+                                            {% if "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security %}
+                                            <form action="{% url 'tt_website_rodextrip:medical_global_passenger'%}" style="display:{%if 'b2c_limitation' in username.co_agent_frontend_security %}block{% else %}none{%endif%};" class="form-wrap" id="medical_global_searchForm" method="post">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="g-recaptcha-response" id='recaptcha_medical_global'>
+                                                <div class="row">
+                                                    <div class="col-lg-12 mt-3 mb-2" style="text-align:left;">
+                                                        <h4 style="color:{{text_color}};">National Hospital</h4>
+                                                    </div>
+
+                                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                                        <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Medical Type' %}</span>
+                                                        <div class="input-container-search-ticket">
+                                                            <select id="medical_global_type" name="medical_global_type" class="nice-select-default">
+
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br/>
+                                                <center>
+                                                    <button class="button-search primary-btn ld-ext-right mt-3" type="button" onclick="get_captcha('recaptcha_medical_global','medical_global');" value="Submit">
+                                                        <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                                        {% trans 'Search' %}
+                                                        <div class="ld ld-ring ld-cycle"></div>
+                                                    </button>
+                                                </center>
+                                            </form>
+                                            {% endif %}
+                                            <!--SWABEXPRESS-->
+                                            {% if "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security %}
+                                            <form action="{% url 'tt_website_rodextrip:swab_express_passenger'%}" style="display:none;" class="form-wrap" id="swab_express_searchForm" method="post">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="g-recaptcha-response" id='recaptcha_swab_express'>
+                                                <div class="row">
+                                                    <div class="col-lg-12 mt-3 mb-2" style="text-align:left;">
+                                                        <h4 style="color:{{text_color}};">Swab Express</h4>
+                                                    </div>
+
+                                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                                        <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Medical Type' %}</span>
+                                                        <div class="input-container-search-ticket">
+                                                            <select id="swab_express_type" name="swab_express_type" class="nice-select-default">
+
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br/>
+                                                <center>
+                                                    <button class="button-search primary-btn ld-ext-right mt-3" type="button" onclick="get_captcha('recaptcha_swab_express','swab_express');" value="Submit">
+                                                        <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                                        {% trans 'Search' %}
+                                                        <div class="ld ld-ring ld-cycle"></div>
+                                                    </button>
+                                                </center>
+                                            </form>
+                                            {% endif %}
+                                            <!--LABPINTAR-->
+                                            {% if "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security %}
+                                            <form action="{% url 'tt_website_rodextrip:lab_pintar_passenger'%}" style="display:none;" class="form-wrap" id="lab_pintar_searchForm" method="post">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="g-recaptcha-response" id='recaptcha_lab_pintar'>
+                                                <div class="row">
+                                                    <div class="col-lg-12 mt-3 mb-2" style="text-align:left;">
+                                                        <h4 style="color:{{text_color}};">Lab Pintar</h4>
+                                                    </div>
+
+                                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                                        <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Medical Type' %}</span>
+                                                        <div class="input-container-search-ticket">
+                                                            <select id="lab_pintar_type" name="lab_pintar_type" class="nice-select-default">
+
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br/>
+                                                <center>
+                                                    <button class="button-search primary-btn ld-ext-right mt-3" type="button" onclick="get_captcha('recaptcha_swab_express','lab_pintar');" value="Submit">
+                                                        <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                                        {% trans 'Search' %}
+                                                        <div class="ld ld-ring ld-cycle"></div>
+                                                    </button>
+                                                </center>
+                                            </form>
+                                            {% endif %}
+                                        </div>
+                                    </div>
                                 </div>
                                 {% endif %}
-                                {% endif %}
+
                                 {% if "phc" in provider and "ticketing_phc" in username.co_agent_frontend_security %}
                                 <div id="tab-phc" class="tab-content {%if provider_types_sequence.0.name == 'phc' %}current{% endif %}">
                                     <form action="/medical/passenger/phc" class="form-wrap" id="medical_searchForm2" method="post">
@@ -7589,33 +7915,6 @@
                                             </div>
                                         </div>
 
-                                    </form>
-                                </div>
-                                {% endif %}
-
-                                {% if "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security %}
-                                <div id="tab-medical" class="tab-content {%if provider_types_sequence.0.name == 'medical' %}current{% endif %}">
-                                    <form action="{% url 'tt_website_rodextrip:medical_global_passenger'%}" class="form-wrap" id="medical_global_searchForm" method="post">
-                                        {% csrf_token %}
-                                        <input type="hidden" name="g-recaptcha-response" id='recaptcha_medical_global'>
-                                        <div class="row">
-                                            <div class="col-lg-12 col-md-12 col-sm-12">
-                                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Medical Type' %}</span>
-                                                <div class="input-container-search-ticket">
-                                                    <select id="medical_global_type" name="medical_global_type" style="width:100%;" class="nice-select-default">
-
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <br/>
-                                        <center>
-                                            <button class="button-search primary-btn ld-ext-right" type="button" onclick="get_captcha('recaptcha_medical_global','medical_global');" value="Submit">
-                                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                                {% trans 'Search' %}
-                                                <div class="ld ld-ring ld-cycle"></div>
-                                            </button>
-                                        </center>
                                     </form>
                                 </div>
                                 {% endif %}
@@ -7712,60 +8011,6 @@
                                         <input type="hidden" id="bus_response" name="response"/>
                                         <center>
                                             <button class="primary-btn ld-ext-right" id="btn-search-train" type="button" onclick="get_captcha('recaptcha_bus','bus');" value="Submit">
-                                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                                {% trans 'Search' %}
-                                                <div class="ld ld-ring ld-cycle"></div>
-                                            </button>
-                                        </center>
-                                    </form>
-                                </div>
-                                {% endif %}
-
-                                {% if "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security %}
-                                <div id="tab-swabexpress" class="tab-content {%if provider_types_sequence.0.name == 'swab_express' %}current{% endif %}">
-                                    <form action="{% url 'tt_website_rodextrip:swab_express_passenger'%}" class="form-wrap" id="swab_express_searchForm" method="post">
-                                        {% csrf_token %}
-                                        <input type="hidden" name="g-recaptcha-response" id='recaptcha_swab_express'>
-                                        <div class="row">
-                                            <div class="col-lg-12 col-md-12 col-sm-12">
-                                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Swab Type' %}</span>
-                                                <div class="input-container-search-ticket">
-                                                    <select id="swab_express_type" name="swab_express_type" class="nice-select-default">
-
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <br/>
-                                        <center>
-                                            <button class="button-search primary-btn ld-ext-right" type="button" onclick="get_captcha('recaptcha_swab_express','swab_express');" value="Submit">
-                                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                                {% trans 'Search' %}
-                                                <div class="ld ld-ring ld-cycle"></div>
-                                            </button>
-                                        </center>
-                                    </form>
-                                </div>
-                                {% endif %}
-
-                                {% if "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security %}
-                                <div id="tab-lab_pintar" class="tab-content {%if provider_types_sequence.0.name == 'lab_pintar' %}current{% endif %}">
-                                    <form action="{% url 'tt_website_rodextrip:lab_pintar_passenger'%}" class="form-wrap" id="lab_pintar_searchForm" method="post">
-                                        {% csrf_token %}
-                                        <input type="hidden" name="g-recaptcha-response" id='recaptcha_lab_pintar'>
-                                        <div class="row">
-                                            <div class="col-lg-12 col-md-12 col-sm-12">
-                                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Swab Type' %}</span>
-                                                <div class="input-container-search-ticket">
-                                                    <select id="lab_pintar_type" name="lab_pintar_type" class="nice-select-default">
-
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <br/>
-                                        <center>
-                                            <button class="button-search primary-btn ld-ext-right" type="button" onclick="get_captcha('recaptcha_swab_express','lab_pintar');" value="Submit">
                                                 <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                                 {% trans 'Search' %}
                                                 <div class="ld ld-ring ld-cycle"></div>
@@ -8068,15 +8313,14 @@
                         </div>
                     </div>
 
-                    {% elif "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security and rec.name == "periksain" %}
-                    {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                    {% elif rec.name == "health_care" and "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security or rec.name == "health_care" and "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security or rec.name == "health_care" and "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security or rec.name == "health_care" and "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security %}
                     <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3 mb-3">
-                        <div class="div_cst" onclick="product_change_box('periksain')">
-                            <img style="width:auto; height:40px" src="{{static_path}}images/icon/swab_black.png" alt="Periksain Icon"/>
-                            <h6 class="hover_cst">{% trans 'PERIKSAIN' %}</h6>
+                        <div class="div_cst" onclick="product_change_box('healthcare')">
+                            <img style="width:auto; height:40px" src="{{static_path}}images/icon/swab_black.png" alt="Health Care Icon"/>
+                            <h6 class="hover_cst">{% trans 'HEALTH CARE' %}</h6>
                         </div>
                     </div>
-                    {% endif %}
+
                     {% elif "phc" in provider and "ticketing_phc" in username.co_agent_frontend_security and rec.name == "phc" %}
                     <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3 mb-3">
                         <div class="div_cst" onclick="product_change_box('phc')">
@@ -8084,32 +8328,11 @@
                             <h6 class="hover_cst">{% trans 'Test Covid PHC' %}</h6>
                         </div>
                     </div>
-                    {% elif "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security and rec.name == "medical" %}
-                    <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3 mb-3">
-                        <div class="div_cst" onclick="product_change_box('medical')">
-                            <img style="width:auto; height:40px" src="{{static_path}}images/icon/swab_black.png" alt="PHC Icon"/>
-                            <h6 class="hover_cst">{% trans 'Medical' %}</h6>
-                        </div>
-                    </div>
                     {% elif "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security and rec.name == "bus" %}
                     <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3 mb-3">
                         <div class="div_cst" onclick="product_change_box('bus')">
                             <img style="width:auto; height:40px" src="{{static_path}}images/icon/bus_black.png" alt="Bus Icon"/>
                             <h6 class="hover_cst">{% trans 'Bus' %}</h6>
-                        </div>
-                    </div>
-                    {% elif "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security and rec.name == "swabexpress" %}
-                    <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3 mb-3">
-                        <div class="div_cst" onclick="product_change_box('swabexpress')">
-                            <img style="width:auto; height:40px" src="{{static_path}}images/icon/swab_black.png" alt="Swab Express Icon"/>
-                            <h6 class="hover_cst">{% trans 'Swab Express' %}</h6>
-                        </div>
-                    </div>
-                    {% elif "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security and rec.name == "labpintar" %}
-                    <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3 mb-3">
-                        <div class="div_cst" onclick="product_change_box('labpintar')">
-                            <img style="width:auto; height:40px" src="{{static_path}}images/icon/swab_black.png" alt="Lab Pintar Icon"/>
-                            <h6 class="hover_cst">{% trans 'Lab Pintar' %}</h6>
                         </div>
                     </div>
                     {% endif %}
@@ -9146,9 +9369,8 @@
     </div>
 </section>
 
-{% if "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security %}
-{% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-<section class="about" style="margin-top:50px; margin-bottom:50px; padding:15px; display:none;" id="box_periksain">
+{% if "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security or "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security or "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security or "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security %}
+<section class="about" style="margin-top:50px; margin-bottom:50px; padding:15px; display:none;" id="box_healthcare">
     <div class="container">
         <div class="row" style="padding:15px;">
             <div class="col-lg-4 mb-5">
@@ -9165,34 +9387,159 @@
                     <i class="fas fa-arrow-circle-left"></i> Back
                 </button>
                 <hr style="border-bottom:2px solid {{text_color}};"/>
-                <form action="periksain/passenger/antigen" class="form-wrap" id="medical_searchForm1" method="post">
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12">
-                            <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Medical Type' %}</span>
-                            <div class="input-container-search-ticket">
-                                <div class="form-select">
-                                    <select id="medical_type_periksain" name="medical_type_periksain" class="nice-select-default">
+                <div class="row">
+                    <div class="col-lg-12 mt-3" id="radio_medical_search" style="text-align:left;" onchange="onchange_health_care();">
+                        {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                        <label class="radio-button-custom crlabel">
+                            <span style="font-size:13px; color:{{text_color}};">PERIKSAIN</span>
+                            <input type="radio" checked="checked" name="health_care_type" value="periksain">
+                            <span class="checkmark-radio crspan"></span>
+                        </label>
+                        {% endif %}
+                        {% if "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security %}
+                        <label class="radio-button-custom crlabel">
+                            <span style="font-size:13px; color:{{text_color}};">National Hospital</span>
+                            <input type="radio" {% if 'b2c_limitation' in username.co_agent_frontend_security %} checked="checked" {% endif %} name="health_care_type" value="nathos">
+                            <span class="checkmark-radio crspan"></span>
+                        </label>
+                        {% endif %}
+                        {% if "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security %}
+                        <label class="radio-button-custom crlabel">
+                            <span style="font-size:13px; color:{{text_color}};">Swab Express</span>
+                            <input type="radio" {% if 'b2c_limitation' in username.co_agent_frontend_security and "medical" not in provider %} checked="checked" {% endif %} name="health_care_type" value="swab_express">
+                            <span class="checkmark-radio crspan"></span>
+                        </label>
+                        {% endif %}
+                        {% if "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security %}
+                        <label class="radio-button-custom crlabel">
+                            <span style="font-size:13px; color:{{text_color}};">Lab Pintar</span>
+                            <input type="radio" {% if 'b2c_limitation' in username.co_agent_frontend_security and "medical" not in provider and "swabexpress" in provider %} checked="checked" {% endif %} name="health_care_type" value="lab_pintar">
+                            <span class="checkmark-radio crspan"></span>
+                        </label>
+                        {% endif %}
+                    </div>
+                    <div class="col-lg-12">
+                        <!--PERIKSAIN-->
+                        {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                        <form action="periksain/passenger/antigen" class="form-wrap" id="medical_searchForm1" style="display:block;" method="post">
+                            <div class="row">
+                                <div class="col-lg-12 mt-3 mb-2" style="text-align:left;">
+                                    <h4 style="color:{{text_color}};">Periksain</h4>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Medical Type' %}</span>
+                                    <div class="input-container-search-ticket">
+                                        <select id="medical_type_periksain" name="medical_type_periksain" class="nice-select-default">
 
-                                    </select>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                            {% csrf_token %}
+                            <input type="hidden" name="g-recaptcha-response" id='recaptcha_medical1'>
+                            <br/>
+                            <center>
+                                <button class="button-search primary-btn ld-ext-right mt-3" type="button" onclick="get_captcha('recaptcha_medical1','medical1');" value="Submit">
+                                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                    {% trans 'Search' %}
+                                    <div class="ld ld-ring ld-cycle"></div>
+                                </button>
+                            </center>
+                        </form>
+                        {% endif %}
+                        <!--NATHOS-->
+                        {% if "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security %}
+                        <form action="{% url 'tt_website_rodextrip:medical_global_passenger'%}" style="display:{%if 'b2c_limitation' in username.co_agent_frontend_security %}block{% else %}none{%endif%};" class="form-wrap" id="medical_global_searchForm" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="g-recaptcha-response" id='recaptcha_medical_global'>
+                            <div class="row">
+                                <div class="col-lg-12 mt-3 mb-2" style="text-align:left;">
+                                    <h4 style="color:{{text_color}};">National Hospital</h4>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Medical Type' %}</span>
+                                    <div class="input-container-search-ticket">
+                                        <select id="medical_global_type" name="medical_global_type" class="nice-select-default">
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+                            <center>
+                                <button class="button-search primary-btn ld-ext-right mt-3" type="button" onclick="get_captcha('recaptcha_medical_global','medical_global');" value="Submit">
+                                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                    {% trans 'Search' %}
+                                    <div class="ld ld-ring ld-cycle"></div>
+                                </button>
+                            </center>
+                        </form>
+                        {% endif %}
+                        <!--SWABEXPRESS-->
+                        {% if "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security %}
+                        <form action="{% url 'tt_website_rodextrip:swab_express_passenger'%}" style="display:none;" class="form-wrap" id="swab_express_searchForm" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="g-recaptcha-response" id='recaptcha_swab_express'>
+                            <div class="row">
+                                <div class="col-lg-12 mt-3 mb-2" style="text-align:left;">
+                                    <h4 style="color:{{text_color}};">Swab Express</h4>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Medical Type' %}</span>
+                                    <div class="input-container-search-ticket">
+                                        <select id="swab_express_type" name="swab_express_type" class="nice-select-default">
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+                            <center>
+                                <button class="button-search primary-btn ld-ext-right mt-3" type="button" onclick="get_captcha('recaptcha_swab_express','swab_express');" value="Submit">
+                                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                    {% trans 'Search' %}
+                                    <div class="ld ld-ring ld-cycle"></div>
+                                </button>
+                            </center>
+                        </form>
+                        {% endif %}
+                        <!--LABPINTAR-->
+                        {% if "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security %}
+                        <form action="{% url 'tt_website_rodextrip:lab_pintar_passenger'%}" style="display:none;" class="form-wrap" id="lab_pintar_searchForm" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="g-recaptcha-response" id='recaptcha_lab_pintar'>
+                            <div class="row">
+                                <div class="col-lg-12 mt-3 mb-2" style="text-align:left;">
+                                    <h4 style="color:{{text_color}};">Lab Pintar</h4>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Medical Type' %}</span>
+                                    <div class="input-container-search-ticket">
+                                        <select id="lab_pintar_type" name="lab_pintar_type" class="nice-select-default">
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+                            <center>
+                                <button class="button-search primary-btn ld-ext-right mt-3" type="button" onclick="get_captcha('recaptcha_swab_express','lab_pintar');" value="Submit">
+                                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                    {% trans 'Search' %}
+                                    <div class="ld ld-ring ld-cycle"></div>
+                                </button>
+                            </center>
+                        </form>
+                        {% endif %}
                     </div>
-                    {% csrf_token %}
-                    <input type="hidden" name="g-recaptcha-response" id='recaptcha_medical1'>
-                    <center>
-                        <button class="button-search primary-btn ld-ext-right" type="button" onclick="get_captcha('recaptcha_medical1','medical1');" value="Submit">
-                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                            {% trans 'Search' %}
-                            <div class="ld ld-ring ld-cycle"></div>
-                        </button>
-                    </center>
-                </form>
+                </div>
             </div>
         </div>
     </div>
 </section>
-{% endif %}
 {% endif %}
 
 
