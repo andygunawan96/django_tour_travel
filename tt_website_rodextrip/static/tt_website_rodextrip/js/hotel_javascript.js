@@ -1248,9 +1248,6 @@ function hotel_filter_render(){
             <span id="img-sort-up-`+sorting_list2[i].value.toLowerCase()+`" style="display:none;"> `+sorting_list2[i].value+` <i class="fas fa-caret-up"></i></span>
         </button>`;
     }
-    text += `<button class="myticket_static" data-toggle="modal" data-target="#myModalCopyHotel" onclick="get_checked_copy_result();">
-                <span style="color:`+text_color+`; font-size:14px;"><span id="badge-copy-notif">0</span> Copy Selected <i class="fas fa-copy"></i></span>
-            </button>`
     var node = document.createElement("div");
     node.className = 'sorting-box';
     node.innerHTML = text;
@@ -2126,6 +2123,13 @@ function update_contact_cp(val){
 
 function checkboxCopy(){
     var count_copy = $(".copy_result:checked").length;
+    if(count_copy == 0){
+        $('#button_copy_hotel').hide();
+    }
+    else{
+        $('#button_copy_hotel').show();
+    }
+
     document.getElementById("badge-copy-notif").innerHTML = count_copy;
     document.getElementById("badge-copy-notif2").innerHTML = count_copy;
 }

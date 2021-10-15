@@ -2155,164 +2155,9 @@ function get_price_itinerary_request(){
                             }
                             if(k == resJson.result.response.price_itinerary_provider[i].journeys[j].segments.length - 1)
                                 text+=`</div>`;
-                            if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares.length > 0 ){
+                            if(airline_price.length > resJson.result.response.price_itinerary_provider[i].journeys.length || //journey
+                               airline_price.length > resJson.result.response.price_itinerary_provider.length){ //provider
                                 fare_print = true;
-//                                for(l in resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares){
-//                                    if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary.length > 0){
-//                                    //term n condition
-//                                        text+=`
-//                                        <div class="col-lg-12" id="rules`+rules+`" style="padding-bottom:15px; padding-top:15px;">
-//                                            <span class="carrier_code_template"> Term and Condition </span><br/>
-//                                            <span style="font-size:16px; font-weight:bold;">PLEASE WAIT ... </span>
-//                                            <div class="sk-circle">
-//                                                <div class="sk-circle1 sk-child"></div>
-//                                                <div class="sk-circle2 sk-child"></div>
-//                                                <div class="sk-circle3 sk-child"></div>
-//                                                <div class="sk-circle4 sk-child"></div>
-//                                                <div class="sk-circle5 sk-child"></div>
-//                                                <div class="sk-circle6 sk-child"></div>
-//                                                <div class="sk-circle7 sk-child"></div>
-//                                                <div class="sk-circle8 sk-child"></div>
-//                                                <div class="sk-circle9 sk-child"></div>
-//                                                <div class="sk-circle10 sk-child"></div>
-//                                                <div class="sk-circle11 sk-child"></div>
-//                                                <div class="sk-circle12 sk-child"></div>
-//                                            </div>
-//                                        </div>`;
-//                                rules++;
-//                                //price
-//                                price = 0;
-//                                //adult
-//                                $text+= 'Price\n';
-//
-//                                        try{//adult
-//                                            if(airline_request.adult != 0){
-//                                                try{
-//                                                if(airline_price[price_counter].ADT['roc'] != null)
-//                                                    price = airline_price[price_counter].ADT['roc'];
-//                                                if(airline_price[price_counter].ADT.tax != null)
-//                                                    price += airline_price[price_counter].ADT.tax;
-//                                                }catch(err){
-//
-//                                                }
-//                                                commission = 0;
-//                                                if(airline_price[price_counter].ADT['rac'] != null)
-//                                                    commission = airline_price[price_counter].ADT['rac']
-//                                                commission_price += airline_request.adult * commission;
-//                                                total_price += airline_request.adult * (airline_price[price_counter].ADT['fare'] + price);
-//                                                text+=`
-//                                                <div class="col-lg-12">
-//                                                    <div class="row">
-//                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-//                                                            <span style="font-size:13px; font-weight:500;">`+airline_request.adult+`x Adult Fare @`+airline_price[price_counter].ADT.currency +' '+getrupiah(Math.ceil(airline_price[price_counter].ADT.fare))+`</span><br/>
-//                                                        </div>
-//                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-//                                                            <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(airline_price[price_counter].ADT.fare * airline_request.adult))+`</span>
-//                                                        </div>
-//                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-//                                                            <span style="font-size:13px; font-weight:500;">`+airline_request.adult+`x Service Charge</span>
-//                                                        </div>
-//                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-//                                                            <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(price * airline_request.adult))+`</span>
-//                                                        </div>
-//                                                    </div>
-//                                                </div>`;
-//                                                $text += airline_request.adult + ' Adult Fare @'+ airline_price[price_counter].ADT.currency +' '+getrupiah(Math.ceil(airline_price[price_counter].ADT.fare))+'\n';
-//                                                $text += airline_request.adult + ' Adult Tax @'+ airline_price[price_counter].ADT.currency +' '+getrupiah(Math.ceil(price))+'\n';
-//                                                price = 0;
-//                                            }
-//                                        }catch(err){
-//
-//                                        }
-//
-//                                        try{//child
-//                                            if(airline_request.child != 0){
-//                                                try{
-//                                                    if(airline_price[price_counter].CHD['roc'] != null)
-//                                                        price = airline_price[price_counter].CHD['roc'];
-//                                                    if(airline_price[price_counter].CHD.tax != null)
-//                                                        price += airline_price[price_counter].CHD.tax;
-//                                                }catch(err){
-//
-//                                                }
-//                                                commission = 0;
-//                                                if(airline_price[price_counter].CHD['rac'] != null)
-//                                                    commission = airline_price[price_counter].CHD['rac'];
-//                                                commission_price += airline_request.child * commission;
-//                                                total_price += airline_request.child * (airline_price[price_counter].CHD['fare'] + price);
-//                                                text+=`
-//                                                <div class="col-lg-12">
-//                                                    <div class="row">
-//                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-//                                                            <span style="font-size:13px; font-weight:500;">`+airline_request.child+`x Child Fare @`+airline_price[price_counter].CHD.currency+' '+getrupiah(Math.ceil(airline_price[price_counter].CHD.fare))+`</span><br/>
-//                                                        </div>
-//                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-//                                                            <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(airline_price[price_counter].CHD.fare * airline_request.child))+`</span>
-//                                                        </div>
-//                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-//                                                            <span style="font-size:13px; font-weight:500;">`+airline_request.child+`x Service Charge</span>
-//                                                        </div>
-//                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-//                                                            <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(price * airline_request.child))+`</span>
-//                                                        </div>
-//                                                    </div>
-//                                                </div>`;
-//                                                $text += airline_request.child + ' Child Fare @'+ airline_price[i].CHD.currency +' '+getrupiah(Math.ceil(airline_price[i].CHD.fare))+'\n';
-//                                                $text += airline_request.child + ' Child Tax @'+ airline_price[i].CHD.currency +' '+getrupiah(Math.ceil(price))+'\n';
-//                                                price = 0;
-//                                            }
-//                                        }catch(err){
-//
-//                                        }
-//
-//                                        try{//infant
-//                                            if(airline_request.infant != 0){
-//                                                price = 0;
-//                                                try{
-//                                                    if(airline_price[price_counter].INF['roc'] != null)
-//                                                        price = airline_price[price_counter].INF['roc'];
-//                                                    if(airline_price[price_counter].INF.tax != null)
-//                                                        price += airline_price[price_counter].INF.tax;
-//                                                }catch(err){
-//
-//                                                }
-//                                                commission = 0;
-//                                                try{
-//                                                    if(airline_price[price_counter].INF['rac'] != null)
-//                                                        commission = airline_price[price_counter].INF['rac'];
-//                                                }catch(err){
-//
-//                                                }
-//                                                commission_price += airline_request.infant * commission;
-//                                                total_price += airline_request.infant * (airline_price[price_counter].INF['fare'] + price);
-//                                                text+=`
-//                                                <div class="col-lg-12">
-//                                                    <div class="row">
-//                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-//                                                            <span style="font-size:13px; font-weight:500;">`+airline_request.infant+`x Infant Fare @`+airline_price[price_counter].INF.currency+' '+getrupiah(Math.ceil(airline_price[price_counter].INF.fare))+`</span><br/>
-//                                                        </div>
-//                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-//                                                            <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(airline_price[price_counter].INF.fare * airline_request.infant))+`</span>
-//                                                        </div>
-//                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-//                                                            <span style="font-size:13px; font-weight:500;">`+airline_request.infant+`x Service Charge</span>
-//                                                        </div>
-//                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-//                                                            <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(price * airline_request.infant))+`</span>
-//                                                        </div>
-//                                                    </div>
-//                                                </div>`;
-//                                                $text += airline_request.infant + ' Infant Fare @'+ airline_price[price_counter].INF.currency +' '+getrupiah(Math.ceil(airline_price[price_counter].INF.fare))+'\n';
-//                                                $text += airline_request.infant + ' Infant Tax @'+ airline_price[price_counter].INF.currency +' '+getrupiah(Math.ceil(price))+'\n';
-//                                                price = 0;
-//                                            }
-//                                        }catch(err){
-//
-//                                        }
-//                                        price_counter++;
-//                                        $text += '\n';
-//                                    }
-//                                }
                             }
                         }
 
@@ -3244,18 +3089,32 @@ function show_seat_map(val, checked){
 
 function set_passenger_seat_map_airline(val){
     text='';
-    text += `<hr/><h5 style="color:`+color+`;">`+passengers[val].title+` `+passengers[val].first_name+` `+passengers[val].last_name+`</h5>`;
+    text += `<hr/>
+    <h5 style="color:`+color+`;">
+        <i class="fas fa-user"></i> `+passengers[val].title+` `+passengers[val].first_name+` `+passengers[val].last_name+`
+    </h5>
+    <div class="row">`;
     for(i in passengers[val].seat_list){
-        text+=`<h6 style="padding-top:10px;">`+passengers[val].seat_list[i].segment_code+`: `+passengers[val].seat_list[i].seat_name+` `+passengers[val].seat_list[i].seat_pick+`</h6>`;
-        text+=`<span style="font-weight:400; font-size:14px;">Price: `+passengers[val].seat_list[i].currency+` `+getrupiah(passengers[val].seat_list[i].price)+`</span><br/><br/>`;
+        text+=`
+        <div class="col-lg-12">
+            <h6 style="padding-top:10px;"><i class="fas fa-plane"></i> `+passengers[val].seat_list[i].segment_code+`: `+passengers[val].seat_list[i].seat_name+` `+passengers[val].seat_list[i].seat_pick+`</h6>
+            <div style="border:1px solid #cdcdcd; padding:15px; background:white; margin-bottom:10px;">
+            <h6>Description: </h6>`;
         for(j in passengers[val].seat_list[i].description){
             //if(j == 0)
                 //text+=`<span style="font-weight:400; font-size:14px;">Description:</span><br/>`;
             text+=`<span>`+passengers[val].seat_list[i].description[j]+`</span><br/>`;
         }
+        text+=`</div>
+        </div>
+        <div class="col-lg-12">
+            <span style="font-weight:bold; font-size:15px;">Price: `+passengers[val].seat_list[i].currency+` `+getrupiah(passengers[val].seat_list[i].price)+`</span><br/>`;
         if(passengers[val].seat_list[i].seat_name != '')
-            text+= `<input class="button-seat-pass button-seat-pass-cancel" type="button" id="cancel_seat`+i+`" style="width: 30%; padding: 10px; margin-right: 10px; text-align: center; margin-bottom: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: white;" onclick="set_cancel_seat(`+i+`);" value="Cancel Seat">`;
+            text+= `<input class="button-seat-pass button-seat-pass-cancel" type="button" id="cancel_seat`+i+`" style="width:200px; padding: 10px; margin-right: 10px; text-align: center; margin-bottom: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: white;" onclick="set_cancel_seat(`+i+`);" value="Cancel Seat">`;
+
+        text+=`</div><div class="col-lg-12"><hr/></div>`;
     }
+    text+=`</div>`;
     document.getElementById('passenger'+(passenger_pick+1)).style.background = 'white';
     document.getElementById('passenger'+(passenger_pick+1)).style.color = 'black';
     document.getElementById('passenger'+(val+1)).style.background = color;
@@ -3273,18 +3132,31 @@ function set_passenger_seat_map_airline(val){
 
 function set_first_passenger_seat_map_airline(val){
     text='';
-    text += `<hr/><h5 style="color:`+color+`;">`+passengers[val].title+` `+passengers[val].first_name+` `+passengers[val].last_name+`</h5>`;
+    text += `<hr/>
+    <h5 style="color:`+color+`;">
+        <i class="fas fa-user"></i> `+passengers[val].title+` `+passengers[val].first_name+` `+passengers[val].last_name+`
+    </h5>
+    <div class="row">`;
     for(i in passengers[val].seat_list){
-        text+=`<h6 style="padding-top:10px;">`+passengers[val].seat_list[i].segment_code+`: `+passengers[val].seat_list[i].seat_name+` `+passengers[val].seat_list[i].seat_pick+`</h6>`;
-        text+=`<span style="font-weight:400; font-size:14px;">Price: `+passengers[val].seat_list[i].currency+` `+getrupiah(passengers[val].seat_list[i].price)+`</span><br/><br/>`;
+        text+=`
+        <div class="col-lg-12">
+            <h6 style="padding-top:10px;"><i class="fas fa-plane"></i> `+passengers[val].seat_list[i].segment_code+`: `+passengers[val].seat_list[i].seat_name+` `+passengers[val].seat_list[i].seat_pick+`</h6>
+            <div style="border:1px solid #cdcdcd; padding:15px; background:white; margin-bottom:10px;">
+            <h6>Description: </h6>`;
         for(j in passengers[val].seat_list[i].description){
             //if(j == 0)
                 //text+=`<span style="font-weight:400; font-size:14px;">Description:</span><br/>`;
             text+=`<span>`+passengers[val].seat_list[i].description[j]+`</span><br/>`;
         }
+        text+=`</div>
+        </div>
+        <div class="col-lg-12">`;
+        text+=`<span style="font-weight:bold; font-size:15px;">Price: `+passengers[val].seat_list[i].currency+` `+getrupiah(passengers[val].seat_list[i].price)+`</span>`;
         if(passengers[val].seat_list[i].seat_name != '')
-            text+= `<input class="button-seat-pass button-seat-pass-cancel" type="button" id="cancel_seat" style="width: 30%; background: #f15a22; padding: 10px; margin-right: 10px; text-align: center; margin-bottom: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: white;" onclick="set_cancel_seat(`+i+`);" value="Cancel Seat">`;
+            text+= `<input class="button-seat-pass button-seat-pass-cancel" type="button" id="cancel_seat" style="width: 200px; background: #f15a22; padding: 10px; margin-right: 10px; text-align: center; margin-bottom: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: white;" onclick="set_cancel_seat(`+i+`);" value="Cancel Seat">`;
+        text+=`</div><div class="col-lg-12"><hr/></div>`;
     }
+    text+=`</div>`;
     document.getElementById('passenger'+(val+1)).style.background = color;
     document.getElementById('passenger'+(val+1)).style.color = 'white';
     passenger_pick = val;
@@ -3305,6 +3177,11 @@ function set_cancel_seat(segment_number){
 }
 
 function update_seat_passenger(segment, departure_date, row, column,seat_code,seat_name, currency, amount,description){
+
+    $('html, body').animate({
+        scrollTop: $("#airline_passenger_detail_seat").offset().top - 110
+    }, 500);
+
     if(isNaN(passenger_pick) == false){
         try{
             for(i in passengers[passenger_pick].seat_list){
@@ -5021,7 +4898,10 @@ function airline_get_booking(data, sync=false){
                                 <td>`+ff_request;
                                       try{
                                           for(i in msg.result.response.passengers[pax].fees){
-                                            text += `<label>` + msg.result.response.passengers[pax].fees[i].fee_name + ' ' + msg.result.response.passengers[pax].fees[i].fee_value + `</label><br/>`;
+                                            text += `<label>`;
+                                            if(msg.result.response.passengers[pax].fees[i].fee_category.toLowerCase() in msg.result.response.passengers[pax].fees[i].fee_name.toLowerCase() == false)
+                                                text += msg.result.response.passengers[pax].fees[i].fee_category + ' ';
+                                                text += msg.result.response.passengers[pax].fees[i].fee_name + `</label><br/>`;
                                           }
                                       }catch(err){}
                                       text+=`
@@ -5195,8 +5075,8 @@ function airline_get_booking(data, sync=false){
                 disc = 0;
 
                 $text += '\n‣ Price:\n';
+                csc = 0;
                 for(i in msg.result.response.provider_bookings){
-                    csc = 0;
                     try{
                         if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
                             text_detail+=`
@@ -5212,10 +5092,13 @@ function airline_get_booking(data, sync=false){
                                     price['currency'] = msg.result.response.passengers[j].sale_service_charges[msg.result.response.provider_bookings[i].pnr][k].currency;
                             }
                             disc -= price['DISC'];
-                            try{
-                                price['CSC'] = msg.result.response.passengers[j].channel_service_charges.amount;
-                                csc += msg.result.response.passengers[j].channel_service_charges.amount;
-                            }catch(err){}
+                            if(i ==0 ){
+                                //HANYA PROVIDER PERTAMA KARENA UPSELL PER PASSENGER BUKAN PER JOURNEY
+                                try{
+                                    price['CSC'] = msg.result.response.passengers[j].channel_service_charges.amount;
+                                    csc += msg.result.response.passengers[j].channel_service_charges.amount;
+                                }catch(err){}
+                            }
                             //repricing
                             check = 0;
                             for(k in pax_type_repricing){
@@ -5307,19 +5190,19 @@ function airline_get_booking(data, sync=false){
                                 'price': JSON.parse(JSON.stringify(price))
                             });
                         }
-                        if(csc != 0){
-                            text_detail+=`
-                                <div class="row" style="margin-bottom:5px;">
-                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                        <span style="font-size:12px;">Other service charges</span>`;
-                                    text_detail+=`</div>
-                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                        <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(csc))+`</span>
-                                    </div>
-                                </div>`;
-                        }
                         counter_service_charge++;
                     }catch(err){console.log(err);}
+                }
+                if(csc != 0){
+                    text_detail+=`
+                        <div class="row" style="margin-bottom:5px;">
+                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                <span style="font-size:12px;">Other service charges</span>`;
+                            text_detail+=`</div>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(csc))+`</span>
+                            </div>
+                        </div>`;
                 }
                 try{
                     airline_get_detail.result.response.total_price = total_price;
@@ -5795,12 +5678,31 @@ function check_refund_partial_btn(){
     });
     //console.log(passengers);
     captcha = {};
+    check_image = 0;
     if(refund_msg.result.response.length>0){
         for(i in refund_msg.result.response){
-            if(refund_msg.result.response[i].img != '')
-                captcha[refund_msg.result.response[i].pnr] = document.getElementById('captcha'+parseInt(i+1)).value;
-            else
-                captcha[refund_msg.result.response[i].pnr] = '';
+            img_list = refund_msg.result.response[i].img.split(';');
+            for(j in img_list){
+                if(img_list[j] != ''){
+                    try{
+                        if(j != 0)
+                            captcha[refund_msg.result.response[i].pnr] += ';'+document.getElementById('captcha'+parseInt(check_image)).value;
+                        else
+                            captcha[refund_msg.result.response[i].pnr] = document.getElementById('captcha'+parseInt(check_image)).value;
+                    }catch(err){
+                        if(j != 0)
+                            captcha[refund_msg.result.response[i].pnr] += ';';
+                        else
+                            captcha[refund_msg.result.response[i].pnr] = '';
+                    }
+                }else{
+                    if(j!=0)
+                        captcha[refund_msg.result.response[i].pnr] += ';';
+                    else
+                        captcha[refund_msg.result.response[i].pnr] = '';
+                }
+                check_image++;
+            }
         }
     }
     $.ajax({
@@ -9294,10 +9196,18 @@ function pre_refund_login(){
                     document.getElementById('captcha').hidden = true;
                 }else{
                     for(i in msg.result.response){
-                        if(msg.result.response[i].img != ''){
-                            document.getElementById('cancel').innerHTML += msg.result.response[i].pnr+`<center><img style="margin-bottom:5px;" src="data:image/png;base64,`+msg.result.response[i].img+`"/></center><br/>`;
-                            document.getElementById('cancel').innerHTML += `<input style="margin-bottom:5px;" type="text" class="form-control" name="captcha`+parseInt(i+1)+`" id="captcha`+parseInt(i+1)+`" placeholder="Captcha " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Captcha '">`
-                            check_image++;
+                        if(msg.result.response[i].img != '' && msg.result.response[i].img != ';'){
+                            pnr_list = msg.result.response[i].pnr.split(',');
+                            img_list = msg.result.response[i].img.split(';');
+                            for(j in img_list){
+                                if(img_list[j] != ''){
+                                    document.getElementById('cancel').innerHTML += pnr_list[j]+`<center><img style="margin-bottom:5px;" src="data:image/png;base64,`+img_list[j]+`"/></center><br/>`;
+                                    document.getElementById('cancel').innerHTML += `<input style="margin-bottom:5px;" type="text" class="form-control" name="captcha`+parseInt(check_image)+`" id="captcha`+parseInt(check_image)+`" placeholder="Captcha " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Captcha '">`;
+                                }else{
+                                    document.getElementById('cancel').innerHTML += `<input style="margin-bottom:5px;" type="hidden" class="form-control" name="captcha`+parseInt(check_image)+`" id="captcha`+parseInt(check_image)+`" placeholder="Captcha " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Captcha '" value=''>`;
+                                }
+                                check_image++;
+                            }
                         }
                     }
                 }
@@ -9339,7 +9249,7 @@ function pre_refund_login(){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline command cryptic');
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline check refund price');
             $('.loader-rodextrip').fadeOut();
        },timeout: 300000
     });
@@ -10964,7 +10874,7 @@ function pre_refund_login_v2(){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline command cryptic');
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline check refund price');
             $('.loader-rodextrip').fadeOut();
        },timeout: 300000
     });

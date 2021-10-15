@@ -3269,14 +3269,16 @@ function airline_pick_mc(type){
                 <div id="detail_departjourney_pick`+airline_pick_list[i].airline_pick_sequence+`" class="panel-collapse collapse in" aria-expanded="true" style="display:none;">`;
                 for(j in airline_pick_list[i].segments){
                     if(airline_pick_list[i].segments[j].transit_duration != ''){
-                        text += `<div class="col-sm-12" style="text-align:center;"><span style="font-weight:500;"><i class="fas fa-clock"></i>Transit Duration: `;
+                        text += `
+                        <div class="col-lg-12" style="text-align:center;padding:0px 15px;">
+                            <div style="border:1px solid #cdcdcd; background:#f7f7f7; padding:15px; border-radius:14px; color:#F15A22;"><span style="font-weight:500;"><i class="fas fa-clock"></i>Transit Duration: `;
                         if(airline_pick_list[i].segments[j].transit_duration.split(':')[0] != '0')
                             text+= airline_pick_list[i].segments[j].transit_duration.split(':')[0] + 'd ';
                         if(airline_pick_list[i].segments[j].transit_duration.split(':')[1] != '0')
                             text+= airline_pick_list[i].segments[j].transit_duration.split(':')[1] + 'h ';
                         if(airline_pick_list[i].segments[j].transit_duration.split(':')[2] != '0')
                             text+= airline_pick_list[i].segments[j].transit_duration.split(':')[2] + 'm ';
-                        text+=`</span></div><br/>`;
+                        text+=`</span></div></div><br/>`;
                     }
                 var depart = 0;
                 if(airline_pick_list[i].segments[j].origin == airline_request.destination[0].split(' - ')[0])
@@ -3326,18 +3328,20 @@ function airline_pick_mc(type){
                         <span class="copy_carrier_provider" style="font-weight:500; font-size:12px;">`+airline_carriers[0][airline_pick_list[i].segments[j].carrier_code].name+`</span><br/>
                         <img data-toggle="tooltip" alt="`+airline_carriers[0][airline_pick_list[i].segments[j].carrier_code].name+`" style="width:50px; height:50px;margin-bottom:5px;" title="`+airline_carriers[0][airline_pick_list[i].segments[j].carrier_code].name+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+airline_pick_list[i].segments[j].carrier_code+`.png"><br/>
                         </div>
-                        <div class="col-lg-7">
+                        <div class="col-lg-7">`;
+                        for(k in airline_pick_list[i].segments[j].legs){
+                        text+=`
                             <div class="timeline-wrapper">
                                 <ul class="StepProgress">
                                     <li class="StepProgress-item is-done">
                                        <div>
-                                           <span style="font-weight:600; font-size:16px;">`+airline_pick_list[i].segments[j].departure_date.split(' - ')[1]+`</span><br/>
-                                           <span>`+airline_pick_list[i].segments[j].departure_date.split(' - ')[0]+`</span>
+                                           <span style="font-weight:600; font-size:16px;">`+airline_pick_list[i].segments[j].legs[k].departure_date.split(' - ')[1]+`</span><br/>
+                                           <span>`+airline_pick_list[i].segments[j].legs[k].departure_date.split(' - ')[0]+`</span>
                                        </div>
                                        <div style="width:84%;">
-                                           <span style="font-weight:500;">`+airline_pick_list[i].segments[j].origin_city+` - `+airline_pick_list[i].segments[j].origin_name+` (`+airline_pick_list[i].segments[j].origin+`)</span></br>`;
-                                       if(airline_pick_list[i].segments[j].origin_terminal != ''){
-                                           text+=`<span style="font-size:13px; font-weight:500;">Terminal: `+airline_pick_list[i].segments[j].origin_terminal+`</span><br/>`;
+                                           <span style="font-weight:500;">`+airline_pick_list[i].segments[j].legs[k].origin_city+` - `+airline_pick_list[i].segments[j].legs[k].origin_name+` (`+airline_pick_list[i].segments[j].legs[k].origin+`)</span></br>`;
+                                       if(airline_pick_list[i].segments[j].legs[k].origin_terminal != ''){
+                                           text+=`<span style="font-size:13px; font-weight:500;">Terminal: `+airline_pick_list[i].segments[j].legs[k].origin_terminal+`</span><br/>`;
                                        }else{
                                            text+=`<span style="font-size:13px; font-weight:500;">Terminal: -</span><br/>`;
                                        }
@@ -3346,13 +3350,13 @@ function airline_pick_mc(type){
                                     </li>
                                     <li class="StepProgress-item is-end">
                                        <div>
-                                           <span style="font-weight:600; font-size:16px;">`+airline_pick_list[i].segments[j].arrival_date.split(' - ')[1]+`</span><br/>
-                                           <span>`+airline_pick_list[i].segments[j].arrival_date.split(' - ')[0]+`</span>
+                                           <span style="font-weight:600; font-size:16px;">`+airline_pick_list[i].segments[j].legs[k].arrival_date.split(' - ')[1]+`</span><br/>
+                                           <span>`+airline_pick_list[i].segments[j].legs[k].arrival_date.split(' - ')[0]+`</span>
                                        </div>
                                        <div style="width:84%;">
-                                           <span style="font-weight:500;">`+airline_pick_list[i].segments[j].destination_city+`</span> - <span>`+airline_pick_list[i].segments[j].destination_name+` (`+airline_pick_list[i].segments[j].destination+`)</span><br/>`;
-                                       if(airline_pick_list[i].segments[j].destination_terminal != ''){
-                                           text+=`<span style="font-size:13px; font-weight:500;">Terminal: `+airline_pick_list[i].segments[j].destination_terminal+`</span><br/>`;
+                                           <span style="font-weight:500;">`+airline_pick_list[i].segments[j].legs[k].destination_city+`</span> - <span>`+airline_pick_list[i].segments[j].legs[k].destination_name+` (`+airline_pick_list[i].segments[j].legs[k].destination+`)</span><br/>`;
+                                       if(airline_pick_list[i].segments[j].legs[k].destination_terminal != ''){
+                                           text+=`<span style="font-size:13px; font-weight:500;">Terminal: `+airline_pick_list[i].segments[j].legs[k].destination_terminal+`</span><br/>`;
                                        }else{
                                            text+=`<span style="font-size:13px; font-weight:500;">Terminal: -</span><br/>`;
                                        }
@@ -3360,7 +3364,9 @@ function airline_pick_mc(type){
                                        </div>
                                     </li>
                                 </ul>
-                            </div>
+                            </div>`;
+                            }
+                            text+=`
                         </div>
                         <div class="col-lg-3">
                             <span style="font-weight:500;"><i class="fas fa-clock"></i> `;
@@ -3731,11 +3737,23 @@ function share_data(){
 }
 
 function change_identity_type(id){
-    if(document.getElementById(id).value == 'ktp')
-        document.getElementById(id.replace('id_type','identity_expired_date_required')).style.color = 'white';
-    else
-        document.getElementById(id.replace('id_type','identity_expired_date_required')).style.color = 'red';
-
+    try{
+        if(is_identity_required == 'true'){
+            //KALAU ADA BINTANG TETAP ADA TIDAK ADA YG BERUBAH
+        }else if(document.getElementById(id).value == 'ktp'){
+            document.getElementById(id.replace('id_type','identity_expired_date_required')).style.color = 'white';
+            document.getElementById(id.replace('id_type','identity_number_required')).style.color = 'red';
+            document.getElementById(id.replace('id_type','country_of_issued_required')).style.color = 'red';
+        }else if(document.getElementById(id).value == 'passport'){
+            document.getElementById(id.replace('id_type','identity_expired_date_required')).style.color = 'red';
+            document.getElementById(id.replace('id_type','identity_number_required')).style.color = 'red';
+            document.getElementById(id.replace('id_type','country_of_issued_required')).style.color = 'red';
+        }else{
+            document.getElementById(id.replace('id_type','identity_expired_date_required')).style.color = 'white';
+            document.getElementById(id.replace('id_type','identity_number_required')).style.color = 'white';
+            document.getElementById(id.replace('id_type','country_of_issued_required')).style.color = 'white';
+        }
+    }catch(err){console.log(err)}
 }
 
 function airline_detail(type){
@@ -3815,9 +3833,9 @@ function airline_detail(type){
                 carrier_code_list = Array.from(new Set(price_itinerary_temp[i].journeys[j].carrier_code_list))
                 for(k in carrier_code_list) //print gambar airline
                     try{
-                        text+=`<img data-toggle="tooltip" alt="`+airline_carriers[0][carrier_code_list[k]]+`" title="`+airline_carriers[0][carrier_code_list[k]]+`" style="margin-top:10px; width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+carrier_code_list[k]+`.png"><span> </span>`;
+                        text+=`<img data-toggle="tooltip" alt="`+airline_carriers[0][carrier_code_list[k]]+`" title="`+airline_carriers[0][carrier_code_list[k]]+`" style="margin-top:10px; width:50px; height:50px; margin-right:10px;" src="`+static_path_url_server+`/public/airline_logo/`+carrier_code_list[k]+`.png"><span> </span>`;
                     }catch(err){
-                        text+=`<img data-toggle="tooltip" alt="Airline" title="" style="margin-top:10px; width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+carrier_code_list[k]+`.png"><span> </span>`;
+                        text+=`<img data-toggle="tooltip" alt="Airline" title="" style="margin-top:10px; width:50px; height:50px; margin-right:10px;" src="`+static_path_url_server+`/public/airline_logo/`+carrier_code_list[k]+`.png"><span> </span>`;
                     }
 
                 text+=`<br/>`;
@@ -5022,17 +5040,18 @@ function check_passenger(adult, child, infant){
 
    }
    if(error_log==''){
+        //KALAU DATE DISABLED DARI TEROPONG VALUE TIDAK BISA DI AMBIL EXPIRED DATE TIDAK DI DISABLED FALSE KARENA BISA DI EDIT
        for(i=1;i<=adult;i++){
             document.getElementById('adult_birth_date'+i).disabled = false;
-            document.getElementById('adult_passport_expired_date'+i).disabled = false;
+//            document.getElementById('adult_passport_expired_date'+i).disabled = false;
        }
        for(i=1;i<=child;i++){
             document.getElementById('child_birth_date'+i).disabled = false;
-            document.getElementById('child_passport_expired_date'+i).disabled = false;
+//            document.getElementById('child_passport_expired_date'+i).disabled = false;
        }
        for(i=1;i<=infant;i++){
             document.getElementById('infant_birth_date'+i).disabled = false;
-            document.getElementById('infant_passport_expired_date'+i).disabled = false;
+//            document.getElementById('infant_passport_expired_date'+i).disabled = false;
        }
        $('.loader-rodextrip').fadeIn();
        document.getElementById('time_limit_input').value = time_limit;

@@ -112,21 +112,6 @@
 
             <div class="col-lg-12" id="div-search-overlay">
 
-                <div class="banner-right scrollmenu style-scrollbar" id="div_scroll_menu">
-                    <ul class="nav nav-tabs" id="myTab" role="tablist">
-                        {% for rec in provider_types_sequence %}
-                            {% if "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security and rec.name == "medical" %}
-                        <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'medical2');" id="nav_scroll_menu_medical2">
-                            <a class="nav-link active" id="medical_global-tab" data-toggle="tab" href="#medical_global" role="tab" aria-controls="medical2" aria-selected="false">
-                                <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Medical Icon"/></i>
-                                <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'Medical' %} </span>
-                            </a>
-                        </li>
-                            {% endif %}
-                        {% endfor %}
-
-                    </ul>
-                </div>
                 <div class="banner-right">
                     <!--<img src="{{static_path}}images/christmas-icon2.png" style="width:auto; height:90px; position:absolute; right:-35px; top:35px; float:right; z-index:200;" alt="">-->
                     <div class="tab-content" id="myTabContent">
@@ -134,6 +119,7 @@
                         <div class="tab-pane fade show active " id="medical_global" role="tabpanel" aria-labelledby="medical_global-tab">
                             <form action="{% url 'tt_website_rodextrip:medical_global_passenger'%}" class="form-wrap" id="medical_global_searchForm" method="post">
                                 {% csrf_token %}
+                                <h4 style="color:white;">National Hospital</h4>
                                 <input type="hidden" name="g-recaptcha-response" id='recaptcha_medical_global'>
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12 col-sm-12" style="padding:0px;">

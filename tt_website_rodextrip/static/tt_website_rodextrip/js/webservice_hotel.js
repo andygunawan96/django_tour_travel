@@ -2700,6 +2700,12 @@ function hotel_get_booking(data){
 
 function checkboxCopyRoom(){
     var count_copy = $(".copy_result:checked").length;
+    if(count_copy == 0){
+        $('#button_copy_hotel').hide();
+    }
+    else{
+        $('#button_copy_hotel').show();
+    }
     document.getElementById("badge-copy-notif").innerHTML = count_copy;
     document.getElementById("badge-copy-notif2").innerHTML = count_copy;
 }
