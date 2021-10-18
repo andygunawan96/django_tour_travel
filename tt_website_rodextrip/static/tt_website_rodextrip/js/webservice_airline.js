@@ -2048,7 +2048,7 @@ function get_price_itinerary_request(){
 
                                if(selected_banner_date >= max_banner_date){
                                    if(resJson.result.response.price_itinerary_provider[i].journeys[j].search_banner[banner_counter].active == true){
-                                       text+=`<label id="pop_search_banner_cart`+i+``+banner_counter+`" style="background:`+resJson.result.response.price_itinerary_provider[i].journeys[j].search_banner[banner_counter].banner_color+`; color:`+text_color+`;padding:5px 10px;">`+resJson.result.response.price_itinerary_provider[i].journeys[j].search_banner[banner_counter].name+`</label><br/>`;
+                                       text+=`<label id="pop_search_banner_cart`+i+``+banner_counter+`" style="background:`+resJson.result.response.price_itinerary_provider[i].journeys[j].search_banner[banner_counter].banner_color+`; color:`+resJson.result.response.price_itinerary_provider[i].journeys[j].search_banner[banner_counter].text_color+`;padding:5px 10px;">`+resJson.result.response.price_itinerary_provider[i].journeys[j].search_banner[banner_counter].name+`</label>`;
                                    }
                                }
                            }
@@ -4543,7 +4543,7 @@ function airline_get_booking(data, sync=false){
 
                                        if(selected_banner_date >= max_banner_date){
                                            if(msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].active == true){
-                                               text+=`<label id="pop_search_banner`+i+``+j+``+banner_counter+`" style="background:`+msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].banner_color+`; color:`+text_color+`;padding:5px 10px;">`+msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].name+`</label>`;
+                                               text+=`<label id="pop_search_banner`+i+``+j+``+banner_counter+`" style="background:`+msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].banner_color+`; color:`+msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].text_color+`;padding:5px 10px;">`+msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].name+`</label>`;
                                            }
                                        }
                                    }

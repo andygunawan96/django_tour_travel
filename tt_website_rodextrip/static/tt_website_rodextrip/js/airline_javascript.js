@@ -2180,7 +2180,7 @@ function sort(){
 
                                            if(selected_banner_date >= max_banner_date){
                                                if(airline[i].search_banner[banner_counter].active == true){
-                                                   text+=`<label id="pop_search_banner`+i+``+banner_counter+`" class="copy_search_banner" style="background:`+airline[i].search_banner[banner_counter].banner_color+`; color:`+text_color+`;padding:5px 10px;">`+airline[i].search_banner[banner_counter].name+`</label>`;
+                                                   text+=`<label id="pop_search_banner`+i+``+banner_counter+`" class="copy_search_banner" style="background:`+airline[i].search_banner[banner_counter].banner_color+`; color:`+airline[i].search_banner[banner_counter].text_color+`;padding:5px 10px;">`+airline[i].search_banner[banner_counter].name+`</label>`;
                                                }
                                            }
                                        }
@@ -2964,7 +2964,7 @@ function airline_pick_mc(type){
 
                        if(selected_banner_date >= max_banner_date){
                            if(airline_pick_list[i].search_banner[banner_counter].active == true){
-                               text+=`<label id="pop_search_banner_pick`+i+``+banner_counter+`" style="background:`+airline_pick_list[i].search_banner[banner_counter].banner_color+`; color:`+text_color+`;padding:5px 10px;">`+airline_pick_list[i].search_banner[banner_counter].name+`</label>`;
+                               text+=`<label id="pop_search_banner_pick`+i+``+banner_counter+`" style="background:`+airline_pick_list[i].search_banner[banner_counter].banner_color+`; color:`+airline_pick_list[i].search_banner[banner_counter].text_color+`;padding:5px 10px;">`+airline_pick_list[i].search_banner[banner_counter].name+`</label>`;
                            }
                        }
                    }
@@ -3823,7 +3823,7 @@ function airline_detail(type){
 
                        if(selected_banner_date >= max_banner_date){
                            if(price_itinerary_temp[i].journeys[j].search_banner[banner_counter].active == true || price_itinerary_temp[i].journeys[j].search_banner[banner_counter].active == 'true'){
-                               text+=`<label id="pop_search_banner_detail`+i+``+j+``+banner_counter+`" style="background:`+price_itinerary_temp[i].journeys[j].search_banner[banner_counter].banner_color+`; color:`+text_color+`;padding:5px 10px;">`+price_itinerary_temp[i].journeys[j].search_banner[banner_counter].name+`</label><br/>`;
+                               text+=`<label id="pop_search_banner_detail`+i+``+j+``+banner_counter+`" style="background:`+price_itinerary_temp[i].journeys[j].search_banner[banner_counter].banner_color+`; color:`+price_itinerary_temp[i].journeys[j].search_banner[banner_counter].text_color+`;padding:5px 10px;">`+price_itinerary_temp[i].journeys[j].search_banner[banner_counter].name+`</label>`;
                            }
                        }
                    }
