@@ -121,7 +121,7 @@
                                         {% endif %}
                                         <td>{{rec.date}}
                                             {% if rec.time == '09:09' %}
-                                                <br/>08:00 - 15:00
+                                            <br/><span style="font-size:12.9px;">MON-SAT 08:00 - 15:00</span><br/> <span style="font-size:12.9px;float:right">SUN 08.00 - 12.00</span>
                                             {% else %}
                                                 {{rec.time}}
                                             {% endif %}
@@ -330,7 +330,7 @@
         {% endif %}
         $text += 'Date: {{rec.date}}\n';
         {% if rec.time == '09:09' %}
-            $text += 'Time: 08:00 - 15:00\n'
+            $text += 'Time: MON-SAT 08:00 - 15:00 / SUN 08:00 - 12:00\n'
         {% else %}
             $text += 'Time: {{rec.time}}\n'
         {% endif %}

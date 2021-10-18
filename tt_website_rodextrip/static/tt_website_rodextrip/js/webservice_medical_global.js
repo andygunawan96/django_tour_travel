@@ -1240,12 +1240,13 @@ function medical_global_get_booking(order_number, sync=false){
 
                                         text+=moment(msg.result.response.picked_timeslot.datetimeslot.split(' ')[0], 'YYYY-MM-DD').format('DD MMM YYYY') + ' ';
                                         $text += `Date: `+ moment(msg.result.response.picked_timeslot.datetimeslot.split(' ')[0], 'YYYY-MM-DD').format('DD MMM YYYY')+'\n';
+                                        text+=`</b><br/><span>Time: <b>`;
                                         if(msg.result.response.provider_bookings[0].carrier_code == 'PHCHCKATG' || msg.result.response.provider_bookings[0].carrier_code == 'PHCHCKPCR' || msg.result.response.provider_bookings[0].carrier_code == "PRKATG"){
                                             text += moment(localTime).format('HH:mm') + ' ' + gmt + timezone;
                                             $text += `Time: `+moment(localTime).format('HH:mm') + ' ' + gmt + timezone+`\n`;
                                         }else{
-                                            text+= `08.00 - 15.00 ` + gmt + timezone;
-                                            $text += `Time: 08.00 - 15.00 ` + gmt + timezone+`\n`;
+                                            text+= `MON-SAT 08:00 - 15:00 / SUN 08.00 - 12.00 ` + gmt + timezone;
+                                            $text += `Time: MON-SAT 08.00 - 15.00 / SUN 08.00 - 12.00 ` + gmt + timezone+`\n`;
                                         }
 
 
