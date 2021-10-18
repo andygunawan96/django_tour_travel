@@ -4899,9 +4899,9 @@ function airline_get_booking(data, sync=false){
                                       try{
                                           for(i in msg.result.response.passengers[pax].fees){
                                             text += `<label>`;
-                                            if(msg.result.response.passengers[pax].fees[i].fee_category.toLowerCase() in msg.result.response.passengers[pax].fees[i].fee_name.toLowerCase() == false)
-                                                text += msg.result.response.passengers[pax].fees[i].fee_category + ' ';
-                                                text += msg.result.response.passengers[pax].fees[i].fee_name + `</label><br/>`;
+                                            if(msg.result.response.passengers[pax].fees[i].fee_name.toLowerCase().includes(msg.result.response.passengers[pax].fees[i].fee_category.toLowerCase()) == false)
+                                                text += msg.result.response.passengers[pax].fees[i].fee_category + ': ';
+                                            text += msg.result.response.passengers[pax].fees[i].fee_name + `</label><br/>`;
                                           }
                                       }catch(err){}
                                       text+=`
