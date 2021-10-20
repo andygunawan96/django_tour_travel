@@ -3853,6 +3853,7 @@ function airline_detail(type){
                            }
                        }
                    }
+                   text += `<br/>`;
                 }
 
                 //logo
