@@ -2614,7 +2614,7 @@ function sort(){
                                                                         else if(airline[i].segments[j].fares[k].cabin_class == 'F')
                                                                             text += ' (First Class)';
                                                                    text+=`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`</b>
-                                                                       <input onclick="change_fare(`+i+`,`+j+`,`+k+`);" id="journey`+i+`segment`+j+`fare" name="journey`+i+`segment`+j+`fare" type="radio" value="`+k+`" disabled>
+                                                                       <input onclick="change_fare(`+i+`,`+airline[i].segments[j].sequence+`,`+airline[i].segments[j].fares[k].sequence+`);" id="journey`+i+`segment`+airline[i].segments[j].sequence+`fare" name="journey`+i+`segment`+airline[i].segments[j].sequence+`fare" type="radio" value="`+airline[i].segments[j].fares[k].sequence+`" disabled>
                                                                        <span class="checkmark-radio"></span>
                                                                    </label>`;
                                                                }else{
@@ -2632,7 +2632,7 @@ function sort(){
                                                                                     else if(airline[i].segments[j].fares[k].cabin_class == 'F')
                                                                                         text += ' (First Class)';
                                                                                text+=`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`</b>
-                                                                               <input onclick="change_fare(`+i+`,`+j+`,`+k+`);" id="journey`+i+`segment`+j+`fare" name="journey`+i+`segment`+j+`fare" type="radio" value="`+k+`" checked="checked">
+                                                                               <input onclick="change_fare(`+i+`,`+airline[i].segments[j].sequence+`,`+airline[i].segments[j].fares[k].sequence+`);" id="journey`+i+`segment`+airline[i].segments[j].sequence+`fare" name="journey`+i+`segment`+airline[i].segments[j].sequence+`fare" type="radio" value="`+airline[i].segments[j].fares[k].sequence+`" checked="checked">
                                                                                <span class="checkmark-radio"></span>
                                                                            </label>`;
                                                                            fare_check = 1;
@@ -2650,7 +2650,7 @@ function sort(){
                                                                                 else if(airline[i].segments[j].fares[k].cabin_class == 'F')
                                                                                     text += ' (First Class)';
                                                                            text+=`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`</b>
-                                                                           <input onclick="change_fare(`+i+`,`+j+`,`+k+`);" id="journey`+i+`segment`+j+`fare" name="journey`+i+`segment`+j+`fare" type="radio" value="`+k+`">
+                                                                           <input onclick="change_fare(`+i+`,`+airline[i].segments[j].sequence+`,`+airline[i].segments[j].fares[k].sequence+`);" id="journey`+i+`segment`+airline[i].segments[j].sequence+`fare" name="journey`+i+`segment`+airline[i].segments[j].sequence+`fare" type="radio" value="`+airline[i].segments[j].fares[k].sequence+`">
                                                                            <span class="checkmark-radio"></span>
                                                                        </label>`;
                                                                    }

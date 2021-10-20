@@ -38,67 +38,19 @@
     }
     last_session = 'passenger';
 
-    // &&& separator
-    airline_pick = `{{airline_pick}}`;
-    airline_pick = airline_pick.replace(/&#39;/g, '"');
-    airline_pick = airline_pick.replace(/True/g, 'true');
-    airline_pick = airline_pick.replace(/False/g, 'false');
-    //airline_pick = airline_pick.replace(/&amp;/g, '&');
-    airline_pick = airline_pick.replace('&&&', ',');
-    airline_pick = airline_pick.replace('None', '""');
-    airline_pick = JSON.parse(airline_pick);
-
-    //b2c login
-    airline_get_price_request = `{{airline_get_price_request}}`;
-    airline_get_price_request = airline_get_price_request.replace(/&#39;/g, '"');
-    airline_get_price_request = airline_get_price_request.replace(/True/g, 'true');
-    airline_get_price_request = airline_get_price_request.replace(/False/g, 'false');
-    airline_get_price_request = airline_get_price_request.replace('&&&', ',');
-    airline_get_price_request = airline_get_price_request.replace('None', '""');
-    airline_get_price_request = JSON.parse(airline_get_price_request);
-
-    price_itinerary = `{{price}}`;
-    price_itinerary = price_itinerary.replace(/&#39;/g, '"');
-    price_itinerary = price_itinerary.replace(/None/g, '"None"');
-    price_itinerary = price_itinerary.replace(/True/g, true);
-    price_itinerary = price_itinerary.replace(/False/g, false);
-    price_itinerary = JSON.parse(price_itinerary);
-    airline_carriers = `{{airline_carriers}}`;
-    airline_carriers = airline_carriers.replace(/&#39;/g, '"');
-    airline_carriers = airline_carriers.replace(/&quot;/g, '"');
-    airline_carriers = airline_carriers.replace(/False/g, 'false');
-    airline_carriers = airline_carriers.replace(/True/g, 'true');
-    airline_carriers = JSON.parse(airline_carriers);
-    birth_date_required = false;
-    for(j in airline_pick){
-       for(k in airline_pick[j].journeys){
-            for(l in airline_pick[j].journeys[k].carrier_code_list){
-               if(birth_date_required == false){
-                    birth_date_required = airline_carriers[airline_pick[j].journeys[k].carrier_code_list[l]].is_adult_birth_date_required;
-               }
-            }
-       }
-    }
-    airline_request = `{{airline_request}}`;
-    airline_request = JSON.parse(airline_request.replace(/&#39;/g, '"'));
-    ff_request = `{{ff_request}}`;
-    ff_request = ff_request.replace(/&#39;/g, '"');
-    ff_request = ff_request.replace(/&quot;/g, '"');
-    ff_request = ff_request.replace(/False/g, 'false');
-    ff_request = ff_request.replace(/True/g, 'true');
-    ff_request = JSON.parse(ff_request);
-    console.log(ff_request)
     signature = `{{signature}}`;
-    airline_get_provider_list('passenger');
-    adult = airline_request.adult;
-    child = airline_request.child;
-    infant = airline_request.infant;
+    get_airline_data_passenger_page();
+
     is_lionair = `{{is_lionair}}`;
     is_lionair = is_lionair.replace(/False/g, 'false');
     is_lionair = is_lionair.replace(/True/g, 'true');
     is_garuda = `{{is_garuda}}`;
     is_garuda = is_garuda.replace(/False/g, 'false');
     is_garuda = is_garuda.replace(/True/g, 'true');
+
+    birth_date_required = `{{birth_date_required}}`;
+    birth_date_required = birth_date_required.replace(/False/g, false);
+    birth_date_required = birth_date_required.replace(/True/g, true);
 
     is_identity_required = `{{is_identity_required}}`;
     is_identity_required = is_identity_required.replace(/False/g, false);
@@ -6466,9 +6418,6 @@
 {% endif %}
 
 <script>
-    document.getElementById('airline_sell_journey').value = JSON.stringify(price_itinerary);
-
-    airline_detail('');
     $( document ).ready(function() {
       breadcrumb_create("airline", 3, 0);
 

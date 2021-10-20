@@ -320,6 +320,94 @@ function airline_redirect_signup(type){
     }
 }
 
+function get_airline_data_search_page(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/airline",
+       headers:{
+            'action': 'get_data_search_page',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           airline_request = msg.airline_request;
+           airline_carriers = msg.airline_carriers;
+           airline_carriers_data_awal = msg.airline_carriers;
+           airline_all_carriers = msg.airline_all_carriers;
+           airline_signin('');
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+
+       },timeout: 60000
+    });
+
+}
+
+function get_airline_data_passenger_page(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/airline",
+       headers:{
+            'action': 'get_data_passenger_page',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           airline_pick = msg.airline_pick;
+           airline_get_price_request = msg.airline_get_price_request;
+           price_itinerary = msg.price_itinerary;
+           airline_carriers = msg.airline_carriers;
+           airline_request = msg.airline_request;
+           ff_request = msg.ff_request;
+           airline_get_provider_list('passenger');
+           adult = airline_request.adult;
+           child = airline_request.child;
+           infant = airline_request.infant;
+           airline_detail('');
+           document.getElementById('airline_sell_journey').value = JSON.stringify(price_itinerary);
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+
+       },timeout: 60000
+    });
+
+}
+
+function get_airline_data_review_page(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/airline",
+       headers:{
+            'action': 'get_data_review_page',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           airline_pick = msg.airline_pick;
+           airline_get_price_request = msg.airline_get_price_request;
+           price_itinerary = msg.price_itinerary;
+           airline_carriers = msg.airline_carriers;
+           passengers = msg.passengers;
+           passengers_ssr = msg.passengers_ssr;
+           airline_request = msg.airline_request;
+
+           airline_detail('');
+           get_airline_review();
+           airline_get_provider_list('review');
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+
+       },timeout: 60000
+    });
+
+}
+
 function airline_signin(data,type=''){
     getToken();
     $.ajax({
@@ -1501,14 +1589,14 @@ function change_fare(journey, segment, fares){
                 }
             }
         }
-        var radios = document.getElementsByName('journey'+journey+'segment'+i+'fare');
+        var radios = document.getElementsByName('journey'+journey+'segment'+(parseInt(i)+1)+'fare');
 
         for (var j = 0, length = radios.length; j < length; j++) {
             if (radios[j].checked) {
                 // do whatever you want with the checked radio
-                temp = document.getElementById('journey'+journey+'segment'+(parseInt(i)+1)+'fare'+(parseInt(j)+1)).innerHTML;
+                temp = document.getElementById('journey'+journey+'segment'+(parseInt(i)+1)+'fare'+(radios[j].value)).innerHTML;
                 price += parseInt(temp.replace( /[^\d.]/g, '' ));
-                airline_data[journey].segments[i].fare_pick = parseInt(j);
+                airline[journey].segments[i].fare_pick = parseInt(j);
                 // only one radio can be logically checked, don't check the rest
                 break;
             }
