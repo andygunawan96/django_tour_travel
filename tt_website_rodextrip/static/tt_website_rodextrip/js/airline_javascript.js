@@ -2283,7 +2283,14 @@ function sort(){
                                                             text+= airline[i].segments[j].elapsed_time.split(':')[2] + 'm ';
                                                         }
                                                         text+=`</span><br/>
-                                                                <span class="copy_transit">Transit: `+airline[i].segments[j].transit_count+`</span>
+                                                                <span class="copy_transit">Transit: `+airline[i].segments[j].transit_count+`</span>`;
+                                                        if(provider_list_data[airline[i].provider].is_post_issued_reschedule)
+                                                            text+=`
+                                                                <span><i class="fas fa-check-circle"></i>Reschedule</span><br/>`;
+                                                        if(provider_list_data[airline[i].provider].is_post_issued_cancel)
+                                                            text+=`
+                                                                <span><i class="fas fa-check-circle"></i>Cancel</span><br/>`;
+                                                        text+=`
                                                             </div>
                                                         </div>
                                                     </div>
@@ -2400,6 +2407,12 @@ function sort(){
                                                                 else{
                                                                     text+=`<span class="copy_transit" style="font-weight:500;">Transit: `+airline[i].transit_count+`</span>`;
                                                                 }
+                                                                if(provider_list_data[airline[i].provider].is_post_issued_reschedule)
+                                                                    text+=`
+                                                                        <br/><span><i class="fas fa-check-circle"></i>Reschedule</span>`;
+                                                                if(provider_list_data[airline[i].provider].is_post_issued_cancel)
+                                                                    text+=`
+                                                                        <br/><span><i class="fas fa-check-circle"></i>Cancel</span>`;
                                                                 text+=`
                                                             </div>
                                                             <div class="col-xs-12">`;
@@ -3047,7 +3060,14 @@ function airline_pick_mc(type){
                                         text+= airline_pick_list[i].segments[j].elapsed_time.split(':')[2] + 'm ';
                                     }
                                     text+=`</span><br/>
-                                            <span class="copy_transit">Transit: `+airline_pick_list[i].segments[j].transit_count+`</span>
+                                            <span class="copy_transit">Transit: `+airline_pick_list[i].segments[j].transit_count+`</span><br/>`;
+                                    if(provider_list_data[airline_pick_list[i].provider].is_post_issued_reschedule)
+                                        text+=`
+                                            <span><i class="fas fa-check-circle"></i>Reschedule</span><br/>`;
+                                    if(provider_list_data[airline_pick_list[i].provider].is_post_issued_cancel)
+                                        text+=`
+                                            <span><i class="fas fa-check-circle"></i>Cancel</span><br/>`;
+                                    text+=`
                                         </div>
                                     </div>
                                 </div>
@@ -3155,6 +3175,12 @@ function airline_pick_mc(type){
                                     else{
                                         text+=`<span class="copy_transit" style="font-weight:500;">Transit: `+airline_pick_list[i].transit_count+`</span>`;
                                     }
+                                    if(provider_list_data[airline_pick_list[i].provider].is_post_issued_reschedule)
+                                        text+=`
+                                            <br/><span><i class="fas fa-check-circle"></i>Reschedule</span>`;
+                                    if(provider_list_data[airline_pick_list[i].provider].is_post_issued_cancel)
+                                        text+=`
+                                            <br/><span><i class="fas fa-check-circle"></i>Cancel</span>`;
                                     text+=`
                                     </div>
                                 </div>
