@@ -289,6 +289,9 @@ function medical_get_availability(){
             console.log(msg);
             if(msg.result.error_code == 0){
                 print_check_price++;
+                try{
+                    document.getElementById('use_booker').style.display = 'block';
+                }catch(err){}
                 if(print_check_price == 2){
                     document.getElementById('check_price_medical').hidden = false;
                     if(test_type.includes('PHCHC')){
