@@ -593,7 +593,6 @@ def ssr(request):
                                     segment.pop('fare_details')
                                 if (segment.get('addons')):
                                     segment.pop('addons')
-
                     for new_segment in rec['new_segments']:
                         if new_segment.get('fare_details'):
                             new_segment.pop('fare_details')

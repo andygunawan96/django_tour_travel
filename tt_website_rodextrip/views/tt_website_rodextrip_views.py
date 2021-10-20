@@ -776,6 +776,9 @@ def admin(request):
                         write_cache_with_folder(text, "font")
 
                     text = {}
+                    provider = copy.deepcopy(request.session.get('provider'))
+                    if 'health_care' not in provider:
+                        provider.append('health_care')
                     for idx, data in enumerate(request.session.get('provider'), start=1):
                         try:
                             text[request.POST['product_name'+str(idx)]] = request.POST['product_sequence'+str(idx)]
@@ -1340,6 +1343,8 @@ def get_data_template(request, type='home', provider_type = []):
             try:
                 provider_type = request.session.get('provider') and request.session.get('provider') or []
                 provider_types_sequence = provider_type
+                if 'health_care' not in provider_types_sequence:
+                    provider_types_sequence.append('health_care')
             except:
                 provider_type = []
                 provider_types_sequence = []

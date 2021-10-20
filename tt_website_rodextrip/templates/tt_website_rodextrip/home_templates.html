@@ -1265,31 +1265,31 @@
                         <div class="tab-pane fade {%if provider_types_sequence.0.name == 'health_core' %}show active {% endif %}" id="medical1" role="tabpanel" aria-labelledby="medical1-tab">
                             <div class="col-lg-12" id="radio_medical_search" style="margin-top:15px; padding:15px 15px 0px 15px; text-align:left;" onchange="onchange_health_care();">
                                 {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                <label class="radio-button-custom crlabel">
-                                    <span style="font-size:13px; color:{{text_color}};">PERIKSAIN</span>
+                                <label class="radio-img">
                                     <input type="radio" checked="checked" name="health_care_type" value="periksain">
-                                    <span class="checkmark-radio crspan"></span>
+                                    <img src="/static/tt_website_rodextrip/images/icon/periksain.png" alt="PERIKSAIN" style="width:70px; height:70px; padding:0px;"><br/>
+                                    <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">PERIKSAIN<br/>&nbsp;</span></div>
                                 </label>
                                 {% endif %}
                                 {% if "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security %}
-                                <label class="radio-button-custom crlabel">
-                                    <span style="font-size:13px; color:{{text_color}};">National Hospital</span>
+                                <label class="radio-img">
                                     <input type="radio" {% if 'b2c_limitation' in username.co_agent_frontend_security %} checked="checked" {% endif %} name="health_care_type" value="nathos">
-                                    <span class="checkmark-radio crspan"></span>
+                                    <img src="/static/tt_website_rodextrip/images/icon/national_hospital.png" alt="PERIKSAIN" style="width:70px; height:70px; padding:0px;"><br/>
+                                    <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">NATIONAL<br/>HOSPITAL</span></div>
                                 </label>
                                 {% endif %}
                                 {% if "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security %}
-                                <label class="radio-button-custom crlabel">
-                                    <span style="font-size:13px; color:{{text_color}};">Swab Express</span>
+                                <label class="radio-img">
                                     <input type="radio" {% if 'b2c_limitation' in username.co_agent_frontend_security and "medical" not in provider %} checked="checked" {% endif %} name="health_care_type" value="swab_express">
-                                    <span class="checkmark-radio crspan"></span>
+                                    <img src="/static/tt_website_rodextrip/images/icon/swab_express.png" alt="SWAB EXPRESS" style="width:70px; height:70px; padding:0px;"><br/>
+                                    <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">SWAB<br/>EXPRESS</span></div>
                                 </label>
                                 {% endif %}
                                 {% if "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security %}
-                                <label class="radio-button-custom crlabel">
-                                    <span style="font-size:13px; color:{{text_color}};">Lab Pintar</span>
+                                <label class="radio-img">
                                     <input type="radio" {% if 'b2c_limitation' in username.co_agent_frontend_security and "medical" not in provider and "swabexpress" in provider %} checked="checked" {% endif %} name="health_care_type" value="lab_pintar">
-                                    <span class="checkmark-radio crspan"></span>
+                                    <img src="/static/tt_website_rodextrip/images/icon/lab_pintar.png" alt="LAB PINTAR" style="width:70px; height:70px; padding:0px;"><br/>
+                                    <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">LAB<br/>PINTAR</span></div>
                                 </label>
                                 {% endif %}
                             </div>
@@ -1313,6 +1313,7 @@
                                 </div>
                                 {% csrf_token %}
                                 <input type="hidden" name="g-recaptcha-response" id='recaptcha_medical1'>
+                                <br/>
                                 <center>
                                     <button class="button-search primary-btn ld-ext-right" type="button" onclick="get_captcha('recaptcha_medical1','medical1');" value="Submit">
                                         <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
@@ -3150,31 +3151,31 @@
                         <div class="row">
                             <div class="col-lg-12" id="radio_medical_search" style="text-align:left;" onchange="onchange_health_care();">
                                 {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                <label class="radio-button-custom crlabel">
-                                    <span style="font-size:13px; color:{{text_color}};">PERIKSAIN</span>
+                                <label class="radio-img">
                                     <input type="radio" checked="checked" name="health_care_type" value="periksain">
-                                    <span class="checkmark-radio crspan"></span>
+                                    <img src="/static/tt_website_rodextrip/images/icon/periksain.png" alt="PERIKSAIN" style="width:70px; height:70px; padding:0px;"><br/>
+                                    <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">PERIKSAIN<br/>&nbsp;</span></div>
                                 </label>
                                 {% endif %}
                                 {% if "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security %}
-                                <label class="radio-button-custom crlabel">
-                                    <span style="font-size:13px; color:{{text_color}};">National Hospital</span>
+                                <label class="radio-img">
                                     <input type="radio" {% if 'b2c_limitation' in username.co_agent_frontend_security %} checked="checked" {% endif %} name="health_care_type" value="nathos">
-                                    <span class="checkmark-radio crspan"></span>
+                                    <img src="/static/tt_website_rodextrip/images/icon/national_hospital.png" alt="PERIKSAIN" style="width:70px; height:70px; padding:0px;"><br/>
+                                    <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">NATIONAL<br/>HOSPITAL</span></div>
                                 </label>
                                 {% endif %}
                                 {% if "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security %}
-                                <label class="radio-button-custom crlabel">
-                                    <span style="font-size:13px; color:{{text_color}};">Swab Express</span>
+                                <label class="radio-img">
                                     <input type="radio" {% if 'b2c_limitation' in username.co_agent_frontend_security and "medical" not in provider %} checked="checked" {% endif %} name="health_care_type" value="swab_express">
-                                    <span class="checkmark-radio crspan"></span>
+                                    <img src="/static/tt_website_rodextrip/images/icon/swab_express.png" alt="SWAB EXPRESS" style="width:70px; height:70px; padding:0px;"><br/>
+                                    <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">SWAB<br/>EXPRESS</span></div>
                                 </label>
                                 {% endif %}
                                 {% if "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security %}
-                                <label class="radio-button-custom crlabel">
-                                    <span style="font-size:13px; color:{{text_color}};">Lab Pintar</span>
+                                <label class="radio-img">
                                     <input type="radio" {% if 'b2c_limitation' in username.co_agent_frontend_security and "medical" not in provider and "swabexpress" in provider %} checked="checked" {% endif %} name="health_care_type" value="lab_pintar">
-                                    <span class="checkmark-radio crspan"></span>
+                                    <img src="/static/tt_website_rodextrip/images/icon/lab_pintar.png" alt="LAB PINTAR" style="width:70px; height:70px; padding:0px;"><br/>
+                                    <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">LAB<br/>PINTAR</span></div>
                                 </label>
                                 {% endif %}
                             </div>
@@ -4622,31 +4623,31 @@
                             <div class="row">
                                 <div class="col-lg-12" id="radio_medical_search" style="text-align:left;" onchange="onchange_health_care();">
                                     {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                    <label class="radio-button-custom crlabel">
-                                        <span style="font-size:13px; color:{{text_color}};">PERIKSAIN</span>
+                                    <label class="radio-img">
                                         <input type="radio" checked="checked" name="health_care_type" value="periksain">
-                                        <span class="checkmark-radio crspan"></span>
+                                        <img src="/static/tt_website_rodextrip/images/icon/periksain.png" alt="PERIKSAIN" style="width:70px; height:70px; padding:0px;"><br/>
+                                        <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">PERIKSAIN<br/>&nbsp;</span></div>
                                     </label>
                                     {% endif %}
                                     {% if "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security %}
-                                    <label class="radio-button-custom crlabel">
-                                        <span style="font-size:13px; color:{{text_color}};">National Hospital</span>
+                                    <label class="radio-img">
                                         <input type="radio" {% if 'b2c_limitation' in username.co_agent_frontend_security %} checked="checked" {% endif %} name="health_care_type" value="nathos">
-                                        <span class="checkmark-radio crspan"></span>
+                                        <img src="/static/tt_website_rodextrip/images/icon/national_hospital.png" alt="PERIKSAIN" style="width:70px; height:70px; padding:0px;"><br/>
+                                        <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">NATIONAL<br/>HOSPITAL</span></div>
                                     </label>
                                     {% endif %}
                                     {% if "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security %}
-                                    <label class="radio-button-custom crlabel">
-                                        <span style="font-size:13px; color:{{text_color}};">Swab Express</span>
+                                    <label class="radio-img">
                                         <input type="radio" {% if 'b2c_limitation' in username.co_agent_frontend_security and "medical" not in provider %} checked="checked" {% endif %} name="health_care_type" value="swab_express">
-                                        <span class="checkmark-radio crspan"></span>
+                                        <img src="/static/tt_website_rodextrip/images/icon/swab_express.png" alt="SWAB EXPRESS" style="width:70px; height:70px; padding:0px;"><br/>
+                                        <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">SWAB<br/>EXPRESS</span></div>
                                     </label>
                                     {% endif %}
                                     {% if "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security %}
-                                    <label class="radio-button-custom crlabel">
-                                        <span style="font-size:13px; color:{{text_color}};">Lab Pintar</span>
+                                    <label class="radio-img">
                                         <input type="radio" {% if 'b2c_limitation' in username.co_agent_frontend_security and "medical" not in provider and "swabexpress" in provider %} checked="checked" {% endif %} name="health_care_type" value="lab_pintar">
-                                        <span class="checkmark-radio crspan"></span>
+                                        <img src="/static/tt_website_rodextrip/images/icon/lab_pintar.png" alt="LAB PINTAR" style="width:70px; height:70px; padding:0px;"><br/>
+                                        <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">LAB<br/>PINTAR</span></div>
                                     </label>
                                     {% endif %}
                                 </div>
@@ -6138,31 +6139,31 @@
                                     <div class="row">
                                         <div class="col-lg-12 mt-3" id="radio_medical_search" style="text-align:left;" onchange="onchange_health_care();">
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                            <label class="radio-button-custom crlabel">
-                                                <span style="font-size:13px; color:{{text_color}};">PERIKSAIN</span>
+                                            <label class="radio-img">
                                                 <input type="radio" checked="checked" name="health_care_type" value="periksain">
-                                                <span class="checkmark-radio crspan"></span>
+                                                <img src="/static/tt_website_rodextrip/images/icon/periksain.png" alt="PERIKSAIN" style="width:70px; height:70px; padding:0px;"><br/>
+                                                <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">PERIKSAIN<br/>&nbsp;</span></div>
                                             </label>
                                             {% endif %}
                                             {% if "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security %}
-                                            <label class="radio-button-custom crlabel">
-                                                <span style="font-size:13px; color:{{text_color}};">National Hospital</span>
+                                            <label class="radio-img">
                                                 <input type="radio" {% if 'b2c_limitation' in username.co_agent_frontend_security %} checked="checked" {% endif %} name="health_care_type" value="nathos">
-                                                <span class="checkmark-radio crspan"></span>
+                                                <img src="/static/tt_website_rodextrip/images/icon/national_hospital.png" alt="PERIKSAIN" style="width:70px; height:70px; padding:0px;"><br/>
+                                                <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">NATIONAL<br/>HOSPITAL</span></div>
                                             </label>
                                             {% endif %}
                                             {% if "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security %}
-                                            <label class="radio-button-custom crlabel">
-                                                <span style="font-size:13px; color:{{text_color}};">Swab Express</span>
+                                            <label class="radio-img">
                                                 <input type="radio" {% if 'b2c_limitation' in username.co_agent_frontend_security and "medical" not in provider %} checked="checked" {% endif %} name="health_care_type" value="swab_express">
-                                                <span class="checkmark-radio crspan"></span>
+                                                <img src="/static/tt_website_rodextrip/images/icon/swab_express.png" alt="SWAB EXPRESS" style="width:70px; height:70px; padding:0px;"><br/>
+                                                <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">SWAB<br/>EXPRESS</span></div>
                                             </label>
                                             {% endif %}
                                             {% if "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security %}
-                                            <label class="radio-button-custom crlabel">
-                                                <span style="font-size:13px; color:{{text_color}};">Lab Pintar</span>
+                                            <label class="radio-img">
                                                 <input type="radio" {% if 'b2c_limitation' in username.co_agent_frontend_security and "medical" not in provider and "swabexpress" in provider %} checked="checked" {% endif %} name="health_care_type" value="lab_pintar">
-                                                <span class="checkmark-radio crspan"></span>
+                                                <img src="/static/tt_website_rodextrip/images/icon/lab_pintar.png" alt="LAB PINTAR" style="width:70px; height:70px; padding:0px;"><br/>
+                                                <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">LAB<br/>PINTAR</span></div>
                                             </label>
                                             {% endif %}
                                         </div>
@@ -6186,9 +6187,8 @@
                                                 </div>
                                                 {% csrf_token %}
                                                 <input type="hidden" name="g-recaptcha-response" id='recaptcha_medical1'>
-                                                <br/>
                                                 <center>
-                                                    <button class="button-search primary-btn ld-ext-right mt-3" type="button" onclick="get_captcha('recaptcha_medical1','medical1');" value="Submit">
+                                                    <button class="button-search primary-btn ld-ext-right mt-3 mb-3" type="button" onclick="get_captcha('recaptcha_medical1','medical1');" value="Submit">
                                                         <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                                         {% trans 'Search' %}
                                                         <div class="ld ld-ring ld-cycle"></div>
@@ -6216,9 +6216,8 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <br/>
                                                 <center>
-                                                    <button class="button-search primary-btn ld-ext-right mt-3" type="button" onclick="get_captcha('recaptcha_medical_global','medical_global');" value="Submit">
+                                                    <button class="button-search primary-btn ld-ext-right mt-3 mb-3" type="button" onclick="get_captcha('recaptcha_medical_global','medical_global');" value="Submit">
                                                         <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                                         {% trans 'Search' %}
                                                         <div class="ld ld-ring ld-cycle"></div>
@@ -6246,9 +6245,8 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <br/>
                                                 <center>
-                                                    <button class="button-search primary-btn ld-ext-right mt-3" type="button" onclick="get_captcha('recaptcha_swab_express','swab_express');" value="Submit">
+                                                    <button class="button-search primary-btn ld-ext-right mt-3 mb-3" type="button" onclick="get_captcha('recaptcha_swab_express','swab_express');" value="Submit">
                                                         <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                                         {% trans 'Search' %}
                                                         <div class="ld ld-ring ld-cycle"></div>
@@ -6276,9 +6274,8 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <br/>
                                                 <center>
-                                                    <button class="button-search primary-btn ld-ext-right mt-3" type="button" onclick="get_captcha('recaptcha_swab_express','lab_pintar');" value="Submit">
+                                                    <button class="button-search primary-btn ld-ext-right mt-3 mb-3" type="button" onclick="get_captcha('recaptcha_swab_express','lab_pintar');" value="Submit">
                                                         <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                                         {% trans 'Search' %}
                                                         <div class="ld ld-ring ld-cycle"></div>
@@ -7727,31 +7724,31 @@
                                     <div class="row">
                                         <div class="col-lg-12 mt-3" id="radio_medical_search" style="text-align:left;" onchange="onchange_health_care();">
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                            <label class="radio-button-custom crlabel">
-                                                <span style="font-size:13px; color:{{text_color}};">PERIKSAIN</span>
+                                            <label class="radio-img">
                                                 <input type="radio" checked="checked" name="health_care_type" value="periksain">
-                                                <span class="checkmark-radio crspan"></span>
+                                                <img src="/static/tt_website_rodextrip/images/icon/periksain.png" alt="PERIKSAIN" style="width:70px; height:70px; padding:0px;"><br/>
+                                                <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">PERIKSAIN<br/>&nbsp;</span></div>
                                             </label>
                                             {% endif %}
                                             {% if "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security %}
-                                            <label class="radio-button-custom crlabel">
-                                                <span style="font-size:13px; color:{{text_color}};">National Hospital</span>
+                                            <label class="radio-img">
                                                 <input type="radio" {% if 'b2c_limitation' in username.co_agent_frontend_security %} checked="checked" {% endif %} name="health_care_type" value="nathos">
-                                                <span class="checkmark-radio crspan"></span>
+                                                <img src="/static/tt_website_rodextrip/images/icon/national_hospital.png" alt="PERIKSAIN" style="width:70px; height:70px; padding:0px;"><br/>
+                                                <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">NATIONAL<br/>HOSPITAL</span></div>
                                             </label>
                                             {% endif %}
                                             {% if "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security %}
-                                            <label class="radio-button-custom crlabel">
-                                                <span style="font-size:13px; color:{{text_color}};">Swab Express</span>
+                                            <label class="radio-img">
                                                 <input type="radio" {% if 'b2c_limitation' in username.co_agent_frontend_security and "medical" not in provider %} checked="checked" {% endif %} name="health_care_type" value="swab_express">
-                                                <span class="checkmark-radio crspan"></span>
+                                                <img src="/static/tt_website_rodextrip/images/icon/swab_express.png" alt="SWAB EXPRESS" style="width:70px; height:70px; padding:0px;"><br/>
+                                                <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">SWAB<br/>EXPRESS</span></div>
                                             </label>
                                             {% endif %}
                                             {% if "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security %}
-                                            <label class="radio-button-custom crlabel">
-                                                <span style="font-size:13px; color:{{text_color}};">Lab Pintar</span>
+                                            <label class="radio-img">
                                                 <input type="radio" {% if 'b2c_limitation' in username.co_agent_frontend_security and "medical" not in provider and "swabexpress" in provider %} checked="checked" {% endif %} name="health_care_type" value="lab_pintar">
-                                                <span class="checkmark-radio crspan"></span>
+                                                <img src="/static/tt_website_rodextrip/images/icon/lab_pintar.png" alt="LAB PINTAR" style="width:70px; height:70px; padding:0px;"><br/>
+                                                <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">LAB<br/>PINTAR</span></div>
                                             </label>
                                             {% endif %}
                                         </div>
@@ -9390,31 +9387,31 @@
                 <div class="row">
                     <div class="col-lg-12 mt-3" id="radio_medical_search" style="text-align:left;" onchange="onchange_health_care();">
                         {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                        <label class="radio-button-custom crlabel">
-                            <span style="font-size:13px; color:{{text_color}};">PERIKSAIN</span>
+                        <label class="radio-img">
                             <input type="radio" checked="checked" name="health_care_type" value="periksain">
-                            <span class="checkmark-radio crspan"></span>
+                            <img src="/static/tt_website_rodextrip/images/icon/periksain.png" alt="PERIKSAIN" style="width:70px; height:70px; padding:0px;"><br/>
+                            <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">PERIKSAIN<br/>&nbsp;</span></div>
                         </label>
                         {% endif %}
                         {% if "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security %}
-                        <label class="radio-button-custom crlabel">
-                            <span style="font-size:13px; color:{{text_color}};">National Hospital</span>
+                        <label class="radio-img">
                             <input type="radio" {% if 'b2c_limitation' in username.co_agent_frontend_security %} checked="checked" {% endif %} name="health_care_type" value="nathos">
-                            <span class="checkmark-radio crspan"></span>
+                            <img src="/static/tt_website_rodextrip/images/icon/national_hospital.png" alt="PERIKSAIN" style="width:70px; height:70px; padding:0px;"><br/>
+                            <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">NATIONAL<br/>HOSPITAL</span></div>
                         </label>
                         {% endif %}
                         {% if "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security %}
-                        <label class="radio-button-custom crlabel">
-                            <span style="font-size:13px; color:{{text_color}};">Swab Express</span>
+                        <label class="radio-img">
                             <input type="radio" {% if 'b2c_limitation' in username.co_agent_frontend_security and "medical" not in provider %} checked="checked" {% endif %} name="health_care_type" value="swab_express">
-                            <span class="checkmark-radio crspan"></span>
+                            <img src="/static/tt_website_rodextrip/images/icon/swab_express.png" alt="SWAB EXPRESS" style="width:70px; height:70px; padding:0px;"><br/>
+                            <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">SWAB<br/>EXPRESS</span></div>
                         </label>
                         {% endif %}
                         {% if "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security %}
-                        <label class="radio-button-custom crlabel">
-                            <span style="font-size:13px; color:{{text_color}};">Lab Pintar</span>
+                        <label class="radio-img">
                             <input type="radio" {% if 'b2c_limitation' in username.co_agent_frontend_security and "medical" not in provider and "swabexpress" in provider %} checked="checked" {% endif %} name="health_care_type" value="lab_pintar">
-                            <span class="checkmark-radio crspan"></span>
+                            <img src="/static/tt_website_rodextrip/images/icon/lab_pintar.png" alt="LAB PINTAR" style="width:70px; height:70px; padding:0px;"><br/>
+                            <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">LAB<br/>PINTAR</span></div>
                         </label>
                         {% endif %}
                     </div>
