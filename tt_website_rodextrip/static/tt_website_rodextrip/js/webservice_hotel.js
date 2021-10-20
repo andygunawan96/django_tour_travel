@@ -1247,6 +1247,7 @@ function hotel_provision(price_code, provider){
                     document.getElementById('new_cancellation_policy').innerHTML = text;
                 }
             }
+            document.getElementById('loading-hotel').style.display = 'none';
             document.getElementById('js_new_cancel').style.display = 'block';
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {

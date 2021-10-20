@@ -549,7 +549,8 @@ def review(request):
                 adult = request.session['hotel_review_pax']['adult']
                 child = request.session['hotel_review_pax']['child']
             hotel_pick = request.session['hotel_detail']
-            hotel_pick.pop('description')
+            if hotel_pick.get('description'):
+                hotel_pick.pop('description')
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'booker': booker,
