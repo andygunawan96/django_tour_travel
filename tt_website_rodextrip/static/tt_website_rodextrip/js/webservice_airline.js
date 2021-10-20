@@ -367,10 +367,10 @@ function get_airline_data_passenger_page(){
            adult = airline_request.adult;
            child = airline_request.child;
            infant = airline_request.infant;
-           airline_detail('');
-           document.getElementById('airline_sell_journey').value = JSON.stringify(price_itinerary);
-           $(function() {
 
+           $(function() {
+              airline_detail('');
+              document.getElementById('airline_sell_journey').value = JSON.stringify(price_itinerary);
               for (var i = 1; i <= adult; i++){
                   document.getElementById("train_adult"+i+"_search").addEventListener("keyup", function(event) {
                     if (event.keyCode === 13) {
@@ -511,10 +511,12 @@ function get_airline_data_review_page(){
            passengers = msg.passengers;
            passengers_ssr = msg.passengers_ssr;
            airline_request = msg.airline_request;
-
-           airline_detail('');
-           get_airline_review();
            airline_get_provider_list('review');
+           $(function() {
+               airline_detail('');
+               get_airline_review();
+           });
+
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
 
@@ -2277,6 +2279,12 @@ function get_price_itinerary_request(){
                                 if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].cabin_class != '' &&  airline_cabin_class_list.hasOwnProperty(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].cabin_class))
                                     text += airline_cabin_class_list[resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].cabin_class]
                                 text += `<br/>Class: `+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].class_of_service+`</span>`;
+                                if(provider_list_data[resJson.result.response.price_itinerary_provider[i].provider].is_post_issued_reschedule)
+                                    text+=`
+                                        <br/><span><i class="fas fa-check-circle"></i> Reschedule</span>`;
+                                if(provider_list_data[resJson.result.response.price_itinerary_provider[i].provider].is_post_issued_cancel)
+                                    text+=`
+                                        <br/><span><i class="fas fa-check-circle"></i> Refund</span>`;
                             }
                         }
                         text+=`</div>`;
@@ -4883,6 +4891,12 @@ function airline_get_booking(data, sync=false){
                                     $text += '\n';
                                 }
                             }
+                            if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_reschedule)
+                                text+=`
+                                    <br/><span><i class="fas fa-check-circle"></i> Reschedule</span>`;
+                            if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_cancel)
+                                text+=`
+                                    <br/><span><i class="fas fa-check-circle"></i> Refund</span>`;
                             for(j in msg.result.response.provider_bookings[i].rules){
                                 text += `
                                     <span id="span-tac-up`+rules+`" class="carrier_code_template" style="display: block; cursor: pointer;" onclick="show_hide_tac(`+rules+`);"> `+msg.result.response.provider_bookings[i].rules[j].name+` <i class="fas fa-chevron-down"></i></span>

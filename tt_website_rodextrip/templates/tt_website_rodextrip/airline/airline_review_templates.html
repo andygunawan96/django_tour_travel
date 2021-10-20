@@ -67,7 +67,7 @@
     last_session = 'review';
     upsell_price = {{upsell}};
     signature = `{{signature}}`;
-
+    get_airline_data_review_page();
     time_limit = {{time_limit}};
     session_time_limit();
     ssr = {{ssr}};
@@ -499,7 +499,7 @@
 
 {% include 'tt_website_rodextrip/footer.html' %}
 <script>
-    get_airline_data_review_page();
+
     $( document ).ready(function() {
         breadcrumb_create("airline", 4, 0);
         $("#airline_booking").bind("keypress", function(e) {
