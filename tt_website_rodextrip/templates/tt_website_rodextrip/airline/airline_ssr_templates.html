@@ -14,18 +14,9 @@
 <script>
     static_path_url_server = '{{static_path_url_server}}'
     airline_carriers = `{{airline_carriers}}`;
-    airline_carriers = airline_carriers.replace(/&#39;/g, '"');
-    airline_carriers = airline_carriers.replace(/&quot;/g, '"');
-    airline_carriers = airline_carriers.replace(/False/g, 'false');
-    airline_carriers = airline_carriers.replace(/True/g, 'true');
-    airline_carriers = JSON.parse(airline_carriers);
+    after_sales = {{after_sales}};
+
     len_passenger = {{passengers|length}};
-    passengers = `{{passengers}}`;
-    passengers = passengers.replace(/&#39;/g, '"');
-    passengers = passengers.replace(/&quot;/g, '"');
-    passengers = passengers.replace(/False/g, 'false');
-    passengers = passengers.replace(/True/g, 'true');
-    passengers = JSON.parse(passengers);
     upsell_price = {{upsell}};
     ssr_keys = [];
     {% for ssr_availability_provider in airline_ssrs.ssr_availability_provider %}
@@ -47,21 +38,7 @@
             time_limit = parseInt(time_limit);
             session_time_limit();
         }
-        airline_pick = `{{airline_pick}}`;
-        airline_pick = airline_pick.replace(/&#39;/g, '"');
-        airline_pick = airline_pick.replace(/True/g, 'true');
-        airline_pick = airline_pick.replace(/False/g, 'false');
-        //airline_pick = airline_pick.replace(/&amp;/g, '&');
-        airline_pick = airline_pick.replace('&&&', ',');
-        airline_pick = JSON.parse(airline_pick);
-        price_itinerary = `{{price}}`;
-        price_itinerary = price_itinerary.replace(/&#39;/g, '"');
-        price_itinerary = price_itinerary.replace(/None/g, '"None"');
-        price_itinerary = price_itinerary.replace(/True/g, '"true"');
-        price_itinerary = price_itinerary.replace(/False/g, '"false"');
-        price_itinerary = JSON.parse(price_itinerary);
-        airline_request = `{{airline_request}}`;
-        airline_request = JSON.parse(airline_request.replace(/&#39;/g, '"'));
+
         breadcrumb = 1;
         additional_price = `{{additional_price}}`;
         if(additional_price != ''){
@@ -367,24 +344,15 @@
 
 {% include 'tt_website_rodextrip/footer.html' %}
 <script>
+    after_sales = false;
     if(time_limit != ''){
         document.getElementById('div_4').hidden = false;
         type  = '';
-    }else
+    }else{
         type = 'request_new';
-    try{
-        airline_detail(type);
-    }catch(err){
-        airline_detail('request_new');
+        after_sales = true
     }
-
-    $( document ).ready(function() {
-        if(breadcrumb == 1)
-            breadcrumb_create("airline", 3, 0);
-        else{
-            breadcrumb_create("airline_new", 4, 1);
-        }
-    });
+    get_airline_data_ssr_page(after_sales);
 </script>
 <!-- loader -->
 {% endblock %}
