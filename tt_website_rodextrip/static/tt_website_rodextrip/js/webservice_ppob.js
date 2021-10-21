@@ -636,6 +636,32 @@ function ppob_get_booking(data){
                    <div class="alert alert-danger" role="alert">
                        <h5>Your booking has been Expired!</h5>
                    </div>`;
+                }else if(msg.result.response.state == 'fail_issued'){
+                   document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                   document.getElementById('issued-breadcrumb').classList.add("br-fail");
+                   //document.getElementById('issued-breadcrumb').classList.remove("current");
+                   //document.getElementById('header_issued').innerHTML = `Fail <i class="fas fa-times"></i>`;
+                   document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                   document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+                   document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                   document.getElementById('issued-breadcrumb-span').innerHTML = `Fail Issued`;
+                   document.getElementById('alert-state').innerHTML = `
+                   <div class="alert alert-danger" role="alert">
+                       <h5>Your booking has been Failed!</h5>
+                   </div>`;
+                }else if(msg.result.response.state == 'fail_refunded'){
+                   document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                   document.getElementById('issued-breadcrumb').classList.add("br-fail");
+                   //document.getElementById('issued-breadcrumb').classList.remove("current");
+                   //document.getElementById('header_issued').innerHTML = `Fail <i class="fas fa-times"></i>`;
+                   document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                   document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+                   document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                   document.getElementById('issued-breadcrumb-span').innerHTML = `Fail Refunded`;
+                   document.getElementById('alert-state').innerHTML = `
+                   <div class="alert alert-danger" role="alert">
+                       <h5>Your booking has been Failed!</h5>
+                   </div>`;
                 }else if(msg.result.response.state == 'fail_booked'){
                    document.getElementById('issued-breadcrumb').classList.remove("br-active");
                    document.getElementById('issued-breadcrumb').classList.add("br-fail");
@@ -644,10 +670,10 @@ function ppob_get_booking(data){
                    document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
                    document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
                    document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
-                   document.getElementById('issued-breadcrumb-span').innerHTML = `Fail (Book)`;
+                   document.getElementById('issued-breadcrumb-span').innerHTML = `Fail Booked`;
                    document.getElementById('alert-state').innerHTML = `
                    <div class="alert alert-danger" role="alert">
-                       <h5>Your booking has been Fail (Book)!</h5>
+                       <h5>Your booking has been Failed!</h5>
                    </div>`;
                 }else if(msg.result.response.state == 'booked'){
                    try{
