@@ -2616,7 +2616,7 @@ function sort(){
                                                                         else if(airline[i].segments[j].fares[k].cabin_class == 'F')
                                                                             text += ' (First Class)';
                                                                    text+=`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`</b>
-                                                                       <input onclick="change_fare(`+i+`,`+airline[i].segments[j].sequence+`,`+airline[i].segments[j].fares[k].sequence+`);" id="journey`+i+`segment`+airline[i].segments[j].sequence+`fare" name="journey`+i+`segment`+airline[i].segments[j].sequence+`fare" type="radio" value="`+airline[i].segments[j].fares[k].sequence+`" disabled>
+                                                                       <input onclick="change_fare(`+i+`,`+j+`,`+k+`);" id="journey`+i+`segment`+j+`fare" name="journey`+i+`segment`+j+`fare" type="radio" value="`+k+`" disabled>
                                                                        <span class="checkmark-radio"></span>
                                                                    </label>`;
                                                                }else{
@@ -2634,7 +2634,7 @@ function sort(){
                                                                                     else if(airline[i].segments[j].fares[k].cabin_class == 'F')
                                                                                         text += ' (First Class)';
                                                                                text+=`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`</b>
-                                                                               <input onclick="change_fare(`+i+`,`+airline[i].segments[j].sequence+`,`+airline[i].segments[j].fares[k].sequence+`);" id="journey`+i+`segment`+airline[i].segments[j].sequence+`fare" name="journey`+i+`segment`+airline[i].segments[j].sequence+`fare" type="radio" value="`+airline[i].segments[j].fares[k].sequence+`" checked="checked">
+                                                                               <input onclick="change_fare(`+i+`,`+j+`,`+k+`);" id="journey`+i+`segment`+j+`fare" name="journey`+i+`segment`+j+`fare" type="radio" value="`+k+`" checked="checked">
                                                                                <span class="checkmark-radio"></span>
                                                                            </label>`;
                                                                            fare_check = 1;
@@ -2652,7 +2652,7 @@ function sort(){
                                                                                 else if(airline[i].segments[j].fares[k].cabin_class == 'F')
                                                                                     text += ' (First Class)';
                                                                            text+=`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`</b>
-                                                                           <input onclick="change_fare(`+i+`,`+airline[i].segments[j].sequence+`,`+airline[i].segments[j].fares[k].sequence+`);" id="journey`+i+`segment`+airline[i].segments[j].sequence+`fare" name="journey`+i+`segment`+airline[i].segments[j].sequence+`fare" type="radio" value="`+airline[i].segments[j].fares[k].sequence+`">
+                                                                           <input onclick="change_fare(`+i+`,`+j+`,`+k+`);" id="journey`+i+`segment`+j+`fare" name="journey`+i+`segment`+j+`fare" type="radio" value="`+k+`">
                                                                            <span class="checkmark-radio"></span>
                                                                        </label>`;
                                                                    }
@@ -2701,7 +2701,7 @@ function sort(){
                                                                             break;
                                                                     }
                                                                }
-                                                               id_price_segment = `journey`+i+`segment`+airline[i].segments[j].sequence+`fare`+airline[i].segments[j].fares[k].sequence;
+                                                               id_price_segment = `journey`+i+`segment`+j+`fare`+k;
                                                                text+=`<span id="`+id_price_segment+`" class="price_template" style="font-weight:bold;">`+airline[i].currency+` `+getrupiah(total_price)+`</span>`;
                                                                if(airline[i].segments[j].fares[k].fare_name)
                                                                    text+=`<br/><span>`+airline[i].segments[j].fares[k].fare_name+`</span>`;
@@ -4713,6 +4713,8 @@ function check_passenger(adult, child, infant){
                        document.getElementById('adult_country_of_issued'+i).style['border-color'] = '#EFEFEF';
                    }
                }
+           }else if(document.getElementById('adult_passport_number'+i).value != '' && document.getElementById('adult_id_type'+i).value == ''){
+               error_log+= 'Please choose identity type for passenger adult '+i+'!</br>\n';
            }
        }
 
@@ -4860,6 +4862,8 @@ function check_passenger(adult, child, infant){
                        document.getElementById('child_country_of_issued'+i).style['border-color'] = '#EFEFEF';
                    }
                }
+           }else if(document.getElementById('child_passport_number'+i).value != '' && document.getElementById('child_id_type'+i).value == ''){
+               error_log+= 'Please choose identity type for passenger child '+i+'!</br>\n';
            }
        }
 //       if(document.getElementById('child_identity_type'+i).style.display == 'block'){

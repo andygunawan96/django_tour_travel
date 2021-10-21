@@ -19,13 +19,6 @@
 <script src="{{ static_path }}js/jbox/playground-login.js"></script>
 <script>
     static_path_url_server = '{{static_path_url_server}}';
-    airline_carriers = `{{airline_carriers}}`;
-    airline_carriers = airline_carriers.replace(/&#39;/g, '"');
-    airline_carriers = airline_carriers.replace(/&quot;/g, '"');
-    airline_carriers = airline_carriers.replace(/False/g, 'false');
-    airline_carriers = airline_carriers.replace(/True/g, 'true');
-
-    airline_carriers = JSON.parse(airline_carriers);
     order_number = '{{order_number}}';
 </script>
 <style>
@@ -360,7 +353,7 @@
     try{
     document.getElementById('voucher_div').style.display = 'none';
     }catch(err){}
-    airline_signin('{{order_number}}');
+    get_airline_data_book_page();
     //testing_bca();
 
     $( document ).ready(function() {
