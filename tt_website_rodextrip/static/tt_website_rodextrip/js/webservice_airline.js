@@ -4939,7 +4939,7 @@ function airline_get_booking(data, sync=false){
 //                                        $text += '‣ Arrival:\n';
 //                                        $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_name + ' (' + msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_city + ') ' +'\n\n';
 
-                                        $text += '\n'+msg.result.response.provider_bookings[i].journeys[j].segments[k].origin_city + ' (' + msg.result.response.provider_bookings[i].journeys[j].segments[k].origin + ') - ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].destination_city + ' (' + msg.result.response.provider_bookings[i].journeys[j].segments[k].destination + ')\n';
+                                        $text += '\n'+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin_city + ' (' + msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin + ') - ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_city + ' (' + msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination + ')\n';
 
                                         if(msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date.split('  ')[0] == msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[0]){
                                             $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[0]+' ';
