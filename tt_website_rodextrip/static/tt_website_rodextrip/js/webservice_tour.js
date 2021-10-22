@@ -1588,23 +1588,39 @@ function tour_get_booking(order_number)
                         document.getElementById('voucher_discount').innerHTML = '';
                         document.getElementById('alert-state').innerHTML = `
                         <div class="alert alert-danger" role="alert">
-                            <h5>Your booking has been Failed (Issue)!</h5>
+                            <h5>Your booking has been Failed!</h5>
                         </div>`;
                     }
-                    else if(cur_state == 'fail_refunded'){
-                        conv_status = 'Failed (Refunded)';
+                    else if(cur_state == 'fail_booked'){
+                        conv_status = 'Fail Booked';
                         document.getElementById('issued-breadcrumb').classList.remove("br-active");
                         document.getElementById('issued-breadcrumb').classList.add("br-fail");
                         document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
                         document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
                         document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
-                        document.getElementById('issued-breadcrumb-span').innerHTML = `Failed (Refunded)`;
+                        document.getElementById('issued-breadcrumb-span').innerHTML = `Fail Booked`;
+                        document.getElementById('order_state').innerHTML = 'Your Order Has Been ' + conv_status;
+                        document.getElementById('order_state').innerHTML = 'Your Order Has Failed, Please Try Again';
+                        document.getElementById('voucher_discount').innerHTML = '';
+                        document.getElementById('alert-state').innerHTML = `
+                        <div class="alert alert-danger" role="alert">
+                            <h5>Your booking has been Failed!</h5>
+                        </div>`;
+                    }
+                    else if(cur_state == 'fail_refunded'){
+                        conv_status = 'Fail Refunded';
+                        document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                        document.getElementById('issued-breadcrumb').classList.add("br-fail");
+                        document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                        document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+                        document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                        document.getElementById('issued-breadcrumb-span').innerHTML = `Fail Refunded`;
                         document.getElementById('order_state').innerHTML = 'Your Order Has Been ' + conv_status;
                         document.getElementById('order_state').innerHTML = 'Your Order Has Failed and Your Balance Has Been Refunded';
                         document.getElementById('voucher_discount').innerHTML = '';
                         document.getElementById('alert-state').innerHTML = `
                         <div class="alert alert-danger" role="alert">
-                            <h5>Your booking has been Failed (Book)!</h5>
+                            <h5>Your booking has been Failed!</h5>
                         </div>`;
                     }
                     else if(cur_state == 'pending'){

@@ -1419,7 +1419,22 @@ function hotel_room_pick(key, key2){
 
     text += `<h5 class="mb-2">`+room_name+`</h5>`;
     text += '<h6>Cancellation: </h6><div id="cancellation_policy_choose" class="mb-3">';
-    text += '<span style="font-size:14px; font-weight:500;">PLEASE WAIT ... </span>';
+    text += `
+        <div class="row" id="loading-detail-hotel-room">
+            <div class="col-lg-12">
+                <div class="center-div">
+                    <div>
+                        <img src="/static/tt_website_rodextrip/img/loading-screen-white.gif" alt="Loading Screen" style="height:25px; width:25px;"/>
+                    </div>
+                </div>
+                <div style="text-align:center">
+                    <span style="font-size:18px; font-weight:bold;">PLEASE WAIT ... </span>
+                </div>
+            </div>
+        </div>
+    `;
+    document.getElementById('not_room_select').style.display = 'none';
+//    text += '<span style="font-size:14px; font-weight:500;">PLEASE WAIT ... </span>';
     text += '</div>';
 
     text += `<div>

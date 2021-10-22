@@ -63,6 +63,12 @@ def api_models(request):
         req_data = util.get_api_request_data(request)
         if req_data['action'] == 'signin':
             res = login(request)
+        elif req_data['action'] == 'get_data_search_page':
+            res = get_data_search_page(request)
+        elif req_data['action'] == 'get_data_passenger_page':
+            res = get_data_passenger_page(request)
+        elif req_data['action'] == 'get_data_review_page':
+            res = get_data_review_page(request)
         elif req_data['action'] == 'get_data':
             res = get_data(request)
         elif req_data['action'] == 'get_carrier_providers':
@@ -211,6 +217,52 @@ def login(request):
 
             _logger.info(json.dumps(request.session['airline_signature']))
             _logger.info("SIGNIN AIRLINE SUCCESS SIGNATURE " + res['result']['response']['signature'])
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def get_data_search_page(request):
+    try:
+        res = {}
+        res['airline_request'] = request.session.get('airline_request')
+
+        file = read_cache_with_folder_path("get_airline_carriers", 90911)
+        if file:
+            res['airline_all_carriers'] = file
+        res['airline_carriers'] = request.session.get('airline_carriers_request')
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def get_data_passenger_page(request):
+    try:
+        res = {}
+        res['airline_pick'] = request.session['airline_sell_journey']['sell_journey_provider']
+        res['airline_request'] = request.session['airline_request']
+        res['airline_get_price_request'] = request.session['airline_get_price_request']
+        res['price_itinerary'] = request.session['airline_sell_journey']
+        file = read_cache_with_folder_path("get_airline_carriers", 90911)
+        if file:
+            res['airline_carriers'] = file
+        res['ff_request'] = request.session['airline_get_ff_availability']['result']['response']['ff_availability_provider'] if request.session['airline_get_ff_availability']['result']['response'] else []
+
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def get_data_review_page(request):
+    try:
+        res = {}
+        res['airline_pick'] = request.session['airline_sell_journey']['sell_journey_provider'] if request.session.get('airline_sell_journey') else request.session['airline_price_itinerary']['price_itinerary_provider']
+        res['airline_get_price_request'] = request.session['airline_sell_journey'] if request.session.get('airline_sell_journey') else request.session['airline_price_itinerary']
+        res['price_itinerary'] = request.session['airline_sell_journey'] if request.session.get('airline_sell_journey') else request.session['airline_price_itinerary']
+        file = read_cache_with_folder_path("get_airline_carriers", 90911)
+        if file:
+            res['airline_carriers'] = file
+        res['passengers'] = request.session['airline_create_passengers']
+        res['passengers_ssr'] = request.session['airline_create_passengers']['adult'] + request.session['airline_create_passengers']['child']
+        res['airline_request'] = request.session['airline_request']
+
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res

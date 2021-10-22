@@ -65,57 +65,9 @@
     static_path_url_server = '{{static_path_url_server}}';
     additional_price = {{additional_price}};
     last_session = 'review';
-    airline_pick = `{{airline_pick}}`;
-    airline_pick = airline_pick.replace(/&#39;/g, '"');
-    airline_pick = airline_pick.replace(/True/g, 'true');
-    airline_pick = airline_pick.replace(/False/g, 'false');
-    //airline_pick = airline_pick.replace(/&amp;/g, '&');
-    airline_pick = airline_pick.replace('&&&', ',');
-    airline_pick = JSON.parse(airline_pick);
-
-    //b2c login
-    airline_get_price_request = `{{airline_get_price_request}}`;
-    airline_get_price_request = airline_get_price_request.replace(/&#39;/g, '"');
-    airline_get_price_request = airline_get_price_request.replace(/True/g, 'true');
-    airline_get_price_request = airline_get_price_request.replace(/False/g, 'false');
-    airline_get_price_request = airline_get_price_request.replace('&&&', ',');
-    airline_get_price_request = airline_get_price_request.replace('None', '""');
-    airline_get_price_request = JSON.parse(airline_get_price_request);
-
-    price_itinerary = `{{price}}`;
-    price_itinerary = price_itinerary.replace(/&#39;/g, '"');
-    price_itinerary = price_itinerary.replace(/None/g, '"None"');
-    price_itinerary = price_itinerary.replace(/True/g, true);
-    price_itinerary = price_itinerary.replace(/False/g, false);
-    price_itinerary = JSON.parse(price_itinerary);
-    airline_carriers = `{{airline_carriers}}`;
-    airline_carriers = airline_carriers.replace(/&#39;/g, '"');
-    airline_carriers = airline_carriers.replace(/&quot;/g, '"');
-    airline_carriers = airline_carriers.replace(/False/g, 'false');
-    airline_carriers = airline_carriers.replace(/True/g, 'true');
-    airline_carriers = JSON.parse(airline_carriers);
-
-    passengers = `{{passengers}}`;
-    passengers = passengers.replace(/Pak Nasser&#39;s/g, "Pak Nasser's");
-    passengers = passengers.replace(/&#39;/g, '"');
-    passengers = passengers.replace(/True/g, true);
-    passengers = passengers.replace(/False/g, false);
-    passengers = passengers.replace(/&quot;/g, '"');
-
-    passengers = JSON.parse(passengers);
-
-    passengers_ssr = `{{passengers_ssr}}`;
-    passengers_ssr = passengers_ssr.replace(/Pak Nasser&#39;s/g, "Pak Nasser's");
-    passengers_ssr = passengers_ssr.replace(/&#39;/g, '"');
-    passengers_ssr = passengers_ssr.replace(/True/g, true);
-    passengers_ssr = passengers_ssr.replace(/False/g, false);
-    passengers_ssr = passengers_ssr.replace(/&quot;/g, '"');
-    passengers_ssr = JSON.parse(passengers_ssr);
     upsell_price = {{upsell}};
-    airline_request = `{{airline_request}}`;
-    airline_request = JSON.parse(airline_request.replace(/&#39;/g, '"'));
     signature = `{{signature}}`;
-    airline_get_provider_list('review');
+    get_airline_data_review_page();
     time_limit = {{time_limit}};
     session_time_limit();
     ssr = {{ssr}};
@@ -547,8 +499,7 @@
 
 {% include 'tt_website_rodextrip/footer.html' %}
 <script>
-    airline_detail('');
-    get_airline_review();
+
     $( document ).ready(function() {
         breadcrumb_create("airline", 4, 0);
         $("#airline_booking").bind("keypress", function(e) {

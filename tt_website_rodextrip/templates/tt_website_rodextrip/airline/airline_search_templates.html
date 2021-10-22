@@ -28,27 +28,7 @@
         'arrival_time': 'all',
         'cabin_class': 'all'
     };
-    airline_request = `{{airline_request}}`;
-    airline_request = JSON.parse(airline_request.replace(/&#39;/g, '"'));
-    airline_all_carriers = `{{airline_all_carriers }}`;
-    airline_all_carriers  = airline_all_carriers .replace(/&#39;/g, '"');
-    airline_all_carriers  = airline_all_carriers .replace(/&quot;/g, '"');
-    airline_all_carriers  = airline_all_carriers .replace(/False/g, 'false');
-    airline_all_carriers  = airline_all_carriers .replace(/True/g, 'true');
-    airline_all_carriers  = JSON.parse(airline_all_carriers );
-    airline_carriers_data_awal = `{{airline_carriers}}`;
-    airline_carriers_data_awal = airline_carriers_data_awal.replace(/&#39;/g, '"');
-    airline_carriers_data_awal = airline_carriers_data_awal.replace(/&quot;/g, '"');
-    airline_carriers_data_awal = airline_carriers_data_awal.replace(/False/g, 'false');
-    airline_carriers_data_awal = airline_carriers_data_awal.replace(/True/g, 'true');
-    airline_carriers_data_awal = JSON.parse(airline_carriers_data_awal);
     signature = `{{signature}}`;
-    airline_carriers = `{{airline_carriers}}`;
-    airline_carriers = airline_carriers.replace(/&#39;/g, '"');
-    airline_carriers = airline_carriers.replace(/&quot;/g, '"');
-    airline_carriers = airline_carriers.replace(/False/g, 'false');
-    airline_carriers = airline_carriers.replace(/True/g, 'true');
-    airline_carriers = JSON.parse(airline_carriers);
     recommendations_airline = [];
     airline_check = 0;
     {% for key,value in airline_carriers.0.items %}
@@ -1863,6 +1843,7 @@
 </script>
 <script>
     //test
+    get_airline_data_search_page();
     document.getElementById('show_provider_airline').innerHTML = `<i class="fas fa-plane"></i> ` + airline_check;
     var origin = new autoComplete({
         selector: '#origin_id_flight',
@@ -1970,7 +1951,6 @@
 
         counter_search = 0;
         airline_filter_render();
-        airline_signin('');
         $(window).scroll(function() {
             if($(window).scrollTop() >= $(document).height() - ($(window).height() + 600)) {
                 try{

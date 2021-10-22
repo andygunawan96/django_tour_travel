@@ -320,6 +320,199 @@ function airline_redirect_signup(type){
     }
 }
 
+function get_airline_data_search_page(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/airline",
+       headers:{
+            'action': 'get_data_search_page',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           airline_request = msg.airline_request;
+           airline_carriers = msg.airline_carriers;
+           airline_carriers_data_awal = msg.airline_carriers;
+           airline_all_carriers = msg.airline_all_carriers;
+           airline_signin('');
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+
+       },timeout: 60000
+    });
+
+}
+
+function get_airline_data_passenger_page(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/airline",
+       headers:{
+            'action': 'get_data_passenger_page',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           airline_pick = msg.airline_pick;
+           airline_get_price_request = msg.airline_get_price_request;
+           price_itinerary = msg.price_itinerary;
+           airline_carriers = msg.airline_carriers;
+           airline_request = msg.airline_request;
+           ff_request = msg.ff_request;
+           airline_get_provider_list('passenger');
+           adult = airline_request.adult;
+           child = airline_request.child;
+           infant = airline_request.infant;
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+
+       },timeout: 60000
+    });
+
+}
+
+function get_airline_data_review_page(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/airline",
+       headers:{
+            'action': 'get_data_review_page',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           airline_pick = msg.airline_pick;
+           airline_get_price_request = msg.airline_get_price_request;
+           price_itinerary = msg.price_itinerary;
+           airline_carriers = msg.airline_carriers;
+           passengers = msg.passengers;
+           passengers_ssr = msg.passengers_ssr;
+           airline_request = msg.airline_request;
+           airline_get_provider_list('review');
+
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+
+       },timeout: 60000
+    });
+
+}
+
+function get_airline_data_book_page(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/airline",
+       headers:{
+            'action': 'get_data_book_page',
+       },
+       data: {},
+       success: function(msg) {
+           console.log(msg);
+           airline_carriers = msg.airline_carriers;
+           airline_signin(order_number);
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+
+       },timeout: 60000
+    });
+
+}
+
+function get_airline_data_ssr_page(after_sales){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/airline",
+       headers:{
+            'action': 'get_data_ssr_page',
+       },
+       data: {
+            'after_sales': after_sales,
+            'signature': signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           airline_carriers = msg.airline_carriers;
+           passengers = msg.passengers;
+           ssr_page_type = '';
+           if(after_sales){
+               airline_get_detail = msg.airline_getbooking;
+               breadcrumb = 2;
+               ssr_page_type = 'request_new';
+               airline_get_provider_list('ssr');
+           }else{
+               airline_pick = msg.airline_pick;
+               price_itinerary = msg.price_itinerary;
+               airline_request = msg.airline_request;
+               breadcrumb = 1;
+               airline_get_provider_list('ssr');
+           }
+           $( document ).ready(function() {
+                if(breadcrumb == 1)
+                    breadcrumb_create("airline", 3, 0);
+                else{
+                    breadcrumb_create("airline_new", 4, 1);
+                }
+           });
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+
+       },timeout: 60000
+    });
+
+}
+
+function get_airline_data_seat_page(after_sales){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/airline",
+       headers:{
+            'action': 'get_data_seat_page',
+       },
+       data: {
+            'after_sales': after_sales,
+            'signature': signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           airline_carriers = msg.airline_carriers;
+           passengers = msg.passengers;
+           seat_page_type = '';
+           if(after_sales){
+               airline_get_detail = msg.airline_getbooking;
+               breadcrumb = 2;
+               seat_page_type = 'request_new';
+               airline_get_provider_list('seat');
+           }else{
+               airline_pick = msg.airline_pick;
+               price_itinerary = msg.price_itinerary;
+               airline_request = msg.airline_request;
+               breadcrumb = 1;
+               airline_get_provider_list('seat');
+           }
+
+           get_seat_map_response();
+           set_first_passenger_seat_map_airline(0);
+           $( document ).ready(function() {
+                if(breadcrumb == 1)
+                    breadcrumb_create("airline", 3, 0);
+                else{
+                    breadcrumb_create("airline", 3, 1);
+                }
+           });
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+
+       },timeout: 60000
+    });
+
+}
+
 function airline_signin(data,type=''){
     getToken();
     $.ajax({
@@ -954,7 +1147,8 @@ function airline_get_provider_list(type, data=''){
                         document.getElementById('force_issued_btn').remove();
                 }catch(err){
                 }
-
+                airline_detail('');
+                get_airline_review();
 
 
            }else if(type == 'passenger'){
@@ -989,12 +1183,132 @@ function airline_get_provider_list(type, data=''){
                         }
                     }
                 }
+                $(function() {
+                    airline_detail('');
+                    document.getElementById('airline_sell_journey').value = JSON.stringify(price_itinerary);
+                    for (var i = 1; i <= adult; i++){
+                        document.getElementById("train_adult"+i+"_search").addEventListener("keyup", function(event) {
+                            if (event.keyCode === 13) {
+                                event.preventDefault();
+                                var adult_enter = "search_adult_"+event.target.id.toString().replace(/[^\d.]/g, '');
+                                document.getElementById(adult_enter).click();
+                            }
+                        });
+
+                        $('input[name="adult_birth_date'+i+'"]').daterangepicker({
+                            singleDatePicker: true,
+                            autoUpdateInput: true,
+                            startDate: moment().subtract(18, 'years'),
+                            minDate: moment(airline_request.departure[airline_request.departure.length-1],'DD MMM YYYY').subtract(100, 'years'),
+                            maxDate: moment(airline_request.departure[airline_request.departure.length-1],'DD MMM YYYY').subtract(12, 'years'),
+                            showDropdowns: true,
+                            opens: 'center',
+                            locale: {
+                                format: 'DD MMM YYYY',
+                            }
+                        });
+                        if(birth_date_required == false)
+                            $('input[name="adult_birth_date'+i+'"]').val("");
+
+                        $('input[name="adult_passport_expired_date'+i+'"]').daterangepicker({
+                            singleDatePicker: true,
+                            autoUpdateInput: true,
+                            startDate: moment().subtract(-1,'years'),
+                            minDate: moment().subtract(-1, 'days'),
+                            showDropdowns: true,
+                            opens: 'center',
+                            locale: {
+                                format: 'DD MMM YYYY',
+                            }
+                        });
+                        $('input[name="adult_passport_expired_date'+i+'"]').val("");
+                    }
+
+                    for (var i = 1; i <= child; i++){
+                        document.getElementById("train_child"+i+"_search").addEventListener("keyup", function(event) {
+                          if (event.keyCode === 13) {
+                             event.preventDefault();
+                             var child_enter = "search_child_"+event.target.id.toString().replace(/[^\d.]/g, '');
+                             document.getElementById(child_enter).click();
+                          }
+                        });
+
+
+                        $('input[name="child_birth_date'+i+'"]').daterangepicker({
+                            singleDatePicker: true,
+                            autoUpdateInput: true,
+                            startDate: moment().subtract(5, 'years'),
+                            minDate: moment(airline_request.departure[airline_request.departure.length-1],'DD MMM YYYY').subtract(11, 'years').subtract(365, 'days'),
+                            maxDate: moment(airline_request.departure[airline_request.departure.length-1],'DD MMM YYYY').subtract(2, 'years'),
+                            showDropdowns: true,
+                            opens: 'center',
+                            locale: {
+                                format: 'DD MMM YYYY',
+                            }
+                        });
+                          //$('input[name="child_birth_date'+i+'"]').val("");
+
+                        $('input[name="child_passport_expired_date'+i+'"]').daterangepicker({
+                            singleDatePicker: true,
+                            autoUpdateInput: true,
+                            startDate: moment().subtract(-1,'years'),
+                            minDate: moment().subtract(-1, 'days'),
+                            showDropdowns: true,
+                            opens: 'center',
+                            locale: {
+                                format: 'DD MMM YYYY',
+                            }
+                        });
+                        $('input[name="child_passport_expired_date'+i+'"]').val("");
+                    }
+
+                    for (var i = 1; i <= infant; i++){
+                        document.getElementById("train_infant"+i+"_search").addEventListener("keyup", function(event) {
+                          if (event.keyCode === 13) {
+                            event.preventDefault();
+                            var infant_enter = "search_infant_"+event.target.id.toString().replace(/[^\d.]/g, '');
+                            document.getElementById(infant_enter).click();
+                          }
+                        });
+
+                        $('input[name="infant_birth_date'+i+'"]').daterangepicker({
+                            singleDatePicker: true,
+                            autoUpdateInput: true,
+                            startDate: moment().subtract(1, 'years'),
+                            minDate: moment(airline_request.departure[airline_request.departure.length-1],'DD MMM YYYY').subtract(1, 'years').subtract(364, 'days'),
+                            maxDate: moment(),
+                            showDropdowns: true,
+                            opens: 'center',
+                            locale: {
+                                format: 'DD MMM YYYY',
+                            }
+                        });
+                          //$('input[name="infant_birth_date'+i+'"]').val("");
+
+                        $('input[name="infant_passport_expired_date'+i+'"]').daterangepicker({
+                            singleDatePicker: true,
+                            autoUpdateInput: true,
+                            startDate: moment().subtract(-1,'years'),
+                            minDate: moment().subtract(-1, 'days'),
+                            showDropdowns: true,
+                            opens: 'center',
+                            locale: {
+                                format: 'DD MMM YYYY',
+                            }
+                        });
+                        $('input[name="infant_passport_expired_date'+i+'"]').val("");
+                      }
+                   });
            }else if(type == 'search'){
                 get_carrier_providers('search');
            }else if(type == 'get_booking'){
                 airline_get_booking(data);
            }else if(type == 'refund'){
                 airline_get_booking_refund(data);
+           }else if(type == 'ssr'){
+                airline_detail(ssr_page_type);
+           }else if(type == 'seat'){
+                airline_detail(seat_page_type);
            }
            //carrier_to_provider();
        },
@@ -1506,9 +1820,9 @@ function change_fare(journey, segment, fares){
         for (var j = 0, length = radios.length; j < length; j++) {
             if (radios[j].checked) {
                 // do whatever you want with the checked radio
-                temp = document.getElementById('journey'+journey+'segment'+(parseInt(i)+1)+'fare'+(parseInt(j)+1)).innerHTML;
+                temp = document.getElementById('journey'+journey+'segment'+i+'fare'+(radios[j].value)).innerHTML;
                 price += parseInt(temp.replace( /[^\d.]/g, '' ));
-                airline_data[journey].segments[i].fare_pick = parseInt(j);
+                airline[journey].segments[i].fare_pick = parseInt(j);
                 // only one radio can be logically checked, don't check the rest
                 break;
             }
@@ -2074,6 +2388,12 @@ function get_price_itinerary_request(){
                                 if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].cabin_class != '' &&  airline_cabin_class_list.hasOwnProperty(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].cabin_class))
                                     text += airline_cabin_class_list[resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].cabin_class]
                                 text += `<br/>Class: `+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].class_of_service+`</span>`;
+                                if(provider_list_data[resJson.result.response.price_itinerary_provider[i].provider].is_post_issued_reschedule)
+                                    text+=`
+                                        <br/><span><i class="fas fa-check-circle"></i> Reschedule</span>`;
+                                if(provider_list_data[resJson.result.response.price_itinerary_provider[i].provider].is_post_issued_cancel)
+                                    text+=`
+                                        <br/><span><i class="fas fa-check-circle"></i> Refund</span>`;
                             }
                         }
                         text+=`</div>`;
@@ -3153,7 +3473,7 @@ function set_first_passenger_seat_map_airline(val){
         <div class="col-lg-12">`;
         text+=`<span style="font-weight:bold; font-size:15px;">Price: `+passengers[val].seat_list[i].currency+` `+getrupiah(passengers[val].seat_list[i].price)+`</span>`;
         if(passengers[val].seat_list[i].seat_name != '')
-            text+= `<input class="button-seat-pass button-seat-pass-cancel" type="button" id="cancel_seat" style="width: 200px; background: #f15a22; padding: 10px; margin-right: 10px; text-align: center; margin-bottom: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: white;" onclick="set_cancel_seat(`+i+`);" value="Cancel Seat">`;
+            text+= `<input class="button-seat-pass button-seat-pass-cancel" type="button" id="cancel_seat" style="width: 200px; background: `+color+`; padding: 10px; margin-right: 10px; text-align: center; margin-bottom: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: white;" onclick="set_cancel_seat(`+i+`);" value="Cancel Seat">`;
         text+=`</div><div class="col-lg-12"><hr/></div>`;
     }
     text+=`</div>`;
@@ -4135,6 +4455,32 @@ function airline_get_booking(data, sync=false){
                    <div class="alert alert-danger" role="alert">
                        <h5>Your booking has been Cancelled!</h5>
                    </div>`;
+                }else if(msg.result.response.state == 'fail_refunded'){
+                   document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                   document.getElementById('issued-breadcrumb').classList.add("br-fail");
+                   //document.getElementById('issued-breadcrumb').classList.remove("current");
+                   //document.getElementById('header_issued').innerHTML = `Fail <i class="fas fa-times"></i>`;
+                   document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                   document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+                   document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                   document.getElementById('issued-breadcrumb-span').innerHTML = `Fail Refunded`;
+                   document.getElementById('alert-state').innerHTML = `
+                   <div class="alert alert-danger" role="alert">
+                       <h5>Your booking has been Failed!</h5>
+                   </div>`;
+                }else if(msg.result.response.state == 'fail_issued'){
+                   document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                   document.getElementById('issued-breadcrumb').classList.add("br-fail");
+                   //document.getElementById('issued-breadcrumb').classList.remove("current");
+                   //document.getElementById('header_issued').innerHTML = `Fail <i class="fas fa-times"></i>`;
+                   document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                   document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+                   document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                   document.getElementById('issued-breadcrumb-span').innerHTML = `Fail Issued`;
+                   document.getElementById('alert-state').innerHTML = `
+                   <div class="alert alert-danger" role="alert">
+                       <h5>Your booking has been Failed!</h5>
+                   </div>`;
                 }else if(msg.result.response.state == 'fail_booked'){
                    document.getElementById('issued-breadcrumb').classList.remove("br-active");
                    document.getElementById('issued-breadcrumb').classList.add("br-fail");
@@ -4143,10 +4489,10 @@ function airline_get_booking(data, sync=false){
                    document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
                    document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
                    document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
-                   document.getElementById('issued-breadcrumb-span').innerHTML = `Fail (Book)`;
+                   document.getElementById('issued-breadcrumb-span').innerHTML = `Fail Booked`;
                    document.getElementById('alert-state').innerHTML = `
                    <div class="alert alert-danger" role="alert">
-                       <h5>Your booking has been Fail (Book)!</h5>
+                       <h5>Your booking has been Failed!</h5>
                    </div>`;
                 }else if(msg.result.response.state == 'booked'){
                    try{
@@ -4593,7 +4939,7 @@ function airline_get_booking(data, sync=false){
 //                                        $text += '‣ Arrival:\n';
 //                                        $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_name + ' (' + msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_city + ') ' +'\n\n';
 
-                                        $text += '\n'+msg.result.response.provider_bookings[i].journeys[j].segments[k].origin_city + ' (' + msg.result.response.provider_bookings[i].journeys[j].segments[k].origin + ') - ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].destination_city + ' (' + msg.result.response.provider_bookings[i].journeys[j].segments[k].destination + ')\n';
+                                        $text += '\n'+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin_city + ' (' + msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin + ') - ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_city + ' (' + msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination + ')\n';
 
                                         if(msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date.split('  ')[0] == msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[0]){
                                             $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[0]+' ';
@@ -4680,6 +5026,12 @@ function airline_get_booking(data, sync=false){
                                     $text += '\n';
                                 }
                             }
+                            if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_reschedule)
+                                text+=`
+                                    <br/><span><i class="fas fa-check-circle"></i> Reschedule</span>`;
+                            if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_cancel)
+                                text+=`
+                                    <br/><span><i class="fas fa-check-circle"></i> Refund</span>`;
                             for(j in msg.result.response.provider_bookings[i].rules){
                                 text += `
                                     <span id="span-tac-up`+rules+`" class="carrier_code_template" style="display: block; cursor: pointer;" onclick="show_hide_tac(`+rules+`);"> `+msg.result.response.provider_bookings[i].rules[j].name+` <i class="fas fa-chevron-down"></i></span>
@@ -4800,7 +5152,7 @@ function airline_get_booking(data, sync=false){
                                                 <div class="col-lg-6 col-xs-6">
                                                 </div>
                                                 <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                                                    <span style="font-weight:500;color:#f15a22">`+currency+` `+getrupiah(msg.result.response.reschedule_list[i].total_amount)+`</span><br/>
+                                                    <span style="font-weight:500;color:`+color+`">`+currency+` `+getrupiah(msg.result.response.reschedule_list[i].total_amount)+`</span><br/>
                                                 </div>
                                             </div>`;
                                 }
@@ -9357,7 +9709,7 @@ function airline_get_booking_refund(data){
                document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
                document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
                document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
-               document.getElementById('issued-breadcrumb-span').innerHTML = `Fail (Book)`;
+               document.getElementById('issued-breadcrumb-span').innerHTML = `Fail Booked`;
             }else if(msg.result.response.state == 'booked'){
                try{
                    if(now.diff(hold_date_time, 'minutes')<0)

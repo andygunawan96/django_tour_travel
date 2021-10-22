@@ -15,19 +15,9 @@
     static_path_url_server = '{{static_path_url_server}}'
     var slideIndex = [1,1];
     var slideId = ["mySlides1", "mySlides2"];
-    airline_carriers = `{{airline_carriers}}`;
-    airline_carriers = airline_carriers.replace(/&#39;/g, '"');
-    airline_carriers = airline_carriers.replace(/&quot;/g, '"');
-    airline_carriers = airline_carriers.replace(/False/g, 'false');
-    airline_carriers = airline_carriers.replace(/True/g, 'true');
-    airline_carriers = JSON.parse(airline_carriers);
 
     upsell_price = {{upsell}};
-
-    passengers = `{{passengers}}`;
-    passengers = passengers.replace(/&#39;/g, '"');
-    passengers = passengers.replace(/True/g, '"true"');
-    passengers = JSON.parse(passengers.replace(/False/g, '"false"'));
+    signature = `{{signature}}`;
     additional_price = `{{additional_price}}`;
     additional_price = parseFloat(additional_price);
     if({{after_sales}} == 0){
@@ -36,14 +26,6 @@
             time_limit = parseInt(time_limit);
             session_time_limit();
         }
-        airline_request = `{{airline_request}}`;
-        airline_request = JSON.parse(airline_request.replace(/&#39;/g, '"'));
-        price_itinerary = `{{price}}`;
-        price_itinerary = price_itinerary.replace(/&#39;/g, '"');
-        price_itinerary = price_itinerary.replace(/None/g, '"None"');
-        price_itinerary = price_itinerary.replace(/True/g, '"true"');
-        price_itinerary = price_itinerary.replace(/False/g, '"false"');
-        price_itinerary = JSON.parse(price_itinerary);
         breadcrumb = 2;
         type = '';
         additional_price_fix = parseFloat(additional_price);
@@ -284,26 +266,16 @@ img {vertical-align: middle;}
 </section>
 {% include 'tt_website_rodextrip/footer.html' %}
 <script>
+    after_sales = false;
     if(time_limit != ''){
         document.getElementById('div_4').hidden = false;
         type  = '';
-    }else
+    }else{
         type = 'request_new';
-    try{
-        airline_detail(type);
-    }catch(err){
-        airline_detail('request_new');
+        after_sales = true
     }
+    get_airline_data_seat_page(after_sales);
 
-    $( document ).ready(function() {
-        if(breadcrumb == 1)
-            breadcrumb_create("airline", 3, 0);
-        else{
-            breadcrumb_create("airline", 3, 1);
-        }
-    });
-
-    get_seat_map_response();
     //get_airline_review();
 
     function plusSlides(n, no) {
@@ -321,7 +293,6 @@ img {vertical-align: middle;}
       x[slideIndex[no]-1].style.display = "block";
       //wagon = slideIndex[no]-1;
     }
-    set_first_passenger_seat_map_airline(0);
 </script>
 <!-- loader -->
 {% endblock %}

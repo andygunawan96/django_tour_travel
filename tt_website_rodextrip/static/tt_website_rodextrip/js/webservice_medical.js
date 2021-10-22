@@ -289,6 +289,9 @@ function medical_get_availability(){
             console.log(msg);
             if(msg.result.error_code == 0){
                 print_check_price++;
+                try{
+                    document.getElementById('use_booker').style.display = 'block';
+                }catch(err){}
                 if(print_check_price == 2){
                     document.getElementById('check_price_medical').hidden = false;
                     if(test_type.includes('PHCHC')){
@@ -1032,49 +1035,49 @@ function medical_get_booking(order_number, sync=false){
                         </div>`;
                     }
                     else if(msg.result.response.state == 'fail_issued'){
-                        $text = 'Failed (Issue)';
+                        $text = 'Fail Issued';
                         document.getElementById('issued-breadcrumb').classList.remove("br-active");
                         document.getElementById('issued-breadcrumb').classList.add("br-fail");
                         document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
                         document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
                         document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
-                        document.getElementById('issued-breadcrumb-span').innerHTML = `Failed (Issue)`;
-                        document.getElementById('display_state').innerHTML = `Your Order Has Been Failed (Issue)`;
+                        document.getElementById('issued-breadcrumb-span').innerHTML = `Fail Issued`;
+                        document.getElementById('display_state').innerHTML = `Your Order Has Been Failed`;
                         document.getElementById('div_sync_status').hidden = true;
                         document.getElementById('alert-state').innerHTML = `
                         <div class="alert alert-danger" role="alert">
-                            <h5>Your booking has been Fail (Issued)!</h5>
+                            <h5>Your booking has been Failed!</h5>
                         </div>`;
 
                     }
                     else if(msg.result.response.state == 'fail_booked'){
-                        $text = 'Failed (Book)';
+                        $text = 'Fail Booked';
                         document.getElementById('issued-breadcrumb').classList.remove("br-active");
                         document.getElementById('issued-breadcrumb').classList.add("br-fail");
                         document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
                         document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
                         document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
-                        document.getElementById('issued-breadcrumb-span').innerHTML = `Failed (Book)`;
-                        document.getElementById('display_state').innerHTML = `Your Order Has Been Failed (Book)`;
+                        document.getElementById('issued-breadcrumb-span').innerHTML = `Fail Booked`;
+                        document.getElementById('display_state').innerHTML = `Your Order Has Been Failed`;
                         document.getElementById('div_sync_status').hidden = true;
                         document.getElementById('alert-state').innerHTML = `
                         <div class="alert alert-danger" role="alert">
-                            <h5>Your booking has been Fail (Booked)!</h5>
+                            <h5>Your booking has been Failed!</h5>
                         </div>`;
                     }
                     else if(msg.result.response.state == 'fail_refunded'){
-                        $text = 'Failed (Refunded)';
+                        $text = 'Fail Refunded';
                         document.getElementById('issued-breadcrumb').classList.remove("br-active");
                         document.getElementById('issued-breadcrumb').classList.add("br-fail");
                         document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
                         document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
                         document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
-                        document.getElementById('issued-breadcrumb-span').innerHTML = `Failed (Refunded)`;
-                        document.getElementById('display_state').innerHTML = `Your Order Has Been Failed (Refunded)`;
+                        document.getElementById('issued-breadcrumb-span').innerHTML = `Fail Refunded`;
+                        document.getElementById('display_state').innerHTML = `Your Order Has Been Failed`;
                         document.getElementById('div_sync_status').hidden = true;
                         document.getElementById('alert-state').innerHTML = `
                         <div class="alert alert-danger" role="alert">
-                            <h5>Your booking has been Fail (Refunded)!</h5>
+                            <h5>Your booking has been Failed!</h5>
                         </div>`;
                     }
                     else if(msg.result.response.state == 'refund'){

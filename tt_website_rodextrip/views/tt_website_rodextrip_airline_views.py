@@ -406,10 +406,13 @@ def passenger(request):
         is_international = False
         is_garuda = False
         is_identity_required = False
+        is_birthdate_required = False
         airline_price_provider_temp = request.session['airline_sell_journey']['sell_journey_provider'] if request.session.get('airline_sell_journey') else request.session['airline_price_itinerary']['price_itinerary_provider']
         for airline in airline_price_provider_temp:
             for journey in airline['journeys']:
                 for segment in journey['segments']:
+                    if carrier[segment['carrier_code']]['is_adult_birth_date_required']:
+                        is_birthdate_required = True
                     if segment['carrier_code'] == 'GA':
                         is_garuda = True
                     for leg in segment['legs']:
@@ -438,6 +441,7 @@ def passenger(request):
                 'is_lionair': is_lionair,
                 'is_garuda': is_garuda,
                 'is_international': is_international,
+                'birth_date_required': is_birthdate_required,
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
                 'phone_code': phone_code,

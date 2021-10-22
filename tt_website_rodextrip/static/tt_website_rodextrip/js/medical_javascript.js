@@ -226,6 +226,15 @@ function add_other_time(type='add'){
 
 }
 
+function medical_use_booker(value){
+    console.log(value);
+    if(value == true){
+        document.getElementById('booker_div').style.display = 'block';
+    }else{
+        document.getElementById('booker_div').style.display = 'none';
+    }
+}
+
 function update_timeslot(val){
     var text = '';
     var medical_date_pick = moment(document.getElementById('booker_test_date'+val).value).format('YYYY-MM-DD');
@@ -5820,61 +5829,73 @@ function check_passenger(){
             }
 
         }
-
-        /*if(check_name(document.getElementById('booker_title').value,
-                        document.getElementById('booker_first_name').value,
-                        document.getElementById('booker_last_name').value,
-                        max_length) == false){
-            error_log+= 'Total of Booker name maximum '+max_length+' characters!</br>\n';
-            document.getElementById('booker_first_name').style['border-color'] = 'red';
-            //document.getElementById('booker_last_name').style['border-color'] = 'red';
-            check_form_booker = 1;
-        }else{
-            document.getElementById('booker_first_name').style['border-color'] = '#EFEFEF';
-            //document.getElementById('booker_last_name').style['border-color'] = '#EFEFEF';
-        }if(document.getElementById('booker_first_name').value == ''){
-            error_log+= 'Please fill booker first name!</br>\n';
-            document.getElementById('booker_first_name').style['border-color'] = 'red';
-            check_form_booker = 1;
-        }else{
-            document.getElementById('booker_first_name').style['border-color'] = '#EFEFEF';
-        }if(check_phone_number(document.getElementById('booker_phone').value)==false){
-            error_log+= 'Phone number Booker only contain number 8 - 12 digits!</br>\n';
-            document.getElementById('booker_phone').style['border-color'] = 'red';
-            check_form_booker = 1;
-        }else{
-            document.getElementById('booker_phone').style['border-color'] = '#EFEFEF';
-        }if(check_email(document.getElementById('booker_email').value)==false){
-            error_log+= 'Invalid Booker email!</br>\n';
-            document.getElementById('booker_email').style['border-color'] = 'red';
-            check_form_booker = 1;
-        }else{
-            document.getElementById('booker_email').style['border-color'] = '#EFEFEF';
-        }*/
-
-        /*if(error_log == ''){
-            request['booker'] = {
-                "first_name": document.getElementById('booker_first_name').value,
-                "last_name": document.getElementById('booker_last_name').value,
-                "title": document.getElementById('booker_title').value,
-                'email': document.getElementById('booker_email').value,
-                'calling_code': document.getElementById('booker_phone_code').value,
-                'mobile': document.getElementById('booker_phone').value,
-                'nationality_name': document.getElementById('booker_nationality').value,
-                'booker_seq_id': document.getElementById('booker_id').value
+        var check_booker = false;
+        var radios = document.getElementsByName('useBooker');
+        for (var j = 0, length = radios.length; j < length; j++) {
+            if (radios[j].checked) {
+                // do whatever you want with the checked radio
+                if(radios[j].value == 'yes')
+                    check_booker = true
+                // only one radio can be logically checked, don't check the rest
+                break;
             }
-            request['contact_person'] = [{
-                "first_name": document.getElementById('booker_first_name').value,
-                "last_name": document.getElementById('booker_last_name').value,
-                "title": document.getElementById('booker_title').value,
-                'email': document.getElementById('booker_email').value,
-                'calling_code': document.getElementById('booker_phone_code').value,
-                'mobile': document.getElementById('booker_phone').value,
-                'nationality_name': document.getElementById('booker_nationality').value,
-                'contact_seq_id': document.getElementById('booker_id').value,
-                'is_also_booker': true
-            }]
-        }*/
+        }
+        if(check_booker){
+            if(check_name(document.getElementById('booker_title').value,
+                            document.getElementById('booker_first_name').value,
+                            document.getElementById('booker_last_name').value,
+                            max_length) == false){
+                error_log+= 'Total of Booker name maximum '+max_length+' characters!</br>\n';
+                document.getElementById('booker_first_name').style['border-color'] = 'red';
+                //document.getElementById('booker_last_name').style['border-color'] = 'red';
+                check_form_booker = 1;
+            }else{
+                document.getElementById('booker_first_name').style['border-color'] = '#EFEFEF';
+                //document.getElementById('booker_last_name').style['border-color'] = '#EFEFEF';
+            }if(document.getElementById('booker_first_name').value == ''){
+                error_log+= 'Please fill booker first name!</br>\n';
+                document.getElementById('booker_first_name').style['border-color'] = 'red';
+                check_form_booker = 1;
+            }else{
+                document.getElementById('booker_first_name').style['border-color'] = '#EFEFEF';
+            }if(check_phone_number(document.getElementById('booker_phone').value)==false){
+                error_log+= 'Phone number Booker only contain number 8 - 12 digits!</br>\n';
+                document.getElementById('booker_phone').style['border-color'] = 'red';
+                check_form_booker = 1;
+            }else{
+                document.getElementById('booker_phone').style['border-color'] = '#EFEFEF';
+            }if(check_email(document.getElementById('booker_email').value)==false){
+                error_log+= 'Invalid Booker email!</br>\n';
+                document.getElementById('booker_email').style['border-color'] = 'red';
+                check_form_booker = 1;
+            }else{
+                document.getElementById('booker_email').style['border-color'] = '#EFEFEF';
+            }
+
+            if(error_log == ''){
+                request['booker'] = {
+                    "first_name": document.getElementById('booker_first_name').value,
+                    "last_name": document.getElementById('booker_last_name').value,
+                    "title": document.getElementById('booker_title').value,
+                    'email': document.getElementById('booker_email').value,
+                    'calling_code': document.getElementById('booker_phone_code').value,
+                    'mobile': document.getElementById('booker_phone').value,
+                    'nationality_name': document.getElementById('booker_nationality').value,
+                    'booker_seq_id': document.getElementById('booker_id').value
+                }
+                request['contact_person'] = [{
+                    "first_name": document.getElementById('booker_first_name').value,
+                    "last_name": document.getElementById('booker_last_name').value,
+                    "title": document.getElementById('booker_title').value,
+                    'email': document.getElementById('booker_email').value,
+                    'calling_code': document.getElementById('booker_phone_code').value,
+                    'mobile': document.getElementById('booker_phone').value,
+                    'nationality_name': document.getElementById('booker_nationality').value,
+                    'contact_seq_id': document.getElementById('booker_id').value,
+                    'is_also_booker': true
+                }]
+            }
+        }
         var check_passenger_var = false;
         var ktp = [];
         var check_ktp_value = 1;
@@ -6097,7 +6118,7 @@ function check_passenger(){
                             is_also_contact = false;
                         }
                         check_passenger_var = true;
-                        if(i == 0){
+                        if(i == 0 && check_booker == false){
                             request['booker'] = {
                                 "first_name": document.getElementById('adult_first_name' + nomor_pax).value,
                                 "last_name": document.getElementById('adult_last_name' + nomor_pax).value,
@@ -7319,7 +7340,7 @@ function check_passenger(){
                                 "klinis_golongan_darah": document.getElementById('adult_klinis_golongan_darah' + nomor_pax).value,
                             }
                         }
-                        if(i == 0){
+                        if(i == 0 && check_booker == false){
                             request['booker'] = {
                                 "first_name": document.getElementById('adult_first_name' + nomor_pax).value,
                                 "last_name": document.getElementById('adult_last_name' + nomor_pax).value,
