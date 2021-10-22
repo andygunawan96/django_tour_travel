@@ -3473,7 +3473,7 @@ function set_first_passenger_seat_map_airline(val){
         <div class="col-lg-12">`;
         text+=`<span style="font-weight:bold; font-size:15px;">Price: `+passengers[val].seat_list[i].currency+` `+getrupiah(passengers[val].seat_list[i].price)+`</span>`;
         if(passengers[val].seat_list[i].seat_name != '')
-            text+= `<input class="button-seat-pass button-seat-pass-cancel" type="button" id="cancel_seat" style="width: 200px; background: #f15a22; padding: 10px; margin-right: 10px; text-align: center; margin-bottom: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: white;" onclick="set_cancel_seat(`+i+`);" value="Cancel Seat">`;
+            text+= `<input class="button-seat-pass button-seat-pass-cancel" type="button" id="cancel_seat" style="width: 200px; background: `+color+`; padding: 10px; margin-right: 10px; text-align: center; margin-bottom: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: white;" onclick="set_cancel_seat(`+i+`);" value="Cancel Seat">`;
         text+=`</div><div class="col-lg-12"><hr/></div>`;
     }
     text+=`</div>`;
@@ -4455,6 +4455,32 @@ function airline_get_booking(data, sync=false){
                    <div class="alert alert-danger" role="alert">
                        <h5>Your booking has been Cancelled!</h5>
                    </div>`;
+                }else if(msg.result.response.state == 'fail_refunded'){
+                   document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                   document.getElementById('issued-breadcrumb').classList.add("br-fail");
+                   //document.getElementById('issued-breadcrumb').classList.remove("current");
+                   //document.getElementById('header_issued').innerHTML = `Fail <i class="fas fa-times"></i>`;
+                   document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                   document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+                   document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                   document.getElementById('issued-breadcrumb-span').innerHTML = `Fail Refunded`;
+                   document.getElementById('alert-state').innerHTML = `
+                   <div class="alert alert-danger" role="alert">
+                       <h5>Your booking has been Failed!</h5>
+                   </div>`;
+                }else if(msg.result.response.state == 'fail_issued'){
+                   document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                   document.getElementById('issued-breadcrumb').classList.add("br-fail");
+                   //document.getElementById('issued-breadcrumb').classList.remove("current");
+                   //document.getElementById('header_issued').innerHTML = `Fail <i class="fas fa-times"></i>`;
+                   document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                   document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+                   document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                   document.getElementById('issued-breadcrumb-span').innerHTML = `Fail Issued`;
+                   document.getElementById('alert-state').innerHTML = `
+                   <div class="alert alert-danger" role="alert">
+                       <h5>Your booking has been Failed!</h5>
+                   </div>`;
                 }else if(msg.result.response.state == 'fail_booked'){
                    document.getElementById('issued-breadcrumb').classList.remove("br-active");
                    document.getElementById('issued-breadcrumb').classList.add("br-fail");
@@ -4463,10 +4489,10 @@ function airline_get_booking(data, sync=false){
                    document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
                    document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
                    document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
-                   document.getElementById('issued-breadcrumb-span').innerHTML = `Fail (Book)`;
+                   document.getElementById('issued-breadcrumb-span').innerHTML = `Fail Booked`;
                    document.getElementById('alert-state').innerHTML = `
                    <div class="alert alert-danger" role="alert">
-                       <h5>Your booking has been Fail (Book)!</h5>
+                       <h5>Your booking has been Failed!</h5>
                    </div>`;
                 }else if(msg.result.response.state == 'booked'){
                    try{
@@ -5126,7 +5152,7 @@ function airline_get_booking(data, sync=false){
                                                 <div class="col-lg-6 col-xs-6">
                                                 </div>
                                                 <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                                                    <span style="font-weight:500;color:#f15a22">`+currency+` `+getrupiah(msg.result.response.reschedule_list[i].total_amount)+`</span><br/>
+                                                    <span style="font-weight:500;color:`+color+`">`+currency+` `+getrupiah(msg.result.response.reschedule_list[i].total_amount)+`</span><br/>
                                                 </div>
                                             </div>`;
                                 }
@@ -9683,7 +9709,7 @@ function airline_get_booking_refund(data){
                document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
                document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
                document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
-               document.getElementById('issued-breadcrumb-span').innerHTML = `Fail (Book)`;
+               document.getElementById('issued-breadcrumb-span').innerHTML = `Fail Booked`;
             }else if(msg.result.response.state == 'booked'){
                try{
                    if(now.diff(hold_date_time, 'minutes')<0)

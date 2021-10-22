@@ -739,7 +739,37 @@ function visa_get_data(data){
                         document.getElementById('order_state').innerHTML = 'Your Order Has Failed, Please Try Again';
                         document.getElementById('alert-state').innerHTML = `
                         <div class="alert alert-danger" role="alert">
-                            <h5>Your booking has been Failed (Issued)!</h5>
+                            <h5>Your booking has been Failed!</h5>
+                        </div>`;
+                    }
+                    else if(cur_state == 'fail_booked'){
+                        conv_status = 'Fail Booked';
+                        document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                        document.getElementById('issued-breadcrumb').classList.add("br-fail");
+                        document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                        document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+                        document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                        document.getElementById('issued-breadcrumb-span').innerHTML = `Fail Booked`;
+                        document.getElementById('order_state').innerHTML = 'Your Order Has Been ' + conv_status;
+                        document.getElementById('order_state').innerHTML = 'Your Order Has Failed, Please Try Again';
+                        document.getElementById('alert-state').innerHTML = `
+                        <div class="alert alert-danger" role="alert">
+                            <h5>Your booking has been Failed!</h5>
+                        </div>`;
+                    }
+                    else if(cur_state == 'fail_refunded'){
+                        conv_status = 'Fail Refunded';
+                        document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                        document.getElementById('issued-breadcrumb').classList.add("br-fail");
+                        document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                        document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+                        document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                        document.getElementById('issued-breadcrumb-span').innerHTML = `Fail Refunded`;
+                        document.getElementById('order_state').innerHTML = 'Your Order Has Been ' + conv_status;
+                        document.getElementById('order_state').innerHTML = 'Your Order Has Failed, Please Try Again';
+                        document.getElementById('alert-state').innerHTML = `
+                        <div class="alert alert-danger" role="alert">
+                            <h5>Your booking has been Failed!</h5>
                         </div>`;
                     }
                     else{
