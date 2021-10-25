@@ -5868,9 +5868,8 @@ function get_checked_copy_result(){
                                 var change_radios = document.getElementsByName(id_class_of_service);
                                 for (var j = 0, length = change_radios.length; j < length; j++) {
                                     if (change_radios[j].checked && i == j) {
-                                        console.log($(this).html());
-                                        text+=`<span>`+$(this).html().replace(' ','').split('<b>')[1].split('(')[1].split(')')[0]+`(`+$(this).html().replace(' ','').split('<b>')[1].split('(')[0].replace(' ','')+`) </span>`;
-                                        $text += $(this).html().replace(' ','').split('<b>')[1].split('(')[1].split(')')[0]+` (`+$(this).html().replace(' ','').split('<b>')[1].split('(')[0].replace(' ','')+') ';
+                                        text+=`<br/><span>`+$(this).html().replace(' ','').split('(')[4].split(')')[0]+` (`+$(this).html().split('(')[0].replace('\n','').replace(/ /g,'')+`)</span>`;
+                                        $text += `\n`+$(this).html().replace(' ','').split('(')[4].split(')')[0]+` (`+$(this).html().split('(')[0].replace('\n','').replace(/ /g,'')+`)`;
                                         break;
                                     }
                                 }
