@@ -1507,9 +1507,12 @@ function id_type_change(type, sequence){
     if(document.getElementById(type+'_id_type'+sequence).value == 'passport'){
         document.getElementById('adult_passport_number_required'+sequence).style.color = 'red';
         document.getElementById('adult_country_of_issued_required'+sequence+'_id').style.color = 'red';
-    }else{
+    }else if(document.getElementById(type+'_id_type'+sequence).value == ''){
         document.getElementById('adult_passport_number_required'+sequence).style.color = 'white';
         document.getElementById('adult_country_of_issued_required'+sequence+'_id').style.color = 'white';
+    }else{
+        document.getElementById('adult_passport_number_required'+sequence).style.color = 'red';
+        document.getElementById('adult_country_of_issued_required'+sequence+'_id').style.color = 'red';
     }
 }
 

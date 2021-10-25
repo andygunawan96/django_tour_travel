@@ -657,7 +657,7 @@ function pre_medical_global_commit_booking(val){
                     document.getElementById("passengers").value = JSON.stringify(passengers);
                     document.getElementById("signature").value = signature;
                     document.getElementById("provider").value = 'medical';
-                    document.getElementById("type").value = 'medical_review';
+                    document.getElementById("type").value = 'medical_global_review';
                     document.getElementById("voucher_code").value = voucher_code;
                     document.getElementById("discount").value = JSON.stringify(discount_voucher);
                     //document.getElementById("session_time_input").value = 300;
@@ -784,7 +784,7 @@ function medical_global_commit_booking(val){
                         document.getElementById("passengers").value = JSON.stringify(passengers);
                         document.getElementById("signature").value = signature;
                         document.getElementById("provider").value = 'medical';
-                        document.getElementById("type").value = 'medical_review';
+                        document.getElementById("type").value = 'medical_global_review';
                         document.getElementById("voucher_code").value = voucher_code;
                         document.getElementById("discount").value = JSON.stringify(discount_voucher);
                         document.getElementById("session_time_input").value = time_limit;
@@ -829,7 +829,7 @@ function medical_global_commit_booking(val){
                         document.getElementById("passengers").value = JSON.stringify(passengers);
                         document.getElementById("signature").value = signature;
                         document.getElementById("provider").value = 'medical';
-                        document.getElementById("type").value = 'medical_review';
+                        document.getElementById("type").value = 'medical_global_review';
                         document.getElementById("voucher_code").value = voucher_code;
                         document.getElementById("discount").value = JSON.stringify(discount_voucher);
                         document.getElementById("session_time_input").value = 200;
@@ -874,7 +874,7 @@ function medical_global_commit_booking(val){
                         document.getElementById("passengers").value = JSON.stringify(passengers);
                         document.getElementById("signature").value = signature;
                         document.getElementById("provider").value = 'medical';
-                        document.getElementById("type").value = 'medical_review';
+                        document.getElementById("type").value = 'medical_global_review';
                         document.getElementById("voucher_code").value = voucher_code;
                         document.getElementById("discount").value = JSON.stringify(discount_voucher);
                         document.getElementById("session_time_input").value = 200;
