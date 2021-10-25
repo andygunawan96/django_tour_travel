@@ -173,7 +173,7 @@ function get_train_data_passenger_page(){
                           format: 'DD MMM YYYY',
                       }
                   });
-                  if(is_adult_birth_date_required)
+                  if(birth_date_required)
                       $('input[name="adult_birth_date'+i+'"]').val("");
                   $('input[name="adult_passport_expired_date'+i+'"]').daterangepicker({
                       singleDatePicker: true,
