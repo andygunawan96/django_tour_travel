@@ -49,6 +49,12 @@ def api_models(request):
             res = login(request)
         elif req_data['action'] == 'get_data':
             res = get_data(request)
+        elif req_data['action'] == 'get_train_data_search_page':
+            res = get_train_data_search_page(request)
+        elif req_data['action'] == 'get_train_data_passenger_page':
+            res = get_train_data_passenger_page(request)
+        elif req_data['action'] == 'get_train_data_review_page':
+            res = get_train_data_review_page(request)
         elif req_data['action'] == 'get_config_provider':
             res = get_config_provider(request)
         elif req_data['action'] == 'get_carriers':
@@ -206,6 +212,46 @@ def get_data(request):
 
     return response
 
+def get_train_data_search_page(request):
+    try:
+        res = {}
+        res['train_request'] = request.session['train_request']
+        # res = search2(request)
+        logging.getLogger("error_info").error("SUCCESS data search page TRAIN")
+    except Exception as e:
+        _logger.error('ERROR get train_cache_data file\n' + str(e) + '\n' + traceback.format_exc())
+
+    return res
+
+def get_train_data_passenger_page(request):
+    try:
+        res = {}
+        res['response'] = request.session['train_pick']
+        file = read_cache_with_folder_path("get_train_carriers", 90911)
+        if file:
+            res['train_carriers'] = file
+        res['train_request'] = request.session['train_request']
+        logging.getLogger("error_info").error("SUCCESS data search page TRAIN")
+    except Exception as e:
+        _logger.error('ERROR get train_cache_data file\n' + str(e) + '\n' + traceback.format_exc())
+
+    return res
+
+def get_train_data_review_page(request):
+    try:
+        res = {}
+        res['response'] = request.session['train_pick']
+        res['passengers'] = request.session['train_create_passengers']
+        file = read_cache_with_folder_path("get_train_carriers", 90911)
+        if file:
+            res['train_carriers'] = file
+        res['train_request'] = request.session['train_request']
+        logging.getLogger("error_info").error("SUCCESS data search page TRAIN")
+    except Exception as e:
+        _logger.error('ERROR get train_cache_data file\n' + str(e) + '\n' + traceback.format_exc())
+
+    return res
+
 def search(request):
     #train
     try:
@@ -352,34 +398,28 @@ def commit_booking(request):
                                 pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
                                 pax['birth_date'].split(' ')[0]),
                         })
-                    if pax['pax_type'] == 'ADT':
-                        try:
-                            pax.update({
-                                'identity_expdate': '%s-%s-%s' % (
-                                    pax['identity_expdate'].split(' ')[2], month[pax['identity_expdate'].split(' ')[1]],
-                                    pax['identity_expdate'].split(' ')[0])
-                            })
-                        except:
-                            pass
-                        if pax['identity_country_of_issued_name'] != '':
-                            for country in response['result']['response']['airline']['country']:
-                                if pax['identity_country_of_issued_name'] == country['name']:
-                                    pax['identity_country_of_issued_code'] = country['code']
-                                    break
-                        else:
-                            pax['identity_country_of_issued_code'] = ''
-                        pax['identity'] = {
-                            "identity_country_of_issued_name": pax.pop('identity_country_of_issued_name'),
-                            "identity_country_of_issued_code": pax.pop('identity_country_of_issued_code'),
-                            "identity_expdate": pax.pop('identity_expdate'),
-                            "identity_number": pax.pop('identity_number'),
-                            "identity_type": pax.pop('identity_type'),
-                        }
-                    elif pax['pax_type'] == 'ADT':
-                        pax.pop('identity_country_of_issued_name')
-                        pax.pop('identity_expdate')
-                        pax.pop('identity_number')
-                        pax.pop('identity_type')
+                    try:
+                        pax.update({
+                            'identity_expdate': '%s-%s-%s' % (
+                                pax['identity_expdate'].split(' ')[2], month[pax['identity_expdate'].split(' ')[1]],
+                                pax['identity_expdate'].split(' ')[0])
+                        })
+                    except:
+                        pass
+                    if pax['identity_country_of_issued_name'] != '':
+                        for country in response['result']['response']['airline']['country']:
+                            if pax['identity_country_of_issued_name'] == country['name']:
+                                pax['identity_country_of_issued_code'] = country['code']
+                                break
+                    else:
+                        pax['identity_country_of_issued_code'] = ''
+                    pax['identity'] = {
+                        "identity_country_of_issued_name": pax.pop('identity_country_of_issued_name'),
+                        "identity_country_of_issued_code": pax.pop('identity_country_of_issued_code'),
+                        "identity_expdate": pax.pop('identity_expdate'),
+                        "identity_number": pax.pop('identity_number'),
+                        "identity_type": pax.pop('identity_type'),
+                    }
                     passenger.append(pax)
         data = {
             "contacts": contacts,

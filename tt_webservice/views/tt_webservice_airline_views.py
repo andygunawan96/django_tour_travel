@@ -69,6 +69,12 @@ def api_models(request):
             res = get_data_passenger_page(request)
         elif req_data['action'] == 'get_data_review_page':
             res = get_data_review_page(request)
+        elif req_data['action'] == 'get_data_book_page':
+            res = get_data_book_page(request)
+        elif req_data['action'] == 'get_data_ssr_page':
+            res = get_data_ssr_page(request)
+        elif req_data['action'] == 'get_data_seat_page':
+            res = get_data_seat_page(request)
         elif req_data['action'] == 'get_data':
             res = get_data(request)
         elif req_data['action'] == 'get_carrier_providers':
@@ -263,6 +269,71 @@ def get_data_review_page(request):
         res['passengers_ssr'] = request.session['airline_create_passengers']['adult'] + request.session['airline_create_passengers']['child']
         res['airline_request'] = request.session['airline_request']
 
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def get_data_book_page(request):
+    try:
+        res = {}
+        file = read_cache_with_folder_path("get_airline_carriers", 90911)
+        if file:
+            res['airline_carriers'] = file
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def get_data_ssr_page(request):
+    try:
+        res = {}
+        file = read_cache_with_folder_path("get_airline_carriers", 90911)
+        if file:
+            res['airline_carriers'] = file
+        res['passengers'] = request.session['airline_create_passengers']['adult'] + request.session['airline_create_passengers']['child']
+
+
+        if request.POST['after_sales'] == 'false':
+            # pre
+            res['airline_pick'] = request.session['airline_sell_journey']['sell_journey_provider'] if request.session.get('airline_sell_journey') else request.session['airline_price_itinerary']['price_itinerary_provider']
+            res['price_itinerary'] = request.session['airline_sell_journey'] if request.session.get('airline_sell_journey') else request.session['airline_price_itinerary']
+            res['airline_request'] = request.session['airline_request']
+        else:
+            #post
+            passenger = []
+            pax_list = request.session['airline_create_passengers']
+            for pax in pax_list['adult']:
+                passenger.append(pax)
+            for pax in pax_list['child']:
+                passenger.append(pax)
+            res['passengers'] = passenger
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def get_data_seat_page(request):
+    try:
+        res = {}
+        file = read_cache_with_folder_path("get_airline_carriers", 90911)
+        if file:
+            res['airline_carriers'] = file
+        res['passengers'] = request.session['airline_create_passengers']['adult'] + \
+                            request.session['airline_create_passengers']['child']
+
+        if request.POST['after_sales'] == 'false':
+            # pre
+            res['airline_pick'] = request.session['airline_sell_journey']['sell_journey_provider'] if request.session.get('airline_sell_journey') else \
+            request.session['airline_price_itinerary']['price_itinerary_provider']
+            res['price_itinerary'] = request.session['airline_sell_journey'] if request.session.get('airline_sell_journey') else request.session['airline_price_itinerary']
+            res['airline_request'] = request.session['airline_request']
+        else:
+            # post
+            passenger = []
+            pax_list = request.session['airline_create_passengers']
+            for pax in pax_list['adult']:
+                passenger.append(pax)
+            for pax in pax_list['child']:
+                passenger.append(pax)
+            res['passengers'] = passenger
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
