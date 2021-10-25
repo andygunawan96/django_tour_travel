@@ -18,15 +18,11 @@
         'arrival_time': 'all',
         'cabin_class': 'all'
     };
-    train_request = `{{train_request}}`;
-    train_request = JSON.parse(train_request.replace(/&#39;/g, '"'));
     train_request_pick = 0;
-    console.log(train_request);
     time_limit = {{time_limit}};
     session_time_limit();
     signature = `{{signature}}`;
     sorting_value = '';
-    get_train_config('home');
     passengers = {
         'adult': {{train_request.adult}},
         'infant': {{train_request.infant}}
@@ -1974,7 +1970,7 @@
     });
 
     train_filter_render();
-    train_signin('');
+    get_train_data_search_page();
     try{
         get_public_holiday(moment().format('YYYY-MM-DD'), moment().subtract(-1, 'years').format('YYYY-MM-DD'), 100 );
     }catch(err){

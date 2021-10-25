@@ -30,7 +30,7 @@ adult_title = ['MR', 'MRS', 'MS']
 
 infant_title = ['MSTR', 'MISS']
 
-id_type = [['ktp', 'KTP'], ['sim', 'SIM'], ['passport', 'Passport'], ['other', 'Other']]
+id_type = [['ktp', 'KTP/NIK'], ['sim', 'SIM'], ['passport', 'Passport'], ['other', 'Other']]
 
 def elapse_time(dep, arr):
     elapse = arr - dep
@@ -217,6 +217,11 @@ def passenger(request):
                 infant.append('')
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
+
+            is_adult_birth_date_required = False
+            for rec in request.session['train_pick']:
+                if carrier[rec['carrier_code']]['is_adult_birth_date_required']:
+                    is_adult_birth_date_required = True
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
@@ -229,6 +234,7 @@ def passenger(request):
                 'infant_title': infant_title,
                 'train_request': request.session['train_request'],
                 'id_types': id_type,
+                'is_adult_birth_date_required': is_adult_birth_date_required,
                 'time_limit': request.session['time_limit'],
                 'response': request.session['train_pick'],
                 'username': request.session['user_account'],
@@ -357,6 +363,10 @@ def review(request):
                     "birth_date": request.POST['infant_birth_date' + str(i + 1)],
                     "nationality_name": request.POST['infant_nationality' + str(i + 1)],
                     "passenger_seq_id": request.POST['infant_id' + str(i + 1)],
+                    "identity_country_of_issued_name": request.POST['infant_country_of_issued' + str(i + 1)],
+                    "identity_expdate": request.POST['infant_passport_expired_date' + str(i + 1)],
+                    "identity_number": request.POST['infant_passport_number' + str(i + 1)],
+                    "identity_type": request.POST['infant_id_type' + str(i + 1)]
                 })
             set_session(request, 'train_create_passengers', {
                 'booker': booker,
