@@ -151,6 +151,80 @@ function get_train_data_passenger_page(){
         train_response = msg.response;
         train_request = msg.train_request;
         train_detail();
+        $(function() {
+              breadcrumb_create("train", 3, 0);
+              for (var i = 1; i <= adult; i++){
+                  document.getElementById("train_adult"+i+"_search").addEventListener("keyup", function(event) {
+                    if (event.keyCode === 13) {
+                     event.preventDefault();
+                     var adult_enter = "search_adult_"+event.target.id.toString().replace(/[^\d.]/g, '');
+                     document.getElementById(adult_enter).click();
+                    }
+                  });
+                  $('input[name="adult_birth_date'+i+'"]').daterangepicker({
+                      singleDatePicker: true,
+                      autoUpdateInput: true,
+                      startDate: moment().subtract(18, 'years'),
+                      minDate: moment(train_request.departure[train_request.departure.length-1],'DD MMM YYYY').subtract(100, 'years'),
+                      maxDate: moment(train_request.departure[train_request.departure.length-1],'DD MMM YYYY').subtract(3, 'years'),
+                      showDropdowns: true,
+                      opens: 'center',
+                      locale: {
+                          format: 'DD MMM YYYY',
+                      }
+                  });
+                  if(birth_date_required)
+                      $('input[name="adult_birth_date'+i+'"]').val("");
+                  $('input[name="adult_passport_expired_date'+i+'"]').daterangepicker({
+                      singleDatePicker: true,
+                      autoUpdateInput: true,
+                      startDate: moment(),
+                      minDate: moment(),
+                      showDropdowns: true,
+                      opens: 'center',
+                      locale: {
+                          format: 'DD MMM YYYY',
+                      }
+                  });
+                  $('input[name="adult_passport_expired_date'+i+'"]').val("");
+              }
+
+              for (var i = 1; i <= infant; i++){
+                  document.getElementById("train_infant"+i+"_search").addEventListener("keyup", function(event) {
+                    if (event.keyCode === 13) {
+                     event.preventDefault();
+                     var infant_enter = "search_infant_"+event.target.id.toString().replace(/[^\d.]/g, '');
+                     document.getElementById(infant_enter).click();
+                    }
+                  });
+
+                  $('input[name="infant_birth_date'+i+'"]').daterangepicker({
+                      singleDatePicker: true,
+                      autoUpdateInput: true,
+                      startDate: moment().subtract(1, 'years'),
+                      minDate: moment(train_request.departure[train_request.departure.length-1],'DD MMM YYYY').subtract(2, 'years').subtract(364, 'days'),
+                      maxDate: moment(train_request.departure[train_request.departure.length-1],'DD MMM YYYY'),
+                      showDropdowns: true,
+                      opens: 'center',
+                      locale: {
+                          format: 'DD MMM YYYY',
+                      }
+                  });
+
+                  $('input[name="infant_passport_expired_date'+i+'"]').daterangepicker({
+                      singleDatePicker: true,
+                      autoUpdateInput: true,
+                      startDate: moment(),
+                      minDate: moment(),
+                      showDropdowns: true,
+                      opens: 'center',
+                      locale: {
+                          format: 'DD MMM YYYY',
+                      }
+                  });
+                  $('input[name="infant_passport_expired_date'+i+'"]').val("");
+              }
+          });
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
         error_ajax(XMLHttpRequest, textStatus, errorThrown, '');

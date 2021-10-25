@@ -1504,8 +1504,8 @@ function change_booker_value(type){
 }
 
 function id_type_change(type, sequence){
-    if(document.getElementById(type+'_id_type'+sequence).value == 'passport'){
-        document.getElementById('adult_passport_number_required'+sequence).style.color = 'red';
+    if(document.getElementById(type+'_id_type'+sequence).value == 'ktp'){
+        document.getElementById('adult_passport_number_required'+sequence).style.color = 'white';
         document.getElementById('adult_country_of_issued_required'+sequence+'_id').style.color = 'red';
     }else if(document.getElementById(type+'_id_type'+sequence).value == ''){
         document.getElementById('adult_passport_number_required'+sequence).style.color = 'white';
@@ -1802,7 +1802,10 @@ function pick_passenger(type, sequence, product){
                         document.getElementById('booker_country_of_issued').readOnly = true;
                         document.getElementById('booker_exp_date').value = passenger_data[sequence].identities.passport.identity_expdate;
                         document.getElementById('booker_exp_date').readOnly = true;
-
+                        try{
+                            document.getElementById('booker_id_type').value = 'passport';
+                            document.getElementById('booker_id_type').readOnly = true;
+                        }catch(err){}
                     }
                 }
                 $("#corporate_booker").attr('data-tooltip', '');
@@ -1883,6 +1886,10 @@ function pick_passenger(type, sequence, product){
                                     document.getElementById('adult_country_of_issued'+passenger_number).value = passenger_data[sequence].identities.passport.identity_country_of_issued_name;
                                     auto_complete('adult_country_of_issued'+passenger_number);
                                     document.getElementById('adult_country_of_issued'+passenger_number).readOnly = true;
+                                    try{ //yg ada id_type di update
+                                        document.getElementById('adult_id_type'+passenger_number).value = 'passport';
+                                        $('#adult_id_type'+passenger_number).niceSelect('update');
+                                    }catch(err){}
                                 }
                                 if(passenger_data[sequence].identities.passport.identity_expdate != '' && passenger_data[sequence].identities.passport.identity_expdate != undefined){
                                     document.getElementById('adult_passport_expired_date'+passenger_number).value = passenger_data[sequence].identities.passport.identity_expdate;
@@ -2037,6 +2044,10 @@ function pick_passenger(type, sequence, product){
                                     document.getElementById('child_country_of_issued'+passenger_number).value = passenger_data[sequence].identities.passport.identity_country_of_issued_name;
                                     auto_complete('child_country_of_issued'+passenger_number);
                                     document.getElementById('child_country_of_issued'+passenger_number).readOnly = true;
+                                    try{ //yg ada id_type di update
+                                        document.getElementById('child_id_type'+passenger_number).value = 'passport';
+                                        $('#child_id_type'+passenger_number).niceSelect('update');
+                                    }catch(err){}
                                 }
                                 if(passenger_data[sequence].identities.passport.identity_expdate != '' && passenger_data[sequence].identities.passport.identity_expdate != undefined){
                                     document.getElementById('child_passport_expired_date'+passenger_number).value = passenger_data[sequence].identities.passport.identity_expdate;
@@ -2517,6 +2528,13 @@ function copy_booker_to_passenger(val,type){
                         document.getElementById('select2-adult_country_of_issued1_id-container').innerHTML = document.getElementById('booker_country_of_issued').value;
                         document.getElementById('adult_country_of_issued1').value = document.getElementById('booker_country_of_issued').value;
                     }
+                    try{ //yg ada id_type di update
+                        if(document.getElementById('booker_id_type').value != 'undefined' && document.getElementById('booker_id_type').value != ''){
+                            document.getElementById('adult_id_type1').value = 'passport';
+                            $('#adult_id_type1').niceSelect('update');
+                        }
+                    }catch(err){console.log(err);}
+
                 }
             }
             document.getElementById('adult_nationality1_id').disabled = true;
