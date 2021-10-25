@@ -17,32 +17,14 @@
 
 <script>
     static_path_url_server = '{{static_path_url_server}}'
-    train_data = `{{response}}`;
-    train_data = train_data.replace(/&#39;/g, '"');
-    train_data = train_data.replace(/True/g, 'true');
-    train_data = JSON.parse(train_data);
-    console.log(train_data);
     adult = `{{adults}}`;
     infant = `{{infants}}`;
     upsell_price = {{upsell}};
-    passengers = `{{passenger}}`;
-    passengers = passengers.replace(/&#39;/g, '"');
-    passengers = passengers.replace(/False/g, 'false');
-    passengers = passengers.replace(/True/g, 'true');
-    passengers = JSON.parse(passengers);
-    passenger_with_booker = JSON.parse(JSON.stringify(passengers));
-    console.log(passengers);
 
-    adult = passengers.adult
-
-    infant = passengers.infant;
     passengers = {
         'adult': adult,
         'infant': infant
     }
-    train_request = `{{train_request}}`;
-    train_request = JSON.parse(train_request.replace(/&#39;/g, '"'));
-    console.log(train_request);
     adult = {{train_request.adult}};
     infant = {{train_request.infant}};
     child = 0;
@@ -248,7 +230,13 @@
                                         <td>{{infant.title}} {{infant.first_name}} {{infant.last_name}}</td>
                                         <td>{{infant.birth_date}}</td>
                                         <td>{% trans 'Infant' %}</td>
-                                        <td></td>
+                                        <td>
+                                            {% for id_type in id_types %}
+                                            {% if id_type.0 == infant.identity_type %}
+                                            {{id_type.1}}
+                                            {% endif %}
+                                            {% endfor%}
+                                        </td>
                                         <td>{{infant.identity_number}}</td>
                                     </tr>
                                     {% endfor %}
@@ -378,7 +366,7 @@
 {% include 'tt_website_rodextrip/modal_signin_signup.html' %}
 {% endif %}
 <script>
-    train_detail();
+    get_train_data_review_page();
     function goto_seat_map(){
         document.getElementById('train_seat_map').innerHTML += `{% csrf_token %}`;
         document.getElementById('train_seat_map').submit();

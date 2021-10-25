@@ -113,6 +113,74 @@ function train_redirect_signup(type){
     }
 }
 
+function get_train_data_search_page(){
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/train",
+       headers:{
+            'action': 'get_train_data_search_page',
+       },
+       data: {},
+       success: function(msg) {
+        console.log(msg);
+        train_request = msg.train_request;
+        get_train_config('home');
+        train_signin('');
+
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+        error_ajax(XMLHttpRequest, textStatus, errorThrown, '');
+       }
+    });
+}
+
+function get_train_data_passenger_page(){
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/train",
+       headers:{
+            'action': 'get_train_data_passenger_page',
+       },
+       data: {},
+       success: function(msg) {
+        console.log(msg);
+        train_data = msg.response;
+        train_carriers = msg.train_carriers;
+        train_response = msg.response;
+        train_request = msg.train_request;
+        train_detail();
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+        error_ajax(XMLHttpRequest, textStatus, errorThrown, '');
+       }
+    });
+}
+
+function get_train_data_review_page(){
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/train",
+       headers:{
+            'action': 'get_train_data_review_page',
+       },
+       data: {},
+       success: function(msg) {
+        console.log(msg);
+        train_data = msg.response;
+        passengers = msg.passengers;
+        passenger_with_booker = msg.passengers;
+        train_request = msg.train_request;
+        train_detail();
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+        error_ajax(XMLHttpRequest, textStatus, errorThrown, '');
+       }
+    });
+}
+
 function train_signin(data){
     getToken();
     $.ajax({

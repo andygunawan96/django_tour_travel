@@ -1248,6 +1248,14 @@ function add_table_of_passenger(type){
 
 
                     text_div_paxs+=`
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <label style="color:red !important">*</label>
+                        <label>Address KTP</label>
+                        <div class="input-container-search-ticket">
+                            <input type="text" class="form-control" name="adult_address`+parseInt(counter_passenger+1)+`" id="adult_address`+parseInt(counter_passenger+1)+`" placeholder="Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address '">
+                        </div>
+                        <label style="font-size:12px; padding:0;">Example: Jl. Raya Darmo 177B</label>
+                    </div>
                     <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden1_`+parseInt(counter_passenger+1)+`">
                         <label style="color:red !important">*</label>
                         <label>Contact Email Address</label>
@@ -3024,6 +3032,13 @@ function check_passenger(){
                     }else{
                         document.getElementById('adult_birth_date'+ nomor_pax).style['border-color'] = '#EFEFEF';
                     }
+                    if(document.getElementById('adult_address'+ nomor_pax).value == ''){
+                        error_log+= 'Please fill address for customer passenger '+nomor_pax+'!</br>\n';
+                        document.getElementById('adult_address'+ nomor_pax).style['border-color'] = 'red';
+                        check_form_periksain = 1;
+                    }else{
+                        document.getElementById('adult_address'+ nomor_pax).style['border-color'] = '#EFEFEF';
+                    }
                     if(check_phone_number(document.getElementById('adult_phone' + nomor_pax).value)==false){
                         error_log+= 'Phone number only contain number 8 - 12 digits for customer '+nomor_pax+'!</br>\n';
                         document.getElementById('adult_phone' + nomor_pax).style['border-color'] = 'red';
@@ -3157,6 +3172,7 @@ function check_passenger(){
                         },
                         "passenger_seq_id": document.getElementById('adult_id' + nomor_pax).value,
                         "email": document.getElementById('adult_email' + nomor_pax).value,
+                        "address_ktp": document.getElementById('adult_address' + nomor_pax).value,
                         "phone_number": document.getElementById('adult_phone_code'+nomor_pax+'_id').value + document.getElementById('adult_phone'+nomor_pax).value,
                         'is_also_booker': is_also_booker,
                         'is_also_contact': is_also_contact
