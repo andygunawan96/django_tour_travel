@@ -1130,8 +1130,6 @@ function medical_global_get_booking(order_number, sync=false){
                                 <h5>Your booking has been Refund!</h5>
                             </div>`;
                         }
-                        $text += `\n`+msg.result.response.provider_bookings[0].carrier_name + '\n\nTest\n';
-
                         text = `
                         <div class="mb-3" style="padding:15px; background:white; border:1px solid #cdcdcd;">
                             <div class="row">
@@ -1183,11 +1181,12 @@ function medical_global_get_booking(order_number, sync=false){
                                         <span>Test Place: </span>
                                         <span style="font-weight:600;">`+msg.result.response.test_address+`</span>
                                     `;
-                                    $text += `Address: `+msg.result.response.test_address;
+
                                 }
                         text+=`</div>
                             </div>`;
-
+                        $text += `\n`+msg.result.response.provider_bookings[0].carrier_name + '\n';
+                        $text += `Address: `+msg.result.response.test_address;
                         text+=`
                             <hr/>
                             <div class="row">
@@ -1341,6 +1340,7 @@ function medical_global_get_booking(order_number, sync=false){
                                 print_provider = true
                             }
                         }
+                        $text += '\nCustomer\n';
                         if(print_provider == false){
                             //periksain
                             for(i in msg.result.response.passengers){
@@ -1472,7 +1472,12 @@ function medical_global_get_booking(order_number, sync=false){
                                     </div>
                                 </div>`;
                                 ADMIN_FEE_MEDICAL += price['ADMIN_FEE_MEDICAL'];
-                                $text += msg.result.response.passengers[j].title +' '+ msg.result.response.passengers[j].name + ' ['+msg.result.response.provider_bookings[i].pnr+'] ';
+                                $text += 'Name: '+msg.result.response.passengers[j].title +' '+ msg.result.response.passengers[j].name + '\n';
+                                $text += 'Birth Date: '+ msg.result.response.passengers[j].birth_date +'\n';
+                                $text += 'Phone Number: '+ msg.result.response.passengers[j].phone_number +'\n';
+                                $text += 'Email: '+ msg.result.response.passengers[j].email +'\n';
+                                $text += 'Address: '+ msg.result.response.passengers[j].address_ktp +'\n';
+                                $text += 'Price: ['+msg.result.response.provider_bookings[i].pnr+'] ';
                                 journey_code = [];
                                 for(k in msg.result.response.provider_bookings[i].journeys){
                                     try{
@@ -1493,7 +1498,7 @@ function medical_global_get_booking(order_number, sync=false){
                                         coma = true
                                     }
                                 }
-                                $text += `IDR `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC + price['ADMIN_FEE_MEDICAL']))+'\n';
+                                $text += `IDR `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC + price['ADMIN_FEE_MEDICAL']))+'\n\n';
                                 if(counter_service_charge == 0){
                                     total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC + price['ADMIN_FEE_MEDICAL']);
                                 }else{
@@ -1558,7 +1563,7 @@ function medical_global_get_booking(order_number, sync=false){
                                 <span style="font-size:13px; font-weight: bold;">`;
                                 try{
                                     text_detail+= price.currency+` `+getrupiah(total_price);
-                                    $text += `\n` + 'Grand Total: ' +price.currency+` `+ getrupiah(total_price);
+                                    $text += 'Grand Total: ' +price.currency+` `+ getrupiah(total_price);
                                 }catch(err){
 
                                 }
@@ -1660,7 +1665,7 @@ function medical_global_get_booking(order_number, sync=false){
                                 </button>`;
                             }
                         }
-                        if(window.location.pathname.includes('confirm_order') && user_login.co_agent_frontend_security.includes('confirm_order_medical') && msg.result.response.state_vendor == 'new_order' && moment().format('YYYY-MM-DD') == msg.result.response.picked_timeslot.datetimeslot.substr(0,10)){
+                        if(window.location.pathname.includes('confirm_order') && user_login.co_agent_frontend_security.includes('confirm_order_medical') && msg.result.response.picked_timeslot != {} && msg.result.response.state_vendor == 'new_order' && moment().format('YYYY-MM-DD') == msg.result.response.picked_timeslot.datetimeslot.substr(0,10)){
                             text_detail+=`
                             <div style="margin-top:10px;">
                                 <center>
