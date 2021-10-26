@@ -50,6 +50,8 @@ def api_models(request):
             res = login(request)
         elif req_data['action'] == 'get_carriers':
             res = get_carriers(request)
+        elif req_data['action'] == 'get_hotel_data_detail_page':
+            res = get_hotel_data_detail_page(request)
         elif req_data['action'] == 'get_auto_complete':
             res = get_auto_complete(request)
         elif req_data['action'] == 'get_top_facility':
@@ -112,6 +114,21 @@ def login(request):
             _logger.info(json.dumps(res))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+
+    return res
+
+def get_hotel_data_detail_page(request):
+    try:
+        res = {}
+        res['response'] = request.session['train_pick']
+        res['passengers'] = request.session['train_create_passengers']
+        file = read_cache_with_folder_path("get_train_carriers", 90911)
+        if file:
+            res['train_carriers'] = file
+        res['train_request'] = request.session['train_request']
+        logging.getLogger("error_info").error("SUCCESS data search page TRAIN")
+    except Exception as e:
+        _logger.error('ERROR get train_cache_data file\n' + str(e) + '\n' + traceback.format_exc())
 
     return res
 
