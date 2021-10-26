@@ -2861,6 +2861,10 @@ function sort(){
                                                 attach: '#pop_search_banner'+i+banner_counter,
                                                 theme: 'TooltipBorder',
                                                 width: 280,
+                                                position: {
+                                                  x: 'center',
+                                                  y: 'bottom'
+                                                },
                                                 closeOnMouseleave: true,
                                                 animation: 'zoomIn',
                                                 content: airline[i].search_banner[banner_counter].description
@@ -3719,6 +3723,10 @@ function airline_pick_mc(type){
                             attach: '#pop_search_banner_pick'+i+banner_counter,
                             theme: 'TooltipBorder',
                             width: 280,
+                            position: {
+                              x: 'center',
+                              y: 'bottom'
+                            },
                             closeOnMouseleave: true,
                             animation: 'zoomIn',
                             content: airline_pick_list[i].search_banner[banner_counter].description
@@ -4019,6 +4027,7 @@ function airline_detail(type){
                            }
                        }
                    }
+                   text+=`<br/>`;
                 }
 
                 //logo
@@ -4114,12 +4123,15 @@ function airline_detail(type){
                                 text += 'First Class - ';
                         text+=`Class: ` + price_itinerary_temp[i].journeys[j].segments[k].fares[0].class_of_service;
                         text+=`</b></span>`;
-                        if(provider_list_data[price_itinerary_temp[i].provider].is_post_issued_reschedule)
-                            text+=`
-                                <br/><span><i class="fas fa-check-circle"></i> Reschedule</span>`;
-                        if(provider_list_data[price_itinerary_temp[i].provider].is_post_issued_cancel)
-                            text+=`
-                                <br/><span><i class="fas fa-check-circle"></i> Refund</span>`;
+
+                        if(k == price_itinerary_temp[i].journeys[j].segments.length-1){
+                            if(provider_list_data[price_itinerary_temp[i].provider].is_post_issued_reschedule)
+                                text+=`
+                                    <br/><span style="font-weight:bold;"><i class="fas fa-check-circle" style="color:#4f9c64;"></i> Reschedule</span>`;
+                            if(provider_list_data[price_itinerary_temp[i].provider].is_post_issued_cancel)
+                                text+=`
+                                    <br/><span style="font-weight:bold;"><i class="fas fa-check-circle" style="color:#4f9c64;"></i> Refund</span>`;
+                        }
                     }
 
                     for(l in price_itinerary_temp[i].journeys[j].segments[k].legs){
@@ -4606,6 +4618,10 @@ function airline_detail(type){
                                         attach: '#pop_search_banner_detail'+i+j+banner_counter,
                                         theme: 'TooltipBorder',
                                         width: 280,
+                                        position: {
+                                          x: 'center',
+                                          y: 'bottom'
+                                        },
                                         closeOnMouseleave: true,
                                         animation: 'zoomIn',
                                         content: price_itinerary_temp[i].journeys[j].search_banner[banner_counter].description
@@ -5281,7 +5297,7 @@ function get_airline_review(){
             if(airline_pick[i].price_itinerary[j].is_combo_price == true){
                 text += `<h6>Combo Price</h6>`;
             }else if(airline_request.direction != 'MC'){
-                if(i == 0){
+                if(i == 0 && j == 0){
                     text += `<h6>Departure</h6>`;
                     if(airline_request.direction != 'MC'){}
                     else{
@@ -5300,6 +5316,7 @@ function get_airline_review(){
             }
             //logo
             text+=`<div class="row">`;
+
 
             for(k in airline_pick[i].price_itinerary[j].segments){
                 if(airline_pick[i].price_itinerary[j].journey_type == 'COM'){
@@ -5352,7 +5369,17 @@ function get_airline_review(){
                 text+=`
                 </div>`;
             }
-            text+=`
+
+            text+=`<div class="col-lg-12">`;
+                if(provider_list_data[airline_pick[i].price_itinerary[j].provider].is_post_issued_reschedule)
+                    text+=`
+                        <br/><span style="font-weight:bold;"><i class="fas fa-check-circle" style="color:#4f9c64;"></i> Reschedule</span>`;
+                if(provider_list_data[airline_pick[i].price_itinerary[j].provider].is_post_issued_cancel)
+                    text+=`
+                        <br/><span style="font-weight:bold;"><i class="fas fa-check-circle" style="color:#4f9c64;"></i> Refund</span>`;
+
+                text+=`
+                </div>
             </div>
             <hr/>`;
         }

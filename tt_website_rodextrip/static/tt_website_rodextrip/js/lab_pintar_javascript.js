@@ -1244,6 +1244,14 @@ function add_table_of_passenger(type){
 
 
                     text_div_paxs+=`
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <label style="color:red !important">*</label>
+                        <label>Address KTP</label>
+                        <div class="input-container-search-ticket">
+                            <input type="text" class="form-control" name="adult_address`+parseInt(counter_passenger+1)+`" id="adult_address`+parseInt(counter_passenger+1)+`" placeholder="Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address '">
+                        </div>
+                        <label style="font-size:12px; padding:0;">Example: Jl. Raya Darmo 177B</label>
+                    </div>
                     <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden1_`+parseInt(counter_passenger+1)+`">
                         <label style="color:red !important">*</label>
                         <label>Contact Email Address</label>
@@ -3020,6 +3028,12 @@ function check_passenger(){
                     }else{
                         document.getElementById('adult_birth_date'+ nomor_pax).style['border-color'] = '#EFEFEF';
                     }
+                    if(document.getElementById('adult_address'+ nomor_pax).value == ''){
+                        error_log+= 'Please fill address for customer passenger '+nomor_pax+'!</br>\n';
+                        document.getElementById('adult_address'+ nomor_pax).style['border-color'] = 'red';
+                    }else{
+                        document.getElementById('adult_address'+ nomor_pax).style['border-color'] = '#EFEFEF';
+                    }
                     if(check_phone_number(document.getElementById('adult_phone' + nomor_pax).value)==false){
                         error_log+= 'Phone number only contain number 8 - 12 digits for customer '+nomor_pax+'!</br>\n';
                         document.getElementById('adult_phone' + nomor_pax).style['border-color'] = 'red';
@@ -3145,6 +3159,7 @@ function check_passenger(){
                         "title": document.getElementById('adult_title' + nomor_pax).value,
                         "birth_date": document.getElementById('adult_birth_date' + nomor_pax).value,
                         "nationality_name": document.getElementById('adult_nationality' + nomor_pax).value,
+                        "address_ktp": document.getElementById('adult_address' + nomor_pax).value,
                         "identity": {
                             "identity_country_of_issued_name": document.getElementById('adult_country_of_issued' + nomor_pax).value,
                             "identity_expdate": '',
@@ -3697,6 +3712,7 @@ function auto_fill_data(){
             document.getElementById('adult_phone'+counter).value = passenger_data_cache_medical[idx].phone_number.substr(2,100);
         }
         document.getElementById('adult_email'+counter).value = passenger_data_cache_medical[idx].email;
+        document.getElementById('adult_address'+counter).value = passenger_data_cache_medical[idx].address_ktp;
         $('#adult_title'+counter).niceSelect('update');
         $('#adult_identity_type'+counter).niceSelect('update');
         update_contact('passenger',counter);
