@@ -309,7 +309,7 @@
             <input type="hidden" id="type" name="type"/>
             <input type="hidden" id="session_time_input" name="session_time_input"/>
         </form>
-        <form id="swab_express_edit_passenger" class="form-wrap" action=`{{go_back_url}}` method="POST">
+        <form id="swab_express_edit_passenger" class="form-wrap" action='{{go_back_url}}' method="POST">
             {% csrf_token %}
             <input type="hidden" id="signature_data" name="signature" value="{{signature}}" />
             <input type="hidden" id="swab_express_type" name="swab_express_type" value="{{test_type}}" />
