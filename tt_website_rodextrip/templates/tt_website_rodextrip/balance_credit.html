@@ -20,7 +20,9 @@
             time = 300;
             triggered_balance({{update_data}});
             setTimeout(function() {
-                get_vendor_balance({{update_data}});
+                if(typeof signature === 'undefined'){
+                    get_vendor_balance({{update_data}});
+                }
             }, 2000);
         {% endif %}
     {% endif %}
