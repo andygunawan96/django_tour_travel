@@ -1916,6 +1916,7 @@ function get_price_itinerary(val){
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
     document.getElementById("airline_detail").innerHTML = "";
+    document.getElementById("airline_detail_next").innerHTML = "";
     choose_airline = val;
     provider = '';
     for(i in airline_data_filter[val].segments){
@@ -2198,6 +2199,7 @@ function set_automatic_combo_price(){
         //document.getElementById('fare_detail_pick'+airline_pick_list[i].airline_pick_sequence).innerHTML = airline_pick_list[i].currency + ' ' + getrupiah(airline_pick_list[i].total_price);
     }
     document.getElementById('airline_detail').innerHTML = '';
+    document.getElementById('airline_detail_next').innerHTML = '';
     check_airline_pick = 1;
     document.getElementById("badge-flight-notif").innerHTML = "1";
     document.getElementById("badge-flight-notif2").innerHTML = "1";
@@ -2312,6 +2314,7 @@ function get_price_itinerary_request(){
                     }
                 }
                 text = '';
+                text_detail_next = '';
                 total_price = 0;
                 commission_price = 0;
                 rules = 0;
@@ -2362,7 +2365,7 @@ function get_price_itinerary_request(){
 
                                if(selected_banner_date >= max_banner_date){
                                    if(resJson.result.response.price_itinerary_provider[i].journeys[j].search_banner[banner_counter].active == true){
-                                       text+=`<label id="pop_search_banner_cart`+i+``+banner_counter+`" style="background:`+resJson.result.response.price_itinerary_provider[i].journeys[j].search_banner[banner_counter].banner_color+`; color:`+resJson.result.response.price_itinerary_provider[i].journeys[j].search_banner[banner_counter].text_color+`;padding:5px 10px;">`+resJson.result.response.price_itinerary_provider[i].journeys[j].search_banner[banner_counter].name+`</label>`;
+                                       text+=`<label id="pop_search_banner_cart`+i+``+j+``+banner_counter+`" style="background:`+resJson.result.response.price_itinerary_provider[i].journeys[j].search_banner[banner_counter].banner_color+`; color:`+resJson.result.response.price_itinerary_provider[i].journeys[j].search_banner[banner_counter].text_color+`;padding:5px 10px;">`+resJson.result.response.price_itinerary_provider[i].journeys[j].search_banner[banner_counter].name+`</label>`;
                                    }
                                }
                            }
@@ -2388,12 +2391,6 @@ function get_price_itinerary_request(){
                                 if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].cabin_class != '' &&  airline_cabin_class_list.hasOwnProperty(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].cabin_class))
                                     text += airline_cabin_class_list[resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].cabin_class]
                                 text += `<br/>Class: `+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].class_of_service+`</span>`;
-                                if(provider_list_data[resJson.result.response.price_itinerary_provider[i].provider].is_post_issued_reschedule)
-                                    text+=`
-                                        <br/><span><i class="fas fa-check-circle"></i> Reschedule</span>`;
-                                if(provider_list_data[resJson.result.response.price_itinerary_provider[i].provider].is_post_issued_cancel)
-                                    text+=`
-                                        <br/><span><i class="fas fa-check-circle"></i> Refund</span>`;
                             }
                         }
                         text+=`</div>`;
@@ -2473,6 +2470,7 @@ function get_price_itinerary_request(){
                                         </div>
                                     </div>`;
                             }
+
                             if(k == resJson.result.response.price_itinerary_provider[i].journeys[j].segments.length - 1)
                                 text+=`</div>`;
                             if(airline_price.length > resJson.result.response.price_itinerary_provider[i].journeys.length || //journey
@@ -2481,11 +2479,26 @@ function get_price_itinerary_request(){
                             }
                         }
 
+                        if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares.length > 0){
+                            text+=`<div class="col-lg-12 mt-2 mb-2">`;
+                            if(provider_list_data[resJson.result.response.price_itinerary_provider[i].provider].is_post_issued_reschedule)
+                                text+=`
+                                    <span style="padding:5px 10px; margin-right:5px; border:1px solid #cdcdcd; background:#fafafa; font-weight:bold; border-radius:14px;"><i class="fas fa-check-circle" style="color:#4f9c64;"></i> Reschedule</span>`;
+                            if(provider_list_data[resJson.result.response.price_itinerary_provider[i].provider].is_post_issued_cancel)
+                                text+=`
+                                    <span style="padding:5px 10px; margin-right:5px; border:1px solid #cdcdcd; background:#fafafa; font-weight:bold; border-radius:14px;"><i class="fas fa-check-circle" style="color:#4f9c64;"></i> Refund</span>`;
+                            text+=`</div>`;
+                        }
+
                         if(fare_print == true){
                             fare_print = false;
                             text+=`
                             </div>
-                        </div>
+                        </div>`;
+
+
+
+                        text+=`
                                     <div class="col-lg-12" id="rules`+rules+`" style="padding-bottom:15px; padding-top:15px;">
                                         <span class="carrier_code_template"> Term and Condition </span><br/>
                                         <span style="font-size:16px; font-weight:bold;">PLEASE WAIT ... </span>
@@ -2646,6 +2659,8 @@ function get_price_itinerary_request(){
                                 $text += $text_price;
                                 $text_price = '';
                             }
+                        }else{
+                            text+=`</div></div></div></div>`;
                         }
                     }
                 }
@@ -2783,9 +2798,13 @@ function get_price_itinerary_request(){
                 }
                 console.log(price_counter);
 
-                text+=`
+                text+=`</div>
                     </div>
                 </div>
+            </div>`;
+            text_detail_next +=`
+            <div class="col-lg-12">
+            <div class="row">
                 <div class="col-lg-12">
                     <br/>
                     <div class="row">
@@ -2805,47 +2824,50 @@ function get_price_itinerary_request(){
                 share_data();
                 var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
                 if (isMobile) {
-                    text+=`
+                    text_detail_next+=`
                         <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"/></a>
                         <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"/></a>
                         <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"/></a>
                         <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/></a>`;
                 } else {
-                    text+=`
+                    text_detail_next+=`
                         <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"/></a>
                         <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"/></a>
                         <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"/></a>
                         <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/></a>`;
                 }
-                text+=`</div>`;
+                text_detail_next+=`</div>`;
                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                    text+=`
+                    text_detail_next+=`
                         <div class="col-lg-12" style="text-align:center; display:none;" id="show_commission">
                             <div class="alert alert-success">
                                 <span style="font-size:13px; font-weight: bold;">Your Commission: IDR `+getrupiah(commission_price*-1)+`</span><br>
                             </div>
                         </div>`;
-                text+=`
+                text_detail_next+=`
                     <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">
                         <input class="primary-btn-white" style="width:100%;" type="button" onclick="copy_data();" value="Copy">
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">`;
                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                   text+=`
+                   text_detail_next+=`
                         <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"><br/>
                     `;
-                text += `</div>`;
+                text_detail_next += `</div>`;
                 if(agent_security.includes('book_reservation') == true)
-                text+=`
+                text_detail_next+=`
                     <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">
                         <button class="primary-btn btn-next ld-ext-right" style="width:100%;" onclick="next_disabled(); airline_sell_journeys();" type="button" value="Next">
                             Next
                             <div class="ld ld-ring ld-cycle"></div>
                         </button>
                     </div>`;
-                text+=`</div>`;
+                text_detail_next+=`</div>
+                </div>
+            </div>`;
 
                 document.getElementById('airline_detail').innerHTML = text;
+                document.getElementById('airline_detail_next').innerHTML = text_detail_next;
                 for(i in resJson.result.response.price_itinerary_provider){
                     for(j in resJson.result.response.price_itinerary_provider[i].journeys){
                         if(resJson.result.response.price_itinerary_provider[i].journeys[j].hasOwnProperty('search_banner')){
@@ -2856,9 +2878,14 @@ function get_price_itinerary_request(){
                                if(selected_banner_date >= max_banner_date){
                                    if(resJson.result.response.price_itinerary_provider[i].journeys[j].search_banner[banner_counter].active == true && resJson.result.response.price_itinerary_provider[i].journeys[j].search_banner[banner_counter].description != ''){
                                        new jBox('Tooltip', {
-                                            attach: '#pop_search_banner_cart'+i+banner_counter,
+                                            attach: '#pop_search_banner_cart'+i+j+banner_counter,
                                             theme: 'TooltipBorder',
                                             width: 280,
+                                            position: {
+                                              x: 'center',
+                                              y: 'bottom'
+                                            },
+
                                             closeOnMouseleave: true,
                                             animation: 'zoomIn',
                                             content: resJson.result.response.price_itinerary_provider[i].journeys[j].search_banner[banner_counter].description
@@ -5028,10 +5055,10 @@ function airline_get_booking(data, sync=false){
                             }
                             if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_reschedule)
                                 text+=`
-                                    <br/><span><i class="fas fa-check-circle"></i> Reschedule</span>`;
+                                    <br/><span style="font-weight:bold;"><i class="fas fa-check-circle" style="color:#4f9c64;"></i> Reschedule</span>`;
                             if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_cancel)
                                 text+=`
-                                    <br/><span><i class="fas fa-check-circle"></i> Refund</span>`;
+                                    <br/><span style="font-weight:bold;"><i class="fas fa-check-circle" style="color:#4f9c64;"></i> Refund</span>`;
                             for(j in msg.result.response.provider_bookings[i].rules){
                                 text += `
                                     <span id="span-tac-up`+rules+`" class="carrier_code_template" style="display: block; cursor: pointer;" onclick="show_hide_tac(`+rules+`);"> `+msg.result.response.provider_bookings[i].rules[j].name+` <i class="fas fa-chevron-down"></i></span>
@@ -5393,6 +5420,10 @@ function airline_get_booking(data, sync=false){
                                             attach: '#pop_search_banner'+i+j+banner_counter,
                                             theme: 'TooltipBorder',
                                             width: 280,
+                                            position: {
+                                              x: 'center',
+                                              y: 'bottom'
+                                            },
                                             closeOnMouseleave: true,
                                             animation: 'zoomIn',
                                             content: msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].description
