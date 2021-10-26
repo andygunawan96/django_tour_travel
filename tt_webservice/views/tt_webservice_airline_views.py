@@ -69,6 +69,8 @@ def api_models(request):
             res = get_data_passenger_page(request)
         elif req_data['action'] == 'get_data_review_page':
             res = get_data_review_page(request)
+        elif req_data['action'] == 'get_data_review_after_sales_page':
+            res = get_data_review_after_sales_page(request)
         elif req_data['action'] == 'get_data_book_page':
             res = get_data_book_page(request)
         elif req_data['action'] == 'get_data_ssr_page':
@@ -268,6 +270,21 @@ def get_data_review_page(request):
         res['passengers'] = request.session['airline_create_passengers']
         res['passengers_ssr'] = request.session['airline_create_passengers']['adult'] + request.session['airline_create_passengers']['child']
         res['airline_request'] = request.session['airline_request']
+
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def get_data_review_after_sales_page(request):
+    try:
+        res = {}
+        file = read_cache_with_folder_path("get_airline_carriers", 90911)
+        if file:
+            res['airline_carriers'] = file
+
+        res['passengers'] = request.session['airline_create_passengers']
+        res['passengers_ssr'] = passenger = request.session['airline_create_passengers']['adult'] + request.session['airline_create_passengers']['child']
+        res['airline_get_detail'] = request.session['airline_get_booking_response']['result']['response']
 
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())

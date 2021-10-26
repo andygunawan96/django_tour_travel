@@ -722,7 +722,7 @@ function swab_express_commit_booking(val){
                         document.getElementById("type").value = 'swab_express_review';
                         document.getElementById("voucher_code").value = voucher_code;
                         document.getElementById("discount").value = JSON.stringify(discount_voucher);
-                        document.getElementById("session_time_input").value = 200;
+                        document.getElementById("session_time_input").value = 1200;
                         document.getElementById('swab_express_issued').submit();
 
                       }else{
@@ -758,7 +758,7 @@ function swab_express_commit_booking(val){
                         document.getElementById("type").value = 'swab_express_review';
                         document.getElementById("voucher_code").value = voucher_code;
                         document.getElementById("discount").value = JSON.stringify(discount_voucher);
-                        document.getElementById("session_time_input").value = 200;
+                        document.getElementById("session_time_input").value = 1200;
                         document.getElementById('swab_express_issued').submit();
 
                       }else{

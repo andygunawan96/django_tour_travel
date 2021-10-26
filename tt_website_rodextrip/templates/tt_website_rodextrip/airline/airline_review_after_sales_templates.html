@@ -57,36 +57,10 @@
 <script>
     static_path_url_server = '{{static_path_url_server}}'
     additional_price = '{{additional_price}}';
-    airline_carriers = `{{airline_carriers}}`;
-    airline_carriers = airline_carriers.replace(/&#39;/g, '"');
-    airline_carriers = airline_carriers.replace(/&quot;/g, '"');
-    airline_carriers = airline_carriers.replace(/False/g, 'false');
-    airline_carriers = airline_carriers.replace(/True/g, 'true');
-    airline_carriers = JSON.parse(airline_carriers);
-    passengers = `{{passengers}}`;
-    passengers = passengers.replace(/&#39;/g, '"');
-    passengers = passengers.replace(/True/g, true);
-    passengers = passengers.replace(/False/g, false);
-    passengers = JSON.parse(passengers);
 
-    try{
-        passengers_ssr = `{{passengers_ssr}}`;
-        passengers_ssr = passengers_ssr.replace(/&#39;/g, '"');
-        passengers_ssr = passengers_ssr.replace(/True/g, true);
-        passengers_ssr = passengers_ssr.replace(/False/g, false);
-        passengers_ssr = JSON.parse(passengers_ssr);
-    }catch(err){
-
-    }
 
     airline_signature = `{{signature}}`;
     signature = `{{signature}}`;
-    console.log(signature);
-    airline_get_detail = `{{airline_getbooking}}`;
-    airline_get_detail = airline_get_detail.replace(/&#39;/g, '"');
-    airline_get_detail = airline_get_detail.replace(/True/g, 'true');
-    airline_get_detail = airline_get_detail.replace(/False/g, 'false');
-    airline_get_detail = JSON.parse(airline_get_detail);
 
     try{
         time_limit = `{{time_limit}}`;
@@ -236,12 +210,12 @@
 
 
 <script>
-    airline_detail('request_new');
-    get_airline_review_after_sales();
+
     booker_id = '{{airline_getbooking.booker.seq_id}}';
     order_number = '{{airline_getbooking.order_number}}';
     state = '{{airline_getbooking.state}}';
     page = '{{page}}';
+    get_airline_data_review_after_sales_page();
     try{
         document.getElementById('payment_acq').hidden = false;
     }catch(err){}
