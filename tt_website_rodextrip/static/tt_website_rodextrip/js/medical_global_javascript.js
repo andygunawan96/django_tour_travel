@@ -3717,6 +3717,7 @@ function auto_fill_data(){
             document.getElementById('adult_phone'+counter).value = passenger_data_cache_medical[idx].phone_number.substr(2,100);
         }
         document.getElementById('adult_email'+counter).value = passenger_data_cache_medical[idx].email;
+        document.getElementById('adult_address'+counter).value = passenger_data_cache_medical[idx].address_ktp;
         $('#adult_title'+counter).niceSelect('update');
         $('#adult_identity_type'+counter).niceSelect('update');
         update_contact('passenger',counter);
