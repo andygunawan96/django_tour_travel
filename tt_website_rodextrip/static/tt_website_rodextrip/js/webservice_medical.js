@@ -758,7 +758,7 @@ function medical_commit_booking(val){
                         document.getElementById("type").value = 'medical_review';
                         document.getElementById("voucher_code").value = voucher_code;
                         document.getElementById("discount").value = JSON.stringify(discount_voucher);
-                        document.getElementById("session_time_input").value = time_limit;
+                        document.getElementById("session_time_input").value = 1200;
                         document.getElementById('medical_issued').submit();
 
                       }else{
@@ -803,7 +803,7 @@ function medical_commit_booking(val){
                         document.getElementById("type").value = 'medical_review';
                         document.getElementById("voucher_code").value = voucher_code;
                         document.getElementById("discount").value = JSON.stringify(discount_voucher);
-                        document.getElementById("session_time_input").value = 200;
+                        document.getElementById("session_time_input").value = 1200;
                         document.getElementById('medical_issued').submit();
 
                       }else{

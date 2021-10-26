@@ -401,7 +401,32 @@ function get_airline_data_review_page(){
 
        },timeout: 60000
     });
+}
 
+function get_airline_data_review_after_sales_page(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/airline",
+       headers:{
+            'action': 'get_data_review_after_sales_page',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           airline_carriers = msg.airline_carriers;
+           passengers = msg.passengers;
+           passengers_ssr = msg.passengers_ssr;
+           airline_get_detail = msg.airline_get_detail;
+           airline_detail('request_new');
+           get_airline_review_after_sales();
+
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+
+       },timeout: 60000
+    });
 }
 
 function get_airline_data_book_page(){

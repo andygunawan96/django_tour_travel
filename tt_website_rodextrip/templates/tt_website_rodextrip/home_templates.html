@@ -1264,7 +1264,7 @@
                         {% if "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security or "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security or "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security or "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security %}
                         <div class="tab-pane fade {%if provider_types_sequence.0.name == 'health_core' %}show active {% endif %}" id="medical1" role="tabpanel" aria-labelledby="medical1-tab">
                             <div class="col-lg-12" id="radio_medical_search" style="margin-top:15px; padding:15px 15px 0px 15px; text-align:left;" onchange="onchange_health_care();">
-                                {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                                {% if "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security and 'b2c_limitation' not in username.co_agent_frontend_security %}
                                 <label class="radio-img">
                                     <input type="radio" checked="checked" name="health_care_type" value="periksain">
                                     <img src="/static/tt_website_rodextrip/images/icon/periksain.png" alt="PERIKSAIN" style="width:70px; height:70px; padding:0px;"><br/>
@@ -3150,7 +3150,7 @@
                     <div id="tab-medical1" class="tab-content {%if provider_types_sequence.0.name == 'health_core' %}current{% endif %}">
                         <div class="row">
                             <div class="col-lg-12" id="radio_medical_search" style="text-align:left;" onchange="onchange_health_care();">
-                                {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                                {% if "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security and 'b2c_limitation' not in username.co_agent_frontend_security %}
                                 <label class="radio-img">
                                     <input type="radio" checked="checked" name="health_care_type" value="periksain">
                                     <img src="/static/tt_website_rodextrip/images/icon/periksain.png" alt="PERIKSAIN" style="width:70px; height:70px; padding:0px;"><br/>
@@ -4622,7 +4622,7 @@
                         <div id="tab-medical1" class="tab-content {%if provider_types_sequence.0.name == 'health_core' %}current{% endif %}">
                             <div class="row">
                                 <div class="col-lg-12" id="radio_medical_search" style="text-align:left;" onchange="onchange_health_care();">
-                                    {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                                    {% if "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security and 'b2c_limitation' not in username.co_agent_frontend_security %}
                                     <label class="radio-img">
                                         <input type="radio" checked="checked" name="health_care_type" value="periksain">
                                         <img src="/static/tt_website_rodextrip/images/icon/periksain.png" alt="PERIKSAIN" style="width:70px; height:70px; padding:0px;"><br/>
@@ -6138,7 +6138,7 @@
                                 <div id="tab-medical1" class="tab-content {%if provider_types_sequence.0.name == 'health_core' %}current{% endif %}">
                                     <div class="row">
                                         <div class="col-lg-12 mt-3" id="radio_medical_search" style="text-align:left;" onchange="onchange_health_care();">
-                                            {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                                            {% if "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security and 'b2c_limitation' not in username.co_agent_frontend_security %}
                                             <label class="radio-img">
                                                 <input type="radio" checked="checked" name="health_care_type" value="periksain">
                                                 <img src="/static/tt_website_rodextrip/images/icon/periksain.png" alt="PERIKSAIN" style="width:70px; height:70px; padding:0px;"><br/>
@@ -7723,7 +7723,7 @@
                                 <div id="tab-medical1" class="tab-content {%if provider_types_sequence.0.name == 'health_core' %}current{% endif %}">
                                     <div class="row">
                                         <div class="col-lg-12 mt-3" id="radio_medical_search" style="text-align:left;" onchange="onchange_health_care();">
-                                            {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                                            {% if "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security and 'b2c_limitation' not in username.co_agent_frontend_security %}
                                             <label class="radio-img">
                                                 <input type="radio" checked="checked" name="health_care_type" value="periksain">
                                                 <img src="/static/tt_website_rodextrip/images/icon/periksain.png" alt="PERIKSAIN" style="width:70px; height:70px; padding:0px;"><br/>
@@ -9386,7 +9386,7 @@
                 <hr style="border-bottom:2px solid {{text_color}};"/>
                 <div class="row">
                     <div class="col-lg-12 mt-3" id="radio_medical_search" style="text-align:left;" onchange="onchange_health_care();">
-                        {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                        {% if "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security and 'b2c_limitation' not in username.co_agent_frontend_security %}
                         <label class="radio-img">
                             <input type="radio" checked="checked" name="health_care_type" value="periksain">
                             <img src="/static/tt_website_rodextrip/images/icon/periksain.png" alt="PERIKSAIN" style="width:70px; height:70px; padding:0px;"><br/>

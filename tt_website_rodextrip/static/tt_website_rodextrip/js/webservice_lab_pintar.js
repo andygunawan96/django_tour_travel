@@ -531,7 +531,7 @@ function pre_lab_pintar_commit_booking(val){
                     document.getElementById("type").value = 'lab_pintar_review';
                     document.getElementById("voucher_code").value = voucher_code;
                     document.getElementById("discount").value = JSON.stringify(discount_voucher);
-                    //document.getElementById("session_time_input").value = 300;
+                    document.getElementById("session_time_input").value = 1200;
                     document.getElementById('lab_pintar_issued').submit();
                 }catch(err){
                     console.log(err)
@@ -658,7 +658,7 @@ function lab_pintar_commit_booking(val){
                         document.getElementById("type").value = 'lab_pintar_review';
                         document.getElementById("voucher_code").value = voucher_code;
                         document.getElementById("discount").value = JSON.stringify(discount_voucher);
-                        document.getElementById("session_time_input").value = time_limit;
+                        document.getElementById("session_time_input").value = 1200;
                         document.getElementById('lab_pintar_issued').submit();
 
                       }else{
@@ -703,7 +703,7 @@ function lab_pintar_commit_booking(val){
                         document.getElementById("type").value = 'lab_pintar_review';
                         document.getElementById("voucher_code").value = voucher_code;
                         document.getElementById("discount").value = JSON.stringify(discount_voucher);
-                        document.getElementById("session_time_input").value = 200;
+                        document.getElementById("session_time_input").value = 1200;
                         document.getElementById('lab_pintar_issued').submit();
 
                       }else{

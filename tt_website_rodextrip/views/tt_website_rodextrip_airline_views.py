@@ -1521,8 +1521,7 @@ def review_after_sales(request):
             # SEAT
             if request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/')) - 1] == 'seat_map':
                 try:
-                    passenger = request.session['airline_create_passengers']['adult'] + \
-                                request.session['airline_create_passengers']['child']
+                    passenger = request.session['airline_create_passengers']['adult'] + request.session['airline_create_passengers']['child']
                     passengers = json.loads(request.POST['passenger'])
                     #
                     page = 'seat'

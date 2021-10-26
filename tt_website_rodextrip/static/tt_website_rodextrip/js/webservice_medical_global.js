@@ -787,7 +787,7 @@ function medical_global_commit_booking(val){
                         document.getElementById("type").value = 'medical_global_review';
                         document.getElementById("voucher_code").value = voucher_code;
                         document.getElementById("discount").value = JSON.stringify(discount_voucher);
-                        document.getElementById("session_time_input").value = time_limit;
+                        document.getElementById("session_time_input").value = 1200;
                         document.getElementById('medical_issued').submit();
 
                       }else{
@@ -832,7 +832,7 @@ function medical_global_commit_booking(val){
                         document.getElementById("type").value = 'medical_global_review';
                         document.getElementById("voucher_code").value = voucher_code;
                         document.getElementById("discount").value = JSON.stringify(discount_voucher);
-                        document.getElementById("session_time_input").value = 200;
+                        document.getElementById("session_time_input").value = 1200;
                         document.getElementById('medical_issued').submit();
 
                       }else{
@@ -1724,11 +1724,11 @@ function medical_global_get_booking(order_number, sync=false){
                             print_text += '</div><div class="col-lg-4" style="padding-bottom:10px;">';
                             // === Button 2 ===
                             if (msg.result.response.state  == 'issued'){
-                                print_text+=`
-                                <button class="primary-btn-white hold-seat-booking-train ld-ext-right" type="button" id="button-print-print" onclick="get_printout('` + msg.result.response.order_number + `','ticket_price','medical');" style="width:100%;">
-                                    Print Ticket (With Price)
-                                    <div class="ld ld-ring ld-cycle"></div>
-                                </button>`;
+//                                print_text+=`
+//                                <button class="primary-btn-white hold-seat-booking-train ld-ext-right" type="button" id="button-print-print" onclick="get_printout('` + msg.result.response.order_number + `','ticket_price','medical');" style="width:100%;">
+//                                    Print Ticket (With Price)
+//                                    <div class="ld ld-ring ld-cycle"></div>
+//                                </button>`;
                             }
                             print_text += '</div><div class="col-lg-4" style="padding-bottom:10px;">';
                             // === Button 3 ===
