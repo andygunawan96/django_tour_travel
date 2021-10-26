@@ -281,23 +281,29 @@ function swab_express_check_price(){
                     var text = `
                     <div style="background-color:white; margin-bottom:15px;">
                         <h4 style="color:`+color+`;"> Price Detail</h4>`;
+                    price_list = {
+                        "fare": {
+                            "amount":0,
+                            "currency":'',
+                            "pax_count":0,
+                        }
+                    };
                     for(i in msg.result.response.service_charges){
-                        if(msg.result.response.service_charges[i].charge_code != 'rac'){
-                            if(msg.result.response.service_charges[i].charge_code == 'fare')
-                                charge_code = 'FARE';
-                            else if(msg.result.response.service_charges[i].charge_code == 'adm')
-                                charge_code = 'Admin Fee Drive Thru';
-                            text+=`
-                            <div class="row" style="margin-bottom:5px;">
-                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                    <span style="font-size:12px;">`+msg.result.response.service_charges[i].pax_count+`x `+charge_code+` @IDR `+getrupiah(msg.result.response.service_charges[i].amount)+`</span>`;
-                        text+=`</div>
-                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                    <b><span style="font-size:13px;">IDR `+getrupiah(msg.result.response.service_charges[i].total_amount)+`</span></b>
-                                </div>
-                            </div>`;
+                        if(msg.result.response.service_charges[i].charge_type != 'RAC'){
+                            price_list['fare']['amount'] += (msg.result.response.service_charges[i].pax_count * msg.result.response.service_charges[i].amount);
+                            price_list['fare']['pax_count'] = msg.result.response.service_charges[i].pax_count;
+                            price_list['fare']['currency'] += msg.result.response.service_charges[i].currency;
                         }
                     }
+                    text+=`
+                            <div class="row" style="margin-bottom:5px;">
+                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                    <span style="font-size:12px;">`+price_list['fare']['pax_count']+`x Fare @IDR `+getrupiah(price_list['fare']['amount'])+`</span>`;
+                        text+=`</div>
+                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                    <b><span style="font-size:13px;">IDR `+getrupiah(msg.result.response.total_price)+`</span></b>
+                                </div>
+                            </div>`;
                     text+=`
                             <div class="row" style="margin-bottom:5px;">
                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
@@ -326,16 +332,7 @@ function swab_express_check_price(){
                             <br/>`;
                         if(peduli_lindungi == 'true')
                             text+=`
-                                <label style="margin-left:5px;">- Peduli Lindungi</label>
-                                <br/>`;
-                            text+=`
-                                <label style="margin-left:5px;">- 5 hours before test</label>
-                                <br/>`;
-                            text+=`
-                                <label style="margin-left:5px;">- After 19:00 WIB</label>
-                                <br/>`;
-                        text+=`
-                            <label style="margin-left:5px;">- Only 1 customer</label>`;
+                                <label style="margin-left:5px;">- Peduli Lindungi</label>`;
                     }
 
                     document.getElementById('swab_express_detail').innerHTML = text;
@@ -808,13 +805,13 @@ function swab_express_commit_booking(val){
     });
 }
 
-function goto_edit_passenger(){
-    if(medical_get_detail.result.response.state == 'booked'){
-        document.getElementById('data').value = JSON.stringify(medical_get_detail);
-        document.getElementById('swab_express_edit_passenger').action += medical_get_detail.result.response.order_number;
-        document.getElementById('swab_express_edit_passenger').submit();
-    }
-}
+//function goto_edit_passenger(){
+//    if(medical_get_detail.result.response.state == 'booked'){
+//        document.getElementById('data').value = JSON.stringify(medical_get_detail);
+//        document.getElementById('swab_express_edit_passenger').action += medical_get_detail.result.response.order_number;
+//        document.getElementById('swab_express_edit_passenger').submit();
+//    }
+//}
 
 function swab_express_get_booking(order_number, sync=false){
     document.getElementById('payment_acq').hidden = true;
