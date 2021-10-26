@@ -306,6 +306,7 @@ def get_data_ssr_page(request):
             for pax in pax_list['child']:
                 passenger.append(pax)
             res['passengers'] = passenger
+            res['airline_getbooking'] = request.session['airline_get_booking_response']['result']['response']
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -334,6 +335,7 @@ def get_data_seat_page(request):
             for pax in pax_list['child']:
                 passenger.append(pax)
             res['passengers'] = passenger
+            res['airline_getbooking'] = request.session['airline_get_booking_response']['result']['response']
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
