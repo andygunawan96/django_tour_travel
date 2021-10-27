@@ -3922,13 +3922,18 @@ function get_passenger_cache(type){
                                     if(msg.result.response[i].identities.hasOwnProperty('sim') == true)
                                         response+=`<br/> <span><i class="fas fa-id-badge"></i> SIM - `+msg.result.response[i].identities.sim.identity_number+`</span>`;
                                     if(msg.result.response[i].customer_parents.length != 0){
-                                        response += `<div class="tooltip-inner" style="text-align:left;" style data-tooltip="`;
+                                        response += `<div class="tooltip-inner" style="text-align:left;" data-tooltip="`;
+                                        cor_resp = '';
                                         for(j in msg.result.response[i].customer_parents){
                                             response+= "• " + msg.result.response[i].customer_parents[j].type + ' ' + msg.result.response[i].customer_parents[j].name + ' ' + msg.result.response[i].customer_parents[j].currency + ' ' + getrupiah(msg.result.response[i].customer_parents[j].actual_balance) + '\n';
+                                            cor_resp += `<option value="`+msg.result.response[i].customer_parents[j].seq_id+`">`+msg.result.response[i].customer_parents[j].type + ` ` + msg.result.response[i].customer_parents[j].name+`</option>`
                                         }
                                         response += `"><i class="fas fa-money-bill-wave-alt"></i> Corporate Booker</span></div>`;
+                                        response += `<div class="row" style="margin-left:0">`;
+                                        response += `<select id="corpor_mode_select`+i+`" class="corpor_select_cls" style="width:100%;">`+cor_resp+`</select>`;
                                     }
                                 response+=`
+                                    </div>
                                 </div>
                             </td>`;
                             if(window.location.href.split('/')[window.location.href.split('/').length-1] == 'passenger'){
@@ -4027,8 +4032,14 @@ function get_passenger_cache(type){
                             response+=`<td>
                                             <button type="button" class="primary-btn-custom" onclick="del_passenger_cache(`+i+`);">Delete</button>`;
                             if(agent_security.includes('p_cache_2') == true)
-                            response+=`
+                            {
+                                response+=`
                                             <button type="button" class="primary-btn-custom" onclick="edit_passenger_cache(`+i+`);">Edit</button>`;
+                            }
+                            if(msg.result.response[i].customer_parents.length != 0){
+                                response+=`
+                                            <button type="button" class="primary-btn-custom corpor-mode-btn" onclick="activate_corporate_mode(`+i+`);">Corporate Mode</button>`;
+                            }
                             response+=`
                                        </td>`;
 
@@ -4038,6 +4049,7 @@ function get_passenger_cache(type){
                     response+=`</table></div>`;
                     document.getElementById('passenger_chosen').innerHTML = response;
                     $('.phone_chosen_cls').niceSelect();
+                    $('.corpor_select_cls').niceSelect();
                     $('.selection_type_ns').niceSelect();
                 }else{
                     response = '';
@@ -4255,6 +4267,94 @@ function edit_passenger_cache(val){
     }
     document.getElementById('passenger_chosen').hidden = true;
     document.getElementById('passenger_update').hidden = false;
+}
+
+function activate_corporate_mode(val){
+    $('.corpor-mode-btn').prop('disabled', true);
+    $('.corpor-mode-btn').addClass("running");
+    $.ajax({
+       type: "POST",
+       url: "/webservice/agent",
+       headers:{
+            'action': 'activate_corporate_mode',
+       },
+       data: {
+        'customer_seq_id': passenger_data_cache[val].seq_id,
+        'customer_parent_seq_id': document.getElementById('corpor_mode_select'+val).value,
+        'signature': signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           if(msg.result.error_code == 0){
+                let timerInterval
+                Swal.fire({
+                  type: 'success',
+                  title: 'Corporate Mode Activated!',
+                  html: 'Please Wait ...',
+                  timer: 50000,
+                  onBeforeOpen: () => {
+                    Swal.showLoading()
+                    timerInterval = setInterval(() => {
+                      Swal.getContent().querySelector('strong')
+                        .textContent = Swal.getTimerLeft()
+                    }, 100)
+                  },
+                  onClose: () => {
+                    clearInterval(timerInterval)
+                  }
+                }).then((result) => {
+                  if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.timer
+                  ) {
+
+                  }
+                })
+                window.location.href='/';
+           }
+           else{
+             $('.corpor-mode-btn').prop('disabled', false);
+             $('.corpor-mode-btn').removeClass("running");
+             Swal.fire({
+               type: 'error',
+               title: 'Oops!',
+               text: "Cannot activate corporate mode!",
+             })
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error activating corporate mode');
+       },timeout: 60000
+    });
+}
+
+function deactivate_corporate_mode(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/agent",
+       headers:{
+            'action': 'deactivate_corporate_mode',
+       },
+       data: {
+        'signature': signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           if(msg.result.error_code == 0){
+                window.location.href='/';
+           }
+           else{
+             Swal.fire({
+               type: 'error',
+               title: 'Oops!',
+               text: "Cannot deactivate corporate mode!",
+             })
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error deactivating corporate mode');
+       },timeout: 60000
+    });
 }
 
 function delete_phone_passenger_cache(val){

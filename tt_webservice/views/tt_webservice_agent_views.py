@@ -75,6 +75,10 @@ def api_models(request):
             res = get_passenger_cache(request)
         elif req_data['action'] == 'get_customer_parent':
             res = get_customer_parent(request)
+        elif req_data['action'] == 'activate_corporate_mode':
+            res = activate_corporate_mode(request)
+        elif req_data['action'] == 'deactivate_corporate_mode':
+            res = deactivate_corporate_mode(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -1540,6 +1544,62 @@ def get_customer_parent(request):
             _logger.info("SUCCESS update_customer_agent SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("update_customer_agent ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def activate_corporate_mode(request):
+    try:
+        data = {
+            'c_seq_id': request.POST['customer_seq_id'],
+            'cp_seq_id': request.POST['customer_parent_seq_id']
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "activate_corporate_mode",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    url_request = url + 'session'
+    res = send_request_api(request, url_request, headers, data, 'POST')
+    try:
+        if res['result']['error_code'] == 0:
+            cur_session = request.session['user_account']
+            cur_session.update(res['result']['response'])
+            set_session(request, 'user_account', cur_session)
+            _logger.info("SUCCESS activate_corporate_mode SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("activate_corporate_mode ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def deactivate_corporate_mode(request):
+    try:
+        data = {}
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "deactivate_corporate_mode",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    url_request = url + 'session'
+    res = send_request_api(request, url_request, headers, data, 'POST')
+    try:
+        if res['result']['error_code'] == 0:
+            cur_session = request.session['user_account']
+            for key in res['result']['response']:
+                del cur_session[key]
+            set_session(request, 'user_account', cur_session)
+            _logger.info("SUCCESS deactivate_corporate_mode SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("deactivate_corporate_mode ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
