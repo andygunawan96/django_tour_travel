@@ -39,7 +39,7 @@
                         </ul>
                     </li>
                     {% if username.co_user_login != '' %}
-                    {% if "corp_limitation" in username.co_agent_frontend_security %}
+                    {% if "corp_limitation" in username.co_agent_frontend_security or 'co_customer_parent_type_name' in username %}
                     <li class="menu-has-children pt5"><a href="#">{% trans 'Balance & Credit' %}</a>
                         <ul>
                             <li class="credit_mobile pt5"><a id="credit_limit"></a></li>
@@ -101,7 +101,13 @@
                             <li><a href="" id="backend_btn">Backend</a></li>
                             {% endif %}
                             <!--<li><a href="javascript:test_ledger(10);">Test Ledger</a></li>-->
-
+                            {% if 'co_customer_parent_type_name' in username %}
+                            <li style="z-index:5;">
+                                <a>
+                                    <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Exit Corporate Mode' %}</button>
+                                </a>
+                            </li>
+                            {% endif %}
                             <li>
                                 <a>
                                     <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Logout' %}</button>
@@ -131,6 +137,13 @@
                             <li><a href="" id="backend_btn2">Backend</a></li>
                             {% endif %}
                             <!--<li><a href="javascript:test_ledger(10);">Test Ledger</a></li>-->
+                            {% if 'co_customer_parent_type_name' in username %}
+                            <li>
+                                <a>
+                                    <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Exit Corporate Mode' %}</button>
+                                </a>
+                            </li>
+                            {% endif %}
                             <li>
                                 <a>
                                     <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Logout' %}</button>
@@ -138,6 +151,11 @@
                             </li>
                         </ul>
                     </li>
+                    {% if 'co_customer_parent_type_name' in username %}
+                    <li title="Corporate Mode is active" class="notification-pc pt5" style="padding-right:15px; cursor:pointer;"><i class="fas fa-money-bill-wave-alt" style="font-size:24px;"></i>
+
+                    </li>
+                    {% endif %}
                     <li title="Click to show your notification" class="notification-pc pt5" style="padding-right:15px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover bell_notif animated swing" style="font-size:24px;"></i>
 
                     </li>
@@ -187,6 +205,11 @@
                 </nav>
                 <nav class="notification-mobile" style="display:none;">
                     <ul class="nav-menu">
+                        {% if 'co_customer_parent_type_name' in username %}
+                        <li title="Corporate Mode is active" style="padding-right:16px; cursor:pointer;"><i class="fas fa-money-bill-wave-alt" style="font-size:20px;"></i>
+
+                        </li>
+                        {% endif %}
                         {% if username.co_user_login != 'agent_b2c' %}
                         <li title="Click to show your notification" style="font-size:16px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover bell_notif animated swing" style="font-size:20px;"></i>
 
@@ -289,7 +312,7 @@
                                 <ul id="highlight_header_div" class="dropdown">
                                 </ul>
                             </li>
-                            {% if "corp_limitation" in username.co_agent_frontend_security %}
+                            {% if "corp_limitation" in username.co_agent_frontend_security or 'co_customer_parent_type_name' in username %}
                             <li><a href="#">{% trans 'Balance & Credit' %}</a>
                                 <ul class="dropdown">
                                     <li class="credit_mobile"><a id="credit_limit"></a></li>
@@ -356,6 +379,13 @@
                                     {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                     <li><a href="" id="backend_btn">Backend</a></li>
                                     {% endif %}
+                                    {% if 'co_customer_parent_type_name' in username %}
+                                    <li style="z-index:5;">
+                                        <a>
+                                            <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Exit Corporate Mode' %}</button>
+                                        </a>
+                                    </li>
+                                    {% endif %}
                                     <li style="z-index:5;">
                                         <a>
                                             <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Logout' %}</button>
@@ -386,6 +416,13 @@
                                     {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                     <li class="pt5"><a href="" id="backend_btn2">Backend</a></li>
                                     {% endif %}
+                                    {% if 'co_customer_parent_type_name' in username %}
+                                    <li style="z-index:5;">
+                                        <a>
+                                            <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Exit Corporate Mode' %}</button>
+                                        </a>
+                                    </li>
+                                    {% endif %}
                                     <li style="z-index:5;">
                                         <a>
                                             <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Logout' %}</button>
@@ -393,7 +430,12 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li title="Click to show your notification" class="notification-pc" style="position:relative; bottom:5px; padding-right:15px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover bell_notif animated swing" style="font-size:20px;"></i>
+                            {% if 'co_customer_parent_type_name' in username %}
+                            <li title="Corporate Mode is active" class="notification-pc" style="position:relative; bottom:5px; padding-right:15px; cursor:pointer;"><i class="fas fa-money-bill-wave-alt" style="font-size:20px;"></i>
+
+                            </li>
+                            {% endif %}
+                            <li title="Click to show your notification" class="notification-pc" style="position:relative; bottom:5px; padding-right:15px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover bell_notif animated swing" style="font-size:20px;"></i></li>
                             {% endif %}
                         </ul>
                         <!-- Search -->
@@ -499,7 +541,7 @@
                             <ul id="highlight_header_div">
                             </ul>
                         </li>
-                        {% if "corp_limitation" in username.co_agent_frontend_security %}
+                        {% if "corp_limitation" in username.co_agent_frontend_security or 'co_customer_parent_type_name' in username %}
                         <li class="menu-has-children"><a href="#">{% trans 'Balance & Credit' %}</a>
                             <ul>
                                 <li class="credit_mobile"><a id="credit_limit"></a></li>
@@ -562,6 +604,15 @@
                                 {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                 <li><a href="" id="backend_btn">Backend</a></li>
                                 {% endif %}
+                                {% if 'co_customer_parent_type_name' in username %}
+                                <li>
+                                    <center>
+                                        <a>
+                                            <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn-ticket" style="color:{{text_color}};">{% trans 'Exit Corporate Mode' %}</button>
+                                        </a>
+                                    </center>
+                                </li>
+                                {% endif %}
                                 <li>
                                     <center>
                                         <a>
@@ -592,6 +643,13 @@
                                 {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                 <li><a href="" id="backend_btn2">Backend</a></li>
                                 {% endif %}
+                                {% if 'co_customer_parent_type_name' in username %}
+                                <li>
+                                    <a>
+                                        <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn-ticket" style="color:{{text_color}};">{% trans 'Exit Corporate Mode' %}</button>
+                                    </a>
+                                </li>
+                                {% endif %}
                                 <li>
                                     <a>
                                         <button type="button" onclick="logout();" class="primary-btn-ticket" style="color:{{text_color}};">{% trans 'Logout' %}</button>
@@ -599,6 +657,11 @@
                                 </li>
                             </ul>
                         </li>
+                        {% if 'co_customer_parent_type_name' in username %}
+                        <li title="Corporate Mode is active" class="notification-pc" style="color:{{color}}; padding-right:15px; padding-top:7px; cursor:pointer;"><i class="fas fa-money-bill-wave-alt" style="font-size:20px;"></i>
+
+                        </li>
+                        {% endif %}
                         <li title="Click to show your notification" class="notification-pc" style="color:{{color}}; padding-right:15px; padding-top:7px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover bell_notif animated swing" style="font-size:20px;"></i></li>
                         {% endif %}
                     </ul>
@@ -641,6 +704,11 @@
                 <nav class="notification-mobile mobile-nav" style="display:none; padding:15px 15px 15px 0px;">
                     <ul class="nav-menu" style="display:inline;">
                         {% if username.co_user_login != 'agent_b2c' %}
+                        {% if 'co_customer_parent_type_name' in username %}
+                        <li title="Corporate Mode is active" class="menu-has-children" style="font-size:13px; padding-top:5px; padding-right:5px; cursor:pointer;"><i class="fas fa-money-bill-wave-alt" style="font-size:20px; color:{{color}}; padding-top:5px;"></i>
+
+                        </li>
+                        {% endif %}
                         <li title="Click to show your notification" class="menu-has-children" style="font-size:13px; padding-top:5px; padding-right:5px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover bell_notif animated swing" style="font-size:20px; color:{{color}}; padding-top:5px;"></i></li>
                         {% endif %}
                     </ul>
@@ -707,7 +775,7 @@
                             </ul>
                         </li>
 
-                        {% if "corp_limitation" in username.co_agent_frontend_security %}
+                        {% if "corp_limitation" in username.co_agent_frontend_security or 'co_customer_parent_type_name' in username %}
                         <li class="has-children"><a href="#">{% trans 'Balance & Credit' %}</a>
                             <ul class="dropdown">
                                 <li class="credit_mobile" style="color:white;"><a id="credit_limit"></a></li>
@@ -769,6 +837,13 @@
                                 {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                 <li><a href="" id="backend_btn">Backend</a></li>
                                 {% endif %}
+                                {% if 'co_customer_parent_type_name' in username %}
+                                <li>
+                                    <a>
+                                        <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn-ticket" style="color:{{text_color}};">{% trans 'Exit Corporate Mode' %}</button>
+                                    </a>
+                                </li>
+                                {% endif %}
                                 <li>
                                     <a>
                                         <button type="button" onclick="logout();" class="primary-btn-ticket" style="color:{{text_color}};">{% trans 'Logout' %}</button>
@@ -797,6 +872,13 @@
                                 {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                 <li><a href="" id="backend_btn2">Backend</a></li>
                                 {% endif %}
+                                {% if 'co_customer_parent_type_name' in username %}
+                                <li>
+                                    <a>
+                                        <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn-ticket" style="color:{{text_color}};">{% trans 'Exit Corporate Mode' %}</button>
+                                    </a>
+                                </li>
+                                {% endif %}
                                 <li>
                                     <a>
                                         <button type="button" onclick="logout();" class="primary-btn-ticket" style="color:{{text_color}};">{% trans 'Logout' %}</button>
@@ -804,6 +886,11 @@
                                 </li>
                             </ul>
                         </li>
+                        {% if 'co_customer_parent_type_name' in username %}
+                        <li title="Corporate Mode is active" class="notification-pc" style="padding-right:15px; padding-top:7px; cursor:pointer;"><i class="fas fa-money-bill-wave-alt" style="font-size:20px;"></i>
+
+                        </li>
+                        {% endif %}
                         <li title="Click to show your notification" class="notification-pc" style="padding-right:15px; padding-top:7px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover bell_notif animated swing" style="font-size:20px;"></i>
                             {% else %}
                         <li style="font-size:12px;color:black;"><a href="{% url 'tt_website_rodextrip:login'%}" class="cta"><span class="bg-primary text-white rounded">{% trans 'Sign In' %}</span></a></li>
@@ -919,7 +1006,7 @@
                     </li>
 
                     {% if username.co_user_login != '' %}
-                    {% if "corp_limitation" in username.co_agent_frontend_security %}
+                    {% if "corp_limitation" in username.co_agent_frontend_security or 'co_customer_parent_type_name' in username %}
                     <li class="menu-has-children" style="margin-top:8px;"><a href="#">{% trans 'Balance & Credit' %} <i class="fas fa-chevron-down fat-dh" style="display:inline-block;"></i></a>
                         <ul style="top:65%;">
                             <li class="credit_mobile" style="margin-top:8px;"><a id="credit_limit"></a></li>
@@ -980,6 +1067,13 @@
                             {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                             <li><a href="" id="backend_btn">Backend</a></li>
                             {% endif %}
+                            {% if 'co_customer_parent_type_name' in username %}
+                            <li>
+                                <a>
+                                    <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Exit Corporate Mode' %}</button>
+                                </a>
+                            </li>
+                            {% endif %}
                             <li>
                                 <a>
                                     <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Logout' %}</button>
@@ -1008,6 +1102,13 @@
                             {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                             <li><a href="" id="backend_btn2">Backend</a></li>
                             {% endif %}
+                            {% if 'co_customer_parent_type_name' in username %}
+                            <li>
+                                <a>
+                                    <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Exit Corporate Mode' %}</button>
+                                </a>
+                            </li>
+                            {% endif %}
                             <li>
                                 <a>
                                     <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Logout' %}</button>
@@ -1015,6 +1116,11 @@
                             </li>
                         </ul>
                     </li>
+                    {% if 'co_customer_parent_type_name' in username %}
+                    <li title="Corporate Mode is active" class="menu-has-children notification-pc" style="padding-right:15px; padding-top:25px; cursor:pointer;"><i class="fas fa-money-bill-wave-alt" style="font-size:20px;"></i>
+
+                    </li>
+                    {% endif %}
                     <li title="Click to show your notification" class="menu-has-children notification-pc" style="padding-right:15px; padding-top:25px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover bell_notif animated swing" style="font-size:20px;"></i>
                     {% else %}
                     <li style="font-size:12px;color:black;"><a href="{% url 'tt_website_rodextrip:login'%}" class="cta"><span class="primary-btn" style="padding-right:30px !important;">{% trans 'Sign In' %} <i class="fas fa-sign-in-alt"></i></span></a></li>
@@ -1088,7 +1194,7 @@
                     </ul>
                 </li>
                 {% if username.co_user_login != '' %}
-                {% if "corp_limitation" in username.co_agent_frontend_security %}
+                {% if "corp_limitation" in username.co_agent_frontend_security or 'co_customer_parent_type_name' in username %}
                 <li><a href="#">{% trans 'Balance & Credit' %} <i class="fas fa-chevron-down"></i></a>
                     <ul>
                         <li class="credit_mobile pt5"><a id="credit_limit"></a></li>
@@ -1141,7 +1247,13 @@
                         <li><a href="" id="backend_btn">Backend</a></li>
                         {% endif %}
                         <!--<li><a href="javascript:test_ledger(10);">Test Ledger</a></li>-->
-
+                        {% if 'co_customer_parent_type_name' in username %}
+                        <li>
+                            <a>
+                                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Exit Corporate Mode' %}</button>
+                            </a>
+                        </li>
+                        {% endif %}
                         <li>
                             <a>
                                 <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Logout' %}</button>
@@ -1162,6 +1274,13 @@
                         <li><a href="" id="backend_btn2">Backend</a></li>
                         {% endif %}
                         <!--<li><a href="javascript:test_ledger(10);">Test Ledger</a></li>-->
+                        {% if 'co_customer_parent_type_name' in username %}
+                        <li>
+                            <a>
+                                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Exit Corporate Mode' %}</button>
+                            </a>
+                        </li>
+                        {% endif %}
                         <li>
                             <a>
                                 <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Logout' %}</button>
@@ -1169,6 +1288,11 @@
                         </li>
                     </ul>
                 </li>
+                {% if 'co_customer_parent_type_name' in username %}
+                <li title="Corporate Mode is active" class="notification-pc pt5" style="padding-right:15px; cursor:pointer;"><i class="fas fa-money-bill-wave-alt" style="font-size:24px;"></i>
+
+                </li>
+                {% endif %}
                 <li title="Click to show your notification" class="notification-pc pt5" style="padding-right:15px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover bell_notif animated swing" style="font-size:24px;"></i>
 
                 </li>
