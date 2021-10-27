@@ -30,7 +30,7 @@ adult_title = ['MR', 'MRS', 'MS']
 
 infant_title = ['MSTR', 'MISS']
 
-id_type = [['ktp', 'KTP'], ['sim', 'SIM'], ['passport', 'Passport'], ['other', 'Other']]
+id_type = [['',''], ['ktp', 'KTP'], ['sim', 'SIM'], ['passport', 'Passport'], ['other', 'Other']]
 
 def elapse_time(dep, arr):
     elapse = arr - dep
@@ -214,6 +214,11 @@ def passenger(request):
                 adult.append('')
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
+
+            is_need_identity = True
+            for rec in request.session['bus_pick']:
+                if rec['is_need_identity']:
+                    is_need_identity = rec['is_need_identity']
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
@@ -231,6 +236,7 @@ def passenger(request):
                 # 'cookies': json.dumps(res['result']['cookies']),
                 'javascript_version': javascript_version,
                 'static_path_url_server': get_url_static_path(),
+                'is_need_identity': is_need_identity
             })
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
@@ -359,26 +365,16 @@ def review(request):
             })
             schedules = []
             journeys = []
-            provider = ''
-            #COMBO PRICE
             for journey in request.session['bus_pick']:
                 journeys.append({
                     'journey_code': journey['journey_code'],
-                    'fare_code': journey['fares'][0]['fare_code'],
-                    'provider': journey['provider']
+                    'fare_code': journey['fares'][0]['fare_code']
                 })
-                if provider != journey['provider'] and provider != '':
-                    schedules.append({
-                        'journeys': journeys,
-                        'provider': provider
-                    })
-                    journeys = []
-                provider = journey['provider']
-            if journeys:
                 schedules.append({
                     'journeys': journeys,
-                    'provider': provider
+                    'provider': journey['provider'],
                 })
+                journeys = []
             set_session(request, 'bus_booking', schedules)
             try:
                 set_session(request, 'time_limit', request.POST['time_limit_input'])

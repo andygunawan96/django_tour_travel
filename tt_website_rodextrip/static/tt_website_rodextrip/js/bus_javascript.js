@@ -126,9 +126,9 @@ function bus_check_search_values(){
     type = '';
     error_log = '';
 
-    if(document.getElementById('bus_origin').value.split(' - ').length != 3)
+    if(document.getElementById('bus_origin').value.split(' - ').length != 2)
         error_log+= 'Please use autocomplete for origin\n';
-    if(document.getElementById('bus_destination').value.split(' - ').length != 3)
+    if(document.getElementById('bus_destination').value.split(' - ').length != 2)
         error_log+= 'Please use autocomplete for destination\n';
 
     if(error_log == ''){
@@ -563,7 +563,7 @@ function sort(value){
                             </tr>
                         </table>
                         <span class="copy_date_depart">`+data_filter[i].departure_date[0]+`</span><br/>
-                        <span class="copy_departure" style="font-weight:500;">`+data_filter[i].origin_name+` (`+data_filter[i].origin+`)</span>
+                        <span class="copy_departure" style="font-weight:500;">`+data_filter[i].origin_name+`</span>
 
                     </div>
                     <div class="col-lg-4 col-xs-6" style="padding:0;">
@@ -575,7 +575,7 @@ function sort(value){
                             </tr>
                         </table>
                         <span class="copy_date_arr">`+data_filter[i].arrival_date[0]+`</span><br/>
-                        <span class="copy_arrival" style="font-weight:500;">`+data_filter[i].destination_name+` (`+data_filter[i].destination+`)</span>
+                        <span class="copy_arrival" style="font-weight:500;">`+data_filter[i].destination_name+`</span>
                     </div>
 
                     <div class="col-lg-4">
@@ -739,7 +739,7 @@ function bus_ticket_pick(){
                         </tr>
                     </table>
                     <span>`+journeys[i].departure_date[0]+`</span><br/>
-                    <span style="font-weight:500;">`+journeys[i].origin_name+` (`+journeys[i].origin+`)</span>
+                    <span style="font-weight:500;">`+journeys[i].origin_name+`</span>
                 </div>
                 <div class="col-lg-4 col-xs-6" style="padding:0;">
                     <table style="width:100%; margin-bottom:6px;">
@@ -750,7 +750,7 @@ function bus_ticket_pick(){
                         </tr>
                     </table>
                     <span>`+journeys[i].arrival_date[0]+`</span><br/>
-                    <span style="font-weight:500;">`+journeys[i].destination_name+` (`+journeys[i].destination+`)</span>
+                    <span style="font-weight:500;">`+journeys[i].destination_name+`</span>
                 </div>
 
                 <div class="col-lg-4">
@@ -805,7 +805,7 @@ function bus_get_detail(){
     for(i in journeys){
         $text +=
             journeys[i].carrier_name+`-`+journeys[i].carrier_number+`(`+journeys[i].cabin_class[1]+`)\n`+
-            journeys[i].origin_name+` (`+journeys[i].origin+`) - `+journeys[i].destination_name+` (`+journeys[i].destination+`) `+journeys[i].departure_date[0] + ` ` + journeys[i].departure_date[1];
+            journeys[i].origin_name+` - `+journeys[i].destination_name+` `+journeys[i].departure_date[0] + ` ` + journeys[i].departure_date[1];
         if(journeys[i].arrival_date[0] == journeys[i].departure_date[0]){
             $text +=` - `+journeys[i].arrival_date[1]+`\n\n`;
         }
@@ -844,7 +844,7 @@ function bus_get_detail(){
                     </tr>
                 </table>
                 <span>`+journeys[i].departure_date[0]+`</span><br/>
-                <span style="font-weight:500;">`+journeys[i].origin_name+` (`+journeys[i].origin+`)</span>
+                <span style="font-weight:500;">`+journeys[i].origin_name+`</span>
             </div>
 
             <div class="col-lg-6 col-xs-6">
@@ -856,7 +856,7 @@ function bus_get_detail(){
                     </tr>
                 </table>
                 <span>`+journeys[i].arrival_date[0]+`</span><br/>
-                <span style="font-weight:500;">`+journeys[i].destination_name+` (`+journeys[i].destination+`)</span>
+                <span style="font-weight:500;">`+journeys[i].destination_name+`</span>
             </div>
         </div>
         <br/>
@@ -1089,7 +1089,7 @@ function bus_detail(){
     for(i in bus_data){
     $text +=
         bus_data[i].carrier_name+`-`+bus_data[i].carrier_number+`(`+bus_data[i].cabin_class[1]+`)\n`+
-        bus_data[i].origin_name+` (`+bus_data[i].origin+`) - `+bus_data[i].destination_name+` (`+bus_data[i].destination+`) `;
+        bus_data[i].origin_name+` - `+bus_data[i].destination_name+` `;
     $text += bus_data[i].departure_date[0]+' ' + bus_data[i].departure_date[1]+ ` - `;
     if(bus_data[i].departure_date[0] != bus_data[i].arrival_date[0])
         $text += bus_data[i].arrival_date[0] + ' ' + bus_data[i].arrival_date[1]+`\n\n`;
@@ -1122,7 +1122,7 @@ function bus_detail(){
                     </tr>
                 </table>
                 <span>`+bus_data[i].departure_date[0]+`</span><br/>
-                <span style="font-weight:500;">`+bus_data[i].origin_name+` (`+bus_data[i].origin+`)</span>
+                <span style="font-weight:500;">`+bus_data[i].origin_name+`</span>
             </div>
 
             <div class="col-lg-6 col-xs-6">
@@ -1134,7 +1134,7 @@ function bus_detail(){
                     </tr>
                 </table>
                 <span>`+bus_data[i].arrival_date[0]+`</span><br/>
-                <span style="font-weight:500;">`+bus_data[i].destination_name+` (`+bus_data[i].destination+`)</span>
+                <span style="font-weight:500;">`+bus_data[i].destination_name+`</span>
             </div>
         </div>
         <br/>
@@ -1407,49 +1407,52 @@ function check_passenger(adult, infant){
        }else{
            document.getElementById('adult_nationality'+i).style['border-color'] = '#EFEFEF';
        }
-       if(document.getElementById('adult_id_type'+i).value == ''){
-           error_log+= 'Please fill id type for passenger adult '+i+'!</br>\n';
-           document.getElementById('adult_id_type'+i).style['border-color'] = 'red';
-       }else{
-           document.getElementById('adult_id_type'+i).style['border-color'] = '#EFEFEF';
-           if(document.getElementById('adult_id_type'+i).value == 'ktp' && check_ktp(document.getElementById('adult_passport_number'+i).value) == false){
-               error_log+= 'Please fill id number, ktp only contain 16 digits for passenger adult '+i+'!</br>\n';
-               document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
-           }else{
-               document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
-           }
 
-           if(document.getElementById('adult_id_type'+i).value == 'sim' && check_sim(document.getElementById('adult_passport_number'+i).value) == false){
-               error_log+= 'Please fill id number, sim only contain 12 - 13 digits for passenger adult '+i+'!</br>\n';
-               document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
+       if(document.getElementById('adult_identity_div'+i).style.display == 'block'){
+           if(document.getElementById('adult_id_type'+i).value == ''){
+               error_log+= 'Please fill id type for passenger adult '+i+'!</br>\n';
+               document.getElementById('adult_id_type'+i).style['border-color'] = 'red';
            }else{
-               document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
-           }
-
-           if(document.getElementById('adult_id_type'+i).value == 'passport'){
-               if(document.getElementById('adult_id_type'+i).value == 'passport' && check_passport(document.getElementById('adult_passport_number'+i).value) == false){
-                   error_log+= 'Please fill id number, passport only contain more than 6 digits  for passenger adult '+i+'!</br>\n';
+               document.getElementById('adult_id_type'+i).style['border-color'] = '#EFEFEF';
+               if(document.getElementById('adult_id_type'+i).value == 'ktp' && check_ktp(document.getElementById('adult_passport_number'+i).value) == false){
+                   error_log+= 'Please fill id number, ktp only contain 16 digits for passenger adult '+i+'!</br>\n';
                    document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
                }else{
                    document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
                }
-               if(document.getElementById('adult_passport_expired_date'+i).value == ''){
-                   error_log+= 'Please fill passport expired date for passenger adult '+i+'!</br>\n';
-                   document.getElementById('adult_passport_expired_date'+i).style['border-color'] = 'red';
+
+               if(document.getElementById('adult_id_type'+i).value == 'sim' && check_sim(document.getElementById('adult_passport_number'+i).value) == false){
+                   error_log+= 'Please fill id number, sim only contain 12 - 13 digits for passenger adult '+i+'!</br>\n';
+                   document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
                }else{
-                   document.getElementById('adult_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
-               }if(document.getElementById('adult_country_of_issued'+i).value == ''){
-                   error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
-                   document.getElementById('adult_country_of_issued'+i).style['border-color'] = 'red';
-               }else{
-                   document.getElementById('adult_country_of_issued'+i).style['border-color'] = '#EFEFEF';
+                   document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
                }
-           }
-           if(document.getElementById('adult_id_type'+i).value == 'other' && document.getElementById('adult_passport_number'+i).value.length < 6){
-               error_log+= 'Please fill id number for passenger adult '+i+'!</br>\n';
-               document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
-           }else{
-               document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
+
+               if(document.getElementById('adult_id_type'+i).value == 'passport'){
+                   if(document.getElementById('adult_id_type'+i).value == 'passport' && check_passport(document.getElementById('adult_passport_number'+i).value) == false){
+                       error_log+= 'Please fill id number, passport only contain more than 6 digits  for passenger adult '+i+'!</br>\n';
+                       document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
+                   }else{
+                       document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
+                   }
+                   if(document.getElementById('adult_passport_expired_date'+i).value == ''){
+                       error_log+= 'Please fill passport expired date for passenger adult '+i+'!</br>\n';
+                       document.getElementById('adult_passport_expired_date'+i).style['border-color'] = 'red';
+                   }else{
+                       document.getElementById('adult_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+                   }if(document.getElementById('adult_country_of_issued'+i).value == ''){
+                       error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
+                       document.getElementById('adult_country_of_issued'+i).style['border-color'] = 'red';
+                   }else{
+                       document.getElementById('adult_country_of_issued'+i).style['border-color'] = '#EFEFEF';
+                   }
+               }
+               if(document.getElementById('adult_id_type'+i).value == 'other' && document.getElementById('adult_passport_number'+i).value.length < 6){
+                   error_log+= 'Please fill id number for passenger adult '+i+'!</br>\n';
+                   document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
+               }else{
+                   document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
+               }
            }
        }
        if(document.getElementById('adult_cp'+i).checked == true){
