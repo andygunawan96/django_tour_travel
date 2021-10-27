@@ -2520,18 +2520,23 @@ function copy_booker_to_passenger(val,type){
                 var date2 = moment();
                 var expired = date2.diff(date1, 'days');
                 if(expired < -180){
-                    if(document.getElementById('booker_id_number').value != 'undefined' && document.getElementById('booker_id_number').value != '')
-                        document.getElementById('adult_passport_number1').value = document.getElementById('booker_id_number').value;
-                    if(document.getElementById('booker_exp_date').value != 'undefined' && document.getElementById('booker_exp_date').value != '')
-                        document.getElementById('adult_passport_expired_date1').value = document.getElementById('booker_exp_date').value;
-                    if(document.getElementById('booker_country_of_issued').value != 'undefined' && document.getElementById('booker_country_of_issued').value != ''){
-                        document.getElementById('select2-adult_country_of_issued1_id-container').innerHTML = document.getElementById('booker_country_of_issued').value;
-                        document.getElementById('adult_country_of_issued1').value = document.getElementById('booker_country_of_issued').value;
-                    }
-                    try{ //yg ada id_type di update
-                        if(document.getElementById('booker_id_type').value != 'undefined' && document.getElementById('booker_id_type').value != ''){
-                            document.getElementById('adult_id_type1').value = 'passport';
-                            $('#adult_id_type1').niceSelect('update');
+                    try{ //check ada id type di selection klo ada masukkan
+                        var radios = document.getElementsByName('adult_identity_type1');
+                        for (var j = 0, length = radios.length; j < length; j++) {
+                            if (radios[j].value == document.getElementById('booker_id_type').value) {
+                                if(document.getElementById('booker_id_type').value != 'undefined' && document.getElementById('booker_id_type').value != ''){
+                                    document.getElementById('adult_id_type1').value = 'passport';
+                                    if(document.getElementById('booker_id_number').value != 'undefined' && document.getElementById('booker_id_number').value != '')
+                                        document.getElementById('adult_passport_number1').value = document.getElementById('booker_id_number').value;
+                                    if(document.getElementById('booker_exp_date').value != 'undefined' && document.getElementById('booker_exp_date').value != '')
+                                        document.getElementById('adult_passport_expired_date1').value = document.getElementById('booker_exp_date').value;
+                                    if(document.getElementById('booker_country_of_issued').value != 'undefined' && document.getElementById('booker_country_of_issued').value != ''){
+                                        document.getElementById('select2-adult_country_of_issued1_id-container').innerHTML = document.getElementById('booker_country_of_issued').value;
+                                        document.getElementById('adult_country_of_issued1').value = document.getElementById('booker_country_of_issued').value;
+                                    }
+                                    $('#adult_id_type1').niceSelect('update');
+                                }
+                            }
                         }
                     }catch(err){console.log(err);}
 
