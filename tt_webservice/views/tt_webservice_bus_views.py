@@ -268,9 +268,10 @@ def search(request):
                 request.session['bus_request']['departure'][idx].split(' ')[2],
                 month[request.session['bus_request']['departure'][idx].split(' ')[1]],
                 request.session['bus_request']['departure'][idx].split(' ')[0])
+
             journey_list.append({
-                'origin': request.session['bus_request']['origin'][idx].split(' - ')[0],
-                'destination': request.session['bus_request']['destination'][idx].split(' - ')[0],
+                'origin': list(filter(lambda station: station['name'] == request.session['bus_request']['origin'][idx].split(' - ')[1], bus_destinations['station']))[0]['code'],
+                'destination': list(filter(lambda station: station['name'] == request.session['bus_request']['destination'][idx].split(' - ')[1], bus_destinations['station']))[0]['code'],
                 'departure_date': departure_date
             })
 
@@ -412,13 +413,16 @@ def commit_booking(request):
                                     break
                         else:
                             pax['identity_country_of_issued_code'] = ''
-                        pax['identity'] = {
-                            "identity_country_of_issued_name": pax.pop('identity_country_of_issued_name'),
-                            "identity_country_of_issued_code": pax.pop('identity_country_of_issued_code'),
-                            "identity_expdate": pax.pop('identity_expdate'),
-                            "identity_number": pax.pop('identity_number'),
-                            "identity_type": pax.pop('identity_type'),
-                        }
+                        if pax['identity_type'] != '':
+                            pax['identity'] = {
+                                "identity_country_of_issued_name": pax.pop('identity_country_of_issued_name'),
+                                "identity_country_of_issued_code": pax.pop('identity_country_of_issued_code'),
+                                "identity_expdate": pax.pop('identity_expdate'),
+                                "identity_number": pax.pop('identity_number'),
+                                "identity_type": pax.pop('identity_type'),
+                            }
+                        else:
+                            pax['identity'] = {}
                     elif pax['pax_type'] == 'ADT':
                         pax.pop('identity_country_of_issued_name')
                         pax.pop('identity_expdate')

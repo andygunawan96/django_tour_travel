@@ -166,12 +166,12 @@ function get_bus_config(){
         new_bus_destination = [];
         for(i in msg.station){
             new_bus_destination.push({
-                "name": msg.station[i].code+' - '+ msg.station[i].name+` - `+msg.station[i].city,
+                "name": msg.station[i].city+' - '+ msg.station[i].name,
                 "destination": []
             });
             for(j in msg.station[i].destination){
                 new_bus_destination[i].destination.push({
-                    "name": msg.station[i].destination[j].code+' - '+ msg.station[i].destination[j].name+` - `+msg.station[i].destination[j].city,
+                    "name": msg.station[i].destination[j].city+' - '+ msg.station[i].destination[j].name,
                 })
 
             }
@@ -305,7 +305,7 @@ function bus_search(provider, signature){
                         Swal.fire({
                           type: 'error',
                           title: 'Oops!',
-                          html: '<span style="color: red;">Error bus search </span>' + errorThrown,
+                          html: '<span style="color: red;">Error bus search </span>' + msg.result.error_msg,
                         })
                     }
                }
@@ -796,7 +796,7 @@ function bus_get_booking(data, sync=false){
                                                     </tr>
                                                 </table>
                                                 <span>`+msg.result.response.provider_bookings[i].journeys[j].departure_date.split(' - ')[0]+`</span><br/>
-                                                <span style="font-weight:500;">`+msg.result.response.provider_bookings[i].journeys[j].origin_name+` (`+msg.result.response.provider_bookings[i].journeys[j].origin+`)</span>
+                                                <span style="font-weight:500;">`+msg.result.response.provider_bookings[i].journeys[j].origin_name+`</span>
                                             </div>
 
                                             <div class="col-lg-6 col-xs-6" style="padding:0;">
@@ -808,7 +808,7 @@ function bus_get_booking(data, sync=false){
                                                     </tr>
                                                 </table>
                                                 <span>`+msg.result.response.provider_bookings[i].journeys[j].arrival_date.split(' - ')[0]+`</span><br/>
-                                                <span style="font-weight:500;">`+msg.result.response.provider_bookings[i].journeys[j].destination_name+`  (`+msg.result.response.provider_bookings[i].journeys[j].destination+`)</span>
+                                                <span style="font-weight:500;">`+msg.result.response.provider_bookings[i].journeys[j].destination_name+`</span>
                                             </div>
                                         </div>
                                     </div>
