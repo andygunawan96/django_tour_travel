@@ -471,49 +471,53 @@
                                                 <input type="hidden" class="form-control" name="adult_years_old{{forloop.counter}}" id="adult_years_old{{forloop.counter}}">
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
-                                            <label style="color:red">*</label>
-                                            <label>{% trans 'ID Type' %}</label>
-                                            <div class="input-container-search-ticket">
-                                                <div class="form-select" id="default-select">
-                                                    <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onchange="id_type_change('adult',{{forloop.counter}})">
-                                                        {% for id_type in id_types%}
-                                                        <option value="{{id_type.0}}">{{id_type.1}}</option>
-                                                        {% endfor %}
-                                                    </select>
+                                        <div class="col-lg-12" id="adult_identity_div{{forloop.counter}}" style="display:{% if is_need_identity == False %}none{% else %}block{% endif %}">
+                                            <div class="row" >
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    <label style="color:red">*</label>
+                                                    <label>{% trans 'ID Type' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select" id="default-select">
+                                                            <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onchange="id_type_change('adult',{{forloop.counter}})">
+                                                                {% for id_type in id_types%}
+                                                                <option value="{{id_type.0}}">{{id_type.1}}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
-                                            <label style="color:red">*</label>
-                                            <label>{% trans 'ID Number' %}</label>
-                                            <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" name="adult_passport_number{{forloop.counter}}" id="adult_passport_number{{forloop.counter}}" placeholder="{% trans 'ID Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'ID Number '">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
-                                            <label id="adult_passport_number_required{{forloop.counter}}" style="color:{{text_color}}">*</label>
-                                            <label>{% trans 'ID Expired Date' %}</label>
-                                            <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control date-picker-passport" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'ID Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'ID Expired Date '" autocomplete="off" readonly>
-                                                <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    <label style="color:red">*</label>
+                                                    <label>{% trans 'ID Number' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control" name="adult_passport_number{{forloop.counter}}" id="adult_passport_number{{forloop.counter}}" placeholder="{% trans 'ID Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'ID Number '">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    <label id="adult_passport_number_required{{forloop.counter}}" style="color:{{text_color}}">*</label>
+                                                    <label>{% trans 'ID Expired Date' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control date-picker-passport" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'ID Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'ID Expired Date '" autocomplete="off" readonly>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
 
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
-                                            <label id="adult_country_of_issued_required{{forloop.counter}}_id" style="color:{{text_color}}">*</label>
-                                            <label>{% trans 'Country of Issued' %}</label>
-                                            <div class="input-container-search-ticket">
-                                                <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="adult_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('adult_country_of_issued{{forloop.counter}}')" class="nice-select-default">
-                                                        <option value="">{% trans 'Country of Issued' %}</option>
-                                                        {% for country in countries %}
-                                                        <option value="{{country.name}}">{{country.name}}</option>
-                                                        {% endfor %}
-                                                    </select>
+                                                    </div>
                                                 </div>
-                                                <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                <input type="hidden" name="adult_country_of_issued{{forloop.counter}}" id="adult_country_of_issued{{forloop.counter}}" />
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    <label id="adult_country_of_issued_required{{forloop.counter}}_id" style="color:{{text_color}}">*</label>
+                                                    <label>{% trans 'Country of Issued' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select">
+                                                            <select class="form-control js-example-basic-single" name="adult_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('adult_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                                <option value="">{% trans 'Country of Issued' %}</option>
+                                                                {% for country in countries %}
+                                                                <option value="{{country.name}}">{{country.name}}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                        <input type="hidden" name="adult_country_of_issued{{forloop.counter}}" id="adult_country_of_issued{{forloop.counter}}" />
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden1_{{forloop.counter}}" hidden>
