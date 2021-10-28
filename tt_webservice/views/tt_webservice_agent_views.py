@@ -1595,7 +1595,8 @@ def deactivate_corporate_mode(request):
         if res['result']['error_code'] == 0:
             cur_session = request.session['user_account']
             for key in res['result']['response']:
-                del cur_session[key]
+                if cur_session.get(key):
+                    del cur_session[key]
             set_session(request, 'user_account', cur_session)
             _logger.info("SUCCESS deactivate_corporate_mode SIGNATURE " + request.POST['signature'])
         else:
