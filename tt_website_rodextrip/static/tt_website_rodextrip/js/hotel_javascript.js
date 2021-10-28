@@ -972,7 +972,7 @@ function sort(response, check_filter){
                                         <span class="carrier_code_template">for `+total_room+` room, `+total_night+` night</span><br/>`;
                                         try{
                                             if(arr.length != 0)
-                                                text+=`<button type="button" class="primary-btn-custom" onclick="goto_detail('hotel',`+i+`)">Book Now!</button>`;
+                                                text+=`<button type="button" class="primary-btn-custom" onclick="goto_detail('hotel',`+i+`)" style="font-size:13px;">Click here for Best Price!</button>`;
                                             else
                                                 text+=`<button type="button" class="primary-btn-custom" style="background-color:#cdcdcd;" onclick="goto_detail('hotel',`+i+`)">No Available Price</button>`;
                                         }catch(err){
