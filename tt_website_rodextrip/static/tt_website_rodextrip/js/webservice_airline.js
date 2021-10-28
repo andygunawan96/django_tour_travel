@@ -2910,7 +2910,6 @@ function get_price_itinerary_request(){
                                               x: 'center',
                                               y: 'bottom'
                                             },
-
                                             closeOnMouseleave: true,
                                             animation: 'zoomIn',
                                             content: resJson.result.response.price_itinerary_provider[i].journeys[j].search_banner[banner_counter].description
