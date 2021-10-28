@@ -2426,14 +2426,23 @@ function sort(){
                                     }
 
                                    text+=`
-                                   <div class="col-lg-3 col-md-4 col-sm-4" style="padding-top:15px; margin: auto;">
+                                   <div class="col-lg-6 col-md-6 col-sm-6" style="padding-top:15px; margin: auto;">`;
+
+                                   if(provider_list_data[airline[i].provider].is_post_issued_reschedule)
+                                        text+=`
+                                            <span style="font-weight:bold; padding-right:5px;"><i class="fas fa-check-circle" style="color:#4f9c64;"></i> Reschedule</span>`;
+                                   if(provider_list_data[airline[i].provider].is_post_issued_cancel)
+                                        text+=`
+                                            <span style="font-weight:bold; padding-right:5px;"><i class="fas fa-check-circle" style="color:#4f9c64;"></i> Refund</span>`;
+
+                                   text+=`
                                        <a id="detail_button_journey0`+i+`" data-toggle="collapse" data-parent="#accordiondepart" onclick="show_flight_details(`+i+`);" href="#detail_departjourney`+i+`" style="color: #237395; text-decoration: unset;" aria-expanded="true">
                                            <span class="detail-link" style="font-weight: bold; display:none;" id="flight_details_up`+i+`"> Flight details <i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
                                             <span class="detail-link" style="font-weight: bold; display:block;" id="flight_details_down`+i+`"> Flight details <i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
                                        </a>`;
 
                                    text+=`</div>
-                                   <div class="col-lg-9 col-md-8 col-sm-8" style="text-align:right;">`;
+                                   <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:right;">`;
                                        if(provider_list_data.hasOwnProperty(airline[i].provider) == true && provider_list_data[airline[i].provider].description != '')
                                             text += `<span>`+provider_list_data[airline[i].provider].description+`</span><br/>`;
                                        text+=`
@@ -2445,7 +2454,8 @@ function sort(){
                                            text+=`<input type='button' style="margin:5px 0px 0px 0px;" id="departjourney`+i+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Sold Out" onclick="" disabled sequence_id="0"/>`;
                                        }
                                        text+=`
-                                   </div>
+                                   </div>`;
+                               text+=`
                                </div>
 
                                <div id="detail_departjourney`+i+`" class="panel-collapse collapse in" aria-expanded="true" style="display:none;">`;
@@ -4285,6 +4295,15 @@ function airline_detail(type){
                         }
                     }
                 }
+
+
+                if(provider_list_data[price_itinerary_temp[i].provider].is_post_issued_reschedule)
+                    text+=`
+                        <br/><span style="font-weight:bold;"><i class="fas fa-check-circle" style="color:#4f9c64;"></i> Reschedule</span>`;
+                if(provider_list_data[price_itinerary_temp[i].provider].is_post_issued_cancel)
+                    text+=`
+                        <br/><span style="font-weight:bold;"><i class="fas fa-check-circle" style="color:#4f9c64;"></i> Refund</span>`;
+
 //                text+=`<div class="row"><div class="col-lg-12"><hr/></div></div>`;
             }
         }

@@ -839,6 +839,10 @@ function train_get_detail(){
                             attach: '#pop_search_banner_detail'+i+banner_counter,
                             theme: 'TooltipBorder',
                             width: 280,
+                            position: {
+                              x: 'center',
+                              y: 'bottom'
+                            },
                             closeOnMouseleave: true,
                             animation: 'zoomIn',
                             content: journeys[i].search_banner[banner_counter].description
@@ -1189,6 +1193,10 @@ function train_detail(){
                             attach: '#pop_search_banner'+i+banner_counter,
                             theme: 'TooltipBorder',
                             width: 280,
+                            position: {
+                              x: 'center',
+                              y: 'bottom'
+                            },
                             closeOnMouseleave: true,
                             animation: 'zoomIn',
                             content: train_data[i].search_banner[banner_counter].description
@@ -1843,7 +1851,7 @@ function sort(value){
                 <span class="copy_train" hidden>`+i+`</span>`;
             response+=`
                 <div class="row">
-                    <div class="col-lg-9">`;
+                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">`;
                     if(data_filter[i].hasOwnProperty('search_banner')){
                        for(banner_counter in data_filter[i].search_banner){
                            var max_banner_date = moment().subtract(parseInt(-1*data_filter[i].search_banner[banner_counter].minimum_days), 'days').format('YYYY-MM-DD');
@@ -1858,7 +1866,7 @@ function sort(value){
                     }
                     response+=`
                     </div>
-                    <div class="col-lg-3">`;
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">`;
                        if(data_filter[i].available_count > 0 && data_filter[i].can_book == true){
                            response+=`
                            <label class="check_box_custom" style="float:right;">
@@ -1970,6 +1978,10 @@ function sort(value){
                             attach: '#pop_search_banner'+i+banner_counter,
                             theme: 'TooltipBorder',
                             width: 280,
+                            position: {
+                              x: 'center',
+                              y: 'bottom'
+                            },
                             closeOnMouseleave: true,
                             animation: 'zoomIn',
                             content: data_filter[i].search_banner[banner_counter].description
@@ -2076,6 +2088,10 @@ function train_ticket_pick(){
                             attach: '#pop_search_banner_pick'+i+journeys[i].train_sequence+banner_counter,
                             theme: 'TooltipBorder',
                             width: 280,
+                            position: {
+                              x: 'center',
+                              y: 'bottom'
+                            },
                             closeOnMouseleave: true,
                             animation: 'zoomIn',
                             content: journeys[i].search_banner[banner_counter].description
@@ -2345,20 +2361,25 @@ function get_checked_copy_result(){
         <div class="row" id="div_list`+id_train+`">
             <div class="col-lg-9">
                 <h6>Option-`+train_number+`</h6>
-                <h6>`+name_train+`</h6>
-                <span>`+departure_train+`, `+date_depart+` `+time_depart+` </span>
-                <i class="fas fa-arrow-right"></i>
-                <span>`+arrival_train+`, `+date_arr+` `+time_arr+` </span><br/>`;
-                if(seat_train){
-                    text+=`<span>`+seat_train+`</span><br/>`;
-                }
-            text+=`
-                <span style="font-size:13px; font-weight:800; color:`+color+`;">Price: `+price_train+`</span>
+                <h6 style="margin-bottom:5px;">`+name_train+`</h6>
             </div>
             <div class="col-lg-3" style="text-align:right;">
                 <span style="font-weight:500; cursor:pointer;" onclick="delete_checked_copy_result(`+id_train+`);">Delete <i class="fas fa-times-circle" style="color:red; font-size:18px;"></i></span>
             </div>
-            <div class="col-lg-12"><hr/></div>
+            <div class="col-lg-6" style="text-align:left;">
+                <b>Departure</b><br/><span>`+departure_train+`, `+date_depart+` `+time_depart+` </span>
+            </div>
+            <div class="col-lg-6" style="text-align:right;">
+                <b>Return</b><br/><span>`+arrival_train+`, `+date_arr+` `+time_arr+` </span>
+            </div>
+            <div class="col-lg-12">`;
+            if(seat_train){
+                text+=`<span>`+seat_train+`</span><br/>`;
+            }
+            text+=`
+                <span style="font-size:13px; font-weight:800; color:`+color+`;">Price: `+price_train+`</span>
+                <hr/>
+            </div>
         </div>`;
     });
     text+=`
@@ -2494,11 +2515,11 @@ function change_date_next_prev(counter){
     var today_date = moment().format('DD MMM YYYY'); //hari ini
     flight_date = moment(train_request.departure[counter]);
     var date_format = 'DD MMM YYYY';
-    document.getElementById('now_date').innerHTML = `<div style="background:white; border:2px solid `+color+`; padding:15px; text-align: center;">`+flight_date.format(date_format)+`</div>`;
-    document.getElementById('prev_date_1').innerHTML = `<div class="button_date_np date_item_p1" id="div_onclick_p1" onclick="change_date_shortcut(1);">`+flight_date.subtract(+1, 'days').format(date_format)+`</div>`;
-    document.getElementById('prev_date_2').innerHTML = `<div class="button_date_np date_item_p2" id="div_onclick_p2" onclick="change_date_shortcut(2);">`+flight_date.subtract(+1, 'days').format(date_format)+`</div>`;
-    document.getElementById('next_date_1').innerHTML = `<div class="button_date_np date_item_n1" id="div_onclick_n1" onclick="change_date_shortcut(-1);">`+flight_date.subtract(-3, 'days').format(date_format)+`</div>`;
-    document.getElementById('next_date_2').innerHTML = `<div class="button_date_np date_item_n2" id="div_onclick_n2" onclick="change_date_shortcut(-2);">`+flight_date.subtract(-1, 'days').format(date_format)+`</div>`;
+    document.getElementById('now_date').innerHTML = `<div style="background:white; border:2px solid `+color+`; padding:15px 5px; text-align: center;">`+flight_date.format(date_format)+`</div>`;
+    document.getElementById('prev_date_1').innerHTML = `<div class="button_date_np date_item_p1" id="div_onclick_p1" style="background:white; border:2px solid `+color+`; padding:15px 5px; text-align: center;" onclick="change_date_shortcut(1);">`+flight_date.subtract(+1, 'days').format(date_format)+`</div>`;
+    document.getElementById('prev_date_2').innerHTML = `<div class="button_date_np date_item_p2" id="div_onclick_p2" style="background:white; border:2px solid `+color+`; padding:15px 5px; text-align: center;" onclick="change_date_shortcut(2);">`+flight_date.subtract(+1, 'days').format(date_format)+`</div>`;
+    document.getElementById('next_date_1').innerHTML = `<div class="button_date_np date_item_n1" id="div_onclick_n1" style="background:white; border:2px solid `+color+`; padding:15px 5px; text-align: center;" onclick="change_date_shortcut(-1);">`+flight_date.subtract(-3, 'days').format(date_format)+`</div>`;
+    document.getElementById('next_date_2').innerHTML = `<div class="button_date_np date_item_n2" id="div_onclick_n2" style="background:white; border:2px solid `+color+`; padding:15px 5px; text-align: center;" onclick="change_date_shortcut(-2);">`+flight_date.subtract(-1, 'days').format(date_format)+`</div>`;
     flight_date.subtract(+2, 'days') //balikin ke hari ini
 
     if(train_request.direction == 'OW'){

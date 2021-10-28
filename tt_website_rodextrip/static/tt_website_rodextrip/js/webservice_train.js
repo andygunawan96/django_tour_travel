@@ -1504,6 +1504,10 @@ function train_get_booking(data){
                                             theme: 'TooltipBorder',
                                             width: 280,
                                             closeOnMouseleave: true,
+                                            position: {
+                                              x: 'center',
+                                              y: 'bottom'
+                                            },
                                             animation: 'zoomIn',
                                             content: msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].description
                                        });
