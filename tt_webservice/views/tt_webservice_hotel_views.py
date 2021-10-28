@@ -12,6 +12,7 @@ import traceback
 from .tt_webservice_views import *
 from .tt_webservice import *
 from .tt_webservice_voucher_views import *
+from ..views import tt_webservice_agent_views as webservice_agent
 _logger = logging.getLogger("rodextrip_logger")
 
 month = {
@@ -110,6 +111,8 @@ def login(request):
         if res['result']['error_code'] == 0:
             set_session(request, 'hotel_signature', res['result']['response']['signature'])
             set_session(request, 'signature', res['result']['response']['signature'])
+            if request.session['user_account'].get('co_customer_parent_seq_id'):
+                webservice_agent.activate_corporate_mode(request, res['result']['response']['signature'])
             _logger.info(json.dumps(request.session['hotel_signature']))
             _logger.info(json.dumps(res))
     except Exception as e:

@@ -1548,8 +1548,9 @@ def get_customer_parent(request):
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
-def activate_corporate_mode(request):
+def activate_corporate_mode(request, signature=False):
     try:
+        #DARI AJAX
         data = {
             'c_seq_id': request.POST['customer_seq_id'],
             'cp_seq_id': request.POST['customer_parent_seq_id']
@@ -1561,18 +1562,45 @@ def activate_corporate_mode(request):
             "signature": request.POST['signature'],
         }
     except Exception as e:
-        _logger.error(str(e) + '\n' + traceback.format_exc())
+        if signature == False:
+            _logger.error(str(e) + '\n' + traceback.format_exc())
 
+    if signature:
+        #JIKA PAKAI CORPORATE MODE
+        try:
+            cur_session = request.session['user_account']
+            data = {
+                'c_seq_id': cur_session['co_customer_seq_id'],
+                'cp_seq_id': cur_session['co_customer_parent_seq_id']
+            }
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
+                "action": "activate_corporate_mode",
+                "signature": signature,
+            }
+        except Exception as e:
+            _logger.error(str(e) + '\n' + traceback.format_exc())
     url_request = url + 'session'
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
             cur_session = request.session['user_account']
             cur_session.update(res['result']['response'])
+            cur_session.update({
+                "co_customer_parent_seq_id": request.POST['customer_parent_seq_id']
+            })
             set_session(request, 'user_account', cur_session)
-            _logger.info("SUCCESS activate_corporate_mode SIGNATURE " + request.POST['signature'])
+            if signature == False:
+                _logger.info("SUCCESS activate_corporate_mode SIGNATURE " + request.POST['signature'])
+            else:
+                _logger.info("SUCCESS activate_corporate_mode SIGNATURE " + signature)
         else:
-            _logger.error("activate_corporate_mode ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            if signature == False:
+                _logger.error("activate_corporate_mode ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            else:
+                _logger.error(
+                    "activate_corporate_mode ERROR SIGNATURE " + signature + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -1595,7 +1623,10 @@ def deactivate_corporate_mode(request):
         if res['result']['error_code'] == 0:
             cur_session = request.session['user_account']
             for key in res['result']['response']:
-                del cur_session[key]
+                if cur_session.get(key):
+                    del cur_session[key]
+            if cur_session.get('co_customer_parent_seq_id'):
+                del cur_session['co_customer_parent_seq_id']
             set_session(request, 'user_account', cur_session)
             _logger.info("SUCCESS deactivate_corporate_mode SIGNATURE " + request.POST['signature'])
         else:
