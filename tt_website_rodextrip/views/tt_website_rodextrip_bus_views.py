@@ -215,7 +215,7 @@ def passenger(request):
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
-            is_need_identity = True
+            is_need_identity = False
             for rec in request.session['bus_pick']:
                 if rec['is_need_identity']:
                     is_need_identity = rec['is_need_identity']
