@@ -10,6 +10,7 @@ import logging
 import traceback
 from .tt_webservice_views import *
 from .tt_webservice import *
+from ..views import tt_webservice_agent_views as webservice_agent
 from .tt_webservice_voucher_views import *
 _logger = logging.getLogger("rodextrip_logger")
 
@@ -107,6 +108,8 @@ def login(request):
         if res['result']['error_code'] == 0:
             set_session(request, 'bus_signature', res['result']['response']['signature'])
             set_session(request, 'signature', res['result']['response']['signature'])
+            if request.session['user_account'].get('co_customer_parent_seq_id'):
+                webservice_agent.activate_corporate_mode(request, res['result']['response']['signature'])
             _logger.info(json.dumps(request.session['bus_signature']))
 
             _logger.info("SIGNIN BUS SUCCESS SIGNATURE " + res['result']['response']['signature'])
@@ -431,16 +434,18 @@ def commit_booking(request):
                     passenger.append(pax)
 
         schedules = request.session['bus_booking']
-        for schedule in schedules:
+        for schedule_count, schedule in enumerate(schedules):
             for journey_count, journey in enumerate(schedule['journeys']):
                 if not journey.get('seat'):
                     journey['seat'] = []
                 if pax_request_seat:
                     for idx, request_seat in enumerate(pax_request_seat):
-                        journey['seat'].append(request_seat['seat_pick'][journey_count])
-                        journey['seat'][len(journey['seat'])-1].update({
-                            "sequence": idx+1
-                        })
+                        if len(request_seat['seat_pick']) >= schedule_count:
+                            if request_seat['seat_pick'][schedule_count]['seat_code'] != '':
+                                journey['seat'].append(request_seat['seat_pick'][schedule_count])
+                                journey['seat'][len(journey['seat'])-1].update({
+                                    "sequence": idx+1
+                                })
         data = {
             "contacts": contacts,
             "passengers": passenger,
