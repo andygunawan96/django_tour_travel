@@ -277,9 +277,9 @@ function lab_pintar_check_price(){
                     };
                     for(i in msg.result.response.service_charges){
                         if(msg.result.response.service_charges[i].charge_type != 'RAC'){
-                            price_list['fare']['amount'] += (msg.result.response.service_charges[i].pax_count * msg.result.response.service_charges[i].amount);
+                            price_list['fare']['amount'] += msg.result.response.service_charges[i].amount;
                             price_list['fare']['pax_count'] = msg.result.response.service_charges[i].pax_count;
-                            price_list['fare']['currency'] += msg.result.response.service_charges[i].currency;
+                            price_list['fare']['currency'] = msg.result.response.service_charges[i].currency;
                         }
                     }
                     text+=`
@@ -288,7 +288,7 @@ function lab_pintar_check_price(){
                                     <span style="font-size:12px;">`+price_list['fare']['pax_count']+`x Fare @IDR `+getrupiah(price_list['fare']['amount'])+`</span>`;
                         text+=`</div>
                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                    <b><span style="font-size:13px;">IDR `+getrupiah(msg.result.response.total_price)+`</span></b>
+                                    <b><span style="font-size:13px;">IDR `+getrupiah(price_list['fare']['amount']*price_list['fare']['pax_count'])+`</span></b>
                                 </div>
                             </div>`;
                     text+=`

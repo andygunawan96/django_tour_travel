@@ -289,10 +289,10 @@ function swab_express_check_price(){
                         }
                     };
                     for(i in msg.result.response.service_charges){
-                        if(msg.result.response.service_charges[i].charge_type != 'RAC'){
-                            price_list['fare']['amount'] += (msg.result.response.service_charges[i].pax_count * msg.result.response.service_charges[i].amount);
+                        if(msg.result.response.service_charges[i].charge_type != 'RAC' && msg.result.response.service_charges[i].charge_code != "fare_address_charge"){
+                            price_list['fare']['amount'] += msg.result.response.service_charges[i].amount;
                             price_list['fare']['pax_count'] = msg.result.response.service_charges[i].pax_count;
-                            price_list['fare']['currency'] += msg.result.response.service_charges[i].currency;
+                            price_list['fare']['currency'] = msg.result.response.service_charges[i].currency;
                         }
                     }
                     text+=`
@@ -301,7 +301,16 @@ function swab_express_check_price(){
                                     <span style="font-size:12px;">`+price_list['fare']['pax_count']+`x Fare @IDR `+getrupiah(price_list['fare']['amount'])+`</span>`;
                         text+=`</div>
                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                    <b><span style="font-size:13px;">IDR `+getrupiah(msg.result.response.total_price)+`</span></b>
+                                    <b><span style="font-size:13px;">IDR `+getrupiah(price_list['fare']['amount']*price_list['fare']['pax_count'])+`</span></b>
+                                </div>
+                            </div>`;
+                    text+=`
+                            <div class="row" style="margin-bottom:5px;">
+                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                    <span style="font-size:12px;">Address Surcharge IDR `+getrupiah(msg.result.response.address_surcharge)+`</span>`;
+                        text+=`</div>
+                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                    <b><span style="font-size:13px;">IDR `+getrupiah(msg.result.response.address_surcharge)+`</span></b>
                                 </div>
                             </div>`;
                     text+=`
@@ -325,11 +334,12 @@ function swab_express_check_price(){
                             <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"><br/>`;
                     text += `</div>`;
 
-                    if(msg.result.response.extra_cost == true){
-                        text += `
+                    text += `
                             <label style="color:red !important;">* </label>
                             <label>Extra Cost</label>
-                            <br/>`;
+                            <br/>
+                            <label style="margin-left:5px;">- Address Surcharge</label><br/>`;
+                    if(msg.result.response.extra_cost == true){
                         if(peduli_lindungi == 'true')
                             text+=`
                                 <label style="margin-left:5px;">- Peduli Lindungi</label>`;
@@ -403,32 +413,47 @@ function swab_express_get_cache_price(){
                 <div style="background-color:white; padding:10px; margin-bottom:15px;">
                     <h5> Price Detail</h5>
                 <hr/>`;
+                price_list = {
+                    "fare": {
+                        "amount":0,
+                        "currency":'',
+                        "pax_count":0,
+                    }
+                };
                 for(i in msg.result.response.service_charges){
-                    if(msg.result.response.service_charges[i].charge_code != 'rac'){
-                        if(msg.result.response.service_charges[i].charge_code == 'fare')
-                            charge_code = 'FARE';
-                        else if(msg.result.response.service_charges[i].charge_code == 'adm')
-                            charge_code = 'Admin Fee Drive Thru';
-                        text+=`
-                        <div class="row" style="margin-bottom:5px;">
-                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                <span style="font-size:12px;">`+msg.result.response.service_charges[i].pax_count+`x `+charge_code+` @IDR `+getrupiah(msg.result.response.service_charges[i].amount)+`</span>`;
-                    text+=`</div>
-                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                <b><span style="font-size:13px;">IDR `+getrupiah(msg.result.response.service_charges[i].total_amount)+`</span></b>
-                            </div>
-                        </div>`;
+                    if(msg.result.response.service_charges[i].charge_type != 'RAC' && msg.result.response.service_charges[i].charge_code != "fare_address_charge"){
+                        price_list['fare']['amount'] += msg.result.response.service_charges[i].amount;
+                        price_list['fare']['pax_count'] = msg.result.response.service_charges[i].pax_count;
+                        price_list['fare']['currency'] = msg.result.response.service_charges[i].currency;
                     }
                 }
                 text+=`
-                    <div class="row" style="margin-bottom:5px;">
-                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                            <span style="font-size:12px;">Grand Total</span>`;
-                        text+=`</div>
-                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                            <b><span style="font-size:13px;">IDR `+getrupiah(msg.result.response.total_price)+`</span></b>
-                        </div>
-                    </div>`;
+                        <div class="row" style="margin-bottom:5px;">
+                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                <span style="font-size:12px;">`+price_list['fare']['pax_count']+`x Fare @IDR `+getrupiah(price_list['fare']['amount'])+`</span>`;
+                    text+=`</div>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                <b><span style="font-size:13px;">IDR `+getrupiah(price_list['fare']['amount']*price_list['fare']['pax_count'])+`</span></b>
+                            </div>
+                        </div>`;
+                text+=`
+                        <div class="row" style="margin-bottom:5px;">
+                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="text-align:left;">
+                                <span style="font-size:12px;">Address Surcharge IDR `+getrupiah(msg.result.response.address_surcharge)+`</span>`;
+                    text+=`</div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
+                                <b><span style="font-size:13px;">IDR `+getrupiah(msg.result.response.address_surcharge)+`</span></b>
+                            </div>
+                        </div>`;
+                text+=`
+                        <div class="row" style="margin-bottom:5px;">
+                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                <span style="font-size:12px;">Grand Total</span>`;
+                            text+=`</div>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                <b><span style="font-size:13px;">IDR `+getrupiah(msg.result.response.total_price)+`</span></b>
+                            </div>
+                        </div>`;
                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                     text+=`
                         <div class="col-lg-12" style="text-align:center; display:none;padding-bottom:10px;" id="show_commission">
