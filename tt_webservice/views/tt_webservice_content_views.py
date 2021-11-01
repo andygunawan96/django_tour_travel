@@ -95,6 +95,8 @@ def api_models(request):
             res = delete_dynamic_page(request)
         elif req_data['action'] == 'get_dynamic_page_detail':
             res = get_dynamic_page_detail(request)
+        elif req_data['action'] == 'get_dynamic_page_mobile_detail':
+            res = get_dynamic_page_mobile_detail(request)
         elif req_data['action'] == 'testing_espay_close':
             res = testing_espay_close(request)
         elif req_data['action'] == 'get_top_up_term':
@@ -841,6 +843,53 @@ def get_dynamic_page_detail(request):
             os.mkdir('/var/log/django/page_dynamic')
         response = {}
         file = read_cache_without_folder_path("page_dynamic/" + request.POST['data'], 90911)
+        if file:
+            state = ''
+            title = ''
+            body = ''
+            image_carousel = ''
+            for idx, line in enumerate(file.split('\n')):
+                if idx == 0:
+                    if line.split('\n')[0] == 'false':
+                        state = False
+                    else:
+                        state = True
+                elif idx == 1:
+                    title = line.split('\n')[0]
+                elif idx == 2:
+                    body = json.loads(line.split('\n')[0])
+                elif idx == 3:
+                    image_carousel = line.split('\n')[0]
+            response = {
+                "state": bool(state),
+                "title": title,
+                "body": body,
+                "image_carousel": image_carousel
+            }
+        res = {
+            'result': {
+                'error_code': 0,
+                'error_msg': '',
+                'response': response
+            }
+        }
+    except Exception as e:
+        res = {
+            'result': {
+                'error_code': 500,
+                'error_msg': 'not found',
+                'response': []
+            }
+        }
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    return res
+
+def get_dynamic_page_mobile_detail(request):
+    try:
+        if not os.path.exists("/var/log/django/page_dynamic"):
+            os.mkdir('/var/log/django/page_dynamic')
+        response = {}
+        file = read_cache_without_folder_path("page_dynamic/" + request.data['data'], 90911)
         if file:
             state = ''
             title = ''
