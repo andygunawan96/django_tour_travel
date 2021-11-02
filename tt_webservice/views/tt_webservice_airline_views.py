@@ -255,7 +255,20 @@ def get_data_passenger_page(request):
         if file:
             res['airline_carriers'] = file
         res['ff_request'] = request.session['airline_get_ff_availability']['result']['response']['ff_availability_provider'] if request.session['airline_get_ff_availability']['result']['response'] else []
-
+        if request.session.get('airline_get_ssr'):
+            if request.session['airline_get_ssr']['result']['error_code'] == 0:
+                for idx, rec in enumerate(request.session['airline_get_ssr']['result']['response']['ssr_availability_provider']):
+                    if rec['status'] == 'available':
+                        res['price_itinerary']['sell_journey_provider'][idx]['is_ssr'] = True
+                    else:
+                        res['price_itinerary']['sell_journey_provider'][idx]['is_ssr'] = False
+        if request.session.get('airline_get_seat_availability'):
+            if request.session['airline_get_seat_availability']['result']['error_code'] == 0:
+                for idx, rec in enumerate(request.session['airline_get_seat_availability']['result']['response']['seat_availability_provider']):
+                    if rec['status'] == 'available':
+                        res['price_itinerary']['sell_journey_provider'][idx]['is_seat'] = True
+                    else:
+                        res['price_itinerary']['sell_journey_provider'][idx]['is_seat'] = False
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -272,6 +285,21 @@ def get_data_review_page(request):
         res['passengers'] = request.session['airline_create_passengers']
         res['passengers_ssr'] = request.session['airline_create_passengers']['adult'] + request.session['airline_create_passengers']['child']
         res['airline_request'] = request.session['airline_request']
+
+        if request.session.get('airline_get_ssr'):
+            if request.session['airline_get_ssr']['result']['error_code'] == 0:
+                for idx, rec in enumerate(request.session['airline_get_ssr']['result']['response']['ssr_availability_provider']):
+                    if rec['status'] == 'available':
+                        res['price_itinerary']['sell_journey_provider'][idx]['is_ssr'] = True
+                    else:
+                        res['price_itinerary']['sell_journey_provider'][idx]['is_ssr'] = False
+        if request.session.get('airline_get_seat_availability'):
+            if request.session['airline_get_seat_availability']['result']['error_code'] == 0:
+                for idx, rec in enumerate(request.session['airline_get_seat_availability']['result']['response']['seat_availability_provider']):
+                    if rec['status'] == 'available':
+                        res['price_itinerary']['sell_journey_provider'][idx]['is_seat'] = True
+                    else:
+                        res['price_itinerary']['sell_journey_provider'][idx]['is_seat'] = False
 
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
