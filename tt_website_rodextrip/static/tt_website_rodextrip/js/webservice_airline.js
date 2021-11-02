@@ -4930,6 +4930,7 @@ function airline_get_booking(data, sync=false){
                             }
                             text+=`<h5>PNR: `+msg.result.response.provider_bookings[i].pnr+`</h5>`;
                             for(j in msg.result.response.provider_bookings[i].journeys){
+                                fare_detail_list = [];
                                 text+=`<h6>Flight `+flight_counter+`</h6>`;
                                 $text += '\nFlight '+ flight_counter+'\n';
                                 flight_counter++;
@@ -5053,29 +5054,33 @@ function airline_get_booking(data, sync=false){
                                     text+=`</div>
                                     </div>`;
                                     for(l in msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details){
-                                        if(msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details[l].detail_type == 'BG'){
-                                            text+=`<i class="fas fa-suitcase"></i><span style="font-weight:500;" class="copy_suitcase_details"> `+msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details[l].amount+` `+msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details[l].unit+` for 1 person</span><br/>`;
-                                        }else if(msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details[l].detail_type == 'ML'){
-                                            text+=`<i class="fas fa-utensils"></i><span style="font-weight:500;" class="copy_utensils_details"> `+msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details[l].amount+` `+msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details[l].unit+` for 1 person</span><br/>`;
-                                        }else{
-                                            text+=`<span style="font-weight:500;" class="copy_others_details">`+msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details[l].amount+` `+msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details[l].unit+` for 1 person</span><br/>`;
+                                        add = true
+                                        for(m in fare_detail_list){
+                                            if(fare_detail_list[m].unit == msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details[l].unit && fare_detail_list[m].detail_name == msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details[l].detail_name)
+                                                add = false
                                         }
-
-                                    }
-                                    for(l in msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details){
-                                        if(l == 0)
-                                            $text += '‣ Include:\n';
-                                        if(msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details[l].detail_name)
-                                            $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details[l].detail_name;
-                                        else if(msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details[l].detail_type == 'BG')
-                                            $text += 'Baggage ';
-                                        else if(msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details[l].detail_type == 'ML')
-                                            $text += 'Meal ';
-
-                                        $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details[l].amount + ' ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details[l].unit +' for 1 person\n';
+                                        if(add)
+                                            fare_detail_list.push(msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details[l]);
                                     }
                                     $text += '\n';
                                 }
+                                for(l in fare_detail_list){
+                                    if(l == 0)
+                                        $text += '‣ Include:\n';
+                                    if(fare_detail_list[l].detail_type == 'BG'){
+                                        text+=`<i class="fas fa-suitcase"></i><span style="font-weight:500;" class="copy_suitcase_details"> `+fare_detail_list[l].amount+` `+fare_detail_list[l].unit+` for 1 person</span><br/>`;
+                                        $text += 'Baggage ';
+                                    }else if(fare_detail_list[l].detail_type == 'ML'){
+                                        text+=`<i class="fas fa-utensils"></i><span style="font-weight:500;" class="copy_utensils_details"> `+fare_detail_list[l].amount+` `+fare_detail_list[l].unit+` for 1 person</span><br/>`;
+                                        $text += 'Meal ';
+                                    }else{
+                                        text+=`<span style="font-weight:500;" class="copy_others_details">`+fare_detail_list[l].amount+` `+fare_detail_list[l].unit+` for 1 person</span><br/>`;
+                                        $text += fare_detail_list[l].detail_name;
+                                    }
+                                    $text += fare_detail_list[l].amount + ' ' + fare_detail_list[l].unit +' for 1 person\n';
+
+                                }
+                                $text += '\n';
                             }
                             if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_reschedule)
                                 text+=`
@@ -5481,6 +5486,11 @@ function airline_get_booking(data, sync=false){
                 pax_type_repricing = [];
                 disc = 0;
 
+                $text += '\n‣ Contact Person:\n';
+                $text += msg.result.response.contact.title + ' ' + msg.result.response.contact.name + '\n';
+                $text += msg.result.response.contact.email + '\n';
+                $text += msg.result.response.contact.phone+ '\n';
+
                 $text += '\n‣ Price:\n';
                 csc = 0;
                 for(i in msg.result.response.provider_bookings){
@@ -5617,11 +5627,6 @@ function airline_get_booking(data, sync=false){
                     if(check_provider_booking != 0 && msg.result.response.state == 'booked'){
                         $text += '\n\nPrices and availability may change at any time';
                     }
-
-                $text += '\n\n‣ Contact Person:\n';
-                $text += msg.result.response.contact.title + ' ' + msg.result.response.contact.name + '\n';
-                $text += msg.result.response.contact.email + '\n';
-                $text += msg.result.response.contact.phone+ '\n';
 
                     if(disc != 0){
                         text_detail+=`

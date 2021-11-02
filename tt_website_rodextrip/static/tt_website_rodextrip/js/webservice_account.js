@@ -50,8 +50,15 @@ function get_balance(val){
                 console.log(msg);
                 if(msg.result.error_code == 0){
                     time = 300;
-                    balance = parseInt(msg.result.response.balance);
-                    credit_limit = parseInt(msg.result.response.credit_limit);
+                    balance = 0;
+                    credit_limit = 0;
+                    customer_parent_balance = 0;
+                    if(msg.result.response.hasOwnProperty('balance'))
+                        balance = parseInt(msg.result.response.balance);
+                    if(msg.result.response.hasOwnProperty('credit_limit'))
+                        credit_limit = parseInt(msg.result.response.credit_limit);
+                    if(msg.result.response.hasOwnProperty('customer_parent_balance'))
+                        customer_parent_balance = parseInt(msg.result.response.customer_parent_balance);
 
                     if(vendor_balance_check == 0){
 //                        try{
@@ -88,25 +95,41 @@ function get_balance(val){
                             <span style="font-size:14px; font-weight:500;"><span style="color:`+color+`;">`+msg.result.response.currency_code+` `+getrupiah(balance)+`</span></span>`;
                         }catch(err){}
                     }
-                    try{
-                        document.getElementById("balance").innerHTML = text;
-                        try{
-                            document.getElementById("balance_mob").innerHTML = text;
+                    if(msg.result.response.is_show_balance){
+                        try{//BALANCE
+                            document.getElementById("balance").innerHTML = text;
+                            try{
+                                document.getElementById("balance_mob").innerHTML = text;
+                            }catch(err){}
+                            try{
+                                document.getElementById("balance_search").innerHTML = text;
+                            }catch(err){}
                         }catch(err){}
-                        try{
-                            document.getElementById("balance_search").innerHTML = text;
+                    }
+                    if(msg.result.response.is_show_credit_limit){
+                        text = `Credit Limit: `+msg.result.response.currency_code+ ' ' + getrupiah(credit_limit)+``;
+                        try{//CREDIT LIMIT
+                            document.getElementById("credit_limit").innerHTML = text;
+                            try{
+                                document.getElementById("credit_mob").innerHTML = text;
+                            }catch(err){}
+                            try{
+                                document.getElementById("credit_search").innerHTML = text;
+                            }catch(err){}
                         }catch(err){}
-                    }catch(err){}
-                    text = `Credit Limit: `+msg.result.response.currency_code+ ' ' + getrupiah(credit_limit)+``;
-                    try{
-                        document.getElementById("credit_limit").innerHTML = text;
-                        try{
-                            document.getElementById("credit_mob").innerHTML = text;
+                    }
+                    if(msg.result.response.is_show_customer_parent_balance){
+                        text = `Parent Agent Balance: `+msg.result.response.currency_code+ ' ' + getrupiah(customer_parent_balance)+``;
+                        try{//PARENT AGENT BALANCE
+                            document.getElementById("customer_parent_balance").innerHTML = text;
+                            try{
+                                document.getElementById("customer_parent_balance_mob").innerHTML = text;
+                            }catch(err){}
+                            try{
+                                document.getElementById("customer_parent_balance_search").innerHTML = text;
+                            }catch(err){}
                         }catch(err){}
-                        try{
-                            document.getElementById("credit_search").innerHTML = text;
-                        }catch(err){}
-                    }catch(err){}
+                    }
                     get_transactions_notification(val);
                     //get_vendor_balance(val);
                     //document.getElementById('balance').value = msg.result.response.balance + msg.result.response.credit_limit;

@@ -4138,6 +4138,12 @@ function airline_detail(type){
                             if(provider_list_data[price_itinerary_temp[i].provider].is_post_issued_reschedule)
                                 text+=`
                                     <br/><span style="font-weight:bold;"><i class="fas fa-check-circle" style="color:#4f9c64;"></i> Reschedule</span>`;
+                            if(price_itinerary_temp[i].hasOwnProperty('is_ssr') && price_itinerary_temp[i].is_ssr)
+                                text+=`
+                                    <br/><span style="font-weight:bold;"><i class="fas fa-check-circle" style="color:#4f9c64;"></i> SSR</span>`;
+                            if(price_itinerary_temp[i].hasOwnProperty('is_seat') && price_itinerary_temp[i].is_seat)
+                                text+=`
+                                    <br/><span style="font-weight:bold;"><i class="fas fa-check-circle" style="color:#4f9c64;"></i> Seat</span>`;
 //                            if(provider_list_data[price_itinerary_temp[i].provider].is_post_issued_cancel)
 //                                text+=`
 //                                    <br/><span style="font-weight:bold;"><i class="fas fa-check-circle" style="color:#4f9c64;"></i> Refund</span>`;
@@ -4297,9 +4303,9 @@ function airline_detail(type){
                 }
 
 
-                if(provider_list_data[price_itinerary_temp[i].provider].is_post_issued_reschedule)
-                    text+=`
-                        <br/><span style="font-weight:bold;"><i class="fas fa-check-circle" style="color:#4f9c64;"></i> Reschedule</span>`;
+//                if(provider_list_data[price_itinerary_temp[i].provider].is_post_issued_reschedule)
+//                    text+=`
+//                        <br/><span style="font-weight:bold;"><i class="fas fa-check-circle" style="color:#4f9c64;"></i> Reschedule</span>`;
 //                if(provider_list_data[price_itinerary_temp[i].provider].is_post_issued_cancel)
 //                    text+=`
 //                        <br/><span style="font-weight:bold;"><i class="fas fa-check-circle" style="color:#4f9c64;"></i> Refund</span>`;
