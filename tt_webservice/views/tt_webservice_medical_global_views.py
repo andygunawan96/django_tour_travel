@@ -179,7 +179,7 @@ def get_config(request):
                     write_cache_with_folder(res, "medical_global_cache_data")
             except Exception as e:
                 _logger.info("ERROR GET CACHE medical global " + json.dumps(res) + '\n' + str(e) + '\n' + traceback.format_exc())
-                file = read_cache_with_folder_path("medical_global_cache_data", 86400)
+                file = read_cache_with_folder_path("medical_global_cache_data", 90911)
                 if file:
                     res = file
 
