@@ -1558,7 +1558,8 @@ def get_data_template(request, type='home', provider_type = []):
         'google_api_key': google_api_key,
         'app_id_one_signal': app_id_one_signal,
         'url_one_signal': url_one_signal,
-        'authorization_one_signal': authorization_one_signal
+        'authorization_one_signal': authorization_one_signal,
+        'type_page': type
 
     }
 
