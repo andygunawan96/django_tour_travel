@@ -120,6 +120,16 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-12">
+                                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Setting Login Page</h6>
+                                                    <div class="form-select">
+                                                        <select id="setting_login_page" name="setting_login_page" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
+                                                            <option value="website_name" {% if setting_login_page == 'website_name' %} selected {% endif%}>Website Name</option> <!--SIGNUP BTB-->
+                                                            <option value="website_logo" {% if setting_login_page == 'website_logo' %} selected {% endif%}>Website Logo</option> <!--SIGNUP BTB, BTC-->
+                                                            <option value="none" {% if setting_login_page == 'none' %} selected {% endif%}>None</option> <!--SIGNUP BTC-->
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12">
                                                     <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Footer Information' %}</h6>
                                                     <textarea rows="6" cols="50" class="form-control" style="font-size:13px; height:150px; border-radius:unset; resize: none;" type="text" placeholder="Information (example: address)" id="contact_us" name="contact_us">{% for contact in contact_us%}{{contact}}{% if forloop.last == False %}&#13;&#10;{% endif %}{% endfor %}</textarea>
                                                 </div>
@@ -1435,6 +1445,16 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-12">
+                                                <h6 style="margin-bottom:10px;color:{{text_color}};">Setting Login Page</h6>
+                                                <div class="form-select">
+                                                    <select id="setting_login_page" name="setting_login_page" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
+                                                        <option value="website_name" {% if setting_login_page == 'website_name' %} selected {% endif%}>Website Name</option> <!--SIGNUP BTB-->
+                                                        <option value="website_logo" {% if setting_login_page == 'website_logo' %} selected {% endif%}>Website Logo</option> <!--SIGNUP BTB, BTC-->
+                                                        <option value="none" {% if setting_login_page == 'none' %} selected {% endif%}>None</option> <!--SIGNUP BTC-->
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
                                                 <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Footer Information' %}</h6>
                                                 <textarea rows="6" cols="50" class="form-control" style="font-size:13px; height:150px; border-radius:unset; resize: none;" type="text" placeholder="Information (example: address)" id="contact_us" name="contact_us">{% for contact in contact_us%}{{contact}}{% if forloop.last == False %}&#13;&#10;{% endif %}{% endfor %}</textarea>
                                             </div>
@@ -2727,6 +2747,16 @@
                                                     <option value="btb_with_signup_b2c" {% if website_mode == 'btb_with_signup_b2c' %} selected {% endif%}>BTB (Login With Signup B2C)</option>
                                                     <option value="btc" {% if website_mode == 'btc' %} selected {% endif%}>B2C (Without B2B Login)</option>
                                                     <option value="btc_btb" {% if website_mode == 'btc_btb' %} selected {% endif%}>B2C (With Signup B2B)</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <h6 style="margin-bottom:10px;color:{{text_color}};">Setting Login Page</h6>
+                                            <div class="form-select">
+                                                <select id="setting_login_page" name="setting_login_page" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
+                                                    <option value="website_name" {% if setting_login_page == 'website_name' %} selected {% endif%}>Website Name</option> <!--SIGNUP BTB-->
+                                                    <option value="website_logo" {% if setting_login_page == 'website_logo' %} selected {% endif%}>Website Logo</option> <!--SIGNUP BTB, BTC-->
+                                                    <option value="none" {% if setting_login_page == 'none' %} selected {% endif%}>None</option> <!--SIGNUP BTC-->
                                                 </select>
                                             </div>
                                         </div>
@@ -4035,6 +4065,16 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
+                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Setting Login Page</h6>
+                                        <div class="form-select">
+                                            <select id="setting_login_page" name="setting_login_page" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
+                                                <option value="website_name" {% if setting_login_page == 'website_name' %} selected {% endif%}>Website Name</option> <!--SIGNUP BTB-->
+                                                <option value="website_logo" {% if setting_login_page == 'website_logo' %} selected {% endif%}>Website Logo</option> <!--SIGNUP BTB, BTC-->
+                                                <option value="none" {% if setting_login_page == 'none' %} selected {% endif%}>None</option> <!--SIGNUP BTC-->
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
                                         <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Footer Information' %}</h6>
                                         <textarea rows="6" cols="50" class="form-control" style="font-size:13px; height:150px; border-radius:unset; resize: none;" type="text" placeholder="Information (example: address)" id="contact_us" name="contact_us">{% for contact in contact_us%}{{contact}}{% if forloop.last == False %}&#13;&#10;{% endif %}{% endfor %}</textarea>
                                     </div>
@@ -5335,6 +5375,16 @@
                                                         <option value="btb_with_signup_b2c" {% if website_mode == 'btb_with_signup_b2c' %} selected {% endif%}>BTB (Login With Signup B2C)</option>
                                                         <option value="btc" {% if website_mode == 'btc' %} selected {% endif%}>B2C (Without B2B Login)</option>
                                                         <option value="btc_btb" {% if website_mode == 'btc_btb' %} selected {% endif%}>B2C (With Signup B2B)</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <h6 style="margin-bottom:10px;color:{{text_color}};">Setting Login Page</h6>
+                                                <div class="form-select">
+                                                    <select id="setting_login_page" name="setting_login_page" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
+                                                        <option value="website_name" {% if setting_login_page == 'website_name' %} selected {% endif%}>Website Name</option> <!--SIGNUP BTB-->
+                                                        <option value="website_logo" {% if setting_login_page == 'website_logo' %} selected {% endif%}>Website Logo</option> <!--SIGNUP BTB, BTC-->
+                                                        <option value="none" {% if setting_login_page == 'none' %} selected {% endif%}>None</option> <!--SIGNUP BTC-->
                                                     </select>
                                                 </div>
                                             </div>
@@ -6858,6 +6908,16 @@
                                                         <option value="btb_with_signup_b2c" {% if website_mode == 'btb_with_signup_b2c' %} selected {% endif%}>BTB (Login With Signup B2C)</option>
                                                         <option value="btc" {% if website_mode == 'btc' %} selected {% endif%}>B2C (Without B2B Login)</option>
                                                         <option value="btc_btb" {% if website_mode == 'btc_btb' %} selected {% endif%}>B2C (With Signup B2B)</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <h6 style="margin-bottom:10px;color:{{text_color}};">Setting Login Page</h6>
+                                                <div class="form-select">
+                                                    <select id="setting_login_page" name="setting_login_page" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
+                                                        <option value="website_name" {% if setting_login_page == 'website_name' %} selected {% endif%}>Website Name</option> <!--SIGNUP BTB-->
+                                                        <option value="website_logo" {% if setting_login_page == 'website_logo' %} selected {% endif%}>Website Logo</option> <!--SIGNUP BTB, BTC-->
+                                                        <option value="none" {% if setting_login_page == 'none' %} selected {% endif%}>None</option> <!--SIGNUP BTC-->
                                                     </select>
                                                 </div>
                                             </div>

@@ -10,12 +10,12 @@ function add_table_of_highlight(data){
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4">
                 <div class="input-container-search-ticket">
-                    <input type="text" class="form-control" name="highlight_title`+counter_highlight+`" id="highlight_title`+counter_highlight+`" placeholder="Title " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Title '" value="`+data[0]+`">
+                    <input type="text" class="form-control" name="highlight_title`+counter_highlight+`" id="highlight_title`+counter_highlight+`" placeholder="Title " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Title '" value="`+data.title+`">
                 </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6">
                 <div class="input-container-search-ticket">
-                    <input type="text" class="form-control" name="highlight_url`+counter_highlight+`" id="highlight_url`+counter_highlight+`" placeholder="Highlight URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Highlight URL '" value="`+data[1]+`">
+                    <input type="text" class="form-control" name="highlight_url`+counter_highlight+`" id="highlight_url`+counter_highlight+`" placeholder="Highlight URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Highlight URL '" value="`+data.url+`">
                 </div>
             </div>
             <div class="col-lg-1 col-md-1 col-sm-1" style="color:`+text_color+`;">
@@ -56,7 +56,7 @@ function get_highlight(type){
             }else if(type == 'header'){
                 text = '';
                 for(i in msg){
-                    text += `<li><a href="`+msg[i][1]+`" target="_blank">`+msg[i][0]+`</a></li>`;
+                    text += `<li><a href="`+msg[i].url+`" target="_blank">`+msg[i].title+`</a></li>`;
                 }
                 if(msg.length == 0)
                     text += `<li>No Highlight</li>`;

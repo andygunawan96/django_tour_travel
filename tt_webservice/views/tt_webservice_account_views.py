@@ -696,17 +696,16 @@ def confirm_top_up(request):
 
 
 def set_highlight_url(request):
-    data = ''
+    data = []
     data_list = json.loads(request.POST['data'])
     if len(data_list) == 0:
         pass
     else:
         for rec in data_list:
-            if rec[0] != '' and rec[1] != '':
-                if data != '':
-                    data += '\n'
-                data += '%s %s' % (rec[0], rec[1])
-
+            data.append({
+                "title": rec[0],
+                "url": rec[1]
+            })
     write_cache_with_folder(data, "highlight_data")
 
     return 0
@@ -717,8 +716,11 @@ def get_highlight_url(request):
     try:
         file = read_cache_with_folder_path("highlight_data", 90911)
         if file:
-            for line in file.split('\n'):
-                data.append(line.split(' '))
+            for line in file:
+                data.append({
+                    "title": line['title'],
+                    "url": line['url'],
+                })
     except:
         pass
     return data
