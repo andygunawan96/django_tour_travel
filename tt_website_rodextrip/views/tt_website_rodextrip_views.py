@@ -726,6 +726,7 @@ def admin(request):
                     text += request.POST['wa_chat'] + '\n'
                     text += request.POST['wa_number'] + '\n'
                     text += request.POST['google_api_key'] + '\n'
+                    text += request.POST['setting_login_page'] + '\n'
                     write_cache_with_folder(text, "data_cache_template")
                     temp = text.split('\n')
                     for idx, rec in enumerate(temp):
@@ -1248,6 +1249,7 @@ def get_data_template(request, type='home', provider_type = []):
     app_id_one_signal = ''
     url_one_signal = ''
     authorization_one_signal = ''
+    setting_login_page = 'website_name'
     font = {
         "name": '',
         "font": ''
@@ -1504,6 +1506,9 @@ def get_data_template(request, type='home', provider_type = []):
                 elif idx == 24:
                     if line != '':
                         google_api_key = line.split('\n')[0]
+                elif idx == 25:
+                    if line != '':
+                        setting_login_page = line.split('\n')[0]
             if color == '':
                 color = '#f15a22'
             if len(background.split('\n')) > 1:
@@ -1559,7 +1564,8 @@ def get_data_template(request, type='home', provider_type = []):
         'app_id_one_signal': app_id_one_signal,
         'url_one_signal': url_one_signal,
         'authorization_one_signal': authorization_one_signal,
-        'type_page': type
+        'type_page': type,
+        'setting_login_page': setting_login_page
 
     }
 

@@ -117,7 +117,11 @@
 	<div class="container-login100">
 		<div class="wrap-login100 rodextrip-login">
 			<span class="login100-form-title">
+				{% if setting_login_page == 'website_name' %}
 				<span class="lamp" style="font-size:50px;">{{name}}</span>
+				{% elif setting_login_page == 'website_logo' %}
+				<img src="{{logo}}" class="logo-login" alt="Logo {{name}}" title="{{name}}" style="max-width:20% !imporatant;max-height:20% !important;" />
+				{% endif %}
 				<!--<br/>-->
 				<!--<span class="footer-promote" style="color:{{text_color_login}}; font-weight:500;">-->
 				<!--Sorry for the inconvenience<br/>-->
