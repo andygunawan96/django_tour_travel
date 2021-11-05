@@ -4848,7 +4848,7 @@ function check_passenger(adult, child, infant){
            document.getElementById('adult_nationality'+i).style['border-color'] = 'red';
        }else{
            if(is_identity_required == 'true')
-               if(document.getElementById('adult_id_type'+i).value == ''){
+               if(document.getElementById('adult_id_type'+i).value == '' && document.getElementById('adult_identity_type'+i).style.display == 'block'){
                     error_log+= 'Please fill id type for passenger adult '+i+'!</br>\n';
                     document.getElementById('adult_id_type'+i).style['border-color'] = 'red';
                }
@@ -5030,7 +5030,7 @@ function check_passenger(adult, child, infant){
            error_log+= 'Please fill nationality for passenger child '+i+'!</br>\n';
            document.getElementById('child_nationality'+i).style['border-color'] = 'red';
        }else{
-           if(is_identity_required == 'true')
+           if(is_identity_required == 'true' && document.getElementById('child_identity_type'+i).style.display == 'block')
                if(document.getElementById('child_id_type'+i).value == ''){
                     error_log+= 'Please fill id type for passenger child '+i+'!</br>\n';
                     document.getElementById('child_id_type'+i).style['border-color'] = 'red';
@@ -5191,67 +5191,67 @@ function check_passenger(adult, child, infant){
            document.getElementById('infant_nationality'+i).style['border-color'] = 'red';
        }else{
            if(is_identity_required == 'true')
-               if(document.getElementById('infant_id_type'+i).value == ''){
+               if(document.getElementById('infant_id_type'+i).value == '' && document.getElementById('infant_identity_type'+i).style.display == 'block'){
                     error_log+= 'Please fill id type for passenger infant '+i+'!</br>\n';
                     document.getElementById('infant_id_type'+i).style['border-color'] = 'red';
                }
            document.getElementById('infant_nationality'+i).style['border-color'] = '#EFEFEF';
        }
 
-//       if(document.getElementById('infant_identity_type'+i).style.display == 'block'){
-//           if(document.getElementById('infant_id_type'+i).value != '' || is_lionair == 'true' && is_international == 'true'){
-//               document.getElementById('infant_id_type'+i).style['border-color'] = '#EFEFEF';
-//               if(document.getElementById('infant_id_type'+i).value == 'ktp'){
-//                    if(check_ktp(document.getElementById('infant_passport_number'+i).value) == false){
-//                       error_log+= 'Please fill id number, nik only contain 16 digits for passenger infant '+i+'!</br>\n';
-//                       document.getElementById('infant_passport_number'+i).style['border-color'] = 'red';
-//                    }else{
-//                       document.getElementById('infant_passport_number'+i).style['border-color'] = '#EFEFEF';
-//                    }if(document.getElementById('infant_country_of_issued'+i).value == ''){
-//                       error_log+= 'Please fill country of issued for passenger infant '+i+'!</br>\n';
-//                       document.getElementById('infant_country_of_issued'+i).style['border-color'] = 'red';
-//                    }else{
-//                       document.getElementById('infant_country_of_issued'+i).style['border-color'] = '#EFEFEF';
-//                    }if(is_lionair == true){
-//                       duration = moment.duration(moment(document.getElementById('infant_passport_expired_date'+i).value).diff(last_departure_date));
-//                       //CHECK EXPIRED
-//                       if(duration._milliseconds < 0 ){
-//                            error_log+= 'Please update ktp expired date for passenger infant '+i+'!</br>\n';
-//                            document.getElementById('infant_passport_expired_date'+i).style['border-color'] = 'red';
-//                       }else
-//                            document.getElementById('infant_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
-//
-//                    }
-//
-//               }
-//
-//               if(document.getElementById('infant_id_type'+i).value == 'passport'){
-//                   if(document.getElementById('infant_id_type'+i).value == 'passport' && check_passport(document.getElementById('infant_passport_number'+i).value) == false){
-//                       error_log+= 'Please fill id number, passport only contain more than 6 digits  for passenger infant '+i+'!</br>\n';
-//                       document.getElementById('infant_passport_number'+i).style['border-color'] = 'red';
-//                   }else{
-//                       document.getElementById('infant_passport_number'+i).style['border-color'] = '#EFEFEF';
-//                   }
-//                   if(document.getElementById('infant_passport_expired_date'+i).value == ''){
-//                       error_log+= 'Please fill passport expired date for passenger infant '+i+'!</br>\n';
-//                       document.getElementById('infant_passport_expired_date'+i).style['border-color'] = 'red';
-//                   }else{
-//                       duration = moment.duration(moment(document.getElementById('infant_passport_expired_date'+i).value).diff(last_departure_date));
-//                       //CHECK EXPIRED
-//                       if(duration._milliseconds < 0 ){
-//                            error_log+= 'Please update passport expired date for passenger infant '+i+'!</br>\n';
-//                            document.getElementById('infant_passport_expired_date'+i).style['border-color'] = 'red';
-//                       }else
-//                            document.getElementById('infant_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
-//                   }if(document.getElementById('infant_country_of_issued'+i).value == ''){
-//                       error_log+= 'Please fill country of issued for passenger infant '+i+'!</br>\n';
-//                       document.getElementById('infant_country_of_issued'+i).style['border-color'] = 'red';
-//                   }else{
-//                       document.getElementById('infant_country_of_issued'+i).style['border-color'] = '#EFEFEF';
-//                   }
-//               }
-//           }
-//       }
+       if(document.getElementById('infant_identity_type'+i).style.display == 'block'){
+           if(document.getElementById('infant_id_type'+i).value != '' || is_lionair == 'true' && is_international == 'true'){
+               document.getElementById('infant_id_type'+i).style['border-color'] = '#EFEFEF';
+               if(document.getElementById('infant_id_type'+i).value == 'ktp'){
+                    if(check_ktp(document.getElementById('infant_passport_number'+i).value) == false){
+                       error_log+= 'Please fill id number, nik only contain 16 digits for passenger infant '+i+'!</br>\n';
+                       document.getElementById('infant_passport_number'+i).style['border-color'] = 'red';
+                    }else{
+                       document.getElementById('infant_passport_number'+i).style['border-color'] = '#EFEFEF';
+                    }if(document.getElementById('infant_country_of_issued'+i).value == ''){
+                       error_log+= 'Please fill country of issued for passenger infant '+i+'!</br>\n';
+                       document.getElementById('infant_country_of_issued'+i).style['border-color'] = 'red';
+                    }else{
+                       document.getElementById('infant_country_of_issued'+i).style['border-color'] = '#EFEFEF';
+                    }if(is_lionair == true){
+                       duration = moment.duration(moment(document.getElementById('infant_passport_expired_date'+i).value).diff(last_departure_date));
+                       //CHECK EXPIRED
+                       if(duration._milliseconds < 0 ){
+                            error_log+= 'Please update ktp expired date for passenger infant '+i+'!</br>\n';
+                            document.getElementById('infant_passport_expired_date'+i).style['border-color'] = 'red';
+                       }else
+                            document.getElementById('infant_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+
+                    }
+
+               }
+
+               if(document.getElementById('infant_id_type'+i).value == 'passport'){
+                   if(document.getElementById('infant_id_type'+i).value == 'passport' && check_passport(document.getElementById('infant_passport_number'+i).value) == false){
+                       error_log+= 'Please fill id number, passport only contain more than 6 digits  for passenger infant '+i+'!</br>\n';
+                       document.getElementById('infant_passport_number'+i).style['border-color'] = 'red';
+                   }else{
+                       document.getElementById('infant_passport_number'+i).style['border-color'] = '#EFEFEF';
+                   }
+                   if(document.getElementById('infant_passport_expired_date'+i).value == ''){
+                       error_log+= 'Please fill passport expired date for passenger infant '+i+'!</br>\n';
+                       document.getElementById('infant_passport_expired_date'+i).style['border-color'] = 'red';
+                   }else{
+                       duration = moment.duration(moment(document.getElementById('infant_passport_expired_date'+i).value).diff(last_departure_date));
+                       //CHECK EXPIRED
+                       if(duration._milliseconds < 0 ){
+                            error_log+= 'Please update passport expired date for passenger infant '+i+'!</br>\n';
+                            document.getElementById('infant_passport_expired_date'+i).style['border-color'] = 'red';
+                       }else
+                            document.getElementById('infant_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+                   }if(document.getElementById('infant_country_of_issued'+i).value == ''){
+                       error_log+= 'Please fill country of issued for passenger infant '+i+'!</br>\n';
+                       document.getElementById('infant_country_of_issued'+i).style['border-color'] = 'red';
+                   }else{
+                       document.getElementById('infant_country_of_issued'+i).style['border-color'] = '#EFEFEF';
+                   }
+               }
+           }
+       }
 //       if(document.getElementById('infant_identity_type'+i).style.display == 'block'){
 //           if(document.getElementById('infant_passport_number'+i).value != '' ||
 //              document.getElementById('infant_passport_expired_date'+i).value != '' ||
