@@ -523,7 +523,7 @@
                                                                 <option value="">Choose Identity Type</option>
                                                                 {% if is_garuda == True and is_international == False %}
                                                                 <option value="ktp">NIK</option>
-                                                                {% elif is_lionair == True %}
+                                                                {% elif is_lionair == True and is_international == False %}
                                                                 <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
                                                                 {% else %}
@@ -803,7 +803,7 @@
                                                                 <option value="">Choose Identity Type</option>
                                                                 {% if is_garuda == True and is_international == False %}
                                                                 <option value="ktp">NIK</option>
-                                                                {% elif  is_lionair == True %}
+                                                                {% elif is_lionair == True and is_international == False %}
                                                                 <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
                                                                 {% else %}
@@ -1034,7 +1034,7 @@
                                                 <input type="text" class="form-control date-picker-birth" name="infant_birth_date{{forloop.counter}}" id="infant_birth_date{{forloop.counter}}" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                             </div>
                                         </div>
-                                        <div class="col-lg-12" id="infant_identity_type{{forloop.counter}}" style="{% if is_international == True %}display:block{% else %}display:none;{% endif %}">
+                                        <div class="col-lg-12" id="infant_identity_type{{forloop.counter}}" style="{% if is_garuda == True or is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                                     {% if is_identity_required == True %}
@@ -1045,7 +1045,14 @@
                                                         <div class="form-select" id="default-select">
                                                             <select id='infant_id_type{{forloop.counter}}' name='infant_id_type{{forloop.counter}}' onchange="change_identity_type(`infant_id_type{{forloop.counter}}`)">
                                                                 <option value="">Choose Identity Type</option>
+                                                                {% if is_garuda == True and is_international == False %}
+                                                                <option value="ktp">NIK</option>
+                                                                {% elif is_lionair == True and is_international == False %}
+                                                                <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
+                                                                {% else %}
+                                                                <option value="passport">Passport</option>
+                                                                {% endif %}
                                                             </select>
                                                         </div>
                                                     </div>
@@ -1083,12 +1090,14 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        {% if is_lionair == True and is_international == True %}
-                                        <span><span style="color:red">* </span>{% trans 'Passport is required for lion air, wings air, or batik air' %}</span>
-                                        {% elif is_identity_required == True%}
-                                        <span><span style="color:red">* </span>{% trans 'Identity Type required for Indonesian People' %}</span>
-                                        {%endif%}
                                     </div>
+                                    {% if is_lionair == True and is_international == True %}
+                                    <span><span style="color:red">* </span>{% trans 'Passport is required for lion air, wings air, or batik air' %}</span>
+                                    {% elif is_lionair == True %}
+                                    <span><span style="color:red">* </span>{% trans 'Identity is required for lion air, wings air, or batik air' %}</span>
+                                    {% elif is_identity_required == True%}
+                                    <span><span style="color:red">* </span>{% trans 'Identity Type required for Indonesian People' %}</span>
+                                    {%endif%}
                                 </div>
                             </div>
                             <div style="padding-top:15px;"></div>
@@ -1563,7 +1572,7 @@
                                                                         <option value="">Choose Identity Type</option>
                                                                         {% if is_garuda == True and is_international == False %}
                                                                         <option value="ktp">NIK</option>
-                                                                        {% elif  is_lionair == True %}
+                                                                        {% elif is_lionair == True and is_international == False %}
                                                                         <option value="ktp">NIK</option>
                                                                         <option value="passport">Passport</option>
                                                                         {% else %}
@@ -1797,7 +1806,7 @@
                                                                         <option value="">Choose Identity Type</option>
                                                                         {% if is_garuda == True and is_international == False %}
                                                                         <option value="ktp">NIK</option>
-                                                                        {% elif  is_lionair == True %}
+                                                                        {% elif is_lionair == True and is_international == False %}
                                                                         <option value="ktp">NIK</option>
                                                                         <option value="passport">Passport</option>
                                                                         {% else %}
@@ -1987,7 +1996,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-lg-12" id="infant_identity_type{{forloop.counter}}" style="{% if is_international == True %}display:block{% else %}display:none;{% endif %}">
+                                                <div class="col-lg-12" id="infant_identity_type{{forloop.counter}}" style="{% if is_garuda == True or is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
                                                     <div class="row">
                                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                                             {% if is_identity_required == True %}
@@ -1998,7 +2007,14 @@
                                                                 <div class="form-select" id="default-select">
                                                                     <select id='infant_id_type{{forloop.counter}}' name='infant_id_type{{forloop.counter}}' onchange="change_identity_type(`infant_id_type{{forloop.counter}}`)">
                                                                         <option value="">Choose Identity Type</option>
+                                                                        {% if is_garuda == True and is_international == False %}
+                                                                        <option value="ktp">NIK</option>
+                                                                        {% elif is_lionair == True and is_international == False %}
+                                                                        <option value="ktp">NIK</option>
                                                                         <option value="passport">Passport</option>
+                                                                        {% else %}
+                                                                        <option value="passport">Passport</option>
+                                                                        {% endif %}
                                                                     </select>
                                                                 </div>
                                                             </div>
@@ -2539,7 +2555,7 @@
                                                                 <option value="">Choose Identity Type</option>
                                                                 {% if is_garuda == True and is_international == False %}
                                                                 <option value="ktp">NIK</option>
-                                                                {% elif  is_lionair == True %}
+                                                                {% elif is_lionair == True and is_international == False %}
                                                                 <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
                                                                 {% else %}
@@ -2821,7 +2837,7 @@
                                                                 <option value="">Choose Identity Type</option>
                                                                 {% if is_garuda == True and is_international == False %}
                                                                 <option value="ktp">NIK</option>
-                                                                {% elif  is_lionair == True %}
+                                                                {% elif is_lionair == True and is_international == False %}
                                                                 <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
                                                                 {% else %}
@@ -3056,7 +3072,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-12" id="infant_identity_type{{forloop.counter}}" style="{% if is_international == True %}display:block{% else %}display:none;{% endif %}">
+                                        <div class="col-lg-12" id="infant_identity_type{{forloop.counter}}" style="{% if is_garuda == True or is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                                     {% if is_identity_required == True %}
@@ -3067,7 +3083,14 @@
                                                         <div class="form-select" id="default-select">
                                                             <select id='infant_id_type{{forloop.counter}}' name='infant_id_type{{forloop.counter}}' onchange="change_identity_type(`infant_id_type{{forloop.counter}}`)">
                                                                 <option value="">Choose Identity Type</option>
+                                                                {% if is_garuda == True and is_international == False %}
+                                                                <option value="ktp">NIK</option>
+                                                                {% elif is_lionair == True and is_international == False %}
+                                                                <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
+                                                                {% else %}
+                                                                <option value="passport">Passport</option>
+                                                                {% endif %}
                                                             </select>
                                                         </div>
                                                     </div>
@@ -3625,7 +3648,7 @@
                                                             <option value="">Choose Identity Type</option>
                                                             {% if is_garuda == True and is_international == False %}
                                                             <option value="ktp">NIK</option>
-                                                            {% elif  is_lionair == True %}
+                                                            {% elif is_lionair == True and is_international == False %}
                                                             <option value="ktp">NIK</option>
                                                             <option value="passport">Passport</option>
                                                             {% else %}
@@ -3904,7 +3927,7 @@
                                                             <option value="">Choose Identity Type</option>
                                                             {% if is_garuda == True and is_international == False %}
                                                             <option value="ktp">NIK</option>
-                                                            {% elif  is_lionair == True %}
+                                                            {% elif is_lionair == True and is_international == False %}
                                                             <option value="ktp">NIK</option>
                                                             <option value="passport">Passport</option>
                                                             {% else %}
@@ -4137,7 +4160,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-12" id="infant_identity_type{{forloop.counter}}" style="{% if is_international == True %}display:block{% else %}display:none;{% endif %}">
+                                    <div class="col-lg-12" id="infant_identity_type{{forloop.counter}}" style="{% if is_garuda == True or is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 col-sm-6">
                                                 {% if is_identity_required == True %}
@@ -4148,7 +4171,14 @@
                                                     <div class="form-select" id="default-select">
                                                         <select id='infant_id_type{{forloop.counter}}' name='infant_id_type{{forloop.counter}}' onchange="change_identity_type(`infant_id_type{{forloop.counter}}`)">
                                                             <option value="">Choose Identity Type</option>
+                                                            {% if is_garuda == True and is_international == False %}
+                                                            <option value="ktp">NIK</option>
+                                                            {% elif is_lionair == True and is_international == False %}
+                                                            <option value="ktp">NIK</option>
                                                             <option value="passport">Passport</option>
+                                                            {% else %}
+                                                            <option value="passport">Passport</option>
+                                                            {% endif %}
                                                         </select>
                                                     </div>
                                                 </div>
@@ -4694,7 +4724,7 @@
                                                                 <option value="">Choose Identity Type</option>
                                                                 {% if is_garuda == True and is_international == False %}
                                                                 <option value="ktp">NIK</option>
-                                                                {% elif  is_lionair == True %}
+                                                                {% elif is_lionair == True and is_international == False %}
                                                                 <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
                                                                 {% else %}
@@ -4973,7 +5003,7 @@
                                                                 <option value="">Choose Identity Type</option>
                                                                 {% if is_garuda == True and is_international == False %}
                                                                 <option value="ktp">NIK</option>
-                                                                {% elif  is_lionair == True %}
+                                                                {% elif is_lionair == True and is_international == False %}
                                                                 <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
                                                                 {% else %}
@@ -5181,7 +5211,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-12" id="infant_identity_type{{forloop.counter}}" style="{% if is_international == True %}display:block{% else %}display:none;{% endif %}">
+                                        <div class="col-lg-12" id="infant_identity_type{{forloop.counter}}" style="{% if is_garuda == True or is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                                     <label id="infant_identity_number_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
@@ -5190,7 +5220,14 @@
                                                         <div class="form-select" id="default-select">
                                                             <select id='infant_id_type{{forloop.counter}}' name='infant_id_type{{forloop.counter}}' onchange="change_identity_type(`infant_id_type{{forloop.counter}}`)">
                                                                 <option value="">Choose Identity Type</option>
+                                                                {% if is_garuda == True and is_international == False %}
+                                                                <option value="ktp">NIK</option>
+                                                                {% elif is_lionair == True and is_international == False %}
+                                                                <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
+                                                                {% else %}
+                                                                <option value="passport">Passport</option>
+                                                                {% endif %}
                                                             </select>
                                                         </div>
                                                     </div>
@@ -5763,7 +5800,7 @@
                                                                 <option value="">Choose Identity Type</option>
                                                                 {% if is_garuda == True and is_international == False %}
                                                                 <option value="ktp">NIK</option>
-                                                                {% elif  is_lionair == True %}
+                                                                {% elif is_lionair == True and is_international == False %}
                                                                 <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
                                                                 {% else %}
@@ -6042,7 +6079,7 @@
                                                                 <option value="">Choose Identity Type</option>
                                                                 {% if is_garuda == True and is_international == False %}
                                                                 <option value="ktp">NIK</option>
-                                                                {% elif  is_lionair == True %}
+                                                                {% elif is_lionair == True and is_international == False %}
                                                                 <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
                                                                 {% else %}
@@ -6250,7 +6287,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-12" id="infant_identity_type{{forloop.counter}}" style="{% if is_international == True %}display:block{% else %}display:none;{% endif %}">
+                                        <div class="col-lg-12" id="infant_identity_type{{forloop.counter}}" style="{% if is_garuda == True or is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                                     {% if is_identity_required == True %}
@@ -6261,7 +6298,14 @@
                                                         <div class="form-select" id="default-select">
                                                             <select id='infant_id_type{{forloop.counter}}' name='infant_id_type{{forloop.counter}}' onchange="change_identity_type(`infant_id_type{{forloop.counter}}`)">
                                                                 <option value="">Choose Identity Type</option>
+                                                                {% if is_garuda == True and is_international == False %}
+                                                                <option value="ktp">NIK</option>
+                                                                {% elif is_lionair == True and is_international == False %}
+                                                                <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
+                                                                {% else %}
+                                                                <option value="passport">Passport</option>
+                                                                {% endif %}
                                                             </select>
                                                         </div>
                                                     </div>
