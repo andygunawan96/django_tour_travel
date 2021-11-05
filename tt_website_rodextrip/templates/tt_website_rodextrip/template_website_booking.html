@@ -80,6 +80,39 @@ Licence URI: http://www.os-templates.com/template-terms
                 document.getElementById('swab_express_searchForm').submit();
             }else if(type == 'lab_pintar'){
                 document.getElementById('lab_pintar_searchForm').submit();
+            }else if(type == 'insurance'){
+                document.getElementById('insurance_searchForm').submit();
+            }
+        }
+        function change_password_type(){
+            if($("#password_style").hasClass("fa-eye")){
+
+                try{
+
+                    $("#password_style").addClass('fa-eye-slash');
+                    $("#password_style").removeClass("fa-eye");
+                    try{
+                        //PAGE LOGIN
+                        document.getElementById('password2').type = 'text';
+                    }catch(err){}
+                    try{
+                        document.getElementById('password').type = 'text';
+                    }catch(err){}
+                }catch(err){}
+            }else{
+                try{
+                    $("#password_style").addClass('fa-eye');
+                    $("#password_style").removeClass("fa-eye-slash");
+                    try{
+                        //PAGE LOGIN
+                        document.getElementById('password2').type = 'password';
+                    }catch(err){}
+                    try{
+                        //PAGE HOME
+                        document.getElementById('password').type = 'password';
+                    }catch(err){}
+
+                }catch(err){}
             }
         }
     </script>
