@@ -1705,11 +1705,12 @@ function medical_get_booking(order_number, sync=false){
                             <div class="ld ld-ring ld-cycle"></div>
                         </button>`;
                     }else{
-                        print_text+=`
-                        <button class="primary-btn-white hold-seat-booking-train ld-ext-right" type="button" id="button-print-print" onclick="get_printout('` + msg.result.response.order_number + `','ticket_price','medical');" style="width:100%;">
-                            Print Ticket (With Price)
-                            <div class="ld ld-ring ld-cycle"></div>
-                        </button>`;
+                        if(order_number.includes('PK'))
+                            print_text+=`
+                            <button class="primary-btn-white hold-seat-booking-train ld-ext-right" type="button" id="button-print-print" onclick="get_printout('` + msg.result.response.order_number + `','ticket_price','medical');" style="width:100%;">
+                                Print Ticket (With Price)
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>`;
                     }
                     print_text += '</div><div class="col-lg-4" style="padding-bottom:10px;">';
                     // === Button 3 ===
