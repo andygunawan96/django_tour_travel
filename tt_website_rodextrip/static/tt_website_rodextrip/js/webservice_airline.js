@@ -334,8 +334,8 @@ function get_airline_data_search_page(){
            console.log(msg);
            airline_request = msg.airline_request;
            airline_carriers = msg.airline_carriers;
-           airline_carriers_data_awal = msg.airline_carriers;
-           airline_all_carriers = msg.airline_all_carriers;
+           airline_carriers_data_awal = JSON.parse(JSON.stringify(msg.airline_carriers));
+           airline_all_carriers = JSON.parse(JSON.stringify(msg.airline_all_carriers));
            airline_signin('');
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
