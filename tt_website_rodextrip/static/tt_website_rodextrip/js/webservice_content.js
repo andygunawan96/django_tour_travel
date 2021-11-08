@@ -984,7 +984,6 @@ function get_banner(type,page){
                                         cek_active = 1;
                                     }
                                 }
-
                                 if(cek_active == 1){
                                     for(i in msg.result.response){
                                         temp_slider = parseInt(i)+1;
@@ -1204,6 +1203,39 @@ function get_banner(type,page){
                                         document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_passport.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
                                     }
                                 }
+                            }
+                        }
+                    }
+                }
+                else{
+                    if(page == 'home'){
+                        if(template == 6){
+                            if(type == "big_banner"){
+                                document.getElementById("banner-top1").style = "background: url('"+background+"'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
+                                document.getElementById("big_banner").style.display = "block";
+                            }
+                        }
+                    }else{
+                        if(template == 6){
+                            if(type == "big_banner"){
+                                if(page == "airline"){
+                                    document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_airlines.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
+                                }else if(page == "hotel"){
+                                    document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_hotel.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
+                                }else if(page == "train"){
+                                    document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_train.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
+                                }else if(page == "ppob"){
+                                    document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_ppob.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
+                                }else if(page == "activity"){
+                                    document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_activity.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
+                                }else if(page == "tour"){
+                                    document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_tour.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
+                                }else if(page == "visa"){
+                                    document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_visa.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
+                                }else if(page == "passport"){
+                                    document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_passport.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
+                                }
+                                document.getElementById("big_banner").style.display = "block";
                             }
                         }
                     }
