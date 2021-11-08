@@ -304,15 +304,17 @@ function swab_express_check_price(){
                                     <b><span style="font-size:13px;">IDR `+getrupiah(price_list['fare']['amount']*price_list['fare']['pax_count'])+`</span></b>
                                 </div>
                             </div>`;
-                    text+=`
-                            <div class="row" style="margin-bottom:5px;">
-                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                    <span style="font-size:12px;">Address Surcharge IDR `+getrupiah(msg.result.response.address_surcharge)+`</span>`;
-                        text+=`</div>
-                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                    <b><span style="font-size:13px;">IDR `+getrupiah(msg.result.response.address_surcharge)+`</span></b>
-                                </div>
-                            </div>`;
+                    if(msg.result.response.address_surcharge){
+                        text+=`
+                                <div class="row" style="margin-bottom:5px;">
+                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                        <span style="font-size:12px;">Address Surcharge IDR `+getrupiah(msg.result.response.address_surcharge)+`</span>`;
+                            text+=`</div>
+                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                        <b><span style="font-size:13px;">IDR `+getrupiah(msg.result.response.address_surcharge)+`</span></b>
+                                    </div>
+                                </div>`;
+                    }
                     text+=`
                             <div class="row" style="margin-bottom:5px;">
                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
@@ -337,7 +339,9 @@ function swab_express_check_price(){
                     text += `
                             <label style="color:red !important;">* </label>
                             <label>Extra Cost</label>
-                            <br/>
+                            <br/>`;
+                    if(msg.result.response.address_surcharge)
+                        text+=`
                             <label style="margin-left:5px;">- Address Surcharge</label><br/>`;
                     if(msg.result.response.extra_cost == true){
                         if(peduli_lindungi == 'true')
