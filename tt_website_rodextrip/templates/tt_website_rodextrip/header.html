@@ -12,6 +12,16 @@
 <div id="status" class="status on" style="display:none; top:0px; z-index:1000;"></div>
 {%if template == 1%}
 <header id="header">
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
+        <div class="container">
+            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
+                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
+                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
     <div class="main-menu tab_custom_login">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
@@ -102,13 +112,6 @@
                             <li><a href="" id="backend_btn">Backend</a></li>
                             {% endif %}
                             <!--<li><a href="javascript:test_ledger(10);">Test Ledger</a></li>-->
-                            {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                            <li style="z-index:5;">
-                                <a>
-                                    <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Exit Corporate Mode' %}</button>
-                                </a>
-                            </li>
-                            {% endif %}
                             <li>
                                 <a>
                                     <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Logout' %}</button>
@@ -138,13 +141,6 @@
                             <li><a href="" id="backend_btn2">Backend</a></li>
                             {% endif %}
                             <!--<li><a href="javascript:test_ledger(10);">Test Ledger</a></li>-->
-                            {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                            <li>
-                                <a>
-                                    <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Exit Corporate Mode' %}</button>
-                                </a>
-                            </li>
-                            {% endif %}
                             <li>
                                 <a>
                                     <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Logout' %}</button>
@@ -152,11 +148,6 @@
                             </li>
                         </ul>
                     </li>
-                    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                    <li title="Corporate Mode is active" class="notification-pc pt5" style="padding-right:15px; cursor:pointer;"><i class="fas fa-money-bill-wave-alt" style="font-size:24px;"></i>
-
-                    </li>
-                    {% endif %}
                     <li title="Click to show your notification" class="notification-pc pt5" style="padding-right:15px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover bell_notif animated swing" style="font-size:24px;"></i>
 
                     </li>
@@ -178,9 +169,6 @@
                             <div class="input-container-search-ticket">
                                 <i class="fa fa-lock" style="font-size: 20px;padding-top: 12px; color:{{text_color_login}};"></i>
                                 <input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px; width:220px;" id="password" placeholder="Password" tabindex="2" />
-                                <div style="margin-top:10px;width:50px;" onclick="change_password_type();">
-                                    <i id="password_style" class="fas fa-eye" style="width:10px;color:{{text_color_login}};"></i>
-                                </div>
                             </div>
                             <div class="input-container-search-ticket">
                                 <label class="check_box_custom" style="margin-top:5px; margin-right:5px;">
@@ -209,11 +197,6 @@
                 </nav>
                 <nav class="notification-mobile" style="display:none;">
                     <ul class="nav-menu">
-                        {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                        <li title="Corporate Mode is active" style="padding-right:16px; cursor:pointer;"><i class="fas fa-money-bill-wave-alt" style="font-size:20px;"></i>
-
-                        </li>
-                        {% endif %}
                         {% if username.co_user_login != 'agent_b2c' %}
                         <li title="Click to show your notification" style="font-size:16px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover bell_notif animated swing" style="font-size:20px;"></i>
 
@@ -269,6 +252,17 @@
     <!-- Top Header Area End -->
 
     <!-- Main Header Start -->
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
+        <div class="container">
+            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
+                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
+                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
     <div class="main-header-area tab_custom_login">
         <div class="classy-nav-container breakpoint-off">
             <div class="container">
@@ -384,13 +378,6 @@
                                     {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                     <li><a href="" id="backend_btn">Backend</a></li>
                                     {% endif %}
-                                    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                                    <li style="z-index:5;">
-                                        <a>
-                                            <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Exit Corporate Mode' %}</button>
-                                        </a>
-                                    </li>
-                                    {% endif %}
                                     <li style="z-index:5;">
                                         <a>
                                             <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Logout' %}</button>
@@ -421,13 +408,6 @@
                                     {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                     <li class="pt5"><a href="" id="backend_btn2">Backend</a></li>
                                     {% endif %}
-                                    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                                    <li style="z-index:5;">
-                                        <a>
-                                            <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Exit Corporate Mode' %}</button>
-                                        </a>
-                                    </li>
-                                    {% endif %}
                                     <li style="z-index:5;">
                                         <a>
                                             <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Logout' %}</button>
@@ -435,11 +415,6 @@
                                     </li>
                                 </ul>
                             </li>
-                            {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                            <li title="Corporate Mode is active" class="notification-pc" style="position:relative; bottom:5px; padding-right:15px; cursor:pointer;"><i class="fas fa-money-bill-wave-alt" style="font-size:20px;"></i>
-
-                            </li>
-                            {% endif %}
                             <li title="Click to show your notification" class="notification-pc" style="position:relative; bottom:5px; padding-right:15px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover bell_notif animated swing" style="font-size:20px;"></i></li>
                             {% endif %}
                         </ul>
@@ -466,11 +441,7 @@
                                 <div class="input-container-search-ticket">
                                     <i class="fa fa-lock" style="font-size: 20px;padding-top: 12px; color:{{text_color_login}};"></i>
                                     <input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password" placeholder="Password"/>
-                                    <div style="margin-top:10px;width:50px;" onclick="change_password_type();">
-                                        <i id="password_style" class="fas fa-eye" style="width:10px;color:{{text_color_login}};"></i>
-                                    </div>
                                 </div>
-
                                 <div class="input-container-search-ticket">
                                     <label class="check_box_custom" style="margin-right:10px;">
                                         <input type="hidden" id="g-recaptcha-response" />
@@ -517,6 +488,16 @@
 </header>
 {% elif template == 3%}
 <header id="header" class="tab_custom_login">
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
+        <div class="container">
+            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
+                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
+                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
     <div class="main-menu">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex mobile-menu">
@@ -614,15 +595,6 @@
                                 {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                 <li><a href="" id="backend_btn">Backend</a></li>
                                 {% endif %}
-                                {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                                <li>
-                                    <center>
-                                        <a>
-                                            <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn-ticket" style="color:{{text_color}};">{% trans 'Exit Corporate Mode' %}</button>
-                                        </a>
-                                    </center>
-                                </li>
-                                {% endif %}
                                 <li>
                                     <center>
                                         <a>
@@ -653,13 +625,6 @@
                                 {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                 <li><a href="" id="backend_btn2">Backend</a></li>
                                 {% endif %}
-                                {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                                <li>
-                                    <a>
-                                        <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn-ticket" style="color:{{text_color}};">{% trans 'Exit Corporate Mode' %}</button>
-                                    </a>
-                                </li>
-                                {% endif %}
                                 <li>
                                     <a>
                                         <button type="button" onclick="logout();" class="primary-btn-ticket" style="color:{{text_color}};">{% trans 'Logout' %}</button>
@@ -667,11 +632,6 @@
                                 </li>
                             </ul>
                         </li>
-                        {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                        <li title="Corporate Mode is active" class="notification-pc" style="color:{{color}}; padding-right:15px; padding-top:7px; cursor:pointer;"><i class="fas fa-money-bill-wave-alt" style="font-size:20px;"></i>
-
-                        </li>
-                        {% endif %}
                         <li title="Click to show your notification" class="notification-pc" style="color:{{color}}; padding-right:15px; padding-top:7px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover bell_notif animated swing" style="font-size:20px;"></i></li>
                         {% endif %}
                     </ul>
@@ -686,9 +646,6 @@
                                 <div class="input-container-search-ticket">
                                     <i class="fa fa-lock" style="font-size: 20px;padding-top: 12px; color:{{text_color_login}};"></i>
                                     <input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password" placeholder="Password"/>
-                                    <div style="margin-top:10px;width:50px;" onclick="change_password_type();">
-                                        <i id="password_style" class="fas fa-eye" style="width:10px;color:{{text_color_login}};"></i>
-                                    </div>
                                 </div>
                                 <div class="input-container-search-ticket">
                                     <label class="check_box_custom" style="margin-right:5px;">
@@ -717,11 +674,6 @@
                 <nav class="notification-mobile mobile-nav" style="display:none; padding:15px 15px 15px 0px;">
                     <ul class="nav-menu" style="display:inline;">
                         {% if username.co_user_login != 'agent_b2c' %}
-                        {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                        <li title="Corporate Mode is active" class="menu-has-children" style="font-size:13px; padding-top:5px; padding-right:5px; cursor:pointer;"><i class="fas fa-money-bill-wave-alt" style="font-size:20px; color:{{color}}; padding-top:5px;"></i>
-
-                        </li>
-                        {% endif %}
                         <li title="Click to show your notification" class="menu-has-children" style="font-size:13px; padding-top:5px; padding-right:5px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover bell_notif animated swing" style="font-size:20px; color:{{color}}; padding-top:5px;"></i></li>
                         {% endif %}
                     </ul>
@@ -741,6 +693,17 @@
     <div class="site-mobile-menu-body"></div>
 </div>
 <header class="site-navbar py-0" role="banner">
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
+        <div class="container">
+            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
+                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
+                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
     <div class="main-menu tab_custom_login" style="padding:5px;">
         <div class="container">
             <!--        <div class="row" style="border-radius: 4px;">-->
@@ -851,13 +814,6 @@
                                 {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                 <li><a href="" id="backend_btn">Backend</a></li>
                                 {% endif %}
-                                {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                                <li>
-                                    <a>
-                                        <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn-ticket" style="color:{{text_color}};">{% trans 'Exit Corporate Mode' %}</button>
-                                    </a>
-                                </li>
-                                {% endif %}
                                 <li>
                                     <a>
                                         <button type="button" onclick="logout();" class="primary-btn-ticket" style="color:{{text_color}};">{% trans 'Logout' %}</button>
@@ -886,13 +842,6 @@
                                 {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                 <li><a href="" id="backend_btn2">Backend</a></li>
                                 {% endif %}
-                                {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                                <li>
-                                    <a>
-                                        <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn-ticket" style="color:{{text_color}};">{% trans 'Exit Corporate Mode' %}</button>
-                                    </a>
-                                </li>
-                                {% endif %}
                                 <li>
                                     <a>
                                         <button type="button" onclick="logout();" class="primary-btn-ticket" style="color:{{text_color}};">{% trans 'Logout' %}</button>
@@ -900,11 +849,6 @@
                                 </li>
                             </ul>
                         </li>
-                        {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                        <li title="Corporate Mode is active" class="notification-pc" style="padding-right:15px; padding-top:7px; cursor:pointer;"><i class="fas fa-money-bill-wave-alt" style="font-size:20px;"></i>
-
-                        </li>
-                        {% endif %}
                         <li title="Click to show your notification" class="notification-pc" style="padding-right:15px; padding-top:7px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover bell_notif animated swing" style="font-size:20px;"></i>
                             {% else %}
                         <li style="font-size:12px;color:black;"><a href="{% url 'tt_website_rodextrip:login'%}" class="cta"><span class="bg-primary text-white rounded">{% trans 'Sign In' %}</span></a></li>
@@ -988,6 +932,16 @@
     <!--            </div>-->
     <!--        </div>-->
     <!--    </div>-->
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
+        <div class="container">
+            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
+                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
+                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
 
     <div class="main-menu tab_custom_login">
         <div class="container">
@@ -1082,13 +1036,6 @@
                             {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                             <li><a href="" id="backend_btn">Backend</a></li>
                             {% endif %}
-                            {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                            <li>
-                                <a>
-                                    <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Exit Corporate Mode' %}</button>
-                                </a>
-                            </li>
-                            {% endif %}
                             <li>
                                 <a>
                                     <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Logout' %}</button>
@@ -1117,13 +1064,6 @@
                             {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                             <li><a href="" id="backend_btn2">Backend</a></li>
                             {% endif %}
-                            {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                            <li>
-                                <a>
-                                    <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Exit Corporate Mode' %}</button>
-                                </a>
-                            </li>
-                            {% endif %}
                             <li>
                                 <a>
                                     <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Logout' %}</button>
@@ -1131,11 +1071,6 @@
                             </li>
                         </ul>
                     </li>
-                    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                    <li title="Corporate Mode is active" class="menu-has-children notification-pc" style="padding-right:15px; padding-top:25px; cursor:pointer;"><i class="fas fa-money-bill-wave-alt" style="font-size:20px;"></i>
-
-                    </li>
-                    {% endif %}
                     <li title="Click to show your notification" class="menu-has-children notification-pc" style="padding-right:15px; padding-top:25px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover bell_notif animated swing" style="font-size:20px;"></i>
                     {% else %}
                     <li style="font-size:12px;color:black;"><a href="{% url 'tt_website_rodextrip:login'%}" class="cta"><span class="primary-btn" style="padding-right:30px !important;">{% trans 'Sign In' %} <i class="fas fa-sign-in-alt"></i></span></a></li>
@@ -1153,9 +1088,6 @@
                             <div class="input-container-search-ticket">
                                 <i class="fa fa-lock" style="font-size: 20px;padding-top: 12px; color:{{text_color_login}};"></i>
                                 <input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password" placeholder="Password"/>
-                                <div style="margin-top:10px;width:50px;" onclick="change_password_type();">
-                                    <i id="password_style" class="fas fa-eye" style="width:10px;color:{{text_color_login}};"></i>
-                                </div>
                             </div>
                             <label class="check_box_custom" style="margin-left:5px; margin-right:5px;">
                                 <input type="hidden" id="g-recaptcha-response" />
@@ -1183,6 +1115,17 @@
 </header>
 {% elif template == 6%}
 <header>
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
+        <div class="container">
+            <div class="col-lg-12" style="text-align:center; padding:8px 15px;">
+                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
+                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; height:30px; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
 	<div class="container">
 		<!-- nav -->
 		<nav class="py-md-4 py-3 d-lg-flex">
@@ -1266,13 +1209,6 @@
                         <li><a href="" id="backend_btn">Backend</a></li>
                         {% endif %}
                         <!--<li><a href="javascript:test_ledger(10);">Test Ledger</a></li>-->
-                        {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                        <li>
-                            <a>
-                                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Exit Corporate Mode' %}</button>
-                            </a>
-                        </li>
-                        {% endif %}
                         <li>
                             <a>
                                 <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Logout' %}</button>
@@ -1293,13 +1229,6 @@
                         <li><a href="" id="backend_btn2">Backend</a></li>
                         {% endif %}
                         <!--<li><a href="javascript:test_ledger(10);">Test Ledger</a></li>-->
-                        {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                        <li>
-                            <a>
-                                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Exit Corporate Mode' %}</button>
-                            </a>
-                        </li>
-                        {% endif %}
                         <li>
                             <a>
                                 <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Logout' %}</button>
@@ -1307,11 +1236,6 @@
                         </li>
                     </ul>
                 </li>
-                {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                <li title="Corporate Mode is active" class="notification-pc pt5" style="padding-right:15px; cursor:pointer;"><i class="fas fa-money-bill-wave-alt" style="font-size:24px;"></i>
-
-                </li>
-                {% endif %}
                 <li title="Click to show your notification" class="notification-pc pt5" style="padding-right:15px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover bell_notif animated swing" style="font-size:24px;"></i>
 
                 </li>
@@ -1333,9 +1257,6 @@
                     <div class="input-container-search-ticket">
                         <i class="fa fa-lock" style="font-size: 20px;padding-top: 12px; color:{{text_color_login}};"></i>
                         <input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px; width:220px;" id="password" placeholder="Password" tabindex="2" />
-                        <div style="margin-top:10px;width:50px;" onclick="change_password_type();">
-                            <i id="password_style" class="fas fa-eye" style="width:10px;color:{{text_color_login}};"></i>
-                        </div>
                     </div>
                     <div class="input-container-search-ticket">
                         <label class="check_box_custom" style="margin-top:5px; margin-right:5px;">

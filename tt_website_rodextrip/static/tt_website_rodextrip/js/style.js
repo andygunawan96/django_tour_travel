@@ -419,6 +419,9 @@ $(document).ready(function(){
     var quantity_adult_bus = parseInt($('#bus_adult').val());
     $('#show_total_pax_bus').text(quantity_adult_bus + " Adult");
 
+    var quantity_adult_insurance = parseInt($('#insurance_adult').val());
+    $('#show_total_pax_insurance').text(quantity_adult_insurance + " Customer");
+
     $('.right-plus-adult-bus').click(function(e){
         // Stop acting like a button
         e.preventDefault();
@@ -2670,6 +2673,9 @@ function breadcrumb_create(breadcrumbs_type, current_step, back_step){
     }else if(breadcrumbs_type == "bus"){
         var breadcrumbs = ["Home", "Search", "Passenger", "Review", "Booking", "Issued"];
         var breadcrumbs_url = ["location.href='/dashboard';", "location.href='/bus';", "location.href='/bus/passenger';", "", "", ""];
+    }else if(breadcrumbs_type == "insurance"){
+        var breadcrumbs = ["Home", "Search", "Passenger", "Review", "Booking", "Issued"];
+        var breadcrumbs_url = ["location.href='/dashboard';", "location.href='/insurance';", "location.href='/insurance/passenger';", "", "", ""];
     }
 
     document.getElementById("breadcrumbs_create").innerHTML = '';

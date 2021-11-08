@@ -92,6 +92,17 @@
 </style>
 {%if template == 1%}
 <header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
+        <div class="container">
+            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
+                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
+                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
     <div class="main-menu">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
@@ -140,6 +151,7 @@
                                         <div class="col-lg-12">
                                             <h4>{% trans 'Booker Information' %}</h4>
                                             <hr/>
+                                            <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker"><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                         </div>
                                         <div class="col-lg-6" style="text-align:left;">
                                             <!--                                            <label>Booker Type :</label><br/>-->
@@ -221,7 +233,6 @@
                                         <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
                                             <div class="row" style="margin:0">
                                                 <button type="button" class="btn btn-secondary" style="width:42px;height:42px;margin-right:5px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
-                                                <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker" data-tooltip=""><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                                 <div class="modal fade" id="myModalHelp" role="dialog">
                                                     <div class="modal-dialog">
 
@@ -1181,6 +1192,17 @@
 
 {% elif template == 2 %}
 <header class="header_breadcrumb" style="padding:unset; background:white;">
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
+        <div class="container">
+            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
+                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
+                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
     <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:15px 0px 15px 0px;">
         <div class="classy-nav-container breakpoint-off">
             <div class="container">
@@ -1228,6 +1250,7 @@
                                                 <div class="col-lg-12">
                                                     <h4>{% trans 'Booker Information' %}</h4>
                                                     <hr/>
+                                                    <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker"><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                                 </div>
                                                 <div class="col-lg-6" style="text-align:left;">
                                                     <!--                                            <label>Booker Type :</label><br/>-->
@@ -1305,7 +1328,6 @@
                                                 <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
                                                     <div class="row" style="margin:0">
                                                         <button type="button" class="btn btn-secondary" style="width:42px;height:42px;margin-right:5px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
-                                                        <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker" data-tooltip=""><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                                         <div class="modal fade" id="myModalHelp" role="dialog">
                                                             <div class="modal-dialog">
 
@@ -1568,7 +1590,7 @@
                                                             <label>{% trans 'ID Type' %}</label>
                                                             <div class="input-container-search-ticket">
                                                                 <div class="form-select" id="default-select">
-                                                                    <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onchange="change_identity_type(`adult_id_type{{forloop.counter}}`)">
+                                                                    <select class="form-control" id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onchange="change_identity_type(`adult_id_type{{forloop.counter}}`)">
                                                                         <option value="">Choose Identity Type</option>
                                                                         {% if is_garuda == True and is_international == False %}
                                                                         <option value="ktp">NIK</option>
@@ -1801,19 +1823,17 @@
                                                             {% endif %}
                                                             <label>{% trans 'ID Type' %}</label>
                                                             <div class="input-container-search-ticket">
-                                                                <div class="form-select" id="default-select">
-                                                                    <select id='child_id_type{{forloop.counter}}' name='child_id_type{{forloop.counter}}' onchange="change_identity_type(`child_id_type{{forloop.counter}}`)">
-                                                                        <option value="">Choose Identity Type</option>
-                                                                        {% if is_garuda == True and is_international == False %}
-                                                                        <option value="ktp">NIK</option>
-                                                                        {% elif is_lionair == True and is_international == False %}
-                                                                        <option value="ktp">NIK</option>
-                                                                        <option value="passport">Passport</option>
-                                                                        {% else %}
-                                                                        <option value="passport">Passport</option>
-                                                                        {% endif %}
-                                                                    </select>
-                                                                </div>
+                                                                <select class="form-control" id='child_id_type{{forloop.counter}}' name='child_id_type{{forloop.counter}}' onchange="change_identity_type(`child_id_type{{forloop.counter}}`)">
+                                                                    <option value="">Choose Identity Type</option>
+                                                                    {% if is_garuda == True and is_international == False %}
+                                                                    <option value="ktp">NIK</option>
+                                                                    {% elif is_lionair == True and is_international == False %}
+                                                                    <option value="ktp">NIK</option>
+                                                                    <option value="passport">Passport</option>
+                                                                    {% else %}
+                                                                    <option value="passport">Passport</option>
+                                                                    {% endif %}
+                                                                </select>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
@@ -2128,7 +2148,18 @@
 
 {% elif template == 3 %}
 <header class="header_breadcrumb" style="padding:unset; background:white;">
-    <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:15px 0px 15px 0px;">
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
+        <div class="container">
+            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
+                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
+                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:5px 0px;">
         <div class="container" style="padding-top:10px;">
             <div class="row align-items-center justify-content-between d-flex mobile-menu"  >
                 <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
@@ -2167,6 +2198,7 @@
                                         <div class="col-lg-12">
                                             <h4>{% trans 'Booker Information' %}</h4>
                                             <hr/>
+                                            <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker"><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                         </div>
                                         <div class="col-lg-6" style="text-align:left;">
                                             <!--                                            <label>Booker Type :</label><br/>-->
@@ -2249,7 +2281,6 @@
                                             <div class="form-group">
                                                 <div class="row" style="margin:0">
                                                     <button type="button" class="btn btn-secondary" style="width:42px;height:42px;margin-right:5px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
-                                                    <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker" data-tooltip=""><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                                 </div>
                                             </div>
                                             <div class="modal fade" id="myModalHelp" role="dialog">
@@ -2549,8 +2580,8 @@
                                                     <label style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'ID Type' %}</label>
-                                                    <div class="input-container-search-ticket">
-                                                        <div class="form-select" id="default-select">
+                                                    <div class="form-group">
+                                                        <div class="default-select" id="default-select">
                                                             <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onchange="change_identity_type(`adult_id_type{{forloop.counter}}`)">
                                                                 <option value="">Choose Identity Type</option>
                                                                 {% if is_garuda == True and is_international == False %}
@@ -3217,6 +3248,17 @@
 
 {% elif template == 4 %}
 <header class="header_breadcrumb" style="padding:unset; background:white;">
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
+        <div class="container">
+            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
+                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
+                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
     <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:15px 0px 15px 0px;">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
@@ -3264,6 +3306,7 @@
                                     <div class="col-lg-12">
                                         <h4>{% trans 'Booker Information' %}</h4>
                                         <hr/>
+                                        <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker"><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                     </div>
                                     <div class="col-lg-6" style="text-align:left;">
                                         <!--                                            <label>Booker Type :</label><br/>-->
@@ -3345,7 +3388,6 @@
                                     <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
                                         <div class="row" style="margin:0">
                                             <button type="button" class="btn btn-secondary" style="width:42px;height:42px;margin-right:5px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
-                                            <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker" data-tooltip=""><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                             <div class="modal fade" id="myModalHelp" role="dialog">
                                                 <div class="modal-dialog">
 
@@ -3642,9 +3684,9 @@
                                                 <label style="color:red">*</label>
                                                 {% endif %}
                                                 <label>{% trans 'ID Type' %}</label>
-                                                <div class="input-container-search-ticket">
+                                                <div class="input-container-search-ticket btn-group">
                                                     <div class="form-select" id="default-select">
-                                                        <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onchange="change_identity_type(`adult_id_type{{forloop.counter}}`)">
+                                                        <select class="nice-select-default" id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onchange="change_identity_type(`adult_id_type{{forloop.counter}}`)">
                                                             <option value="">Choose Identity Type</option>
                                                             {% if is_garuda == True and is_international == False %}
                                                             <option value="ktp">NIK</option>
@@ -3923,7 +3965,7 @@
                                                 <label>{% trans 'ID Type' %}</label>
                                                 <div class="input-container-search-ticket">
                                                     <div class="form-select" id="default-select">
-                                                        <select id='child_id_type{{forloop.counter}}' name='child_id_type{{forloop.counter}}' onchange="change_identity_type(`child_id_type{{forloop.counter}}`)">
+                                                        <select class="nice-select-default" id='child_id_type{{forloop.counter}}' name='child_id_type{{forloop.counter}}' onchange="change_identity_type(`child_id_type{{forloop.counter}}`)">
                                                             <option value="">Choose Identity Type</option>
                                                             {% if is_garuda == True and is_international == False %}
                                                             <option value="ktp">NIK</option>
@@ -4169,7 +4211,7 @@
                                                 <label>{% trans 'ID Type' %}</label>
                                                 <div class="input-container-search-ticket">
                                                     <div class="form-select" id="default-select">
-                                                        <select id='infant_id_type{{forloop.counter}}' name='infant_id_type{{forloop.counter}}' onchange="change_identity_type(`infant_id_type{{forloop.counter}}`)">
+                                                        <select class="nice-select-default" id='infant_id_type{{forloop.counter}}' name='infant_id_type{{forloop.counter}}' onchange="change_identity_type(`infant_id_type{{forloop.counter}}`)">
                                                             <option value="">Choose Identity Type</option>
                                                             {% if is_garuda == True and is_international == False %}
                                                             <option value="ktp">NIK</option>
@@ -4304,7 +4346,18 @@
 
 {% elif template == 5 %}
 <header class="header_breadcrumb" style="padding:unset; background:white;">
-    <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:15px 0px 15px 0px;">
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
+        <div class="container">
+            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
+                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
+                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:5px 0px;">
         <div class="container" style="padding-top:15px; padding-bottom:15px;">
             <div class="row align-items-center justify-content-between d-flex mobile-menu">
                 <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
@@ -4342,6 +4395,7 @@
                                         <div class="col-lg-12">
                                             <h4>{% trans 'Booker Information' %}</h4>
                                             <hr/>
+                                            <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker"><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                         </div>
                                         <div class="col-lg-6" style="text-align:left;">
                                             <!--                                            <label>Booker Type :</label><br/>-->
@@ -4422,7 +4476,6 @@
                                         </div>
                                         <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
                                             <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
-                                            <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker" data-tooltip=""><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                             <div class="modal fade" id="myModalHelp" role="dialog">
                                                 <div class="modal-dialog">
 
@@ -5380,6 +5433,17 @@
 
 {% elif template == 6 %}
 <header class="header_breadcrumb" style="padding:unset; background:white;">
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
+        <div class="container">
+            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
+                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
+                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; height:30px; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
     <div class="main-menu" style="border-bottom:1px solid #cdcdcd;">
         <div class="container" style="padding-top:15px; padding-bottom:15px;">
             <div class="row align-items-center justify-content-between d-flex mobile-menu">
@@ -5418,6 +5482,7 @@
                                         <div class="col-lg-12">
                                             <h4>{% trans 'Booker Information' %}</h4>
                                             <hr/>
+                                            <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker"><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                         </div>
                                         <div class="col-lg-6" style="text-align:left;">
                                             <!--                                            <label>Booker Type :</label><br/>-->
@@ -5498,7 +5563,6 @@
                                         </div>
                                         <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
                                             <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
-                                            <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker" data-tooltip=""><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                             <div class="modal fade" id="myModalHelp" role="dialog">
                                                 <div class="modal-dialog">
 

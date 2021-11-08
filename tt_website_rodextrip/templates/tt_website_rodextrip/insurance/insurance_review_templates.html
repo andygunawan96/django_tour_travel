@@ -4,135 +4,27 @@
 {% block content %}
 <!--<script src="{{ static_path }}js/webservice_token.js"></script>-->
 <!--<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>-->
-<script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/activity_javascript.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/webservice_activity.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_insurance.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_payment_acq.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_printout.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/pricing_javascript.js?version={{javascript_version}}"></script>
 <script>
     static_path_url_server = '{{static_path_url_server}}';
-
-    pax_count = `{{pax_count}}`;
-    pax_count = JSON.parse(pax_count.replace(/&#39;/g,'"'));
-    printout_paxs = `{{printout_paxs}}`;
-    printout_paxs = printout_paxs.replace(/&#39;/g,'"');
-    printout_paxs = JSON.parse(printout_paxs);
-    printout_prices = `{{printout_prices}}`;
-    printout_prices = printout_prices.replace(/&#39;/g,'"');
-    printout_prices = JSON.parse(printout_prices);
-    price = `{{price}}`;
-    price = price.replace(/&#39;/g,'"');
-    price = JSON.parse(price.replace(/True/g,'true'));
-    try{
-        temp_timeslot_start = `{{timeslot.startTime}}`;
-        temp_timeslot_end = `{{timeslot.endTime}}`;
-        if (temp_timeslot_start && temp_timeslot_end)
-        {
-            time_slot_pick = temp_timeslot_start + ' - ' + temp_timeslot_end;
-        }
-        else
-        {
-            time_slot_pick = '';
-        }
-    }catch(err){}
-    detail = `{{detail.options}}`;
-    detail = detail.replace(/&#39;/g,'"');
-    detail = detail.replace(/True/g,'true');
-    detail = detail.replace('\n','\\n');
-    detail = JSON.parse(detail.replace(/False/g,'false'));
-    additional_price = parseInt({{additional_price}});
-    act_booker_id = '{{booker.booker_seq_id}}';
-    passenger = `{{pax_count}}`;
-    passenger = passenger.replace(/&#39;/g,'"');
-    passenger = JSON.parse(passenger);
-    upsell_price = {{upsell}};
-    booker = `{{booker}}`;
-    booker = booker.replace(/&#39;/g,'"');
-    booker = booker.replace(/True/g,'true');
-    booker = booker.replace(/False/g,'false');
-    booker = booker.replace(/None/g,'""');
-    booker = JSON.parse(booker);
-
-    contact = `{{contact_person}}`;
-    contact = contact.replace(/&#39;/g,'"');
-    contact = contact.replace(/True/g,'true');
-    contact = contact.replace(/False/g,'false');
-    contact = contact.replace(/None/g,'""');
-    contact = JSON.parse(contact);
-
-    all_pax = `{{all_pax}}`;
-    all_pax = all_pax.replace(/&#39;/g,'"');
-    all_pax = all_pax.replace(/True/g,'true');
-    all_pax = all_pax.replace(/False/g,'false');
-    all_pax = all_pax.replace(/None/g,'""');
-    all_pax = JSON.parse(all_pax);
-    signature = `{{signature}}`;
-    locations = [];
-    images = [];
-    {% for i in response.locations %}
-        locations.push({
-            'country_name': '{{i.country_name}}',
-            'city_name': '{{i.city_name}}',
-            'state_name': '{{i.state_name}}'
-        })
-    {% endfor %}
-
-    {% for i in response.images %}
-        images.push({
-            'url': '{{i.url}}',
-            'path': '{{i.path}}',
-        })
-    {% endfor %}
-
-    highlights = `{{response.highlights}}`;
-
-    response = {
-        'locations':locations,
-        'images': images,
-        'additionalInfo': `{{response.additionalInfo}}`,
-        'uuid': '{{response.uuid}}',
-        'highlights': highlights.replace('&#39;', "'"),
-        'safety': `{{response.safety}}`,
-        'longitude': {{response.longitude}},
-        'latitude': {{response.latitude}},
-        'provider': '{{response.provider_code}}',
-        'description': `{{response.description}}`,
-        'warnings': `{{response.warnings}}`,
-        'priceExcludes': `{{response.priceExcludes}}`,
-        'minPax': {{response.minPax}},
-        'maxPax': {{response.maxPax}},
-        'businessHoursFrom': `{{response.businessHoursFrom}}`,
-        'businessHoursTo': `{{response.businessHoursTo}}`,
-        'name': '{{response.name}}',
-        'itinerary': `{{response.itinerary}}`,
-    };
-    time_slot_pick = `{{timeslot_pick}}`;
     time_limit = {{time_limit}};
+    signature = '{{signature}}';
     last_session = 'review';
-    session_time_limit();
+    //session_time_limit();
 </script>
 <div id="overlay-div-box" onclick="close_div('payment_acq');"></div>
 {% include 'tt_website_rodextrip/logout.html' %}
 {% include 'tt_website_rodextrip/loading_screen.html' %}
 {% include 'tt_website_rodextrip/check_connection.html' %}
 {% include 'tt_website_rodextrip/modal_balance_vendor.html' %}
-<title id="title_search">{{name}} {% trans 'Activity' %} - {% trans 'Review' %}</title>
+<title id="title_search">{{name}} {% trans 'Insurance' %} - {% trans 'Review' %}</title>
 {%if template == 1%}
 <header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
-    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
-        <div class="container">
-            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
-                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
-                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
-            </div>
-        </div>
-    </div>
-    {% endif %}
-
     <div class="main-menu">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
@@ -159,19 +51,8 @@
     {% endif %}
 </header>
 {% elif template == 2 %}
-<header class="header_breadcrumb" style="position:sticky; padding-top:0px; top:0px; z-index:100; border-bottom:1px solid #cdcdcd; background:white;">
-    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
-        <div class="container">
-            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
-                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
-                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
-            </div>
-        </div>
-    </div>
-    {% endif %}
-
-    <div class="main-menu" style="padding-top:15px;">
+<header class="header_breadcrumb" style="position:sticky; top:0px; z-index:100; border-bottom:1px solid #cdcdcd; background:white;">
+    <div class="main-menu">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
                 <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
@@ -195,18 +76,7 @@
 </header>
 {% elif template == 3%}
 <header style="position:sticky; top:0px; background:white; z-index:100;">
-    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
-        <div class="container">
-            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
-                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
-                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
-            </div>
-        </div>
-    </div>
-    {% endif %}
-
-    <div class="main-menu" style="padding-top:15px;">
+    <div class="main-menu">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
                 <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
@@ -229,18 +99,7 @@
     </div>
 </header>
 {% elif template == 4 %}
-<header class="header_breadcrumb" style="position:sticky; padding-top:0px; top:0px; z-index:100; border-bottom:1px solid #cdcdcd; background:white;">
-    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
-        <div class="container">
-            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
-                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
-                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
-            </div>
-        </div>
-    </div>
-    {% endif %}
-
+<header class="header_breadcrumb" style="position:sticky; top:0px; z-index:100; border-bottom:1px solid #cdcdcd; background:white;">
     <div class="main-menu">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
@@ -264,19 +123,8 @@
     </div>
 </header>
 {% elif template == 5 %}
-<header class="header_breadcrumb" style="position:sticky; padding-top:0px; top:0px; z-index:100; border-bottom:1px solid #cdcdcd; background:white;">
-    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
-        <div class="container">
-            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
-                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
-                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
-            </div>
-        </div>
-    </div>
-    {% endif %}
-
-    <div class="main-menu" style="padding-top:15px;">
+<header class="header_breadcrumb" style="position:sticky; top:0px; z-index:100; border-bottom:1px solid #cdcdcd; background:white;">
+    <div class="main-menu">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
                 <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
@@ -299,19 +147,8 @@
     </div>
 </header>
 {% elif template == 6 %}
-<header class="header_breadcrumb" style="position:sticky; padding-top:0px; top:0px;">
-    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
-        <div class="container">
-            <div class="col-lg-12" style="text-align:center; padding:8px 15px;">
-                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
-                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; height:30px; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
-            </div>
-        </div>
-    </div>
-    {% endif %}
-
-    <div class="main-menu" style="padding-top:15px;">
+<header class="header_breadcrumb" style="position:sticky; top:0px;">
+    <div class="main-menu">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
                 <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
@@ -353,7 +190,7 @@
 
 <div class="destinations-area" style="padding-top:30px; padding-bottom:40px; background:#f7f7f7;">
     <div class="container">
-        <form method="POST" id="activity_booking">
+        <form method="POST" id="insurance_booking">
             {% csrf_token %}
             <div class="row">
                 <div class="col-lg-12">
@@ -362,84 +199,43 @@
                 <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" style="margin-top:10px; margin-bottom:15px;">
                     <div class="row">
                         <div class="col-lg-12">
-                            <div id="activity_review_detail" style="padding:10px; background-color:white; border:1px solid #cdcdcd;">
-                                <h4> {% trans 'Activity Information' %} </h4>
+                            <div id="insurance_review_detail" style="padding:10px; background-color:white; border:1px solid #cdcdcd;">
+                                <h4> {% trans 'Insurance Information' %} </h4>
                                 <hr/>
-                                <h4>{{response.name}}</h4>
-                                <span>{{detail.name}}</span>
+                                <h4>{{response.carrier_name}}</h4>
+                                <span>{{response.data_name}}</span>
                                 <br/>
-                                <span><i class="fa fa-calendar" aria-hidden="true"></i>
-                                    {{visit_date}}
+                                <span>
+                                    {% autoescape off %}
+                                        {{response.info}}
+                                    {% endautoescape %}
                                 </span>
-                                {% if timeslot %}
-                                <br/>
-                                <span><i class="fa fa-clock-o" aria-hidden="true"></i>
-                                    {{timeslot.startTime}} - {{timeslot.endTime}}
-                                </span>
-                                {% endif %}
                                 <br/>
                             </div>
                         </div>
                     </div>
 
-                    {% if perBooking|length > 0 %}
-                    <div class="row" style="margin-top: 15px;">
-                        <div class="col-lg-12">
-                            <div id="activity_review_perbooking" style="background-color: white; border: 1px solid #cdcdcd; overflow-x: auto;">
-                                <div style="padding:10px;">
-                                    <h4> {% trans 'Additional Information' %} </h4>
-                                    <hr/>
-                                    <table style="width:100%;" id="list-of-perbooking" class="list-of-passenger-class">
-                                        <tr>
-                                            <th style="width:5%;" class="list-of-passenger-left">No</th>
-                                            <th style="width:65%;">{% trans 'Information' %}</th>
-                                            <th style="width:30%;">{% trans 'Value' %}</th>
-                                        </tr>
-                                        {% for perBook in perBooking %}
-                                        <tr>
-                                            <td>{{forloop.counter}}</td>
-                                            <td>{{perBook.name}}</td>
-                                            <td>{{perBook.value}}</td>
-                                        </tr>
-                                        {% endfor %}
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {% endif %}
 
                     <div class="row" style="margin-top: 15px;">
                         <div class="col-lg-12">
-                            <div id="activity_review_booker" style="background-color: white; border: 1px solid #cdcdcd; overflow-x: auto;">
+                            <div id="insurance_review_booker" style="background-color: white; border: 1px solid #cdcdcd; overflow-x: auto;">
                                 <div style="padding:10px;">
                                     <h4> {% trans 'Contact Information' %} </h4>
                                     <hr/>
-                                    <table style="width:100%;" id="list-of-bookers" class="list-of-passenger-class">
-                                        <tr>
-                                            <th style="width:5%;" class="list-of-passenger-left">No</th>
-                                            <th style="width:45%;">{% trans 'Full Name' %}</th>
-                                            <th style="width:25%;">{% trans 'Email' %}</th>
-                                            <th style="width:25%;" class="list-of-passenger-right">{% trans 'Mobile Phone' %}</th>
-                                        </tr>
-                                        {% if contact_person|length > 0 %}
-                                        {% for con in contact_person %}
-                                        <tr>
-                                            <td>{{forloop.counter}}</td>
-                                            <td>{{con.title}}. {{con.first_name}} {{con.last_name}}</td>
-                                            <td>{{con.email}}</td>
-                                            <td>{{con.mobile}}</td>
-                                        </tr>
-                                        {% endfor %}
-                                        {% else %}
-                                        <tr>
-                                            <td>1</td>
-                                            <td>{{booker.title}}. {{booker.first_name}} {{booker.last_name}}</td>
-                                            <td>{{booker.email}}</td>
-                                            <td>{{booker.mobile}}</td>
-                                        </tr>
-                                        {% endif %}
-                                    </table>
+                                    <div style="overflow:auto;">
+                                        <table style="width:100%; margin-top:10px; " id="list-of-passenger">
+                                            <tbody><tr>
+                                                <th style="width:40%;">Name</th>
+                                                <th style="width:30%;">Email</th>
+                                                <th style="width:30%;">Phone Number</th>
+                                            </tr>
+                                            <tr>
+                                                <td>{{passenger.booker.title}} {{passenger.booker.first_name}} {{passenger.booker.last_name}}</td>
+                                                <td>{{passenger.booker.email}}</td>
+                                                <td>{{passenger.booker.calling_code}} - {{passenger.booker.mobile}}</td>
+                                            </tr>
+                                            </tbody></table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -447,7 +243,7 @@
 
                     <div class="row" style="margin-top: 15px;">
                         <div class="col-lg-12">
-                            <div id="activity_review_passenger" style="background-color: white; border: 1px solid #cdcdcd; overflow-x: auto;">
+                            <div id="insurance_review_passenger" style="background-color: white; border: 1px solid #cdcdcd; overflow-x: auto;">
                                 <div style="padding:10px;">
                                     <h4> {% trans 'List of Guest(s)' %} </h4>
                                     <hr/>
@@ -455,17 +251,13 @@
                                         <tr>
                                             <th style="width:5%;" class="list-of-passenger-left">No</th>
                                             <th style="width:45%;">{% trans 'Full Name' %}</th>
-                                            <th style="width:10%;">{% trans 'Type' %}</th>
                                             <th style="width:25%;">{% trans 'Birth Date' %}</th>
-                                            <th style="width:15%;" class="list-of-passenger-right">{% trans 'Ticket' %}</th>
                                         </tr>
-                                        {% for pax in all_pax %}
+                                        {% for pax in passenger.adult %}
                                         <tr>
                                             <td>{{forloop.counter}}</td>
                                             <td>{{pax.title}}. {{pax.first_name}} {{pax.last_name}}</td>
-                                            <td>{{pax.pax_type_str}}</td>
                                             <td>{{pax.birth_date}}</td>
-                                            <td>{{pax.sku_title}}</td>
                                         </tr>
                                         {% endfor %}
                                     </table>
@@ -476,44 +268,26 @@
 
                     <div class="row" style="margin-top: 20px;">
                         <div class="col-lg-4" style="margin-bottom:10px;">
-                            {% if 'book_reservation' in username.co_agent_frontend_security and response.can_hold_booking %}
-                            <button class="next-loading primary-btn hold-seat-booking-train ld-ext-right" type="button" onclick="activity_pre_create_booking(0);" style="width:100%;">
-                                {% trans 'Hold Booking' %} <div class="ld ld-ring ld-cycle"></div>
-                            </button>
-                            {% endif %}
+
                         </div>
                         <div align="center" class="col-lg-4" style="margin-bottom:10px;">
-                            <!--<button class="primary-btn hold-seat-booking-train" type="button" onclick="window.open('https://backend.rodextrip.com/rodextrip/report/pdf/form.itinerary/{{printout_rec}}')" style="width:100%;">-->
-                                <!--Print Itinerary Form-->
-                            <!--</button>-->
-                            <button id="button-print-print" class="primary-btn hold-seat-booking-train ld-ext-right" type="button" onclick="get_printout('','itinerary','activity');" style="width:100%;">
-                                {% trans 'Print Itinerary Form' %}
-                                <div class="ld ld-ring ld-cycle"></div>
-                            </button>
+
                         </div>
                         <div class="col-lg-4" style="margin-bottom:10px;">
-                            {% if 'issued_reservation' in username.co_agent_frontend_security and 'b2c_limitation' not in username.co_agent_frontend_security %}
-                            <button class="next-loading primary-btn hold-seat-booking-train ld-ext-right issued_booking_btn" type="button" style="width:100%;" onclick="activity_pre_create_booking(1);">
-                                {% trans 'Issued Booking' %}
+                            <button class="next-loading primary-btn hold-seat-booking-train ld-ext-right issued_booking_btn" type="button" style="width:100%;" onclick="insurance_commit_booking();">
+                                {% trans 'Hold Booking' %}
                             </button>
-                            {% endif %}
                         </div>
                     </div>
                 </div>
 
                 <div class="col-lg-4" style="margin-top:10px;">
                     <div class="row">
-                        <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="activity_detail">
+                        <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="insurance_detail">
                             <h4> {% trans 'Price Detail' %} </h4>
                             <hr/>
-                            <span id="product_title" style="font-weight: bold;">{{response.name}}</span>
-                            {% if response.name != detail.name %}
-                                <br/><span id="product_type_title" style="font-size:13px; font-weight:500;">{{detail.name}}</span>
-                            {% endif %}
-                            <br/><span id="product_visit_date" style="font-size:13px; font-weight:500;">{{visit_date}}</span>
-                            <br/><br/>
                             <div class="row">
-                                <div class="col-lg-12" id="activity_detail_table">
+                                <div class="col-lg-12" id="insurance_detail_table">
 
                                 </div>
                             </div>
@@ -589,7 +363,7 @@
             </div>
             <input type="hidden" id="time_limit_input" value="{{time_limit}}" name="time_limit_input" />
         </form>
-        <form method="POST" id="activity_issued" action="{% url 'tt_website_rodextrip:payment'%}">
+        <form method="POST" id="insurance_issued" action="{% url 'tt_website_rodextrip:payment'%}">
             {% csrf_token %}
             <input type="hidden" id="passengers" name="passengers"/>
             <input type="hidden" id="signature" name="signature"/>
@@ -608,9 +382,9 @@
 {% include 'tt_website_rodextrip/footer.html' %}
 
 <script>
-    activity_table_detail2('review');
+    get_insurance_data_review_page();
     $(document).ready(function () {
-        breadcrumb_create("activity", 5, 0);
+        //breadcrumb_create("activity", 5, 0);
     });
 </script>
 {% endblock %}
