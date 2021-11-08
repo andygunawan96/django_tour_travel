@@ -1895,6 +1895,31 @@ function pick_passenger(type, sequence, product){
                                     document.getElementById('adult_passport_expired_date'+passenger_number).value = passenger_data[sequence].identities.passport.identity_expdate;
                                 }
                             }
+                        }else{
+                            try{ //check ada id type di selection klo ada masukkan
+                                var radios = document.getElementById('adult_id_type'+passenger_number).options;
+                                var found = false;
+                                for (var j = 0, length = radios.length; j < length; j++) {
+                                    for(i in passenger_data[sequence].identities){
+                                        if (radios[j].value == i) {
+                                            document.getElementById('adult_id_type'+passenger_number).value = i;
+                                            document.getElementById('adult_passport_number'+passenger_number).value = passenger_data[sequence].identities[i].identity_number;
+                                            document.getElementById('adult_passport_expired_date'+passenger_number).value = passenger_data[sequence].identities[i].identity_expdate;
+
+                                            document.getElementById('select2-adult_country_of_issued'+passenger_number+'_id-container').innerHTML = passenger_data[sequence].identities[i].identity_country_of_issued_name;
+                                            document.getElementById('adult_country_of_issued'+passenger_number).value = passenger_data[sequence].identities[i].identity_country_of_issued_name;
+                                            auto_complete('adult_country_of_issued'+passenger_number);
+                                            document.getElementById('adult_country_of_issued'+passenger_number).readOnly = true;
+
+                                            $('#adult_id_type'+passenger_number).niceSelect('update');
+                                            found = true;
+                                            break;
+                                        }
+                                    }
+                                    if(found)
+                                        break;
+                                }
+                            }catch(err){console.log(err);}
                         }
                         //document.getElementById('adult_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued_id.code;
                     }else if(product == 'train'){
