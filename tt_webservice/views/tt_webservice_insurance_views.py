@@ -131,11 +131,18 @@ def get_availability(request):
             "action": "get_availability",
             "signature": request.POST['signature']
         }
-
+        international = False
+        if request.session['insurance_request']['origin'].split(' - ')[1] != 'Indonesia':
+            international = True
+        elif request.session['insurance_request']['destination'].split(' - ')[1] != 'Indonesia':
+            international = True
         data = {
             "date_start": datetime.strptime(request.session['insurance_request']['date_start'],'%d %b %Y').strftime('%Y-%m-%d'),
             "date_end": datetime.strptime(request.session['insurance_request']['date_end'],'%d %b %Y').strftime('%Y-%m-%d'),
-            'pax': int(request.session['insurance_request']['adult'])
+            'pax': int(request.session['insurance_request']['adult']),
+            "origin": request.session['insurance_request']['origin'].split(' - ')[0],
+            "destination": request.session['insurance_request']['destination'].split(' - ')[0],
+            "international": international
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
@@ -238,7 +245,7 @@ def get_config(request):
         res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
-                _logger.info(json.dumps(request.session['visa_signature']))
+                write_cache_with_folder(res, "insurance_cache_data")
         except Exception as e:
             _logger.error(msg=str(e) + '\n' + traceback.format_exc())
             file = read_cache_with_folder_path("insurance_cache_data", 90911)
@@ -388,12 +395,18 @@ def commit_booking(request):
                         })
 
                     passenger.append(pax)
+        data_insurance = {
+            "carrier_code":request.session['insurance_pick']['carrier_code'],
+            "carrier_name": request.session['insurance_pick']['carrier_name'],
+            "provider": request.session['insurance_pick']['provider']
+        }
         data = {
             "contacts": contacts,
             "passengers": passenger,
-            "insurance": request.session['insurance_pick'],
+            "data": data_insurance,
             "booker": booker,
-            'voucher': {}
+            'voucher': {},
+            'provider': request.session['insurance_pick']['provider']
         }
 
     except Exception as e:
