@@ -1,4 +1,4 @@
-
+var new_insurance_destination = [];
 function insurance_signin(){
     $.ajax({
        type: "POST",
@@ -67,6 +67,12 @@ function insurance_get_config(){
            console.log(msg);
            if(msg.result.error_code == 0){
                 insurance_config = msg.result.response;
+                for(i in insurance_config){
+                    for(j in insurance_config[i].city)
+                        for(k in insurance_config[i].city[j])
+                            new_insurance_destination.push(insurance_config[i].city[j][k] + ' - ' + j);
+                    break;
+                }
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 auto_logout();
            }else{
@@ -99,6 +105,24 @@ function insurance_get_config(){
           }catch(err){}
        },timeout: 60000
     });
+}
+
+function insurance_check_search_values(){
+    type = '';
+    error_log = '';
+
+    if(document.getElementById('insurance_origin').value.split(' - ').length != 2)
+        error_log+= 'Please use autocomplete for origin\n';
+    if(document.getElementById('insurance_destination').value.split(' - ').length != 2)
+        error_log+= 'Please use autocomplete for destination\n';
+
+    if(error_log == ''){
+        $('.button-search').addClass("running");
+        get_captcha('recaptcha_insurance','insurance');
+    }else{
+        $('.button-search').removeClass("running");
+        alert(error_log);
+    }
 }
 
 function insurance_get_availability(){
@@ -1076,4 +1100,35 @@ function getrupiah(price){
     }catch(err){
         return price;
     }
+}
+
+function insurance_switch(){
+    var temp = document.getElementById("insurance_origin").value;
+    document.getElementById("insurance_origin").value = document.getElementById("insurance_destination").value;
+    document.getElementById("insurance_destination").value = temp;
+
+}
+
+function set_insurance_search_value_to_false(){
+    insurance_search_value = 'false';
+}
+function set_insurance_search_value_to_true(){
+    insurance_search_value = 'true';
+}
+
+function insurance_search_autocomplete(term){
+    term = term.toLowerCase();
+    console.log(term);
+    var choices = new_insurance_destination;
+    var suggestions = [];
+    var priority = [];
+    if(term.split(' - ').length == 2)
+        term = '';
+    for (i=0;i<choices.length;i++){
+        if(choices[i].toLowerCase().split(' - ')[0].search(term) !== -1){
+            priority.push(choices[i]);
+        }else if(choices[i].toLowerCase().search(term) !== -1)
+            suggestions.push(choices[i]);
+    }
+    return priority.concat(suggestions).slice(0,100);
 }

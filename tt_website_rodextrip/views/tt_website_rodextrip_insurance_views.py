@@ -122,6 +122,8 @@ def search(request):
                     'adult': request.POST['insurance_adult'],
                     'date_start': request.POST['insurance_date'].split(' - ')[0],
                     'date_end': request.POST['insurance_date'].split(' - ')[1],
+                    'origin': request.POST['insurance_origin'],
+                    'destination': request.POST['insurance_destination']
                 })
             except Exception as e:
                 _logger.error(str(e) + '\n' + traceback.format_exc())
