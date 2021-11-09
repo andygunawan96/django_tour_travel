@@ -36,6 +36,7 @@ var month = {
 var airline_cabin_class_list = {
     'Y': 'Economy',
     'W': 'Premium Economy',
+    'W1': 'Royal Green', //BUAT CITILINK PREMIUM ECO UPDATE KE ROYAL GREEN PAK ADI YG MINTA CARRIER CODE QG
     'C': 'Business',
     'F': 'First Class',
 }
@@ -1748,6 +1749,7 @@ function datasearch2(airline){
 
    for(i in airline.schedules){
         for(j in airline.schedules[i].journeys){
+           fare_details = [];
            airline.schedules[i].journeys[j].sequence = counter;
            available_count = 100;
            for(k in airline_request.origin){
@@ -1771,6 +1773,16 @@ function datasearch2(airline){
                             available_count = airline.schedules[i].journeys[j].segments[k].fares[l].available_count;
                        can_book = true;
                        airline.schedules[i].journeys[j].segments[k].fare_pick = 0;
+                       for(m in airline.schedules[i].journeys[j].segments[k].fares[l].fare_details){
+                            add_fare_detail = true;
+                            for(n in fare_details){
+                                if(fare_details[n].amount == airline.schedules[i].journeys[j].segments[k].fares[l].fare_details[m].amount && fare_details[n].detail_type == airline.schedules[i].journeys[j].segments[k].fares[l].fare_details[m].detail_type){
+                                    add_fare_detail = false;
+                                }
+                            }
+                            if(add_fare_detail)
+                                fare_details.push(airline.schedules[i].journeys[j].segments[k].fares[l].fare_details[m])
+                       }
                        for(m in airline.schedules[i].journeys[j].segments[k].fares[l].service_charge_summary){
                            if(airline.schedules[i].journeys[j].segments[k].fares[l].service_charge_summary[m].pax_type == 'ADT'){
                                for(n in airline.schedules[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges){
@@ -1804,6 +1816,7 @@ function datasearch2(airline){
            airline.schedules[i].journeys[j].available_count = available_count;
            airline.schedules[i].journeys[j].can_book = can_book_schedule;
            airline.schedules[i].journeys[j].currency = currency;
+           airline.schedules[i].journeys[j].fare_details = fare_details;
            data.push(airline.schedules[i].journeys[j]);
            temp_data.push(airline.schedules[i].journeys[j]);
            counter++;
@@ -2362,6 +2375,10 @@ function get_price_itinerary_request(){
                 }
                 for(i in resJson.result.response.price_itinerary_provider){
                     for(j in resJson.result.response.price_itinerary_provider[i].journeys){
+                        is_citilink = false;
+                        if(resJson.result.response.price_itinerary_provider[i].journeys[j].carrier_code_list.includes('QG')){
+                            is_citilink = true;
+                        }
                         flight_count++;
                         text += `<div class="col-lg-12 mt-2">`;
                         text += `<h6 style="background:`+color+`; padding:10px; cursor:pointer; color:`+text_color+`;" id="flight_title_up`+flight_count+`" onclick="show_hide_flight(`+flight_count+`);">Flight `+flight_count+` <i class="fas fa-caret-up" style="float:right; font-size:18px;"></i></h6>`;
@@ -2413,8 +2430,12 @@ function get_price_itinerary_request(){
                             text += `<br/>`;
                             if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares.length > 0){
                                 text += `<span>`
-                                if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].cabin_class != '' &&  airline_cabin_class_list.hasOwnProperty(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].cabin_class))
-                                    text += airline_cabin_class_list[resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].cabin_class]
+                                if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].cabin_class != '' &&  airline_cabin_class_list.hasOwnProperty(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].cabin_class)){
+                                    if(is_citilink && resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].cabin_class == 'W')
+                                        text += airline_cabin_class_list['W1']
+                                    else
+                                        text += airline_cabin_class_list[resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].cabin_class]
+                                }
                                 text += `<br/>Class: `+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].class_of_service+`</span>`;
                             }
                         }
@@ -2429,8 +2450,12 @@ function get_price_itinerary_request(){
                                 $text += resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_code + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_number + ' ';
                             }
                             for(l in resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares){
-                                if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].cabin_class != '' && airline_cabin_class_list.hasOwnProperty(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].cabin_class))
-                                    $text += airline_cabin_class_list[resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].cabin_class];
+                                if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].cabin_class != '' && airline_cabin_class_list.hasOwnProperty(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].cabin_class)){
+                                    if(is_citilink && resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].cabin_class == 'W')
+                                        $text += airline_cabin_class_list['W1'];
+                                    else
+                                        $text += airline_cabin_class_list[resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].cabin_class];
+                                }
                                 $text += ' (' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].class_of_service + ')';
                             }
 
@@ -4952,6 +4977,8 @@ function airline_get_booking(data, sync=false){
                                     //yang baru harus diganti
                                     if(msg.result.response.provider_bookings[i].journeys[j].segments[k].cabin_class == 'Y')
                                         cabin_class = 'Economy Class';
+                                    else if(msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code == 'QG' && msg.result.response.provider_bookings[i].journeys[j].segments[k].cabin_class == 'W')
+                                        cabin_class = 'Royal Green Class';
                                     else if(msg.result.response.provider_bookings[i].journeys[j].segments[k].cabin_class == 'W')
                                         cabin_class = 'Premium Economy Class';
                                     else if(msg.result.response.provider_bookings[i].journeys[j].segments[k].cabin_class == 'C')
@@ -5147,6 +5174,8 @@ function airline_get_booking(data, sync=false){
                                         //yang baru harus diganti
                                         if(msg.result.response.reschedule_list[i].old_segments[j].cabin_class == 'Y')
                                             cabin_class = 'Economy Class';
+                                        else if(msg.result.response.reschedule_list[i].old_segments[j].carrier_code == 'QG' && msg.result.response.reschedule_list[i].old_segments[j].cabin_class == 'W')
+                                            cabin_class = 'Royal Green Class';
                                         else if(msg.result.response.reschedule_list[i].old_segments[j].cabin_class == 'W')
                                             cabin_class = 'Premium Economy Class';
                                         else if(msg.result.response.reschedule_list[i].old_segments[j].cabin_class == 'C')
@@ -7333,8 +7362,14 @@ function reissued_btn(){
                 <div class="col-lg-12">
                     <div class="form-select">
                         <select id="cabin_class_flight`+cabin_class+`" name="cabin_class_flight`+cabin_class+`" class="nice-select-default reissued-class-airline">
-                            <option value="Y" selected="">Economy</option>
-                            <option value="W">Premium Economy</option>
+                            <option value="Y" selected="">Economy</option>`;
+        if(airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[0].carrier_code == 'QG')
+            text +=`
+                            <option value="W">Royal Green</option>`;
+        else
+            text +=`
+                            <option value="W">Premium Economy</option>`;
+        text +=`
                             <option value="C">Business</option>
                             <option value="F">First Class</option>
                         </select>
@@ -8011,6 +8046,8 @@ function render_ticket_reissue(){
                                                            if(airline[i].segments[j].fares[k].cabin_class != '')
                                                                 if(airline[i].segments[j].fares[k].cabin_class == 'Y')
                                                                     text += ' (Economy)';
+                                                                else if(airline[i].carrier_code_list.includes('QG') && airline[i].segments[j].fares[k].cabin_class == 'W')
+                                                                    text += ' (Royal Green)';
                                                                 else if(airline[i].segments[j].fares[k].cabin_class == 'W')
                                                                     text += ' (Premium Economy)';
                                                                 else if(airline[i].segments[j].fares[k].cabin_class == 'C')
@@ -8595,6 +8632,8 @@ function get_chosen_ticket(type='all'){
                                             if(airline_pick_list[i].segments[j].fares[k].cabin_class != '')
                                                 if(airline_pick_list[i].segments[j].fares[k].cabin_class == 'Y')
                                                     text += ' (Economy)';
+                                                else if(airline_pick_list[i].carrier_code_list.includes('QG') && airline_pick_list[i].segments[j].fares[k].cabin_class == 'W')
+                                                    text += ' (Royal Green)';
                                                 else if(airline_pick_list[i].segments[j].fares[k].cabin_class == 'W')
                                                     text += ' (Premium Economy)';
                                                 else if(airline_pick_list[i].segments[j].fares[k].cabin_class == 'C')
@@ -8612,6 +8651,8 @@ function get_chosen_ticket(type='all'){
                                             if(airline_pick_list[i].segments[j].fares[k].cabin_class != '')
                                                 if(airline_pick_list[i].segments[j].fares[k].cabin_class == 'Y')
                                                     text += ' (Economy)';
+                                                else if(airline_pick_list[i].carrier_code_list.includes('QG') && airline_pick_list[i].segments[j].fares[k].cabin_class == 'W')
+                                                    text += ' (Royal Green)';
                                                 else if(airline_pick_list[i].segments[j].fares[k].cabin_class == 'W')
                                                     text += ' (Premium Economy)';
                                                 else if(airline_pick_list[i].segments[j].fares[k].cabin_class == 'C')
@@ -8688,6 +8729,8 @@ function get_price_itinerary_reissue_request(airline_response, total_admin_fee, 
                 //yang baru harus diganti
                 if(airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].cabin_class == 'Y')
                     cabin_class = 'Economy Class';
+                else if(airline_get_detail.result.response.provider_bookings[i].journeys[j].carrier_code_list.includes('QG') && airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].cabin_class == 'W')
+                    cabin_class = 'Royal Green Class';
                 else if(airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].cabin_class == 'W')
                     cabin_class = 'Premium Economy Class';
                 else if(airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].cabin_class == 'C')
@@ -9921,6 +9964,8 @@ function airline_get_booking_refund(data){
                                 //yang baru harus diganti
                                 if(msg.result.response.provider_bookings[i].journeys[j].segments[k].cabin_class == 'Y')
                                     cabin_class = 'Economy Class';
+                                else if(msg.result.response.provider_bookings[i].journeys[j].carrier_code_list.includes('QG') && msg.result.response.provider_bookings[i].journeys[j].segments[k].cabin_class == 'W')
+                                    cabin_class = 'Royal Green Class';
                                 else if(msg.result.response.provider_bookings[i].journeys[j].segments[k].cabin_class == 'W')
                                     cabin_class = 'Premium Economy Class';
                                 else if(msg.result.response.provider_bookings[i].journeys[j].segments[k].cabin_class == 'C')
