@@ -378,21 +378,21 @@ def commit_booking(request):
                                 break
                     else:
                         pax['identity_country_of_issued_code2'] = ''
-                    pax['identity'] = [{
+                    pax['identity'] = {
                         "identity_country_of_issued_name": pax.pop('identity_country_of_issued_name'),
                         "identity_country_of_issued_code": pax.pop('identity_country_of_issued_code'),
                         "identity_expdate": pax.pop('identity_expdate'),
                         "identity_number": pax.pop('identity_number'),
                         "identity_type": pax.pop('identity_type'),
-                    }]
+                    }
                     if pax['identity_country_of_issued_name2']:
-                        pax['identity'].append({
+                        pax['identity_passport'] = {
                             "identity_country_of_issued_name": pax.pop('identity_country_of_issued_name2'),
                             "identity_country_of_issued_code": pax.pop('identity_country_of_issued_code2'),
                             "identity_expdate": pax.pop('identity_expdate2'),
                             "identity_number": pax.pop('identity_number2'),
                             "identity_type": pax.pop('identity_type2'),
-                        })
+                        }
 
                     passenger.append(pax)
         data_insurance = {
