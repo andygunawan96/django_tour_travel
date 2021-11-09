@@ -866,6 +866,29 @@
                                 {% csrf_token %}
                                 <input type="hidden" name="g-recaptcha-response" id='recaptcha_insurance'>
                                 <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6 col-sm-6 train-from" style="padding-left:0px;">
+                                                <span class="span-search-ticket"><i class="fas fa-train"></i> {% trans 'From' %}</span>
+                                                <div class="input-container-search-ticket">
+                                                    <input id="insurance_origin" name="insurance_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_origin').select();" onclick="set_insurance_search_value_to_false();">
+                                                </div>
+                                            </div>
+                                            <div class="image-change-route-vertical2">
+                                                <span><a href="javascript:insurance_switch();" style="z-index:5; color:black;" id="insurance_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></span>
+                                            </div>
+                                            <div class="image-change-route-horizontal2">
+                                                <span><a class="horizontal-arrow" href="javascript:insurance_switch();" style="z-index:5; color:{{text_color}} !important;" id="insurance_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></span>
+                                            </div>
+
+                                            <div class="col-lg-6 col-md-6 col-sm-6 train-to" style="z-index:5; padding-right:0px;">
+                                                <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> {% trans 'To' %}</span>
+                                                <div class="input-container-search-ticket">
+                                                    <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="col-lg-12" id="radio_insurance_search" style="padding:0px; text-align:left;margin-bottom:10px;">
                                         <label class="radio-button-custom crlabel">
                                             <span style="font-size:13px; color:{{text_color}};">{% trans 'Single Trip' %}</span>
@@ -922,7 +945,7 @@
 
                                 <input type="hidden" id="insurance_response" name="response"/>
                                 <center>
-                                    <button class="primary-btn ld-ext-right" id="btn-search-insurance" type="button" onclick="get_captcha('recaptcha_insurance','insurance');" value="Submit">
+                                    <button class="primary-btn ld-ext-right" id="btn-search-insurance" type="button" onclick="insurance_check_search_values();" value="Submit">
                                         <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                         {% trans 'Search' %}
                                         <div class="ld ld-ring ld-cycle"></div>
@@ -10064,6 +10087,41 @@
                         $("#airline_departure_return").focus();
                     }, 200);
                     set_airline_search_value_to_true();
+                }
+            });
+            {% endif %}
+            {% if "insurance" in provider and "ticketing_insurance" in username.co_agent_frontend_security %}
+            var insurance_origin = new autoComplete({
+                selector: '#insurance_origin',
+                minChars: 1,
+                cache: false,
+                delay:0,
+                source: function(term, suggest){
+                    if(term.split(' - ').length == 4)
+                            term = ''
+                    if(term.length > 1)
+                        suggest(insurance_search_autocomplete(term));
+                },
+                onSelect: function(e, term, item){
+                    setTimeout(function(){
+                        $("#destination_id_flight").focus();
+                    }, 200);
+                    set_insurance_search_value_to_true();
+                }
+            });
+            var insurance_destination = new autoComplete({
+                selector: '#insurance_destination',
+                minChars: 0,
+                cache: false,
+                delay:0,
+                source: function(term, suggest){
+                    if(term.split(' - ').length == 4)
+                        term = ''
+                    if(term.length > 1)
+                        suggest(insurance_search_autocomplete(term));
+                },
+                onSelect: function(e, term, item){
+                    set_insurance_search_value_to_true();
                 }
             });
             {% endif %}
