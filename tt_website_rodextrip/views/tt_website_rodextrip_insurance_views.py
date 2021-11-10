@@ -317,7 +317,7 @@ def review(request):
                         "identity_number": request.POST['adult_relation1_passport_number' + str(i + 1)],
                         "identity_expdate": request.POST['adult_relation1_passport_expired_date' + str(i + 1)],
                         "identity_country_of_issued_name": request.POST['adult_relation1_passport_country_of_issued' + str(i + 1) + '_id'],
-                        "relation": request.POST['adult_relation1_relation' + str(i + 1) + '_id'],
+                        "relation": request.POST['adult_relation1_relation' + str(i + 1)],
                     })
 
                 if request.POST['adult_relation2_first_name' + str(i + 1)]:
@@ -331,7 +331,7 @@ def review(request):
                         "identity_number": request.POST['adult_relation2_passport_number' + str(i + 1)],
                         "identity_expdate": request.POST['adult_relation2_passport_expired_date' + str(i + 1)],
                         "identity_country_of_issued_name": request.POST['adult_relation2_passport_country_of_issued' + str(i + 1) + '_id'],
-                        "relation": request.POST['adult_relation2_relation' + str(i + 1) + '_id'],
+                        "relation": request.POST['adult_relation2_relation' + str(i + 1)],
                     })
 
                 if request.POST['adult_relation3_first_name' + str(i + 1)]:
@@ -345,7 +345,7 @@ def review(request):
                         "identity_number": request.POST['adult_relation3_passport_number' + str(i + 1)],
                         "identity_expdate": request.POST['adult_relation3_passport_expired_date' + str(i + 1)],
                         "identity_country_of_issued_name": request.POST['adult_relation3_passport_country_of_issued' + str(i + 1) + '_id'],
-                        "relation": request.POST['adult_relation3_relation' + str(i + 1) + '_id'],
+                        "relation": request.POST['adult_relation3_relation' + str(i + 1)],
                     })
 
                 if request.POST['adult_relation4_first_name' + str(i + 1)]:
@@ -359,7 +359,7 @@ def review(request):
                         "identity_number": request.POST['adult_relation4_passport_number' + str(i + 1)],
                         "identity_expdate": request.POST['adult_relation4_passport_expired_date' + str(i + 1)],
                         "identity_country_of_issued_name": request.POST['adult_relation4_passport_country_of_issued' + str(i + 1) + '_id'],
-                        "relation": request.POST['adult_relation4_relation' + str(i + 1) + '_id'],
+                        "relation": request.POST['adult_relation4_relation' + str(i + 1)],
                     })
                 if request.POST['adult_relation5_first_name' + str(i + 1)]:
                     ahli_waris.update({
@@ -372,7 +372,7 @@ def review(request):
                         "identity_number": request.POST['adult_relation5_passport_number' + str(i + 1)],
                         "identity_expdate": request.POST['adult_relation5_passport_expired_date' + str(i + 1)],
                         "identity_country_of_issued_name": request.POST['adult_relation5_passport_country_of_issued' + str(i + 1) + '_id'],
-                        "relation": request.POST['adult_relation5_relation' + str(i + 1) + '_id'],
+                        "relation": request.POST['adult_relation5_relation' + str(i + 1)],
                     })
 
                 adult.append({
