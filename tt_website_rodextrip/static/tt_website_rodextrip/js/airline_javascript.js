@@ -2403,7 +2403,21 @@ function sort(){
                                                                     text+=`<span class="copy_transit" style="font-weight:500;">Transit: `+airline[i].transit_count+`</span>`;
                                                                 }
                                                                 text+=`
-                                                            </div>
+                                                            </div>`;
+                                                            for(j in airline[i].fare_details){
+                                                               text+=`
+                                                               <div class="col-xs-12">`;
+                                                               if(airline[i].fare_details[j].detail_type == 'BG'){
+                                                                    text+=`<i class="fas fa-suitcase"></i><span style="font-weight:500;" class="copy_suitcase_details"> `+airline[i].fare_details[j].amount+` `+airline[i].fare_details[j].unit+`</span><br/>`;
+                                                               }
+                                                               else if(airline[i].fare_details[j].detail_type == 'ML'){
+                                                                    text+=`<i class="fas fa-utensils"></i><span style="font-weight:500;" class="copy_utensils_details"> `+airline[i].fare_details[j].amount+` `+airline[i].fare_details[j].unit+`</span><br/>`;
+                                                               }else{
+                                                                    text+=`<span style="font-weight:500;" class="copy_others_details">`+airline[i].fare_details[j].amount+` `+airline[i].fare_details[j].unit+`</span><br/>`;
+                                                               }
+                                                               text+=`</div>`;
+                                                            }
+                                                            text+=`
                                                             <div class="col-xs-12">`;
                                                             if(airline[i].available_count != 0){
                                                                 if(airline[i].available_count > 9){
@@ -2673,6 +2687,10 @@ function sort(){
                                                                                 text += ' (Economy)';
                                                                                 temp_seat_name += ' (Economy)';
                                                                             }
+                                                                            else if(airline[i].carrier_code_list.includes('QG') && airline[i].segments[j].fares[k].cabin_class == 'W'){
+                                                                                text += ' (Royal Green)';
+                                                                                temp_seat_name += ' (Royal Green)';
+                                                                            }
                                                                             else if(airline[i].segments[j].fares[k].cabin_class == 'W'){
                                                                                 text += ' (Premium Economy)';
                                                                                 temp_seat_name += ' (Premium Economy)';
@@ -2701,6 +2719,10 @@ function sort(){
                                                                                         if(airline[i].segments[j].fares[k].cabin_class == 'Y'){
                                                                                             text += ' (Economy)';
                                                                                             temp_seat_name += ' (Economy)';
+                                                                                        }
+                                                                                        else if(airline[i].carrier_code_list.includes('QG') && airline[i].segments[j].fares[k].cabin_class == 'W'){
+                                                                                            text += ' (Royal Green)';
+                                                                                            temp_seat_name += ' (Royal Green)';
                                                                                         }
                                                                                         else if(airline[i].segments[j].fares[k].cabin_class == 'W'){
                                                                                             text += ' (Premium Economy)';
@@ -2784,7 +2806,6 @@ function sort(){
 
                            for(j in airline[i].segments){
                                 fare_check = 0;
-                                console.log(airline[i].segments);
                                 for(k in airline[i].segments[j].fares){
 
                                    var temp_total_price = 0;
@@ -2841,6 +2862,9 @@ function sort(){
                                             if(airline[i].segments[j].fares[k].cabin_class != ''){
                                                 if(airline[i].segments[j].fares[k].cabin_class == 'Y'){
                                                     choose_span.innerHTML += ' (Economy)';
+                                                }
+                                                else if(airline[i].carrier_code_list.includes('QG') && airline[i].segments[j].fares[k].cabin_class == 'W'){
+                                                    choose_span.innerHTML += ' (Royal Green)';
                                                 }
                                                 else if(airline[i].segments[j].fares[k].cabin_class == 'W'){
                                                     choose_span.innerHTML += ' (Premium Economy)';
@@ -3545,6 +3569,9 @@ function airline_pick_mc(type){
                                                     if(airline_pick_list[i].segments[j].fares[k].cabin_class == 'Y'){
                                                         text += ' (Economy)';
                                                     }
+                                                    else if(airline_pick_list[i].carrier_code_list.includes('QG') && airline_pick_list[i].segments[j].fares[k].cabin_class == 'W'){
+                                                        text += ' (Royal Green)';
+                                                    }
                                                     else if(airline_pick_list[i].segments[j].fares[k].cabin_class == 'W'){
                                                         text += ' (Premium Economy)';
                                                     }
@@ -3566,6 +3593,8 @@ function airline_pick_mc(type){
                                                 if(airline_pick_list[i].segments[j].fares[k].cabin_class != '')
                                                     if(airline_pick_list[i].segments[j].fares[k].cabin_class == 'Y')
                                                         text += ' (Economy)';
+                                                    else if(airline_pick_list[i].carrier_code_list.includes('QG') && airline_pick_list[i].segments[j].fares[k].cabin_class == 'W')
+                                                        text += ' (Royal Green)';
                                                     else if(airline_pick_list[i].segments[j].fares[k].cabin_class == 'W')
                                                         text += ' (Premium Economy)';
                                                     else if(airline_pick_list[i].segments[j].fares[k].cabin_class == 'C')
@@ -3705,6 +3734,9 @@ function airline_pick_mc(type){
                     if(airline_pick_list[i].segments[j].fares[k].cabin_class != ''){
                         if(airline_pick_list[i].segments[j].fares[k].cabin_class == 'Y'){
                             choose_span_pick.innerHTML += ' (Economy)';
+                        }
+                        else if(airline_pick_list[i].carrier_code_list.includes('QG') && airline_pick_list[i].segments[j].fares[k].cabin_class == 'W'){
+                            choose_span_pick.innerHTML += ' (Royal Green)';
                         }
                         else if(airline_pick_list[i].segments[j].fares[k].cabin_class == 'W'){
                             choose_span_pick.innerHTML += ' (Premium Economy)';
@@ -4014,6 +4046,10 @@ function airline_detail(type){
         flight_count = 0;
         for(i in price_itinerary_temp){
             for(j in price_itinerary_temp[i].journeys){
+                is_citilink = false;
+                if(price_itinerary_temp[i].journeys[j].carrier_code_list.includes('QG')){
+                    is_citilink = true;
+                }
                 if(i == 0 && j == 0 && Boolean(price_itinerary.is_combo_price) == true && price_itinerary_temp.length > 1){
                     text += `<h6>Special Price</h6>`;
                     $text +='Special Price\n';
@@ -4058,7 +4094,11 @@ function airline_detail(type){
                         $text += price_itinerary_temp[i].journeys[j].segments[k].carrier_code + ' ' + price_itinerary_temp[i].journeys[j].segments[k].carrier_code + price_itinerary_temp[i].journeys[j].segments[k].carrier_number + ' ';
                     }
                     for(l in price_itinerary_temp[i].journeys[j].segments[k].fares){
-                        $text += airline_cabin_class_list[price_itinerary_temp[i].journeys[j].segments[k].fares[l].cabin_class] + ' (' + price_itinerary_temp[i].journeys[j].segments[k].fares[l].class_of_service + ')';
+                        if(is_citilink && price_itinerary_temp[i].journeys[j].segments[k].fares[l].cabin_class == 'W')
+                            $text += airline_cabin_class_list['W1'] + ' (' + price_itinerary_temp[i].journeys[j].segments[k].fares[l].class_of_service + ')';
+                        else
+                            $text += airline_cabin_class_list[price_itinerary_temp[i].journeys[j].segments[k].fares[l].cabin_class];
+                        $text += ' (' + price_itinerary_temp[i].journeys[j].segments[k].fares[l].class_of_service + ')';
                     }
 
 //                    $text += '\n\n';
@@ -4125,6 +4165,8 @@ function airline_detail(type){
                         if(price_itinerary_temp[i].journeys[j].segments[k].fares[0].cabin_class != '')
                             if(price_itinerary_temp[i].journeys[j].segments[k].fares[0].cabin_class == 'Y')
                                 text += 'Economy - ';
+                            else if(price_itinerary_temp[i].journeys[j].carrier_code_list.includes('QG') && price_itinerary_temp[i].journeys[j].segments[k].fares[0].cabin_class == 'W')
+                                text += ' (Royal Green)';
                             else if(price_itinerary_temp[i].journeys[j].segments[k].fares[0].cabin_class == 'W')
                                 text += 'Premium Economy - ';
                             else if(price_itinerary_temp[i].journeys[j].segments[k].fares[0].cabin_class == 'C')
