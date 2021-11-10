@@ -13,6 +13,7 @@ from .tt_website_rodextrip_event_urls import *
 from .tt_website_rodextrip_bus_urls import *
 from .tt_website_rodextrip_medical_global_urls import *
 from .tt_website_rodextrip_swab_express_urls import *
+from .tt_website_rodextrip_mitra_keluarga_urls import *
 from .tt_website_rodextrip_lab_pintar_urls import *
 from .tt_website_rodextrip_medical_urls import *
 from .tt_website_rodextrip_insurance_urls import *

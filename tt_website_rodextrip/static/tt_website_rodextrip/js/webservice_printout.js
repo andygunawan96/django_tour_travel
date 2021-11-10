@@ -164,6 +164,14 @@ data_vendor = {
     "periksain": {
         'PCR': 'periksain_pcr_information',
         'ATG': 'periksain_antigen_information'
+    },
+    "mitrakeluarga":{
+        'MKDTKATG': 'mitrakeluarga_drivethru_antigen_information',
+        'MKHCKATG': 'mitrakeluarga_homecare_antigen_information',
+        'MKDTKPCR': 'mitrakeluarga_drivethru_pcr_information',
+        'MKHCKPCR': 'mitrakeluarga_homecare_pcr_information',
+        'MKDTPSRBD': 'mitrakeluarga_drivethru_srbd_information',
+        'MKHCPSRBD': 'mitrakeluarga_homecare_srbd_information'
     }
 }
 
