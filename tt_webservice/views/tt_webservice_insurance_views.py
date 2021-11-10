@@ -132,17 +132,17 @@ def get_availability(request):
             "signature": request.POST['signature']
         }
         international = False
-        if request.session['insurance_request']['origin'].split(' - ')[1] != 'Indonesia':
+        if request.session['insurance_request']['destination'].split(' - ')[1] != 'Domestic':
             international = True
-        elif request.session['insurance_request']['destination'].split(' - ')[1] != 'Indonesia':
-            international = True
+        destination_area = request.session['insurance_request']['destination'].split(' - ')[1]
         data = {
             "date_start": datetime.strptime(request.session['insurance_request']['date_start'],'%d %b %Y').strftime('%Y-%m-%d'),
             "date_end": datetime.strptime(request.session['insurance_request']['date_end'],'%d %b %Y').strftime('%Y-%m-%d'),
             'pax': int(request.session['insurance_request']['adult']),
             "origin": request.session['insurance_request']['origin'].split(' - ')[0],
             "destination": request.session['insurance_request']['destination'].split(' - ')[0],
-            "international": international
+            "international": international,
+            "destination_area": destination_area
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
@@ -208,6 +208,30 @@ def get_premi(request):
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "get_premi",
+            "signature": request.POST['signature'],
+        }
+
+        data = {
+            "provider": 'bcainsurance'
+        }
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    url_request = url + 'booking/insurance'
+    res = send_request_api(request, url_request, headers, data, 'POST')
+    try:
+        if res['result']['error_code'] == 0:
+            _logger.info(json.dumps(request.session['visa_signature']))
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+
+    return res
+
+def updata(request):
+    try:
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "updata",
             "signature": request.POST['signature'],
         }
 
