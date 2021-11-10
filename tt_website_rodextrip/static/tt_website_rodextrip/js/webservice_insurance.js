@@ -1,4 +1,5 @@
-var new_insurance_destination = [];
+var origin_insurance_destination = [];
+var destination_insurance_destination = [];
 function insurance_signin(){
     $.ajax({
        type: "POST",
@@ -68,9 +69,12 @@ function insurance_get_config(){
            if(msg.result.error_code == 0){
                 insurance_config = msg.result.response;
                 for(i in insurance_config){
-                    for(j in insurance_config[i].city)
-                        for(k in insurance_config[i].city[j])
-                            new_insurance_destination.push(insurance_config[i].city[j][k] + ' - ' + j);
+                    for(j in insurance_config[i].City)
+                        for(k in insurance_config[i].City[j]){
+                            if(j == 'Domestic')
+                                origin_insurance_destination.push(insurance_config[i].City[j][k] + ' - ' + j);
+                            destination_insurance_destination.push(insurance_config[i].City[j][k] + ' - ' + j);
+                        }
                     break;
                 }
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
@@ -589,13 +593,13 @@ function insurance_commit_booking(){
 function price_detail(){
     price = {'fare':0,'tax':0,'rac':0,'roc':0,'currency':'IDR','pax_count': parseInt(insurance_request['adult'])};
     for(i in insurance_pick.service_charges){
-        if(insurance_pick.service_charges[i].charge_code == 'fare'){
+        if(insurance_pick.service_charges[i].charge_type == 'FARE'){
             price['fare'] = insurance_pick.service_charges[i].amount;
-        }else if(insurance_pick.service_charges[i].charge_code == 'tax'){
+        }else if(insurance_pick.service_charges[i].charge_type == 'TAX'){
             price['tax'] = insurance_pick.service_charges[i].amount;
-        }else if(insurance_pick.service_charges[i].charge_code == 'rac'){
+        }else if(insurance_pick.service_charges[i].charge_type == 'RAC'){
             price['rac'] = insurance_pick.service_charges[i].amount;
-        }else if(insurance_pick.service_charges[i].charge_code == 'roc'){
+        }else if(insurance_pick.service_charges[i].charge_type == 'ROC'){
             price['roc'] = insurance_pick.service_charges[i].amount;
         }
     }
@@ -1116,10 +1120,14 @@ function set_insurance_search_value_to_true(){
     insurance_search_value = 'true';
 }
 
-function insurance_search_autocomplete(term){
+function insurance_search_autocomplete(term,type){
     term = term.toLowerCase();
-    console.log(term);
-    var choices = new_insurance_destination;
+    console.log(type);
+    var choices = [];
+    if(type == 'origin')
+        choices = origin_insurance_destination;
+    else
+        choices = destination_insurance_destination;
     var suggestions = [];
     var priority = [];
     if(term.split(' - ').length == 2)
