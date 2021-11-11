@@ -82,6 +82,8 @@ def api_models(request):
             res = check_benefit_data(request)
         elif req_data['action'] == 'commit_booking':
             res = commit_booking(request)
+        elif req_data['action'] == 'get_booking':
+            res = get_booking(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -142,7 +144,9 @@ def get_availability(request):
             "origin": request.session['insurance_request']['origin'].split(' - ')[0],
             "destination": request.session['insurance_request']['destination'].split(' - ')[0],
             "international": international,
-            "destination_area": destination_area
+            "destination_area": destination_area,
+            "type": request.session['insurance_request']['type'],
+            "plan_trip": request.session['insurance_request']['plan_trip']
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
@@ -445,5 +449,28 @@ def commit_booking(request):
 
     return res
 
+def get_booking(request):
+    try:
+        sync = False
+        try:
+            if request.POST['sync'] == 'true':
+                sync = True
+        except Exception as e:
+            _logger.error('get booking force sync params not found')
+        data = {
+            'order_number': request.POST['order_number'],
+            'force_sync': sync
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_booking",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
 
-# data_dummy = {"contacts": [{"title": "MR", "first_name": "Testing", "last_name": "Lalala", "email": "testing@gmail.com", "calling_code": "62", "mobile": "81238127421", "nationality_name": "Indonesia", "contact_seq_id": "", "is_also_booker": true, "nationality_code": "ID"}], "passengers": [{"pax_type": "ADT", "first_name": "Testing", "last_name": "Lalala", "title": "MR", "birth_date": "2003-11-08", "nationality_name": "Indonesia", "passenger_seq_id": "", "email": "testing@gmail.com", "mobile": "6262", "data_insurance": {"spouse": {}, "anak1": {}, "anak2": {}, "anak3": {}, "beneficiary": {"title": "MR", "first_name": "Ivan", "last_name": "Kecil", "nationality": "Indonesia", "birth_date": "2003-11-08", "identity_type": "ktp", "identity_number": "1234554321098765", "identity_expdate": "", "identity_country_of_issued_name": "Indonesia"}}, "is_also_booker": true, "is_also_contact": true, "nationality_code": "ID", "identity": [{"identity_country_of_issued_name": "Indonesia", "identity_country_of_issued_code": "ID", "identity_expdate": "", "identity_number": "1234567890123456", "identity_type": "ktp"}, {"identity_country_of_issued_name": "Indonesia", "identity_country_of_issued_code": "ID", "identity_expdate": "2022-02-11", "identity_number": "a1231232", "identity_type": "passport"}]}], "insurance": {"MasterBenefitId": 1, "MasterBenefitName": "Economy", "MasterBenefitNameIdn": "Ekonomi", "Premi": 4, "AdmFee": 15000, "DutyFee": 6000, "AnnualFee": 49, "WeekAdd": 0, "AnnualDuty": 6000, "Annual_OC": 49, "nPremi_OC": 4, "sector_type": "International", "carrier_name": "International Economy Individual", "carrier_code": "8", "data_code": "1", "data_name": "Asia Pasifics", "type_trip_code": "1", "type_trip_name": "Individual", "pdf": "https://apps.bcainsurance.co.id/travel/components/files/internasional_ekonomi.pdf", "pdf_all": "https://apps.bcainsurance.co.id/travel/components/files/internasional.pdf", "sequence": 1, "service_charges": [{"pax_type": "ADT", "pax_count": 1, "amount": 60000, "total": 60000, "currency": "IDR", "foreign_currency": "IDR", "charge_code": "fare", "charge_type": "Premium"}, {"pax_type": "ADT", "pax_count": 1, "amount": 15000, "total": 15000, "currency": "IDR", "foreign_currency": "IDR", "charge_code": "tax", "charge_type": "Admin Fee"}, {"pax_type": "ADT", "pax_count": 1, "amount": 6000, "total": 6000, "currency": "IDR", "foreign_currency": "IDR", "charge_code": "tax", "charge_type": "Duty Fee"}], "provider": "bcainsurance", "info": "<b>Asia Pasific</b> :<br/>Asia Pacific, Australia, Brunei Darussalam, Cambodia, China except Mongolia and Tibet, Hong Kong, India, Japan, Laos, Macau, Malaysia, Myanmar (Burma), Nepal, New Zealand, Pakistan, Philippines, Singapore, South Korea, Sri Lanka, Taiwan, Thailand, Vietnam<br/><b>Prohibited Countries</b> : <br/>Afghanistan, Belarus, Congo Republic, Cuba, Irak, Iran, Lebanon, Liberia, North Korea, Somalia, South Sudan, Sudan, Syria, Zimbabwe", "total_price": 81000, "total_commission": 0}, "booker": {"title": "MR", "first_name": "Testing", "last_name": "Lalala", "email": "testing@gmail.com", "calling_code": "62", "mobile": "81238127421", "nationality_name": "Indonesia", "booker_seq_id": "", "nationality_code": "ID"}, "voucher": {}}
+    url_request = url + 'booking/insurance'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
+
+    return res

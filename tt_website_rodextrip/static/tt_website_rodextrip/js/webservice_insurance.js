@@ -1,6 +1,6 @@
 var origin_insurance_destination = [];
 var destination_insurance_destination = [];
-function insurance_signin(){
+function insurance_signin(data){
     $.ajax({
        type: "POST",
        url: "/webservice/lab_pintar",
@@ -16,7 +16,10 @@ function insurance_signin(){
                insurance_signature = msg.result.response.signature;
                signature = msg.result.response.signature;
                insurance_get_config();
-               insurance_get_availability();
+               if(data == '')
+                    insurance_get_availability();
+               else
+                    insurance_get_booking(data);
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 auto_logout();
            }else{
@@ -76,6 +79,15 @@ function insurance_get_config(page=false){
                             destination_insurance_destination.push(insurance_config[i].City[j][k] + ' - ' + j);
                         }
                     break;
+                }
+                if(page == 'home'){
+                    for(i in insurance_config){
+                        for(j in insurance_config[i]['Plan Trip']){
+                            choice += '<option value="'+insurance_config[i]['Plan Trip'][j]+'">'+insurance_config[i]['Plan Trip'][j]+'</option>';
+                        }
+                    }
+                    document.getElementById('insurance_trip').innerHTML += choice;
+                    $('#insurance_trip').niceSelect('update');
                 }
                 if(page == 'passenger'){
                     var choice = '<option value=""></option>';
@@ -566,7 +578,7 @@ function insurance_commit_booking(){
                   html: msg.result.error_msg,
                })
                try{
-                $("#show_loading_booking_medical").hide();
+                $("#show_loading_booking_insurance").hide();
                }catch(err){}
            }
        }catch(err){
@@ -580,12 +592,12 @@ function insurance_commit_booking(){
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-          error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error medical signin');
+          error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error insurance commit booking');
           $("#barFlightSearch").hide();
           $("#waitFlightSearch").hide();
           $('.loader-rodextrip').fadeOut();
           try{
-            $("#show_loading_booking_medical").hide();
+            $("#show_loading_booking_insurance").hide();
           }catch(err){}
        },timeout: 60000
     });
@@ -646,22 +658,190 @@ function get_insurance_data_review_page(){
 }
 
 function insurance_commit_booking(){
-    $.ajax({
-       type: "POST",
-       url: "/webservice/insurance",
-       headers:{
-            'action': 'commit_booking',
-       },
-       data: {
-            'signature': signature
-       },
-       success: function(msg) {
-           console.log(msg);
-       },
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
+    Swal.fire({
+      title: 'Are you sure want to Request this booking?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+        if (result.value) {
+            $('.hold-seat-booking-train').addClass("running");
+            $('.hold-seat-booking-train').attr("disabled", true);
+            please_wait_transaction();
 
-       },timeout: 60000
-    });
+            if(typeof(vendor) === 'undefined')
+                vendor = '';
+            if(typeof(test_type) === 'undefined')
+                test_type = '';
+            data = {
+                'signature': signature,
+                'provider': vendor,
+                'test_type': test_type,
+                'force_issued': 0
+            }
+            try{
+                data['seq_id'] = payment_acq2[payment_method][selected].seq_id;
+                data['member'] = payment_acq2[payment_method][selected].method;
+            }catch(err){
+            }
+            try{
+                data['voucher_code'] = voucher_code;
+            }catch(err){}
+            $.ajax({
+               type: "POST",
+               url: "/webservice/insurance",
+               headers:{
+                    'action': 'commit_booking',
+               },
+               data: data,
+               success: function(msg) {
+                   console.log(msg);
+                   if(msg.result.error_code == 0){
+                        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true){
+                            Swal.fire({
+                              title: 'Success',
+                              type: 'success',
+                              showCancelButton: true,
+                              confirmButtonColor: '#3085d6',
+                              cancelButtonColor: 'blue',
+                              confirmButtonText: 'Payment',
+                              cancelButtonText: 'View Booking'
+                            }).then((result) => {
+                              if (result.value) {
+                                $('.hold-seat-booking-train').addClass("running");
+                                $('.hold-seat-booking-train').attr("disabled", true);
+                                please_wait_transaction();
+                                send_url_booking('insurance', btoa(msg.result.response.order_number), msg.result.response.order_number);
+                                document.getElementById('order_number').value = msg.result.response.order_number;
+                                document.getElementById("passengers").value = JSON.stringify(passengers);
+                                document.getElementById("signature").value = signature;
+                                document.getElementById("provider").value = 'insurance';
+                                document.getElementById("type").value = 'insurance_review';
+                                document.getElementById("voucher_code").value = voucher_code;
+                                document.getElementById("discount").value = JSON.stringify(discount_voucher);
+                                document.getElementById("session_time_input").value = 1200;
+                                document.getElementById('insurance_issued').submit();
+
+                              }else{
+                                document.getElementById('insurance_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
+                                document.getElementById('insurance_booking').action = '/insurance/booking/' + btoa(msg.result.response.order_number);
+                                document.getElementById('insurance_booking').submit();
+                              }
+                            })
+        //                    send_url_booking('medical', btoa(msg.result.response.order_number), msg.result.response.order_number);
+        //                    document.getElementById('order_number').value = msg.result.response.order_number;
+        //                    document.getElementById("passengers").value = JSON.stringify(passengers);
+        //                    document.getElementById("signature").value = signature;
+        //                    document.getElementById("provider").value = 'medical';
+        //                    document.getElementById("type").value = 'medical_review';
+        //                    document.getElementById("voucher_code").value = voucher_code;
+        //                    document.getElementById("discount").value = JSON.stringify(discount_voucher);
+        //                    document.getElementById("session_time_input").value = time_limit;
+        //                    document.getElementById('medical_issued').submit();
+
+        //                       document.getElementById('medical_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
+        //                       document.getElementById('medical_booking').action = '/medical/booking/' + btoa(msg.result.response.order_number);
+        //                       document.getElementById('medical_booking').submit();
+                       }else{
+                            Swal.fire({
+                              title: 'Success',
+                              type: 'success',
+                              showCancelButton: true,
+                              confirmButtonColor: '#3085d6',
+                              cancelButtonColor: 'blue',
+                              confirmButtonText: 'Payment',
+                              cancelButtonText: 'View Booking'
+                            }).then((result) => {
+                              if (result.value) {
+                                $('.hold-seat-booking-train').addClass("running");
+                                $('.hold-seat-booking-train').attr("disabled", true);
+                                please_wait_transaction();
+                                send_url_booking('insurance', btoa(msg.result.response.order_number), msg.result.response.order_number);
+                                document.getElementById('order_number').value = msg.result.response.order_number;
+                                document.getElementById("passengers").value = JSON.stringify(passengers);
+                                document.getElementById("signature").value = signature;
+                                document.getElementById("provider").value = 'insurance';
+                                document.getElementById("type").value = 'insurance_review';
+                                document.getElementById("voucher_code").value = voucher_code;
+                                document.getElementById("discount").value = JSON.stringify(discount_voucher);
+                                document.getElementById("session_time_input").value = 1200;
+                                document.getElementById('insurance_issued').submit();
+
+                              }else{
+                                document.getElementById('insurance_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
+                                document.getElementById('insurance_booking').action = '/insurance/booking/' + btoa(msg.result.response.order_number);
+                                document.getElementById('insurance_booking').submit();
+                              }
+                            })
+        //                   if(val == 0){
+        //                       document.getElementById('medical_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
+        //                       document.getElementById('medical_booking').action = '/medical/booking/' + btoa(msg.result.response.order_number);
+        //                       document.getElementById('medical_booking').submit();
+        //                   }else if(val == 1){
+        //                       document.getElementById('order_number').value = msg.result.response.order_number;
+        //                       document.getElementById('issued').action = '/medical/booking/' + btoa(msg.result.response.order_number);
+        //                       document.getElementById('issued').submit();
+        //                   }
+                       }
+                    }else if(msg.result.error_code == 1011 || msg.result.error_code == 4014){
+
+                           $('.hold-seat-booking-train').prop('disabled', false);
+                           $('.hold-seat-booking-train').removeClass("running");
+                           hide_modal_waiting_transaction();
+                           Swal.fire({
+                              title: msg.result.error_msg,
+                              type: 'success',
+                              showCancelButton: true,
+                              confirmButtonColor: '#3085d6',
+                              cancelButtonColor: 'blue',
+                              confirmButtonText: 'Payment',
+                              cancelButtonText: 'View Booking'
+                           }).then((result) => {
+                              if (result.value) {
+                                $('.hold-seat-booking-train').addClass("running");
+                                $('.hold-seat-booking-train').attr("disabled", true);
+                                please_wait_transaction();
+                                send_url_booking('insurance', btoa(msg.result.response.order_number), msg.result.response.order_number);
+                                document.getElementById('order_number').value = msg.result.response.order_number;
+                                document.getElementById("passengers").value = JSON.stringify(passengers);
+                                document.getElementById("signature").value = signature;
+                                document.getElementById("provider").value = 'insurance';
+                                document.getElementById("type").value = 'insurance_review';
+                                document.getElementById("voucher_code").value = voucher_code;
+                                document.getElementById("discount").value = JSON.stringify(discount_voucher);
+                                document.getElementById("session_time_input").value = 200;
+                                document.getElementById('insurance_issued').submit();
+
+                              }else{
+                                document.getElementById('insurance_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
+                                document.getElementById('insurance_booking').action = '/insurance/booking/' + btoa(msg.result.response.order_number);
+                                document.getElementById('insurance_booking').submit();
+                              }
+                           })
+                    }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                        auto_logout();
+                    }else{
+
+                       $('.hold-seat-booking-train').prop('disabled', false);
+                       $('.hold-seat-booking-train').removeClass("running");
+                       hide_modal_waiting_transaction();
+
+                       Swal.fire({
+                          type: 'error',
+                          title: 'Oops!',
+                          html: msg.result.error_msg,
+                       })
+                    }
+
+               },
+               error: function(XMLHttpRequest, textStatus, errorThrown) {
+
+               },timeout: 60000
+            });
+        }
+    })
 }
 
 function price_detail(){
@@ -1246,4 +1426,31 @@ function insurance_search_autocomplete(term,type){
             suggestions.push(choices[i]);
     }
     return priority.concat(suggestions).slice(0,100);
+}
+
+function insurance_get_booking(data, sync=false){
+    document.getElementById('payment_acq').hidden = true;
+    price_arr_repricing = {};
+    get_vendor_balance('false');
+    try{
+        show_loading();
+    }catch(err){}
+    $.ajax({
+       type: "POST",
+       url: "/webservice/insurance",
+       headers:{
+            'action': 'get_booking',
+       },
+       data: {
+            'order_number': data,
+            'signature': signature,
+            'sync': sync
+       },
+       success: function(msg) {
+           console.log(msg);
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+
+       },timeout: 60000
+    });
 }

@@ -123,7 +123,9 @@ def search(request):
                     'date_start': request.POST['insurance_date'].split(' - ')[0],
                     'date_end': request.POST['insurance_date'].split(' - ')[1],
                     'origin': request.POST['insurance_origin'],
-                    'destination': request.POST['insurance_destination']
+                    'destination': request.POST['insurance_destination'],
+                    'type': request.POST['radio_insurance_type'],
+                    'plan_trip': request.POST['insurance_trip'],
                 })
             except Exception as e:
                 _logger.error(str(e) + '\n' + traceback.format_exc())

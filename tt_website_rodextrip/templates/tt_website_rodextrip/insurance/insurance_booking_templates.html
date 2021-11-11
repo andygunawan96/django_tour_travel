@@ -6,8 +6,7 @@
 <!--<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>-->
 <script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/activity_javascript.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/webservice_activity.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_insurance.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/pricing_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
@@ -15,7 +14,7 @@
 <script src="{{ static_path }}js/webservice_printout.js?version={{javascript_version}}"></script>
 <script>
     static_path_url_server = '{{static_path_url_server}}'
-    activity_order_number = '{{order_number}}';
+    order_number = '{{order_number}}';
 </script>
 <div class="modal fade" id="waitingTransaction" role="dialog" style="background:rgba(20,20,20,0.8);">
     <div class="modal-dialog" style="margin: 0; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
@@ -34,7 +33,7 @@
 {% include 'tt_website_rodextrip/loading_screen.html' %}
 {% include 'tt_website_rodextrip/check_connection.html' %}
 {% include 'tt_website_rodextrip/modal_balance_vendor.html' %}
-<title id="title_search">{{name}} {% trans 'Activity' %} - {% trans 'Booking' %}</title>
+<title id="title_search">{{name}} {% trans 'Insurance' %} - {% trans 'Booking' %}</title>
 {%if template == 1%}
 <header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
     <div class="main-menu">
@@ -147,7 +146,7 @@
 {% include 'tt_website_rodextrip/header_signin.html' %}
 <div class="destinations-area" style="padding-top:30px; padding-bottom:40px; background:#f7f7f7;">
     <div class="container">
-        <form method="POST" id="activity_booking" action="">
+        <form method="POST" id="insurance_booking" action="">
             {% csrf_token %}
             <div class="row">
                 <div class="col-lg-3">
@@ -164,8 +163,8 @@
                         <div class="col-lg-12" id="alert-state">
 
                         </div>
-                        <div class="col-lg-12" id="activity_final_info">
-                            <div id="loading-search-activity" style="margin-bottom:20px;">
+                        <div class="col-lg-12" id="insurance_final_info">
+                            <div id="loading-search-insurance" style="margin-bottom:20px;">
                                 <div class="col-lg-12">
                                     <div class="sk-circle">
                                         <div class="sk-circle1 sk-child"></div>
@@ -189,7 +188,7 @@
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="margin-top:10px;">
                     <div class="row">
-                        <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="activity_detail">
+                        <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="insurance_detail">
                             <h4> {% trans 'Price Detail' %} </h4>
                             <hr/>
                             <span id="product_title" style="font-weight: bold;"></span>
@@ -197,7 +196,7 @@
                             <br/><span id="product_visit_date" style="font-size:13px; font-weight:500;"></span>
                             <br/><br/>
                             <div class="row">
-                                <div class="col-lg-12" id="activity_detail_table">
+                                <div class="col-lg-12" id="insurance_detail_table">
 
                                 </div>
                             </div>
@@ -257,7 +256,7 @@
                                                     <div class="col-lg-12" style="margin-bottom:15px; margin-top:15px;">
                                                         <hr/>
                                                         <center>
-                                                            <input class="primary-btn-ticket" type="button" onclick="calculate('activity');" value="Calculate">
+                                                            <input class="primary-btn-ticket" type="button" onclick="calculate('insurance');" value="Calculate">
                                                         </center>
                                                     </div>
                                                 </div>
@@ -295,8 +294,8 @@
         document.getElementById('voucher_discount').style.display = 'none';
     }catch(err){}
     $(document).ready(function () {
-        breadcrumb_create("activity", 5, 1);
+        breadcrumb_create("insurance", 5, 1);
     });
-    activity_login('{{order_number}}', 'get_booking');
+    insurance_signin('{{order_number}}');
 </script>
 {% endblock %}
