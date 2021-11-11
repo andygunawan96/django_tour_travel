@@ -51,7 +51,7 @@ function insurance_signin(){
     });
 }
 
-function insurance_get_config(){
+function insurance_get_config(page=false){
     getToken();
     $.ajax({
        type: "POST",
@@ -76,6 +76,28 @@ function insurance_get_config(){
                             destination_insurance_destination.push(insurance_config[i].City[j][k] + ' - ' + j);
                         }
                     break;
+                }
+                if(page == 'passenger'){
+                    var choice = '<option value=""></option>';
+                    for(i in insurance_config){
+                        for(j in insurance_config[i]['Table Relation']){
+                            choice += '<option value="'+j+'">'+j+'</option>';
+                        }
+                    }
+                    for(var i=1;i<=parseInt(insurance_request.adult);i++){
+                        if(insurance_pick.type_trip_name == 'Family'){
+                            document.getElementById('adult_relation1_relation'+i).innerHTML += choice;
+                            document.getElementById('adult_relation2_relation'+i).innerHTML += choice;
+                            document.getElementById('adult_relation3_relation'+i).innerHTML += choice;
+                            document.getElementById('adult_relation4_relation'+i).innerHTML += choice;
+                            $('#adult_relation1_relation'+i).niceSelect('update');
+                            $('#adult_relation2_relation'+i).niceSelect('update');
+                            $('#adult_relation3_relation'+i).niceSelect('update');
+                            $('#adult_relation4_relation'+i).niceSelect('update');
+                        }
+                        document.getElementById('adult_relation5_relation'+i).innerHTML += choice;
+                        $('#adult_relation5_relation'+i).niceSelect('update');
+                    }
                 }
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 auto_logout();
@@ -467,6 +489,57 @@ function insurance_check_benefit_data(){
     });
 }
 
+function insurance_updata(){
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/insurance",
+       headers:{
+            'action': 'updata',
+       },
+//       url: "{% url 'tt_backend_rodextrip:social_media_tree_update' %}",
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+       try{
+           console.log(msg);
+           if(msg.result.error_code == 0){
+
+           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                auto_logout();
+           }else{
+               Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: msg.result.error_msg,
+               })
+               try{
+                $("#show_loading_booking_medical").hide();
+               }catch(err){}
+           }
+       }catch(err){
+            console.log(err);
+           Swal.fire({
+               type: 'error',
+               title: 'Oops...',
+               text: 'Something went wrong, please try again or check your internet connection',
+           })
+           $('.loader-rodextrip').fadeOut();
+        }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+          error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error medical signin');
+          $("#barFlightSearch").hide();
+          $("#waitFlightSearch").hide();
+          $('.loader-rodextrip').fadeOut();
+          try{
+            $("#show_loading_booking_medical").hide();
+          }catch(err){}
+       },timeout: 60000
+    });
+}
+
 function insurance_commit_booking(){
     getToken();
     $.ajax({
@@ -537,6 +610,7 @@ function get_insurance_data_passenger_page(){
                     document.getElementById('adult_additional_data_for_insurance'+parseInt(parseInt(i)+1)).style.display = 'block';
                 }
            }
+           insurance_get_config('passenger');
            //harga kanan
            price_detail();
        },
@@ -791,7 +865,6 @@ function check_passenger(){
 
         //PAKET FAMILY
         if(insurance_pick.type_trip_name == 'Family'){
-            //PASANGAN
             if(check_name(document.getElementById('adult_relation1_title'+i).value,
                 document.getElementById('adult_relation1_first_name'+i).value,
                 document.getElementById('adult_relation1_last_name'+i).value,
@@ -810,6 +883,13 @@ function check_passenger(){
                document.getElementById('adult_relation1_first_name'+i).style['border-color'] = 'red';
             }else{
                document.getElementById('adult_relation1_first_name'+i).style['border-color'] = '#EFEFEF';
+            }
+
+            if(document.getElementById('adult_relation1_relation'+i).value == '' && document.getElementById('adult_relation1_first_name'+i).value != ''){
+                error_log+= 'Please fill first relation for passenger adult '+i+'!</br>\n';
+                document.getElementById('adult_relation1_relation'+i).style['border-color'] = 'red';
+            }else{
+                document.getElementById('adult_relation1_relation'+i).style['border-color'] = '#EFEFEF';
             }
 
             //PASSPORT
@@ -864,6 +944,13 @@ function check_passenger(){
                    document.getElementById('adult_relation2_first_name'+i).style['border-color'] = '#EFEFEF';
                 }
 
+                if(document.getElementById('adult_relation2_relation'+i).value == ''){
+                    error_log+= 'Please fill second relation for passenger adult '+i+'!</br>\n';
+                    document.getElementById('adult_relation2_relation'+i).style['border-color'] = 'red';
+                }else{
+                    document.getElementById('adult_relation2_relation'+i).style['border-color'] = '#EFEFEF';
+                }
+
                 //PASSPORT
                 if(insurance_pick.sector_type == 'International'){
                    if(document.getElementById('adult_relation2_identity_type'+i).value == 'passport'){
@@ -914,6 +1001,13 @@ function check_passenger(){
                    document.getElementById('adult_relation3_first_name'+i).style['border-color'] = 'red';
                 }else{
                    document.getElementById('adult_relation3_first_name'+i).style['border-color'] = '#EFEFEF';
+                }
+
+                if(document.getElementById('adult_relation3_relation'+i).value == ''){
+                    error_log+= 'Please fill third relation for passenger adult '+i+'!</br>\n';
+                    document.getElementById('adult_relation3_relation'+i).style['border-color'] = 'red';
+                }else{
+                    document.getElementById('adult_relation3_relation'+i).style['border-color'] = '#EFEFEF';
                 }
                 //PASSPORT
                 if(insurance_pick.sector_type == 'International'){
@@ -967,6 +1061,12 @@ function check_passenger(){
                    document.getElementById('adult_relation4_first_name'+i).style['border-color'] = '#EFEFEF';
                 }
 
+                if(document.getElementById('adult_relation4_relation'+i).value == ''){
+                    error_log+= 'Please fill fourth relation for passenger adult '+i+'!</br>\n';
+                    document.getElementById('adult_relation4_relation'+i).style['border-color'] = 'red';
+                }else{
+                    document.getElementById('adult_relation4_relation'+i).style['border-color'] = '#EFEFEF';
+                }
                 //PASSPORT
                 if(insurance_pick.sector_type == 'International'){
                    if(document.getElementById('adult_relation4_identity_type'+i).value == 'passport'){
@@ -1019,6 +1119,13 @@ function check_passenger(){
            document.getElementById('adult_relation5_first_name'+i).style['border-color'] = 'red';
         }else{
            document.getElementById('adult_relation5_first_name'+i).style['border-color'] = '#EFEFEF';
+        }
+
+        if(document.getElementById('adult_relation5_relation'+i).value == ''){
+            error_log+= 'Please fill beneficiary relation for passenger adult '+i+'!</br>\n';
+            document.getElementById('adult_relation5_relation'+i).style['border-color'] = 'red';
+        }else{
+            document.getElementById('adult_relation5_relation'+i).style['border-color'] = '#EFEFEF';
         }
 
         //CHECK KTP
