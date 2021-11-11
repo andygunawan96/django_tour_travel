@@ -25,6 +25,7 @@ from ..views import tt_webservice_swab_express_views as SwabExpressWebserviceVie
 from ..views import tt_webservice_lab_pintar_views as LabPintarWebserviceView
 from ..views import tt_webservice_bus_views as BusWebserviceView
 from ..views import tt_webservice_insurance_views as InsuranceWebserviceView
+from ..views import tt_webservice_mitra_keluarga_views as MitraKeluargaWebserviceView
 
 app_name = 'tt_webservice'
 
@@ -55,5 +56,6 @@ urlpatterns = [
     re_path('medical', MedicalWebserviceView.api_models, name="medical"),
     re_path('bus', BusWebserviceView.api_models, name="bus"),
     re_path('insurance', InsuranceWebserviceView.api_models, name="insurance"),
+    re_path('mitra_keluarga', MitraKeluargaWebserviceView.api_models, name="mitra_keluarga"),
     # url(r'^$', views.index),
 ]

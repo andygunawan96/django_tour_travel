@@ -1,8 +1,8 @@
-function swab_express_signin(data){
+function mitra_keluarga_signin(data){
     getToken();
     $.ajax({
        type: "POST",
-       url: "/webservice/swab_express",
+       url: "/webservice/mitra_keluarga",
        headers:{
             'action': 'signin',
        },
@@ -12,15 +12,15 @@ function swab_express_signin(data){
        try{
            console.log(msg);
            if(msg.result.error_code == 0){
-               swab_express_signature = msg.result.response.signature;
+               mitra_keluarga_signature = msg.result.response.signature;
                signature = msg.result.response.signature;
                if(data == 'passenger'){
-                    get_config_swab_express(data, vendor);
-                    swab_express_get_availability();
+                    get_config_mitra_keluarga(data, vendor);
+                    mitra_keluarga_get_availability();
                }else{
                     //get booking
-                    get_config_swab_express('get_booking');
-                    swab_express_get_booking(data);
+                    get_config_mitra_keluarga('get_booking');
+                    mitra_keluarga_get_booking(data);
                }
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 auto_logout();
@@ -31,7 +31,7 @@ function swab_express_signin(data){
                   html: msg.result.error_msg,
                })
                try{
-                $("#show_loading_booking_swab_express").hide();
+                $("#show_loading_booking_mitra_keluarga").hide();
                }catch(err){}
            }
        }catch(err){
@@ -50,17 +50,17 @@ function swab_express_signin(data){
           $("#waitFlightSearch").hide();
           $('.loader-rodextrip').fadeOut();
           try{
-            $("#show_loading_booking_swab_express").hide();
+            $("#show_loading_booking_mitra_keluarga").hide();
           }catch(err){}
        },timeout: 60000
     });
 
 }
 
-function get_config_swab_express(type){
+function get_config_mitra_keluarga(type){
     $.ajax({
        type: "POST",
-       url: "/webservice/swab_express",
+       url: "/webservice/mitra_keluarga",
        headers:{
             'action': 'get_config',
        },
@@ -76,13 +76,13 @@ function get_config_swab_express(type){
                     for(i in msg.result.response){
                         text += '<option value="'+msg.result.response[i].code+'">' + msg.result.response[i].name + '</option>';
                     }
-                    document.getElementById('swab_express_type').innerHTML += text;
-                    $('#swab_express_type').niceSelect('update');
+                    document.getElementById('mitra_keluarga_type').innerHTML += text;
+                    $('#mitra_keluarga_type').niceSelect('update');
                 }else if(type == 'passenger'){
                     print_check_price++;
                     if(print_check_price == 2){
-                        document.getElementById('check_price_swab_express').hidden = false;
-                        document.getElementById('div_schedule_swab_express').style.display = 'block';
+                        document.getElementById('check_price_mitra_keluarga').hidden = false;
+                        document.getElementById('div_schedule_mitra_keluarga').style.display = 'block';
                     }
                     var product = '';
 
@@ -92,14 +92,14 @@ function get_config_swab_express(type){
                             break;
                         }
                     }
-                    document.getElementById('swab_express_product').innerHTML = product;
+                    document.getElementById('mitra_keluarga_product').innerHTML = product;
                     document.getElementById('copy_booker_to_pax_div').hidden = false;
 //                    try{
 //                    document.getElementById('medical_pax_div').hidden = false;
 //                    }catch(err){}
                     add_table(true);
                     try{
-                        $("#show_loading_booking_swab_express").hide();
+                        $("#show_loading_booking_mitra_keluarga").hide();
                     }catch(err){}
                 }else if(type == 'review'){
                     for(i in medical_config.result.response){
@@ -119,22 +119,22 @@ function get_config_swab_express(type){
                   html: msg.result.error_msg,
                })
                try{
-                $("#show_loading_booking_swab_express").hide();
+                $("#show_loading_booking_mitra_keluarga").hide();
                }catch(err){}
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get config swab_express');
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get config mitra_keluarga');
        },timeout: 300000
     });
 }
 
-function swab_express_get_availability(){
+function mitra_keluarga_get_availability(){
     test_date_data = [];
     test_kuota = [];
     $.ajax({
        type: "POST",
-       url: "/webservice/swab_express",
+       url: "/webservice/mitra_keluarga",
        headers:{
             'action': 'get_availability',
        },
@@ -148,8 +148,8 @@ function swab_express_get_availability(){
             if(msg.result.error_code == 0){
                 print_check_price++;
                 if(print_check_price == 2){
-                    document.getElementById('check_price_swab_express').hidden = false;
-                    document.getElementById('div_schedule_swab_express').style.display = 'block';
+                    document.getElementById('check_price_mitra_keluarga').hidden = false;
+                    document.getElementById('div_schedule_mitra_keluarga').style.display = 'block';
                 }
                 msg = msg.result.response;
                 if(Object.keys(msg).length > 0){
@@ -180,7 +180,12 @@ function swab_express_get_availability(){
                     document.getElementById('booker_area').innerHTML = text_innerHTML;
                     $('#booker_area').niceSelect('update');
                     add_other_time();
-                    change_area('change_area_display');
+                    change_area();
+                }else if(test_type.includes('DT')){
+                    var text_innerHTML = '';
+                    text_innerHTML += `<option value='surabaya' selected>Surabaya</option>`;
+                    document.getElementById('booker_area').innerHTML = text_innerHTML;
+                    $('#booker_area').niceSelect('update');
                 }else{
                     Swal.fire({
                       type: 'error',
@@ -199,19 +204,19 @@ function swab_express_get_availability(){
                   html: msg.result.error_msg,
                })
                try{
-                $("#show_loading_booking_swab_express").hide();
+                $("#show_loading_booking_mitra_keluarga").hide();
                }catch(err){}
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get availability swab_express');
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get availability mitra_keluarga');
        },timeout: 300000
     });
 }
 
-function swab_express_check_price(){
+function mitra_keluarga_check_price(){
     var timeslot_list = [];
-    document.getElementById('check_price_swab_express').disabled = true;
+    document.getElementById('check_price_mitra_keluarga').disabled = true;
 
     var now = moment();
     var test_list_counter = 1;
@@ -247,22 +252,10 @@ function swab_express_check_price(){
 
         }
     }
-    peduli_lindungi = 'false';
-    if(test_type == 'SEKATG'){
-        var radios = document.getElementsByName('peduli_lindungi');
-        for (var j = 0, length = radios.length; j < length; j++) {
-            if (radios[j].checked) {
-                // do whatever you want with the checked radio
-                peduli_lindungi = radios[j].value;
-                // only one radio can be logically checked, don't check the rest
-                break;
-            }
-        }
-    }
     if(timeslot_list.length != 0 && error_log == '' || test_type.includes('DT')){
         $.ajax({
            type: "POST",
-           url: "/webservice/swab_express",
+           url: "/webservice/mitra_keluarga",
            headers:{
                 'action': 'get_price',
            },
@@ -271,7 +264,6 @@ function swab_express_check_price(){
                 'provider': vendor,
                 'pax_count': document.getElementById('passenger').value,
                 'timeslot_list': JSON.stringify(timeslot_list),
-                'peduli_lindungi': peduli_lindungi,
                 'carrier_code': test_type
            },
            success: function(msg) {
@@ -304,17 +296,6 @@ function swab_express_check_price(){
                                     <b><span style="font-size:13px;">IDR `+getrupiah(price_list['fare']['amount']*price_list['fare']['pax_count'])+`</span></b>
                                 </div>
                             </div>`;
-                    if(msg.result.response.address_surcharge){
-                        text+=`
-                                <div class="row" style="margin-bottom:5px;">
-                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                        <span style="font-size:12px;">Address Surcharge IDR `+getrupiah(msg.result.response.address_surcharge)+`</span>`;
-                            text+=`</div>
-                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                        <b><span style="font-size:13px;">IDR `+getrupiah(msg.result.response.address_surcharge)+`</span></b>
-                                    </div>
-                                </div>`;
-                    }
                     text+=`
                             <div class="row" style="margin-bottom:5px;">
                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
@@ -341,24 +322,17 @@ function swab_express_check_price(){
                             <label style="color:red !important;">* </label>
                             <label>Extra Cost</label>
                             <br/>`;
-                        if(msg.result.response.address_surcharge)
-                            text+=`
-                                <label style="margin-left:5px;">- Address Surcharge</label><br/>`;
-
-                            if(peduli_lindungi == 'true')
-                                text+=`
-                                    <label style="margin-left:5px;">- Peduli Lindungi</label>`;
                     }
 
-                    document.getElementById('swab_express_detail').innerHTML = text;
-                    document.getElementById('swab_express_detail').style.display = 'block';
-                    document.getElementById('next_swab_express').style.display = 'block';
+                    document.getElementById('mitra_keluarga_detail').innerHTML = text;
+                    document.getElementById('mitra_keluarga_detail').style.display = 'block';
+                    document.getElementById('next_mitra_keluarga').style.display = 'block';
 
                     try{
-                    document.getElementById('swab_express_pax_div').hidden = false;
+                    document.getElementById('mitra_keluarga_pax_div').hidden = false;
                     }catch(err){}
                     $('html, body').animate({
-                        scrollTop: $("#swab_express_detail").offset().top - 120
+                        scrollTop: $("#mitra_keluarga_detail").offset().top - 120
                     }, 500);
 
 
@@ -372,15 +346,15 @@ function swab_express_check_price(){
                       html: msg.result.error_msg,
                    })
                    try{
-                    $("#show_loading_booking_swab_express").hide();
+                    $("#show_loading_booking_mitra_keluarga").hide();
                    }catch(err){}
                 }
                 }catch(err){console.log(err);}
-                document.getElementById('check_price_swab_express').disabled = false;
+                document.getElementById('check_price_mitra_keluarga').disabled = false;
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get price swab_express');
-                document.getElementById('check_price_swab_express').disabled = false; //disable false jika timeout atau apapun yg masuk catch
+                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get price mitra_keluarga');
+                document.getElementById('check_price_mitra_keluarga').disabled = false; //disable false jika timeout atau apapun yg masuk catch
            },timeout: 300000
         });
     }else if(error_log != ''){
@@ -389,21 +363,21 @@ function swab_express_check_price(){
             title: 'Oops!',
             html: error_log,
         })
-        document.getElementById('check_price_swab_express').disabled = false;
+        document.getElementById('check_price_mitra_keluarga').disabled = false;
     }else{
         Swal.fire({
             type: 'error',
             title: 'Oops!',
             html: 'Please choose timeslot!',
         })
-        document.getElementById('check_price_swab_express').disabled = false;
+        document.getElementById('check_price_mitra_keluarga').disabled = false;
     }
 }
 
-function swab_express_get_cache_price(){
+function mitra_keluarga_get_cache_price(){
     $.ajax({
        type: "POST",
-       url: "/webservice/swab_express",
+       url: "/webservice/mitra_keluarga",
        headers:{
             'action': 'get_price_cache',
        },
@@ -441,17 +415,6 @@ function swab_express_get_cache_price(){
                                 <b><span style="font-size:13px;">IDR `+getrupiah(price_list['fare']['amount']*price_list['fare']['pax_count'])+`</span></b>
                             </div>
                         </div>`;
-                if(msg.result.response.address_surcharge == true){
-                    text+=`
-                        <div class="row" style="margin-bottom:5px;">
-                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="text-align:left;">
-                                <span style="font-size:12px;">Address Surcharge IDR `+getrupiah(msg.result.response.address_surcharge)+`</span>`;
-                    text+=`</div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
-                                <b><span style="font-size:13px;">IDR `+getrupiah(msg.result.response.address_surcharge)+`</span></b>
-                            </div>
-                        </div>`;
-                }
                 text+=`
                         <div class="row" style="margin-bottom:5px;">
                             <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
@@ -477,8 +440,8 @@ function swab_express_get_cache_price(){
                             <input type="button" class="primary-btn-white" style="width:100%;" onclick="copy_data();" value="Copy"/>
                         </center>
                     </div>`;
-                document.getElementById('swab_express_detail').innerHTML = text;
-                document.getElementById('swab_express_detail').style.display = 'block';
+                document.getElementById('mitra_keluarga_detail').innerHTML = text;
+                document.getElementById('mitra_keluarga_detail').style.display = 'block';
                 $text += 'Price:\n';
                 $text += msg.result.response.service_charges[0].pax_count+`x Fare @IDR `+getrupiah(msg.result.response.service_charges[0].amount) + `\n`;
                 $text += 'Grand Total: IDR' + getrupiah(msg.result.response.total_price)
@@ -544,20 +507,20 @@ function swab_express_get_cache_price(){
                   html: msg.result.error_msg,
                })
                try{
-                $("#show_loading_booking_swab_express").hide();
+                $("#show_loading_booking_mitra_keluarga").hide();
                }catch(err){}
             }
             }catch(err){console.log(err);}
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get price swab_express');
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get price mitra_keluarga');
        },timeout: 300000
     });
 }
 
-function pre_swab_express_commit_booking(val){
+function pre_mitra_keluarga_commit_booking(val){
     if(val == 0){
-        swab_express_commit_booking(val);
+        mitra_keluarga_commit_booking(val);
         $('.hold-seat-booking-train').addClass("running");
         $('.hold-seat-booking-train').attr("disabled", true);
         please_wait_transaction();
@@ -578,12 +541,12 @@ function pre_swab_express_commit_booking(val){
 
                     document.getElementById("passengers").value = JSON.stringify(passengers);
                     document.getElementById("signature").value = signature;
-                    document.getElementById("provider").value = 'swabexpress';
-                    document.getElementById("type").value = 'swab_express_review';
+                    document.getElementById("provider").value = 'mitrakeluarga';
+                    document.getElementById("type").value = 'mitra_keluarga_review';
                     document.getElementById("voucher_code").value = voucher_code;
                     document.getElementById("discount").value = JSON.stringify(discount_voucher);
                     //document.getElementById("session_time_input").value = 300;
-                    document.getElementById('swab_express_issued').submit();
+                    document.getElementById('mitra_keluarga_issued').submit();
                 }catch(err){
                     console.log(err)
                 }
@@ -597,7 +560,7 @@ function confirm_order(){
     $('#loading-search-reservation').show();
     $.ajax({
        type: "POST",
-       url: "/webservice/swab_express",
+       url: "/webservice/mitra_keluarga",
        headers:{
             'action': 'confirm_order',
        },
@@ -609,10 +572,10 @@ function confirm_order(){
            console.log(msg);
            if(msg.result.error_code == 0){
                 //update ticket
-                document.getElementById('show_loading_booking_swab_express').hidden = false;
+                document.getElementById('show_loading_booking_mitra_keluarga').hidden = false;
                 hide_modal_waiting_transaction();
-                document.getElementById('swab_express_booking').innerHTML = '';
-                document.getElementById('swab_express_detail').innerHTML = '';
+                document.getElementById('mitra_keluarga_booking').innerHTML = '';
+                document.getElementById('mitra_keluarga_detail').innerHTML = '';
                 document.getElementById('payment_acq').innerHTML = '';
                 //document.getElementById('voucher_div').style.display = 'none';
                 document.getElementById('payment_acq').hidden = true;
@@ -621,15 +584,15 @@ function confirm_order(){
 
                 document.getElementById("overlay-div-box").style.display = "none";
                 $(".issued_booking_btn").hide(); //kalau error masih keluar button awal remove ivan
-                swab_express_get_booking(data);
+                mitra_keluarga_get_booking(data);
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 auto_logout();
            }else{
                 //update ticket
-                document.getElementById('show_loading_booking_swab_express').hidden = false;
+                document.getElementById('show_loading_booking_mitra_keluarga').hidden = false;
                 hide_modal_waiting_transaction();
-                document.getElementById('swab_express_booking').innerHTML = '';
-                document.getElementById('swab_express_detail').innerHTML = '';
+                document.getElementById('mitra_keluarga_booking').innerHTML = '';
+                document.getElementById('mitra_keluarga_detail').innerHTML = '';
                 document.getElementById('payment_acq').innerHTML = '';
                 //document.getElementById('voucher_div').style.display = 'none';
                 document.getElementById('payment_acq').hidden = true;
@@ -638,23 +601,23 @@ function confirm_order(){
 
                 document.getElementById("overlay-div-box").style.display = "none";
                 $(".issued_booking_btn").hide(); //kalau error masih keluar button awal remove ivan
-                swab_express_get_booking(data);
+                mitra_keluarga_get_booking(data);
                 Swal.fire({
                   type: 'error',
                   title: 'Oops!',
-                  html: '<span style="color: #ff9900;">Error swab_express confirm order </span>' + msg.result.error_msg,
+                  html: '<span style="color: #ff9900;">Error mitra_keluarga confirm order </span>' + msg.result.error_msg,
                 })
            }
            $('#loading-search-reservation').hide();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             hide_modal_waiting_transaction();
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get price swab_express');
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get price mitra_keluarga');
        },timeout: 300000
     });
 }
 
-function swab_express_commit_booking(val){
+function mitra_keluarga_commit_booking(val){
     $('.hold-seat-booking-train').addClass("running");
     $('.hold-seat-booking-train').attr("disabled", true);
     please_wait_transaction();
@@ -679,7 +642,7 @@ function swab_express_commit_booking(val){
     }catch(err){}
     $.ajax({
        type: "POST",
-       url: "/webservice/swab_express",
+       url: "/webservice/mitra_keluarga",
        headers:{
             'action': 'commit_booking',
        },
@@ -701,21 +664,21 @@ function swab_express_commit_booking(val){
                         $('.hold-seat-booking-train').addClass("running");
                         $('.hold-seat-booking-train').attr("disabled", true);
                         please_wait_transaction();
-                        send_url_booking('swab_express', btoa(msg.result.response.order_number), msg.result.response.order_number);
+                        send_url_booking('mitra_keluarga', btoa(msg.result.response.order_number), msg.result.response.order_number);
                         document.getElementById('order_number').value = msg.result.response.order_number;
                         document.getElementById("passengers").value = JSON.stringify(passengers);
                         document.getElementById("signature").value = signature;
-                        document.getElementById("provider").value = 'swabexpress';
-                        document.getElementById("type").value = 'swab_express_review';
+                        document.getElementById("provider").value = 'mitrakeluarga';
+                        document.getElementById("type").value = 'mitra_keluarga_review';
                         document.getElementById("voucher_code").value = voucher_code;
                         document.getElementById("discount").value = JSON.stringify(discount_voucher);
                         document.getElementById("session_time_input").value = time_limit;
-                        document.getElementById('swab_express_issued').submit();
+                        document.getElementById('mitra_keluarga_issued').submit();
 
                       }else{
-                        document.getElementById('swab_express_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
-                        document.getElementById('swab_express_booking').action = '/swab_express/booking/' + btoa(msg.result.response.order_number);
-                        document.getElementById('swab_express_booking').submit();
+                        document.getElementById('mitra_keluarga_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
+                        document.getElementById('mitra_keluarga_booking').action = '/mitra_keluarga/booking/' + btoa(msg.result.response.order_number);
+                        document.getElementById('mitra_keluarga_booking').submit();
                       }
                     })
 //                    send_url_booking('medical', btoa(msg.result.response.order_number), msg.result.response.order_number);
@@ -746,21 +709,21 @@ function swab_express_commit_booking(val){
                         $('.hold-seat-booking-train').addClass("running");
                         $('.hold-seat-booking-train').attr("disabled", true);
                         please_wait_transaction();
-                        send_url_booking('swab_express', btoa(msg.result.response.order_number), msg.result.response.order_number);
+                        send_url_booking('mitra_keluarga', btoa(msg.result.response.order_number), msg.result.response.order_number);
                         document.getElementById('order_number').value = msg.result.response.order_number;
                         document.getElementById("passengers").value = JSON.stringify(passengers);
                         document.getElementById("signature").value = signature;
-                        document.getElementById("provider").value = 'swabexpress';
-                        document.getElementById("type").value = 'swab_express_review';
+                        document.getElementById("provider").value = 'mitrakeluarga';
+                        document.getElementById("type").value = 'mitra_keluarga_review';
                         document.getElementById("voucher_code").value = voucher_code;
                         document.getElementById("discount").value = JSON.stringify(discount_voucher);
                         document.getElementById("session_time_input").value = 1200;
-                        document.getElementById('swab_express_issued').submit();
+                        document.getElementById('mitra_keluarga_issued').submit();
 
                       }else{
-                        document.getElementById('swab_express_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
-                        document.getElementById('swab_express_booking').action = '/swab_express/booking/' + btoa(msg.result.response.order_number);
-                        document.getElementById('swab_express_booking').submit();
+                        document.getElementById('mitra_keluarga_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
+                        document.getElementById('mitra_keluarga_booking').action = '/mitra_keluarga/booking/' + btoa(msg.result.response.order_number);
+                        document.getElementById('mitra_keluarga_booking').submit();
                       }
                     })
                }
@@ -782,21 +745,21 @@ function swab_express_commit_booking(val){
                         $('.hold-seat-booking-train').addClass("running");
                         $('.hold-seat-booking-train').attr("disabled", true);
                         please_wait_transaction();
-                        send_url_booking('swab_express', btoa(msg.result.response.order_number), msg.result.response.order_number);
+                        send_url_booking('mitra_keluarga', btoa(msg.result.response.order_number), msg.result.response.order_number);
                         document.getElementById('order_number').value = msg.result.response.order_number;
                         document.getElementById("passengers").value = JSON.stringify(passengers);
                         document.getElementById("signature").value = signature;
-                        document.getElementById("provider").value = 'swabexpress';
-                        document.getElementById("type").value = 'swab_express_review';
+                        document.getElementById("provider").value = 'mitrakeluarga';
+                        document.getElementById("type").value = 'mitra_keluarga_review';
                         document.getElementById("voucher_code").value = voucher_code;
                         document.getElementById("discount").value = JSON.stringify(discount_voucher);
                         document.getElementById("session_time_input").value = 1200;
-                        document.getElementById('swab_express_issued').submit();
+                        document.getElementById('mitra_keluarga_issued').submit();
 
                       }else{
-                        document.getElementById('swab_express_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
-                        document.getElementById('swab_express_booking').action = '/swab_express/booking/' + btoa(msg.result.response.order_number);
-                        document.getElementById('swab_express_booking').submit();
+                        document.getElementById('mitra_keluarga_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
+                        document.getElementById('mitra_keluarga_booking').action = '/mitra_keluarga/booking/' + btoa(msg.result.response.order_number);
+                        document.getElementById('mitra_keluarga_booking').submit();
                       }
                    })
 //                   Swal.fire({
@@ -806,12 +769,12 @@ function swab_express_commit_booking(val){
 //                   }).then((result) => {
 //                        if (result.value) {
 //                            if(val == 0){
-//                                document.getElementById('swab_express_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
-//                                document.getElementById('swab_express_booking').action = '/swab_express/booking/' + btoa(msg.result.response.order_number);
-//                                document.getElementById('swab_express_booking').submit();
+//                                document.getElementById('mitra_keluarga_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
+//                                document.getElementById('mitra_keluarga_booking').action = '/mitra_keluarga/booking/' + btoa(msg.result.response.order_number);
+//                                document.getElementById('mitra_keluarga_booking').submit();
 //                            }else if(val == 1){
 //                                document.getElementById('order_number').value = msg.result.response.order_number;
-//                                document.getElementById('issued').action = '/swab_express/booking/' + btoa(msg.result.response.order_number);
+//                                document.getElementById('issued').action = '/mitra_keluarga/booking/' + btoa(msg.result.response.order_number);
 //                                document.getElementById('issued').submit();
 //                            }
 //                        }
@@ -832,7 +795,7 @@ function swab_express_commit_booking(val){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get price swab_express');
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get price mitra_keluarga');
        },timeout: 300000
     });
 }
@@ -840,12 +803,12 @@ function swab_express_commit_booking(val){
 //function goto_edit_passenger(){
 //    if(medical_get_detail.result.response.state == 'booked'){
 //        document.getElementById('data').value = JSON.stringify(medical_get_detail);
-//        document.getElementById('swab_express_edit_passenger').action += medical_get_detail.result.response.order_number;
-//        document.getElementById('swab_express_edit_passenger').submit();
+//        document.getElementById('mitra_keluarga_edit_passenger').action += medical_get_detail.result.response.order_number;
+//        document.getElementById('mitra_keluarga_edit_passenger').submit();
 //    }
 //}
 
-function swab_express_get_booking(order_number, sync=false){
+function mitra_keluarga_get_booking(order_number, sync=false){
     document.getElementById('payment_acq').hidden = true;
     price_arr_repricing = {};
     get_vendor_balance('false');
@@ -857,7 +820,7 @@ function swab_express_get_booking(order_number, sync=false){
     }catch(err){}
     $.ajax({
        type: "POST",
-       url: "/webservice/swab_express",
+       url: "/webservice/mitra_keluarga",
        headers:{
             'action': 'get_booking',
        },
@@ -872,8 +835,8 @@ function swab_express_get_booking(order_number, sync=false){
 
                 //======================= Resv =========================
                 if(msg.result.error_code == 0){
-                    if(window.location.pathname.includes('confirm_order') && user_login.co_agent_frontend_security.includes('confirm_order_swab_express') == false){
-                        window.location.href = '/swab_express/confirm_order/';
+                    if(window.location.pathname.includes('confirm_order') && user_login.co_agent_frontend_security.includes('confirm_order_mitra_keluarga') == false){
+                        window.location.href = '/mitra_keluarga/confirm_order/';
                         Swal.fire({
                           type: 'error',
                           title: 'Oops!',
@@ -881,7 +844,7 @@ function swab_express_get_booking(order_number, sync=false){
                        })
                     }else{
                         medical_get_detail = msg;
-                        document.getElementById('show_loading_booking_swab_express').hidden = true;
+                        document.getElementById('show_loading_booking_mitra_keluarga').hidden = true;
     //                    document.getElementById('button-home').hidden = false;
                         document.getElementById('button-new-reservation').hidden = false;
                         document.getElementById('button-re-order').hidden = false;
@@ -917,7 +880,7 @@ function swab_express_get_booking(order_number, sync=false){
 
                         //======================= Button Issued ==================
                         if(msg.result.response.state == 'booked'){
-                           check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'swabexpress', signature, msg.result.response.payment_acquirer_number);
+                           check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'mitrakeluarga', signature, msg.result.response.payment_acquirer_number);
                            $(".issued_booking_btn").show();
                            $text += 'Status: Booked\n';
                            document.getElementById('div_sync_status').hidden = false;
@@ -932,7 +895,7 @@ function swab_express_get_booking(order_number, sync=false){
                             document.getElementById('issued-breadcrumb').classList.add("br-active");
                             document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
                             document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
-                            document.getElementById('show_title_swab_express').hidden = true;
+                            document.getElementById('show_title_mitra_keluarga').hidden = true;
                             document.getElementById('display_state').innerHTML = `Your Order Has Been Issued`;
                             document.getElementById('alert-state').innerHTML = `
                             <div class="alert alert-success" role="alert">
@@ -1269,7 +1232,7 @@ function swab_express_get_booking(order_number, sync=false){
                                         </div>`;
                             }
                         }
-                        document.getElementById('swab_express_booking').innerHTML = text;
+                        document.getElementById('mitra_keluarga_booking').innerHTML = text;
 
                         //detail
                         text = '';
@@ -1553,14 +1516,14 @@ function swab_express_get_booking(order_number, sync=false){
                         </div>`;
                             if(msg.result.response.state != 'cancel' || msg.result.response.state != 'cancel2'){
                                 document.getElementById('cancel_reservation').innerHTML = `
-                                <button class="primary-btn-white hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="swab_express_cancel_booking('` + msg.result.response.order_number + `');" style="width:100%;">
+                                <button class="primary-btn-white hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="mitra_keluarga_cancel_booking('` + msg.result.response.order_number + `');" style="width:100%;">
                                     Cancel Booking
                                     <i class="fas fa-times" style="padding-left:5px; color:red; font-size:16px;"></i>
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>`;
                             }
                         }
-                        if(window.location.pathname.includes('confirm_order') && user_login.co_agent_frontend_security.includes('confirm_order_swab_express') && msg.result.response.state_vendor == 'new_order' && moment().format('YYYY-MM-DD') == msg.result.response.picked_timeslot.datetimeslot.substr(0,10)){
+                        if(window.location.pathname.includes('confirm_order') && user_login.co_agent_frontend_security.includes('confirm_order_mitra_keluarga') && msg.result.response.state_vendor == 'new_order' && moment().format('YYYY-MM-DD') == msg.result.response.picked_timeslot.datetimeslot.substr(0,10)){
                             text_detail+=`
                             <div style="margin-top:10px;">
                                 <center>
@@ -1595,7 +1558,7 @@ function swab_express_get_booking(order_number, sync=false){
     //                        change_area();
                     }
 
-                    document.getElementById('swab_express_detail').innerHTML = text_detail;
+                    document.getElementById('mitra_keluarga_detail').innerHTML = text_detail;
                     document.getElementById('update_data_passenger').innerHTML = text_update_data_pax;
 
 
@@ -1611,7 +1574,7 @@ function swab_express_get_booking(order_number, sync=false){
                             // === Button 1 ===
                             if (msg.result.response.state  == 'issued') {
                                 print_text+=`
-                                <button class="primary-btn-white hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="get_printout('` + msg.result.response.order_number + `','ticket','swab_express');" style="width:100%;">
+                                <button class="primary-btn-white hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="get_printout('` + msg.result.response.order_number + `','ticket','mitra_keluarga');" style="width:100%;">
                                     Print Ticket
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>`;
@@ -1620,7 +1583,7 @@ function swab_express_get_booking(order_number, sync=false){
                             // === Button 2 ===
                             if (msg.result.response.state  == 'issued'){
                                 print_text+=`
-                                <button class="primary-btn-white hold-seat-booking-train ld-ext-right" type="button" id="button-print-print" onclick="get_printout('` + msg.result.response.order_number + `','ticket_price','swab_express');" style="width:100%;">
+                                <button class="primary-btn-white hold-seat-booking-train ld-ext-right" type="button" id="button-print-print" onclick="get_printout('` + msg.result.response.order_number + `','ticket_price','mitra_keluarga');" style="width:100%;">
                                     Print Ticket (With Price)
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>`;
@@ -1672,7 +1635,7 @@ function swab_express_get_booking(order_number, sync=false){
                                                         <div style="text-align:right;">
                                                             <span>Don't want to edit? just submit</span>
                                                             <br/>
-                                                            <button type="button" id="button-issued-print" class="primary-btn ld-ext-right" onclick="get_printout('`+msg.result.response.order_number+`', 'invoice','swab_express');">
+                                                            <button type="button" id="button-issued-print" class="primary-btn ld-ext-right" onclick="get_printout('`+msg.result.response.order_number+`', 'invoice','mitra_keluarga');">
                                                                 Submit
                                                                 <div class="ld ld-ring ld-cycle"></div>
                                                             </button>
@@ -1724,7 +1687,7 @@ function swab_express_get_booking(order_number, sync=false){
                                                         <div style="text-align:right;">
                                                             <span>Don't want to edit? just submit</span>
                                                             <br/>
-                                                            <button type="button" id="button-issued-print" class="primary-btn ld-ext-right" onclick="get_printout('`+msg.result.response.order_number+`', 'kwitansi','swab_express');">
+                                                            <button type="button" id="button-issued-print" class="primary-btn ld-ext-right" onclick="get_printout('`+msg.result.response.order_number+`', 'kwitansi','mitra_keluarga');">
                                                                 Submit
                                                                 <div class="ld ld-ring ld-cycle"></div>
                                                             </button>
@@ -1740,7 +1703,7 @@ function swab_express_get_booking(order_number, sync=false){
                             }
                         }*/
                         if(print_text)
-                            document.getElementById('swab_express_btn_printout').innerHTML = print_text;
+                            document.getElementById('mitra_keluarga_btn_printout').innerHTML = print_text;
 
                         //======================= Other =========================
                         add_repricing();
@@ -1748,10 +1711,10 @@ function swab_express_get_booking(order_number, sync=false){
                 }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                     auto_logout();
                 }else if(msg.result.error_code == 1035){
-                    document.getElementById('show_title_swab_express').hidden = false;
-                    document.getElementById('show_loading_booking_swab_express').hidden = true;
-                    document.getElementById('show_title_swab_express').hidden = true;
-                    render_login('swab_express');
+                    document.getElementById('show_title_mitra_keluarga').hidden = false;
+                    document.getElementById('show_loading_booking_mitra_keluarga').hidden = true;
+                    document.getElementById('show_title_mitra_keluarga').hidden = true;
+                    render_login('mitra_keluarga');
                 }else{
                    Swal.fire({
                       type: 'error',
@@ -1759,7 +1722,7 @@ function swab_express_get_booking(order_number, sync=false){
                       html: msg.result.error_msg,
                    })
                    try{
-                    $("#show_loading_booking_swab_express").hide();
+                    $("#show_loading_booking_mitra_keluarga").hide();
                    }catch(err){console.log(err);}
                 }
             }catch(err){
@@ -1767,19 +1730,19 @@ function swab_express_get_booking(order_number, sync=false){
                 Swal.fire({
                   type: 'error',
                   title: 'Oops!',
-                  html: '<span style="color: #ff9900;">Error swab_express booking </span> Please try again in 1 - 5 minutes later or contact customer service' ,
+                  html: '<span style="color: #ff9900;">Error mitra_keluarga booking </span> Please try again in 1 - 5 minutes later or contact customer service' ,
                 }).then((result) => {
                   window.location.href = '/reservation';
                 })
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get price swab_express');
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get price mitra_keluarga');
        },timeout: 300000
     });
 }
 
-function swab_express_cancel_booking(data){
+function mitra_keluarga_cancel_booking(data){
     var temp_data = {}
     if(typeof(medical_get_detail) !== 'undefined')
         temp_data = JSON.stringify(medical_get_detail)
@@ -1797,7 +1760,7 @@ function swab_express_cancel_booking(data){
         getToken();
         $.ajax({
            type: "POST",
-           url: "/webservice/swab_express",
+           url: "/webservice/mitra_keluarga",
            headers:{
                 'action': 'cancel',
            },
@@ -1810,13 +1773,13 @@ function swab_express_cancel_booking(data){
                document.getElementById('cancel_reservation').innerHTML = '';
                if(msg.result.error_code == 0){
                    if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
-                        window.location.href = '/swab_express/booking/' + btoa(data);
+                        window.location.href = '/mitra_keluarga/booking/' + btoa(data);
                    }else{
 //                       //update ticket
-                        document.getElementById('show_loading_booking_swab_express').hidden = false;
+                        document.getElementById('show_loading_booking_mitra_keluarga').hidden = false;
                         hide_modal_waiting_transaction();
-                        document.getElementById('swab_express_booking').innerHTML = '';
-                        document.getElementById('swab_express_detail').innerHTML = '';
+                        document.getElementById('mitra_keluarga_booking').innerHTML = '';
+                        document.getElementById('mitra_keluarga_detail').innerHTML = '';
                         document.getElementById('payment_acq').innerHTML = '';
                         //document.getElementById('voucher_div').style.display = 'none';
                         document.getElementById('payment_acq').hidden = true;
@@ -1825,7 +1788,7 @@ function swab_express_cancel_booking(data){
 
                         document.getElementById("overlay-div-box").style.display = "none";
                         $(".issued_booking_btn").hide(); //kalau error masih keluar button awal remove ivan
-                        swab_express_get_booking(data);
+                        mitra_keluarga_get_booking(data);
                    }
                }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                     auto_logout();
@@ -1834,51 +1797,51 @@ function swab_express_cancel_booking(data){
                     Swal.fire({
                       type: 'error',
                       title: 'Oops!',
-                      html: '<span style="color: #ff9900;">Error swab_express cancel </span>' + msg.result.error_msg,
+                      html: '<span style="color: #ff9900;">Error mitra_keluarga cancel </span>' + msg.result.error_msg,
                     })
                     price_arr_repricing = {};
                     pax_type_repricing = [];
-                    document.getElementById('show_loading_booking_swab_express').hidden = false;
-                    document.getElementById('swab_express_booking').innerHTML = '';
-                    document.getElementById('swab_express_detail').innerHTML = '';
+                    document.getElementById('show_loading_booking_mitra_keluarga').hidden = false;
+                    document.getElementById('mitra_keluarga_booking').innerHTML = '';
+                    document.getElementById('mitra_keluarga_detail').innerHTML = '';
                     document.getElementById('payment_acq').innerHTML = '';
-                    document.getElementById('show_loading_booking_swab_express').style.display = 'block';
-                    document.getElementById('show_loading_booking_swab_express').hidden = false;
+                    document.getElementById('show_loading_booking_mitra_keluarga').style.display = 'block';
+                    document.getElementById('show_loading_booking_mitra_keluarga').hidden = false;
                     document.getElementById('payment_acq').hidden = true;
                     hide_modal_waiting_transaction();
                     document.getElementById("overlay-div-box").style.display = "none";
 
                     $('.hold-seat-booking-train').prop('disabled', false);
                     $('.hold-seat-booking-train').removeClass("running");
-                    swab_express_get_booking(data);
+                    mitra_keluarga_get_booking(data);
                     $(".issued_booking_btn").hide();
                }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error swab_express issued');
+                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error mitra_keluarga issued');
                 price_arr_repricing = {};
                 pax_type_repricing = [];
-                document.getElementById('show_loading_booking_swab_express').hidden = false;
-                document.getElementById('swab_express_booking').innerHTML = '';
-                document.getElementById('swab_express_detail').innerHTML = '';
+                document.getElementById('show_loading_booking_mitra_keluarga').hidden = false;
+                document.getElementById('mitra_keluarga_booking').innerHTML = '';
+                document.getElementById('mitra_keluarga_detail').innerHTML = '';
                 document.getElementById('payment_acq').innerHTML = '';
                 //document.getElementById('voucher_div').style.display = 'none';
-                document.getElementById('show_loading_booking_swab_express').style.display = 'block';
-                document.getElementById('show_loading_booking_swab_express').hidden = false;
+                document.getElementById('show_loading_booking_mitra_keluarga').style.display = 'block';
+                document.getElementById('show_loading_booking_mitra_keluarga').hidden = false;
                 document.getElementById('payment_acq').hidden = true;
                 hide_modal_waiting_transaction();
                 document.getElementById("overlay-div-box").style.display = "none";
                 $('.hold-seat-booking-train').prop('disabled', false);
                 $('.hold-seat-booking-train').removeClass("running");
                 $(".issued_booking_btn").hide();
-                swab_express_get_booking(data);
+                mitra_keluarga_get_booking(data);
            },timeout: 300000
         });
       }
     })
 }
 
-function swab_express_issued_booking(data){
+function mitra_keluarga_issued_booking(data){
     var temp_data = {}
     if(typeof(medical_get_detail) !== 'undefined')
         temp_data = JSON.stringify(medical_get_detail)
@@ -1896,7 +1859,7 @@ function swab_express_issued_booking(data){
         getToken();
         $.ajax({
            type: "POST",
-           url: "/webservice/swab_express",
+           url: "/webservice/mitra_keluarga",
            headers:{
                 'action': 'issued',
            },
@@ -1911,17 +1874,17 @@ function swab_express_issued_booking(data){
            success: function(msg) {
                console.log(msg);
                if(google_analytics != '')
-                   gtag('event', 'swab_express_issued', {});
+                   gtag('event', 'mitra_keluarga_issued', {});
                if(msg.result.error_code == 0){
                    print_success_issued();
                    if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
-                        window.location.href = '/swab_express/booking/' + btoa(data);
+                        window.location.href = '/mitra_keluarga/booking/' + btoa(data);
                    }else{
 //                       //update ticket
-                        document.getElementById('show_loading_booking_swab_express').hidden = false;
+                        document.getElementById('show_loading_booking_mitra_keluarga').hidden = false;
                         hide_modal_waiting_transaction();
-                        document.getElementById('swab_express_booking').innerHTML = '';
-                        document.getElementById('swab_express_detail').innerHTML = '';
+                        document.getElementById('mitra_keluarga_booking').innerHTML = '';
+                        document.getElementById('mitra_keluarga_detail').innerHTML = '';
                         document.getElementById('payment_acq').innerHTML = '';
                         //document.getElementById('voucher_div').style.display = 'none';
                         document.getElementById('payment_acq').hidden = true;
@@ -1930,20 +1893,20 @@ function swab_express_issued_booking(data){
 
                         document.getElementById("overlay-div-box").style.display = "none";
                         $(".issued_booking_btn").hide(); //kalau error masih keluar button awal remove ivan
-                        swab_express_get_booking(data);
+                        mitra_keluarga_get_booking(data);
                    }
                }else if(msg.result.error_code == 1009){
                    price_arr_repricing = {};
                    pax_type_repricing = [];
                    hide_modal_waiting_transaction();
-                   document.getElementById('show_loading_booking_swab_express').hidden = false;
-                   document.getElementById('swab_express_booking').innerHTML = '';
-                   document.getElementById('swab_express_detail').innerHTML = '';
+                   document.getElementById('show_loading_booking_mitra_keluarga').hidden = false;
+                   document.getElementById('mitra_keluarga_booking').innerHTML = '';
+                   document.getElementById('mitra_keluarga_detail').innerHTML = '';
                    document.getElementById('payment_acq').innerHTML = '';
                    //document.getElementById('voucher_div').style.display = 'none';
                    document.getElementById('ssr_request_after_sales').hidden = true;
-                   document.getElementById('show_loading_booking_swab_express').style.display = 'block';
-                   document.getElementById('show_loading_booking_swab_express').hidden = false;
+                   document.getElementById('show_loading_booking_mitra_keluarga').style.display = 'block';
+                   document.getElementById('show_loading_booking_mitra_keluarga').hidden = false;
                    document.getElementById('reissued').hidden = true;
                    document.getElementById('cancel').hidden = true;
                    document.getElementById('payment_acq').hidden = true;
@@ -1952,7 +1915,7 @@ function swab_express_issued_booking(data){
                    Swal.fire({
                       type: 'error',
                       title: 'Oops!',
-                      html: '<span style="color: #ff9900;">Error swab_express issued </span>' + msg.result.error_msg,
+                      html: '<span style="color: #ff9900;">Error mitra_keluarga issued </span>' + msg.result.error_msg,
                     }).then((result) => {
                       if (result.value) {
                         hide_modal_waiting_transaction();
@@ -1963,12 +1926,12 @@ function swab_express_issued_booking(data){
 
                     $('.hold-seat-booking-train').prop('disabled', false);
                     $('.hold-seat-booking-train').removeClass("running");
-                    swab_express_get_booking(data);
+                    mitra_keluarga_get_booking(data);
                }else if(msg.result.error_code == 4006){
                     Swal.fire({
                       type: 'error',
                       title: 'Oops!',
-                      html: '<span style="color: #ff9900;">Error swab_express issued </span>' + msg.result.error_msg,
+                      html: '<span style="color: #ff9900;">Error mitra_keluarga issued </span>' + msg.result.error_msg,
                     }).then((result) => {
                       if (result.value) {
                         hide_modal_waiting_transaction();
@@ -2191,51 +2154,51 @@ function swab_express_issued_booking(data){
                     Swal.fire({
                       type: 'error',
                       title: 'Oops!',
-                      html: '<span style="color: #ff9900;">Error swab_express issued </span>' + msg.result.error_msg,
+                      html: '<span style="color: #ff9900;">Error mitra_keluarga issued </span>' + msg.result.error_msg,
                     })
                     price_arr_repricing = {};
                     pax_type_repricing = [];
-                    document.getElementById('show_loading_booking_swab_express').hidden = false;
-                    document.getElementById('swab_express_booking').innerHTML = '';
-                    document.getElementById('swab_express_detail').innerHTML = '';
+                    document.getElementById('show_loading_booking_mitra_keluarga').hidden = false;
+                    document.getElementById('mitra_keluarga_booking').innerHTML = '';
+                    document.getElementById('mitra_keluarga_detail').innerHTML = '';
                     document.getElementById('payment_acq').innerHTML = '';
-                    document.getElementById('show_loading_booking_swab_express').style.display = 'block';
-                    document.getElementById('show_loading_booking_swab_express').hidden = false;
+                    document.getElementById('show_loading_booking_mitra_keluarga').style.display = 'block';
+                    document.getElementById('show_loading_booking_mitra_keluarga').hidden = false;
                     document.getElementById('payment_acq').hidden = true;
                     hide_modal_waiting_transaction();
                     document.getElementById("overlay-div-box").style.display = "none";
 
                     $('.hold-seat-booking-train').prop('disabled', false);
                     $('.hold-seat-booking-train').removeClass("running");
-                    swab_express_get_booking(data);
+                    mitra_keluarga_get_booking(data);
                     $(".issued_booking_btn").hide();
                }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error swab_express issued');
+                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error mitra_keluarga issued');
                 price_arr_repricing = {};
                 pax_type_repricing = [];
-                document.getElementById('show_loading_booking_swab_express').hidden = false;
-                document.getElementById('swab_express_booking').innerHTML = '';
-                document.getElementById('swab_express_detail').innerHTML = '';
+                document.getElementById('show_loading_booking_mitra_keluarga').hidden = false;
+                document.getElementById('mitra_keluarga_booking').innerHTML = '';
+                document.getElementById('mitra_keluarga_detail').innerHTML = '';
                 document.getElementById('payment_acq').innerHTML = '';
                 //document.getElementById('voucher_div').style.display = 'none';
-                document.getElementById('show_loading_booking_swab_express').style.display = 'block';
-                document.getElementById('show_loading_booking_swab_express').hidden = false;
+                document.getElementById('show_loading_booking_mitra_keluarga').style.display = 'block';
+                document.getElementById('show_loading_booking_mitra_keluarga').hidden = false;
                 document.getElementById('payment_acq').hidden = true;
                 hide_modal_waiting_transaction();
                 document.getElementById("overlay-div-box").style.display = "none";
                 $('.hold-seat-booking-train').prop('disabled', false);
                 $('.hold-seat-booking-train').removeClass("running");
                 $(".issued_booking_btn").hide();
-                swab_express_get_booking(data);
+                mitra_keluarga_get_booking(data);
            },timeout: 300000
         });
       }
     })
 }
 
-function swab_express_get_result(data){
+function mitra_keluarga_get_result(data){
     var temp_data = {}
     if(typeof(medical_get_detail) !== 'undefined')
         temp_data = JSON.stringify(medical_get_detail)
@@ -2244,7 +2207,7 @@ function swab_express_get_result(data){
     getToken();
     $.ajax({
        type: "POST",
-       url: "/webservice/swab_express",
+       url: "/webservice/mitra_keluarga",
        headers:{
             'action': 'get_result',
        },
@@ -2279,7 +2242,7 @@ function swab_express_get_result(data){
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             hide_modal_waiting_transaction();
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get price swab_express');
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get price mitra_keluarga');
        },timeout: 300000
     });
 }
@@ -2288,7 +2251,7 @@ function get_transaction_by_analyst(){
     $('#loading-search-reservation').show();
     $.ajax({
        type: "POST",
-       url: "/webservice/swab_express",
+       url: "/webservice/mitra_keluarga",
        headers:{
             'action': 'get_transaction_by_analyst',
        },
@@ -2369,7 +2332,7 @@ function get_transaction_by_analyst(){
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             hide_modal_waiting_transaction();
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get price swab_express');
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get price mitra_keluarga');
        },timeout: 300000
     });
 }
@@ -2450,7 +2413,7 @@ function create_new_reservation(){
 
 
     //button
-    text += `<button type="button" class="primary-btn mb-3" id="button-home" style="width:100%;margin-top:15px;" onclick="swab_express_reorder();">
+    text += `<button type="button" class="primary-btn mb-3" id="button-home" style="width:100%;margin-top:15px;" onclick="mitra_keluarga_reorder();">
                 Re Order
             </button>`
 
@@ -2459,7 +2422,7 @@ function create_new_reservation(){
     $('#test_type').niceSelect();
 }
 
-function swab_express_reorder(){
+function mitra_keluarga_reorder(){
     //check all pax
     var checked = false;
     var passenger_list_copy = [];
@@ -2470,7 +2433,7 @@ function swab_express_reorder(){
         }
     }
     if(checked){
-        var path = '/swab_express/passenger/';
+        var path = '/mitra_keluarga/passenger/';
         document.getElementById('data').value = JSON.stringify(passenger_list_copy);
         var data_temp = {
             "address": medical_get_detail.result.response.test_address,
@@ -2478,10 +2441,10 @@ function swab_express_reorder(){
             "place_url_by_google": medical_get_detail.result.response.test_address_map_link,
             "test_list": []
         }
-        document.getElementById('swab_express_type').value = document.getElementById('test_type').value;
+        document.getElementById('mitra_keluarga_type').value = document.getElementById('test_type').value;
         document.getElementById('booking_data').value = JSON.stringify(data_temp);
-        document.getElementById('swab_express_edit_passenger').action = path;
-        document.getElementById('swab_express_edit_passenger').submit();
+        document.getElementById('mitra_keluarga_edit_passenger').action = path;
+        document.getElementById('mitra_keluarga_edit_passenger').submit();
     }else{
         Swal.fire({
             type: 'error',
@@ -2492,12 +2455,12 @@ function swab_express_reorder(){
 }
 
 
-function get_data_cache_passenger_swab_express(type){
+function get_data_cache_passenger_mitra_keluarga(type){
     $.ajax({
        type: "POST",
-       url: "/webservice/swab_express",
+       url: "/webservice/mitra_keluarga",
        headers:{
-            'action': 'get_data_cache_passenger_swab_express',
+            'action': 'get_data_cache_passenger_mitra_keluarga',
        },
        data: {
             'signature': signature,
@@ -2514,12 +2477,12 @@ function get_data_cache_passenger_swab_express(type){
 
 }
 
-function get_data_cache_schedule_swab_express(){
+function get_data_cache_schedule_mitra_keluarga(){
     $.ajax({
        type: "POST",
-       url: "/webservice/swab_express",
+       url: "/webservice/mitra_keluarga",
        headers:{
-            'action': 'get_data_booking_cache_swab_express',
+            'action': 'get_data_booking_cache_mitra_keluarga',
        },
        data: {
             'signature': signature,

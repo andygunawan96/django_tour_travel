@@ -246,11 +246,10 @@
 {% include 'tt_website_rodextrip/footer.html' %}
 
 <script>
-
+    insurance_signin('');
     $(document).ready(function () {
         breadcrumb_create("insurance", 2, 0);
         $('.js-example-basic-single').select2();
-        insurance_signin();
         try{
             document.getElementById("balance_search").innerHTML = document.getElementById("balance").innerHTML;
         }catch(err){}
