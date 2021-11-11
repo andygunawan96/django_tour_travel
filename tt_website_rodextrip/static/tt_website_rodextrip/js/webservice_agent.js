@@ -5373,6 +5373,13 @@ function render_login(product_type){
     else if(product_type == 'swab_express')
         html_id = 'swab_express_booking';
 
+    else if(product_type == 'lab_pintar')
+        html_id = 'lab_pintar_booking';
+    else if(product_type == 'bus')
+        html_id = 'bus_booking';
+    else if(product_type == 'mitra_keluarga')
+        html_id = 'mitra_keluarga_booking';
+
     document.getElementById(html_id).innerHTML = `
         <div class="col-lg-12" style="background:white; padding:30px; 20px; border:1px solid #cdcdcd;">
             <div class="row">

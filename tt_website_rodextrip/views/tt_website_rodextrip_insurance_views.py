@@ -303,13 +303,10 @@ def review(request):
             }
             for i in range(int(request.session['insurance_request']['adult'])):
                 # BIKIN buat pasangan ANAK 1 2 3, ahli waris
-                pasangan = {}
-                anak1 = {}
-                anak2 = {}
-                anak3 = {}
+                relation = []
                 ahli_waris = {}
                 if request.POST['adult_relation1_first_name' + str(i + 1)]:
-                    pasangan.update({
+                    relation.append({
                         "title": request.POST['adult_relation1_title' + str(i + 1)],
                         "first_name": request.POST['adult_relation1_first_name' + str(i + 1)],
                         "last_name": request.POST['adult_relation1_last_name' + str(i + 1)],
@@ -323,7 +320,7 @@ def review(request):
                     })
 
                 if request.POST['adult_relation2_first_name' + str(i + 1)]:
-                    anak1.update({
+                    relation.append({
                         "title": request.POST['adult_relation2_title' + str(i + 1)],
                         "first_name": request.POST['adult_relation2_first_name' + str(i + 1)],
                         "last_name": request.POST['adult_relation2_last_name' + str(i + 1)],
@@ -337,7 +334,7 @@ def review(request):
                     })
 
                 if request.POST['adult_relation3_first_name' + str(i + 1)]:
-                    anak2.update({
+                    relation.append({
                         "title": request.POST['adult_relation3_title' + str(i + 1)],
                         "first_name": request.POST['adult_relation3_first_name' + str(i + 1)],
                         "last_name": request.POST['adult_relation3_last_name' + str(i + 1)],
@@ -351,7 +348,7 @@ def review(request):
                     })
 
                 if request.POST['adult_relation4_first_name' + str(i + 1)]:
-                    anak3.update({
+                    relation.append({
                         "title": request.POST['adult_relation4_title' + str(i + 1)],
                         "first_name": request.POST['adult_relation4_first_name' + str(i + 1)],
                         "last_name": request.POST['adult_relation4_last_name' + str(i + 1)],
@@ -397,13 +394,10 @@ def review(request):
 
                     "passenger_seq_id": request.POST['adult_id' + str(i + 1)],
                     "email": request.POST['adult_email' + str(i + 1)],
-                    "mobile": "%s%s" % (request.POST['adult_phone_code' + str(i + 1)], request.POST['adult_phone_code' + str(i + 1)]),
+                    "phone_number": "%s%s" % (request.POST['adult_phone_code' + str(i + 1)], request.POST['adult_phone' + str(i + 1)]),
 
                     "data_insurance": {
-                        "spouse": pasangan,
-                        "anak1": anak1,
-                        "anak2": anak2,
-                        "anak3": anak3,
+                        "relation": relation,
                         "beneficiary": ahli_waris
                     }
                 })

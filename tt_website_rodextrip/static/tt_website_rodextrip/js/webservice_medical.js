@@ -1858,7 +1858,7 @@ function medical_get_booking(order_number, sync=false){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get price medical');
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get booking medical');
        },timeout: 300000
     });
 }
