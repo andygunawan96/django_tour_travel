@@ -879,6 +879,7 @@
                                             <input type="radio" name="radio_insurance_type" value="Annual">
                                             <span class="checkmark-radio crspan"></span>
                                         </label>
+                                        <span id="insurance_info"><i class="fas fa-info-circle" style="color:{{text_color}}"></i></span>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="row">
@@ -1421,7 +1422,7 @@
                                 <label class="radio-img">
                                     <input type="radio" {% if 'b2c_limitation' in username.co_agent_frontend_security and "medical" not in provider and "swabexpress" not in provider and "mitrakeluarga" in provider %} checked="checked" {% endif %} name="health_care_type" value="mitra_keluarga">
                                     <img src="/static/tt_website_rodextrip/images/icon/mitra_keluarga.png" alt="MITRA KELUARGA" style="width:70px; height:70px; padding:0px;"><br/>
-                                    <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">LAB<br/>PINTAR</span></div>
+                                    <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">MITRA<br/>KELUARGA</span></div>
                                 </label>
                                 {% endif %}
                             </div>
