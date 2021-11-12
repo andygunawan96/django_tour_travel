@@ -2384,7 +2384,6 @@ function insurance_issued_booking(data){
                    document.getElementById('insurance_detail').innerHTML = '';
                    document.getElementById('payment_acq').innerHTML = '';
                    document.getElementById('voucher_div').style.display = 'none';
-                   document.getElementById('ssr_request_after_sales').hidden = true;
                    document.getElementById('show_loading_booking_insurance').style.display = 'block';
                    document.getElementById('show_loading_booking_insurance').hidden = false;
                    document.getElementById('reissued').hidden = true;
@@ -2665,7 +2664,6 @@ function insurance_issued_booking(data){
                 document.getElementById('insurance_detail').innerHTML = '';
                 document.getElementById('payment_acq').innerHTML = '';
                 document.getElementById('voucher_div').style.display = 'none';
-                document.getElementById('ssr_request_after_sales').hidden = true;
                 document.getElementById('show_loading_booking_insurance').style.display = 'block';
                 document.getElementById('show_loading_booking_insurance').hidden = false;
                 document.getElementById('reissued').hidden = true;

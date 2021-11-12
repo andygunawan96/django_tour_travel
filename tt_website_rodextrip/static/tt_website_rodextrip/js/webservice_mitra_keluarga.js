@@ -76,8 +76,8 @@ function get_config_mitra_keluarga(type){
                     for(i in msg.result.response){
                         text += '<option value="'+msg.result.response[i].code+'">' + msg.result.response[i].name + '</option>';
                     }
-                    document.getElementById('mitra_keluarga_type').innerHTML += text;
-                    $('#mitra_keluarga_type').niceSelect('update');
+                    document.getElementById('medical_type_mitra_keluarga').innerHTML += text;
+                    $('#medical_type_mitra_keluarga').niceSelect('update');
                 }else if(type == 'passenger'){
                     print_check_price++;
                     if(print_check_price == 2){
@@ -181,7 +181,7 @@ function mitra_keluarga_get_availability(){
                     $('#booker_area').niceSelect('update');
                     add_other_time();
                     change_area();
-                }else if(test_type.includes('DT')){
+                }else if(test_type.includes('DT') && Object.keys(msg).length > 0){
                     var text_innerHTML = '';
                     text_innerHTML += `<option value='surabaya' selected>Surabaya</option>`;
                     document.getElementById('booker_area').innerHTML = text_innerHTML;
@@ -1904,7 +1904,6 @@ function mitra_keluarga_issued_booking(data){
                    document.getElementById('mitra_keluarga_detail').innerHTML = '';
                    document.getElementById('payment_acq').innerHTML = '';
                    //document.getElementById('voucher_div').style.display = 'none';
-                   document.getElementById('ssr_request_after_sales').hidden = true;
                    document.getElementById('show_loading_booking_mitra_keluarga').style.display = 'block';
                    document.getElementById('show_loading_booking_mitra_keluarga').hidden = false;
                    document.getElementById('reissued').hidden = true;
@@ -2433,7 +2432,7 @@ function mitra_keluarga_reorder(){
         }
     }
     if(checked){
-        var path = '/mitra_keluarga/passenger/';
+        var path = '/mitra_keluarga/passenger/' + document.getElementById('test_type').value;
         document.getElementById('data').value = JSON.stringify(passenger_list_copy);
         var data_temp = {
             "address": medical_get_detail.result.response.test_address,
@@ -2441,7 +2440,6 @@ function mitra_keluarga_reorder(){
             "place_url_by_google": medical_get_detail.result.response.test_address_map_link,
             "test_list": []
         }
-        document.getElementById('mitra_keluarga_type').value = document.getElementById('test_type').value;
         document.getElementById('booking_data').value = JSON.stringify(data_temp);
         document.getElementById('mitra_keluarga_edit_passenger').action = path;
         document.getElementById('mitra_keluarga_edit_passenger').submit();

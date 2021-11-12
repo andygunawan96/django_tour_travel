@@ -4790,7 +4790,7 @@ function airline_get_booking(data, sync=false){
                        if(check_ssr){
                             document.getElementById('ssr_request_after_sales').hidden = false;
                             document.getElementById('ssr_request_after_sales').innerHTML += `
-                            <input class="primary-btn-ticket" style="width:100%;margin-bottom:10px;" type="button" onclick="set_new_request_ssr()" value="Request New SSR">`;
+                            <input class="primary-btn-ticket" style="width:100%;margin-bottom:10px;" type="button" onclick="set_new_request_ssr()" value="Request New Baggage, Meal, Medical">`;
                        }
                        if(check_seat){
                             document.getElementById('ssr_request_after_sales').hidden = false;

@@ -102,7 +102,7 @@ def swab_express(request):
     else:
         return no_session_logout(request)
 
-def passenger(request):
+def passenger(request, test_type=''):
     try:
         javascript_version = get_javascript_version()
         cache_version = get_cache_version()
@@ -162,7 +162,7 @@ def passenger(request):
             'javascript_version': javascript_version,
             'static_path_url_server': get_url_static_path(),
             'vendor': 'swabexpress',
-            'test_type': request.POST['swab_express_type'],
+            'test_type': test_type,
             'total_passengers_rebooking': len(passengers)
         })
     except Exception as e:

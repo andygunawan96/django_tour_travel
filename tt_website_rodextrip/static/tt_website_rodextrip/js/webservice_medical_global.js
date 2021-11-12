@@ -76,8 +76,8 @@ function get_config_medical_global(type){
                     for(i in msg.result.response){
                         text += '<option value="'+msg.result.response[i].code+'">' + msg.result.response[i].name + '</option>';
                     }
-                    document.getElementById('medical_global_type').innerHTML += text;
-                    $('#medical_global_type').niceSelect('update');
+                    document.getElementById('medical_type_medical').innerHTML += text;
+                    $('#medical_type_medical').niceSelect('update');
                 }else if(type == 'passenger'){
                     print_check_price++;
                     if(print_check_price == 2){
@@ -2046,7 +2046,6 @@ function medical_global_issued_booking(data){
                    document.getElementById('medical_detail').innerHTML = '';
                    document.getElementById('payment_acq').innerHTML = '';
                    //document.getElementById('voucher_div').style.display = 'none';
-                   document.getElementById('ssr_request_after_sales').hidden = true;
                    document.getElementById('show_loading_booking_medical').style.display = 'block';
                    document.getElementById('show_loading_booking_medical').hidden = false;
                    document.getElementById('reissued').hidden = true;
@@ -2774,7 +2773,7 @@ function medical_reorder(){
         }
     }
     if(checked){
-        var path = '/medical_global/passenger/';
+        var path = '/medical_global/passenger/' + document.getElementById('test_type').value;
         document.getElementById('data').value = JSON.stringify(passenger_list_copy);
         var data_temp = {
             "address": medical_get_detail.result.response.test_address,
@@ -2782,7 +2781,6 @@ function medical_reorder(){
             "place_url_by_google": medical_get_detail.result.response.test_address_map_link,
             "test_list": []
         }
-        document.getElementById('medical_global_type').value = document.getElementById('test_type').value;
         document.getElementById('booking_data').value = JSON.stringify(data_temp);
         document.getElementById('medical_edit_passenger').action = path;
         document.getElementById('medical_edit_passenger').submit();
