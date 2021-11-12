@@ -62,7 +62,7 @@
 <title>{{name}} {% trans 'Airline' %} - SSR</title>
 {% include 'tt_website_rodextrip/logout.html' %}
     {%if template == 1%}
-    <header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
+    <header id="header" class="header_breadcrumb">
     {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
     <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
         <div class="container">
@@ -75,7 +75,7 @@
     {% endif %}
     <div class="main-menu">
     {%elif template == 2%}
-    <header style="position:sticky; top:0px; z-index:100;background:white;">
+    <header style="z-index:100;background:white;">
     {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
     <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
         <div class="container">
@@ -88,7 +88,7 @@
     {% endif %}
     <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:15px 0px 15px 0px;">
     {%elif template == 3%}
-    <header style="position:sticky; top:0px; z-index:100;background:white;">
+    <header style="z-index:100;background:white;">
     {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
     <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
         <div class="container">
@@ -101,7 +101,7 @@
     {% endif %}
     <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:15px 0px 15px 0px;">
     {%elif template == 4%}
-    <header style="position:sticky; top:0px; z-index:100;background:white;">
+    <header style="z-index:100;background:white;">
     {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
     <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
         <div class="container">
@@ -127,7 +127,7 @@
     {% endif %}
     <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:15px 0px 15px 0px;">
     {%elif template == 6%}
-    <header style="position:sticky; top:0px; z-index:100;background:white;">
+    <header style="z-index:100;background:white;">
     {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
     <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
         <div class="container">

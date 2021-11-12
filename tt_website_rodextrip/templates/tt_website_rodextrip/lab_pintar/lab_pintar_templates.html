@@ -116,7 +116,7 @@
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         {% for rec in provider_types_sequence %}
                             {% if "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security and rec.name == "lab_pintar" %}
-                        <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'swap_express');" id="nav_scroll_menu_lab_pintar">
+                        <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'lab_pintar');" id="nav_scroll_menu_lab_pintar">
                             <a class="nav-link active" id="lab_pintar-tab" data-toggle="tab" href="#lab_pintar" role="tab" aria-controls="lab_pintar" aria-selected="false">
                                 <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Medical Icon"/></i>
                                 <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'Health Care' %} </span>
@@ -132,7 +132,7 @@
                     <div class="tab-content" id="myTabContent">
                         {% if "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security %}
                         <div class="tab-pane fade show active " id="lab_pintar" role="tabpanel" aria-labelledby="lab_pintar-tab">
-                            <form action="{% url 'tt_website_rodextrip:lab_pintar_passenger'%}" class="form-wrap" id="lab_pintar_searchForm" method="post">
+                            <form action="" class="form-wrap" id="lab_pintar_searchForm" method="post">
                                 {% csrf_token %}
                                 <h4 style="color:white;">Lab Pintar</h4>
                                 <input type="hidden" name="g-recaptcha-response" id='recaptcha_lab_pintar'>
@@ -141,7 +141,7 @@
                                         <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Medical Type' %}</span>
                                         <div class="input-container-search-ticket">
                                             <div class="form-select">
-                                                <select id="lab_pintar_type" name="lab_pintar_type" class="nice-select-default">
+                                                <select id="medical_type_lab_pintar" name="medical_type_lab_pintar" class="nice-select-default">
 
                                                 </select>
                                             </div>
@@ -924,7 +924,7 @@
                 <div class="tab_body" style="border:unset;">
                     {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security %}
                     <div id="tab-airline" class="tab-content {%if provider_types_sequence.0.name == 'airline' %}current{% endif %}">
-                        <form action="{% url 'tt_website_rodextrip:airline_search'%}" method="POST" id="airline_searchForm">
+                        <form action="" method="POST" id="airline_searchForm">
                             {% csrf_token %}
                             <input type="hidden" name="g-recaptcha-response" id='recaptcha_airline'>
                             <div class="row justify-content-between align-items-end">

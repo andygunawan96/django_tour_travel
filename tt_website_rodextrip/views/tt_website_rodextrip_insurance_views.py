@@ -395,10 +395,12 @@ def review(request):
                     "passenger_seq_id": request.POST['adult_id' + str(i + 1)],
                     "email": request.POST['adult_email' + str(i + 1)],
                     "phone_number": "%s%s" % (request.POST['adult_phone_code' + str(i + 1)], request.POST['adult_phone' + str(i + 1)]),
-
                     "data_insurance": {
                         "relation": relation,
-                        "beneficiary": ahli_waris
+                        "beneficiary": ahli_waris,
+                        "address": request.POST['adult_address' + str(i + 1)],
+                        "postal_code": request.POST['adult_postal_code' + str(i + 1)],
+                        "city": request.POST['adult_city' + str(i + 1)],
                     }
                 })
 
@@ -476,17 +478,6 @@ def review(request):
             })
             schedules = []
             journeys = []
-            for journey in request.session['insurance_pick']:
-                journeys.append({
-                    'journey_code': journey['journey_code'],
-                    'fare_code': journey['fares'][0]['fare_code']
-                })
-                schedules.append({
-                    'journeys': journeys,
-                    'provider': journey['provider'],
-                })
-                journeys = []
-            set_session(request, 'insurance_booking', schedules)
             try:
                 set_session(request, 'time_limit', request.POST['time_limit_input'])
                 set_session(request, 'insurance_signature', request.POST['signature'])

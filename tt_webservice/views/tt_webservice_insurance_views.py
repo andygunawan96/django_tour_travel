@@ -84,6 +84,8 @@ def api_models(request):
             res = commit_booking(request)
         elif req_data['action'] == 'get_booking':
             res = get_booking(request)
+        elif req_data['action'] == 'issued':
+            res = issued(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -358,12 +360,21 @@ def commit_booking(request):
                     pax = copy.deepcopy(passenger_data)
                     for type in pax['data_insurance']:
                         if pax['data_insurance'][type]:
-                            if pax['data_insurance'][type]['birth_date'] != '':
-                                pax['data_insurance'][type].update({
-                                    'birth_date': '%s-%s-%s' % (
-                                        pax['data_insurance'][type]['birth_date'].split(' ')[2], month[pax['data_insurance'][type]['birth_date'].split(' ')[1]],
-                                        pax['data_insurance'][type]['birth_date'].split(' ')[0]),
-                                })
+                            if type == 'relation': #LIST RELASI
+                                for rec in pax['data_insurance'][type]:
+                                    rec['data_insurance'][type].update({
+                                        'birth_date': '%s-%s-%s' % (
+                                            rec['data_insurance'][type]['birth_date'].split(' ')[2],
+                                            month[rec['data_insurance'][type]['birth_date'].split(' ')[1]],
+                                            rec['data_insurance'][type]['birth_date'].split(' ')[0]),
+                                    })
+                            if type == 'beneficiary': #DICT AHLI WARIS
+                                if pax['data_insurance'][type]['birth_date'] != '':
+                                    pax['data_insurance'][type].update({
+                                        'birth_date': '%s-%s-%s' % (
+                                            pax['data_insurance'][type]['birth_date'].split(' ')[2], month[pax['data_insurance'][type]['birth_date'].split(' ')[1]],
+                                            pax['data_insurance'][type]['birth_date'].split(' ')[0]),
+                                    })
                     if pax['nationality_name'] != '':
                         for country in response['result']['response']['airline']['country']:
                             if pax['nationality_name'] == country['name']:
@@ -473,4 +484,52 @@ def get_booking(request):
     url_request = url + 'booking/insurance'
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
 
+    return res
+
+def issued(request):
+    # nanti ganti ke get_ssr_availability
+    try:
+        if request.POST['member'] == 'non_member':
+            member = False
+        else:
+            member = True
+        data = {
+            # 'order_number': 'TB.190329533467'
+            'order_number': request.POST['order_number'],
+            'member': member,
+            'seq_id': request.POST['seq_id'],
+            'voucher': {}
+        }
+        provider = []
+
+        try:
+            airline_get_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+            for provider_type in airline_get_booking['result']['response']['provider_bookings']:
+                if not provider_type['provider'] in provider:
+                    provider.append(provider_type['provider'])
+        except:
+            pass
+
+        if request.POST['voucher_code'] != '':
+            data.update({
+                'voucher': data_voucher(request.POST['voucher_code'], 'airline', provider),
+            })
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "issued",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    url_request = url + 'booking/insurance'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
+    try:
+        if res['result']['error_code'] == 0:
+            _logger.info("SUCCESS issued AIRLINE SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("ERROR issued_airline AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
     return res

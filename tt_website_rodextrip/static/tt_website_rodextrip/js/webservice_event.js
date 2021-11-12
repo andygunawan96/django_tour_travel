@@ -1626,7 +1626,11 @@ function event_get_extra_question(option_code, provider){
                     while(k < parseInt(option_code[j].qty)){
                         for(i in msg.result.response){
                             if(msg.result.response[i].type == 'selection'){
-                                $('#question_event_'+j+'_'+k+'_'+i).niceSelect('update');
+                                if(template == 3){
+                                    $('#question_event_'+j+'_'+k+'_'+i).niceSelect();
+                                }else{
+                                    $('#question_event_'+j+'_'+k+'_'+i).niceSelect('update');
+                                }
                             }else if(msg.result.response[i].type == 'date'){
                                 $('input[name="question_event_'+j+'_'+k+'_'+i+'"]').daterangepicker({
                                     singleDatePicker: true,

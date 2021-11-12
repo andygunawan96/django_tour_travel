@@ -117,7 +117,7 @@
                     <div class="tab-content" id="myTabContent">
                         {% if "mitrakeluarga" in provider and "ticketing_mitrakeluarga" in username.co_agent_frontend_security %}
                         <div class="tab-pane fade show active " id="mitra_keluarga" role="tabpanel" aria-labelledby="mitra_keluarga-tab">
-                            <form action="{% url 'tt_website_rodextrip:mitra_keluarga_passenger'%}" class="form-wrap" id="mitra_keluarga_searchForm" method="post">
+                            <form action="" class="form-wrap" id="mitra_keluarga_searchForm" method="post">
                                 {% csrf_token %}
                                 <h4 style="color:white;">Mitra Keluarga</h4>
                                 <input type="hidden" name="g-recaptcha-response" id='recaptcha_mitra_keluarga'>
@@ -126,7 +126,7 @@
                                         <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Medical Type' %}</span>
                                         <div class="input-container-search-ticket">
                                             <div class="form-select">
-                                                <select id="mitra_keluarga_type" name="mitra_keluarga_type" class="nice-select-default">
+                                                <select id="medical_type_mitra_keluarga" name="medical_type_mitra_keluarga" class="nice-select-default">
 
                                                 </select>
                                             </div>

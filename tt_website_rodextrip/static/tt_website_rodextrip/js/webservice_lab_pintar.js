@@ -76,8 +76,8 @@ function get_config_lab_pintar(type){
                     for(i in msg.result.response){
                         text += '<option value="'+msg.result.response[i].code+'">' + msg.result.response[i].name + '</option>';
                     }
-                    document.getElementById('lab_pintar_type').innerHTML += text;
-                    $('#lab_pintar_type').niceSelect('update');
+                    document.getElementById('medical_type_lab_pintar').innerHTML += text;
+                    $('#medical_type_lab_pintar').niceSelect('update');
                 }else if(type == 'passenger'){
                     print_check_price++;
                     if(print_check_price == 2){
@@ -1889,7 +1889,6 @@ function lab_pintar_issued_booking(data){
                    document.getElementById('lab_pintar_detail').innerHTML = '';
                    document.getElementById('payment_acq').innerHTML = '';
                    //document.getElementById('voucher_div').style.display = 'none';
-                   document.getElementById('ssr_request_after_sales').hidden = true;
                    document.getElementById('show_loading_booking_lab_pintar').style.display = 'block';
                    document.getElementById('show_loading_booking_lab_pintar').hidden = false;
                    document.getElementById('reissued').hidden = true;
@@ -2418,7 +2417,7 @@ function lab_pintar_reorder(){
         }
     }
     if(checked){
-        var path = '/lab_pintar/passenger/';
+        var path = '/lab_pintar/passenger/' + document.getElementById('test_type').value;
         document.getElementById('data').value = JSON.stringify(passenger_list_copy);
         var data_temp = {
             "address": medical_get_detail.result.response.test_address,
@@ -2426,7 +2425,6 @@ function lab_pintar_reorder(){
             "place_url_by_google": medical_get_detail.result.response.test_address_map_link,
             "test_list": []
         }
-        document.getElementById('lab_pintar_type').value = document.getElementById('test_type').value;
         document.getElementById('booking_data').value = JSON.stringify(data_temp);
         document.getElementById('lab_pintar_edit_passenger').action = path;
         document.getElementById('lab_pintar_edit_passenger').submit();
