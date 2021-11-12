@@ -121,7 +121,7 @@
 {% include 'tt_website_rodextrip/modal_balance_vendor.html' %}
 <title id="title_search">{{name}} {% trans 'Activity' %} - {% trans 'Review' %}</title>
 {%if template == 1%}
-<header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
+<header id="header" class="header_breadcrumb">
     {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
     <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
         <div class="container">
@@ -159,7 +159,7 @@
     {% endif %}
 </header>
 {% elif template == 2 %}
-<header class="header_breadcrumb" style="position:sticky; padding-top:0px; top:0px; z-index:100; border-bottom:1px solid #cdcdcd; background:white;">
+<header class="header_breadcrumb" style="padding-top:0px; z-index:100; border-bottom:1px solid #cdcdcd; background:white;">
     {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
     <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
         <div class="container">
@@ -194,7 +194,7 @@
     </div>
 </header>
 {% elif template == 3%}
-<header style="position:sticky; top:0px; background:white; z-index:100;">
+<header style="background:white; z-index:100;">
     {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
     <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
         <div class="container">
@@ -229,7 +229,7 @@
     </div>
 </header>
 {% elif template == 4 %}
-<header class="header_breadcrumb" style="position:sticky; padding-top:0px; top:0px; z-index:100; border-bottom:1px solid #cdcdcd; background:white;">
+<header class="header_breadcrumb" style="padding-top:0px; z-index:100; border-bottom:1px solid #cdcdcd; background:white;">
     {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
     <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
         <div class="container">
@@ -264,7 +264,7 @@
     </div>
 </header>
 {% elif template == 5 %}
-<header class="header_breadcrumb" style="position:sticky; padding-top:0px; top:0px; z-index:100; border-bottom:1px solid #cdcdcd; background:white;">
+<header class="header_breadcrumb" style="padding-top:0px; z-index:100; border-bottom:1px solid #cdcdcd; background:white;">
     {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
     <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
         <div class="container">
@@ -299,7 +299,7 @@
     </div>
 </header>
 {% elif template == 6 %}
-<header class="header_breadcrumb" style="position:sticky; padding-top:0px; top:0px;">
+<header class="header_breadcrumb" style="padding-top:0px;">
     {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
     <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
         <div class="container">

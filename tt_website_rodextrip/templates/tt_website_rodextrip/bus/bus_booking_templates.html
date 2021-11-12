@@ -30,7 +30,7 @@
 <div id="overlay-div-box" onclick="close_div('payment_acq');"></div>
 <title id="title_search">{{name}} {% trans 'Bus' %} - {% trans 'Booking' %}</title>
 {%if template == 1%}
-<header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
+<header id="header" class="header_breadcrumb">
     {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
     <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
         <div class="container">
@@ -59,7 +59,7 @@
     </div>
 </header>
 {% else %}
-<header class="header_breadcrumb" style="position:sticky; top:0px; z-index:100; border-bottom:1px solid #cdcdcd;">
+<header class="header_breadcrumb" style="z-index:100; border-bottom:1px solid #cdcdcd;">
     <div class="main-menu">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
