@@ -111,9 +111,15 @@ function insurance_get_config(page=false){
                 }
                 if(page == 'passenger'){
                     var choice = '<option value=""></option>';
+                    var choice_city = '<option value="">City</option>';
                     for(i in insurance_config){
                         for(j in insurance_config[i]['Table Relation']){
                             choice += '<option value="'+j+'">'+j+'</option>';
+                        }
+                    }
+                    for(i in insurance_config){
+                        for(j in insurance_config[i]['City']['Domestic']){
+                            choice_city += '<option value="'+insurance_config[i]['City']['Domestic'][j]+'">'+insurance_config[i]['City']['Domestic'][j]+'</option>';
                         }
                     }
                     for(var i=1;i<=parseInt(insurance_request.adult);i++){
@@ -129,6 +135,8 @@ function insurance_get_config(page=false){
                         }
                         document.getElementById('adult_relation5_relation'+i).innerHTML += choice;
                         $('#adult_relation5_relation'+i).niceSelect('update');
+                        document.getElementById('adult_city'+i+'_id').innerHTML += choice_city;
+                        $('#adult_city'+i+'_id').select2();
                     }
                 }
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
@@ -1054,13 +1062,34 @@ function check_passenger(){
                         document.getElementById('adult_passport_passport_expired_date'+i).style['border-color'] = 'red';
                    }else
                         document.getElementById('adult_passport_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
-               }if(document.getElementById('adult_passport_passport_country_of_issued'+i).value == ''){
+               }if(document.getElementById('adult_passport_passport_country_of_issued'+i).value == '' || document.getElementById('adult_passport_passport_country_of_issued'+i).value == 'Country of Issued'){
                    error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
                    document.getElementById('adult_passport_passport_country_of_issued'+i).style['border-color'] = 'red';
                }else{
                    document.getElementById('adult_passport_passport_country_of_issued'+i).style['border-color'] = '#EFEFEF';
                }
            }
+        }
+
+        if(document.getElementById('adult_address'+i).value == ''){
+           error_log+= 'Please fill address for passenger adult '+i+'!</br>\n';
+           document.getElementById('adult_address'+i).style['border-color'] = 'red';
+        }else{
+           document.getElementById('adult_address'+i).style['border-color'] = '#EFEFEF';
+        }
+
+        if(document.getElementById('adult_postal_code'+i).value == ''){
+           error_log+= 'Please fill postal code for passenger adult '+i+'!</br>\n';
+           document.getElementById('adult_postal_code'+i).style['border-color'] = 'red';
+        }else{
+           document.getElementById('adult_postal_code'+i).style['border-color'] = '#EFEFEF';
+        }
+
+        if(document.getElementById('adult_city'+i).value == '' || document.getElementById('adult_city'+i).value == 'City'){
+           error_log+= 'Please fill city for passenger adult '+i+'!</br>\n';
+           document.getElementById('adult_city'+i).style['border-color'] = 'red';
+        }else{
+           document.getElementById('adult_city'+i).style['border-color'] = '#EFEFEF';
         }
 
         //PAKET FAMILY
@@ -1112,7 +1141,7 @@ function check_passenger(){
                             document.getElementById('adult_relation1_expired_date'+i).style['border-color'] = 'red';
                        }else
                             document.getElementById('adult_relation1_expired_date'+i).style['border-color'] = '#EFEFEF';
-                   }if(document.getElementById('adult_relation1_country_of_issued'+i).value == ''){
+                   }if(document.getElementById('adult_relation1_country_of_issued'+i).value == '' || document.getElementById('adult_relation1_country_of_issued'+i).value == 'Country of Issued'){
                        error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
                        document.getElementById('adult_relation1_country_of_issued'+i).style['border-color'] = 'red';
                    }else{
@@ -1171,7 +1200,7 @@ function check_passenger(){
                                 document.getElementById('adult_relation2_expired_date'+i).style['border-color'] = 'red';
                            }else
                                 document.getElementById('adult_relation2_expired_date'+i).style['border-color'] = '#EFEFEF';
-                       }if(document.getElementById('adult_relation2_country_of_issued'+i).value == ''){
+                       }if(document.getElementById('adult_relation2_country_of_issued'+i).value == '' || document.getElementById('adult_relation2_country_of_issued'+i).value == 'Country of Issued'){
                            error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
                            document.getElementById('adult_relation2_country_of_issued'+i).style['border-color'] = 'red';
                        }else{
@@ -1229,7 +1258,7 @@ function check_passenger(){
                                 document.getElementById('adult_relation3_expired_date'+i).style['border-color'] = 'red';
                            }else
                                 document.getElementById('adult_relation3_expired_date'+i).style['border-color'] = '#EFEFEF';
-                       }if(document.getElementById('adult_relation3_country_of_issued'+i).value == ''){
+                       }if(document.getElementById('adult_relation3_country_of_issued'+i).value == '' || document.getElementById('adult_relation3_country_of_issued'+i).value == 'Country of Issued'){
                            error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
                            document.getElementById('adult_relation3_country_of_issued'+i).style['border-color'] = 'red';
                        }else{
@@ -1287,7 +1316,7 @@ function check_passenger(){
                                 document.getElementById('adult_relation4_expired_date'+i).style['border-color'] = 'red';
                            }else
                                 document.getElementById('adult_relation4_expired_date'+i).style['border-color'] = '#EFEFEF';
-                       }if(document.getElementById('adult_relation4_country_of_issued'+i).value == ''){
+                       }if(document.getElementById('adult_relation4_country_of_issued'+i).value == '' || document.getElementById('adult_relation4_country_of_issued'+i).value == 'Country of Issued'){
                            error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
                            document.getElementById('adult_relation4_country_of_issued'+i).style['border-color'] = 'red';
                        }else{
@@ -2335,11 +2364,11 @@ function insurance_issued_booking(data){
                        document.getElementById('insurance_booking').innerHTML = '';
                        document.getElementById('insurance_detail').innerHTML = '';
                        document.getElementById('payment_acq').innerHTML = '';
-                       document.getElementById('voucher_div').style.display = 'none';
-                       document.getElementById('ssr_request_after_sales').hidden = true;
+                       try{
+                            document.getElementById('voucher_div').style.display = 'none';
+                       }catch(err){}
                        document.getElementById('show_loading_booking_insurance').style.display = 'block';
                        document.getElementById('show_loading_booking_insurance').hidden = false;
-                       document.getElementById('reissued').hidden = true;
                        document.getElementById('cancel').hidden = true;
                        document.getElementById('payment_acq').hidden = true;
                        document.getElementById("overlay-div-box").style.display = "none";

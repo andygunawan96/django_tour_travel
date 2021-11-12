@@ -549,7 +549,35 @@
                                                 <div class="col-lg-6 col-md-6 col-sm-6"></div>
                                             </div>
                                         </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label style="color:red">*</label>
+                                            <label>{% trans 'Address' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control" name="adult_address{{forloop.counter}}" id="adult_address{{forloop.counter}}" placeholder="{% trans 'Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address '">
+                                            </div>
+                                            <label style="font-size:12px; padding:0;">{% trans 'Example' %}: Jl. Raya Darmo 177B</label>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label style="color:red">*</label>
+                                            <label>{% trans 'Postal Code' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control" name="adult_postal_code{{forloop.counter}}" id="adult_postal_code{{forloop.counter}}" placeholder="{% trans 'Postal Code' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Postal Code '">
+                                            </div>
+                                            <label style="font-size:12px; padding:0;">{% trans 'Example' %}: 60112</label>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label style="color:red">*</label>
+                                            <label>{% trans 'City' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select">
+                                                    <select class="form-control js-example-basic-single" name="adult_city{{forloop.counter}}_id" style="width:100%;" id="adult_city{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('adult_city{{forloop.counter}}')" class="nice-select-default">
 
+                                                    </select>
+                                                </div>
+                                                <input type="hidden" name="adult_city{{forloop.counter}}" id="adult_city{{forloop.counter}}" />
+                                            </div>
+                                            <label style="font-size:12px; padding:0;">{% trans 'Example' %}: Surabaya</label>
+                                        </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden1_{{forloop.counter}}">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Contact Email Address' %}</label>
@@ -1102,7 +1130,7 @@
                                                         </div>
                                                     </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    <label style="color:{%if response.sector_type == 'International'%}red{% else %}white{%endif%};">*</label>
+                                                    <label style="color:red;">*</label>
                                                     <label>{% trans 'Identity' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select" id="default-select">
@@ -1113,7 +1141,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    <label id="adult_relation5_identity_number_required{{forloop.counter}}" style="color:{%if response.sector_type == 'International'%}red{% else %}white{%endif%};">*</label>
+                                                    <label id="adult_relation5_identity_number_required{{forloop.counter}}" style="color:red;">*</label>
                                                     <label>{% trans 'Identity Number' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <input type="text" class="form-control" name="adult_relation5_passport_number{{forloop.counter}}" id="adult_relation5_passport_number{{forloop.counter}}" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
@@ -1499,7 +1527,7 @@
                                                 <div class="input-container-search-ticket">
                                                     <label class="check_box_custom">
                                                         <span class="span-search-ticket" style="color:black;">{% trans 'Make this to Contact Person' %}</span>
-                                                        <input type="checkbox" id="adult_cp{{forloop.counter}}" name="adult_cp{{forloop.counter}}" onclick="update_contact_cp({{forloop.counter}})" />
+                                                        <input type="checkbox" id="adult_cp{{forloop.counter}}" name="adult_cp{{forloop.counter}}" />
                                                         <span class="check_box_span_custom"></span>
                                                     </label>
                                                 </div>
