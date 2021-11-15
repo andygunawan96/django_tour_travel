@@ -1071,128 +1071,130 @@ function bus_get_booking(data, sync=false){
 
                 $text += '\nPrice:\n';
                 for(i in msg.result.response.provider_bookings){
-                    try{
-                        csc = 0;
-                        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
-                            text_detail+=`
-                                <div style="text-align:left">
-                                    <span style="font-weight:500; font-size:14px;">PNR: `+msg.result.response.provider_bookings[i].pnr+` </span>
-                                </div>`;
-                        for(j in msg.result.response.passengers){
-                            price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
-                            for(k in msg.result.response.passengers[j].sale_service_charges[msg.result.response.provider_bookings[i].pnr]){
-                                price[k] += msg.result.response.passengers[j].sale_service_charges[msg.result.response.provider_bookings[i].pnr][k].amount;
-                                if(price['currency'] == '')
-                                    price['currency'] = msg.result.response.passengers[j].sale_service_charges[msg.result.response.provider_bookings[i].pnr][k].currency;
-                            }
-                            disc -= price['DISC'];
-                            try{
-                                price['CSC'] = msg.result.response.passengers[j].channel_service_charges.amount;
-                                csc += msg.result.response.passengers[j].channel_service_charges.amount;
-                            }catch(err){}
-                            //repricing
-                            check = 0;
-                            for(k in pax_type_repricing){
-                                if(pax_type_repricing[k][0] == msg.result.response.passengers[j].name)
-                                    check = 1;
-                            }
-                            if(check == 0){
-                                pax_type_repricing.push([msg.result.response.passengers[j].name, msg.result.response.passengers[j].name]);
-                                price_arr_repricing[msg.result.response.passengers[j].name] = {
-                                    'Fare': price['FARE'] + price['SSR'] + price['SEAT'] + price['DISC'],
-                                    'Tax': price['TAX'] + price['ROC'],
-                                    'Repricing': price['CSC']
+                    if(msg.result.response.provider_bookings[i].is_provider_group){
+                        try{
+                            csc = 0;
+                            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
+                                text_detail+=`
+                                    <div style="text-align:left">
+                                        <span style="font-weight:500; font-size:14px;">PNR: `+msg.result.response.provider_bookings[i].pnr+` </span>
+                                    </div>`;
+                            for(j in msg.result.response.passengers){
+                                price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
+                                for(k in msg.result.response.passengers[j].sale_service_charges[msg.result.response.provider_bookings[i].pnr]){
+                                    price[k] += msg.result.response.passengers[j].sale_service_charges[msg.result.response.provider_bookings[i].pnr][k].amount;
+                                    if(price['currency'] == '')
+                                        price['currency'] = msg.result.response.passengers[j].sale_service_charges[msg.result.response.provider_bookings[i].pnr][k].currency;
                                 }
-                            }else{
-                                price_arr_repricing[msg.result.response.passengers[j].name] = {
-                                    'Fare': price_arr_repricing[msg.result.response.passengers[j].name]['Fare'] + price['FARE'] + price['DISC'] + price['SSR'] + price['SEAT'],
-                                    'Tax': price_arr_repricing[msg.result.response.passengers[j].name]['Tax'] + price['TAX'] + price['ROC'],
-                                    'Repricing': price['CSC']
+                                disc -= price['DISC'];
+                                try{
+                                    price['CSC'] = msg.result.response.passengers[j].channel_service_charges.amount;
+                                    csc += msg.result.response.passengers[j].channel_service_charges.amount;
+                                }catch(err){}
+                                //repricing
+                                check = 0;
+                                for(k in pax_type_repricing){
+                                    if(pax_type_repricing[k][0] == msg.result.response.passengers[j].name)
+                                        check = 1;
                                 }
-                            }
-                            text_repricing = `
-                            <div class="col-lg-12">
-                                <div style="padding:5px;" class="row">
-                                    <div class="col-lg-3"></div>
-                                    <div class="col-lg-3">Price</div>
-                                    <div class="col-lg-3">Repricing</div>
-                                    <div class="col-lg-3">Total</div>
-                                </div>
-                            </div>`;
-                            for(k in price_arr_repricing){
-                               text_repricing += `
-                               <div class="col-lg-12">
-                                    <div style="padding:5px;" class="row" id="adult">
-                                        <div class="col-lg-3" id="`+j+`_`+k+`">`+k+`</div>
-                                        <div class="col-lg-3" id="`+k+`_price">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax)+`</div>`;
-                                        if(price_arr_repricing[k].Repricing == 0)
-                                        text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">-</div>`;
-                                        else
-                                        text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">`+getrupiah(price_arr_repricing[k].Repricing)+`</div>`;
-                                        text_repricing+=`<div class="col-lg-3" id="`+k+`_total">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax + price_arr_repricing[k].Repricing)+`</div>
+                                if(check == 0){
+                                    pax_type_repricing.push([msg.result.response.passengers[j].name, msg.result.response.passengers[j].name]);
+                                    price_arr_repricing[msg.result.response.passengers[j].name] = {
+                                        'Fare': price['FARE'] + price['SSR'] + price['SEAT'] + price['DISC'],
+                                        'Tax': price['TAX'] + price['ROC'],
+                                        'Repricing': price['CSC']
+                                    }
+                                }else{
+                                    price_arr_repricing[msg.result.response.passengers[j].name] = {
+                                        'Fare': price_arr_repricing[msg.result.response.passengers[j].name]['Fare'] + price['FARE'] + price['DISC'] + price['SSR'] + price['SEAT'],
+                                        'Tax': price_arr_repricing[msg.result.response.passengers[j].name]['Tax'] + price['TAX'] + price['ROC'],
+                                        'Repricing': price['CSC']
+                                    }
+                                }
+                                text_repricing = `
+                                <div class="col-lg-12">
+                                    <div style="padding:5px;" class="row">
+                                        <div class="col-lg-3"></div>
+                                        <div class="col-lg-3">Price</div>
+                                        <div class="col-lg-3">Repricing</div>
+                                        <div class="col-lg-3">Total</div>
                                     </div>
                                 </div>`;
-                            }
-                            text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
-                            document.getElementById('repricing_div').innerHTML = text_repricing;
-                            //repricing
+                                for(k in price_arr_repricing){
+                                   text_repricing += `
+                                   <div class="col-lg-12">
+                                        <div style="padding:5px;" class="row" id="adult">
+                                            <div class="col-lg-3" id="`+j+`_`+k+`">`+k+`</div>
+                                            <div class="col-lg-3" id="`+k+`_price">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax)+`</div>`;
+                                            if(price_arr_repricing[k].Repricing == 0)
+                                            text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">-</div>`;
+                                            else
+                                            text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">`+getrupiah(price_arr_repricing[k].Repricing)+`</div>`;
+                                            text_repricing+=`<div class="col-lg-3" id="`+k+`_total">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax + price_arr_repricing[k].Repricing)+`</div>
+                                        </div>
+                                    </div>`;
+                                }
+                                text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
+                                document.getElementById('repricing_div').innerHTML = text_repricing;
+                                //repricing
 
-                            text_detail+=`
-                            <div class="row" style="margin-bottom:5px;">
-                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                    <span style="font-size:12px;">`+msg.result.response.passengers[j].name+`</span>`;
-                                text_detail+=`</div>
-                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                    <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.SSR + price.SEAT))+`</span>
-                                </div>
-                            </div>`;
-                            $text += msg.result.response.passengers[j].title +' '+ msg.result.response.passengers[j].name + ' ['+msg.result.response.provider_bookings[i].pnr+'] ';
-                            journey_code = [];
-                            for(k in msg.result.response.provider_bookings[i].journeys){
-                                try{
-                                    journey_code.push(msg.result.response.provider_bookings[i].journeys[k].journey_code)
-                                }catch(err){}
-                                for(l in msg.result.response.provider_bookings[i].journeys[k].segments){
-                                    journey_code.push(msg.result.response.provider_bookings[i].journeys[k].segments[l].segment_code)
-                                }
-                            }
-                            coma = false
-                            for(k in msg.result.response.passengers[j].fees){
-                                if(journey_code.indexOf(msg.result.response.passengers[j].fees[k].journey_code) == true){
-                                    $text += msg.result.response.passengers[j].fees[k].fee_name;
-                                    if(coma == true)
-                                        $text += ', ';
-                                    else
-                                        $text += ' ';
-                                    coma = true
-                                }
-                            }
-                            $text += currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC))+'\n';
-                            if(counter_service_charge == 0){
-                                total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC);
-                            }else{
-                                total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
-                            }
-                            commission += parseInt(price.RAC);
-                            total_price_provider.push({
-                                'pnr': msg.result.response.provider_bookings[i].pnr,
-                                'provider': msg.result.response.provider_bookings[i].provider,
-                                'price': JSON.parse(JSON.stringify(price))
-                            });
-                        }
-                        if(csc != 0){
-                            text_detail+=`
+                                text_detail+=`
                                 <div class="row" style="margin-bottom:5px;">
                                     <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                        <span style="font-size:12px;">Other service charges</span>`;
+                                        <span style="font-size:12px;">`+msg.result.response.passengers[j].name+`</span>`;
                                     text_detail+=`</div>
                                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                        <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(csc))+`</span>
+                                        <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.SSR + price.SEAT))+`</span>
                                     </div>
                                 </div>`;
-                        }
-                        counter_service_charge++;
-                    }catch(err){}
+                                $text += msg.result.response.passengers[j].title +' '+ msg.result.response.passengers[j].name + ' ['+msg.result.response.provider_bookings[i].pnr+'] ';
+                                journey_code = [];
+                                for(k in msg.result.response.provider_bookings[i].journeys){
+                                    try{
+                                        journey_code.push(msg.result.response.provider_bookings[i].journeys[k].journey_code)
+                                    }catch(err){}
+                                    for(l in msg.result.response.provider_bookings[i].journeys[k].segments){
+                                        journey_code.push(msg.result.response.provider_bookings[i].journeys[k].segments[l].segment_code)
+                                    }
+                                }
+                                coma = false
+                                for(k in msg.result.response.passengers[j].fees){
+                                    if(journey_code.indexOf(msg.result.response.passengers[j].fees[k].journey_code) == true){
+                                        $text += msg.result.response.passengers[j].fees[k].fee_name;
+                                        if(coma == true)
+                                            $text += ', ';
+                                        else
+                                            $text += ' ';
+                                        coma = true
+                                    }
+                                }
+                                $text += currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC))+'\n';
+                                if(counter_service_charge == 0){
+                                    total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC);
+                                }else{
+                                    total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
+                                }
+                                commission += parseInt(price.RAC);
+                                total_price_provider.push({
+                                    'pnr': msg.result.response.provider_bookings[i].pnr,
+                                    'provider': msg.result.response.provider_bookings[i].provider,
+                                    'price': JSON.parse(JSON.stringify(price))
+                                });
+                            }
+                            if(csc != 0){
+                                text_detail+=`
+                                    <div class="row" style="margin-bottom:5px;">
+                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                            <span style="font-size:12px;">Other service charges</span>`;
+                                        text_detail+=`</div>
+                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(csc))+`</span>
+                                        </div>
+                                    </div>`;
+                            }
+                            counter_service_charge++;
+                        }catch(err){}
+                    }
                 }
                 try{
                     $text += 'Grand Total: '+price.currency+' '+ getrupiah(total_price);
