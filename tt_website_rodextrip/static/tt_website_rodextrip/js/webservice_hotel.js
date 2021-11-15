@@ -1350,7 +1350,7 @@ function hotel_issued_alert(val){
                     text+=`
                     <div class="col-lg-12 col-xs-12" style="text-align:center; display:none;" id="show_commission_hotel_old">
                         <div class="alert alert-success">
-                            <span style="font-size:13px; font-weight:bold;">Your Commission: `+hotel_price.rooms[i].nightly_prices[j].currency+` `+ getrupiah(hotel_price.rooms[i].commission) +`</span><br>
+                            <span style="font-size:13px; font-weight:bold;">Your Commission: `+hotel_price.rooms[i].nightly_prices[j].currency+` `+ getrupiah(hotel_price.commission) +`</span><br>
                         </div>
                     </div>`;
                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
@@ -1411,7 +1411,7 @@ function hotel_issued_alert(val){
                     text+=`
                     <div class="col-lg-12 col-xs-12" style="text-align:center; display:none;" id="show_commission_hotel_new">
                         <div class="alert alert-success">
-                            <span style="font-size:13px; font-weight:bold;">Your Commission: `+temporary.rooms[i].currency+` `+ getrupiah(parseInt(temporary.rooms[i].commission)) +`</span><br>
+                            <span style="font-size:13px; font-weight:bold;">Your Commission: `+temporary.rooms[i].currency+` `+ getrupiah(parseInt(temporary.commission)) +`</span><br>
                         </div>
                     </div>`;
                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
@@ -1559,7 +1559,7 @@ function hotel_issued(data){
 
                     $('.hold-seat-booking-train').prop('disabled', false);
                     $('.hold-seat-booking-train').removeClass("running");
-                    airline_get_booking(data);
+                    hotel_get_booking(data);
                }else if(msg.result.error_code == 4006){
                     Swal.fire({
                       type: 'error',
@@ -1805,7 +1805,7 @@ function hotel_issued(data){
 
                     $('.hold-seat-booking-train').prop('disabled', false);
                     $('.hold-seat-booking-train').removeClass("running");
-                    airline_get_booking(data);
+                    hotel_get_booking(data);
                     $(".issued_booking_btn").hide();
                }
            },
@@ -1829,7 +1829,7 @@ function hotel_issued(data){
                 $('.hold-seat-booking-train').prop('disabled', false);
                 $('.hold-seat-booking-train').removeClass("running");
                 $(".issued_booking_btn").hide();
-                airline_get_booking(data);
+                hotel_get_booking(data);
            },timeout: 300000
         });
       }
@@ -2552,7 +2552,7 @@ function hotel_get_booking(data){
                                     }
                                     $text += currency+` `+getrupiah(parseInt(total_price_provider[i].price.FARE + total_price_provider[i].price.TAX + total_price_provider[i].price.ROC))+'\n';
                                 }catch(err){}
-                                commission += parseInt(price.RAC);
+                                //commission += parseInt(price.RAC);
                             counter_service_charge++;
                         }catch(err){console.log(err);}
                     }
