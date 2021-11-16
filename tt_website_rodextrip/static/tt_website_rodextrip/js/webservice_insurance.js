@@ -226,7 +226,7 @@ function insurance_get_availability(){
                                     <div class="single-recent-blog-post item" style="border:1px solid #cdcdcd;">
                                         <div class="single-destination relative">`;
 
-                                            text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+i+`','`+sequence+`')">`;
+                                            text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('/static/tt_website_rodextrip/images/insurance/`+insurance_data[i][j].MasterBenefitName.toLowerCase()+`-`+insurance_data[i][j].type_trip_name.toLowerCase()+`.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+i+`','`+sequence+`')">`;
                                             text+=`
                                                 <div class="overlay overlay-bg"></div>
                                             </div>
