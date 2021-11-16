@@ -302,7 +302,7 @@
                         {% with forloop.counter as counter%}
                         <div class="row" id="adult{{forloop.counter}}">
                             <div class="col-lg-12">
-                                <div class="passenger_div" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
+                                <div class="passenger_div" onclick="show_paxs('adult', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
                                             <span style="color:{{text_color}}; text-align:center; font-size:15px;">{% trans 'Passenger' %} {% trans 'Adult' %} - {{forloop.counter}}</span>
@@ -1507,7 +1507,7 @@
                             {% for adult in adults %}
                             <div class="row" id="adult{{forloop.counter}}">
                                 <div class="col-lg-12">
-                                    <div class="passenger_div" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
+                                    <div class="passenger_div" onclick="show_paxs('adult', '{{forloop.counter}}');">
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="text-align:left;">
                                                 <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Adult' %} - {{forloop.counter}} - (Ticket: {{adult.title}})</h6>
@@ -1783,7 +1783,7 @@
                             {% for senior in seniors %}
                             <div class="row" id="senior{{forloop.counter}}">
                                 <div class="col-lg-12">
-                                    <div class="passenger_div" onclick="show_paxs_airline('senior', '{{forloop.counter}}');">
+                                    <div class="passenger_div" onclick="show_paxs('senior', '{{forloop.counter}}');">
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
                                                 <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Senior' %} - {{forloop.counter}} - (Ticket: {{senior.title}})</h6>
@@ -2053,7 +2053,7 @@
                             {% for child in childs %}
                             <div class="row" id="child{{forloop.counter}}">
                                 <div class="col-lg-12">
-                                    <div class="passenger_div" onclick="show_paxs_airline('child', '{{forloop.counter}}');">
+                                    <div class="passenger_div" onclick="show_paxs('child', '{{forloop.counter}}');">
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="text-align:left;">
                                                 <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Child' %} - {{forloop.counter}} - (Ticket: {{child.title}})</h6>
@@ -2293,7 +2293,7 @@
                             {% for infant in infants%}
                             <div class="row" id="infant{{forloop.counter}}">
                                 <div class="col-lg-12">
-                                    <div class="passenger_div" onclick="show_paxs_airline('infant', '{{forloop.counter}}');">
+                                    <div class="passenger_div" onclick="show_paxs('infant', '{{forloop.counter}}');">
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="text-align:left;">
                                                 <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Infant' %} - {{forloop.counter}} - (Ticket: {{infant.title}})</h6>
@@ -2800,7 +2800,7 @@
                         {% for adult in adults %}
                         <div class="row" id="adult{{forloop.counter}}">
                             <div class="col-lg-12">
-                                <div class="passenger_div" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
+                                <div class="passenger_div" onclick="show_paxs('adult', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="text-align:left;">
                                             <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Adult' %} - {{forloop.counter}} - (Ticket: {{adult.title}})</h6>
@@ -3090,7 +3090,7 @@
                                 {% for senior in seniors %}
                                 <div class="row" id="senior{{forloop.counter}}">
                                     <div class="col-lg-12">
-                                        <div class="passenger_div" onclick="show_paxs_airline('senior', '{{forloop.counter}}');">
+                                        <div class="passenger_div" onclick="show_paxs('senior', '{{forloop.counter}}');">
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
                                                     <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Senior' %} - {{forloop.counter}} - (Ticket: {{senior.title}})</h6>
@@ -3374,7 +3374,7 @@
                                         {% for child in childs %}
                                         <div class="row" id="child{{forloop.counter}}">
                                             <div class="col-lg-12">
-                                                <div class="passenger_div" onclick="show_paxs_airline('child', '{{forloop.counter}}');">
+                                                <div class="passenger_div" onclick="show_paxs('child', '{{forloop.counter}}');">
                                                     <div class="row">
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="text-align:left;">
                                                             <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Child' %} - {{forloop.counter}} - (Ticket: {{child.title}})</h6>
@@ -3629,7 +3629,7 @@
                                                 {% for infant in infants%}
                                                 <div class="row" id="infant{{forloop.counter}}">
                                                     <div class="col-lg-12">
-                                                        <div class="passenger_div" onclick="show_paxs_airline('infant', '{{forloop.counter}}');">
+                                                        <div class="passenger_div" onclick="show_paxs('infant', '{{forloop.counter}}');">
                                                             <div class="row">
                                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="text-align:left;">
                                                                     <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Infant' %} - {{forloop.counter}} - (Ticket: {{infant.title}})</h6>
@@ -4141,7 +4141,7 @@
                     {% for adult in adults %}
                     <div class="row" id="adult{{forloop.counter}}">
                         <div class="col-lg-12">
-                            <div class="passenger_div" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
+                            <div class="passenger_div" onclick="show_paxs('adult', '{{forloop.counter}}');">
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="text-align:left;">
                                         <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Adult' %} - {{forloop.counter}} - (Ticket: {{adult.title}})</h6>
@@ -4425,7 +4425,7 @@
                     {% for senior in seniors %}
                     <div class="row" id="senior{{forloop.counter}}">
                         <div class="col-lg-12">
-                            <div class="passenger_div" onclick="show_paxs_airline('senior', '{{forloop.counter}}');">
+                            <div class="passenger_div" onclick="show_paxs('senior', '{{forloop.counter}}');">
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
                                         <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Senior' %} - {{forloop.counter}} - (Ticket: {{senior.title}})</h6>
@@ -4703,7 +4703,7 @@
                     {% for child in childs %}
                     <div class="row" id="child{{forloop.counter}}">
                         <div class="col-lg-12">
-                            <div class="passenger_div" onclick="show_paxs_airline('child', '{{forloop.counter}}');">
+                            <div class="passenger_div" onclick="show_paxs('child', '{{forloop.counter}}');">
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="text-align:left;">
                                         <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Child' %} - {{forloop.counter}} - (Ticket: {{child.title}})</h6>
@@ -4951,7 +4951,7 @@
                     {% for infant in infants%}
                     <div class="row" id="infant{{forloop.counter}}">
                         <div class="col-lg-12">
-                            <div class="passenger_div" onclick="show_paxs_airline('infant', '{{forloop.counter}}');">
+                            <div class="passenger_div" onclick="show_paxs('infant', '{{forloop.counter}}');">
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="text-align:left;">
                                         <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Infant' %} - {{forloop.counter}} - (Ticket: {{infant.title}})</h6>
@@ -5459,7 +5459,7 @@
                         {% for adult in adults %}
                         <div class="row" id="adult{{forloop.counter}}">
                             <div class="col-lg-12">
-                                <div class="passenger_div" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
+                                <div class="passenger_div" onclick="show_paxs('adult', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="text-align:left;">
                                             <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Adult' %} - {{forloop.counter}} - (Ticket: {{adult.title}})</h6>
@@ -5743,7 +5743,7 @@
                         {% for senior in seniors %}
                         <div class="row" id="senior{{forloop.counter}}">
                             <div class="col-lg-12">
-                                <div class="passenger_div" onclick="show_paxs_airline('senior', '{{forloop.counter}}');">
+                                <div class="passenger_div" onclick="show_paxs('senior', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
                                             <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Senior' %} - {{forloop.counter}} - (Ticket: {{senior.title}})</h6>
@@ -6021,7 +6021,7 @@
                         {% for child in childs %}
                         <div class="row" id="child{{forloop.counter}}">
                             <div class="col-lg-12">
-                                <div class="passenger_div" onclick="show_paxs_airline('child', '{{forloop.counter}}');">
+                                <div class="passenger_div" onclick="show_paxs('child', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="text-align:left;">
                                             <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Child' %} - {{forloop.counter}} - (Ticket: {{child.title}})</h6>
@@ -6269,7 +6269,7 @@
                         {% for infant in infants%}
                         <div class="row" id="infant{{forloop.counter}}">
                             <div class="col-lg-12">
-                                <div class="passenger_div" onclick="show_paxs_airline('infant', '{{forloop.counter}}');">
+                                <div class="passenger_div" onclick="show_paxs('infant', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="text-align:left;">
                                             <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Infant' %} - {{forloop.counter}} - (Ticket: {{infant.title}})</h6>
@@ -6784,7 +6784,7 @@
                         {% for adult in adults %}
                         <div class="row" id="adult{{forloop.counter}}">
                             <div class="col-lg-12">
-                                <div class="passenger_div" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
+                                <div class="passenger_div" onclick="show_paxs('adult', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="text-align:left;">
                                             <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Adult' %} - {{forloop.counter}} - (Ticket: {{adult.title}})</h6>
@@ -7068,7 +7068,7 @@
                         {% for senior in seniors %}
                         <div class="row" id="senior{{forloop.counter}}">
                             <div class="col-lg-12">
-                                <div class="passenger_div" onclick="show_paxs_airline('senior', '{{forloop.counter}}');">
+                                <div class="passenger_div" onclick="show_paxs('senior', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
                                             <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Senior' %} - {{forloop.counter}} - (Ticket: {{senior.title}})</h6>
@@ -7346,7 +7346,7 @@
                         {% for child in childs %}
                         <div class="row" id="child{{forloop.counter}}">
                             <div class="col-lg-12">
-                                <div class="passenger_div" onclick="show_paxs_airline('child', '{{forloop.counter}}');">
+                                <div class="passenger_div" onclick="show_paxs('child', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="text-align:left;">
                                             <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Child' %} - {{forloop.counter}} - (Ticket: {{child.title}})</h6>
@@ -7594,7 +7594,7 @@
                         {% for infant in infants%}
                         <div class="row" id="infant{{forloop.counter}}">
                             <div class="col-lg-12">
-                                <div class="passenger_div" onclick="show_paxs_airline('infant', '{{forloop.counter}}');">
+                                <div class="passenger_div" onclick="show_paxs('infant', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="text-align:left;">
                                             <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Infant' %} - {{forloop.counter}} - (Ticket: {{infant.title}})</h6>
