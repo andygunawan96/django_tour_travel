@@ -226,7 +226,7 @@ function insurance_get_availability(){
                                     <div class="single-recent-blog-post item" style="border:1px solid #cdcdcd;">
                                         <div class="single-destination relative">`;
 
-                                            text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+i+`','`+sequence+`')">`;
+                                            text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('/static/tt_website_rodextrip/images/insurance/`+insurance_data[i][j].MasterBenefitName.toLowerCase()+`-`+insurance_data[i][j].type_trip_name.toLowerCase()+`.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+i+`','`+sequence+`')">`;
                                             text+=`
                                                 <div class="overlay overlay-bg"></div>
                                             </div>
@@ -1358,20 +1358,17 @@ function check_passenger(){
         }
 
         //CHECK KTP
-        if(document.getElementById('adult_relation5_identity_type'+i).style.display == 'block'){
-            if(document.getElementById('adult_relation5_identity_type'+i).value == 'ktp'){
-                if(check_ktp(document.getElementById('adult_relation5_passport_number'+i).value) == false){
-                   error_log+= 'Please fill id number, nik only contain 16 digits for beneficiary customer '+i+'!</br>\n';
-                   document.getElementById('adult_relation5_passport_number'+i).style['border-color'] = 'red';
-                }else{
-                   document.getElementById('adult_relation5_passport_number'+i).style['border-color'] = '#EFEFEF';
-                }if(document.getElementById('adult_relation5_country_of_issued'+i).value == '' || document.getElementById('adult_country_of_issued'+i).value == 'Country of Issued'){
-                   error_log+= 'Please fill country of issued for beneficiary customer '+i+'!</br>\n';
-                   document.getElementById('adult_relation5_country_of_issued'+i).style['border-color'] = 'red';
-                }else{
-                   document.getElementById('adult_relation5_country_of_issued'+i).style['border-color'] = '#EFEFEF';
-                }
-
+        if(document.getElementById('adult_relation5_identity_type'+i).value == 'ktp'){
+            if(check_ktp(document.getElementById('adult_relation5_passport_number'+i).value) == false){
+               error_log+= 'Please fill id number, nik only contain 16 digits for beneficiary customer '+i+'!</br>\n';
+               document.getElementById('adult_relation5_passport_number'+i).style['border-color'] = 'red';
+            }else{
+               document.getElementById('adult_relation5_passport_number'+i).style['border-color'] = '#EFEFEF';
+            }if(document.getElementById('adult_relation5_passport_country_of_issued_required'+i).value == '' || document.getElementById('adult_relation5_passport_country_of_issued_required'+i).value == 'Country of Issued'){
+               error_log+= 'Please fill country of issued for beneficiary customer '+i+'!</br>\n';
+               document.getElementById('adult_relation5_passport_country_of_issued_required'+i).style['border-color'] = 'red';
+            }else{
+               document.getElementById('adult_relation5_passport_country_of_issued_required'+i).style['border-color'] = '#EFEFEF';
             }
         }
 
@@ -2679,4 +2676,16 @@ function insurance_issued_booking(data){
         });
       }
     })
+}
+
+function delete_expired_date_data(data){
+    document.getElementById(data).value = '';
+}
+
+function default_data_select2(id, value){
+    document.getElementById(id).value = value;
+}
+
+function default_data_select2_html(id, value){
+    document.getElementById(id).innerHTML = value;
 }

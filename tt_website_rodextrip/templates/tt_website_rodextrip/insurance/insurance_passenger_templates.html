@@ -302,7 +302,7 @@
                         {% with forloop.counter as counter%}
                         <div class="row" id="adult{{forloop.counter}}">
                             <div class="col-lg-12">
-                                <div class="passenger_div" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
+                                <div class="passenger_div" onclick="show_paxs('adult', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
                                             <span style="color:{{text_color}}; text-align:center; font-size:15px;">{% trans 'Passenger' %} {% trans 'Adult' %} - {{forloop.counter}}</span>
@@ -453,7 +453,7 @@
                                                 <input type="hidden" class="form-control" name="adult_years_old{{forloop.counter}}" id="adult_years_old{{forloop.counter}}">
                                             </div>
                                         </div>
-                                        <div class="col-lg-12" id="adult_identity_type{{forloop.counter}}">
+                                        <div class="col-lg-12" id="adult_identity_type{{forloop.counter}}" style="display:block;">
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                                     <label style="color:red">*</label>
@@ -478,7 +478,7 @@
                                                     <label>{% trans 'Identity Expired Date' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <input type="text" class="form-control date-picker-passport" style="background:white;" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Identity Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Expired Date '" autocomplete="off" readonly>
-                                                        <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_expired_date_data('adult_passport_expired_date{{forloop.counter}}')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
@@ -493,7 +493,7 @@
                                                                 {% endfor %}
                                                             </select>
                                                         </div>
-                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                        <button type="button" class="primary-delete-date" onclick="default_data_select2_html('select2-adult_country_of_issued{{forloop.counter}}_id-container', 'Country of Issued');default_data_select2('adult_country_of_issued{{forloop.counter}}','');default_data_select2('adult_country_of_issued{{forloop.counter}}_id','');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                         <input type="hidden" name="adult_country_of_issued{{forloop.counter}}" id="adult_country_of_issued{{forloop.counter}}" />
                                                     </div>
                                                 </div>
@@ -525,7 +525,7 @@
                                                             <label>{% trans 'Identity Expired Date' %}</label>
                                                             <div class="input-container-search-ticket">
                                                                 <input type="text" class="form-control date-picker-passport" style="background:white;" name="adult_passport_passport_expired_date{{forloop.counter}}" id="adult_passport_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Identity Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Expired Date '" autocomplete="off" readonly>
-                                                                <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                                <button type="button" class="primary-delete-date" onclick="delete_expired_date_data('adult_passport_passport_expired_date{{forloop.counter}}')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6 col-md-6 col-sm-6">
@@ -540,7 +540,7 @@
                                                                         {% endfor %}
                                                                     </select>
                                                                 </div>
-                                                                <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                                <button type="button" class="primary-delete-date" onclick="default_data_select2_html('select2-adult_passport_passport_country_of_issued{{forloop.counter}}_id-container', 'Country of Issued');default_data_select2('adult_passport_passport_country_of_issued{{forloop.counter}}','');default_data_select2('adult_passport_passport_country_of_issued{{forloop.counter}}_id','');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                                 <input type="hidden" name="adult_passport_passport_country_of_issued{{forloop.counter}}" id="adult_passport_passport_country_of_issued{{forloop.counter}}" />
                                                             </div>
                                                         </div>
@@ -707,7 +707,7 @@
                                                         <label>{% trans 'Identity Expired Date' %}</label>
                                                         <div class="input-container-search-ticket">
                                                             <input type="text" class="form-control date-picker-passport" style="background:white;" name="adult_relation1_passport_expired_date{{forloop.counter}}" id="adult_relation1_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Identity Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Expired Date '" autocomplete="off" readonly>
-                                                            <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                            <button type="button" class="primary-delete-date" onclick="delete_expired_date_data('adult_relation1_passport_expired_date{{forloop.counter}}')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-6">
@@ -722,7 +722,7 @@
                                                                     {% endfor %}
                                                                 </select>
                                                             </div>
-                                                            <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                            <button type="button" class="primary-delete-date" onclick="default_data_select2_html('select2-adult_relation1_passport_country_of_issued{{forloop.counter}}_id-container', 'Country of Issued');default_data_select2('adult_relation1_passport_country_of_issued{{forloop.counter}}','');default_data_select2('adult_relation1_passport_country_of_issued{{forloop.counter}}_id','');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                             <input type="hidden" name="adult_relation1_passport_country_of_issued{{forloop.counter}}" id="adult_relation1_passport_country_of_issued{{forloop.counter}}" />
                                                         </div>
                                                     </div>
@@ -818,7 +818,7 @@
                                                         <label>{% trans 'Identity Expired Date' %}</label>
                                                         <div class="input-container-search-ticket">
                                                             <input type="text" class="form-control date-picker-passport" style="background:white;" name="adult_relation2_passport_expired_date{{forloop.counter}}" id="adult_relation2_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Identity Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Expired Date '" autocomplete="off" readonly>
-                                                            <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                            <button type="button" class="primary-delete-date" onclick="delete_expired_date_data('adult_relation2_passport_expired_date{{forloop.counter}}')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-6">
@@ -833,7 +833,7 @@
                                                                     {% endfor %}
                                                                 </select>
                                                             </div>
-                                                            <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                            <button type="button" class="primary-delete-date" onclick="default_data_select2_html('select2-adult_relation2_passport_country_of_issued{{forloop.counter}}_id-container', 'Country of Issued');default_data_select2('adult_relation2_passport_country_of_issued{{forloop.counter}}','');default_data_select2('adult_relation2_passport_country_of_issued{{forloop.counter}}_id','');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                             <input type="hidden" name="adult_relation2_passport_country_of_issued{{forloop.counter}}" id="adult_relation2_passport_country_of_issued{{forloop.counter}}" />
                                                         </div>
                                                     </div>
@@ -929,7 +929,7 @@
                                                         <label>{% trans 'Identity Expired Date' %}</label>
                                                         <div class="input-container-search-ticket">
                                                             <input type="text" class="form-control date-picker-passport" style="background:white;" name="adult_relation3_passport_expired_date{{forloop.counter}}" id="adult_relation3_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Identity Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Expired Date '" autocomplete="off" readonly>
-                                                            <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                            <button type="button" class="primary-delete-date" onclick="delete_expired_date_data('adult_relation3_passport_expired_date{{forloop.counter}}')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-6">
@@ -944,7 +944,7 @@
                                                                     {% endfor %}
                                                                 </select>
                                                             </div>
-                                                            <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                            <button type="button" class="primary-delete-date" onclick="default_data_select2_html('select2-adult_relation3_passport_country_of_issued{{forloop.counter}}_id-container', 'Country of Issued');default_data_select2('adult_relation3_passport_country_of_issued{{forloop.counter}}','');default_data_select2('adult_relation3_passport_country_of_issued{{forloop.counter}}_id','');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                             <input type="hidden" name="adult_relation3_passport_country_of_issued{{forloop.counter}}" id="adult_relation3_passport_country_of_issued{{forloop.counter}}" />
                                                         </div>
                                                     </div>
@@ -1040,7 +1040,7 @@
                                                         <label>{% trans 'Identity Expired Date' %}</label>
                                                         <div class="input-container-search-ticket">
                                                             <input type="text" class="form-control date-picker-passport" style="background:white;" name="adult_relation4_passport_expired_date{{forloop.counter}}" id="adult_relation4_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Identity Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Expired Date '" autocomplete="off" readonly>
-                                                            <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                            <button type="button" class="primary-delete-date" onclick="delete_expired_date_data('adult_relation4_passport_expired_date{{forloop.counter}}')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-6">
@@ -1055,7 +1055,7 @@
                                                                     {% endfor %}
                                                                 </select>
                                                             </div>
-                                                            <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                            <button type="button" class="primary-delete-date" onclick="default_data_select2_html('select2-adult_relation4_passport_country_of_issued{{forloop.counter}}_id-container', 'Country of Issued');default_data_select2('adult_relation4_passport_country_of_issued{{forloop.counter}}','');default_data_select2('adult_relation4_passport_country_of_issued{{forloop.counter}}_id','');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                             <input type="hidden" name="adult_relation4_passport_country_of_issued{{forloop.counter}}" id="adult_relation4_passport_country_of_issued{{forloop.counter}}" />
                                                         </div>
                                                     </div>
@@ -1152,7 +1152,7 @@
                                                     <label>{% trans 'Identity Expired Date' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <input type="text" class="form-control date-picker-passport" style="background:white;" name="adult_relation5_passport_expired_date{{forloop.counter}}" id="adult_relation5_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Identity Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Expired Date '" autocomplete="off" readonly>
-                                                        <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_expired_date_data('adult_relation5_passport_expired_date{{forloop.counter}}')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
@@ -1167,7 +1167,7 @@
                                                                 {% endfor %}
                                                             </select>
                                                         </div>
-                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                        <button type="button" class="primary-delete-date" onclick="default_data_select2_html('select2-adult_relation5_passport_country_of_issued{{forloop.counter}}_id-container', 'Country of Issued');default_data_select2('adult_relation5_passport_country_of_issued{{forloop.counter}}','');default_data_select2('adult_relation5_passport_country_of_issued{{forloop.counter}}_id','');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                         <input type="hidden" name="adult_relation5_passport_country_of_issued{{forloop.counter}}" id="adult_relation5_passport_country_of_issued{{forloop.counter}}" />
                                                     </div>
                                                 </div>
@@ -1507,7 +1507,7 @@
                             {% for adult in adults %}
                             <div class="row" id="adult{{forloop.counter}}">
                                 <div class="col-lg-12">
-                                    <div class="passenger_div" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
+                                    <div class="passenger_div" onclick="show_paxs('adult', '{{forloop.counter}}');">
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="text-align:left;">
                                                 <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Adult' %} - {{forloop.counter}} - (Ticket: {{adult.title}})</h6>
@@ -1669,7 +1669,7 @@
                                                 <label>{% trans 'Passport Expired Date' %}</label>
                                                 <div class="input-container-search-ticket">
                                                     <input type="text" style="background:white;" class="form-control date-picker-passport" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Passport Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" autocomplete="off" readonly>
-                                                    <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                    <button type="button" class="primary-delete-date" onclick="delete_expired_date_data('adult_passport_expired_date{{forloop.counter}}')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6">
@@ -1682,7 +1682,7 @@
                                                         {% endfor %}
                                                     </select>
                                                 </div>
-                                                <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                <button type="button" class="primary-delete-date" onclick="default_data_select2_html('select2-adult_country_of_issued{{forloop.counter}}_id-container', 'Country of Issued');default_data_select2('adult_country_of_issued{{forloop.counter}}','');default_data_select2('adult_country_of_issued{{forloop.counter}}_id','');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                 <input type="hidden" name="adult_country_of_issued{{forloop.counter}}" id="adult_country_of_issued{{forloop.counter}}" />
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden1_{{forloop.counter}}" hidden>
@@ -1783,7 +1783,7 @@
                             {% for senior in seniors %}
                             <div class="row" id="senior{{forloop.counter}}">
                                 <div class="col-lg-12">
-                                    <div class="passenger_div" onclick="show_paxs_airline('senior', '{{forloop.counter}}');">
+                                    <div class="passenger_div" onclick="show_paxs('senior', '{{forloop.counter}}');">
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
                                                 <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Senior' %} - {{forloop.counter}} - (Ticket: {{senior.title}})</h6>
@@ -2053,7 +2053,7 @@
                             {% for child in childs %}
                             <div class="row" id="child{{forloop.counter}}">
                                 <div class="col-lg-12">
-                                    <div class="passenger_div" onclick="show_paxs_airline('child', '{{forloop.counter}}');">
+                                    <div class="passenger_div" onclick="show_paxs('child', '{{forloop.counter}}');">
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="text-align:left;">
                                                 <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Child' %} - {{forloop.counter}} - (Ticket: {{child.title}})</h6>
@@ -2293,7 +2293,7 @@
                             {% for infant in infants%}
                             <div class="row" id="infant{{forloop.counter}}">
                                 <div class="col-lg-12">
-                                    <div class="passenger_div" onclick="show_paxs_airline('infant', '{{forloop.counter}}');">
+                                    <div class="passenger_div" onclick="show_paxs('infant', '{{forloop.counter}}');">
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="text-align:left;">
                                                 <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Infant' %} - {{forloop.counter}} - (Ticket: {{infant.title}})</h6>
@@ -2800,7 +2800,7 @@
                         {% for adult in adults %}
                         <div class="row" id="adult{{forloop.counter}}">
                             <div class="col-lg-12">
-                                <div class="passenger_div" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
+                                <div class="passenger_div" onclick="show_paxs('adult', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="text-align:left;">
                                             <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Adult' %} - {{forloop.counter}} - (Ticket: {{adult.title}})</h6>
@@ -3090,7 +3090,7 @@
                                 {% for senior in seniors %}
                                 <div class="row" id="senior{{forloop.counter}}">
                                     <div class="col-lg-12">
-                                        <div class="passenger_div" onclick="show_paxs_airline('senior', '{{forloop.counter}}');">
+                                        <div class="passenger_div" onclick="show_paxs('senior', '{{forloop.counter}}');">
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
                                                     <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Senior' %} - {{forloop.counter}} - (Ticket: {{senior.title}})</h6>
@@ -3374,7 +3374,7 @@
                                         {% for child in childs %}
                                         <div class="row" id="child{{forloop.counter}}">
                                             <div class="col-lg-12">
-                                                <div class="passenger_div" onclick="show_paxs_airline('child', '{{forloop.counter}}');">
+                                                <div class="passenger_div" onclick="show_paxs('child', '{{forloop.counter}}');">
                                                     <div class="row">
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="text-align:left;">
                                                             <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Child' %} - {{forloop.counter}} - (Ticket: {{child.title}})</h6>
@@ -3629,7 +3629,7 @@
                                                 {% for infant in infants%}
                                                 <div class="row" id="infant{{forloop.counter}}">
                                                     <div class="col-lg-12">
-                                                        <div class="passenger_div" onclick="show_paxs_airline('infant', '{{forloop.counter}}');">
+                                                        <div class="passenger_div" onclick="show_paxs('infant', '{{forloop.counter}}');">
                                                             <div class="row">
                                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="text-align:left;">
                                                                     <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Infant' %} - {{forloop.counter}} - (Ticket: {{infant.title}})</h6>
@@ -4141,7 +4141,7 @@
                     {% for adult in adults %}
                     <div class="row" id="adult{{forloop.counter}}">
                         <div class="col-lg-12">
-                            <div class="passenger_div" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
+                            <div class="passenger_div" onclick="show_paxs('adult', '{{forloop.counter}}');">
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="text-align:left;">
                                         <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Adult' %} - {{forloop.counter}} - (Ticket: {{adult.title}})</h6>
@@ -4425,7 +4425,7 @@
                     {% for senior in seniors %}
                     <div class="row" id="senior{{forloop.counter}}">
                         <div class="col-lg-12">
-                            <div class="passenger_div" onclick="show_paxs_airline('senior', '{{forloop.counter}}');">
+                            <div class="passenger_div" onclick="show_paxs('senior', '{{forloop.counter}}');">
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
                                         <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Senior' %} - {{forloop.counter}} - (Ticket: {{senior.title}})</h6>
@@ -4703,7 +4703,7 @@
                     {% for child in childs %}
                     <div class="row" id="child{{forloop.counter}}">
                         <div class="col-lg-12">
-                            <div class="passenger_div" onclick="show_paxs_airline('child', '{{forloop.counter}}');">
+                            <div class="passenger_div" onclick="show_paxs('child', '{{forloop.counter}}');">
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="text-align:left;">
                                         <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Child' %} - {{forloop.counter}} - (Ticket: {{child.title}})</h6>
@@ -4951,7 +4951,7 @@
                     {% for infant in infants%}
                     <div class="row" id="infant{{forloop.counter}}">
                         <div class="col-lg-12">
-                            <div class="passenger_div" onclick="show_paxs_airline('infant', '{{forloop.counter}}');">
+                            <div class="passenger_div" onclick="show_paxs('infant', '{{forloop.counter}}');">
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="text-align:left;">
                                         <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Infant' %} - {{forloop.counter}} - (Ticket: {{infant.title}})</h6>
@@ -5459,7 +5459,7 @@
                         {% for adult in adults %}
                         <div class="row" id="adult{{forloop.counter}}">
                             <div class="col-lg-12">
-                                <div class="passenger_div" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
+                                <div class="passenger_div" onclick="show_paxs('adult', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="text-align:left;">
                                             <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Adult' %} - {{forloop.counter}} - (Ticket: {{adult.title}})</h6>
@@ -5743,7 +5743,7 @@
                         {% for senior in seniors %}
                         <div class="row" id="senior{{forloop.counter}}">
                             <div class="col-lg-12">
-                                <div class="passenger_div" onclick="show_paxs_airline('senior', '{{forloop.counter}}');">
+                                <div class="passenger_div" onclick="show_paxs('senior', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
                                             <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Senior' %} - {{forloop.counter}} - (Ticket: {{senior.title}})</h6>
@@ -6021,7 +6021,7 @@
                         {% for child in childs %}
                         <div class="row" id="child{{forloop.counter}}">
                             <div class="col-lg-12">
-                                <div class="passenger_div" onclick="show_paxs_airline('child', '{{forloop.counter}}');">
+                                <div class="passenger_div" onclick="show_paxs('child', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="text-align:left;">
                                             <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Child' %} - {{forloop.counter}} - (Ticket: {{child.title}})</h6>
@@ -6269,7 +6269,7 @@
                         {% for infant in infants%}
                         <div class="row" id="infant{{forloop.counter}}">
                             <div class="col-lg-12">
-                                <div class="passenger_div" onclick="show_paxs_airline('infant', '{{forloop.counter}}');">
+                                <div class="passenger_div" onclick="show_paxs('infant', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="text-align:left;">
                                             <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Infant' %} - {{forloop.counter}} - (Ticket: {{infant.title}})</h6>
@@ -6784,7 +6784,7 @@
                         {% for adult in adults %}
                         <div class="row" id="adult{{forloop.counter}}">
                             <div class="col-lg-12">
-                                <div class="passenger_div" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
+                                <div class="passenger_div" onclick="show_paxs('adult', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="text-align:left;">
                                             <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Adult' %} - {{forloop.counter}} - (Ticket: {{adult.title}})</h6>
@@ -7068,7 +7068,7 @@
                         {% for senior in seniors %}
                         <div class="row" id="senior{{forloop.counter}}">
                             <div class="col-lg-12">
-                                <div class="passenger_div" onclick="show_paxs_airline('senior', '{{forloop.counter}}');">
+                                <div class="passenger_div" onclick="show_paxs('senior', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
                                             <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Senior' %} - {{forloop.counter}} - (Ticket: {{senior.title}})</h6>
@@ -7346,7 +7346,7 @@
                         {% for child in childs %}
                         <div class="row" id="child{{forloop.counter}}">
                             <div class="col-lg-12">
-                                <div class="passenger_div" onclick="show_paxs_airline('child', '{{forloop.counter}}');">
+                                <div class="passenger_div" onclick="show_paxs('child', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="text-align:left;">
                                             <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Child' %} - {{forloop.counter}} - (Ticket: {{child.title}})</h6>
@@ -7594,7 +7594,7 @@
                         {% for infant in infants%}
                         <div class="row" id="infant{{forloop.counter}}">
                             <div class="col-lg-12">
-                                <div class="passenger_div" onclick="show_paxs_airline('infant', '{{forloop.counter}}');">
+                                <div class="passenger_div" onclick="show_paxs('infant', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="text-align:left;">
                                             <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Infant' %} - {{forloop.counter}} - (Ticket: {{infant.title}})</h6>
